@@ -13,9 +13,32 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option="-D_DEBUG" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
+				<Option output="bin/Release/ELT" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+			<Target title="Debug_Share">
+				<Option output="bin/Debug/ELT" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-D_DEBUG" />
+				</Compiler>
+			</Target>
+			<Target title="Release_Share">
 				<Option output="bin/Release/ELT" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
@@ -31,9 +54,115 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="main.c">
+		<Linker>
+			<Add library="X11" />
+			<Add library="GL" />
+			<Add library="dl" />
+			<Add library="pthread" />
+			<Add library="OpenCL" />
+			<Add library="EGL" />
+			<Add library="cmdlib" />
+			<Add library="Xrender" />
+		</Linker>
+		<Unit filename="../../Source/EngineAssembly.h" />
+		<Unit filename="../../Source/EngineConfig.h" />
+		<Unit filename="../../Source/EngineEx.h" />
+		<Unit filename="../../Source/EngineEx2.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="../../Source/EngineExAPI.h" />
+		<Unit filename="../../Source/ExAssert.h" />
+		<Unit filename="../../Source/ExCommon.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/ExCommon.h" />
+		<Unit filename="../../Source/ExEngine.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/ExNT.h" />
+		<Unit filename="../../Source/ExPreProcessor.h" />
+		<Unit filename="../../Source/Input/GUIDs.h" />
+		<Unit filename="../../Source/Input/XBoxControllerHandler.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/Input/XBoxControllerHandler.h" />
+		<Unit filename="../../Source/Input/elt_gamecontroller.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/Input/elt_gamecontroller.h" />
+		<Unit filename="../../Source/Input/elt_joystick.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/Input/elt_joystick.h" />
+		<Unit filename="../../Source/Input/elt_keyboard.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/Input/elt_keyboard.h" />
+		<Unit filename="../../Source/Input/elt_mouse.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/Input/elt_mouse.h" />
+		<Unit filename="../../Source/System/Unix/unix_dialog.h" />
+		<Unit filename="../../Source/System/Unix/unix_win.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/System/Unix/unix_win.h" />
+		<Unit filename="../../Source/System/elt_audio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/System/elt_audio.h" />
+		<Unit filename="../../Source/System/elt_cl.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/System/elt_cl.h" />
+		<Unit filename="../../Source/System/elt_errorhandler.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/System/elt_errorhandler.h" />
+		<Unit filename="../../Source/System/elt_event.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/System/elt_event.h" />
+		<Unit filename="../../Source/System/elt_gl.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/System/elt_gl.h" />
+		<Unit filename="../../Source/System/elt_log.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/System/elt_log.h" />
+		<Unit filename="../../Source/System/elt_net.h" />
+		<Unit filename="../../Source/System/elt_video.h" />
+		<Unit filename="../../Source/System/elt_win.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/System/elt_win.h" />
+		<Unit filename="../../Source/elt_console.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/elt_console.h" />
+		<Unit filename="../../Source/elt_cpuinfo.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/elt_cpuinfo.h" />
+		<Unit filename="../../Source/elt_icon.h" />
+		<Unit filename="../../Source/elt_loadso.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/elt_loadso.h" />
+		<Unit filename="../../Source/elt_matrix.h" />
+		<Unit filename="../../Source/elt_thread.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/elt_thread.h" />
+		<Unit filename="../../Source/elt_timer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/elt_timer.h" />
+		<Unit filename="../../Source/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/resource.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
