@@ -1,3 +1,5 @@
-Succeeded to Initialize Error Handler
- has just crashed Error : Software termination signal from kill.
- Do you want to send a bug report to the developers team?m?
+error
+[FileLine 99 : FileName /home/voldie/CodeBlockTest/EngineEx/System/elt_errorhandler.c]
+[0mError
+[FileLine 313 : FileName /home/voldie/CodeBlockTest/EngineEx/System/elt_errorhandler.c]
+[0mSucceeded to Initialize Error Handler
