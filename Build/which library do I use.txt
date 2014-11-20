@@ -1,0 +1,7 @@
+
+
+*files with the extension .dll is for windows
+
+*files with the extension .so is for linux
+
+*digital for appropied windows bit artichture

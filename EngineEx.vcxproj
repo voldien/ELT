@@ -1,0 +1,342 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug_64|Win32">
+      <Configuration>Debug_64</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_64|x64">
+      <Configuration>Debug_64</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_64|Win32">
+      <Configuration>Release_64</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_64|x64">
+      <Configuration>Release_64</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BFDF37D5-9AB1-4B7B-BA99-1D29FA7D980D}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>EngineEx</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>E:\Program Files %28x86%29\Microsoft Visual Studio 10.0\VC\include;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Program Files %28x86%29\Microsoft Visual Studio 10.0\VC\lib;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86;$(SolutionDir)..\EngineEx\Cmd\Debug;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>E:\Program Files %28x86%29\Microsoft Visual Studio 10.0\VC\include;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;$(SolutionDir)..\EngineEx\Cmd\Cmd;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Program Files %28x86%29\Microsoft Visual Studio 10.0\VC\lib;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86;$(SolutionDir)..\EngineEx\Cmd\Debug;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;E:\Program Files %28x86%29\Microsoft Visual Studio 10.0\VC\include;E:\Program file\Dropbox\SchoolProject\Programming\EngineEx\Cmd\Cmd;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86;E:\Program Files %28x86%29\Microsoft Visual Studio 10.0\VC\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;E:\Program Files %28x86%29\Microsoft Visual Studio 10.0\VC\include;E:\Program file\Dropbox\SchoolProject\Programming\EngineEx\Cmd\Cmd;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86;E:\Program Files %28x86%29\Microsoft Visual Studio 10.0\VC\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_ENGINE_INTERNAL;GLEW_BUILD;EX_INCLUDE_DIRECTX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>glu32.lib;Cmd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
+      <AddModuleNamesToAssembly>
+      </AddModuleNamesToAssembly>
+      <DelayLoadDLLs>freetype6.dll;D3D9.dll;dinput8.dll;ws2_32.dll</DelayLoadDLLs>
+      <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
+      <IgnoreAllDefaultLibraries>
+      </IgnoreAllDefaultLibraries>
+      <TargetMachine>MachineX86</TargetMachine>
+      <Version>
+      </Version>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>IL\DevIL.lib;IL\ILU.lib;IL\ILUT.lib;D3D9.lib;Cmd.lib;freetype.lib;OpenCL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_ENGINE_INTERNAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>glu32.lib;Cmd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
+      <AddModuleNamesToAssembly>
+      </AddModuleNamesToAssembly>
+      <DelayLoadDLLs>freetype6.dll;avcodec-55.dll;avdevice-55.dll;avfilter-4.dll;avformat-55.dll;postproc-52.dll;swresample-0.dll;swscale-2.dll;avutil-52.dll;devil.dll;ilu.dll</DelayLoadDLLs>
+      <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>IL\DevIL.lib;IL\ILU.lib;IL\ILUT.lib;D3D9.lib;Cmd.lib;freetype.lib;OpenCL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_ENGINE_INTERNAL;EX_INCLUDE_DIRECTX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
+      <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalDependencies>glu32.lib;D3D9.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/DelayLoad:freetype6.dll %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>IL\DevIL.lib;IL\ILU.lib;IL\ILUT.lib;D3D9.lib;Cmd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_ENGINE_INTERNAL;EX_INCLUDE_DIRECTX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
+      <AdditionalDependencies>glu32.lib;D3D9.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/DelayLoad:freetype6.dll %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>IL\DevIL.lib;IL\ILU.lib;IL\ILUT.lib;D3D9.lib;Cmd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_64|Win32'">
+    <Link>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+    <ClCompile>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_ENGINE_INTERNAL;GLEW_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="elt_cpuinfo.h" />
+    <ClInclude Include="elt_loadso.h" />
+    <ClInclude Include="elt_matrix.h" />
+    <ClInclude Include="elt_thread.h" />
+    <ClInclude Include="elt_timer.h" />
+    <ClInclude Include="ExCommon.h" />
+    <ClInclude Include="elt_console.h" />
+    <ClInclude Include="EngineEx.h" />
+    <ClInclude Include="ExAssert.h" />
+    <ClInclude Include="ExPreProcessor.h" />
+    <ClInclude Include="ExNT.h" />
+    <ClInclude Include="GLEW\glew.h" />
+    <ClInclude Include="GLEW\glxew.h" />
+    <ClInclude Include="GLEW\wglew.h" />
+    <ClInclude Include="glslupdate.h" />
+    <ClInclude Include="glsl_compiler.h" />
+    <ClInclude Include="gl_geometry.h" />
+    <ClInclude Include="gl_texture.h" />
+    <ClInclude Include="Input\elt_gamecontroller.h" />
+    <ClInclude Include="Input\elt_keyboard.h" />
+    <ClInclude Include="Input\GUIDs.h" />
+    <ClInclude Include="Input\elt_joystick.h" />
+    <ClInclude Include="Input\elt_mouse.h" />
+    <ClInclude Include="Input\XBoxControllerHandler.h" />
+    <ClInclude Include="EngineAssembly.h" />
+    <ClInclude Include="EngineConfig.h" />
+    <ClInclude Include="EngineExAPI.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="ShaderFile.h" />
+    <ClInclude Include="System\elt_audio.h" />
+    <ClInclude Include="System\elt_cl.h" />
+    <ClInclude Include="System\elt_errorhandler.h" />
+    <ClInclude Include="System\elt_event.h" />
+    <ClInclude Include="System\elt_gl.h" />
+    <ClInclude Include="System\elt_log.h" />
+    <ClInclude Include="System\elt_win.h" />
+    <ClInclude Include="System\Mac\macosx_win.h" />
+    <ClInclude Include="System\Unix\unix_win.h" />
+    <ClInclude Include="System\Win32\win_controls.h" />
+    <ClInclude Include="System\Win32\win_net.h" />
+    <ClInclude Include="System\Win32\win_directX.h" />
+    <ClInclude Include="System\Win32\win_GL.h" />
+    <ClInclude Include="System\Win32\win_win32.h" />
+    <ClInclude Include="System\Win32\win_wndproc.h" />
+    <ClInclude Include="System\Win32\wnd_common.h" />
+    <ClInclude Include="System\Win32\wnd_filedialog.h" />
+    <ClInclude Include="System\Win32\wnd_input.h" />
+    <ClInclude Include="System\Win32\wnd_snd.h" />
+    <ClInclude Include="uiCommand\uiCommand.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="EngineModuleDefination.def" />
+    <None Include="HyperionIcon.ico">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="elt_Console.c" />
+    <ClCompile Include="elt_cpuinfo.c" />
+    <ClCompile Include="elt_loadso.c" />
+    <ClCompile Include="elt_thread.c" />
+    <ClCompile Include="elt_timer.c" />
+    <ClCompile Include="ExCommon.c" />
+    <ClCompile Include="glslupdate.c" />
+    <ClCompile Include="glsl_compiler.c" />
+    <ClCompile Include="gl_geometry.c" />
+    <ClCompile Include="gl_texture.c" />
+    <ClCompile Include="EngineEx2.c" />
+    <ClCompile Include="ExEngine.c" />
+    <ClCompile Include="GLEW\glew.c" />
+    <ClCompile Include="Input\elt_gamecontroller.c" />
+    <ClCompile Include="Input\elt_keyboard.c" />
+    <ClCompile Include="Input\elt_joystick.c" />
+    <ClCompile Include="Input\elt_mouse.c" />
+    <ClCompile Include="Input\XBoxControllerHandler.c" />
+    <ClCompile Include="main.c" />
+    <ClCompile Include="ShaderFile.c" />
+    <ClCompile Include="System\elt_audio.c" />
+    <ClCompile Include="System\elt_cl.c" />
+    <ClCompile Include="System\elt_errorhandler.c" />
+    <ClCompile Include="System\elt_event.c" />
+    <ClCompile Include="System\elt_gl.c" />
+    <ClCompile Include="System\elt_log.c" />
+    <ClCompile Include="System\elt_win.c" />
+    <ClCompile Include="System\Mac\macosx_win.c" />
+    <ClCompile Include="System\Unix\unix_win.c" />
+    <ClCompile Include="System\Win32\win_controls.c" />
+    <ClCompile Include="System\Win32\win_directX.c" />
+    <ClCompile Include="System\Win32\win_GL.c" />
+    <ClCompile Include="System\Win32\win_net.c" />
+    <ClCompile Include="System\Win32\win_win32.c" />
+    <ClCompile Include="System\Win32\win_wndproc.c" />
+    <ClCompile Include="System\Win32\wnd_common.c" />
+    <ClCompile Include="System\Win32\wnd_filedialog.c" />
+    <ClCompile Include="System\Win32\wnd_input.c" />
+    <ClCompile Include="System\Win32\wnd_snd.c" />
+    <ClCompile Include="uiCommand\uiCommand.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="EngineEx.rc">
+      <DeploymentContent>true</DeploymentContent>
+    </ResourceCompile>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

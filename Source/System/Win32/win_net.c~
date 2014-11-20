@@ -1,0 +1,25 @@
+#include"win_net.h"
+#ifdef EX_WINDOWS
+WSADATA winsocket = {};
+
+DECLSPEC ERESULT ELTAPIENTRY ExInitNet(Uint32 flag){
+	WSADATA wsaData;
+	WSAStartup(MAKEWORD(2,2),&wsaData);
+
+
+	return 0;
+}
+DECLSPEC ERESULT ELTAPIENTRY ExCreatServer(const char* ip, const char* port){
+	//struct addrinfo* result = NULL, *ptr = NULL, hints;
+
+	return 0;
+}
+DECLSPEC Boolean ELTAPIENTRY ExRelaseNet(Void){
+	if(!WSACleanup()){
+		ExDevPrintf("error");
+		return 0;
+	}
+	return TRUE;
+}
+
+#endif

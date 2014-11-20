@@ -1,0 +1,30 @@
+#include".\..\..\EngineExAPI.h"
+
+#if defined(EX_WINDOWS) && !defined(_CONSOLE)
+INT CALLBACK WinMain(HINSTANCE h, HINSTANCE p, LPSTR argv, INT argc){
+#else
+int main(int argc, char** argv){
+#endif
+	ExWin hwnd;
+	ExWindowEvent event;
+
+	ExLoadObject(EX_TEXT("EngineEx.lib"));
+
+	ExInit(ELT_INIT_EVERYTHING);
+
+	/*
+
+	*/
+	hwnd = ExCreateWindow(0,0,512,512,EX_OPENGL);
+	if(!hwnd)
+		ExError("Error here!");
+	ExSetWindowTitle(hwnd, EX_TEXT("something random!"));
+
+
+	while(1){
+		ExPollEvents(&event);
+	}
+
+
+	return EXIT_SUCCESS;
+}

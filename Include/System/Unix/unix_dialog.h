@@ -1,0 +1,6 @@
+
+#ifndef UNIX_DIALOG_INCLUDER_HEADER
+#define UNIX_DIALOG_INCLUDER_HEADER
+
+
+#endif

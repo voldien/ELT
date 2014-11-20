@@ -1,0 +1,359 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Windows">
+      <UniqueIdentifier>{ff3773dc-dcea-4994-b859-425697a93ad0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\EngineEX">
+      <UniqueIdentifier>{97c0cce2-f3fd-43cf-93f7-04303aac4c58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Threading">
+      <UniqueIdentifier>{f0112e91-7ac8-4ff1-9ad3-5bc9302a7f18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\System">
+      <UniqueIdentifier>{89fe46cc-ac00-498e-9c1c-3228f9e2020a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\NetWork">
+      <UniqueIdentifier>{fd973510-e49f-4a07-bbba-f912ab702f6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\System">
+      <UniqueIdentifier>{fbd28b88-6459-4fb1-89df-7baa9d8af612}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Input">
+      <UniqueIdentifier>{301aa62d-79c1-4430-8e7c-6c142deb1cbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\extension">
+      <UniqueIdentifier>{5e6c6ca2-9ee7-4133-8110-009616fb2c16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{094098f2-e187-4fbe-9c54-29d6c819ffb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\System\ConsoleShell">
+      <UniqueIdentifier>{1fe8f1f9-2011-446e-bb91-1f2ca6bf3295}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\System\Font">
+      <UniqueIdentifier>{423c79a8-721c-45c3-a3da-846626a2853e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\System\win32">
+      <UniqueIdentifier>{f497fdbe-eaeb-4305-94f1-ac69a0b1f277}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\System\Unix">
+      <UniqueIdentifier>{df6a203c-cdc8-48ef-bc8e-ac252074a698}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\System\mac">
+      <UniqueIdentifier>{76e2f1fc-f2db-4c73-8d9b-b255df7f8f88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\uiCommand">
+      <UniqueIdentifier>{a61e0b3e-be85-4481-b494-83a911b7a5dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Opengl">
+      <UniqueIdentifier>{fa4dc838-77bc-4bac-98d3-f2b4be33f66c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\System\CPU">
+      <UniqueIdentifier>{d540cc85-f79a-4938-a737-e1d0ada212f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Thread">
+      <UniqueIdentifier>{6d40ad12-9293-4a1e-95c9-44ec2005f7c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Timer">
+      <UniqueIdentifier>{df5a06c4-a4ce-4128-95c9-4623e6f64828}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Event">
+      <UniqueIdentifier>{b9700956-9ad3-495e-ac50-9899dfdfe286}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EngineExAPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineAssembly.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\XBoxControllerHandler.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\GUIDs.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="ExPreProcessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExAssert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Win32\wnd_filedialog.h">
+      <Filter>Header Files\System\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Win32\win_wndproc.h">
+      <Filter>Header Files\System\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Win32\win_GL.h">
+      <Filter>Header Files\System\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Win32\win_win32.h">
+      <Filter>Header Files\System\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Win32\win_directX.h">
+      <Filter>Header Files\System\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Win32\wnd_common.h">
+      <Filter>Header Files\System\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Unix\unix_win.h">
+      <Filter>Header Files\System\Unix</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Mac\macosx_win.h">
+      <Filter>Header Files\System\mac</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineEx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Win32\wnd_snd.h">
+      <Filter>Header Files\System\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Win32\wnd_input.h">
+      <Filter>Header Files\System\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Win32\win_net.h">
+      <Filter>Header Files\System\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Win32\win_controls.h">
+      <Filter>Header Files\System\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="uiCommand\uiCommand.h">
+      <Filter>Header Files\uiCommand</Filter>
+    </ClInclude>
+    <ClInclude Include="ExNT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExCommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="glslupdate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="glsl_compiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gl_texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gl_geometry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="System\elt_gl.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="System\elt_cl.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="System\elt_win.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="System\elt_errorhandler.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="GLEW\wglew.h">
+      <Filter>Header Files\Opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="GLEW\glew.h">
+      <Filter>Header Files\Opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="GLEW\glxew.h">
+      <Filter>Header Files\Opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="elt_cpuinfo.h">
+      <Filter>Header Files\System\CPU</Filter>
+    </ClInclude>
+    <ClInclude Include="elt_thread.h">
+      <Filter>Header Files\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\elt_keyboard.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\elt_mouse.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\elt_joystick.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="elt_loadso.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="elt_console.h">
+      <Filter>Header Files\System\ConsoleShell</Filter>
+    </ClInclude>
+    <ClInclude Include="elt_timer.h">
+      <Filter>Header Files\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="System\elt_log.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="System\elt_audio.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\elt_gamecontroller.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="elt_matrix.h">
+      <Filter>Header Files\Opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="System\elt_event.h">
+      <Filter>Header Files\Event</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="System\Win32\wnd_filedialog.c">
+      <Filter>Header Files\System\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="System\Win32\win_wndproc.c">
+      <Filter>Header Files\System\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="System\Win32\win_GL.c">
+      <Filter>Header Files\System\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="System\Win32\win_win32.c">
+      <Filter>Header Files\System\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="System\Win32\win_directX.c">
+      <Filter>Header Files\System\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="System\Win32\wnd_common.c">
+      <Filter>Header Files\System\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="System\Unix\unix_win.c">
+      <Filter>Header Files\System\Unix</Filter>
+    </ClCompile>
+    <ClCompile Include="System\Mac\macosx_win.c">
+      <Filter>Header Files\System\mac</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineEx2.c">
+      <Filter>Source Files\EngineEX</Filter>
+    </ClCompile>
+    <ClCompile Include="ExEngine.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="System\Win32\wnd_input.c">
+      <Filter>Header Files\System\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="System\Win32\wnd_snd.c">
+      <Filter>Header Files\System\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="System\Win32\win_controls.c">
+      <Filter>Header Files\System\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="uiCommand\uiCommand.c">
+      <Filter>Header Files\uiCommand</Filter>
+    </ClCompile>
+    <ClCompile Include="System\Win32\win_net.c">
+      <Filter>Header Files\System\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="ExCommon.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderFile.c">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="glslupdate.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="glsl_compiler.c">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gl_texture.c">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gl_geometry.c">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="System\elt_win.c">
+      <Filter>Header Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="System\elt_cl.c">
+      <Filter>Header Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="System\elt_errorhandler.c">
+      <Filter>Header Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="GLEW\glew.c">
+      <Filter>Header Files\Opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="elt_cpuinfo.c">
+      <Filter>Header Files\System\CPU</Filter>
+    </ClCompile>
+    <ClCompile Include="elt_thread.c">
+      <Filter>Header Files\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\elt_keyboard.c">
+      <Filter>Header Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\elt_mouse.c">
+      <Filter>Header Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\XBoxControllerHandler.c">
+      <Filter>Header Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\elt_joystick.c">
+      <Filter>Header Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="System\elt_gl.c">
+      <Filter>Header Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="elt_loadso.c">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="elt_Console.c">
+      <Filter>Header Files\System\ConsoleShell</Filter>
+    </ClCompile>
+    <ClCompile Include="elt_timer.c">
+      <Filter>Header Files\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="System\elt_log.c">
+      <Filter>Header Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="System\elt_audio.c">
+      <Filter>Header Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\elt_gamecontroller.c">
+      <Filter>Header Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="System\elt_event.c">
+      <Filter>Header Files\Event</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="EngineModuleDefination.def" />
+    <None Include="HyperionIcon.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="EngineEx.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
