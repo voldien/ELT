@@ -66,6 +66,7 @@
 			<Add library="EGL" />
 			<Add library="cmdlib" />
 			<Add library="Xrender" />
+			<Add library="rt" />
 		</Linker>
 		<Unit filename="../../Source/EngineAssembly.h" />
 		<Unit filename="../../Source/EngineConfig.h" />

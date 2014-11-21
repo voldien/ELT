@@ -1,7 +1,7 @@
 #include"ExCommon.h"
 #ifdef EX_LINUX
-#include<unistd.h>
-#include<sys/utsname.h>
+#   include<unistd.h>
+#   include<sys/utsname.h>
 #endif
 
 DECLSPEC Boolean ELTAPIENTRY ExCreateProcess(const ExChar* applicationName){
@@ -25,7 +25,6 @@ DECLSPEC Boolean ELTAPIENTRY ExCreateProcess(const ExChar* applicationName){
     }
 	return TRUE;
 #elif defined(EX_LINUX)
-
 	return 	execl(applicationName,"");
 #endif
 }

@@ -63,8 +63,10 @@ static int isExtensionSupported(const char* extList, const char* extension){
 #endif
 	return 0;
 }
-
-static unsigned int get_opengl_vendor_enum(void){	// Get opengl vendor
+/**
+    Get OpenGL Vendor Enum.
+*/
+static unsigned int get_opengl_vendor_enum(void){
     #ifdef EX_WINDOWS
 	if(ExIsVendorNvidia())return EX_GPU_NVIDIA;
 	else if(ExIsVendorAMD())return EX_GPU_AMD;
@@ -224,16 +226,17 @@ static void ELTAPIENTRY ExCreatePFD2( void *pPFD, EngineDescription* desc){
 }
 
 /**
-    Create temporarily opengl context for windows
+    Create temporarily OpenGL context for windows
 */
 static OpenGLContext create_temp_gl_context(HWND window){
 	PIXELFORMATDESCRIPTOR pfd;
 	OpenGLContext gl_context;
+	HDC hDC;
 	/*/
         Create Pixel Description
 	*/
 	ExCreatePFD(&pdf,32,24,8);
-	HDC hDC = GetDC(window);// get DC
+	hDC = GetDC(window);// get DC
 	/**
         // Choose Pixel Format.
 	*/
@@ -275,9 +278,9 @@ static OpenGLContext create_temp_gl_context(HWND window){
 	return gl_context;
 }
 /*
-    Generate the temporarly window for creating the extension window.
+    Generate the temporarily window for creating the extension window.
 */
-static int create_temp_gl_win(ExWin window){
+static int create_temp_gl_win(OpenGLContext* pglc_context){
     HWND hwnd;
     OpenGLContext glc;
     WNDCLASSEX  wc= {0};
@@ -290,7 +293,7 @@ static int create_temp_gl_win(ExWin window){
     wc.hCursor = LoadCursor(wc.hInstance, NULL);
     wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
     wc.lpszClassName = "temp";
-    hwnd = CreateWindowEx(WS_EX_APPWINDOW,EX_DIRECTX_WINDOW_CLASS,ExGetDefaultWindowTitle(),
+    hwnd = CreateWindowEx(WS_EX_APPWINDOW,EX_DIRECTX_WINDOW_CLASS,"",
 		(WS_OVERLAPPEDWINDOW ^WS_THICKFRAME ^ WS_MAXIMIZEBOX),x, y,
 		 width,
 		 height,
@@ -299,6 +302,10 @@ static int create_temp_gl_win(ExWin window){
 		wc.hInstance,
 		EX_NULL);
     glc = create_temp_gl_context(window);
+    if(!glc)
+        ExError("Failure");
+    if(pglc_context)
+        *pglc_context = glc;
     return window;
 }
 
@@ -438,12 +445,12 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 	unsigned int render_vendor;
 #ifdef EX_WINDOWS
 
-
     WGLSWAPINTERVALEXT_T wglSwapIntervalEXT;
     WGLCHOOSEPIXELFORMATARB_T wglChoosePixelFormatARB;
     WGLGETPIXELFORMATATTRIBIVARB_T wglGetPixelFormatAttribivARB;
     WGLGETEXTENSIONSSTRINGEXT_T wglGetExtensionStringEXT;
     WGLGETEXTENSIONSSTRINGARB_T wglGetExtensionStringARB;
+    HWND temp_gl_hwnd;
 	HDC hDC;
     int pixAttribs[60] = {0};
     int major_version, minor_version;
@@ -452,58 +459,80 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     int pixFmt = 1;
 
     /**
-        Create Temporarily openGL Context
+        Create Temporarily openGL Context and it's associated window
     */
-	if(glc = create_temp_gl_context(window))
+	if(temp_gl_hwnd = create_temp_gl_win(&glc))
 		printf("Success to Create Default OpenGL Context.\n");
 
 	ExGLPrintDevInfo();
-	hDC = GetDC(window);
+	deviContext = GetDC(window);
 	/**
         \ TODO change the condition.
 	*/
-	if(engineDescription.EngineFlag & ENGINE_SUPPORT_EXTENSION){
-        /**
-            Create all entry point to create extension openGL context.
-        */
-        wglSwapIntervalEXT =            (WGLSWAPINTERVALEXT_T)GL_GET_PROC("wglSwapIntervalEXT");
-        wglChoosePixelFormatARB =       (WGLCHOOSEPIXELFORMATARB_T)GL_GET_PROC("wglChoosePixelFormatARB");
-        wglGetPixelFormatAttribivARB =  (WGLGETPIXELFORMATATTRIBIVARB_T)GL_GET_PROC("wglGetPixelFormatAttribivARB");
-        wglGetExtensionStringEXT =      (WGLGETEXTENSIONSSTRINGEXT_T)GL_GET_PROC("wglGetExtensionStringEXT");
-        wglGetExtensionStringARB =      (WGLGETEXTENSIONSSTRINGARB_T)GL_GET_PROC("wglGetExtensionStringARB");
+    /**
+        Create all entry point to create extension openGL context.
+    */
+    wglSwapIntervalEXT =            (WGLSWAPINTERVALEXT_T)GL_GET_PROC("wglSwapIntervalEXT");
+    wglChoosePixelFormatARB =       (WGLCHOOSEPIXELFORMATARB_T)GL_GET_PROC("wglChoosePixelFormatARB");
+    wglGetPixelFormatAttribivARB =  (WGLGETPIXELFORMATATTRIBIVARB_T)GL_GET_PROC("wglGetPixelFormatAttribivARB");
+    wglGetExtensionStringEXT =      (WGLGETEXTENSIONSSTRINGEXT_T)GL_GET_PROC("wglGetExtensionStringEXT");
+    wglGetExtensionStringARB =      (WGLGETEXTENSIONSSTRINGARB_T)GL_GET_PROC("wglGetExtensionStringARB");
 
-        if(wglGetPixelFormatAttribivARB(hDC, pixFmt,0,1, att, nResults));
+    if(!wglGetPixelFormatAttribivARB(hDC, pixFmt,0,1, att, nResults))
+        ExError("Error");
 
-        /*
+    /*
 
-        */
-        glGetIntegerv(GL_MAJOR_VERSION, &major_version);
-        glGetIntegerv(GL_MINOR_VERSION, &minor_version);
+    */
+    glGetIntegerv(GL_MAJOR_VERSION, &major_version);
+    glGetIntegerv(GL_MINOR_VERSION, &minor_version);
+
+    /*
+        Context attributes
+    */
+    int context_attribs[]={
+        GLX_CONTEXT_MAJOR_VERSION_ARB, major_version,
+        GLX_CONTEXT_MINOR_VERSION_ARB, minor_version,
+        GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
+        None
+    };
+
+    /*TODO: Naming between context attributes and for choosing a pixel-format
+        Create pixel format attributes
+    */
+    ExCreateContextAttrib(deviContext,&pixAttribs,&dataSize,&engineDescription);
 
 
-        if(!wglChoosePixelFormatARB(hDC, &pixAttribs[0], NULL, 1, pixelFormat, (unsigned int*)&nResults[0]))
-            Error("function : wglChoosePixelFormatARB Failed");
-
-        if(!ExDestroyContext(hdc,glc))
-            ExDevPrint("Failed to delete Temp OpenGL Context.\n");
+    if(!wglChoosePixelFormatARB(hDC, &pixAttribs[0], NULL, 1, pixelFormat, (unsigned int*)&nResults[0]))
+        Error("function : wglChoosePixelFormatARB Failed");
 
 
+    if(ExDestroyContext(deviContext,glc)){
+            DestroyWindow(temp_gl_hwnd);
+    }else ExDevPrint("Failed to delete Temp OpenGL Context.\n");
 
-        /*
-            Create OpenGL Context.
-        */
-        if(!(glc = wglCreateContextAttribsARB(deviContext, EX_NULL,attribs))){
-            ExDevPrintf("Failed to Create OpenGL Context ARB | %s.\n",glewGetErrorString(glGetError()));
-            MessageBoxA(EX_NULL,  (LPCSTR)glewGetErrorString(glGetError()),"Error | OpenGL Context",MB_OK | MB_ICONERROR);
-        }
+    /*
+        Get Device Context from window
+    */
+    deviContext = GetDC(window);
 
-		ExInitExtension(window,hDC, glc);
-		if(!ReleaseDC(WindowFromDC(wglGetCurrentDC()),wglGetCurrentDC()))
-			wprintf(EX_TEXT("Failed to Release DC : %s \n"),ExGetErrorMessage(GetLastError()));
-	}
+    if(SetPixelFormat(deviContext, pixelFormat[0], &pfd))
+        printf("Succedded to Set PixelFormat With the PixelFormat Number %i.\n",nResults[0] );
+    else
+        wExDevPrintf(EX_TEXT("Failed to Set PixelFormat : %s \n"),ExGetErrorMessage(GetLastError()));
 
-	// Initialize Properties of OpenGL based on EngineDescription
-	ExInitOpenGLStates(&engineDescription);
+    /*
+        Create OpenGL Context.
+    */
+    if(!(glc = wglCreateContextAttribsARB(deviContext, EX_NULL,attribs))){
+        ExDevPrintf("Failed to Create OpenGL Context ARB | %s.\n",glewGetErrorString(glGetError()));
+        MessageBoxA(EX_NULL,  (LPCSTR)glewGetErrorString(glGetError()),"Error | OpenGL Context",MB_OK | MB_ICONERROR);
+    }
+
+    if(!ReleaseDC(WindowFromDC(wglGetCurrentDC()),wglGetCurrentDC()))
+        wprintf(EX_TEXT("Failed to Release DC : %s \n"),ExGetErrorMessage(GetLastError()));
+
+	return glc;
 
 #elif defined(EX_LINUX)
 	XVisualInfo* vi;		//	Visual Info

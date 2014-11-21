@@ -9,60 +9,57 @@
 #include"System/elt_log.h"
 #include"System/elt_audio.h"
 
-/*
+/**
     Linux flags Link
     -lGL -lX11 -lGLEW -lXrender -ldl -lOpenCL -lEGL
 */
-#ifdef EX_INTERNAL_DEVELOP_ENVIROMENT
-    #if defined(EX_WINDOWS)
 
-        #if defined(EX_VC)
-        #	pragma comment(lib,"opengl32.lib")
-        #	include<delayimp.h>
-        #	pragma comment(lib,"DelayImp.lib")
-        #endif
-
-    /*
-        // Delay load of .dll file which might not be needed
-    */
-    /*	#pragma comment(linker,"/DELAYLOAD:avcodec-55.dll")
-        #pragma comment(linker,"/DELAY:UNLOAD")
-        #pragma comment(linker,"/DELAYLOAD:avdevice-55.dll")
-        #pragma comment(linker,"/DELAY:UNLOAD")
-        #pragma comment(linker,"/DELAYLOAD:avfilter-4.dll")
-        #pragma comment(linker,"/DELAY:UNLOAD")
-        #pragma comment(linker,"/DELAYLOAD:postproc-52.dll")
-        #pragma comment(linker,"/DELAY:UNLOAD")
-        #pragma comment(linker,"/DELAYLOAD:swresample-0.dll")
-        #pragma comment(linker,"/DELAY:UNLOAD")
-        #pragma comment(linker,"/DELAYLOAD:xinput1_3.dll")
-        #pragma comment(linker,"/DELAY:UNLOAD")
-        #pragma comment(linker,"/DELAYLOAD:swscale-2.dll")
-        #pragma comment(linker,"/DELAY:UNLOAD")
-        #pragma comment(linker,"/DELAYLOAD:avutil-52.dll")
-        #pragma comment(linker,"/DELAY:UNLOAD")
-        #pragma comment(linker,"/DELAYLOAD:avformat-55.dll")
-        #pragma comment(linker,"/DELAY:UNLOAD")
-        #pragma comment(linker,"/DELAYLOAD:D3D9.dll")
-        #pragma comment(linker,"/DELAY:UNLOAD")*/
-
-
-        //#pragma comment(linker,"/DelayLoad:Ws2_32.Dll")
-        //#pragma comment(linker,"/Delay:unload")
-    /*
-        // Instance
-    */
-        extern HINSTANCE hdllMoudle;
-    #elif defined(EX_LINUX)
-
-    #include<mcheck.h>
-
-    #elif defined(EX_MAC)
-
+#if defined(EX_WINDOWS)
+    #if defined(EX_VC)
+    #	pragma comment(lib,"opengl32.lib")
+    #	include<delayimp.h>
+    #	pragma comment(lib,"DelayImp.lib")
     #endif
-#endif
 
+/**
+    // Delay load of .dll file which might not be needed
+*/
+    #pragma comment(linker,"/DELAYLOAD:avcodec-55.dll")
+    #pragma comment(linker,"/DELAY:UNLOAD")
+    #pragma comment(linker,"/DELAYLOAD:avdevice-55.dll")
+    #pragma comment(linker,"/DELAY:UNLOAD")
+    #pragma comment(linker,"/DELAYLOAD:avfilter-4.dll")
+    #pragma comment(linker,"/DELAY:UNLOAD")
+    #pragma comment(linker,"/DELAYLOAD:postproc-52.dll")
+    #pragma comment(linker,"/DELAY:UNLOAD")
+    #pragma comment(linker,"/DELAYLOAD:swresample-0.dll")
+    #pragma comment(linker,"/DELAY:UNLOAD")
+    #pragma comment(linker,"/DELAYLOAD:xinput1_3.dll")
+    #pragma comment(linker,"/DELAY:UNLOAD")
+    #pragma comment(linker,"/DELAYLOAD:swscale-2.dll")
+    #pragma comment(linker,"/DELAY:UNLOAD")
+    #pragma comment(linker,"/DELAYLOAD:avutil-52.dll")
+    #pragma comment(linker,"/DELAY:UNLOAD")
+    #pragma comment(linker,"/DELAYLOAD:avformat-55.dll")
+    #pragma comment(linker,"/DELAY:UNLOAD")
+    #pragma comment(linker,"/DELAYLOAD:D3D9.dll")
+    #pragma comment(linker,"/DELAY:UNLOAD")*/
+
+
+    //#pragma comment(linker,"/DelayLoad:Ws2_32.Dll")
+    //#pragma comment(linker,"/Delay:unload")
 /*
+    // Instance
+*/
+    extern HINSTANCE hdllMoudle;
+#elif defined(EX_LINUX)
+
+#include<mcheck.h>
+
+#elif defined(EX_MAC)
+
+#endif
+/**
 	// allocate data about the creator.
 */
 char* Developer = "BroodCity Entertainment";
@@ -90,8 +87,8 @@ _In_  HINSTANCE hinstDLL,
 	return TRUE;
 }
 #endif
-/*
-
+/**
+    \Initialize Engine Library Toolkit
 */
 DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	ERESULT _h_result = E_OK;
@@ -139,13 +136,13 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	//ExIsWinError(!(hmodule = LoadLibrary(EX_TEXT("freetype6.dll"))));
 
 	if(engineFlag & ELT_INIT_VIDEO){
-		ExIsWinError(!(hmodule = LoadLibrary(EX_TEXT("OpenGL32.dll"))));
-		ExWin glhwnd = ExCreateOpenGLWindow(0,0,256,256);
-		ExInitOpenGL(glhwnd,&engineDescription);
+		//ExIsWinError(!(hmodule = LoadLibrary(EX_TEXT("OpenGL32.dll"))));
+		//ExWin glhwnd = ExCreateOpenGLWindow(0,0,256,256);
+		//ExInitOpenGL(glhwnd,&engineDescription);
 		// get the window of current HDC in the opengl Context
-		glhwnd =WindowFromDC(wglGetCurrentDC());
-		CloseWindow(glhwnd);
-		DestroyWindow(glhwnd);
+		//glhwnd =WindowFromDC(wglGetCurrentDC());
+		//CloseWindow(glhwnd);
+		//DestroyWindow(glhwnd);
 	}
 	if(engineFlag & ELT_INIT_TIMER){
 		elt_time = ExCurrentTime();
@@ -175,9 +172,9 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	//}
 	// if opengl
 	// openCL only
-	if((engineFlag & ENGINE_OPENGL) == 0 && (engineFlag & ENGINE_OPENCL)){
-		ExCreateGLCLContex(0,0);
-	}
+	//if((engineFlag & ENGINE_OPENGL) == 0 && (engineFlag & ENGINE_OPENCL)){
+	//	ExCreateGLCLContex(0,0);
+	//}
 #elif defined(EX_LINUX)     // Linux
 
     #if defined(EX_DEBUG) || (EX_ENGINE_VERSION_MAJOR <= 0)	// Debugging information

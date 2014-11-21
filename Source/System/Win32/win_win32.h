@@ -7,23 +7,7 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 #define WIN32_WINDOW_H
 #include"./../../ExPreProcessor.h"
 #ifdef EX_WINDOWS
-#	include<Windows.h>	// Window header
-#	include<Cmd/cmdlib.h>
-#	include<WindowsX.h>
-#	include <commctrl.h>
-#	include<WinUser.h>
-#	include<Uxtheme.h>
-#	include<WinInet.h>
-#	include<Dwmapi.h>	// DW
-#	pragma comment(lib,"Dwmapi.lib")
-#	include<time.h>
-#	include<signal.h>
-#	include <io.h>
-#	include <fcntl.h>
-#	pragma comment(lib, "winmm.lib")
-#	pragma comment(lib,"User32.lib")
-#	pragma comment(lib,"comctl32.lib")
-#	pragma comment(lib,"UxTheme.lib")
+
 
 
 #include"./../../EngineAssembly.h"

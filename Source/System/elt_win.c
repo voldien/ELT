@@ -2,7 +2,6 @@
 #include"elt_gl.h"
 #include"elt_cl.h"
 
-
 #if defined(EX_WINDOWS)
 	#include"Win32/win_win32.h"
 	#include"Win32/wnd_input.h"
@@ -64,6 +63,8 @@ static void* create_elt_icon(ExWin window){
 
 }
 
+
+
 /**
     Create Window.
     \x left coordination.
@@ -83,13 +84,13 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 	else if(flag & ENGINE_OPENGL){
 		window = ExCreateOpenGLWindow(x,y,width, height);
 		glc = ExCreateSharedGLContext(ExGetCurrentGLDC(), ExGetOpenGLContext(),GetDC(window));
-		// set the window to be current opengl Context.
-		ExMakeGLCurrent(EX_NULL,EX_NULL);
-		ExMakeGLCurrent(GetDC(window),glc);
+		if(glc){
+            // set the window to be current opengl Context.
+            ExMakeGLCurrent(EX_NULL,EX_NULL);
+            ExMakeGLCurrent(GetDC(window),glc);
+		}
 		if(flag & ENGINE_OPENCL)
 			ExCreateCLSharedContext(glc,GetDC(window));
-
-
 		return window;
 	}
 	else if(flag & EX_OPENGLES){
@@ -126,6 +127,9 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 	*/
 #elif defined(EX_LINUX)
 	if((flag & ENGINE_NATIVE) || !flag){
+        /**
+            Create Native Window.
+        */
 		return ExCreateNativeWindow(x,y,width, height);
 	}
 	else if((flag & EX_OPENGL)){
@@ -333,6 +337,15 @@ DECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, HANDLE hIcon){
 	result = SetClassLong(window,GCL_HICONSM,(LONG)hIcon);
 	return result;
 #elif defined(EX_LINUX)
+    XWMHints *wm_hints;
+    //http://www.sbin.org/doc/Xlib/chapt_03.html
+    XSizeHints *size_hints;
+    wm_hints = XAllocWMHints();
+
+    wm_hints->initial_state = NormalState;
+    wm_hints->input = True;
+
+
 	Atom net_wm_icon,cardinal;
 
 	net_wm_icon =  XInternAtom(display,"_NET_WM_ICON", False);

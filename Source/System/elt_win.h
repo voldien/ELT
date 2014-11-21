@@ -36,7 +36,7 @@ extern DECLSPEC void ELTAPIENTRY ExHideWindow(ExWin window);
 extern DECLSPEC void ELTAPIENTRY ExSetWindowMode(ExWin window, Enum mode);
 
 /*
-	
+    // Destroy Window
 */
 extern DECLSPEC Boolean ELTAPIENTRY ExDestroyWindow(ExWin window);
 
@@ -50,7 +50,7 @@ extern DECLSPEC void ELTAPIENTRY ExSetWindowTitle(ExWin window,const ExChar* tit
 extern DECLSPEC void ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title);
 
 /*
-	// Set Windows Position	
+	// Set Windows Position
 */
 extern DECLSPEC void ELTAPIENTRY ExSetWindowPos(ExWin window,Int32 x,Int32 y);
 
@@ -69,6 +69,9 @@ extern DECLSPEC void ELTAPIENTRY ExSetWindowSize(ExWin window,Int32 width, Int32
 	// Set Window Size
 */
 extern DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window,const Size_t size);
+/*
+    Get Window Size
+*/
 extern DECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, Size_t size);
 /*
 	// Set Window Rect
@@ -87,11 +90,11 @@ extern DECLSPEC void ELTAPIENTRY ExGetWindowRect(ExWin window, rect_t* rect);
 extern DECLSPEC Uint32 ELTAPIENTRY ExGetWindowFlag(ExWin window);
 
 /*
- *	Assign Icon onto window
+ *	Assign Icon Handle onto window
  */
 extern DECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, HANDLE hIcon);
 /*
- *	Get Window Icon
+ *	Get Window Icon Handle
  */
 extern DECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window);
 
@@ -102,7 +105,7 @@ extern DECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window);
 // Poll Window Event information
 // *[HWND] which window to poll event information.
 //	Remark: message feed will only be apply to given HWND paramter
-//	if HWND is null all window create on this application will be update 
+//	if HWND is null all window create on this application will be update
 //	read more at MSDN for more specific information regarding PeekMessage with null HWND.
 // *[ExWindowEvent] pointer to event struct. all event will be stored in it.
 //	#return if PeekMessage was success.

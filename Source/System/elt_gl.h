@@ -43,6 +43,7 @@ extern DECLSPEC ExWin ELTAPIENTRY ExGetOpenGLContextWindow(OpenGLContext glc);
 	//	Get Device Context Of Current
 */
 extern DECLSPEC WindowContext ELTAPIFASTENTRY ExGetCurrentGLDC(void);
+#define ExGetCurrentGLDrawable ExGetCurrentGLDC
 /*
 	//	Get OpenGL Context on the current Thread
 */

@@ -4,3 +4,5 @@
 *.~
 #ignore windows machine files.
 *.obj
+*.c~
+*.h~

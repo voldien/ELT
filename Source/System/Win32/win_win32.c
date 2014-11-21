@@ -1,6 +1,23 @@
 #include"win_win32.h"
 #ifdef EX_WINDOWS
 #include"./../../resource.h"
+#	include<Windows.h>	// Window header
+#	include<Cmd/cmdlib.h>
+#	include<WindowsX.h>
+#	include <commctrl.h>
+#	include<WinUser.h>
+#	include<Uxtheme.h>
+#	include<WinInet.h>
+#	include<Dwmapi.h>	// DW
+#	pragma comment(lib,"Dwmapi.lib")
+#	include<time.h>
+#	include<signal.h>
+#	include <io.h>
+#	include <fcntl.h>
+#	pragma comment(lib, "winmm.lib")
+#	pragma comment(lib,"User32.lib")
+#	pragma comment(lib,"comctl32.lib")
+#	pragma comment(lib,"UxTheme.lib")
 
 DECLSPEC Void ELTAPIENTRY ExUnRegisterClasses(Void){
 	ExChar text[MAX_PATH];

@@ -25,7 +25,7 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpPar
 #else
 	pthread_t t0;
 	Uint mpid;
-	if((mpid = pthread_create(&t0,NULL, callback,lpParamater)) != 0)
+	if(!(mpid = pthread_create(&t0,NULL, callback,lpParamater)))
 		Error("Failed to Create Thread.");
 	EX_START_THREAD(t0);
 	return t0;
@@ -49,12 +49,15 @@ DECLSPEC Uint32 ELTAPIENTRY ExGetThreadID(ExThread thread){
 }
 
 DECLSPEC const char* ELTAPIENTRY ExGetThreadName(ExThread thread){
+#ifdef EX_DEBUG
 #ifdef EX_WINDOWS
 
 #elif defined(EX_LINUX)
-    const char* name;
-    pthread_getname_np(thread,thread);
+
+    char name[64];
+    pthread_getname_np(thread,name);
 	return name;
+#endif
 #endif
 }
 

@@ -45,17 +45,18 @@ extern "C"{
 #define EX_ERROR_TERMINATE 0x2
 #define EX_ERROR_ERROR_HANDLE 0x4
 #define EX_ERROR_LOG 0x8
+#define EX_ERROR_LOG_ERR 0x10
 #define EX_SIGN_
-/*
+/**
 	// Error
 */
 extern DECLSPEC void ELTAPIENTRY ExError(const ExChar* error,...);
-/*
+/**
 	// Error with argument of how the error will be treated
 */
 extern DECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...);
 
-/*
+/**
 	// Get Error
 */
 extern DECLSPEC ERESULT ELTAPIFASTENTRY ExGetError(void);

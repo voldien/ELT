@@ -8,7 +8,7 @@
 	<fcntl.h>
 	<io.h>
 
-1414922240 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_win.h
+1416598520 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_win.h
 	"./../EngineAssembly.h"
 	"elt_event.h"
 	<Cmd/mathlib.h>
@@ -90,7 +90,7 @@
 	"EngineAssembly.h"
 	"ExNT.h"
 
-1416399501 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_errorhandler.h
+1416599121 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_errorhandler.h
 	"./../EngineAssembly.h"
 	"./../elt_console.h"
 
@@ -112,7 +112,7 @@
 	"System/elt_gl.h"
 	"System/Win32/win_directX.h"
 
-1416332091 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_gl.h
+1416598853 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_gl.h
 	"./../ExPreProcessor.h"
 	"Win32/win_win32.h"
 	"Unix/unix_win.h"
@@ -120,20 +120,8 @@
 	"elt_win.h"
 	"elt_win.h"
 
-1413227004 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/Win32/win_win32.h
+1416599232 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/Win32/win_win32.h
 	"./../../ExPreProcessor.h"
-	<Windows.h>
-	<Cmd/cmdlib.h>
-	<WindowsX.h>
-	<commctrl.h>
-	<WinUser.h>
-	<Uxtheme.h>
-	<WinInet.h>
-	<Dwmapi.h>
-	<time.h>
-	<signal.h>
-	<io.h>
-	<fcntl.h>
 	"./../../EngineAssembly.h"
 	"win_wndproc.h"
 	"win_directX.h"
@@ -201,11 +189,11 @@
 	"elt_loadso.h"
 	<dlfcn.h>
 
-1416418419 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_thread.c
+1416595208 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_thread.c
 	"elt_thread.h"
 	<pthread.h>
 
-1416430838 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_timer.c
+1416594762 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_timer.c
 	"elt_timer.h"
 	<signal.h>
 
@@ -219,13 +207,13 @@
 1414708026 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/EngineConfig.h
 	"EngineAssembly.h"
 
-1414952571 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/ExCommon.c
+1416598293 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/ExCommon.c
 	"ExCommon.h"
 	<unistd.h>
 	<sys/utsname.h>
 	<sys/socket.h>
 
-1416391798 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/ExEngine.c
+1416599980 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/ExEngine.c
 	"EngineEx.h"
 	"System/elt_cl.h"
 	"System/elt_gl.h"
@@ -249,7 +237,7 @@
 1414070934 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_audio.h
 	"./../EngineAssembly.h"
 
-1416576138 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/main.c
+1416595217 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/main.c
 	"EngineAssembly.h"
 	<CL/cl.h>
 	<CL/cl_gl.h>
@@ -315,7 +303,7 @@
 	<Cmd/mathlib.h>
 	<WindowsX.h>
 
-1416481653 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_gl.c
+1416599912 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_gl.c
 	"elt_gl.h"
 	<EGL/egl.h>
 	<GL/glew.h>
@@ -334,7 +322,7 @@
 1414070994 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_log.c
 	"elt_log.h"
 
-1416426543 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_win.c
+1416599953 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_win.c
 	"elt_win.h"
 	"elt_gl.h"
 	"elt_cl.h"
