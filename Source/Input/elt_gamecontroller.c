@@ -1,6 +1,6 @@
 #include"elt_gamecontroller.h"
 #include"elt_joystick.h"
-#if defined(EX_WINDOWS) && defined(EX_INTERNAL_DEVELOP_ENVIROMENT)
+#if defined(EX_WINDOWS)
 	#include<Xinput.h>
 	#pragma comment(lib, "xinput.lib")
 #elif defined(EX_LINUX)

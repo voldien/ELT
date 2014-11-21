@@ -72,6 +72,12 @@ DECLSPEC void* ELTAPIENTRY ExJoystickOpen(Int32 device_index){
 	return joy_id[device_index];
 #endif
 }
+DECLSPEC int ELTAPIENTRY ExJoyStickClose(Int32 device_index){
+    #ifdef EX_WINDOWS
+    #elif defined(EX_LINUX)
+    close(joy_id[device_index]);
+    #endif // EX_WINDOWS
+}
 
 DECLSPEC ExGUID ELTAPIENTRY ExJoystickGetDeviceGUID(Int32 device_index){
 	ExGUID guid;
@@ -106,11 +112,49 @@ DECLSPEC Int32 ELTAPIENTRY ExJoystickNumButtons(Uint32 ptr){
 	return caps.wNumButtons;
 #elif defined(EX_LINUX)
     int num_buttons;
-    if(ioctl(joy_id[ptr],JSIOCGBUTTONS,&num_buttons))
+    if(!ioctl(joy_id[ptr],JSIOCGBUTTONS,&num_buttons))
         return num_buttons;
     else
         return -1;
 #endif
+}
+DECLSPEC Int32 ELTAPIENTRY ExJoystickNumAxis(Int32 device_index){
+    #ifdef EX_WINDOWS
+	JOYCAPS caps;
+	joyGetDevCaps(device_index,&caps, sizeof(caps));
+	return caps.wNumButtons;//TODO change to axis
+    #elif defined(EX_LINUX)
+    int num_axis;
+    if(!ioctl(joy_id[device_index],JSIOCGAXES,&num_axis))
+        return num_axis;
+    else
+        return -1;
+    #endif // EX_WINDOWS
+}
+
+DECLSPEC Int16 ELTAPIENTRY ExJoystickGetAxis(Int32 device_index,int axis){
+    #ifdef EX_WINDOWS
+    #elif defined(EX_LINUX)
+
+    struct js_event js;
+    if(read(joy_id[device_index], &js,sizeof(struct js_event))){
+        if(js.type & JS_EVENT_AXIS)
+            return js.value;
+    }else return -1;
+    #endif // EX_WINDOWS
+}
+/**
+    \Button Get joystick button
+*/
+DECLSPEC Uint8 ELTAPIENTRY ExJoyStickGetButton(Int32 device_index, int button){
+    #ifdef EX_WINDOWS
+    #elif defined(EX_LINUX)
+    struct js_event js;
+    if(read(joy_id[device_index], &js,sizeof(struct js_event))){
+        if(js.type & JS_EVENT_BUTTON)
+            return js.value;
+    }else return -1;
+    #endif // EX_WINDOWS
 }
 
 //http://msdn.microsoft.com/en-us/library/windows/desktop/ms645546(v=vs.85).aspx

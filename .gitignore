@@ -1,0 +1,6 @@
+#ignore machine code files
+*.o
+#ignore backup files. is not needed.
+*.~
+#ignore windows machine files.
+*.obj

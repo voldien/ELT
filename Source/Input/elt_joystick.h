@@ -40,6 +40,18 @@ extern DECLSPEC const ExChar* ELTAPIENTRY ExJoyStickName(Uint32 ptr);
 	// Get number of buttons on a joystick
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExJoystickNumButtons(Uint32 ptr);
+/**
+    \Axis Get number of axis on joystick
+*/
+extern DECLSPEC Int32 ELTAPIENTRY ExJoystickNumAxis(Int ptr);
+/**
+
+*/
+extern DECLSPEC Int16 ELTAPIENTRY ExJoystickGetAxis(Int32 device_ptr,int axis);
+/**
+    \Button
+*/
+extern DECLSPEC Uint8 ELTAPIENTRY ExJoyStickGetButton(Int32 device_index, int button);
 
 
 extern DECLSPEC ERESULT ELTAPIENTRY ExInitJoyStick(ExWin hwnd);

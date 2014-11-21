@@ -1,12 +1,11 @@
 #include"XBoxControllerHandler.h"
 #include<Cmd/mathlib.h>
-#if defined( INTERNAL_ENGINEX)
+
 	#if defined(EX_WINDOWS)
 #       include<dinput.h>
 #       include<XInput.h>
 #       pragma comment(lib, "xinput.lib")
 	#endif
-#endif
 typedef struct _xBoxStructor{
 	//XINPUT_STATE p_XboxControllers[EX_CONTROLLER_MAX_COUNT];
 	Boolean enabled[EX_CONTROLLER_MAX_COUNT];

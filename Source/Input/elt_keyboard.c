@@ -1,18 +1,16 @@
 #include"elt_keyboard.h"
 
-#if defined(INTERNAL_ENGINEX)
-	#ifdef EX_WINDOWS
-		#include<dinput.h>
-		#include<dinputd.h>
-		#include<Dbt.h>
-		#include<oleauto.h>
-		#include<shellapi.h>
-	#elif defined(EX_LINUX)
-		#include<X11/keysym.h>
-		#include<X11/extensions/XInput.h>
-	#elif defined(EX_ANDROID)
+#ifdef EX_WINDOWS
+    #include<dinput.h>
+    #include<dinputd.h>
+    #include<Dbt.h>
+    #include<oleauto.h>
+    #include<shellapi.h>
+#elif defined(EX_LINUX)
+    #include<X11/keysym.h>
+    #include<X11/extensions/XInput.h>
+#elif defined(EX_ANDROID)
 
-	#endif
 #endif
 
 #ifdef EX_WINDOWS
@@ -31,22 +29,15 @@ DECLSPEC Keycode ELTAPIENTRY ExGetKeyFromName(const char* name){
 	}
 #elif defined(EX_LINUX)
     KeySym sym = XStringToKeysym(name);
-    return XKeysymToKeycode(display,sym);
+    return XKeysymToKeycode(XOpenDisplay(NULL),sym);
 #endif
 }
 DECLSPEC const char* ELTAPIENTRY ExGetKeyName(Keycode keycode){
 #ifdef EX_WINDOWS
 	char text[20];
 	GetKeyNameTextA((keycode << 16),text,sizeof(text));
-	switch(keycode){
-	case escape:return "Escape";
-	case NUM1:return "Escape";
-	case NUM2:return "Escape";
-	default:return "";
-	}
 	return text;
 #elif defined(EX_LINUX)
-
     return XKeysymToString(XKeycodeToKeysym(display,keycode,0));
 #endif
 
