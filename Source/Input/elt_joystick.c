@@ -27,6 +27,7 @@
 	};
 #elif defined(EX_LINUX)
 	#include<unistd.h>
+	#include<fcntl.h>
 	#include<sys/ioctl.h>
 	#include<stdio.h>
 	#include<linux/joystick.h>

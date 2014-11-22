@@ -7,7 +7,7 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 #define ELT_WIN_H
 #include"./../EngineAssembly.h"
 #include"elt_event.h"
-#include<Cmd/mathlib.h>	//TODO fix
+
 #ifdef  __cplusplus	// C++ Environment
 extern "C"{
 #endif
@@ -17,6 +17,9 @@ extern "C"{
 #else
 	#define ExMessageBox(a,b,c,d) gtk_message_dialog_new()
 #endif
+
+struct exsize{unsigned int width,height;};
+struct exrect{int x,y,width,height;};
 
 /*
 	//Create Window [x coordination, y coordination]
@@ -68,19 +71,19 @@ extern DECLSPEC void ELTAPIENTRY ExSetWindowSize(ExWin window,Int32 width, Int32
 /*
 	// Set Window Size
 */
-extern DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window,const Size_t size);
+extern DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window,const struct exsize* size);
 /*
     Get Window Size
 */
-extern DECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, Size_t size);
+extern DECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, struct exsize* size);
 /*
 	// Set Window Rect
 */
-extern DECLSPEC void ELTAPIENTRY ExSetWindowRect(ExWin window, const rect_t* rect);
+extern DECLSPEC void ELTAPIENTRY ExSetWindowRect(ExWin window, const struct exrect* rect);
 /*
 	// Get Window Rect
 */
-extern DECLSPEC void ELTAPIENTRY ExGetWindowRect(ExWin window, rect_t* rect);
+extern DECLSPEC void ELTAPIENTRY ExGetWindowRect(ExWin window, struct exrect* rect);
 
 
 

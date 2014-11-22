@@ -8,6 +8,7 @@
 #endif
 #include"System/elt_log.h"
 #include"System/elt_audio.h"
+#include<signal.h>
 
 /**
     Linux flags Link
@@ -126,9 +127,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	printf("Initialize engine version: %d.%d.%d\n",EX_ENGINE_VERSION_MAJOR,EX_ENGINE_VERSION_MINOR,EX_ENGINE_VERSION_BUGFIX);
 	wprintf(EX_TEXT("Operating System : %s\n"),ExGetOSName());
 #endif
-	if(_h_result |= ExInitErrorHandler()){
-		printf("Succeeded to Initialize Error Handler\n");
-	}
+
 
 
 #if defined(EX_WINDOWS)
@@ -206,6 +205,11 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	}
 #endif
     //ExInitSubSystem(engineFlag);
+
+
+	if(_h_result = ExInitErrorHandler()){
+	}else ExError("Failed to initialize error handler.");
+
 	return _h_result;
 }
 /*

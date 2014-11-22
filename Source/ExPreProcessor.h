@@ -115,6 +115,16 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 #else
 	#error  Unsupported architecture!
 #endif
+/**
+    C Compiler Version
+*/
+#if (__STDC_VERSION__ == 201112L)
+#   define EX_C11
+#elif (__STDC_VERSION == 199901L)
+#   define EX_C99
+#elif defined(__STDC__)
+#   define EX_C90
+#endif
 //#define EX_XBOX
 //#define EX_WEB
 
@@ -438,7 +448,7 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 */
 #define EX_ENGINE_VERSION_MAJOR 0x0
 #define EX_ENGINE_VERSION_MINOR 0x5
-#define EX_ENGINE_VERSION_BUGFIX 0x21
+#define EX_ENGINE_VERSION_BUGFIX 0x31
 
 #define EX_ENGINE_PREALPHA EX_TEXT("pa")	// Pre alpha
 #define EX_ENGINE_ALPHA EX_TEXT("a")		// Alpha

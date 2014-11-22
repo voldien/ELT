@@ -7,7 +7,6 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 #define ENGINE_ASSEMBLY_DEFINITION
 
 #include"ExPreProcessor.h"
-#include<Cmd/cmdlib.h>
 #include"ExNT.h"
 #include"System/elt_event.h"
 #include"EngineEx.h"
@@ -28,8 +27,7 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 #elif defined(EX_MAC)
 
 #endif
-#include<signal.h>
-#include<string.h>
+
 
 #define ENGINEDESCRIPTIONDEFAULT EngineDefaultDescription
 #define ENGINEDESCRIPTIONDESKTOP EngineDesktopDescription

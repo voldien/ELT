@@ -1,6 +1,7 @@
 #include"elt_console.h"
 #include"System/elt_win.h"
-
+#include<Cmd/mathlib.h>
+//#include <fcntl.h>
 DECLSPEC ExWin ELTAPIENTRY ExCreateConsole(void){
 #ifdef EX_WINDOWS
 	Int32 hConHandle;
@@ -16,13 +17,13 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateConsole(void){
 	AllocConsole();
 	// set the screen buffer to be big enough to let us scroll text
 
-	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), 
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),
 
 	&coninfo);
 
 	//coninfo.dwSize.Y = (1080 / 2)/8;
-	SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), 
-	
+	SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE),
+
 	coninfo.dwSize);
 
 	// redirect unbuffered STDOUT to the console
@@ -44,7 +45,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateConsole(void){
 	hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
 
 	fp = _fdopen( hConHandle, "r" );
-	
+
 	*stdin = *fp;
 
 	setvbuf( stdin, NULL, _IONBF, 0 );
@@ -61,7 +62,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateConsole(void){
 	*stderr = *fp;
 
 	setvbuf( stderr, NULL, _IONBF, 0 );
-	// make cout, wcout, cin, wcin, wcerr, cerr, wclog and clog 
+	// make cout, wcout, cin, wcin, wcerr, cerr, wclog and clog
 
 	// point to console as well
 #ifdef EX_CPP
@@ -70,10 +71,10 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateConsole(void){
 
 	return (ExWin)hConHandle;
 #elif defined(EX_LINUX)
-	pid_t i;
+	/*pid_t i;
 	char buf[10];
 	Int32 fds, fdm, status;
-	fdm = posix_openpt(O_RDWR);
+	//fdm = posix_openpt(O_RDWR);
 	//grantptr(fdm);
 	unlockpt(fdm);
 
@@ -92,7 +93,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateConsole(void){
 		dup(fds);
 		sprintf(buf,"xterm -S%c/2", basename(buf));
 		system(buf);
-	}
+	}*/
 #endif
 }
 
@@ -104,7 +105,7 @@ DECLSPEC ExWin ELTAPIENTRY ExGetConsoleWindow(void){
 #endif
 }
 
-DECLSPEC Boolean ELTAPIENTRY ExSetConsoleSize(HANDLE handle, const Size_t size){
+DECLSPEC Boolean ELTAPIENTRY ExSetConsoleSize(HANDLE handle, const Int32* size){
 #ifdef EX_WINDOWS
 
 	//ExSetWindowSize(
@@ -112,7 +113,7 @@ DECLSPEC Boolean ELTAPIENTRY ExSetConsoleSize(HANDLE handle, const Size_t size){
 	//SetConsoleScreenBufferSize(handle,(COORD)*size);
 	return 0;
 #elif defined(EX_LINUX)
-
+    return 0;
 #elif defined(EX_MAC)
 #endif
 }

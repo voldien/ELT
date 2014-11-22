@@ -1,7 +1,7 @@
 #include"elt_win.h"
 #include"elt_gl.h"
 #include"elt_cl.h"
-
+#include<Cmd/mathlib.h>	//TODO fix
 #if defined(EX_WINDOWS)
 	#include"Win32/win_win32.h"
 	#include"Win32/wnd_input.h"
@@ -267,7 +267,7 @@ DECLSPEC void ELTAPIENTRY ExSetWindowSize(ExWin window,Int32 width, Int32 height
 	XResizeWindow(display,window,width,height);
 #endif
 }
-DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window,const Size_t size){
+DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window,const struct exsize* size){
 #ifdef EX_WINDOWS
 	RECT winrect;
 	GetWindowRect(window,&winrect);
@@ -275,7 +275,7 @@ DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window,const Size_t size){
 	XResizeWindow(display,window,size->width,size->height);
 #endif
 }
-DECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, Size_t size){
+DECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, struct exsize* size){
 #ifdef EX_WINDOWS
 	RECT winrect;
 	GetWindowRect(window, &winrect);
@@ -292,18 +292,18 @@ DECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, Size_t size){
 /**
 	// Set Window Rect
 */
-DECLSPEC void ELTAPIENTRY ExSetWindowRect(ExWin window, const rect_t* rect){
+DECLSPEC void ELTAPIENTRY ExSetWindowRect(ExWin window, const struct exrect* rect){
 #if defined(EX_WINDOWS)
 	SetWindowPos(window,HWND_TOP,rect->x,rect->y,rect->width - rect->x,rect->height - rect->y,SWP_SHOWWINDOW);
 #elif defined(EX_LINUX)
-	XMoveWindow(display,window,rect->x,rect->y);
-	XResizeWindow(display,window,rect->width - rect->x,rect->height - rect->y);
+	XMoveWindow(display,(Window)window,rect->x,rect->y);
+	XResizeWindow(display,(Window)window,rect->width - rect->x,rect->height - rect->y);
 #endif
 }
 /**
 	// Get Window Rect
 */
-DECLSPEC void ELTAPIENTRY ExGetWindowRect(ExWin window, rect_t* rect){
+DECLSPEC void ELTAPIENTRY ExGetWindowRect(ExWin window, struct exrect* rect){
 #if defined(EX_WINDOWS)
 	GetWindowRect(window, (RECT*)rect);
 #elif defined(EX_LINUX)

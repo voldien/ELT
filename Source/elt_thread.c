@@ -26,7 +26,7 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpPar
 	pthread_t t0;
 	Uint mpid;
 	if(!(mpid = pthread_create(&t0,NULL, callback,lpParamater)))
-		Error("Failed to Create Thread.");
+		ExError("Failed to Create Thread.");
 	EX_START_THREAD(t0);
 	return t0;
 #endif

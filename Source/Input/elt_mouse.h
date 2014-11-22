@@ -31,7 +31,7 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 	#define EXC_NO			0xD
 	#if(WINVER >= 0x0500)
 	#define EXC_HAND		0xE
-	#endif 
+	#endif
 	#define EXC_APPSTART	0xF
 	#if(WINVER >= 0x0400)
 	#define EXC_HELP		0x10
@@ -47,13 +47,13 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 extern "C"{
 #endif
 /*
-	//Capture mouse 
+	//Capture mouse
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(Boolean enabled);
 /*
 	// clip cursor onto specificed rect
 */
-extern DECLSPEC Int32 ELTAPIENTRY ExClipCursor(const rect_t* rect);
+extern DECLSPEC Int32 ELTAPIENTRY ExClipCursor(const struct exrect* rect);
 /*
 	// Create Cursor
 */
@@ -67,7 +67,7 @@ extern DECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(Enum system_id);
 */
 extern DECLSPEC Boolean ELTAPIENTRY ExFreeCursor(ExCursor cursor);
 /*
-	// Set Cursor 
+	// Set Cursor
 */
 extern DECLSPEC Boolean ELTAPIENTRY ExSetCursor(ExCursor cursor);
 /*
@@ -79,18 +79,18 @@ extern DECLSPEC ExCursor ELTAPIENTRY ExGetDefaultCursor(void);
 
 extern DECLSPEC ExWin ELTAPIENTRY ExGetMouseFocus(void);
 /*
-	// Get Global Mouse State 
+	// Get Global Mouse State
 */
 extern DECLSPEC Uint32 ELTAPIENTRY ExGetGlobalMouseState(Int32* x, Int32* y);
 
 extern DECLSPEC Uint32 ELTAPIENTRY ExGetMouseState(Int32* x, Int32* y);
 /*
-	// Set cursor in screen space 
+	// Set cursor in screen space
 */
 extern DECLSPEC void ELTAPIENTRY ExWarpMouseGlobal(Int32 x, Int32 y);
 
 /*
-	// Set Cursor relative to window 
+	// Set Cursor relative to window
 */
 extern DECLSPEC void ELTAPIENTRY ExWarpMouseInWindow(ExWin win,Int32 x, Int32 y);
 
@@ -105,11 +105,11 @@ extern DECLSPEC Boolean ELTAPIENTRY ExShowCursor(Boolean enabled);
 //---------------------------------------------------
 extern DECLSPEC ERESULT ELTAPIENTRY ExInitMouse(ExWin hwnd);
 
-extern DECLSPEC ERESULT ELTAPIENTRY ExSetMouseCooperative(ExWin hWnd, Uint64 flag); 
+extern DECLSPEC ERESULT ELTAPIENTRY ExSetMouseCooperative(ExWin hWnd, Uint64 flag);
 
 //---------------------------------------------------
-/* Update Mouse Buffer. 
-*/ 
+/* Update Mouse Buffer.
+*/
 extern DECLSPEC void ELTAPIENTRY ExUpdateMouse(void);
 //---------------------------------------------------
 extern DECLSPEC void ELTAPIENTRY ExMouseShutDown(void);

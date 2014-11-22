@@ -19,7 +19,7 @@ DECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(Boolean enabled){
 #endif
 	return TRUE;
 }
-DECLSPEC Int32 ELTAPIENTRY ExClipCursor(const rect_t* rect){
+DECLSPEC Int32 ELTAPIENTRY ExClipCursor(const struct exrect* rect){
 #ifdef EX_WINDOWS
 	const RECT clip_rect = {rect->x,rect->y,rect->x + rect->width,rect->y + rect->height};
 	ExIsWinError(ClipCursor(&clip_rect));

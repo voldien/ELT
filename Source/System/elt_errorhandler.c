@@ -2,10 +2,10 @@
 #include"elt_log.h"
 #include"./../elt_console.h"
 #ifdef EX_WINDOWS
-#   include<signal.h>
 #elif defined(EX_LINUX)
 //#include<syslog.h>
 #endif
+#include<signal.h>
 // Error Message text
 ExChar* errorText = EX_NULL;
 /*
@@ -67,6 +67,9 @@ DECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...){
         //    exit(1);
         ExUnLoadObject("libgtk-x11-2.0.so");
         #elif defined(EX_WINDOWS)
+        /**
+            Display MessageBox
+        */
 		ExMessageBox(EX_NULL,text,EX_TEXT("Error"),MB_OK | MB_SYSTEMMODAL);
         #endif
 
@@ -75,7 +78,7 @@ DECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...){
         #ifdef UNICODE
 		vwprintf(error,argptr);
         #else
-
+		vprintf(error,argptr);
         #endif
     }
 	va_end(argptr);
@@ -127,7 +130,7 @@ static int ctxErrorHandler(Display* dpy, XErrorEvent* error){
 
 DECLSPEC Boolean ELTAPIENTRY ExInitErrorHandler(void){
 #if defined(EX_LINUX)
-	if(XSetErrorHandler(ctxErrorHandler) != ctxErrorHandler)
+	if(XSetErrorHandler(ctxErrorHandler))
         ExDevPrintf("error");
 #endif
 

@@ -35,7 +35,7 @@ GNU General Public License for more details.
 
 // #define ENGINE_EX_STATIC_BUILD			// Use as Static Lib
 // #define ENGINE_EX_STATIC_TO_DLL_BUILD	// Use as Static Lib to DLL
-// #define ENGINE_EX_DLL_IMPORT				// Import DLL 
+// #define ENGINE_EX_DLL_IMPORT				// Import DLL
 // #define ENGINE_EX_DLL_INSIDE				// DLL inside of current DLL's Lib Connection File.
 #ifndef ENGINE_EX_API
 #define ENGINE_EX_API
@@ -49,8 +49,6 @@ GNU General Public License for more details.
 //define EX_AUTO_LINKER
 #ifdef ENGINE_EX_STATIC
 #ifdef EX_VC
-	// NOT NEEDDED!
-	//#pragma comment(lib, "Cmd.lib")
 	// debug version
 	#ifdef EX_DEBUG
 		#ifdef EX_X86
@@ -94,13 +92,13 @@ GNU General Public License for more details.
 #elif defined(EX_ANDROID)
 	//#include"System
 #elif defined(EX_PS4)
-	
+
 #elif defined(EX_PS3)
-	
+
 #elif defined(EX_PSP)
-	
+
 #elif defined(EX_WEB)
-	
+
 #else
 	#error "Error! no supporting Devices"
 #endif

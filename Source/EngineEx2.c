@@ -5,9 +5,12 @@
 #elif defined(EX_LINUX)
 #endif
 #ifndef CMD_LIB_H
-#   include<Cmd/cmdlib.h>
+//#   include<Cmd/cmdlib.h>
 #endif
+#include<Cmd/mathlib.h>
 #include<GL/gl.h>
+#include<signal.h>
+#include<string.h>
 EngineDescription engineDescription = {0};
 
 DECLSPEC void ELTAPIENTRY AssignDescription(const EngineDescription* p_engineDescription){memcpy(&engineDescription, p_engineDescription,sizeof(EngineDescription));}

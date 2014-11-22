@@ -11,6 +11,7 @@
 #elif defined(EX_MAC)
 
 #endif
+#include<Cmd/mathlib.h>
 
 cl_context hClContext = EX_NULL;
 cl_context hClContext2 = EX_NULL;

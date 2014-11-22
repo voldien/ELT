@@ -130,9 +130,14 @@ typedef struct ex_size{};
 typedef struct ex_rect{};
 typedef struct ex_point{};
 
-#ifdef EX_CPP
+#ifdef __cplusplus
 	typedef Uint8 Boolean;
 #endif
+typedef enum{false = 0, true = 1} Boolean;
+#ifndef INTERNAL_ENGINEX
+
+#endif
+
 #if !defined(EX_WIN32)
 typedef void* HANDLE;
 #endif

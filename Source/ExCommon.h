@@ -8,7 +8,7 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 #include"EngineAssembly.h"
 #include"ExAssert.h"
 #include<malloc.h>
-#include<Cmd/mathlib.h>	//TODO FIX
+
 #ifdef EX_WINDOWS
 #endif
 #ifdef __cplusplus	// C++ Environment
@@ -34,19 +34,19 @@ extern DECLSPEC Boolean ELTAPIENTRY ExCreateProcessl(const ExChar* applicationNa
 /*
 	// Get System Primary Screen Size
 */
-extern DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(Size_t size);
+extern DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(struct exsize* size);
 /*
 	// Get System Monitor
 */
-extern DECLSPEC void ELTAPIENTRY ExGetMonitorSize(Uint32 index, Size_t size);
+extern DECLSPEC void ELTAPIENTRY ExGetMonitorSize(Uint32 index, struct exsize* size);
 /*
 
 */
-extern DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenRect(rect_t* rect);
+extern DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenRect(struct exrect* rect);
 /*
 
 */
-extern DECLSPEC void ELTAPIENTRY ExGetMonitorRect(Uint32 index, rect_t* rect);
+extern DECLSPEC void ELTAPIENTRY ExGetMonitorRect(Uint32 index, struct exrect* rect);
 /*
 	// Get Monitor by Index Hz
 */

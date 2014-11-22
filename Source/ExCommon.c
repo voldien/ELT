@@ -1,4 +1,5 @@
 #include"ExCommon.h"
+#include<Cmd/mathlib.h>	//TODO FIX
 #ifdef EX_LINUX
 #   include<unistd.h>
 #   include<sys/utsname.h>
@@ -69,11 +70,17 @@ DECLSPEC Boolean ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName, ...
 
 	return TRUE;
 #elif defined(EX_LINUX)
+// TODO FIX
+	//while((arg_temp = va_arg(argptr, ExChar*)) != NULL){
+		//strcat(argv,arg_temp);
+		//wcscat(argv,EX_TEXT(" "));
+		//continue;
+	//}
 	return execl(applicationName,"");
 #endif
 }
 
-DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(Size_t size){
+DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(struct exsize* size){
 #ifdef EX_WINDOWS
 	RECT rect;
 	GetWindowRect(GetDesktopWindow(), &rect);
@@ -85,15 +92,18 @@ DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(Size_t size){
 	size->height = scrn->height;
 #endif
 }
-DECLSPEC void ELTAPIENTRY ExGetMonitorSize(Uint32 index, Size_t size){
+DECLSPEC void ELTAPIENTRY ExGetMonitorSize(Uint32 index, struct exsize* size){
 #ifdef EX_WINDOWS
 	//EnumDisplaySettings(
 #elif defined(EX_LINUX)
+	Screen* scrn = XScreenOfDisplay(display,index);
+	size->width = scrn->width;
+	size->height = scrn->height;
 
 #endif
 }
 
-DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenRect(rect_t* rect){
+DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenRect(struct exrect* rect){
 #ifdef EX_WINDOWS
 	GetWindowRect(GetDesktopWindow(), (LPRECT)rect);
 #elif defined(EX_LINUX)
@@ -102,7 +112,7 @@ DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenRect(rect_t* rect){
 	rect->height = scrn->height;
 #endif
 }
-DECLSPEC void ELTAPIENTRY ExGetMonitorRect(Uint32 index, rect_t* rect){
+DECLSPEC void ELTAPIENTRY ExGetMonitorRect(Uint32 index, struct exrect* rect){
 #ifdef EX_WINDOWS
 
 #elif defined(EX_LINUX)

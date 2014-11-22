@@ -6,7 +6,7 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 #ifndef CONSOLE_SHELL_H
 #define CONSOLE_SHELL_H
 #include"System/elt_win.h"
-#include <fcntl.h>
+
 #ifdef EX_WINDOWS
 	#include <io.h>
 #endif
@@ -27,17 +27,17 @@ extern DECLSPEC ExWin ELTAPIENTRY ExGetConsoleWindow(void);
 /*
 	// Set Console size
 */
-extern DECLSPEC Boolean ELTAPIENTRY ExSetConsoleSize(HANDLE handle, const Size_t size);
+extern DECLSPEC Boolean ELTAPIENTRY ExSetConsoleSize(HANDLE handle, const Int32* size);
 /*
 	// Get Console size
 */
-extern DECLSPEC Boolean ELTAPIENTRY ExGetConsoleSize(HANDLE handle, Size_t size);
+extern DECLSPEC Boolean ELTAPIENTRY ExGetConsoleSize(HANDLE handle, Int32* size);
 /*
 	// Set Cursor Position
 */
 extern DECLSPEC Boolean ELTAPIENTRY ExSetConsoleCursorPos(HANDLE handle, Coord* coord);
 /*
-	// Get Cursor position 
+	// Get Cursor position
 */
 extern DECLSPEC Boolean ELTAPIENTRY ExGetConsoleCursorPos(HANDLE handle, Coord* coord);
 
