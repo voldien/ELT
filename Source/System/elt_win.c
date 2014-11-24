@@ -198,6 +198,14 @@ DECLSPEC void ELTAPIENTRY ExHideWindow(ExWin window){
     XUnmapWindow(display,window);
 #endif
 }
+DECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin window){
+#ifdef EX_WINDOWS
+	DestroyWindow(window,SW_HIDE);
+#elif defined(EX_LINUX)
+    XDestroyWindow(display, window);
+#endif
+}
+
 
 DECLSPEC Boolean ELTAPIENTRY ExDestroyWindow(ExWin window){
 #if defined(EX_WINDOWS)

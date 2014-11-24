@@ -88,6 +88,7 @@ _In_  HINSTANCE hinstDLL,
 	return TRUE;
 }
 #endif
+
 /**
     \Initialize Engine Library Toolkit
 */
@@ -97,6 +98,8 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	Int32 hConHandle;
 	Long lStdHandle;
 
+    if(engineDescription.EngineFlag & ELT_INIT_EVERYTHING)
+        return 2;
 	// debug shell
 #if defined(EX_DEBUG) || (EX_ENGINE_VERSION_MAJOR <= 0)
 #ifdef EX_WINDOWS
@@ -209,6 +212,8 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 
 	if(_h_result = ExInitErrorHandler()){
 	}else ExError("Failed to initialize error handler.");
+
+    engineDescription.EngineFlag |= ELT_INIT_EVERYTHING;
 
 	return _h_result;
 }

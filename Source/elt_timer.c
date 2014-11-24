@@ -21,7 +21,6 @@ DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback,
 	long long freq_nanosecs;
 	sigset_t mask;
 
-
     #define SIG SIGRTMIN
 	sa.sa_flags = SA_SIGINFO;
     sa.sa_sigaction = callback;

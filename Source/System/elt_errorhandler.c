@@ -81,7 +81,15 @@ DECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...){
 		vprintf(error,argptr);
         #endif
     }
+    else if(flag & EX_ERROR_LOG_ERR){
+        #ifdef UNICODE
+		fvwprintf(stderr,error,argptr);
+        #else
+		vfprintf(stderr,error,argptr);
+        #endif
+    }
 	va_end(argptr);
+
 
 	if(flag & EX_ERROR_TERMINATE)
 		exit(EXIT_FAILURE);

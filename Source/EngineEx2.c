@@ -46,13 +46,7 @@ static EngineDescription ELTAPIENTRY EngineDefaultDescription(void){
 	//memset(&_displayMode, 0, sizeof(_displayMode));
 	//EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &_displayMode);
 	EngineDescription defaultDescripton = {0};
-	defaultDescripton.EngineFlag = (
-		//ENGINE_WINDOW |
-		//ENGINE_SUPPORT_INPUT |
-		ENGINE_SUPPORT_DOUBLEBUFFER |
-		EX_OPENGL |
-		ENGINE_SUPPORT_EXTENSION |
-		ENGINE_SUPPORT_INPUT_FOREGROUND);
+	defaultDescripton.EngineFlag = 0;
 	defaultDescripton.PixelType = (Uint)(ENGINE_RGBA | ENGINE_ALPHA);
 	//defaultDescripton.FullScreen_Hz = _displayMode.dmDisplayFrequency;
 	defaultDescripton.SampleQuality = 0;// sample buffer
@@ -73,10 +67,7 @@ static EngineDescription ELTAPIENTRY EngineDirectXDescription(void){
 
 	EngineDescription _description;
 	memset(&_description,0, sizeof(EngineDescription));
-	_description.EngineFlag = //(Uint64)(ENGINE_SUPPORT_INPUT |
-		(ENGINE_SUPPORT_DOUBLEBUFFER |
-		EX_DIRECTX |
-		ENGINE_SUPPORT_EXTENSION);
+	_description.EngineFlag = 0;
 	_description.nVersion = EX_ENGINE_VERSION;
 	_description.PixelType = (Uint)(ENGINE_RGB | ENGINE_ALPHA);
 
@@ -100,11 +91,7 @@ static EngineDescription ELTAPIENTRY EngineOpenGLDescription(void){
 	EngineDescription defaultDescripton;
 	memset(&defaultDescripton,0, sizeof(EngineDescription));
 	defaultDescripton.nVersion = EX_ENGINE_VERSION;
-	defaultDescripton.EngineFlag = (
-		//ENGINE_WINDOW |
-		//ENGINE_SUPPORT_INPUT |
-		ENGINE_SUPPORT_DOUBLEBUFFER |
-		EX_OPENGL);
+	defaultDescripton.EngineFlag = 0;
 	defaultDescripton.PixelType = (Uint)(ENGINE_RGB | ENGINE_ALPHA);
 
 

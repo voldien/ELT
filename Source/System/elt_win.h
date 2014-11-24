@@ -34,6 +34,11 @@ extern DECLSPEC void ELTAPIENTRY ExShowWindow(ExWin window);
 */
 extern DECLSPEC void ELTAPIENTRY ExHideWindow(ExWin window);
 /*
+
+*/
+extern DECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin window);
+
+/*
 	//
 */
 extern DECLSPEC void ELTAPIENTRY ExSetWindowMode(ExWin window, Enum mode);
