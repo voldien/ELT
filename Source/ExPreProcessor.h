@@ -412,13 +412,6 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 	#define EX_C_STRUCT struct
 #endif
 
-#define EX_NATIVE
-
-
-#define DIRECTX 0x800
-#define OPENGL 0x400
-#define NATIVE 0x200
-
 
 /*
 	// assembly instruction identication
@@ -448,7 +441,7 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 */
 #define EX_ENGINE_VERSION_MAJOR 0x0
 #define EX_ENGINE_VERSION_MINOR 0x5
-#define EX_ENGINE_VERSION_BUGFIX 0x31
+#define EX_ENGINE_VERSION_BUGFIX 0x35
 
 #define EX_ENGINE_PREALPHA EX_TEXT("pa")	// Pre alpha
 #define EX_ENGINE_ALPHA EX_TEXT("a")		// Alpha

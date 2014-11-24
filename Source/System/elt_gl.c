@@ -682,19 +682,23 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
 #endif
 }
 
-DECLSPEC Boolean ELTAPIENTRY ExDestroyContext(WindowContext hDc, OpenGLContext glc){
+DECLSPEC Boolean ELTAPIENTRY ExDestroyContext(WindowContext drawable, OpenGLContext glc){
 	Boolean hr;
 	// if hDC is null
-	if(!hDc)
-		hDc = ExGetCurrentGLDC();
-	ExMakeGLCurrent(0,0);
-	ExMakeGLCurrent(hDc,glc);
+	if(!drawable)
+		drawable = ExGetCurrentGLDC();
 #ifdef EX_WINDOWS
+	ExMakeGLCurrent(0,0);
+	//ExMakeGLCurrent(hDc,glc);
 	ExIsError(hr = wglDeleteContext(glc));
-	DeleteDC(hDc);
+	DeleteDC(drawable);
 	return hr;
 #elif defined(EX_LINUX)
-	glXDestroyContext(display,hDc);
+    if(!glXMakeCurrent(display, None, NULL)){
+        fprintf(stderr,"error");
+        return 0;
+    }
+	glXDestroyContext(display,glc);
 	return hr;
 #endif
 }

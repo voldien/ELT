@@ -79,7 +79,7 @@ extern DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedes
 /**
 	\Destroy OpenGL Context
 */
-extern DECLSPEC Boolean ELTAPIENTRY ExDestroyContext(WindowContext hDc, OpenGLContext glc);
+extern DECLSPEC Boolean ELTAPIENTRY ExDestroyContext(WindowContext drawable, OpenGLContext glc);
 
 /**
 	// Destroy and release current Opengl Context attached to curent Thread

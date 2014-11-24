@@ -309,7 +309,7 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 */
 #elif defined(EX_LINUX)
 	ExReleaseCL();
-	ExDestroyContext(ExGetCurrentGLDC(), ExGetCurrentOpenGLContext());
+	ExDestroyContext(ExGetCurrentGLDrawable(), ExGetCurrentOpenGLContext());
 	eglTerminate(eglGetCurrentDisplay());
 	//ExDestroyCurrentContext();
     XFlush(display);

@@ -20,7 +20,9 @@
 #include"../elt_gl.h"
 
 
-Display *display = EX_NULL;
+Display *display = 0;
+
+
 DECLSPEC XID ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){
 	Visual* visual;
 	Int depth, text_x,text_y;
@@ -140,13 +142,23 @@ DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 
     }
 
 	XStoreName(display,window, ExGetDefaultWindowTitle(title,sizeof(title)));
+    /*
+        event feed masking
+    */
+	XSelectInput(display,window,ExposureMask | KeyPressMask | ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask | ButtonMotionMask | PointerMotionMask);
 
-	//XSelectInput(display,window,ExposureMask | StructureNotifyMask);
+/*
+    TODO
+    SOLVE LATER
+*/
+//XGrabPointer(display, root, False, ButtonPressMask, GrabModeAsync,
+//         GrabModeAsync, None, None, CurrentTime);
 
-	//fontinfo = XLoadQueryFont(display, EX_TEXT("10x20"));
-	//gr_values.font = fontinfo->fid;
-	//gr_values.foreground = XBlackPixel(display,0);
-	//graphical_context = XCreateGC(display,window, GCFont + GCForeground, &gr_values);
+
+	fontinfo = XLoadQueryFont(display, EX_TEXT("10x20"));
+	gr_values.font = fontinfo->fid;
+	gr_values.foreground = XBlackPixel(display,0);
+	graphical_context = XCreateGC(display,window, GCFont + GCForeground, &gr_values);
 
     XMapWindow(display,window);
    //XIfEvent(display, &event, WaitFormMap)
@@ -154,7 +166,7 @@ DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 
     //if((del_atom = XInternAtom(display, "WM_DELETE_WINDOW", 0)) != None){
     //    XSetWMProtocols(display, window, &del_atom, 1);
     //}
-
+    XFlush(display);
 	return window;
 }/*
 DECLSPEC XID ELTAPIENTRY ExCreateSimpleGLWindow(Int32 x , Int32 y, Int32 width, Int32 height){

@@ -92,19 +92,27 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvents* event){
 		switch(event->msg.type){
 		case KeyPress:{
 		    event->eventid |= EX_EVENT_KEY;
-		    event->key.code = event->msg.xkey.keycode;
+		    event->key.code = XLookupKeysym(&event->msg.xkey,0);//.keycode;
+		    event->mouse.x = event->msg.xkey.x;
+		    event->mouse.y = event->msg.xkey.y;
         }break;
 		case KeyRelease:{
 		    event->eventid |= EX_EVENT_KEY;
-		    event->key.code = event->msg.xkey.keycode;
+		    event->key.code = XLookupKeysym(&event->msg.xkey,0);//.keycode;
+		    event->mouse.x = event->msg.xkey.x;
+		    event->mouse.y = event->msg.xkey.y;
 		}break;
 		case ButtonPress:{
 		    event->eventid |= EX_EVENT_MOUSE;
 		    event->button.button = event->msg.xbutton.button;
+		    event->mouse.x = event->msg.xkey.x;
+		    event->mouse.y = event->msg.xkey.y;
         }break;
 		case ButtonRelease:{
 		    event->eventid |= EX_EVENT_MOUSE;
 		    event->button.button = event->msg.xbutton.button;
+		    event->mouse.x = event->msg.xkey.x;
+		    event->mouse.y = event->msg.xkey.y;
 		}break;
 		case ResizeRequest:{
             event->eventid |= EX_EVENT_SIZE;
@@ -123,7 +131,7 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvents* event){
 		}
 
 		return TRUE;
-	}else {XSync(display,0); return FALSE;}
+	}else {/*XSync(display,0);*/ return FALSE;}
 #elif defined(EX_ANDROID)
 
 #elif defined(EX_MAC)
