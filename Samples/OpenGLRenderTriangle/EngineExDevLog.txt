@@ -1,8 +1,5 @@
 error
-[FileLine 99 : FileName /home/voldie/CodeBlockTest/EngineEx/System/elt_errorhandler.c]
-[0mError
-[FileLine 313 : FileName /home/voldie/CodeBlockTest/EngineEx/System/elt_errorhandler.c]
-[0mSucceeded to Initialize Error Handler
+[FileLine 142 : FileName /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_errorhandler.c]
 
 ************ ERROR ************
 Failed to Create Vertex Shader

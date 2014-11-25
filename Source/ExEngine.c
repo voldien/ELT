@@ -54,9 +54,9 @@
 */
     extern HINSTANCE hdllMoudle;
 #elif defined(EX_LINUX)
-
-#include<mcheck.h>
-
+#ifdef EX_DEBUG
+#	include<mcheck.h>
+#endif
 #elif defined(EX_MAC)
 
 #endif
@@ -89,6 +89,9 @@ _In_  HINSTANCE hinstDLL,
 }
 #endif
 
+extern unsigned int elt_timer;
+
+
 /**
     \Initialize Engine Library Toolkit
 */
@@ -98,6 +101,8 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	Int32 hConHandle;
 	Long lStdHandle;
 
+	/*
+	*/
     if(engineDescription.EngineFlag & ELT_INIT_EVERYTHING)
         return 2;
 	// debug shell
@@ -135,16 +140,9 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 
 #if defined(EX_WINDOWS)
 
-	//ExIsWinError(!(hmodule = LoadLibrary(EX_TEXT("freetype6.dll"))));
-
 	if(engineFlag & ELT_INIT_VIDEO){
-		//ExIsWinError(!(hmodule = LoadLibrary(EX_TEXT("OpenGL32.dll"))));
-		//ExWin glhwnd = ExCreateOpenGLWindow(0,0,256,256);
-		//ExInitOpenGL(glhwnd,&engineDescription);
-		// get the window of current HDC in the opengl Context
-		//glhwnd =WindowFromDC(wglGetCurrentDC());
-		//CloseWindow(glhwnd);
-		//DestroyWindow(glhwnd);
+		// load opengl library
+		ExIsWinError(!(hmodule = LoadLibrary(EX_TEXT("OpenGL32.dll"))));
 	}
 	if(engineFlag & ELT_INIT_TIMER){
 		elt_time = ExCurrentTime();
@@ -167,16 +165,6 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 		if(!FAILED(_h_result = ExInitDirectInput(engineFlag)))
 			ExInitDirectInputDevice(EX_NULL, engineFlag);
 	}
-
-	// Native Sound Request
-	//if(engineFlag & ENGINE_SUPPORT_NATIVE_SOUND){
-	//	ExInitDirectSound(EX_NULL, engineFlag);
-	//}
-	// if opengl
-	// openCL only
-	//if((engineFlag & ENGINE_OPENGL) == 0 && (engineFlag & ENGINE_OPENCL)){
-	//	ExCreateGLCLContex(0,0);
-	//}
 #elif defined(EX_LINUX)     // Linux
 
     #if defined(EX_DEBUG) || (EX_ENGINE_VERSION_MAJOR <= 0)	// Debugging information
@@ -207,13 +195,13 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 		_CrtSetReportFile(_CRT_ASSERT , _CRTDBG_FILE_STDERR);
 	}
 #endif
-    //ExInitSubSystem(engineFlag);
 
+    //ExInitSubSystem(engineFlag);
 
 	if(_h_result = ExInitErrorHandler()){
 	}else ExError("Failed to initialize error handler.");
 
-    engineDescription.EngineFlag |= ELT_INIT_EVERYTHING;
+    engineDescription.EngineFlag |= engineFlag;
 
 	return _h_result;
 }
@@ -236,11 +224,15 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineFlag){
 		LoadLibrary(EX_TEXT("Xinput.dll"));
 		//ExInitGameController();
 #elif defined(EX_LINUX)
-
+		
 #endif
 	}
 	if(ELT_INIT_EVENTS & engineFlag){
+#if defined(EX_WINDOWS
 
+#elif defined(EX_LINUX)
+
+#endif
 	}
 	if(ELT_INIT_TIMER & engineFlag){
 		elt_time = ExCurrentTime();
@@ -343,6 +335,9 @@ DECLSPEC void ELTAPIENTRY ExEnable(Enum enable){
 		break;
 	case EX_CRASH_EXEPCTION:
 		break;
+	case EX_OPENCL:
+		ExLoadLibrary("OpenCL.dll");
+		ExLoadLibrary("libOpenCL.so");
 	default:return;
 	}
 }
@@ -359,10 +354,14 @@ DECLSPEC void ELTAPIENTRY ExDisable(Enum disable){
 		break;
 	case EX_CRASH_EXEPCTION:
 		break;
+	case EX_OPENCL:
+		ExUnLoadObject("OpenCL.dll");
+		ExUnLoadObject("libOpenCL.so")
 	default:return;
 	}
 }
-DECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void){
-	return EX_TEXT("");//EX_COMPILER_NAME;
 
+#define EX_COMPILER_VERSION (major, minor, revision) EX_TEXT("EngineVersion")EX_TEXT("major")EX_TEXT("minor")EX_TEXT("revision")
+DECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void){
+	return EX_COMPILER_VERSION(EX_MAJOR_VERSION, EX_MINOR_VERSION, EX_REVISION);//EX_COMPILER_NAME;
 }

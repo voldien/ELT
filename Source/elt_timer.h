@@ -22,7 +22,6 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 extern "C"{
 #endif
 
-extern Uint32 elt_time;
 /*
 	// Add Timer
 */

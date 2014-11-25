@@ -24,6 +24,7 @@
         #include<GLES/gl2ext.h>
         #include<GLES/gl2platform.h>
 	#endif
+#define GL_GET_PROC(x) x
 #endif
 #include<GL/glu.h>
 
@@ -121,7 +122,9 @@ DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window){
 	return eglContext;
 }
 
-
+/*
+	Get window associated with the opengl context
+*/
 DECLSPEC ExWin ELTAPIENTRY ExGetOpenGLContextWindow(OpenGLContext glc){
 
 #ifdef EX_WINDOWS
@@ -138,6 +141,8 @@ DECLSPEC WindowContext ELTAPIFASTENTRY ExGetCurrentGLDC(void){
 	return wglGetCurrentDC();
 #elif defined(EX_LINUX)
 	return glXGetCurrentDrawable();
+#elif defined(EX_ANDROID)
+	return NULL;
 #endif
 }
 DECLSPEC OpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void){
@@ -278,7 +283,7 @@ static OpenGLContext create_temp_gl_context(HWND window){
 	return gl_context;
 }
 /*
-    Generate the temporarily window for creating the extension window.
+    Generate a temporarily window for creating the extension window.
 */
 static int create_temp_gl_win(OpenGLContext* pglc_context){
     HWND hwnd;
@@ -431,9 +436,12 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 
 	}
 #elif defined(EX_ANDROID)
+	if(erenderinflag & EX_OPENGL){
 
-
-
+	}
+	else if(erenderingflag & EX_OPENGLES){
+		
+	}
 #elif defined(EX_MAC)
 
 #endif
@@ -481,8 +489,8 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     if(!wglGetPixelFormatAttribivARB(hDC, pixFmt,0,1, att, nResults))
         ExError("Error");
 
-    /*
-
+    /**
+		Get supported opengl version.
     */
     glGetIntegerv(GL_MAJOR_VERSION, &major_version);
     glGetIntegerv(GL_MINOR_VERSION, &minor_version);
@@ -700,6 +708,8 @@ DECLSPEC Boolean ELTAPIENTRY ExDestroyContext(WindowContext drawable, OpenGLCont
     }
 	glXDestroyContext(display,glc);
 	return hr;
+#elif defined(EX_ANDROID)
+
 #endif
 }
 
@@ -865,11 +875,11 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(void){
 }
 
 DECLSPEC Boolean ELTAPIENTRY ExIsVendorAMD(void){
-	return (strstr((const char*)glGetString(GL_VENDOR), "AMD") != EX_NULL);
+	return (strstr((const char*)glGetString(GL_VENDOR), "AMD") != NULL);
 }
 DECLSPEC Boolean ELTAPIENTRY ExIsVendorNvidia(void){
-	return (strstr((const char*)glGetString(GL_VENDOR), "NVIDIA") != EX_NULL);
+	return (strstr((const char*)glGetString(GL_VENDOR), "NVIDIA") != NULL);
 }
 DECLSPEC Boolean ELTAPIENTRY ExIsVendorIntel(void){
-	return (strstr((const char*)glGetString(GL_VENDOR), "INTEL") != EX_NULL);
+	return (strstr((const char*)glGetString(GL_VENDOR), "INTEL") != NULL);
 }
