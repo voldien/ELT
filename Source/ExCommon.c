@@ -1,8 +1,10 @@
 #include"ExCommon.h"
-#include<Cmd/mathlib.h>	//TODO FIX
+#include<Cmd/mathlib.h>
+
 #ifdef EX_LINUX
 #   include<unistd.h>
 #   include<sys/utsname.h>
+#   include<errno.h>
 #endif
 
 DECLSPEC Boolean ELTAPIENTRY ExCreateProcess(const ExChar* applicationName){
@@ -202,8 +204,8 @@ DECLSPEC void ELTAPIENTRY ExGetApplicationName(ExChar* name,Int32 length){
 	ExIsError(GetModuleFileName(EX_NULL,path,sizeof(path)));
 	_wsplitpath(path,0,0,name,0);
 #elif defined(EX_LINUX)
-
-	//memcpy(name,basename(),length);
+    getpid();
+	//memcpy(name,program_invocation_name,length);
 #endif
 }
 

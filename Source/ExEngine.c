@@ -106,13 +106,14 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	*/
     if(engineDescription.EngineFlag & ELT_INIT_EVERYTHING)
         return 2;
-	// debug shell
+
 #if defined(EX_DEBUG) || (EX_ENGINE_VERSION_MAJOR <= 0)
     #ifdef EX_WINDOWS
 
     #elif defined(EX_LINUX)
 
     #endif
+	// debug shell
 	// redirect unbuffered STDOUT to the console
 	//lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
 	////

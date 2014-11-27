@@ -22,6 +22,7 @@ extern "C"{
 #define EX_EVENT_JOYSTICK 0x20
 #define EX_EVENT_TOUCH 0x40
 #define EX_EVENT_DROP 0x80
+#define EX_EVENT_QUIT 0x100
 
 struct ExSystemEvent{
 	Uint32 message;

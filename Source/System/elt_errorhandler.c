@@ -90,6 +90,9 @@ DECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...){
     }
 	va_end(argptr);
 
+    #ifdef EX_WINDOWS
+    OutputDebugString(text);
+    #endif
 
 	if(flag & EX_ERROR_TERMINATE)
 		exit(EXIT_FAILURE);
@@ -141,12 +144,10 @@ DECLSPEC Boolean ELTAPIENTRY ExInitErrorHandler(void){
 	if(XSetErrorHandler(ctxErrorHandler))
         ExDevPrintf("error");
 #endif
-
-
 	//interrupt
 	ExSetSignal(SIGINT,ExSignalCatch);
 #ifdef EX_WINDOWS
-	// Suddent Abort
+	// Sudden Abort
 	ExSetSignal(SIGABRT_COMPAT,ExSignalCatch);
 #elif defined(EX_LINUX)
 	/* Stack fault.  */
@@ -284,6 +285,7 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 	ExChar app_name[PATH_MAX];
 	ExChar cfilename[260];
 	Uint32 istosend;
+
 	ExGetApplicationName(app_name,sizeof(app_name));
 
 	switch(signal){
@@ -306,7 +308,8 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 		ExSPrintf(wchar,EX_ERROR_MESSAGE,app_name,EX_TEXT("Error : abnormal termination trigged by abort call.\n"));
 		break;
 #if defined(EX_LINUX) || defined(EX_UNIX)
-
+    	case SIGQUIT:
+        break;
 #endif
 	default:
 		ExSPrintf(wchar,EX_ERROR_MESSAGE,app_name,EX_TEXT("Error Unknown.\n"));

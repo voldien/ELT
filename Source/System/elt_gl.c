@@ -150,6 +150,8 @@ DECLSPEC OpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void){
 	return wglGetCurrentContext();
 #elif defined(EX_LINUX)
 	return glXGetCurrentContext();
+#elif defined(EX_ANDROID)
+    return NULL;
 #endif
 }
 
@@ -289,7 +291,7 @@ static int create_temp_gl_win(OpenGLContext* pglc_context){
     HWND hwnd;
     OpenGLContext glc;
     WNDCLASSEX  wc= {0};
-
+    #define TEMP_WINDOW_CLASS "temp"
     wc.cbSize = sizeof(wc);
     wc.style = CS_HREDDRAW | SC_VREDRAW | CS_OWNDC;
     wc.lpfnWndProc = MainWndProc;
@@ -297,8 +299,9 @@ static int create_temp_gl_win(OpenGLContext* pglc_context){
     wc.hIcon = (HICON)LoadIcon(wc.hInstance,NULL);
     wc.hCursor = LoadCursor(wc.hInstance, NULL);
     wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
-    wc.lpszClassName = "temp";
-    hwnd = CreateWindowEx(WS_EX_APPWINDOW,EX_DIRECTX_WINDOW_CLASS,"",
+    wc.lpszClassName = TEMP_WINDOW_CLASS;
+
+    hwnd = CreateWindowEx(WS_EX_APPWINDOW,TEMP_WINDOW_CLASS,"",
 		(WS_OVERLAPPEDWINDOW ^WS_THICKFRAME ^ WS_MAXIMIZEBOX),x, y,
 		 width,
 		 height,
@@ -350,7 +353,6 @@ static int choose_fbconfig(GLXFBConfig* p_fbconfig){
             if(pict_format->direct.alphaMask > 0)break;
         }else break;
 
-
 	}
 	return 1;
 }
@@ -373,6 +375,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 	if(wglGetPixelFormatAttribivARB(hDc, pixFmt,0, 1, attrib, nResults)){
 
 	}
+
 	Int32 pixAttribs[] = {
 		WGL_SUPPORT_OPENGL_ARB, GL_TRUE, // Must support OGL rendering
 		WGL_DRAW_TO_WINDOW_ARB, GL_TRUE, // pf that can run a window

@@ -40,7 +40,6 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length){
 	return text;
 }
 
-
 static void* create_elt_icon(ExWin window){
     #ifdef EX_WINDOWS
     HANDLE icon;
@@ -48,8 +47,7 @@ static void* create_elt_icon(ExWin window){
     ExSetWindowIcon(window,icon);
     #elif defined(EX_LINUX)
     //http://www.sbin.org/doc/Xlib/chapt_03.html
-    // TODO
-    Pixmap  icon_pixmap;
+    Pixmap icon_pixmap;
     //XCreatePixmap(display, window, 128,128,8);
 	//icon_pixmap = XCreateBitmapFromData(display, window, ELT_ICON,128,128);
     icon_pixmap = XCreatePixmapFromBitmapData(display, window, ELT_ICON, 128,128,0x0,0x001,1);
