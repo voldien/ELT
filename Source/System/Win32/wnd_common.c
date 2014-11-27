@@ -1,6 +1,6 @@
 #include"wnd_common.h"
 #ifdef EX_WINDOWS
-
+#include<Cmd/mathlib.h>
 #include<string.h>
 #ifdef EX_CPP
 	using namespace std;
@@ -91,10 +91,12 @@ DECLSPEC ExWin ELTAPIENTRY ExhShell(void){
 DECLSPEC ExWin ELTAPIENTRY ExListView(void){
 	HWND hwnd;
 	Uint32 i = 0;
+	HWND listHWND;
+	HWND defHWND;
 	HWND desktop = GetDesktopWindow();
 	hwnd = FindWindowEx(desktop, 0, EX_TEXT("Progman"), EX_TEXT("Program Manager"));
 	if(hwnd == NULL)return hwnd;
-	HWND defHWND = FindWindowEx(hwnd, 0, EX_TEXT("SHELLDLL_DefView"), 0);
+	defHWND = FindWindowEx(hwnd, 0, EX_TEXT("SHELLDLL_DefView"), 0);
 	while(!defHWND){
 		HWND worker = FindWindowEx(desktop, (HWND)i, EX_TEXT("WorkerW"), 0);
 		if(worker){
@@ -102,7 +104,7 @@ DECLSPEC ExWin ELTAPIENTRY ExListView(void){
 		}
 		i++;
 	}
-	HWND listHWND = FindWindowEx(defHWND, NULL, EX_TEXT("SysListView32"), EX_TEXT("FolderView"));
+	listHWND = FindWindowEx(defHWND, NULL, EX_TEXT("SysListView32"), EX_TEXT("FolderView"));
 
 	return listHWND;
 }
@@ -112,14 +114,19 @@ DECLSPEC ExWin ELTAPIENTRY ExSysHeader32(void){
 
 
 DECLSPEC void ELTAPIENTRY ExAsciiToUnicode(const char* cchar, WCHAR** wchar){
+	Int32 length;
 	if(!cchar)return;
-	Int32 length = strlen(cchar);
+	length = strlen(cchar);
 	if(!wchar[0])
 		wchar[0] = (WCHAR*)ExMalloc(SIZEOF(WCHAR) * length + 2);
 	if(MultiByteToWideChar(CP_OEMCP,0,cchar,-1,wchar[0], length + 2)){
 		wExDevPrintf(EX_TEXT("Failed to Convert to Unicode | %s"), ExGetErrorMessage(GetLastError()));
 	}
 }
+DECLSPEC WCHAR* ELTAPIENTRY ExConvertToUnicode(const char* cchar){
+	WCHAR* wconvert;ExAsciiToUnicode(cchar,&wconvert);return wconvert;
+}
+
 DECLSPEC void ELTAPIENTRY ExUnicodeToAscii(const WCHAR* wchar, char** cchar){
 	if(!wchar)return;
 	Int32 length = wcslen(wchar);
@@ -129,6 +136,10 @@ DECLSPEC void ELTAPIENTRY ExUnicodeToAscii(const WCHAR* wchar, char** cchar){
 		wExDevPrintf(EX_TEXT("Failed to Convert to Asci | %s"), ExGetErrorMessage(GetLastError()));
 	}
 }
+DECLSPEC char* ELTAPIENTRY ExConvertAscii(const WCHAR* wwchar){
+	char* cconvert;ExUnicodeToAscii(wwchar,&cconvert);return cconvert;
+}
+
 
 // http://forum.codecall.net/topic/63205-registry-operations-using-win32-part-1/
 #define ExOpenRegKey(hKey,directory,phKey) RegOpenKeyEx(hKey,directory,0, KEY_ALL_ACCESS, phKey)

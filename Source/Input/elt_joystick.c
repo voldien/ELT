@@ -5,6 +5,7 @@
 #ifdef EX_WINDOWS
 	#include<dinput.h>
 	#include<dinputd.h>
+	#include<Xinput.h>
 	#pragma comment(lib, "dxguid.lib")
 	#pragma comment(lib, "dinput8.lib")
 	//typedef struct JoyStickHandler{
@@ -123,7 +124,7 @@ DECLSPEC Int32 ELTAPIENTRY ExJoystickNumAxis(Int32 device_index){
     #ifdef EX_WINDOWS
 	JOYCAPS caps;
 	joyGetDevCaps(device_index,&caps, sizeof(caps));
-	return caps.wNumButtons;//TODO change to axis
+	return caps.wNumAxes;
     #elif defined(EX_LINUX)
     int num_axis;
     if(!ioctl(joy_id[device_index],JSIOCGAXES,&num_axis))

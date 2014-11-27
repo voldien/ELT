@@ -56,7 +56,7 @@ typedef struct ExNativWindowHandler{
 		HMENU contexthmenu;
 	};
 	Enum windowFlag;
-	struct EventHandler events;
+	EX_C_STRUCT ExGLWindowHandler::EventHandler events;
 
 }ExNativWindow;
 typedef struct ExGLWindowHandler{
@@ -69,7 +69,7 @@ typedef struct ExGLWindowHandler{
 		HMENU contexthmenu;
 	};
 	Enum windowFlag;
-	EventHandler events;
+	EX_C_STRUCT ExGLWindowHandler::EventHandler events;
 }HExGLWindow;
 
 typedef struct WindowEvent{

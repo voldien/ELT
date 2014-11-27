@@ -13,6 +13,9 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 #ifdef  __cplusplus	// C++ Environment
 extern "C"{
 #endif
+struct expoint{
+	int x,y;
+};
 
 #define EX_EVENT_MOUSE 0x1
 #define EX_EVENT_KEY 0x2
@@ -80,7 +83,7 @@ typedef struct window_poll_events{
 			Uint32		wParam;		//
 			Long		lParam;		//
 			ULong       time;		//
-			EX_C_STRUCT point_i	pt;	//
+			EX_C_STRUCT expoint	pt;	//
 		};
 	};
 #elif defined(EX_LINUX)
@@ -115,7 +118,7 @@ typedef struct elt_poll_events{
 			Uint32		wParam;
 			Long		lParam;
 			ULong       time;
-			EX_C_STRUCT point_i     pt;
+			EX_C_STRUCT expoint     pt;
 		};
 	};
 #elif defined(EX_LINUX)

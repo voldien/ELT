@@ -84,8 +84,9 @@ void ExXShutDown(void){
 
 void ExUpdateXControllers(void){
 #ifdef EX_WINDOWS
+	Uint32 x;
 	if(m_XBoxControllers == EX_NULL)return;
-	for(Uint x = 0; x < EX_CONTROLLER_MAX_COUNT; x++){
+	for(x = 0; x < EX_CONTROLLER_MAX_COUNT; x++){
 		if(m_XBoxControllers->enabled[x] == TRUE ){
 			XInputGetState(x, &m_XBoxControllers->p_XboxControllers[x]);
 		}

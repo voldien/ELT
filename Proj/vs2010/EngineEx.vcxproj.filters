@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\system">
+      <UniqueIdentifier>{c8800357-d8ac-4129-996f-1530861aced7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\input">
+      <UniqueIdentifier>{f2c26302-f244-4d4c-ab92-d27244cb98d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\system">
+      <UniqueIdentifier>{5ec9a00c-c9ce-430c-8067-deaa335996d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\input">
+      <UniqueIdentifier>{67b77b0e-658a-4ac4-b4a0-24a51a3a6bf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\system\window">
+      <UniqueIdentifier>{309dab45-5fdd-4d21-b6fb-18d54db8e7c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\system\window">
+      <UniqueIdentifier>{2172e036-ee67-4ce9-ad5d-1ddbc4e6906b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="EngineModuleDefination.def" />
+    <None Include="HyperionIcon.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="EngineEx.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\elt_console.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\elt_cpuinfo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\elt_loadso.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\elt_thread.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\elt_timer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineEx2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ExCommon.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ExEngine.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Input\elt_gamecontroller.c">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Input\elt_joystick.c">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Input\elt_keyboard.c">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Input\elt_mouse.c">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Input\XBoxControllerHandler.c">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\System\elt_audio.c">
+      <Filter>Source Files\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\System\elt_cl.c">
+      <Filter>Source Files\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\System\elt_errorhandler.c">
+      <Filter>Source Files\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\System\elt_event.c">
+      <Filter>Source Files\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\System\elt_gl.c">
+      <Filter>Source Files\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\System\elt_log.c">
+      <Filter>Source Files\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\System\elt_win.c">
+      <Filter>Source Files\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\System\Win32\win_controls.c">
+      <Filter>Source Files\system\window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\System\Win32\win_directX.c">
+      <Filter>Source Files\system\window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\System\Win32\win_GL.c">
+      <Filter>Source Files\system\window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\System\Win32\win_net.c">
+      <Filter>Source Files\system\window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\System\Win32\win_win32.c">
+      <Filter>Source Files\system\window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\System\Win32\win_wndproc.c">
+      <Filter>Source Files\system\window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\System\Win32\wnd_common.c">
+      <Filter>Source Files\system\window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\System\Win32\wnd_filedialog.c">
+      <Filter>Source Files\system\window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\System\Win32\wnd_input.c">
+      <Filter>Source Files\system\window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\System\Win32\wnd_snd.c">
+      <Filter>Source Files\system\window</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\EngineAssembly.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineEx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineExAPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ExAssert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ExCommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ExNT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ExPreProcessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\System\GL_caching.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\System\elt_audio.h">
+      <Filter>Header Files\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\System\elt_cl.h">
+      <Filter>Header Files\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\System\elt_errorhandler.h">
+      <Filter>Header Files\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\System\elt_event.h">
+      <Filter>Header Files\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\System\elt_gl.h">
+      <Filter>Header Files\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\System\elt_log.h">
+      <Filter>Header Files\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\System\elt_net.h">
+      <Filter>Header Files\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\System\elt_render.h">
+      <Filter>Header Files\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\System\elt_video.h">
+      <Filter>Header Files\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\System\elt_win.h">
+      <Filter>Header Files\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Input\elt_gamecontroller.h">
+      <Filter>Header Files\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Input\elt_joystick.h">
+      <Filter>Header Files\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Input\elt_keyboard.h">
+      <Filter>Header Files\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Input\elt_mouse.h">
+      <Filter>Header Files\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Input\GUIDs.h">
+      <Filter>Header Files\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Input\XBoxControllerHandler.h">
+      <Filter>Header Files\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\System\Win32\win_controls.h">
+      <Filter>Header Files\system\window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\System\Win32\win_directX.h">
+      <Filter>Header Files\system\window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\System\Win32\win_GL.h">
+      <Filter>Header Files\system\window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\System\Win32\win_net.h">
+      <Filter>Header Files\system\window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\System\Win32\win_win32.h">
+      <Filter>Header Files\system\window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\System\Win32\win_wndproc.h">
+      <Filter>Header Files\system\window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\System\Win32\wnd_common.h">
+      <Filter>Header Files\system\window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\System\Win32\wnd_filedialog.h">
+      <Filter>Header Files\system\window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\System\Win32\wnd_input.h">
+      <Filter>Header Files\system\window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\System\Win32\wnd_snd.h">
+      <Filter>Header Files\system\window</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

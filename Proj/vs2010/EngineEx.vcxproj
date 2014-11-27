@@ -107,7 +107,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_ENGINE_INTERNAL;GLEW_BUILD;EX_INCLUDE_DIRECTX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <CompileAs>CompileAsCpp</CompileAs>
+      <CompileAs>CompileAsC</CompileAs>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <TreatWarningAsError>false</TreatWarningAsError>
@@ -233,108 +233,86 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="elt_cpuinfo.h" />
-    <ClInclude Include="elt_loadso.h" />
-    <ClInclude Include="elt_matrix.h" />
-    <ClInclude Include="elt_thread.h" />
-    <ClInclude Include="elt_timer.h" />
-    <ClInclude Include="ExCommon.h" />
-    <ClInclude Include="elt_console.h" />
-    <ClInclude Include="EngineEx.h" />
-    <ClInclude Include="ExAssert.h" />
-    <ClInclude Include="ExPreProcessor.h" />
-    <ClInclude Include="ExNT.h" />
-    <ClInclude Include="GLEW\glew.h" />
-    <ClInclude Include="GLEW\glxew.h" />
-    <ClInclude Include="GLEW\wglew.h" />
-    <ClInclude Include="glslupdate.h" />
-    <ClInclude Include="glsl_compiler.h" />
-    <ClInclude Include="gl_geometry.h" />
-    <ClInclude Include="gl_texture.h" />
-    <ClInclude Include="Input\elt_gamecontroller.h" />
-    <ClInclude Include="Input\elt_keyboard.h" />
-    <ClInclude Include="Input\GUIDs.h" />
-    <ClInclude Include="Input\elt_joystick.h" />
-    <ClInclude Include="Input\elt_mouse.h" />
-    <ClInclude Include="Input\XBoxControllerHandler.h" />
-    <ClInclude Include="EngineAssembly.h" />
-    <ClInclude Include="EngineConfig.h" />
-    <ClInclude Include="EngineExAPI.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="ShaderFile.h" />
-    <ClInclude Include="System\elt_audio.h" />
-    <ClInclude Include="System\elt_cl.h" />
-    <ClInclude Include="System\elt_errorhandler.h" />
-    <ClInclude Include="System\elt_event.h" />
-    <ClInclude Include="System\elt_gl.h" />
-    <ClInclude Include="System\elt_log.h" />
-    <ClInclude Include="System\elt_win.h" />
-    <ClInclude Include="System\Mac\macosx_win.h" />
-    <ClInclude Include="System\Unix\unix_win.h" />
-    <ClInclude Include="System\Win32\win_controls.h" />
-    <ClInclude Include="System\Win32\win_net.h" />
-    <ClInclude Include="System\Win32\win_directX.h" />
-    <ClInclude Include="System\Win32\win_GL.h" />
-    <ClInclude Include="System\Win32\win_win32.h" />
-    <ClInclude Include="System\Win32\win_wndproc.h" />
-    <ClInclude Include="System\Win32\wnd_common.h" />
-    <ClInclude Include="System\Win32\wnd_filedialog.h" />
-    <ClInclude Include="System\Win32\wnd_input.h" />
-    <ClInclude Include="System\Win32\wnd_snd.h" />
-    <ClInclude Include="uiCommand\uiCommand.h" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="EngineModuleDefination.def" />
     <None Include="HyperionIcon.ico">
       <DeploymentContent>true</DeploymentContent>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="elt_Console.c" />
-    <ClCompile Include="elt_cpuinfo.c" />
-    <ClCompile Include="elt_loadso.c" />
-    <ClCompile Include="elt_thread.c" />
-    <ClCompile Include="elt_timer.c" />
-    <ClCompile Include="ExCommon.c" />
-    <ClCompile Include="glslupdate.c" />
-    <ClCompile Include="glsl_compiler.c" />
-    <ClCompile Include="gl_geometry.c" />
-    <ClCompile Include="gl_texture.c" />
-    <ClCompile Include="EngineEx2.c" />
-    <ClCompile Include="ExEngine.c" />
-    <ClCompile Include="GLEW\glew.c" />
-    <ClCompile Include="Input\elt_gamecontroller.c" />
-    <ClCompile Include="Input\elt_keyboard.c" />
-    <ClCompile Include="Input\elt_joystick.c" />
-    <ClCompile Include="Input\elt_mouse.c" />
-    <ClCompile Include="Input\XBoxControllerHandler.c" />
-    <ClCompile Include="main.c" />
-    <ClCompile Include="ShaderFile.c" />
-    <ClCompile Include="System\elt_audio.c" />
-    <ClCompile Include="System\elt_cl.c" />
-    <ClCompile Include="System\elt_errorhandler.c" />
-    <ClCompile Include="System\elt_event.c" />
-    <ClCompile Include="System\elt_gl.c" />
-    <ClCompile Include="System\elt_log.c" />
-    <ClCompile Include="System\elt_win.c" />
-    <ClCompile Include="System\Mac\macosx_win.c" />
-    <ClCompile Include="System\Unix\unix_win.c" />
-    <ClCompile Include="System\Win32\win_controls.c" />
-    <ClCompile Include="System\Win32\win_directX.c" />
-    <ClCompile Include="System\Win32\win_GL.c" />
-    <ClCompile Include="System\Win32\win_net.c" />
-    <ClCompile Include="System\Win32\win_win32.c" />
-    <ClCompile Include="System\Win32\win_wndproc.c" />
-    <ClCompile Include="System\Win32\wnd_common.c" />
-    <ClCompile Include="System\Win32\wnd_filedialog.c" />
-    <ClCompile Include="System\Win32\wnd_input.c" />
-    <ClCompile Include="System\Win32\wnd_snd.c" />
-    <ClCompile Include="uiCommand\uiCommand.c" />
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="EngineEx.rc">
       <DeploymentContent>true</DeploymentContent>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\elt_console.c" />
+    <ClCompile Include="..\..\Source\elt_cpuinfo.c" />
+    <ClCompile Include="..\..\Source\elt_loadso.c" />
+    <ClCompile Include="..\..\Source\elt_thread.c" />
+    <ClCompile Include="..\..\Source\elt_timer.c" />
+    <ClCompile Include="..\..\Source\EngineEx2.c" />
+    <ClCompile Include="..\..\Source\ExCommon.c" />
+    <ClCompile Include="..\..\Source\ExEngine.c" />
+    <ClCompile Include="..\..\Source\Input\elt_gamecontroller.c" />
+    <ClCompile Include="..\..\Source\Input\elt_joystick.c" />
+    <ClCompile Include="..\..\Source\Input\elt_keyboard.c" />
+    <ClCompile Include="..\..\Source\Input\elt_mouse.c" />
+    <ClCompile Include="..\..\Source\Input\XBoxControllerHandler.c" />
+    <ClCompile Include="..\..\Source\main.c" />
+    <ClCompile Include="..\..\Source\System\elt_audio.c" />
+    <ClCompile Include="..\..\Source\System\elt_cl.c" />
+    <ClCompile Include="..\..\Source\System\elt_errorhandler.c" />
+    <ClCompile Include="..\..\Source\System\elt_event.c" />
+    <ClCompile Include="..\..\Source\System\elt_gl.c" />
+    <ClCompile Include="..\..\Source\System\elt_log.c" />
+    <ClCompile Include="..\..\Source\System\elt_win.c" />
+    <ClCompile Include="..\..\Source\System\Win32\win_controls.c" />
+    <ClCompile Include="..\..\Source\System\Win32\win_directX.c" />
+    <ClCompile Include="..\..\Source\System\Win32\win_GL.c" />
+    <ClCompile Include="..\..\Source\System\Win32\win_net.c" />
+    <ClCompile Include="..\..\Source\System\Win32\win_win32.c" />
+    <ClCompile Include="..\..\Source\System\Win32\win_wndproc.c" />
+    <ClCompile Include="..\..\Source\System\Win32\wnd_common.c" />
+    <ClCompile Include="..\..\Source\System\Win32\wnd_filedialog.c" />
+    <ClCompile Include="..\..\Source\System\Win32\wnd_input.c" />
+    <ClCompile Include="..\..\Source\System\Win32\wnd_snd.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\EngineAssembly.h" />
+    <ClInclude Include="..\..\Source\EngineConfig.h" />
+    <ClInclude Include="..\..\Source\EngineEx.h" />
+    <ClInclude Include="..\..\Source\EngineExAPI.h" />
+    <ClInclude Include="..\..\Source\ExAssert.h" />
+    <ClInclude Include="..\..\Source\ExCommon.h" />
+    <ClInclude Include="..\..\Source\ExNT.h" />
+    <ClInclude Include="..\..\Source\ExPreProcessor.h" />
+    <ClInclude Include="..\..\Source\Input\elt_gamecontroller.h" />
+    <ClInclude Include="..\..\Source\Input\elt_joystick.h" />
+    <ClInclude Include="..\..\Source\Input\elt_keyboard.h" />
+    <ClInclude Include="..\..\Source\Input\elt_mouse.h" />
+    <ClInclude Include="..\..\Source\Input\GUIDs.h" />
+    <ClInclude Include="..\..\Source\Input\XBoxControllerHandler.h" />
+    <ClInclude Include="..\..\Source\resource.h" />
+    <ClInclude Include="..\..\Source\System\elt_audio.h" />
+    <ClInclude Include="..\..\Source\System\elt_cl.h" />
+    <ClInclude Include="..\..\Source\System\elt_errorhandler.h" />
+    <ClInclude Include="..\..\Source\System\elt_event.h" />
+    <ClInclude Include="..\..\Source\System\elt_gl.h" />
+    <ClInclude Include="..\..\Source\System\elt_log.h" />
+    <ClInclude Include="..\..\Source\System\elt_net.h" />
+    <ClInclude Include="..\..\Source\System\elt_render.h" />
+    <ClInclude Include="..\..\Source\System\elt_video.h" />
+    <ClInclude Include="..\..\Source\System\elt_win.h" />
+    <ClInclude Include="..\..\Source\System\GL_caching.h" />
+    <ClInclude Include="..\..\Source\System\Win32\win_controls.h" />
+    <ClInclude Include="..\..\Source\System\Win32\win_directX.h" />
+    <ClInclude Include="..\..\Source\System\Win32\win_GL.h" />
+    <ClInclude Include="..\..\Source\System\Win32\win_net.h" />
+    <ClInclude Include="..\..\Source\System\Win32\win_win32.h" />
+    <ClInclude Include="..\..\Source\System\Win32\win_wndproc.h" />
+    <ClInclude Include="..\..\Source\System\Win32\wnd_common.h" />
+    <ClInclude Include="..\..\Source\System\Win32\wnd_filedialog.h" />
+    <ClInclude Include="..\..\Source\System\Win32\wnd_input.h" />
+    <ClInclude Include="..\..\Source\System\Win32\wnd_snd.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

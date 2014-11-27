@@ -19,7 +19,7 @@
 #	pragma comment(lib,"comctl32.lib")
 #	pragma comment(lib,"UxTheme.lib")
 
-DECLSPEC Void ELTAPIENTRY ExUnRegisterClasses(Void){
+DECLSPEC void ELTAPIENTRY ExUnRegisterClasses(void){
 	ExChar text[MAX_PATH];
 	if(!FindWindowEx(0,0,EX_OPENGL_WINDOW_CLASS,0))
 		if(UnregisterClass(EX_OPENGL_WINDOW_CLASS, GetModuleHandle(EX_NULL)))
@@ -36,6 +36,7 @@ DECLSPEC Void ELTAPIENTRY ExUnRegisterClasses(Void){
 
 DECLSPEC ExWin ELTAPIENTRY ExCreateDirectXWindow(Int32 x, Int32 y, Int32 width, Int32 height){
 	HWND hWnd;
+	ExChar title[260];
 	WNDCLASSEX wc = {0};
 	wc.cbSize = sizeof(wc);
 	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
@@ -53,7 +54,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateDirectXWindow(Int32 x, Int32 y, Int32 width, 
 				ExDevWindowPrintc(EX_TEXT("register directX class failed"), EX_CONSOLE_RED);
 		}
 	}
-	hWnd = CreateWindowEx(WS_EX_APPWINDOW,EX_DIRECTX_WINDOW_CLASS,ExGetDefaultWindowTitle(),
+	hWnd = CreateWindowEx(WS_EX_APPWINDOW,EX_DIRECTX_WINDOW_CLASS,ExGetDefaultWindowTitle(title,sizeof(title) / sizeof(title[0])),
 		(WS_OVERLAPPEDWINDOW ^WS_THICKFRAME ^ WS_MAXIMIZEBOX),x, y,
 		 width,
 		 height,
@@ -68,6 +69,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateOpenGLWindow(Int32 x, Int32 y, Int32 width, I
 	HWND hWnd;
 	WNDCLASSEX wc;
 	ATOM reg;
+	ExChar title[260];
 	wc.cbSize = sizeof(wc);
 	wc.hInstance = GetModuleHandle(EX_NULL);
 	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
@@ -88,7 +90,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateOpenGLWindow(Int32 x, Int32 y, Int32 width, I
 				ExDevWindowPrintc(EX_TEXT("register opengl class failed"), EX_CONSOLE_RED);
 		}
 	}
-	if(!(hWnd = CreateWindowEx(WS_EX_APPWINDOW,EX_OPENGL_WINDOW_CLASS,ExGetDefaultWindowTitle(),
+	if(!(hWnd = CreateWindowEx(WS_EX_APPWINDOW,EX_OPENGL_WINDOW_CLASS,ExGetDefaultWindowTitle(title,sizeof(title) / sizeof(title[0])),
 		WS_OVERLAPPEDWINDOW,
 		// MaximizeBox Disable
 			x,
@@ -108,10 +110,11 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateOpenGLWindow(Int32 x, Int32 y, Int32 width, I
 	return hWnd;
 }
 DECLSPEC ExWin ELTAPIENTRY ExCreateNativWindow(Int32 x, Int32 y, Int32 width, Int32 height){
-	WNDCLASSEX wc;
+
 	ATOM reg;
 	HWND hwnd;
-	memset(&wc,0, sizeof(wc));
+	ExChar title[260];
+	WNDCLASSEX wc = {0}; 
 	wc.cbSize = SIZEOF(wc);
 	wc.hInstance = GetModuleHandle(NULL);
 	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC ;
@@ -192,17 +195,17 @@ DECLSPEC WNDPROC ELTAPIENTRY ExGetWindowProc(_IN_ ExWin hwnd){
 	else return (WNDPROC)GetWindowLongPtr(hwnd, GWL_WNDPROC);
 }
 
-DECLSPEC Void ELTAPIENTRY ExSetWindowStyle(ExWin hwnd, Long style){
+DECLSPEC void ELTAPIENTRY ExSetWindowStyle(ExWin hwnd, Long style){
 	SetWindowLongPtr(hwnd, GWL_STYLE, style);return;
 }
-DECLSPEC Void ELTAPIENTRY ExSetAddiWindowStyle(ExWin hWnd, Long lstyle){
+DECLSPEC void ELTAPIENTRY ExSetAddiWindowStyle(ExWin hWnd, Long lstyle){
 	SetWindowLong(hWnd,GWL_STYLE,GetWindowLong(hWnd, GWL_STYLE) | lstyle);
 }
 DECLSPEC Long ELTAPIENTRY ExGetWindowStyle(ExWin hwnd){
 	return GetWindowLongPtr(hwnd, GWL_STYLE);
 }
 
-DECLSPEC Void ELTAPIENTRY ExSetWindowStyleEx(ExWin hwnd, Long ExStyle){
+DECLSPEC void ELTAPIENTRY ExSetWindowStyleEx(ExWin hwnd, Long ExStyle){
 	SetWindowLongPtr(hwnd, GWL_EXSTYLE, ExStyle);return;
 }
 DECLSPEC Long ELTAPIENTRY ExGetWindowStyleEx(ExWin hwnd){
@@ -231,14 +234,14 @@ DECLSPEC Boolean ELTAPIENTRY ExGetWindowPeekMessage(ExWin hwnd){
 		return FALSE;
 	}
 }
-DECLSPEC Void ELTAPIENTRY ExRunWinMessageLoop(Void){
+DECLSPEC void ELTAPIENTRY ExRunWinMessageLoop(void){
 	MSG messageHandler;
 	while(GetMessage(&messageHandler, EX_NULL, EX_NULL, EX_NULL)){
 		TranslateMessage(&messageHandler);
 		DispatchMessage(&messageHandler);
 	}
 }
-DECLSPEC Void ELTAPIENTRY ExRunWinPeekMessage(Void){
+DECLSPEC void ELTAPIENTRY ExRunWinPeekMessage(void){
 	MSG messageHandler;
 	while(PeekMessage(&messageHandler,EX_NULL, EX_NULL,EX_NULL,PM_REMOVE)){
 		TranslateMessage(&messageHandler);

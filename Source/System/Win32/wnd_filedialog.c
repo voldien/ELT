@@ -72,7 +72,7 @@ DECLSPEC Boolean ELTAPIENTRY ExCreateSaveDialog2(ExFileDialog* exFileDialog){
 	return GetSaveFileName(&savefile);
 }
 
-DECLSPEC Boolean ELTAPIENTRY ExCreateFontDialog(Void){
+DECLSPEC Boolean ELTAPIENTRY ExCreateFontDialog(void){
 	CHOOSEFONT fontdlg = {0};
 	fontdlg.lStructSize = sizeof(fontdlg);
 	return ChooseFont (&fontdlg);

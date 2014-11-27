@@ -14,13 +14,10 @@
 #endif
 
 #ifdef EX_WINDOWS
-typedef struct KeyBoardHandler{
-	Boolean KeyBoardState[2][0xff];
-}HKeyBoard;
+
 IDirectInputDevice8* m_keyboard_device;
 #endif
-Boolean KeyBoardState[2][0xff];
-EX_C_STRUCT KeyBoardHandler* m_KeyBoard = EX_NULL;
+unsigned char KeyBoardState[2][0xff];
 
 DECLSPEC Keycode ELTAPIENTRY ExGetKeyFromName(const char* name){
 #if defined(EX_WINDOWS)
@@ -58,8 +55,8 @@ DECLSPEC ExWin ELTAPIENTRY ExGetKeyboardFocus(void){
 DECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys){
 #ifdef EX_WINDOWS
 	if(numkeys)*numkeys=0xff;
-	Boolean ispressed = GetKeyboardState(m_KeyBoard->KeyBoardState[0]);
-	return m_KeyBoard->KeyBoardState[0];
+	unsigned char ispressed = GetKeyboardState(&KeyBoardState[0][0]);
+	return KeyBoardState[0];
 #elif defined(EX_LINUX)
 
 	XQueryKeymap(display,KeyBoardState[0]);
@@ -73,12 +70,7 @@ DECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys){
 DECLSPEC ERESULT ELTAPIENTRY ExInitKeyBoard(ExWin win){
 	ERESULT hr;
 #if defined(EX_WINDOWS)
-	if(!m_KeyBoard){
-		m_KeyBoard = (KeyBoardHandler*)ExMalloc(SIZEOF(KeyBoardHandler));
-		memset(m_KeyBoard->KeyBoardState[0],0,sizeof(Boolean) * UCHAR_MAX);
-		memset(m_KeyBoard->KeyBoardState[1],0,sizeof(Boolean) * UCHAR_MAX);
-	}
-	if(FAILED(hr = g_pDI->CreateDevice(GUID_SysKeyboard, &m_keyboard_device,EX_NULL))){
+/*	if(FAILED(hr = g_pDI->CreateDevice(GUID_SysKeyboard, &m_keyboard_device,EX_NULL))){
 		ExIsHError(hr);
 		ExKeyBoardShutDown();
 		return hr;
@@ -89,6 +81,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitKeyBoard(ExWin win){
 		return hr;
 	}
 	hr = ExSetKeyBoardCooperative(win,ExGetEngineFlag());
+	*/
 #endif
 	return hr;
 }
@@ -136,12 +129,10 @@ DECLSPEC void ELTAPIENTRY ExUpdateKeyboard(void){
 DECLSPEC void ELTAPIENTRY ExKeyBoardShutDown(void){
 	ERESULT hr;
 #if defined(EX_WINDOWS)
-	if(m_KeyBoard){
-		if(FAILED(hr = m_keyboard_device->Release()))
-			ExIsHError(hr);
-		m_KeyBoard = EX_NULL;
-	}
+	if(FAILED(hr = m_keyboard_device->Release()))
+		ExIsHError(hr);
 #elif defined(EX_LINUX)
+
 #endif
 	return;
 }
@@ -176,7 +167,7 @@ DECLSPEC Boolean ELTAPIFASTENTRY ExIsKey(const Uint32 keyCode){
 DECLSPEC Boolean ELTAPIFASTENTRY ExIsKeyDown(const Uint32 keyCode){
 #if defined(EX_WINDOWS)
 	return GetAsyncKeyState(keyCode);
-	return (m_KeyBoard->KeyBoardState[index][keyCode] & 0x80) != FALSE ? TRUE : FALSE;
+	return (KeyBoardState[index][keyCode] & 0x80) != FALSE ? TRUE : FALSE;
 #elif defined(EX_LINUX)
 	return 0;
 #endif
@@ -184,8 +175,8 @@ DECLSPEC Boolean ELTAPIFASTENTRY ExIsKeyDown(const Uint32 keyCode){
 DECLSPEC Boolean ELTAPIFASTENTRY ExIsKeyUp(const Uint32 keyCode){
 #if defined(EX_WINDOWS)
 	return GetAsyncKeyState(keyCode);
-	if(!((m_KeyBoard->KeyBoardState[index][keyCode]) & 0x80))
-		if(((m_KeyBoard->KeyBoardState[index1][keyCode]) & 0x80))
+	if(!((KeyBoardState[index][keyCode]) & 0x80))
+		if(((KeyBoardState[index1][keyCode]) & 0x80))
 			return TRUE;
 #elif defined(EX_LINUX)
 	return FALSE;

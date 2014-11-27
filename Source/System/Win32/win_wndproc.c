@@ -471,7 +471,7 @@ DECLSPEC BOOL WINAPI ExOnContextMenu2(HWND hWnd,HMENU hmenuTrackPopup,Int x, Int
     return FALSE; 
 }
 
-DECLSPEC BOOL WINAPI ExDisplayContextMenu(HWND hWnd, POINT& pt){
+DECLSPEC BOOL WINAPI ExDisplayContextMenu(HWND hWnd, POINT* pt){
 	HMENU hmenu;            // top-level menu 
     HMENU hmenuTrackPopup;  // shortcut menu 
  
@@ -488,7 +488,7 @@ DECLSPEC BOOL WINAPI ExDisplayContextMenu(HWND hWnd, POINT& pt){
  
     TrackPopupMenu(hmenuTrackPopup, 
             TPM_LEFTALIGN | TPM_RIGHTBUTTON, 
-            pt.x, pt.y, 0, hWnd, NULL); 
+            pt->x, pt->y, 0, hWnd, NULL); 
 	return TRUE;
 }
 

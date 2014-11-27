@@ -7,7 +7,7 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 #define WND_COMMON_H
 #include"./../../EngineAssembly.h"
 #include"./../../elt_console.h"
-#include<Cmd/mathlib.h>
+
 #ifdef EX_WINDOWS
 	#include<Windows.h>
 #ifdef __cplusplus // C++ environment
@@ -17,7 +17,7 @@ extern "C"{
 /*	
 	//Set Monitor Sleep
 */
-extern DECLSPEC INLINE void ELTAPIENTRY ExSleepMonitor(void){SendMessage(HWND_BROADCAST, WM_SYSCOMMAND,SC_SCREENSAVE, (LPARAM)2);}
+extern DECLSPEC void ELTAPIENTRY ExSleepMonitor(void){SendMessage(HWND_BROADCAST, WM_SYSCOMMAND,SC_SCREENSAVE, (LPARAM)2);}
 
 
 
@@ -46,18 +46,14 @@ extern DECLSPEC ExWin ELTAPIENTRY ExSysHeader32(void);
 	// Convert Ascii Character into Wide-character
 */
 extern DECLSPEC void ELTAPIENTRY ExAsciiToUnicode(const char* cchar, WCHAR** wchar);
-DECLSPEC INLINE WCHAR* ELTAPIENTRY ExConvertToUnicode(const char* cchar){
-	WCHAR* wconvert;ExAsciiToUnicode(cchar,&wconvert);return wconvert;
-}
+extern DECLSPEC WCHAR* ELTAPIENTRY ExConvertToUnicode(const char* cchar);
 /*
 	// Convert Wide-character Character into Ascii
 	// remark: if char pointer is null. then it will malloc its size. otherwise 
 	// the function will use char* current size
 */
 extern DECLSPEC void ELTAPIENTRY ExUnicodeToAscii(const WCHAR* wchar, char** cchar);
-DECLSPEC INLINE char* ELTAPIENTRY ExConvertAscii(const WCHAR* wwchar){
-	char* cconvert;ExUnicodeToAscii(wwchar,&cconvert);return cconvert;
-}
+extern DECLSPEC char* ELTAPIENTRY ExConvertAscii(const WCHAR* wwchar);
 
 /*
 	// registry window
@@ -116,25 +112,25 @@ typedef struct filefolderW{
 
 //-------------------------------------------------------------------
 /* Get All possiable File Name in Specified Folder Location. */
-DECLSPEC FolderListA ELTAPIENTRY ExGetFolderFilePathA(const char* directoryPath);
+extern DECLSPEC FolderListA ELTAPIENTRY ExGetFolderFilePathA(const char* directoryPath);
 
 //-------------------------------------------------------------------
 /* Get All possiable File Name in  */
-DECLSPEC FolderListW ELTAPIENTRY ExGetFolderFilePathW(const WCHAR* directoryPath);
+extern DECLSPEC FolderListW ELTAPIENTRY ExGetFolderFilePathW(const WCHAR* directoryPath);
 
 
 
-DECLSPEC FolderListW ELTAPIENTRY ExGetFolderFileNameW(const WCHAR* directoryPath);
+extern DECLSPEC FolderListW ELTAPIENTRY ExGetFolderFileNameW(const WCHAR* directoryPath);
 
-DECLSPEC FolderListA ELTAPIENTRY ExGetFolderFileNameA(const char* directoryPath);
-
-//-------------------------------------------------------------------
-/* Get All possiable File Name in Specified Folder Location as a Relative Path. */
-DECLSPEC FolderListW ELTAPIENTRY ExGetFolderDirectoryPathW(const WCHAR* directoryPath);
+extern DECLSPEC FolderListA ELTAPIENTRY ExGetFolderFileNameA(const char* directoryPath);
 
 //-------------------------------------------------------------------
 /* Get All possiable File Name in Specified Folder Location as a Relative Path. */
-DECLSPEC FolderListA ELTAPIENTRY ExGetFolderDirectoryPathA(const char* directoryPath);
+extern DECLSPEC FolderListW ELTAPIENTRY ExGetFolderDirectoryPathW(const WCHAR* directoryPath);
+
+//-------------------------------------------------------------------
+/* Get All possiable File Name in Specified Folder Location as a Relative Path. */
+extern DECLSPEC FolderListA ELTAPIENTRY ExGetFolderDirectoryPathA(const char* directoryPath);
 
 // UNICODE 
 #ifdef EX_UNCIODE

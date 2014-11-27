@@ -125,10 +125,11 @@ typedef long Long;
 typedef Uint8 InputAxis;
 typedef Uint8 Keycode;
 typedef void* DataBuffer;
-
+/*
 typedef struct ex_size{};
 typedef struct ex_rect{};
 typedef struct ex_point{};
+*/
 
 #ifdef __cplusplus
 	typedef Uint8 Boolean;

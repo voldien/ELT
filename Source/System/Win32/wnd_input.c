@@ -2,7 +2,7 @@
 #ifdef EX_WINDOWS
 IDirectInput8* g_pDI = EX_NULL;
 
-DECLSPEC Void* ELTAPIENTRY ExGetDirectInput(Void){return g_pDI;}
+DECLSPEC void* ELTAPIENTRY ExGetDirectInput(void){return g_pDI;}
 
 DECLSPEC ERESULT ELTAPIENTRY ExInitDirectInput(Uint32 flag){
 	ERESULT hr;
@@ -10,7 +10,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitDirectInput(Uint32 flag){
 	// to a IDirectInput inteface we can use.
 	// Create a DInput Object.
 	if(FAILED(hr = DirectInput8Create(GetModuleHandle(EX_NULL),DIRECTINPUT_VERSION, IID_IDirectInput8,
-		(Void**)&g_pDI,EX_NULL))){
+		(void**)&g_pDI,EX_NULL))){
 			ExIsHError(hr);
 		g_pDI = EX_NULL;
 		return (hr == S_OK);
@@ -35,7 +35,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitDirectInputDevice(ExWin hWnd, Uint32 flag){
 
 
 
-DECLSPEC ERESULT ELTAPIENTRY ExShutDownDirect(Void){
+DECLSPEC ERESULT ELTAPIENTRY ExShutDownDirect(void){
 	ERESULT ehr;
 	if(!g_pDI)
 		return 2;

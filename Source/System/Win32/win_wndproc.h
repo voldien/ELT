@@ -48,7 +48,7 @@ extern DECLSPEC BOOL WINAPI ExOnContextMenu(ExWin hWnd,Int32 x, Int32 y);
 /*	On Window Context menu	*/
 extern DECLSPEC BOOL WINAPI ExOnContextMenu2(ExWin hWnd,HMENU hmenu,Int32 x, Int32 y);
 /*	Display Window Context	*/
-extern DECLSPEC BOOL WINAPI ExDisplayContextMenu(ExWin hWnd, POINT& pt);
+extern DECLSPEC BOOL WINAPI ExDisplayContextMenu(ExWin hWnd, POINT* pt);
 /*
 
 */

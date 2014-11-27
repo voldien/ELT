@@ -58,7 +58,7 @@ extern DECLSPEC Boolean ELTAPIFASTENTRY ExIsKeyUp(const Uint32 keyCode);
 #ifdef INTERNAL_ENGINEX
 
 #ifdef EX_WINDOWS
-extern IDirectInputDevice8* m_keyboard_device;
+//extern IDirectInputDevice8* m_keyboard_device;
 #endif
 extern DECLSPEC ERESULT ELTAPIENTRY ExInitKeyBoard(ExWin win); 
 extern DECLSPEC ERESULT ELTAPIENTRY ExSetKeyBoardCooperative(ExWin win, Uint32 flag); 
@@ -71,7 +71,7 @@ extern DECLSPEC void ELTAPIENTRY ExKeyBoardShutDown(void);
 #ifndef KEYCODES_ENUM
 #define KEYCODES_ENUM
 #pragma warning(disable : 4480)
-    enum KeyCodes : Uint8{
+    enum KeyCodes {
         escape = 0x01,
         NUM1 = 0x02,
         NUM2 = 0x03,
