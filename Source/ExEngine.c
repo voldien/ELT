@@ -83,13 +83,14 @@ _In_  HINSTANCE hinstDLL,
 		default:
 			break;
 	}
-	// hinstance of the dll.
+	// handle instance of the dll.
 	hdllMoudle = hinstDLL;
 	return TRUE;
 }
 #endif
 
-extern unsigned int elt_timer;
+
+extern unsigned int elt_time;
 
 
 /**
@@ -107,23 +108,23 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
         return 2;
 	// debug shell
 #if defined(EX_DEBUG) || (EX_ENGINE_VERSION_MAJOR <= 0)
-#ifdef EX_WINDOWS
+    #ifdef EX_WINDOWS
 
-#elif defined(EX_LINUX)
+    #elif defined(EX_LINUX)
 
-#endif
-		// redirect unbuffered STDOUT to the console
-		//lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
-		////
-		//hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
-		//
-		m_file_log = fopen("EngineExDevLog.txt", "w+" );
-		//
-		*stdout = *m_file_log;
-		setvbuf(stdout, NULL, _IONBF, 0 );
+    #endif
+	// redirect unbuffered STDOUT to the console
+	//lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
+	////
+	//hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
+	//
+	m_file_log = fopen("EngineExDevLog.txt", "w+" );
+	//
+	*stdout = *m_file_log;
+	setvbuf(stdout, NULL, _IONBF, 0 );
 #endif
 #ifdef EX_DEBUG
-	#ifdef EX_VC
+	#if defined(EX_VC) && defined(EX_WINDOWS)
 		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_ALLOC_MEM_DF);
 		_CrtSetReportMode(_CRT_ASSERT , _CRTDBG_MODE_FILE);
 		_CrtSetReportFile(_CRT_ASSERT , _CRTDBG_FILE_STDERR);
@@ -139,26 +140,6 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 
 
 #if defined(EX_WINDOWS)
-
-	if(engineFlag & ELT_INIT_VIDEO){
-		// load opengl library
-		ExIsWinError(!(hmodule = LoadLibrary(EX_TEXT("OpenGL32.dll"))));
-	}
-	if(engineFlag & ELT_INIT_TIMER){
-		elt_time = ExCurrentTime();
-	}
-	if(engineFlag & ELT_INIT_AUDIO){
-		ExAudioInit(0);
-	}
-	if(engineFlag & ELT_INIT_NET){
-
-	}
-	if(engineFlag & ELT_INIT_GAMECONTROLLER){
-		//ExInitG
-	}
-	if(engineFlag & ELT_INIT_EVENTS){
-
-	}
 
 	// Input Request
 	if(engineFlag & ENGINE_SUPPORT_INPUT){
@@ -183,20 +164,14 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
     display = XOpenDisplay(NULL);
 
 #elif defined(EX_APPLE)
-	if(engineFlag & ENGINE_SUPPORT_DEBUG_SHELL){
-		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_ALLOC_MEM_DF);
-		_CrtSetReportMode(_CRT_ASSERT , _CRTDBG_MODE_FILE);
-		_CrtSetReportFile(_CRT_ASSERT , _CRTDBG_FILE_STDERR);
-	}
-#elif defined(EX_ANDROID)
-	if(engineFlag & ENGINE_SUPPORT_DEBUG_SHELL){
-		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_ALLOC_MEM_DF);
-		_CrtSetReportMode(_CRT_ASSERT , _CRTDBG_MODE_FILE);
-		_CrtSetReportFile(_CRT_ASSERT , _CRTDBG_FILE_STDERR);
-	}
-#endif
 
-    //ExInitSubSystem(engineFlag);
+#elif defined(EX_ANDROID)
+
+#endif
+    /*
+        Initialize
+    */
+    ExInitSubSystem(engineFlag);
 
 	if(_h_result = ExInitErrorHandler()){
 	}else ExError("Failed to initialize error handler.");
@@ -211,7 +186,12 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineFlag){
 	ERESULT hr = 0;
 	if(ELT_INIT_VIDEO & engineFlag){
+        #ifdef EX_WINDOWS
+		/* load OpenGL library*/
+		ExIsWinError(!(hmodule = LoadLibrary(EX_TEXT("OpenGL32.dll"))));
+        #elif defined(EX_LINUX)
 
+        #endif
 	}
 	if(ELT_INIT_JOYSTICK & engineFlag){
 		ExInitJoyStick(EX_NULL);
@@ -224,11 +204,11 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineFlag){
 		LoadLibrary(EX_TEXT("Xinput.dll"));
 		//ExInitGameController();
 #elif defined(EX_LINUX)
-		
+
 #endif
 	}
 	if(ELT_INIT_EVENTS & engineFlag){
-#if defined(EX_WINDOWS
+#if defined(EX_WINDOWS)
 
 #elif defined(EX_LINUX)
 
@@ -255,6 +235,7 @@ DECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag){
         #elif defined(EX_LINUX)
         ExUnLoadObject(ExGetFileModule(EX_TEXT("libasound.so")));
         #endif
+		ExAudioInit(0);
 	}
 	if(ELT_INIT_JOYSTICK & engineflag){
 		//ExJoyStickShutDown();
@@ -356,12 +337,12 @@ DECLSPEC void ELTAPIENTRY ExDisable(Enum disable){
 		break;
 	case EX_OPENCL:
 		ExUnLoadObject("OpenCL.dll");
-		ExUnLoadObject("libOpenCL.so")
+		ExUnLoadObject("libOpenCL.so");
 	default:return;
 	}
 }
-
-#define EX_COMPILER_VERSION (major, minor, revision) EX_TEXT("EngineVersion")EX_TEXT("major")EX_TEXT("minor")EX_TEXT("revision")
+#define EX_TO_TEXT(x) "x"
+#define EX_COMPILER_VERSION(major, minor, revision) EX_TEXT("ELT-")EX_TO_TEXT(major)EX_TEXT(".")EX_TO_TEXT(minor)EX_TEXT(".")EX_TO_TEXT(revision)
 DECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void){
-	return EX_COMPILER_VERSION(EX_MAJOR_VERSION, EX_MINOR_VERSION, EX_REVISION);//EX_COMPILER_NAME;
+	return EX_COMPILER_VERSION(EX_MAJOR_VERSION, EX_MINOR_VERSION, EX_REVISION);
 }

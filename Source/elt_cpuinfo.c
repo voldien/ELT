@@ -3,8 +3,11 @@
 #include<immintrin.h>
 #ifdef EX_WINDOWS
 // get CPUID
-#include<intrin.h>
+#   include<intrin.h>
+#elif defined(EX_LINUX)
+
 #endif
+
 //http://stackoverflow.com/questions/1666093/cpuid-implementations-in-c
 #ifdef EX_WINDOWS
 	#define cpuid __cpuid
@@ -34,7 +37,6 @@ DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
 	file = fopen("/proc/cpuinfo","rb");
 	fread((void*)&info.vendor_id[0], 1, sizeof(info),file);
 	fclose(file);
-
 	return info.model;
 #endif
 }

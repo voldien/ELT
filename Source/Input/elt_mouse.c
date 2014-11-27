@@ -90,10 +90,10 @@ DECLSPEC Uint32 ELTAPIENTRY ExGetGlobalMouseState(Int32* x, Int32* y){
 #if defined(EX_WINDOWS)
 	return GetCursorPos((LPPOINT)x);
 #elif defined(EX_LINUX)
-    int i,j;
+    int i,j,mask_return;
     Window* root;
-	XQueryPointer(display,ExGetKeyboardFocus(),&root,&root,x,y,&i,&i,&i);
-	return 0;
+	XQueryPointer(display,ExGetKeyboardFocus(),&root,&root,x,y,&i,&i,&mask_return);
+	return mask_return;
 #endif
 }
 

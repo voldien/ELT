@@ -291,7 +291,7 @@ DECLSPEC const ExChar* ELTAPIENTRY ExGetOSName(void){
 		return TEXT("Windows OS Unknown");
 #elif defined(EX_LINUX)
     return "Linux - Is The Best of the Best";
-	EX_C_STRUCT utsname _name;
+	struct utsname _name;
 	if(uname(&_name) != EFAULT)
 		return _name.sysname;
 	else return EX_TEXT("");

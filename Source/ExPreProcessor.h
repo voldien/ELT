@@ -156,6 +156,7 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 	#define EX_ANSI
     #define EX_TEXT(quote) quote
 #endif
+
 //end compiler
 // ENGINE EX Declaration Behavior
 
@@ -443,16 +444,16 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 #define EX_ENGINE_VERSION_MINOR 0x5
 #define EX_ENGINE_VERSION_REVISION 0x38
 
-#define EX_ENGINE_PREALPHA EX_TEXT("pa")	// Pre alpha
-#define EX_ENGINE_ALPHA EX_TEXT("a")		// Alpha
-#define EX_ENGINE_BETA EX_TEXT("b")		// Beta
-#define EX_ENGINE_STABLE EX_TEXT("r")		// Stable
-#define EX_ENGINE_RELEASE_SOMETHING("rc")	/**/
-#define EX_ENGINE_RELEASE_BETTER("rc5")		/**/
+#define EX_ENGINE_PREALPHA EX_TEXT("pa")	        /* Pre alpha    */
+#define EX_ENGINE_ALPHA EX_TEXT("a")		        /* Alpha        */
+#define EX_ENGINE_BETA EX_TEXT("b")		            /* Beta         */
+#define EX_ENGINE_STABLE EX_TEXT("r")		        /* Stable       */
+#define EX_ENGINE_RELEASE_SOMETHING EX_TEXT("rc")	/*              */
+#define EX_ENGINE_RELEASE_BETTER EX_TEXT("rc5")		/*          */
 /*
 	// ELT Version [8 bit major | 8 bit minor | 8 bit bugfix | 8 bit reserved ]
 */
-#define EX_ENGINE_VERSION ((EX_ENGINE_VERSION_MAJOR << 24) + (EX_ENGINE_VERSION_MINOR << 16) + (EX_ENGINE_VERSION_BUGFIX << 8) + 0)
+#define EX_ENGINE_VERSION ((EX_ENGINE_VERSION_MAJOR << 24) + (EX_ENGINE_VERSION_MINOR << 16) + (EX_ENGINE_VERSION_REVISION << 8) + 0)
 
 #if defined(EX_VC) && defined(EX_INTERNAL_DEVELOP_ENVIROMENT)
 	#pragma comment(linker,"/VERSION:0[.50]")

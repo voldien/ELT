@@ -32,8 +32,8 @@ DECLSPEC void ELTAPIENTRY ExUnLoadObject(HANDLE handle){
 
 #endif
 	handle = dlclose(handle);
-	//if(!(handle =ldclose(handle)))
-    //    ExDevPrint(dlerror());
+	if(!handle)
+		fprintf(stderr,dlerror());
 #endif
 }
 /*

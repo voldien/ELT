@@ -19,15 +19,11 @@ extern "C"{
 #endif
 
 /*
-	// Initlization of ELT Engine Library ToolKit
+	// Initialization of ELT Engine Library ToolKit
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExInit(Uint32 engineFlag);
 /*
-	//
-*/
-//extern DECLSPEC ERESULT ELTAPIENTRY ExInit2(EngineDescription* enginedesc);
-/*
-	// Initilize specific subsystems
+	// Initialize specific subsystems
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineFlag);
 /*
@@ -55,7 +51,7 @@ extern DECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void);
 /*
 	// print information about the ELT framework
 */
-extern DECLSPEC void ELTAPIENTRY ExDevInternalPrint(void);	
+extern DECLSPEC void ELTAPIENTRY ExDevInternalPrint(void);
 
 extern char* Developer;
 #ifdef __cplusplus // C++ environment

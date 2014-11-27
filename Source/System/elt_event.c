@@ -116,6 +116,7 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvents* event){
 		}break;
 		case ResizeRequest:{
             event->eventid |= EX_EVENT_SIZE;
+           // event->size.width = event->msg.xresize.width;
 		}break;
 		case MotionNotify:{
             event->mouse.x = event->msg.xmotion.x;

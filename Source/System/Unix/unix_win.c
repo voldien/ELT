@@ -51,8 +51,6 @@ DECLSPEC XID ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int
 	gr_values.foreground = XBlackPixel(display,0);
 	graphical_context = XCreateGC(display,window, GCFont + GCForeground, &gr_values);
 
-	XMapWindow(display,window);
-
 	return window;
 }
 /*
@@ -160,7 +158,6 @@ DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 
 	gr_values.foreground = XBlackPixel(display,0);
 	graphical_context = XCreateGC(display,window, GCFont + GCForeground, &gr_values);
 
-    XMapWindow(display,window);
    //XIfEvent(display, &event, WaitFormMap)
 
     //if((del_atom = XInternAtom(display, "WM_DELETE_WINDOW", 0)) != None){
@@ -168,42 +165,5 @@ DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 
     //}
     XFlush(display);
 	return window;
-}/*
-DECLSPEC XID ELTAPIENTRY ExCreateSimpleGLWindow(Int32 x , Int32 y, Int32 width, Int32 height){
-	Window* root,win;
-	Colormap cmap;
-	XSetWindowAttributes swa;
-	GLXContext glc;
-	XVisualInfo* vi;
-	ExChar title[260];
-	GLint att[60] = {
-			GLX_RGBA,
-			GLX_RED_SIZE, 8,
-			GLX_GREEN_SIZE, 8,
-			GLX_BLUE_SIZE, 8,
-			GLX_ALPHA_SIZE, 4,
-			GLX_DEPTH_SIZE, 24,
-			GLX_STENCIL_SIZE, 0,
-			GLX_DOUBLEBUFFER,
-			None };
-
-	root = DefaultRootWindow(display);
-
-	vi = glXChooseVisual(display,0,att);
-
-	cmap = XCreateColormap(display,root, vi->visual,AllocNone);
-
-	swa.colormap = cmap;
-	swa.event_mask = ExposureMask | KeyPressMask;
-
-	win = XCreateWindow(display,root, x, y, width,height,0,vi->depth,InputOutput, vi->visual,CWColormap | CWEventMask, &swa);
-
-
-	XStoreName(display,win, ExGetDefaultWindowTitle(title, sizeof(title)));
-	XMapWindow(display,win);
-
-	return win;
-}*/
-
-
+}
 #endif

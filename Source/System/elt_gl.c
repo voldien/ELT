@@ -366,7 +366,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 	Int32 pixFmt = 1, attrSize = 0;
 
     /*
-        Get Pixel Format attribiv
+        Get Pixel Format attribute
     */
     wglGetPixelFormatAttribivARB = (WGLCHOOSEPIXELFORMATARB_T)GL_GET_PROC("wglGetPixelFormatAttribivARB");
 
@@ -440,7 +440,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 
 	}
 	else if(erenderingflag & EX_OPENGLES){
-		
+
 	}
 #elif defined(EX_MAC)
 
