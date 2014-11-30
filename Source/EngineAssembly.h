@@ -203,12 +203,9 @@ extern DECLSPEC void ELTAPIENTRY ExSetHint(Enum e_enum, int value);
 */
 extern DECLSPEC int ELTAPIENTRY ExGetHint(Enum e_enum);
 
+extern DECLSPEC int ELTAPIENTRY ExSetParameter(Enum eenum, int value);
+
 extern DECLSPEC void ELTAPIENTRY AssignDescription(const EngineDescription* p_engineDescription);
-extern DECLSPEC const Uint64 ELTAPIENTRY ExGetEngineFlag(void);
-// Get if bit state of engine description is true or false.
-//extern DECLSPEC Boolean ELTAPIENTRY ExIsEngineState(const Uint64 engineBitState);
-extern DECLSPEC EngineDescription ELTAPIENTRY ExGetEngineDescription(void);
-extern DECLSPEC EngineDescription* ELTAPIENTRY ExGetEngineDescriptionPointer(void);
 
 /*
 	// Get ELT Window default Title!

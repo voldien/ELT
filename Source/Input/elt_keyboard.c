@@ -58,9 +58,9 @@ DECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys){
 	unsigned char ispressed = GetKeyboardState(&KeyBoardState[0][0]);
 	return KeyBoardState[0];
 #elif defined(EX_LINUX)
-
+	if(numkeys)*numkeys=0xff;
 	XQueryKeymap(display,KeyBoardState[0]);
-	XQueryKeymap(display,KeyBoardState[0]);
+	//XQueryKeyboard(display);
 	//XGetPointerMapping(display,(unsigned char*)KeyBoardState[0],255);
 	//XQueryDeviceState(display,)
 	return KeyBoardState[0];

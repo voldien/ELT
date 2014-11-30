@@ -13,7 +13,7 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 #endif
 
 #ifdef EX_WINDOWS
-	#define ExCurrentTime timeGetTime	// Get Current Time 
+	#define ExCurrentTime timeGetTime	// Get Current Time
 #elif defined(EX_LINUX) || defined(EX_UNIX)
 	#define ExCurrentTime(x) time(NULL)	// Get Current Time
 #endif
@@ -32,7 +32,7 @@ extern DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine ca
 extern DECLSPEC Boolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id);
 /*
 	//	delay current thread.
-*/	
+*/
 extern DECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms);
 /*
 	//	Get performance counter
@@ -43,7 +43,7 @@ extern DECLSPEC Uint64 ELTAPIENTRY ExGetPerformanceCounter(void);
 */
 extern DECLSPEC Uint64 ELTAPIENTRY ExGetPerformanceFrequency(void);
 /*
-	//	Get Ticks sense ELT_TIMER was initlize
+	//	Get numbers Ticks sense ELT_TIMER was initialize
 */
 extern DECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void);
 #ifdef  __cplusplus	// C++ Environment

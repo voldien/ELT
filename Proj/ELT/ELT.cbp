@@ -70,6 +70,7 @@
 			<Add library="Xrender" />
 			<Add library="rt" />
 			<Add library="cmdlib" />
+			<Add library="asound" />
 		</Linker>
 		<Unit filename="../../Source/EngineAssembly.h" />
 		<Unit filename="../../Source/EngineConfig.h" />

@@ -275,7 +275,19 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetHModuleErrorMessageW(ERESULT dw){
 
 #define EX_ERROR_MESSAGE EX_TEXT("%s has just crashed %s Do you want to send a bug report to the developers team?")
 
+static void debug_log_trace(void){
+    void* trace[15];
+    char** strings;
+    unsigned int i,j;
+    j = backtrace(&trace, 15);
 
+    strings = backtrace_symbols(trace,j);
+    for(i = 0; i < j; i++){
+        fprintf(stderr,"%s\n",strings[i]);
+
+    }
+    free(strings);
+}
 /**
     \SignalCatch
     catch signal and interpret the signal
@@ -285,6 +297,10 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 	ExChar app_name[PATH_MAX];
 	ExChar cfilename[260];
 	Uint32 istosend;
+    /*
+        log trace information.
+    */
+    debug_log_trace();
 
 	ExGetApplicationName(app_name,sizeof(app_name));
 
@@ -328,15 +344,23 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 	struct tm tm = *localtime(&t);
 	ExSPrintf(cfilename, EX_TEXT("ErrorLog_%d_%d_%d_%d_%d_%d.txt"), tm.tm_year,tm.tm_mon,tm.tm_wday,tm.tm_hour,tm.tm_min,tm.tm_sec);
 #endif
+    /*
+        save error to
+    */
+    int pos;
 
 	char* buffer = malloc(fileLenght(stdout) + fileLenght(stderr));
 	fseek(stdout,0,SEEK_SET);
 	fseek(stderr,0,SEEK_SET);
 	fread(buffer, 1, fileLenght(stdout),stdout);
 	buffer += fileLenght(stdout);
+	//fgetpos(stderr,&pos);
+
+	//read(stderr,buffer,100);
 	fread(buffer, 1, fileLenght(stderr),stderr);
 	buffer -= fileLenght(stdout);
 	SaveFile(cfilename,buffer,fileLenght(stdout) + fileLenght(stderr));
+
 
     fclose(m_file_log);
 

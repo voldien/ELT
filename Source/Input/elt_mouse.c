@@ -1,9 +1,7 @@
 #include"elt_mouse.h"
 #ifdef EX_WINDOWS
 #   include<dinput.h>
-typedef struct MouseHandler{
-	DIMOUSESTATE2 MouseState[2];
-}HMouse;
+DIMOUSESTATE2 MouseState[2];
 IDirectInputDevice8* hMouseDevice = EX_NULL;
 MouseHandler* m_MouseHandler = EX_NULL;
 #elif defined(EX_LINUX)
@@ -65,6 +63,9 @@ DECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(Enum system_id){
 	}
 	return LoadCursor(GetModuleHandle(EX_NULL), data);
 #elif defined(EX_LINUX)
+
+    XCreateFontCursor(display,system_id);
+
 	return TRUE;
 #endif
 }
@@ -74,6 +75,7 @@ DECLSPEC Boolean ELTAPIENTRY ExFreeCursor(ExCursor cursor){
 #ifdef EX_WINDOWS
 	ExIsWinError(!(destroyed = DestroyCursor(cursor)));
 #elif defined(EX_LINUX)
+    destroyed = XFreeCursor(display,cursor);
 #endif
 	return destroyed;
 }
@@ -82,7 +84,8 @@ DECLSPEC Boolean ELTAPIENTRY ExSetCursor(ExCursor cursor){
 #if defined(EX_WINDOWS)
 	return (SetCursor(cursor) == cursor);
 #elif defined(EX_LINUX)
-	return 0;
+    //TODO solve window
+    return XDefineCursor(display,NULL, cursor);
 #endif
 }
 
@@ -101,7 +104,10 @@ DECLSPEC Uint32 ELTAPIENTRY ExGetMouseState(Int32* x, Int32* y){
 #if defined(EX_WINDOWS)
 	return GetCursorPos((LPPOINT)x);
 #elif defined(EX_LINUX)
-	return 0;
+    int i,j,mask_return;
+    Window* root;
+	XQueryPointer(display,ExGetKeyboardFocus(),&root,&root,&i,&i,x,y,&mask_return);
+	return mask_return;
 #endif
 }
 

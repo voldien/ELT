@@ -118,9 +118,12 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	//lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
 	////
 	//hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
-	//
+	/**/
 	m_file_log = fopen("EngineExDevLog.txt", "w+" );
-	//
+	/**/
+	if(dup2(1,fdopen(4,"w+")) == -1)
+        fprintf(stderr,"error");
+    /**/
 	*stdout = *m_file_log;
 	setvbuf(stdout, NULL, _IONBF, 0 );
 #endif
@@ -170,7 +173,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 
 #endif
     /*
-        Initialize
+        Initialize sub system
     */
     ExInitSubSystem(engineFlag);
 
@@ -195,7 +198,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineFlag){
         #endif
 	}
 	if(ELT_INIT_JOYSTICK & engineFlag){
-		ExInitJoyStick(EX_NULL);
+
 	}
 	if(ELT_INIT_AUDIO & engineFlag){
 		ExAudioInit(0);
@@ -239,6 +242,10 @@ DECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag){
 		ExAudioInit(0);
 	}
 	if(ELT_INIT_JOYSTICK & engineflag){
+        ExJoyStickClose(0);
+        ExJoyStickClose(1);
+        ExJoyStickClose(2);
+        ExJoyStickClose(3);
 		//ExJoyStickShutDown();
 	}
 	if(ELT_INIT_GAMECONTROLLER & engineflag){

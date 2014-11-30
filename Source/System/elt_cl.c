@@ -17,7 +17,7 @@ cl_context hClContext = EX_NULL;
 cl_context hClContext2 = EX_NULL;
 
 DECLSPEC void* ELTAPIFASTENTRY ExGetCLContext(void){return hClContext;}
-DECLSPEC void* ELTAPIFASTENTRY ExGetCLContext2(void){return hClContext;}
+
 
 DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContex(Enum eEnumFlag){
 	Int32 cpPlatform,ciErrNum;Uint32 uiDevCount = 0;
@@ -37,6 +37,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContex(Enum eEnumFlag){
         CL_CONTEXT_PLATFORM,cpPlatform,
 		NULL};
 	hClContext = clCreateContextFromType(props,CL_DEVICE_TYPE_GPU,NULL, NULL, &errNum);
+
 	//if(!(hClContext = clCreateContext(props,1, &cdDevices[uiDeviceUsed],0,0,&ciErrNum))){
 	//	ExDevPrintf("Failed to Create OpenCL Context based on the OpenGL Context");
 	//}
@@ -100,6 +101,7 @@ DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowCont
 		if(!(hClContext = clCreateContext(props,1, &cdDevices[uiDeviceUsed],0,0,&ciErrNum))){
 			ExDevPrint("Failed to Create OpenCL Context based on the OpenGL Context");
 		}
+
 		free(cdDevices);
 		return (void*)hClContext;
 }

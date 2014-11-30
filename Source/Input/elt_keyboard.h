@@ -60,10 +60,7 @@ extern DECLSPEC Boolean ELTAPIFASTENTRY ExIsKeyUp(const Uint32 keyCode);
 #ifdef EX_WINDOWS
 //extern IDirectInputDevice8* m_keyboard_device;
 #endif
-extern DECLSPEC ERESULT ELTAPIENTRY ExInitKeyBoard(ExWin win); 
-extern DECLSPEC ERESULT ELTAPIENTRY ExSetKeyBoardCooperative(ExWin win, Uint32 flag); 
-extern DECLSPEC void ELTAPIENTRY ExUpdateKeyboard(void);
-extern DECLSPEC void ELTAPIENTRY ExKeyBoardShutDown(void);
+
 #endif
 
 

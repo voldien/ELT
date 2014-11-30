@@ -44,7 +44,8 @@ DECLSPEC Uint32 ELTAPIENTRY ExGetThreadID(ExThread thread){
 #ifdef EX_WINDOWS
 	return GetThreadId(thread);
 #elif defined(EX_LINUX)
-	return 0;
+
+	return thread;
 #endif
 }
 
@@ -84,6 +85,8 @@ DECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread,Enum nPriority)
 
 DECLSPEC ERESULT ELTAPIENTRY ExWaitThread(ExThread thread, Int32* status){
 #ifdef EX_WINDOWS
+
+#elif defined(EX_LINUX)
 
 #endif
 	return 0;

@@ -18,7 +18,9 @@ extern "C"{
 
 extern DECLSPEC void* ELTAPIFASTENTRY ExGetCLContext(void);
 extern DECLSPEC void* ELTAPIFASTENTRY ExGetCLContext2(void);
+/**
 
+*/
 extern DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContex(Enum eEnumFlag);
 
 /*	Release CL Context	*/

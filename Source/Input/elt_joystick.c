@@ -76,6 +76,7 @@ DECLSPEC void* ELTAPIENTRY ExJoystickOpen(Int32 device_index){
 }
 DECLSPEC int ELTAPIENTRY ExJoyStickClose(Int32 device_index){
     #ifdef EX_WINDOWS
+
     #elif defined(EX_LINUX)
     close(joy_id[device_index]);
     #endif // EX_WINDOWS
@@ -136,8 +137,10 @@ DECLSPEC Int32 ELTAPIENTRY ExJoystickNumAxis(Int32 device_index){
 
 DECLSPEC Int16 ELTAPIENTRY ExJoystickGetAxis(Int32 device_index,int axis){
     #ifdef EX_WINDOWS
+    JOYINFO  pji;
+    joyGetPos(device_index,&pji);
+    return ((unsigned int*)pji)[axis];
     #elif defined(EX_LINUX)
-
     struct js_event js;
     if(read(joy_id[device_index], &js,sizeof(struct js_event))){
         if(js.type & JS_EVENT_AXIS)
@@ -150,6 +153,9 @@ DECLSPEC Int16 ELTAPIENTRY ExJoystickGetAxis(Int32 device_index,int axis){
 */
 DECLSPEC Uint8 ELTAPIENTRY ExJoyStickGetButton(Int32 device_index, int button){
     #ifdef EX_WINDOWS
+    JOYINFO  pji;
+    joyGetPos(device_index,&pji);
+    return ((unsigned int*)pji)[axis];
     #elif defined(EX_LINUX)
     struct js_event js;
     if(read(joy_id[device_index], &js,sizeof(struct js_event))){
@@ -162,6 +168,7 @@ DECLSPEC Uint8 ELTAPIENTRY ExJoyStickGetButton(Int32 device_index, int button){
 //http://msdn.microsoft.com/en-us/library/windows/desktop/ms645546(v=vs.85).aspx
 
 //HJoyStick* m_joyStickhandler = EX_NULL;
+/*
 DECLSPEC ERESULT ELTAPIENTRY ExInitJoyStick( ExWin hwnd){
 #ifdef EX_WINDOWS
 	ERESULT hr;
@@ -224,7 +231,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitJoyStick( ExWin hwnd){
 	//return S_OK;
 #endif
 	return 0;
-}
+}*/
 
 //DECLSPEC Int32 EX_CALLBACK EnumObjectsCallBack( const DIDEVICEOBJECTINSTANCE* pdidoi,VOID* pContext ){
 	//HWND hwnd = (HWND)pContext;
