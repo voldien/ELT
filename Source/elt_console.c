@@ -1,6 +1,9 @@
 #include"elt_console.h"
 #include"System/elt_win.h"
 #include<Cmd/mathlib.h>
+#ifdef EX_WINDOWS
+#include<Windows.h>
+#endif
 //#include <fcntl.h>
 DECLSPEC ExWin ELTAPIENTRY ExCreateConsole(void){
 #ifdef EX_WINDOWS

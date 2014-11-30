@@ -1,20 +1,20 @@
 #include"wnd_input.h"
 #ifdef EX_WINDOWS
-IDirectInput8* g_pDI = EX_NULL;
+//IDirectInput8* g_pDI = EX_NULL;
 
-DECLSPEC void* ELTAPIENTRY ExGetDirectInput(void){return g_pDI;}
+DECLSPEC void* ELTAPIENTRY ExGetDirectInput(void){return 0;/*g_pDI;*/}
 
 DECLSPEC ERESULT ELTAPIENTRY ExInitDirectInput(Uint32 flag){
 	ERESULT hr;
 	// Register with the DIrectInput subSystem and get a pointer
 	// to a IDirectInput inteface we can use.
 	// Create a DInput Object.
-	if(FAILED(hr = DirectInput8Create(GetModuleHandle(EX_NULL),DIRECTINPUT_VERSION, IID_IDirectInput8,
+	/*if(FAILED(hr = DirectInput8Create(GetModuleHandle(EX_NULL),DIRECTINPUT_VERSION, IID_IDirectInput8,
 		(void**)&g_pDI,EX_NULL))){
 			ExIsHError(hr);
 		g_pDI = EX_NULL;
 		return (hr == S_OK);
-	}
+	}*/
 	return TRUE;
 }
 #include"./../../Input/elt_keyboard.h"
@@ -25,7 +25,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitDirectInputDevice(ExWin hWnd, Uint32 flag){
 	//if((flag & ENGINE_SUPPORT_JOYSTICK))
 		hr = ExInitJoyStick(hWnd);
 	//if((flag & ENGINE_SUPPORT_KEYBOARD))
-		hr = ExInitKeyBoard(hWnd);
+		//hr = ExInitKeyBoard(hWnd);
 	//if((flag & ENGINE_SUPPORT_MOUSE))
 		hr = ExInitMouse(hWnd);
 	//if((flag & ENGINE_SUPPORT_XBOX))
@@ -37,11 +37,11 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitDirectInputDevice(ExWin hWnd, Uint32 flag){
 
 DECLSPEC ERESULT ELTAPIENTRY ExShutDownDirect(void){
 	ERESULT ehr;
-	if(!g_pDI)
+	/*if(!g_pDI)
 		return 2;
 	if(!FAILED(ehr = g_pDI->Release())){
 		g_pDI = EX_NULL;
-	}
+	}*/
 //	ExJoyStickShutDown();
 //	ExPSShutDown();
 	ExXShutDown();

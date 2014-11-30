@@ -6,6 +6,10 @@
 //#include<syslog.h>
 #endif
 #include<signal.h>
+#include<limits>
+#include<Cmd/cmdlib.h>
+
+
 // Error Message text
 ExChar* errorText = EX_NULL;
 /*
@@ -16,7 +20,8 @@ DECLSPEC void ELTAPIENTRY ExError(const ExChar* error,...){
 
 	va_start(argptr,error);
 #ifdef EX_UNICODE
-	vwfprintf(stderr,error,argptr);
+	
+	//vwfprintf(stderr,error,argptr);
 #else
 	vfprintf(stderr,error,argptr);
 #endif
@@ -83,7 +88,7 @@ DECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...){
     }
     else if(flag & EX_ERROR_LOG_ERR){
         #ifdef UNICODE
-		fvwprintf(stderr,error,argptr);
+		//fvwprintf(stderr,error,argptr);
         #else
 		vfprintf(stderr,error,argptr);
         #endif
@@ -276,6 +281,8 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetHModuleErrorMessageW(ERESULT dw){
 #define EX_ERROR_MESSAGE EX_TEXT("%s has just crashed %s Do you want to send a bug report to the developers team?")
 
 static void debug_log_trace(void){
+#ifdef EX_WINDOWS
+#elif defined(EX_LINUX)
     void* trace[15];
     char** strings;
     unsigned int i,j;
@@ -287,6 +294,7 @@ static void debug_log_trace(void){
 
     }
     free(strings);
+#endif
 }
 /**
     \SignalCatch
@@ -295,8 +303,11 @@ static void debug_log_trace(void){
 DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 	ExChar wchar[512];
 	ExChar app_name[PATH_MAX];
-	ExChar cfilename[260];
+	char cfilename[260];
 	Uint32 istosend;
+#ifdef EX_WINDOWS
+	SYSTEMTIME time;
+#endif
     /*
         log trace information.
     */
@@ -335,9 +346,8 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 #ifdef EX_WINDOWS
 	istosend = ExMessageBox(EX_NULL, wchar, EX_TEXT("Crash Report"), MB_YESNO);
 
-	SYSTEMTIME time;
 	GetSystemTime(&time);
-	wsprintf(cfilename, EX_TEXT("ErrorLog_%d_%d_%d_%d_%d_%d.txt"), time.wYear,time.wMonth,time.wDay,time.wHour,time.wMinute,time.wSecond);
+	sprintf(cfilename, ("ErrorLog_%d_%d_%d_%d_%d_%d.txt"), time.wYear,time.wMonth,time.wDay,time.wHour,time.wMinute,time.wSecond);
 
 #elif defined(EX_LINUX)
 	time_t t = time(NULL);
@@ -349,7 +359,7 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
     */
     int pos;
 
-	char* buffer = malloc(fileLenght(stdout) + fileLenght(stderr));
+	char* buffer = (char*)malloc(fileLenght(stdout) + fileLenght(stderr));
 	fseek(stdout,0,SEEK_SET);
 	fseek(stderr,0,SEEK_SET);
 	fread(buffer, 1, fileLenght(stdout),stdout);

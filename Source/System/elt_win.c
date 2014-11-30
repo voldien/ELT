@@ -20,8 +20,11 @@
 extern DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window);
 
 
-
-#define EX_ENGINE_VERSION_STRING EX_TEXT("Engine Ex Version | %d.%d%d%s | OS : %s [CPU : %s]")
+#ifdef EX_DEBUG
+#define EX_ENGINE_VERSION_STRING EX_TEXT("Engine Ex Version | %d.%d%d%s | OS : %s [CPU : %s] : OpenGL %d.%d")
+#else
+#define EX_ENGINE_VERSION_STRING EX_TEXT("Engine Ex Version | %d.%d%d%s | OS : %s [CPU : %s] : OpenGL %d.%d")
+#endif
 DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length){
 	if(!text)return NULL;
 	ExChar wchar[260] = {};
@@ -35,7 +38,9 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length){
 		EX_ENGINE_VERSION_REVISION,
 		EX_ENGINE_STATUS,
 		ExGetCPUName(),
-		ExGetOSName());
+		ExGetOSName(),
+		3,
+		3);
 	memcpy(text, wchar, MAX(sizeof(ExChar) * length + sizeof(ExChar),sizeof(wchar) / sizeof(ExChar)));
 	return text;
 }

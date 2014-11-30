@@ -1,27 +1,6 @@
 #include"win_GL.h"
-#ifdef EX_WINDOWS
-OpenGLContext hrc  = EX_NULL;
-OpenGLContext hrc2 = EX_NULL;
 
-DECLSPEC void ELTAPIENTRY ExReleaseGL(void){
-	HDC hdc1 = ExGetCurrentGLDC();
-	wglMakeCurrent(hdc1,hrc);
-	if(hrc != EX_NULL)if(!wglDeleteContext(hrc))
-		wExDevPrintf(EX_TEXT("Failed to Delete OpenGL Context | %s"), ExGetErrorMessage(GetLastError()));
-	if(hrc2 != EX_NULL)if(!wglDeleteContext(hrc2))
-		wExDevPrintf(EX_TEXT("Failed to Delete Shared OpenGL Context | %s"),ExGetErrorMessage(GetLastError()));
-	DeleteDC(hdc1);
-	hrc = EX_NULL;
-	hrc2 = EX_NULL;
-	return;
-}
-
-DECLSPEC void ELTAPIENTRY ExReleaseGLContext(HGLRC hrc){
-	if(hrc)if(!wglDeleteContext(hrc))
-		wExDevPrintf(EX_TEXT("Failed to Delete OpenGL Context | %s"), ExGetErrorMessage(GetLastError()));
-	return;
-}
-
+/*
 DECLSPEC void ELTAPIENTRY ExInitExtension(ExWin hWnd,WindowContext deviContext,HGLRC hr){
 	// temp variable 
 	HGLRC tempHRC = hr;PIXELFORMATDESCRIPTOR pfd;
@@ -146,4 +125,4 @@ DECLSPEC Int32 ELTAPIFASTENTRY ExMaxTextureUints(void){
 	return pvalue;
 }
 
-#endif
+*/

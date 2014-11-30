@@ -9,7 +9,7 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 
 #ifdef INTERNAL_ENGINEX
 
-	extern IDirectInput8* g_pDI;
+//	extern IDirectInput8* g_pDI;
 #endif
 #ifndef DIRECTINPUT_VERSION
 #	define DIRECTINPUT_VERSION 0x800

@@ -34,7 +34,7 @@ extern DECLSPEC Boolean ELTAPIENTRY ExCreateSaveDialog2(ExFileDialog* exFileDial
 /*
 	//	Choose Font
 */
-extern DECLSPEC Boolean ELTAPIENTRY ExCreateFontDialog(Void);
+extern DECLSPEC Boolean ELTAPIENTRY ExCreateFontDialog(void);
 
 
 

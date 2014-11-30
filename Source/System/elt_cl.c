@@ -1,5 +1,11 @@
 #include"elt_cl.h"
 #if defined(EX_WINDOWS)
+	#include<CL/cl.h>
+	#include<CL/cl.h>
+	#include<CL/opencl.h>
+	#include<CL/cl_gl_ext.h>
+	#include<CL/cl_platform.h>
+	#include<CL/cl_dx9_media_sharing.h>
 	#pragma comment(lib,"OpenCL.lib")
 	/*handle to OpenCL Library */
     HANDLE cl_libhandle;
@@ -36,12 +42,12 @@ DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContex(Enum eEnumFlag){
 	cl_context_properties props[] = {
         CL_CONTEXT_PLATFORM,cpPlatform,
 		NULL};
-	hClContext = clCreateContextFromType(props,CL_DEVICE_TYPE_GPU,NULL, NULL, &errNum);
+	hClContext = clCreateContextFromType(props,CL_DEVICE_TYPE_GPU,NULL, NULL, (cl_int*)&errNum);
 
 	//if(!(hClContext = clCreateContext(props,1, &cdDevices[uiDeviceUsed],0,0,&ciErrNum))){
 	//	ExDevPrintf("Failed to Create OpenCL Context based on the OpenGL Context");
 	//}
-	return hClContext;
+	return (ERESULT)hClContext;
 }
 
 DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowContext window,Enum erenderingFlag){
@@ -58,13 +64,13 @@ DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowCont
 		// Get Device ID
 	    if(!(ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_GPU, 0, NULL, &uiDevCount))){
 			// create OpenCL Devices on the GPU
-			cdDevices = (cl_device_id )malloc(sizeof(cl_device_id) *uiDevCount);
+			cdDevices = (cl_device_id*)malloc(sizeof(cl_device_id) *uiDevCount);
 			ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_GPU, uiDevCount, cdDevices, NULL);
 		}
 		// if gpu failur. check CPU
 		else if(!(ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_CPU, 0, NULL, &uiDevCount))){
 			// create OpenCL Devices on the CPU
-			cdDevices = (cl_device_id )malloc(sizeof(cl_device_id) *uiDevCount);
+			cdDevices = (cl_device_id*)malloc(sizeof(cl_device_id) *uiDevCount);
 			ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_CPU, uiDevCount, cdDevices, NULL);
 		}
 		// print developing info of the CL
@@ -73,7 +79,7 @@ DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowCont
 
 	#ifdef EX_WINDOWS
 		//  get Device Context
-		if(hDc == EX_NULL)hDc = ExGetCurrentGLDC();
+		if(window == EX_NULL)window = ExGetCurrentGLDC();
 	#endif
 
 		// Context Properties
@@ -403,7 +409,7 @@ DECLSPEC Int32 ELTAPIENTRY ExGetClDevCap(void* device){
 	cl_int iComputeCapMajor, iComputeCapMinor;
 
     // Get device extensions, and if any then search for cl_nv_device_attribute_query
-    clGetDeviceInfo(device, CL_DEVICE_EXTENSIONS, sizeof(cDevString), &cDevString, NULL);
+    clGetDeviceInfo((cl_device_id)device, CL_DEVICE_EXTENSIONS, sizeof(cDevString), &cDevString, NULL);
     if (cDevString != 0) {
 		//string stdDevString;
         //stdDevString = std::string(cDevString);
@@ -426,8 +432,8 @@ DECLSPEC Int32 ELTAPIENTRY ExGetClDevCap(void* device){
     // if search succeeded, get device caps
     if(bDevAttributeQuery){
 
-        clGetDeviceInfo(device, CL_DEVICE_COMPUTE_CAPABILITY_MAJOR_NV, sizeof(cl_uint), (void*)&iComputeCapMajor, NULL);
-        clGetDeviceInfo(device, CL_DEVICE_COMPUTE_CAPABILITY_MINOR_NV, sizeof(cl_uint), (void*)&iComputeCapMinor, NULL);
+        clGetDeviceInfo((cl_device_id)device, CL_DEVICE_COMPUTE_CAPABILITY_MAJOR_NV, sizeof(cl_uint), (void*)&iComputeCapMajor, NULL);
+        clGetDeviceInfo((cl_device_id)device, CL_DEVICE_COMPUTE_CAPABILITY_MINOR_NV, sizeof(cl_uint), (void*)&iComputeCapMinor, NULL);
         iDevArch = (10 * iComputeCapMajor) + iComputeCapMinor;
     }
 
@@ -439,11 +445,11 @@ DECLSPEC void* ELTAPIENTRY ExGetMaxFlopsDev(void* cxGPUContext){
     cl_device_id* cdDevices;
 
     // get the list of GPU devices associated with context
-    clGetContextInfo(cxGPUContext, CL_CONTEXT_DEVICES, 0, NULL, &szParmDataBytes);
+    clGetContextInfo((cl_context)cxGPUContext, CL_CONTEXT_DEVICES, 0, NULL, &szParmDataBytes);
     cdDevices = (cl_device_id*) malloc(szParmDataBytes);
     size_t device_count = szParmDataBytes / sizeof(cl_device_id);
 
-    clGetContextInfo(cxGPUContext, CL_CONTEXT_DEVICES, szParmDataBytes, cdDevices, NULL);
+    clGetContextInfo((cl_context)cxGPUContext, CL_CONTEXT_DEVICES, szParmDataBytes, cdDevices, NULL);
 
     cl_device_id max_flops_device = cdDevices[0];
     int max_flops = 0;

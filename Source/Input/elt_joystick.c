@@ -3,6 +3,7 @@
 
 
 #ifdef EX_WINDOWS
+	#include<Windows.h>
 	#include<dinput.h>
 	#include<dinputd.h>
 	#include<Xinput.h>
@@ -139,7 +140,7 @@ DECLSPEC Int16 ELTAPIENTRY ExJoystickGetAxis(Int32 device_index,int axis){
     #ifdef EX_WINDOWS
     JOYINFO  pji;
     joyGetPos(device_index,&pji);
-    return ((unsigned int*)pji)[axis];
+    return ((unsigned int*)&pji)[axis];
     #elif defined(EX_LINUX)
     struct js_event js;
     if(read(joy_id[device_index], &js,sizeof(struct js_event))){
@@ -155,7 +156,7 @@ DECLSPEC Uint8 ELTAPIENTRY ExJoyStickGetButton(Int32 device_index, int button){
     #ifdef EX_WINDOWS
     JOYINFO  pji;
     joyGetPos(device_index,&pji);
-    return ((unsigned int*)pji)[axis];
+    return ((unsigned int*)&pji)[button];
     #elif defined(EX_LINUX)
     struct js_event js;
     if(read(joy_id[device_index], &js,sizeof(struct js_event))){

@@ -1,17 +1,23 @@
 #include"win_wndproc.h"
 #ifdef EX_WINDOWS
+#include<Windows.h>
+#include<WindowsX.h>
+#include<Dbt.h>
+
 
 CallBack ExOnFocus = EX_NULL; 
 CallBack ExOnUnFocus = EX_NULL;
 
 DECLSPEC void ELTAPIENTRY WIN_DisableAltTab(void){
-	RegisterHotKey( 0, 0, MOD_ALT, VK_TAB );
 	BOOL old;
+	RegisterHotKey( 0, 0, MOD_ALT, VK_TAB );
+
 	SystemParametersInfo( SPI_SCREENSAVERRUNNING, 1, &old, 0 );
 }
 DECLSPEC void ELTAPIENTRY WIN_EnableAltTab(void){
-	UnregisterHotKey( 0, 0 );
 	BOOL old;
+	UnregisterHotKey( 0, 0 );
+
 	SystemParametersInfo( SPI_SCREENSAVERRUNNING,0, &old, 0 );
 }
 GUID WceusbshGUID = { 0x25dbce51, 0x6c8f, 0x4a72, 
@@ -200,10 +206,10 @@ DECLSPEC LRESULT WINAPI MainWndProc(HWND hWnd,UINT uMsg, WPARAM wParam, LPARAM l
 	case WM_SETFOCUS:{
 		// assign data to input
 		if(ExOnFocus != EX_NULL)ExOnFocus();
-		if(ExIsEngineState(ENGINE_SUPPORT_INPUT)){
+		/*if(ExIsEngineState(ENGINE_SUPPORT_INPUT)){
 			ExSetKeyBoardCooperative(hWnd, ExGetEngineFlag());
 			ExSetMouseCooperative(hWnd, ExGetEngineFlag());
-		}
+		}*/
 		}break;
     case WM_NCHITTEST:
 		if(FALSE){

@@ -127,11 +127,11 @@ DECLSPEC Boolean ELTAPIENTRY ExShowCursor(Boolean enabled){
 DECLSPEC ERESULT ELTAPIENTRY ExInitMouse(ExWin hWnd){
 	ERESULT hr;
 #if defined(EX_WINDOWS)
-	if(m_MouseHandler){
-		m_MouseHandler = (MouseHandler*)ExMalloc(SIZEOF(MouseHandler));
+	/*if(m_MouseHandler){
+		m_MouseHandler = (MouseHandler*)ExMalloc(sizeof(MouseHandler));
 
-		memset(&m_MouseHandler->MouseState[0],0,SIZEOF(DIMOUSESTATE2));
-		memset(&m_MouseHandler->MouseState[1],0,SIZEOF(DIMOUSESTATE2));
+		memset(&MouseState[0],0,sizeof(DIMOUSESTATE2));
+		memset(&MouseState[1],0,sizeof(DIMOUSESTATE2));
 	}
 	// Create Device
 	if(FAILED(hr = g_pDI->CreateDevice(GUID_SysMouse,&hMouseDevice,EX_NULL))){
@@ -146,7 +146,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitMouse(ExWin hWnd){
 		return hr;
 	}
 	// Cooperative Level
-	hr = ExSetMouseCooperative(hWnd, ExGetEngineFlag());
+	hr = ExSetMouseCooperative(hWnd, ExGetEngineFlag());*/
 #elif defined(EX_LINUX)
 #endif
 	return hr;
@@ -198,32 +198,32 @@ DECLSPEC void ELTAPIENTRY ExUpdateMouse(void){
 	ERESULT hr;
 #if defined(EX_WINDOWS)
 //	swap(mindex,mindex1);
-	hr = hMouseDevice->Poll();
+	/*hr = hMouseDevice->Poll();
 	if(FAILED(hr = hMouseDevice->GetDeviceState(sizeof(DIMOUSESTATE), (LPVOID)&m_MouseHandler->MouseState[mindex]))){
 		hr = hMouseDevice->Acquire();
 		if(hr == DIERR_INPUTLOST || hr == DIERR_NOTACQUIRED)
 			hr = hMouseDevice->Acquire();
-	}
+	}*/
 #elif defined(EX_LINUX)
 #endif
 	return;
 }
 DECLSPEC void ELTAPIENTRY ExDisconnectMouse(void){
 #ifdef EX_WINDOWS
-	ExIsHError(hMouseDevice->Unacquire());
+	//ExIsHError(hMouseDevice->Unacquire());
 #endif
 	return;
 }
 DECLSPEC void ELTAPIENTRY ExMouseShutDown(void){
 	ERESULT hr;
 #if defined(EX_WINDOWS)
-	if(m_MouseHandler){
+	/*if(m_MouseHandler){
 		if(FAILED(hr = hMouseDevice->Release())){
 			wExDevPrintf(TEXT("Failed ShutDown Mouse Device : %s"),ExGetHResultErrorMessage(hr));
 		}
 		free(m_MouseHandler);
 		m_MouseHandler = EX_NULL;
-	}
+	}*/
 #elif defined(EX_LINUX)
 
 #endif
@@ -232,46 +232,46 @@ DECLSPEC void ELTAPIENTRY ExMouseShutDown(void){
 
 DECLSPEC const Int ELTAPIFASTENTRY ExGetMouseDeltaX(void){
 #ifdef EX_WINDOWS
-	return (m_MouseHandler->MouseState[0].lX - m_MouseHandler->MouseState[1].lX);
+	return (MouseState[0].lX -MouseState[1].lX);
 #endif
 	return 0;
 }
 DECLSPEC const Int ELTAPIFASTENTRY ExGetMouseDeltaY(void){
 #ifdef EX_WINDOWS
-	return (m_MouseHandler->MouseState[0].lY - m_MouseHandler->MouseState[1].lY);
+	return (MouseState[0].lY -MouseState[1].lY);
 #endif
 	return 0;
 }
 
 DECLSPEC const Int ELTAPIFASTENTRY ExGetMouseXCoord(void){
 #ifdef EX_WINDOWS
-	return (m_MouseHandler->MouseState[0].lX);
+	return (MouseState[0].lX);
 #endif
 	return 0;
 }
 DECLSPEC const Int ELTAPIFASTENTRY  ExGetMouseYCoord(void){
 #ifdef EX_WINDOWS
-	return (m_MouseHandler->MouseState[0].lY);
+	return (MouseState[0].lY);
 #endif
 	return 0;
 }
 
 DECLSPEC const Boolean ELTAPIFASTENTRY ExGetButton(Uint32 keyCode){
 #ifdef EX_WINDOWS
-	return (m_MouseHandler->MouseState[0].rgbButtons[keyCode] & 0x80) ? TRUE : FALSE;
+	return (MouseState[0].rgbButtons[keyCode] & 0x80) ? TRUE : FALSE;
 #endif
 	return 0;
 }
 DECLSPEC const Boolean ELTAPIFASTENTRY ExGetButtonDown(Uint32 keyCode){
 #ifdef EX_WINDOWS
-	return (m_MouseHandler->MouseState[0].rgbButtons[keyCode] & 0x80) ? TRUE : FALSE;
+	return (MouseState[0].rgbButtons[keyCode] & 0x80) ? TRUE : FALSE;
 #endif
 	return 0;
 }
 DECLSPEC const Boolean ELTAPIFASTENTRY ExGetButtonUp(Uint32 keyCode){
 #ifdef EX_WINDOWS
-	return !(m_MouseHandler->MouseState[0].rgbButtons[keyCode]  & 0x80) &&
-		(m_MouseHandler->MouseState[1].rgbButtons[keyCode]  & 0x80) != FALSE ? TRUE : FALSE;
+	return !(MouseState[0].rgbButtons[keyCode]  & 0x80) &&
+		(MouseState[1].rgbButtons[keyCode]  & 0x80) != FALSE ? TRUE : FALSE;
 #endif
 	return 0;
 }

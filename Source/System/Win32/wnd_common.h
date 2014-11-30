@@ -112,25 +112,25 @@ typedef struct filefolderW{
 
 //-------------------------------------------------------------------
 /* Get All possiable File Name in Specified Folder Location. */
-extern DECLSPEC FolderListA ELTAPIENTRY ExGetFolderFilePathA(const char* directoryPath);
+//extern DECLSPEC FolderListA ELTAPIENTRY ExGetFolderFilePathA(const char* directoryPath);
 
 //-------------------------------------------------------------------
 /* Get All possiable File Name in  */
-extern DECLSPEC FolderListW ELTAPIENTRY ExGetFolderFilePathW(const WCHAR* directoryPath);
+//extern DECLSPEC FolderListW ELTAPIENTRY ExGetFolderFilePathW(const WCHAR* directoryPath);
 
 
 
-extern DECLSPEC FolderListW ELTAPIENTRY ExGetFolderFileNameW(const WCHAR* directoryPath);
+//extern DECLSPEC FolderListW ELTAPIENTRY ExGetFolderFileNameW(const WCHAR* directoryPath);
 
-extern DECLSPEC FolderListA ELTAPIENTRY ExGetFolderFileNameA(const char* directoryPath);
-
-//-------------------------------------------------------------------
-/* Get All possiable File Name in Specified Folder Location as a Relative Path. */
-extern DECLSPEC FolderListW ELTAPIENTRY ExGetFolderDirectoryPathW(const WCHAR* directoryPath);
+//extern DECLSPEC FolderListA ELTAPIENTRY ExGetFolderFileNameA(const char* directoryPath);
 
 //-------------------------------------------------------------------
 /* Get All possiable File Name in Specified Folder Location as a Relative Path. */
-extern DECLSPEC FolderListA ELTAPIENTRY ExGetFolderDirectoryPathA(const char* directoryPath);
+//extern DECLSPEC FolderListW ELTAPIENTRY ExGetFolderDirectoryPathW(const WCHAR* directoryPath);
+
+//-------------------------------------------------------------------
+/* Get All possiable File Name in Specified Folder Location as a Relative Path. */
+//extern DECLSPEC FolderListA ELTAPIENTRY ExGetFolderDirectoryPathA(const char* directoryPath);
 
 // UNICODE 
 #ifdef EX_UNCIODE
@@ -142,7 +142,7 @@ extern DECLSPEC FolderListA ELTAPIENTRY ExGetFolderDirectoryPathA(const char* di
 	#define ExGetFolderFilePath ExGetFolderFilePathA
 	#define ExGetFolderDirectoryPath ExGetFolderDirectoryPathA
 	#define ExGetFolderFileName ExGetFolderFileNameA
-	typedef FolderListA FolderList;
+	//typedef FolderListA FolderList;
 #endif
 
 

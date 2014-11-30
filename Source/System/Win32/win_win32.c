@@ -135,7 +135,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateNativWindow(Int32 x, Int32 y, Int32 width, In
 			MessageBoxW(NULL, TEXT("ERROR : Failed to Register"), EX_TEXT("ERROR"), MB_OK | MB_ICONWARNING);
 	}
 	// create Window
-	if(!(hwnd = CreateWindowEx(WS_EX_APPWINDOW,EX_NATIVE_WINDOW_CLASS,ExGetDefaultWindowTitle(),
+	if(!(hwnd = CreateWindowEx(WS_EX_APPWINDOW,EX_NATIVE_WINDOW_CLASS,ExGetDefaultWindowTitle(title,sizeof(title) / sizeof(title[0])),
 		(WS_OVERLAPPEDWINDOW),x,y,width,height,EX_NULL, EX_NULL, wc.hInstance,EX_NULL))){		// MaximizeBox Disable
 		MessageBox(EX_NULL, EX_TEXT("ERROR : Failed to Create Window"), TEXT("ERROR"), MB_OK | MB_ICONWARNING);
 	}

@@ -146,10 +146,10 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 #if defined(EX_WINDOWS)
 
 	// Input Request
-	if(engineFlag & ENGINE_SUPPORT_INPUT){
+	/*if(engineFlag & ENGINE_SUPPORT_INPUT){
 		if(!FAILED(_h_result = ExInitDirectInput(engineFlag)))
 			ExInitDirectInputDevice(EX_NULL, engineFlag);
-	}
+	}*/
 #elif defined(EX_LINUX)     // Linux
 
     #if defined(EX_DEBUG) || (EX_ENGINE_VERSION_MAJOR <= 0)	// Debugging information
@@ -178,7 +178,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
     ExInitSubSystem(engineFlag);
 
 	if(_h_result = ExInitErrorHandler()){
-	}else ExError("Failed to initialize error handler.");
+	}else ExError(EX_TEXT("Failed to initialize error handler."));
 
     engineDescription.EngineFlag |= engineFlag;
 
@@ -273,9 +273,7 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 
 #ifdef EX_WINDOWS
 	DEVMODE d = {};
-	Int display;
-	ExShutDownFT();
-	ExReleaseUICommand();
+	Int32 display;
 
 	ExReleaseCL();
 	ExReleaseGL();
@@ -325,8 +323,8 @@ DECLSPEC void ELTAPIENTRY ExEnable(Enum enable){
 	case EX_CRASH_EXEPCTION:
 		break;
 	case EX_OPENCL:
-		ExLoadLibrary("OpenCL.dll");
-		ExLoadLibrary("libOpenCL.so");
+		ExLoadLibrary(EX_TEXT("OpenCL.dll"));
+		ExLoadLibrary(EX_TEXT("libOpenCL.so"));
 	default:return;
 	}
 }
@@ -344,8 +342,8 @@ DECLSPEC void ELTAPIENTRY ExDisable(Enum disable){
 	case EX_CRASH_EXEPCTION:
 		break;
 	case EX_OPENCL:
-		ExUnLoadObject("OpenCL.dll");
-		ExUnLoadObject("libOpenCL.so");
+		ExUnLoadObject(EX_TEXT("OpenCL.dll"));
+		ExUnLoadObject(EX_TEXT("libOpenCL.so"));
 	default:return;
 	}
 }

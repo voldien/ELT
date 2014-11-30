@@ -18,6 +18,12 @@ extern "C"{
 
 extern DECLSPEC void* ELTAPIFASTENTRY ExGetCLContext(void);
 extern DECLSPEC void* ELTAPIFASTENTRY ExGetCLContext2(void);
+
+/**
+	Get current cl context
+*/
+extern DECLSPEC void* ELTAPIFASTENTRY ExGetCurrentCLContext(void);
+
 /**
 
 */

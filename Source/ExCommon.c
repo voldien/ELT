@@ -5,6 +5,9 @@
 #   include<unistd.h>
 #   include<sys/utsname.h>
 #   include<errno.h>
+#elif defined(EX_WINDOWS)
+#	include<Windows.h>
+#	include<WinInet.h>
 #endif
 
 DECLSPEC Boolean ELTAPIENTRY ExCreateProcess(const ExChar* applicationName){
@@ -361,7 +364,9 @@ DECLSPEC Int32 ELTAPIENTRY ExSetClipboardText(const ExChar* text){
 #endif
 }
 
-#include<sys/socket.h>
+#ifdef EX_LINUX
+#	include<sys/socket.h>
+#endif
 DECLSPEC ERESULT ELTAPIENTRY ExPutFTPFile(const ExChar* ftp, const ExChar* user, const ExChar* password,const ExChar* file, const ExChar* directory){
 #ifdef EX_WINDOWS
 	HINTERNET hInternet;

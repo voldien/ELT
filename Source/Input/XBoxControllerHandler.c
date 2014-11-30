@@ -1,11 +1,11 @@
 #include"XBoxControllerHandler.h"
 #include<Cmd/mathlib.h>
-
-	#if defined(EX_WINDOWS)
+/*
+#if defined(EX_WINDOWS)
 #       include<dinput.h>
 #       include<XInput.h>
 #       pragma comment(lib, "xinput.lib")
-	#endif
+#endif
 typedef struct _xBoxStructor{
 	//XINPUT_STATE p_XboxControllers[EX_CONTROLLER_MAX_COUNT];
 	Boolean enabled[EX_CONTROLLER_MAX_COUNT];
@@ -256,7 +256,7 @@ ExGUID* ExGetXSoundRenderGUID(Uint userIndex){
 	XInputGetDSoundAudioDeviceGuids(userIndex, soundGuid,renderGuid);
 	return (ExGUID*)renderGuid;
 }
-*/
+
 void ExSetXInputEnabled(Boolean enabled){
 #ifdef EX_WINDOWS
 	XInputEnable(enabled);
@@ -279,3 +279,4 @@ Boolean ExGetSupportVoice(Uint userIndex){
 #endif
 	return 0;
 }
+*/

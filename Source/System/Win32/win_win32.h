@@ -7,9 +7,7 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 #define WIN32_WINDOW_H
 #include"./../../ExPreProcessor.h"
 #ifdef EX_WINDOWS
-
-
-
+#include<Windows.h>
 #include"./../../EngineAssembly.h"
 #include"win_wndproc.h"
 #include"win_directX.h"
@@ -56,7 +54,7 @@ typedef struct ExNativWindowHandler{
 		HMENU contexthmenu;
 	};
 	Enum windowFlag;
-	EX_C_STRUCT ExGLWindowHandler::EventHandler events;
+	EX_C_STRUCT ExNativWindowHandler::EventHandler events;
 
 }ExNativWindow;
 typedef struct ExGLWindowHandler{
@@ -69,7 +67,7 @@ typedef struct ExGLWindowHandler{
 		HMENU contexthmenu;
 	};
 	Enum windowFlag;
-	EX_C_STRUCT ExGLWindowHandler::EventHandler events;
+	EX_C_STRUCT EventHandler events;
 }HExGLWindow;
 
 typedef struct WindowEvent{

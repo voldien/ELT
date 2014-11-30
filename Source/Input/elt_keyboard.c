@@ -89,7 +89,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitKeyBoard(ExWin win){
 DECLSPEC ERESULT ELTAPIENTRY ExSetKeyBoardCooperative(ExWin win, Uint32 flag){
 	ERESULT hr;
 #if defined(EX_WINDOWS)
-	if(!m_keyboard_device)return FALSE;// no device!
+/*	if(!m_keyboard_device)return FALSE;// no device!
 	if(!win)
 		win = GetFocus();
 	if(win){
@@ -104,7 +104,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExSetKeyBoardCooperative(ExWin win, Uint32 flag){
 	if(FAILED(hr = m_keyboard_device->Acquire())){
 		ExIsHError(hr);
 	}
-	ExUpdateKeyboard();
+	ExUpdateKeyboard();*/
 #endif
 	return hr;
 }
@@ -114,13 +114,13 @@ DECLSPEC void ELTAPIENTRY ExUpdateKeyboard(void){
 	ERESULT hr;
 #if defined(EX_WINDOWS)
 	//swap(index,index1);
-	if(FAILED(hr = m_keyboard_device->GetDeviceState(sizeof(Boolean)* 256, (LPVOID)m_KeyBoard->KeyBoardState[_index]))){
+	/*if(FAILED(hr = m_keyboard_device->GetDeviceState(sizeof(Boolean)* 256, (LPVOID)m_KeyBoard->KeyBoardState[_index]))){
 		if(FAILED(hr = m_keyboard_device->Acquire())) // connect to the keyboard
 			ExIsHError(hr);
 		while(hr == DIERR_INPUTLOST || hr == DIERR_NOTACQUIRED){
 			hr = m_keyboard_device->Acquire(); // try to connect to the keyboard again!
 		}
-	}
+	}*/
 #elif defined(EX_LINUX)
 
 #endif
@@ -159,7 +159,7 @@ DECLSPEC Boolean ELTAPIFASTENTRY ExIsKey(const Uint32 keyCode){
 #if defined(EX_WINDOWS)
 	return GetAsyncKeyState(keyCode);
 	ExUpdateKeyboard();
-	return (m_KeyBoard->KeyBoardState[index][keyCode] & 0x80);
+	return (KeyBoardState[_index][keyCode] & 0x80);
 #elif defined(EX_LINUX)
 	return 0;
 #endif
@@ -167,7 +167,7 @@ DECLSPEC Boolean ELTAPIFASTENTRY ExIsKey(const Uint32 keyCode){
 DECLSPEC Boolean ELTAPIFASTENTRY ExIsKeyDown(const Uint32 keyCode){
 #if defined(EX_WINDOWS)
 	return GetAsyncKeyState(keyCode);
-	return (KeyBoardState[index][keyCode] & 0x80) != FALSE ? TRUE : FALSE;
+	return (KeyBoardState[_index][keyCode] & 0x80) != FALSE ? TRUE : FALSE;
 #elif defined(EX_LINUX)
 	return 0;
 #endif
@@ -175,8 +175,8 @@ DECLSPEC Boolean ELTAPIFASTENTRY ExIsKeyDown(const Uint32 keyCode){
 DECLSPEC Boolean ELTAPIFASTENTRY ExIsKeyUp(const Uint32 keyCode){
 #if defined(EX_WINDOWS)
 	return GetAsyncKeyState(keyCode);
-	if(!((KeyBoardState[index][keyCode]) & 0x80))
-		if(((KeyBoardState[index1][keyCode]) & 0x80))
+	if(!((KeyBoardState[_index][keyCode]) & 0x80))
+		if(((KeyBoardState[_index1][keyCode]) & 0x80))
 			return TRUE;
 #elif defined(EX_LINUX)
 	return FALSE;
