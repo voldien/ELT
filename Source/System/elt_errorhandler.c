@@ -6,7 +6,7 @@
 //#include<syslog.h>
 #endif
 #include<signal.h>
-#include<limits>
+#include<limits.h>
 #include<Cmd/cmdlib.h>
 
 
@@ -20,7 +20,7 @@ DECLSPEC void ELTAPIENTRY ExError(const ExChar* error,...){
 
 	va_start(argptr,error);
 #ifdef EX_UNICODE
-	
+
 	//vwfprintf(stderr,error,argptr);
 #else
 	vfprintf(stderr,error,argptr);

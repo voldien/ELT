@@ -2,6 +2,7 @@
 #include"EngineAssembly.h"
 #ifdef EX_WINDOWS		// TODO solve
 #   include"System/Win32/wnd_common.h"
+#include<GL/GLU.h>
 #elif defined(EX_LINUX)
 #endif
 #ifndef CMD_LIB_H
@@ -9,7 +10,6 @@
 #endif
 #include<Cmd/mathlib.h>
 #include<GL/gl.h>
-#include<gl/GLU.h>
 #include<signal.h>
 #include<string.h>
 
@@ -63,17 +63,12 @@ static EngineDescription ELTAPIENTRY EngineDefaultDescription(void){
 	return defaultDescripton;
 }
 static EngineDescription ELTAPIENTRY EngineDirectXDescription(void){
-	//DEVMODE _displayMode;
-	//memset(&_displayMode, 0, sizeof(_displayMode));
-	//EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &_displayMode);
 
 	EngineDescription _description;
 	memset(&_description,0, sizeof(EngineDescription));
 	_description.EngineFlag = 0;
 	_description.nVersion = EX_ENGINE_VERSION;
 	_description.PixelType = (Uint)(ENGINE_RGB | ENGINE_ALPHA);
-
-	//_description.FullScreen_Hz = _displayMode.dmDisplayFrequency;
 
 	_description.BufferCount = 1;
 	_description.AffinityCount = 1;
@@ -86,18 +81,13 @@ static EngineDescription ELTAPIENTRY EngineDirectXDescription(void){
 	return _description;
 }
 static EngineDescription ELTAPIENTRY EngineOpenGLDescription(void){
-	//DEVMODE _displayMode;
-	//memset(&_displayMode, 0, sizeof(_displayMode));
-	//EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &_displayMode);
+
 
 	EngineDescription defaultDescripton;
 	memset(&defaultDescripton,0, sizeof(EngineDescription));
 	defaultDescripton.nVersion = EX_ENGINE_VERSION;
 	defaultDescripton.EngineFlag = 0;
 	defaultDescripton.PixelType = (Uint)(ENGINE_RGB | ENGINE_ALPHA);
-
-
-	//defaultDescripton.FullScreen_Hz = _displayMode.dmDisplayFrequency;
 
 	defaultDescripton.BufferCount = 1;
 	defaultDescripton.AffinityCount = 1;

@@ -12,11 +12,11 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 #include"EngineEx.h"
 #include"ExCommon.h"
 #include"Input/XBoxControllerHandler.h"
+#include<Cmd/cmdlib.h>
 #if defined(EX_WINDOWS)
 	#pragma warning(disable : 4480) // enum
 	#pragma warning(disable : 4995) // deprecated
 	#include<tchar.h>
-	#define SIZEOF(type) sizeof(type)
 	#ifdef EX_VC
 		#include<strsafe.h>
 	#endif
@@ -177,7 +177,6 @@ extern "C"{
 //---- End Engine Description flag.
 typedef struct EngineFormatDescription{
 	Uint64 EngineFlag;		// Engine Flag Stats
-	Uint32 FullScreen_Hz;	// Screen Refresh Hz On FullScreen Mode
 	Uint32 SampleQuality;	// Sample Quallity Flag Stats
 	Uint8 sample[4];
 	Uint32 BufferCount;		// Number of Buffer Drawn To Window

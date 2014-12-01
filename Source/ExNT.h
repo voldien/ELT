@@ -125,16 +125,16 @@ typedef long Long;
 typedef Uint8 InputAxis;
 typedef Uint8 Keycode;
 typedef void* DataBuffer;
-/*
-typedef struct ex_size{};
-typedef struct ex_rect{};
-typedef struct ex_point{};
-*/
+
 
 #ifdef __cplusplus
 	typedef Uint8 Boolean;
 #endif
-typedef enum{false = 0, true = 1} Boolean;
+#ifndef CMD_LIB_H
+    typedef enum{xfalse, xtrue }ExBoolean;
+#else
+    typedef Boolean ExBoolean;
+#endif
 #ifndef INTERNAL_ENGINEX
 
 #endif
@@ -245,7 +245,7 @@ typedef union doubleUnion{
 	typedef void* ExWin;
 	typedef void* OpenGLContext;
 	typedef void* WindowContext;
-	#define THREAD_CALLBACK __cdecl
+	#define THREAD_CALLBACK /*__cdecl*/
 #endif
 
 #define EX_CALLBACK ELTAPISTDENTRY

@@ -250,7 +250,9 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 	#define ELTAPITHISENTRY __thiscall
 	#define ELTAPISTDENTRY __stdcall
 #else
-	#define __cdecl  __attribute__ ((_cdecl))
+#   ifndef __cdecl
+        #define __cdecl  __attribute__ ((__cdecl__))
+#   endif
 	#define ELTAPIENTRY //__cdecl
 	#define ELTAPISTDENTRY //__cdecl
 	#define ELTAPIFASTENTRY //__cdecl

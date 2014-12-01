@@ -24,12 +24,12 @@ extern "C"{
 /*
 	// create process
 */
-extern DECLSPEC Boolean ELTAPIENTRY ExCreateProcess(const ExChar* applicationName);
+extern DECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName);
 /*
 	// create process with variable argument list
 	// Remark :last argument should be null to prevent system error.
 */
-extern DECLSPEC Boolean ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName,...);
+extern DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName,...);
 
 /*
 	// Get System Primary Screen Size
@@ -57,29 +57,30 @@ extern DECLSPEC Int32 ELTAPIENTRY ExGetMonitorHz(Uint32 index);
 extern DECLSPEC Int32 ELTAPIENTRY ExGetPrimaryMonitorHz(void);
 
 
-/*
+#ifdef EX_WINDOWS
+/**
 
 */
 extern DECLSPEC Boolean ExLoadFileExplorer(char* path,const ExChar* filter);
-/*
+/**
 
 */
 extern DECLSPEC Boolean ExSaveFileExplorer(char* path,const ExChar* filter);
+#endif
 
-/*
+/**
 	// Get Platform
 */
 extern DECLSPEC const char* ExGetPlatform(void);
-/*
+/**
 	// Get Power Info
 */
 extern DECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct);
-/*
+/**
 	// Get Application Name
 */
 extern DECLSPEC void ELTAPIENTRY ExGetApplicationName(ExChar* name,Int32 length);
-
-/*
+/**
 	// Set Current Directory
 */
 #ifdef EX_WINDOWS

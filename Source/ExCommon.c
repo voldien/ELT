@@ -10,7 +10,7 @@
 #	include<WinInet.h>
 #endif
 
-DECLSPEC Boolean ELTAPIENTRY ExCreateProcess(const ExChar* applicationName){
+DECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName){
 #ifdef EX_WINDOWS
 	PROCESS_INFORMATION pi = {0};
 	STARTUPINFO si = {0};
@@ -34,7 +34,7 @@ DECLSPEC Boolean ELTAPIENTRY ExCreateProcess(const ExChar* applicationName){
 	return 	execl(applicationName,"");
 #endif
 }
-DECLSPEC Boolean ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName, ...){
+DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName, ...){
 #ifdef EX_WINDOWS
 	va_list argptr;
 	ExChar argv[1024]= {0};

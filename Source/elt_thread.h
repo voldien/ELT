@@ -13,7 +13,7 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 
 	#define ExSleep sleep
 #elif defined(EX_MAC)
-	#define ExSleep sleep
+	#define ExSleep usleep
 #endif
 
 #ifdef  __cplusplus	// C++ Environment
@@ -46,7 +46,7 @@ extern DECLSPEC Uint32 ELTAPIENTRY ExGetThreadID(ExThread thread);
 */
 extern DECLSPEC const char* ELTAPIENTRY ExGetThreadName(ExThread thread);
 /*
-	// 
+	//
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread,Enum nPriority);
 /*

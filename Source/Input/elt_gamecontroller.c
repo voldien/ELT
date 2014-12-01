@@ -6,9 +6,10 @@
 #elif defined(EX_LINUX)
 
 #endif
+#include<Cmd/cmdlib.h>
 
 
-DECLSPEC Boolean ELTAPIENTRY ExIsGameController(Int32 joystick_index){
+DECLSPEC ExBoolean ELTAPIENTRY ExIsGameController(Int32 joystick_index){
 
 	return 0;
 }
