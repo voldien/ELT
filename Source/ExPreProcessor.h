@@ -5,7 +5,7 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 */
 #ifndef EX_PRE_PROCESSOR_H
 #define EX_PRE_PROCESSOR_H
-	#include<stddef.h>
+#include<stddef.h>
 
 #ifdef __cplusplus
 	#include<cstdio>
@@ -17,7 +17,9 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 	#define EX_C	// C environment
 #endif
 
-// Compiler
+/*
+    Compiler
+*/
 #ifdef _MSC_VER //	Visual Studio C++ Compiler.
 	#define EX_VC
 	#define ENGINE_EX_COMPILER 1
@@ -36,18 +38,21 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 	#else
 		#define EX_VC6 _MSC_VER
 	#endif
-#pragma warning(disable : 4201)
+    #pragma warning(disable : 4201)
 	#define EX_COMPILER_NAME "Visual Studio C++/C"
-#elif defined(__GNUC__) || defined(__SNC__)	// GNU compiler
+#elif defined(__GNUC__) || defined(__SNC__)	/*  GNU C Compiler*/
 	#ifdef EX_CPP // G++
 	#endif
 	#define EX_GNUC
 	#define ENGINE_EX_COMPILER 2
 	#define EX_COMPILER_NAME "GNU C"
+#elif defined(__GNUG__) /*  GNU C++ Compiler*/
+	#define EX_GNUC
+
 #elif defined(__ghs__)		// GHS
 	#define EX_GHS
 	#define ENGINE_EX_COMPILER 3
-#elif defined(__INTEL_COMPILER)
+#elif defined(__INTEL_COMPILER) /*  Intel Compiler  */
 	#define EX_INTEL
 	#define ENGINE_EX_COMPILER 4
 	#define EX_COMPILER_NAME "Intel C++"
@@ -55,7 +60,7 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 	#error UnSupported Compiler.
 #endif
 
-/*
+/**
 	// platform define
 	//	Architecture!
 */
@@ -80,24 +85,24 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 		#define EX_ARM_NEON
 	#endif
 #elif defined EX_GNUC
-	#ifdef __CELLOS_LV2__
-	#define EX_PS3
+	#ifdef __CELLOS_LV2__   /*  */
+        #define EX_PS3
 	#elif defined(__arm__)
-	#define EX_PSP2
+        #define EX_PSP2
 	#endif
-	#if defined(_WIN32)
+	#if defined(_WIN32) /*  Window*/
 		#define EX_WINDOWS
 		#define EX_BITS_ARCHITECTURE 32
 	#endif
-	#if defined (__linux__) || defined(__linux) || defined(linux)
+	#if defined (__linux__) || defined(__linux) || defined(linux)/* Linux */
 		#define EX_LINUX
 		#define EX_UNIX
-	#elif defined(__unix__)
+	#elif defined(__unix__) /*  Unix    */
 		#define EX_UNIX
-	#elif defined (ANDROID)
+	#elif defined (ANDROID) /* Android */
 		#define EX_ANDROID
 		#define EX_UNIX
-	#elif defined (__APPLE__)
+	#elif defined (__APPLE__)   /*  Apple product   */
 		#define EX_APPLE
 		#define EX_UNIX
 		#if defined(__arm__)
@@ -105,15 +110,15 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 		#elif defined(MACOSX) || defined(macintosh) || defined(Macintosh)
 			#define EX_MAC
 		#endif
-	#elif defined(__CYGWIN)
+	#elif defined(__CYGWIN) /*  */
 		#define EX_CYGWIN
 		#define EX_LINUX
 		#define EX_UNIX
-	#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
+	#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)   /*  BSD*/
 		#define EX_BSD
 	#endif
 #else
-	#error  Unsupported architecture!
+	#error  Unsupported architecture!   /*  No architecture support implicitly. remove this line to compile anyway*/
 #endif
 /**
     C Compiler Version
@@ -125,14 +130,17 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 #elif defined(__STDC__)
 #   define EX_C90
 #endif
+
+
+
 //#define EX_XBOX
 //#define EX_WEB
 
 // defination of compiler settings
 #define LINKER_BUILD_TARGET
 
-/*
-// macro defination of Release and Debug  build
+/**
+    macro definition of Release and Debug  build
 */
 #if defined(_DEBUG) || defined(DEBUG)
 	#define EX_DEBUG
@@ -145,8 +153,8 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 	#define RELEASEMODE
 #endif
 
-/*
-// Unicode
+/**
+    Unicode
 */
 #ifdef UNICODE
 	#define EX_UNICODE
@@ -161,8 +169,8 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 // ENGINE EX Declaration Behavior
 
 
-/*
-	// declartion specfication
+/**
+    declaration specification
 */
 #if !defined(ENGINE_EX_STATIC_BUILD)
 	#if defined(EX_WINDOWS) /*&& defined(EX_VC)*/
@@ -183,8 +191,8 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 	#endif
 #endif
 
-/*
-	// resered keyword
+/**
+    Reserved keyword
 */
 #define EX_EXTERN extern
 #define C_EXTERN extern "C"
@@ -194,7 +202,7 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 
 /*
 	// No Initialization Virtual Table. [4 BYTE In size]
-	// only supports in C++ enviroments
+	// only supports in C++ environments
 */
 #ifdef EX_WINDOWS
 	#define NOINITVTABLE __declspec(novtable)

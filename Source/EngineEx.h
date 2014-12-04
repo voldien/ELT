@@ -43,10 +43,14 @@ extern DECLSPEC void ELTAPIENTRY ExEnable(Enum enable);
 	//EngineEx Disable
 */
 extern DECLSPEC void ELTAPIENTRY ExDisable(Enum disable);
+
 /*
 	// Get ELT Version
 */
 extern DECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void);
+/**
+    Get Compiler compiled with ELT.
+*/
 extern DECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void);
 /*
 	// print information about the ELT framework

@@ -347,6 +347,8 @@ DECLSPEC void ELTAPIENTRY ExDisable(Enum disable){
 	default:return;
 	}
 }
+
+
 #define EX_TO_TEXT(x) "x"
 #define EX_COMPILER_VERSION(major, minor, revision) EX_TEXT("ELT-")EX_TO_TEXT(major)EX_TEXT(".")EX_TO_TEXT(minor)EX_TEXT(".")EX_TO_TEXT(revision)
 DECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void){

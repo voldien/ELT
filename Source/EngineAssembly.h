@@ -150,10 +150,6 @@ enum EngineSupport{
 #define ENGINE_SUPPORT_INPUT_BACKGROUND (Uint64)eInputBackGround	// Input Accessordability Can be access even off fokus on Application.
 
 
-
-#define ENGINE_FULLSCREEN (Uint64)EngineSupport::eFullScreen
-
-
 //#define ENGINE_WINDOW (Uint64)EngineSupport::eWindowRender				//	Create Window To Display Rendering.
 
 /*
