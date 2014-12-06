@@ -1,4 +1,0 @@
-error
-[FileLine 145 : FileName /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_errorhandler.c]
-˜Ìùÿÿ has just crashed Error : segment violation.
- Do you want to send a bug report to the developers team?

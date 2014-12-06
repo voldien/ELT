@@ -5,6 +5,7 @@
 #   include<unistd.h>
 #   include<sys/utsname.h>
 #   include<errno.h>
+#   include<libgen.h>
 #elif defined(EX_WINDOWS)
 #	include<Windows.h>
 #	include<WinInet.h>
@@ -31,17 +32,38 @@ DECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName){
     }
 	return TRUE;
 #elif defined(EX_LINUX)
-	return 	execl(applicationName,"");
+    pid_t pid;
+    pid = fork();
+
+    switch(pid){
+        case -1:{
+            fprintf(stderr,strerror(errno));
+            kill(pid,9);
+        }break;
+        case 0:{
+            ExChar argv[512]= {0};
+            memcpy(argv, applicationName,strlen(applicationName) + 1);
+            chdir(dirname(argv));
+            if(execl(applicationName,basename(applicationName),NULL) == -1)
+                fprintf(stderr,strerror(errno));
+        }break;
+        default:{
+            wait(&pid);
+        }break;
+    }
+    return 1;
 #endif
 }
 DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName, ...){
-#ifdef EX_WINDOWS
 	va_list argptr;
 	ExChar argv[1024]= {0};
 	ExChar* arg_temp;
+	va_start(argptr,applicationName);
+#ifdef EX_WINDOWS
+
 	PROCESS_INFORMATION pi = {0};
 	STARTUPINFO si = {0};
-	va_start(argptr,applicationName);
+
 #ifdef EX_UNICODE
 	while(arg_temp = va_arg(argptr, ExChar*)){	// while arg isn't a null variable
 		wcscat(argv,(const ExChar*)arg_temp);
@@ -75,13 +97,29 @@ DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName, ...){
 
 	return TRUE;
 #elif defined(EX_LINUX)
+    pid_t pid;
 // TODO FIX
-	//while((arg_temp = va_arg(argptr, ExChar*)) != NULL){
-		//strcat(argv,arg_temp);
-		//wcscat(argv,EX_TEXT(" "));
-		//continue;
-	//}
-	return execl(applicationName,"");
+/*	while((arg_temp = va_arg(argptr, ExChar*)) != NULL){
+		strcat(argv,arg_temp);
+		wcscat(argv,EX_TEXT(" "));
+		continue;
+	}*/
+
+    pid = fork();
+    switch(pid){
+        case -1:{
+            fprintf(stderr,strerror(errno));
+            kill(pid,9);
+        }break;
+        case 0:{
+            if(execv(applicationName,argptr) == -1)
+                fprintf(stderr,strerror(errno));
+        }break;
+        default:{
+            wait(&pid);
+        }break;
+    }
+	va_end(argptr);
 #endif
 }
 
@@ -196,6 +234,7 @@ DECLSPEC void ELTAPIENTRY ExGetAppliationPath(ExChar* wChar, Int32 lengthSize){
 #ifdef EX_WINDOWS
 	ExIsError(GetCurrentDirectory(lengthSize,wChar));
 #elif defined(EX_LINUX)
+    //readlink()
 	getcwd(wChar,lengthSize);
 #endif
 	return;
@@ -295,7 +334,7 @@ DECLSPEC const ExChar* ELTAPIENTRY ExGetOSName(void){
 	else
 		return TEXT("Windows OS Unknown");
 #elif defined(EX_LINUX)
-    return "Linux - Is The Best of the Best";
+    return "Linux";
 	struct utsname _name;
 	if(uname(&_name) != EFAULT)
 		return _name.sysname;

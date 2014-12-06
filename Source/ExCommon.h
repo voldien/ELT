@@ -21,11 +21,11 @@ extern "C"{
 #define ExReAlloc realloc
 #define ExFree(p_pointer) {free(p_pointer);p_pointer = EX_NULL;}
 
-/*
-	// create process
+/**
+	create process
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName);
-/*
+/**
 	// create process with variable argument list
 	// Remark :last argument should be null to prevent system error.
 */

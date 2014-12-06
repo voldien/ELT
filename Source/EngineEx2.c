@@ -30,7 +30,6 @@ extern DECLSPEC void ELTAPIENTRY ExSetHint(Enum e_enum, int value){
         case GL_STENCIL_BITS:engineDescription.StencilBits = value;break;
         case GL_ALPHA:engineDescription.alphaChannel = value;break;
         case GL_SAMPLES:engineDescription.sample[0] = CLAMP(value,0,UCHAR_MAX);break;
-        //case GL_SAMPLES:engineDescription.sample[0] = CLAMP(value,0,5);break;
         default:break;
     }
 }
@@ -39,18 +38,29 @@ extern DECLSPEC void ELTAPIENTRY ExSetHint(Enum e_enum, int value){
 */
 extern DECLSPEC int ELTAPIENTRY ExGetHint(Enum e_enum){
     switch(e_enum){
+        /*case GL_DEPTH_BITS: engineDescription.DepthBits = value;break;
+        case GL_STENCIL_BITS:engineDescription.StencilBits = value;break;
+        case GL_ALPHA:engineDescription.alphaChannel = value;break;
+        case GL_SAMPLES:engineDescription.sample[0] = CLAMP(value,0,UCHAR_MAX);break;
+        */
         default:return 0;
     }
 }
+DECLSPEC int ELTAPIENTRY ExSetParameteri(Enum eflag, int value){
+
+    return 1;
+}
+DECLSPEC int ELTAPIENTRY ExSetParameterf(Enum eflag, float value){
+
+    return 1;
+}
+
+
 
 static EngineDescription ELTAPIENTRY EngineDefaultDescription(void){
-	//DEVMODE _displayMode;
-	//memset(&_displayMode, 0, sizeof(_displayMode));
-	//EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &_displayMode);
 	EngineDescription defaultDescripton = {0};
 	defaultDescripton.EngineFlag = 0;
 	defaultDescripton.PixelType = (Uint)(ENGINE_RGBA | ENGINE_ALPHA);
-	//defaultDescripton.FullScreen_Hz = _displayMode.dmDisplayFrequency;
 	defaultDescripton.SampleQuality = 0;// sample buffer
 	defaultDescripton.BufferCount = 1;
 	defaultDescripton.BufferFlag = 1;
@@ -81,7 +91,6 @@ static EngineDescription ELTAPIENTRY EngineDirectXDescription(void){
 	return _description;
 }
 static EngineDescription ELTAPIENTRY EngineOpenGLDescription(void){
-
 
 	EngineDescription defaultDescripton;
 	memset(&defaultDescripton,0, sizeof(EngineDescription));

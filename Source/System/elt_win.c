@@ -10,6 +10,7 @@
 	#include"Unix/unix_win.h"
 	#include<X11/Xlib.h>
 	#include<EGL/egl.h>
+	#include<GL/glx.h>
 #elif defined(EX_MAC)
 	#include"Mac/macosx_win.h"
 	#include<EGL/egl.h>
@@ -21,13 +22,19 @@ extern DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window);
 
 
 #ifdef EX_DEBUG
-#define EX_ENGINE_VERSION_STRING EX_TEXT("Engine Ex Version | %d.%d%d%s | OS : %s [CPU : %s] : OpenGL %d.%d")
+#define EX_ENGINE_VERSION_STRING EX_TEXT("ELT Version | %d.%d%d%s | OS : %s : OpenGL %d.%d")
 #else
-#define EX_ENGINE_VERSION_STRING EX_TEXT("Engine Ex Version | %d.%d%d%s | OS : %s [CPU : %s] : OpenGL %d.%d")
+#define EX_ENGINE_VERSION_STRING EX_TEXT("ELT Version | %d.%d%d%s | OS : %s : OpenGL %d.%d")
 #endif
 DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length){
 	if(!text)return NULL;
 	ExChar wchar[260] = {};
+	int major_version, minor_version;
+#ifdef EX_LINUX
+    glGetIntegerv(GL_MAJOR_VERSION, &major_version);
+    glGetIntegerv(GL_MINOR_VERSION, &minor_version);
+    glXQueryVersion(XOpenDisplay(NULL),&major_version,&minor_version );
+#endif
 #ifdef EX_UNICODE
 	wsprintf(wchar,EX_ENGINE_VERSION_STRING,
 #else
@@ -37,10 +44,9 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length){
 		EX_ENGINE_VERSION_MINOR,
 		EX_ENGINE_VERSION_REVISION,
 		EX_ENGINE_STATUS,
-		ExGetCPUName(),
 		ExGetOSName(),
-		3,
-		3);
+		major_version,
+		minor_version);
 	memcpy(text, wchar, MAX(sizeof(ExChar) * length + sizeof(ExChar),sizeof(wchar) / sizeof(ExChar)));
 	return text;
 }

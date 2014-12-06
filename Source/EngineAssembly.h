@@ -197,8 +197,15 @@ extern DECLSPEC void ELTAPIENTRY ExSetHint(Enum e_enum, int value);
     \Get Hint
 */
 extern DECLSPEC int ELTAPIENTRY ExGetHint(Enum e_enum);
+/**
+    Set parameter
+*/
+extern DECLSPEC int ELTAPIENTRY ExSetParameteri(Enum eflag, int value);
+/**
+    Set parameter
+*/
+extern DECLSPEC int ELTAPIENTRY ExSetParameterf(Enum eflag, float value);
 
-extern DECLSPEC int ELTAPIENTRY ExSetParameter(Enum eenum, int value);
 
 extern DECLSPEC void ELTAPIENTRY AssignDescription(const EngineDescription* p_engineDescription);
 
@@ -218,11 +225,13 @@ extern DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int le
 #include"System/elt_win.h"
 #include"System/elt_errorhandler.h"
 #include"System/elt_event.h"
+#include"System/elt_net.h"
 #include"elt_loadso.h"
 #include"Input/elt_keyboard.h"
 #include"Input/elt_mouse.h"
 #include"Input/elt_joystick.h"
 #include"elt_cpuinfo.h"
 #include"elt_timer.h"
+
 #include"elt_matrix.h"
 #endif

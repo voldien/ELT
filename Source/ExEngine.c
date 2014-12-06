@@ -119,13 +119,19 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	////
 	//hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
 	/**/
-	m_file_log = fopen("EngineExDevLog.txt", "w+" );
+	//m_file_log = fopen("EngineExDevLog.txt", "w+" );
+	//FILE* fopen;
 	/**/
-	if(dup2(1,fdopen(4,"w+")) == -1)
-        fprintf(stderr,"error");
+	//if(dup2(1,(fopen = fdopen(4,"w+"))) == -1)
+   //     fprintf(stderr,"error");
     /**/
-	*stdout = *m_file_log;
-	setvbuf(stdout, NULL, _IONBF, 0 );
+    /*  cause fork to fail somehow*/
+	//*stdout = *m_file_log;
+	//setvbuf(fopen, NULL, _IONBF, 0 );
+    fprintf(stderr,"error");
+    fprintf(stdout,"error");
+
+
 #endif
 #ifdef EX_DEBUG
 	#if defined(EX_VC) && defined(EX_WINDOWS)

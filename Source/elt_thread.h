@@ -10,8 +10,7 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 #if defined(EX_WINDOWS)
 	#define ExSleep Sleep
 #elif defined(EX_LINUX)
-
-	#define ExSleep sleep
+	#define ExSleep usleep
 #elif defined(EX_MAC)
 	#define ExSleep usleep
 #endif
@@ -36,7 +35,11 @@ extern DECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread);
 /*
 	//
 */
-extern DECLSPEC void ExLockThread(ExThread thread);
+extern DECLSPEC void ELTAPIENTRY ExLockThread(ExThread thread);
+/**
+    Get current thread identification.
+*/
+extern DECLSPEC ExThread ELTAPIENTRY ExGetCurrentThread(void);
 /*
 	// Get Thread ID
 */

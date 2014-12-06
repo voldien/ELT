@@ -451,8 +451,8 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 	// ELT Version
 */
 #define EX_ENGINE_VERSION_MAJOR 0x0
-#define EX_ENGINE_VERSION_MINOR 0x5
-#define EX_ENGINE_VERSION_REVISION 0x38
+#define EX_ENGINE_VERSION_MINOR 0x0
+#define EX_ENGINE_VERSION_REVISION 0x39
 
 #define EX_ENGINE_PREALPHA EX_TEXT("pa")	        /* Pre alpha    */
 #define EX_ENGINE_ALPHA EX_TEXT("a")		        /* Alpha        */

@@ -13,41 +13,41 @@ typedef Keycode ExScancode;
 #ifdef __cplusplus	// C++ Environment
 extern "C"{
 #endif
-/*
+/**
 	// Get KeyCode name identifiction index
 */
 extern DECLSPEC Keycode ELTAPIENTRY ExGetKeyFromName(const char* name);
-/*
+/**
 	//	Get Key from Scancode
 */
 extern DECLSPEC Keycode ELTAPIENTRY ExGetKeyFromScancode(ExScancode scancode);
-/*
+/**
 	// Get KeyCode name
 */
 extern DECLSPEC const char* ELTAPIENTRY ExGetKeyName(Keycode keycode);
 
-/*
+/**
 	// Get Window that is keyboard is focus to
 */
 extern DECLSPEC ExWin ELTAPIENTRY ExGetKeyboardFocus(void);
-/*
+/**
 	//
 */
 extern DECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys);
-/*
+/**
 	//
 */
 extern DECLSPEC Keycode ELTAPIENTRY ExGetModeState(void);
 
-/*
+/**
 	// is any key pressed
 */
 extern DECLSPEC Boolean ELTAPIFASTENTRY ExAnyKey(void);
-/*
+/**
 	//
 */
 extern DECLSPEC Boolean ELTAPIFASTENTRY ExAnyKeyDown(void);
-/*
+/**
 	//
 */
 extern DECLSPEC Boolean ELTAPIFASTENTRY ExIsKey(const Uint32 keyCode);

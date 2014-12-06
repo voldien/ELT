@@ -64,19 +64,6 @@ static int isExtensionSupported(const char* extList, const char* extension){
 #endif
 	return 0;
 }
-/**
-    Get OpenGL Vendor Enum.
-*/
-static unsigned int get_opengl_vendor_enum(void){
-    #ifdef EX_WINDOWS
-	if(ExIsVendorNvidia())return EX_GPU_NVIDIA;
-	else if(ExIsVendorAMD())return EX_GPU_AMD;
-	else if(ExIsVendorIntel())return EX_GPU_INTEL;
-	else return EX_GPU_UNKNOWN;
-	#elif defined(EX_LINUX)
-	return 0;
-	#endif // defined
-}
 
 DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window){
 	int major ,minor ;
@@ -502,9 +489,12 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
         Context attributes
     */
     int context_attribs[]={
-        GLX_CONTEXT_MAJOR_VERSION_ARB, major_version,
-        GLX_CONTEXT_MINOR_VERSION_ARB, minor_version,
-        GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
+        WGL_CONTEXT_MAJOR_VERSION_ARB, major_version,
+        WGL_CONTEXT_MINOR_VERSION_ARB, minor_version,
+        WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
+        #ifdef EX_DEBUG
+        WGL_CONTEXT_FLAGS_ARB,WGL_CONTEXT_DEBUG_BIT_ARB,
+        #endif
         None
     };
 
@@ -558,13 +548,18 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     glGetIntegerv(GL_MINOR_VERSION, &minor_version);
 
 
-	int context_attribs[]={
-			GLX_CONTEXT_MAJOR_VERSION_ARB, major_version,
-			GLX_CONTEXT_MINOR_VERSION_ARB, minor_version,
-			GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
-			None
-	};
-	render_vendor = get_opengl_vendor_enum();
+
+    int context_attribs[]={
+        GLX_CONTEXT_MAJOR_VERSION_ARB,/* major_version*/3,
+        GLX_CONTEXT_MINOR_VERSION_ARB,/* minor_version*/2,
+        #ifdef EX_DEBUG
+        GLX_CONTEXT_FLAGS_ARB,GLX_CONTEXT_DEBUG_BIT_ARB | GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,   /*  Debug TODO add hint*/
+        #else
+        GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
+        #endif
+        None
+    };
+	render_vendor = ExGetGLVendorEnum();
 
 	if(!glXQueryExtension(display,&dummy, &dummy))
 		Error("OpenGL not supported by X server\n");
@@ -602,9 +597,10 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 */
 DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLContext glc){
     int major_version,minor_version;
+    OpenGLContext shared_glc;
     #ifdef EX_WINDOWS
     HDC hdc;
-    OpenGLContext shared_glc;
+
     hdc = GetDC(window);
 
 
@@ -629,8 +625,28 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
     wglCopyContext(glc, shared_glc, GL_ALL_ATTRIB_BITS);
     wglShareLists(glc, shared_glc);
 
+    return shared_glc;
     #elif defined(EX_LINUX)
+    GLXFBConfig fbconfig;
+    glXQueryContext(display, glc, GLX_FBCONFIG_ID, &fbconfig);
+    int context_attribs[]={
+        GLX_CONTEXT_MAJOR_VERSION_ARB,/* major_version*/3,
+        GLX_CONTEXT_MINOR_VERSION_ARB,/* minor_version*/2,
+        #ifdef EX_DEBUG
+        GLX_CONTEXT_FLAGS_ARB,GLX_CONTEXT_DEBUG_BIT_ARB | GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,   /*  Debug TODO add hint*/
+        #else
+        GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
+        #endif
+        None
+    };
+    typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
+    glXCreateContextAttribsARBProc glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc)glXGetProcAddress((const GLubyte*)"glXCreateContextAttribsARB");
+    shared_glc = glXCreateContextAttribsARB(display, fbconfig,glc, True,context_attribs);
 
+   // shared_glc = glXCreateContext(display,glXGetCurrentVi(),glc,True);
+    //shared_glc= glXCreateNewContext(display, fbconfig, GLX_RGBA_TYPE,glc,True);
+
+    return shared_glc;
     #endif // EX_WINDOWS
 }
 
@@ -877,12 +893,25 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(void){
 	return (Uint32)(atof((const char*)glGetString(GL_VERSION)) * 100.0f);
 }
 
-DECLSPEC Boolean ELTAPIENTRY ExIsVendorAMD(void){
+DECLSPEC Int32 ELTAPIENTRY ExIsVendorAMD(void){
 	return (strstr((const char*)glGetString(GL_VENDOR), "AMD") != NULL);
 }
-DECLSPEC Boolean ELTAPIENTRY ExIsVendorNvidia(void){
+DECLSPEC Int32 ELTAPIENTRY ExIsVendorNvidia(void){
 	return (strstr((const char*)glGetString(GL_VENDOR), "NVIDIA") != NULL);
 }
-DECLSPEC Boolean ELTAPIENTRY ExIsVendorIntel(void){
+DECLSPEC Int32 ELTAPIENTRY ExIsVendorIntel(void){
 	return (strstr((const char*)glGetString(GL_VENDOR), "INTEL") != NULL);
+}
+DECLSPEC Enum ELTAPIENTRY ExGetGLVendorEnum(void){
+    #ifdef EX_WINDOWS
+	if(ExIsVendorNvidia())return EX_GPU_NVIDIA;
+	else if(ExIsVendorAMD())return EX_GPU_AMD;
+	else if(ExIsVendorIntel())return EX_GPU_INTEL;
+	else return EX_GPU_UNKNOWN;
+	#elif defined(EX_LINUX)
+	if(ExIsVendorNvidia())return EX_GPU_NVIDIA;
+	else if(ExIsVendorAMD())return EX_GPU_AMD;
+	else if(ExIsVendorIntel())return EX_GPU_INTEL;
+	else return EX_GPU_UNKNOWN;
+	#endif // defined
 }

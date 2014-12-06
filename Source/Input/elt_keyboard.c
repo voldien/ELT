@@ -19,6 +19,7 @@ IDirectInputDevice8* m_keyboard_device;
 #endif
 unsigned char KeyBoardState[2][0xff];
 
+
 DECLSPEC Keycode ELTAPIENTRY ExGetKeyFromName(const char* name){
 #if defined(EX_WINDOWS)
 	switch(name[0]){
@@ -26,7 +27,8 @@ DECLSPEC Keycode ELTAPIENTRY ExGetKeyFromName(const char* name){
 	}
 #elif defined(EX_LINUX)
     KeySym sym = XStringToKeysym(name);
-    return XKeysymToKeycode(XOpenDisplay(NULL),sym);
+    return sym;
+    //return XKeysymToKeycode(XOpenDisplay(NULL),sym);
 #endif
 }
 DECLSPEC const char* ELTAPIENTRY ExGetKeyName(Keycode keycode){
@@ -35,7 +37,8 @@ DECLSPEC const char* ELTAPIENTRY ExGetKeyName(Keycode keycode){
 	GetKeyNameTextA((keycode << 16),text,sizeof(text));
 	return text;
 #elif defined(EX_LINUX)
-    return XKeysymToString(XKeycodeToKeysym(display,keycode,0));
+    return XKeysymToString(keycode);
+    //eturn XKeysymToString(XKeycodeToKeysym(display,keycode,0));
 #endif
 
 }
@@ -65,6 +68,13 @@ DECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys){
 	//XQueryDeviceState(display,)
 	return KeyBoardState[0];
 #endif
+}
+/**
+
+*/
+DECLSPEC Keycode ELTAPIENTRY ExGetModeState(void){
+    return XGrabKey(display,AnyKey, ControlMask | ShiftMask,ExGetKeyboardFocus(), True, GrabModeAsync,GrabModeSync);
+    return 0;
 }
 
 DECLSPEC ERESULT ELTAPIENTRY ExInitKeyBoard(ExWin win){

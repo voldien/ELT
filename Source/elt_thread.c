@@ -4,7 +4,7 @@
 	#define EX_START_THREAD(x)	ResumeThread( ( x ) )
 #elif defined(EX_LINUX)
 	#include<pthread.h>
-	#define EX_START_THREAD(x)	pthread_join( ( x ) ,EX_NULL)
+	#define EX_START_THREAD(x)	pthread_detach( ( x ))
 #elif defined(EX_MAC)
 #endif
 
@@ -24,10 +24,14 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpPar
 	return hnd;
 #else
 	pthread_t t0;
+    pthread_attr_t attr;
 	Uint mpid;
-	if(!(mpid = pthread_create(&t0,NULL, callback,lpParamater)))
+
+    pthread_attr_init(&attr);
+	if((mpid = pthread_create(&t0,&attr, callback,lpParamater)) == -1)
 		ExError("Failed to Create Thread.");
-	EX_START_THREAD(t0);
+    if(pthread_detach(t0) == -1)
+		ExError("Failed to Create Thread.");
 	return t0;
 #endif
 }
@@ -39,6 +43,15 @@ DECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread){
 	return pthread_detach(thread);
 #endif
 }
+DECLSPEC ExThread ELTAPIENTRY ExGetCurrentThread(void){
+#ifdef EX_WINDOWS
+    return 0;
+#elif defined(EX_LINUX)
+    return 0;
+#endif // EX_WINDOWS
+
+}
+
 // Thread
 DECLSPEC Uint32 ELTAPIENTRY ExGetThreadID(ExThread thread){
 #ifdef EX_WINDOWS

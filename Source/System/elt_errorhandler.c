@@ -128,6 +128,9 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode){
 	}
 }
 #if defined(EX_LINUX)
+/*
+    xlib error callback
+*/
 static int ctxErrorHandler(Display* dpy, XErrorEvent* error){
     char error_buffer[1024];
     XGetErrorText(dpy, error->error_code, error_buffer, sizeof(error_buffer));
@@ -201,6 +204,7 @@ DECLSPEC void ELTAPIENTRY ExErrorExit(ExChar* lpszFunction) {
     LocalFree(lpMsgBuf);
     LocalFree(lpDisplayBuf);
     ExitProcess(dw);
+#elif defined(EX_LINEX)
 #endif
 	return;
 }

@@ -19,9 +19,7 @@
 #include<GL/glx.h>
 #include"../elt_gl.h"
 
-
 Display *display = 0;
-
 
 DECLSPEC XID ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){
 	Visual* visual;
@@ -53,8 +51,8 @@ DECLSPEC XID ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int
 
 	return window;
 }
-/*
-    // Create a Window defined for OpenGL X purpose
+/**
+    Create a Window defined for OpenGL X purpose
 */
 DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 height, void** pglx_window){
 	Visual* visual;
@@ -115,7 +113,7 @@ DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 
     //vi = (XVisualInfo*)glXGetVisualFromFBConfig(display, fbconfigs[0]);
 
 
-	winAttribs.event_mask = ExposureMask | VisibilityChangeMask | KeyPressMask | PointerMotionMask | StructureNotifyMask;
+	winAttribs.event_mask = ExposureMask | VisibilityChangeMask | KeyPressMask | PointerMotionMask | StructureNotifyMask | ResizeRedirectMask;
 	winAttribs.border_pixel = 0;
 	winAttribs.bit_gravity = StaticGravity;
 

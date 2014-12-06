@@ -28,7 +28,7 @@ extern "C"{
 /*
 	// OpenCL Error
 */
-#define ExIsCLError(x)  { if( ( x ) <= 0 ){ ExDevGLPrintc("Error",EX_CONSOLE_RED); } }
+#define ExIsCLError(x)  { if( ( x ) <= 0 ){ ExDevPrintc("Error",EX_CONSOLE_RED); } }
 
 #if defined(EX_WINDOWS)
 	#define ExIsWinError(x) { if( (Long)( x ) <= 0 ){ExDevWindowPrintc(EX_TEXT("Error"),EX_CONSOLE_RED);} }

@@ -72,6 +72,7 @@ typedef struct window_poll_events{
 	EX_C_STRUCT ExMouseWheelEvent mouseWheelEvent;
 	EX_C_STRUCT elt_win_button_event button;
 	EX_C_STRUCT ex_drop_event drop;
+
 #ifdef EX_WINDOWS
 	union{
 #ifdef EX_INTERNAL_DEVELOP_ENVIROMENT
@@ -106,6 +107,8 @@ typedef struct elt_poll_events{
 	EX_C_STRUCT elt_win_button_event button;
 	EX_C_STRUCT ExSystemEvent sys;
 	EX_C_STRUCT ex_drop_event drop;
+	EX_C_STRUCT ExSizeEvent size;
+	EX_C_STRUCT ExSystemEvent system;
 
 #ifdef EX_WINDOWS
 	union{
@@ -127,7 +130,7 @@ typedef struct elt_poll_events{
 
 #endif
 
-}ExEvents;
+}ExEvents,ExEvent;  //TODO change to ExEvent
 /*
 	//	Get Event
 */

@@ -19,13 +19,17 @@
 #endif
 #include<Cmd/mathlib.h>
 
-cl_context hClContext = EX_NULL;
-cl_context hClContext2 = EX_NULL;
 
+#define CL_GET_GPU_INDEX(x) ( ( x ) << (ELT_GPU0 & 0xffffffff))
+#define CL_GET_CPU_INDEX(x) ( ( x ) << ELT_CPU0)
+
+cl_context hClContext = NULL;
 DECLSPEC void* ELTAPIFASTENTRY ExGetCLContext(void){return hClContext;}
 
+DECLSPEC void* ELTAPIFASTENTRY ExGetCurrentCLContext(void){return hClContext;}
 
-DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContex(Enum eEnumFlag){
+
+DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContex(Enum flag){
 	Int32 cpPlatform,ciErrNum;Uint32 uiDevCount = 0;
 	// device ids
 
@@ -34,15 +38,19 @@ DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContex(Enum eEnumFlag){
     cl_context hClContext;
     Uint32 uiDeviceUsed = 0,uiEndDev = 0;
 
-	// Get Platform ID
-	if(!ExGetCLPlatformID(&cpPlatform)){
+	/**
+        Get platform id
+	*/
+	if(!ExGetCLPlatformID(&cpPlatform,flag))
 		ExDevPrint("Failed to Get CL Platform ID");
-	}
+
 
 	cl_context_properties props[] = {
         CL_CONTEXT_PLATFORM,cpPlatform,
 		NULL};
 	hClContext = clCreateContextFromType(props,CL_DEVICE_TYPE_GPU,NULL, NULL, (cl_int*)&errNum);
+    if(!hClContext)
+        ExDevPrint("Failed");
 
 	//if(!(hClContext = clCreateContext(props,1, &cdDevices[uiDeviceUsed],0,0,&ciErrNum))){
 	//	ExDevPrintf("Failed to Create OpenCL Context based on the OpenGL Context");
@@ -57,7 +65,7 @@ DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowCont
 	    Uint32 uiDeviceUsed = 0,uiEndDev = 0;
 
 		// Get Platform ID
-		if(!ExGetCLPlatformID(&cpPlatform)){
+		if(!ExGetCLPlatformID(&cpPlatform,erenderingFlag)){
 			ExDevPrint("Failed to Get CL Platform ID");
 		}
 
@@ -79,7 +87,7 @@ DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowCont
 
 	#ifdef EX_WINDOWS
 		//  get Device Context
-		if(window == EX_NULL)window = ExGetCurrentGLDC();
+		if(window == NULL)window = ExGetCurrentGLDC();
 	#endif
 
 		// Context Properties
@@ -116,22 +124,26 @@ DECLSPEC void ELTAPIENTRY ExReleaseCL(void){
 	if(hClContext)
 		if(clReleaseContext(hClContext) != CL_FALSE)
 			ExDevPrint("Failed to Release Contex");
-	if(hClContext2)
-		if(clReleaseContext(hClContext2) != CL_FALSE)
-			ExDevPrint("Failed to Release Contex");
 }
 DECLSPEC void ELTAPIENTRY ExReleaseCLContext(void* context){
-	//ExIsCLError(clReleaseContext(context));
+	ExIsCLError(clReleaseContext(context));
 }
 
-DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID){
+DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum flag){
     char chBuffer[1024];
-    cl_uint num_platforms;
+    cl_uint num_platforms,num_device;
+    cl_uint num_gpu,num_cpu;
+    cl_device_id device_id[32];
+    cl_device_info device_info;
+
+    cl_platform_id temp_clPlatformIDs;
     cl_platform_id* clPlatformIDs;
     cl_int ciErrNum;
     *clSelectedPlatformID = NULL;
 
-    // Get OpenCL platform count
+    /**
+        Get number of platform identification
+    */
     ciErrNum = clGetPlatformIDs (0, NULL, &num_platforms);
     if (ciErrNum != CL_SUCCESS){
         ExDevPrintf(" Error %i in clGetPlatformIDs Call !!!", ciErrNum);
@@ -144,16 +156,40 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID){
 		}
 		else{
 			cl_uint i;
+
+            ciErrNum = clGetPlatformIDs (num_platforms, &temp_clPlatformIDs, NULL);
+
+			ciErrNum = clGetDeviceIDs(temp_clPlatformIDs,CL_DEVICE_TYPE_GPU, NULL,NULL,&num_gpu);
+
+			ciErrNum = clGetDeviceIDs(temp_clPlatformIDs,CL_DEVICE_TYPE_CPU, NULL,NULL,&num_cpu);
+			if(ciErrNum == CL_DEVICE_NOT_FOUND)
+                ExDevPrint("Couldn't find");
+
+
 			if((clPlatformIDs = (cl_platform_id*)malloc(num_platforms * sizeof(cl_platform_id))) == EX_NULL){
 				ExDevPrint("Failed to allocate memory for cl_platform ID's!");
 				return -3000;
 			}
+
             // get platform info for each platform and trap the NVIDIA platform if found
             ciErrNum = clGetPlatformIDs (num_platforms, clPlatformIDs, NULL);
             for(i = 0; i < num_platforms; ++i){
+
+
+                ciErrNum = clGetDeviceIDs(clPlatformIDs[i], CL_DEVICE_TYPE_GPU,1,&device_id[0],NULL);
+                //clGetDeviceInfo(clPlatformIDs[i], CL_DEVICE_TYPE_GPU,1,&device_id,&num_cpu);
                 ciErrNum = clGetPlatformInfo (clPlatformIDs[i], CL_PLATFORM_NAME, 1024, &chBuffer, NULL);
+
+
+                //ExPrintCLDevInfo(0,&device_id[0]);
+
+                //clGetDeviceInfo(device_id,&device_info,0,0,0);
+
                 if(ciErrNum == CL_SUCCESS){
                     if(strstr(chBuffer, "NVIDIA") != NULL){	// nvidia exists
+                        *clSelectedPlatformID = (Int)clPlatformIDs[i];
+                        break;
+                    }else if(strstr(chBuffer,"AMD") != NULL){
                         *clSelectedPlatformID = (Int)clPlatformIDs[i];
                         break;
                     }
@@ -177,6 +213,8 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID){
 }
 
 DECLSPEC void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, void* p_cl_device_id){
+    if(!p_cl_device_id)
+        return;
     char device_string[1024];
     Boolean nv_device_attibute_query = FALSE;
 	cl_device_id device = (cl_device_id)p_cl_device_id;
@@ -438,53 +476,4 @@ DECLSPEC Int32 ELTAPIENTRY ExGetClDevCap(void* device){
     }
 
     return iDevArch;
-}
-
-DECLSPEC void* ELTAPIENTRY ExGetMaxFlopsDev(void* cxGPUContext){
-	size_t szParmDataBytes;
-    cl_device_id* cdDevices;
-
-    // get the list of GPU devices associated with context
-    clGetContextInfo((cl_context)cxGPUContext, CL_CONTEXT_DEVICES, 0, NULL, &szParmDataBytes);
-    cdDevices = (cl_device_id*) malloc(szParmDataBytes);
-    size_t device_count = szParmDataBytes / sizeof(cl_device_id);
-
-    clGetContextInfo((cl_context)cxGPUContext, CL_CONTEXT_DEVICES, szParmDataBytes, cdDevices, NULL);
-
-    cl_device_id max_flops_device = cdDevices[0];
-    int max_flops = 0;
-
-    size_t current_device = 0;
-
-    // CL_DEVICE_MAX_COMPUTE_UNITS
-    cl_uint compute_units;
-    clGetDeviceInfo(cdDevices[current_device], CL_DEVICE_MAX_COMPUTE_UNITS, sizeof(compute_units), &compute_units, NULL);
-
-    // CL_DEVICE_MAX_CLOCK_FREQUENCY
-    cl_uint clock_frequency;
-    clGetDeviceInfo(cdDevices[current_device], CL_DEVICE_MAX_CLOCK_FREQUENCY, sizeof(clock_frequency), &clock_frequency, NULL);
-
-    max_flops = compute_units * clock_frequency;
-    ++current_device;
-
-    while( current_device < device_count ){
-        // CL_DEVICE_MAX_COMPUTE_UNITS
-        cl_uint compute_units;
-        clGetDeviceInfo(cdDevices[current_device], CL_DEVICE_MAX_COMPUTE_UNITS, sizeof(compute_units), &compute_units, NULL);
-
-        // CL_DEVICE_MAX_CLOCK_FREQUENCY
-        cl_uint clock_frequency;
-        clGetDeviceInfo(cdDevices[current_device], CL_DEVICE_MAX_CLOCK_FREQUENCY, sizeof(clock_frequency), &clock_frequency, NULL);
-
-        int flops = compute_units * clock_frequency;
-        if( flops > max_flops ){
-            max_flops        = flops;
-            max_flops_device = cdDevices[current_device];
-        }
-        ++current_device;
-    }
-
-    free(cdDevices);
-
-    return max_flops_device;
 }
