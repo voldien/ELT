@@ -723,7 +723,7 @@ DECLSPEC Boolean ELTAPIENTRY ExDestroyContext(WindowContext drawable, OpenGLCont
 #elif defined(EX_LINUX)
     if(!glXMakeCurrent(display, None, NULL)){
         fprintf(stderr,"error");
-        return 0;
+        return E_ERROR;
     }
 	glXDestroyContext(display,glc);
 	return hr;

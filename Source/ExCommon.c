@@ -6,6 +6,8 @@
 #   include<sys/utsname.h>
 #   include<errno.h>
 #   include<libgen.h>
+#   include<X11/Xlib.h>
+#   include<X11/extensions/Xrandr.h>
 #elif defined(EX_WINDOWS)
 #	include<Windows.h>
 #	include<WinInet.h>
@@ -143,6 +145,7 @@ DECLSPEC void ELTAPIENTRY ExGetMonitorSize(Uint32 index, struct exsize* size){
 	size->width = scrn->width;
 	size->height = scrn->height;
 
+
 #endif
 }
 
@@ -151,6 +154,8 @@ DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenRect(struct exrect* rect){
 	GetWindowRect(GetDesktopWindow(), (LPRECT)rect);
 #elif defined(EX_LINUX)
 	Screen* scrn = DefaultScreenOfDisplay(display);
+	rect->x = 0;
+	rect->y = 0;
 	rect->width = scrn->width;
 	rect->height = scrn->height;
 #endif
@@ -171,8 +176,15 @@ DECLSPEC Int32 ELTAPIENTRY ExGetMonitorHz(Uint32 index){
 	EnumDisplaySettings(dev.DeviceName,ENUM_CURRENT_SETTINGS, &mod);
 	return mod.dmDisplayFrequency;
 #elif defined(EX_LINUX)
+    unsigned int num_sizes;
+    Display*dis = XOpenDisplay(NULL);
+    Window root = RootWindow(dis,*(int*)XScreenOfDisplay(dis,index));
+    XRRScreenSize* xrrs = XRRSizes(dis, 0, &num_sizes);
 
-	return 0;
+    XRRScreenConfiguration* conf = XRRGetScreenInfo(dis, root);
+
+
+	return XRRConfigCurrentRate(conf);;
 #endif
 }
 
@@ -218,6 +230,8 @@ DECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct){
 		*pct = spsPwr.BatteryLifePercent;
 #elif defined(EX_LINUX)
 
+
+
 #endif
 	return TRUE;
 }
@@ -259,6 +273,7 @@ DECLSPEC Uint64 ELTAPIENTRY ExGetTotalSystemMemory(void){
 	GlobalMemoryStatusEx(&status);
 	return status.ullTotalPhys;
 #else
+
 	return 0;
 #endif
 }
@@ -270,6 +285,7 @@ DECLSPEC Uint64 ELTAPIENTRY ExGetTotalVirtualMemory(void){
 	GlobalMemoryStatusEx(&status);
 	return status.ullTotalVirtual;
 #else
+
 	return 0;
 #endif
 }
@@ -356,6 +372,8 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetCurrentUser(void){
 	return user;
 #elif defined(EX_LINUX)
 	return getenv("USER");
+#elif defined(EX_ANDROID)
+    return "";
 #endif
 }
 // get clipboard text

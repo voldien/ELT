@@ -74,21 +74,21 @@ extern DECLSPEC void ELTAPIFASTENTRY ExClearError(void);
 */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode);
 
-#define E_OK				((ERESULT)1L)		//	No Error
-#define E_FAILURE			((ERESULT)0L)		//	FAILURE
-#define E_ERROR				((ERESULT)-1L)		//	Error
-#define E_INVALID_ARGUMENT	((ERESULT)-2L)		//	Invalid Argument
-#define E_ERROR_SYSTEM		((ERESULT)-3L)		//	System Error
-#define E_INVALID_ENUM		((ERESULT)-4L)		//	Invalid Enum
-#define E_ABI_ERROR			((ERESULT)-5L)		//	Application Binary interface Error
+#define E_OK				((ERESULT)1L)		/*	No Error */
+#define E_FAILURE			((ERESULT)0L)		/*	FAILURE */
+#define E_ERROR				((ERESULT)-1L)		/*	Error   */
+#define E_INVALID_ARGUMENT	((ERESULT)-2L)		/*	Invalid Argument */
+#define E_ERROR_SYSTEM		((ERESULT)-3L)		/*	System Error */
+#define E_INVALID_ENUM		((ERESULT)-4L)		/*	Invalid Enum */
+#define E_ABI_ERROR			((ERESULT)-5L)		/*	Application Binary interface Error */
 
 #define EX_CRASH_TERMINATE 0x1
 #define EX_CRASH_ABORT 0x2
 #define EX_CRASH_FLOAT 0x3
 #define EX_CRASH_EXEPCTION 0x4
 
-/*
-  * Initlize Error Handler
+/**
+    Initialize Error Handler
 */
 extern DECLSPEC Boolean ELTAPIENTRY ExInitErrorHandler(void);
 

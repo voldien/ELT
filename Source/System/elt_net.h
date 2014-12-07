@@ -9,13 +9,18 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 
 #define ELT_TCP 0x1 /*  reliable,  two-way  */
 #define ELT_UDP 0x2 /**/
-/*
+/**
+    Open socket
 */
 extern DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port,unsigned int protocol);
 
-/*
+/**
+    Close socket
 */
 extern DECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(unsigned int socket);
+
+
+
 /**
     Connect to socket
 */

@@ -62,6 +62,7 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Linker>
+			<Add option="-lXrandr" />
 			<Add library="X11" />
 			<Add library="GL" />
 			<Add library="dl" />
@@ -74,7 +75,6 @@
 			<Add library="asound" />
 		</Linker>
 		<Unit filename="../../Source/EngineAssembly.h" />
-		<Unit filename="../../Source/EngineConfig.h" />
 		<Unit filename="../../Source/EngineEx.h" />
 		<Unit filename="../../Source/EngineEx2.c">
 			<Option compilerVar="CC" />
@@ -111,6 +111,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../Source/Input/elt_mouse.h" />
+		<Unit filename="../../Source/Input/eltkeycode.h" />
 		<Unit filename="../../Source/System/Unix/unix_dialog.h" />
 		<Unit filename="../../Source/System/Unix/unix_win.c">
 			<Option compilerVar="CC" />
@@ -140,6 +141,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../Source/System/elt_log.h" />
+		<Unit filename="../../Source/System/elt_net.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="../../Source/System/elt_net.h" />
 		<Unit filename="../../Source/System/elt_video.h" />
 		<Unit filename="../../Source/System/elt_win.c">
