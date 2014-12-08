@@ -8,7 +8,6 @@
 #ifndef CMD_LIB_H
 	//#   include<Cmd/cmdlib.h>
 #endif
-#include<Cmd/mathlib.h>
 #include<GL/gl.h>
 #include<signal.h>
 #include<string.h>

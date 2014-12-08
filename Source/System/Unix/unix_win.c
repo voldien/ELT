@@ -18,7 +18,7 @@
 #include<GL/gl.h>
 #include<GL/glx.h>
 #include"../elt_gl.h"
-
+//mathlib
 Display *display = 0;
 
 DECLSPEC XID ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){

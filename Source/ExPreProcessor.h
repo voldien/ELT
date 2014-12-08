@@ -66,37 +66,37 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 */
 #ifdef EX_VC
 	#if defined(_M_IX86) || defined(_WIN32)
-		#define EX_X86
-		#define EX_X32
-		#define EX_WIN32
-		#define EX_WINDOWS
-		#define EX_BITS_ARCHITECTURE 32
+		#define EX_X86                          /**/
+		#define EX_X32                          /**/
+		#define EX_WIN32                        /**/
+		#define EX_WINDOWS                      /**/
+		#define EX_BITS_ARCHITECTURE 32         /**/
 	#elif defined(_M_X64) || defined(_WIN64)
-		#define EX_X64
-		#define EX_WIN64
-		#define EX_WINDOWS
-		#define EX_BITS_ARCHITECTURE 64
+		#define EX_X64                          /**/
+		#define EX_WIN64                        /**/
+		#define EX_WINDOWS                      /**/
+		#define EX_BITS_ARCHITECTURE 64         /**/
 	#elif defined(_M_PPC)
-		#define EX_PPC
-		#define EX_X360
-		#define EX_VMX
+		#define EX_PPC                          /**/
+		#define EX_X360                         /**/
+		#define EX_VMX                          /**/
 	#elif defined(_M_ARM)
-		#define EX_ARM
-		#define EX_ARM_NEON
+		#define EX_ARM                          /**/
+		#define EX_ARM_NEON                     /**/
 	#endif
 #elif defined EX_GNUC
 	#ifdef __CELLOS_LV2__   /*  */
-        #define EX_PS3
+        #define EX_PS3                          /**/
 	#elif defined(__arm__)
-        #define EX_PSP2
+        #define EX_PSP2                         /**/
 	#endif
 	#if defined(_WIN32) /*  Window*/
-		#define EX_WINDOWS
-		#define EX_BITS_ARCHITECTURE 32
+		#define EX_WINDOWS                      /**/
+		#define EX_BITS_ARCHITECTURE 32         /**/
 	#endif
 	#if defined (__linux__) || defined(__linux) || defined(linux)/* Linux */
-		#define EX_LINUX
-		#define EX_UNIX
+		#define EX_LINUX                        /**/
+		#define EX_UNIX                         /**/
 	#elif defined(__unix__) /*  Unix    */
 		#define EX_UNIX
 	#elif defined (ANDROID) /* Android */

@@ -9,7 +9,7 @@
     #include<EGL/egl.h>
     #include<GL/glew.h>
     #include<GL/glext.h>
-    #define GL_GET_PROC(x)   wglGetProcAddress(x)
+    #define GL_GET_PROC(x)   wglGetProcAddress( ( x ) )       /*  get opengl function process address */
 #elif defined(EX_LINUX)
     #include<X11/extensions/Xrender.h>
     #include<X11/Xatom.h>
@@ -17,14 +17,14 @@
     #include<EGL/egl.h>
     #include<GL/glx.h>
     #include<GL/glxext.h>
-    #define GL_GET_PROC(x) glXGetProcAddress(x)
+    #define GL_GET_PROC(x) glXGetProcAddress( ( x ) )         /*  get opengl function process address */
 #elif defined(EX_ANDROID)
 	#ifdef GL_ES_VERSION_2_0
         #include<GLES/gl2.h>
         #include<GLES/gl2ext.h>
         #include<GLES/gl2platform.h>
 	#endif
-#define GL_GET_PROC(x) x
+#define GL_GET_PROC(x) (x)                              /*  get opengl function process address */
 #endif
 #include<GL/glu.h>
 
@@ -36,7 +36,7 @@
 #define EX_GPU_INTEL 0x2
 #define EX_GPU_AMD 0x4
 
-
+/*  check if extension is supported */
 static int isExtensionSupported(const char* extList, const char* extension){
 #ifdef EX_WINDOWS
 
@@ -155,21 +155,21 @@ DECLSPEC void ELTAPIENTRY ExMakeGLCurrent(WindowContext drawable, OpenGLContext 
 /**
     Extension function types
 */
-// wglSwapIntervalEXT typedef (Win32 buffer-swap interval control)
-typedef int (APIENTRY * WGLSWAPINTERVALEXT_T) (int);
-// wglChoosePixelFormatARB typedef
-typedef BOOL (WINAPI * WGLCHOOSEPIXELFORMATARB_T) (HDC, const int *, const FLOAT *, UINT, int *, UINT *);
-// wglGetPixelFormatAttribivARB typedef
-typedef BOOL (WINAPI * WGLGETPIXELFORMATATTRIBIVARB_T) (HDC, int, int, UINT, const int *, int *);
-// wglGetExtensionStringEXT typedef
-typedef const char *(APIENTRY * WGLGETEXTENSIONSSTRINGEXT_T)( void );
-// wglGetExtensionStringARB typedef
-typedef const char *(APIENTRY * WGLGETEXTENSIONSSTRINGARB_T)( HDC );
+
+typedef int (APIENTRY * WGLSWAPINTERVALEXT_T) (int);    /* wglSwapIntervalEXT typedef (Win32 buffer-swap interval control)*/
+
+typedef BOOL (WINAPI * WGLCHOOSEPIXELFORMATARB_T) (HDC, const int *, const FLOAT *, UINT, int *, UINT *);   // wglChoosePixelFormatARB typedef
+
+typedef BOOL (WINAPI * WGLGETPIXELFORMATATTRIBIVARB_T) (HDC, int, int, UINT, const int *, int *);   // wglGetPixelFormatAttribivARB typedef
+
+typedef const char *(APIENTRY * WGLGETEXTENSIONSSTRINGEXT_T)( void );   // wglGetExtensionStringEXT typedef
+
+typedef const char *(APIENTRY * WGLGETEXTENSIONSSTRINGARB_T)( HDC );    // wglGetExtensionStringARB typedef
 
 static void ELTAPIENTRY ExCreatePFD( void* pPFD, Int32 colorbits, Int32 depthbits, Int32 stencilbits){
 
 	PIXELFORMATDESCRIPTOR* pfd = (PIXELFORMATDESCRIPTOR*)pPFD;
-	memset(pfd,0,SIZEOF(PIXELFORMATDESCRIPTOR));
+	memset(pfd,0,sizeof(PIXELFORMATDESCRIPTOR));
 	pfd->nSize = sizeof(PIXELFORMATDESCRIPTOR);
 	pfd->nVersion = 1;
 	pfd->dwFlags  = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
@@ -213,10 +213,9 @@ static void ELTAPIENTRY ExCreatePFD2( void *pPFD, EngineDescription* desc){
 		pfd.cAccumBits = engineDescription.AccumBits;
 		pfd.cStencilBits = engineDescription.StencilBits;
 		pfd.cAlphaBits = engineDescription.alphaChannel;
-		//assign the data of the pixelformat description.
-	}
-	memcpy(pPFD,&pfd, sizeof(PIXELFORMATDESCRIPTOR));
 
+	}		//assign the data of the pixelformat description.
+	memcpy(pPFD,&pfd, sizeof(PIXELFORMATDESCRIPTOR));
 }
 
 /**
@@ -230,7 +229,7 @@ static OpenGLContext create_temp_gl_context(HWND window){
         Create Pixel Description
 	*/
 	ExCreatePFD(&pdf,32,24,8);
-	hDC = GetDC(window);// get DC
+	hDC = GetDC(window);    /*Get device context*/
 	/**
         // Choose Pixel Format.
 	*/
@@ -559,7 +558,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
         #endif
         None
     };
-	render_vendor = ExGetGLVendorEnum();
+	//render_vendor = ExGetGLVendorEnum();
 
 	if(!glXQueryExtension(display,&dummy, &dummy))
 		Error("OpenGL not supported by X server\n");
@@ -604,11 +603,11 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
     hdc = GetDC(window);
 
 
-    glGetIntegerv(GL_MAJOR_VERSION, &majorVer);
-	glGetIntegerv(GL_MINOR_VERSION, &minorVer);
+    glGetIntegerv(GL_MAJOR_VERSION, &major_version);
+	glGetIntegerv(GL_MINOR_VERSION, &minor_version);
 	Int attribs[] ={
-			WGL_CONTEXT_MAJOR_VERSION_ARB, majorVer,
-			WGL_CONTEXT_MINOR_VERSION_ARB, minorVer,
+			WGL_CONTEXT_MAJOR_VERSION_ARB, major_version,
+			WGL_CONTEXT_MINOR_VERSION_ARB, minor_version,
 			WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
 #ifdef EX_DEBUG
 			WGL_CONTEXT_FLAGS_ARB,WGL_CONTEXT_DEBUG_BIT_ARB,
@@ -628,7 +627,13 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
     return shared_glc;
     #elif defined(EX_LINUX)
     GLXFBConfig fbconfig;
+    glGetIntegerv(GL_MAJOR_VERSION, &major_version);
+	glGetIntegerv(GL_MINOR_VERSION, &minor_version);
+
+    /*  query OpenGL context fbconfig id*/
     glXQueryContext(display, glc, GLX_FBCONFIG_ID, &fbconfig);
+
+
     int context_attribs[]={
         GLX_CONTEXT_MAJOR_VERSION_ARB,/* major_version*/3,
         GLX_CONTEXT_MINOR_VERSION_ARB,/* minor_version*/2,
@@ -639,12 +644,15 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
         #endif
         None
     };
+
     typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
     glXCreateContextAttribsARBProc glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc)glXGetProcAddress((const GLubyte*)"glXCreateContextAttribsARB");
-    shared_glc = glXCreateContextAttribsARB(display, fbconfig,glc, True,context_attribs);
 
-   // shared_glc = glXCreateContext(display,glXGetCurrentVi(),glc,True);
-    //shared_glc= glXCreateNewContext(display, fbconfig, GLX_RGBA_TYPE,glc,True);
+    if(glXCreateContextAttribsARB)
+        shared_glc = glXCreateContextAttribsARB(display, fbconfig,glc, True,context_attribs);
+    else{
+
+    }
 
     return shared_glc;
     #endif // EX_WINDOWS
@@ -716,7 +724,6 @@ DECLSPEC Boolean ELTAPIENTRY ExDestroyContext(WindowContext drawable, OpenGLCont
 		drawable = ExGetCurrentGLDC();
 #ifdef EX_WINDOWS
 	ExMakeGLCurrent(0,0);
-	//ExMakeGLCurrent(hDc,glc);
 	ExIsError(hr = wglDeleteContext(glc));
 	DeleteDC(drawable);
 	return hr;
@@ -869,7 +876,10 @@ DECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window,Enum ienum){
 #elif defined(EX_LINUX)
 	XTextProperty textprop = {0};
 	XWMHints *startup_state;
+	EX_C_STRUCT exsize size ;
 	XSizeHints hints;
+
+	ExGetWindowSizev(window,&size);
 
     hints.x = 0;
     hints.y = 0;
@@ -903,15 +913,8 @@ DECLSPEC Int32 ELTAPIENTRY ExIsVendorIntel(void){
 	return (strstr((const char*)glGetString(GL_VENDOR), "INTEL") != NULL);
 }
 DECLSPEC Enum ELTAPIENTRY ExGetGLVendorEnum(void){
-    #ifdef EX_WINDOWS
 	if(ExIsVendorNvidia())return EX_GPU_NVIDIA;
 	else if(ExIsVendorAMD())return EX_GPU_AMD;
 	else if(ExIsVendorIntel())return EX_GPU_INTEL;
 	else return EX_GPU_UNKNOWN;
-	#elif defined(EX_LINUX)
-	if(ExIsVendorNvidia())return EX_GPU_NVIDIA;
-	else if(ExIsVendorAMD())return EX_GPU_AMD;
-	else if(ExIsVendorIntel())return EX_GPU_INTEL;
-	else return EX_GPU_UNKNOWN;
-	#endif // defined
 }

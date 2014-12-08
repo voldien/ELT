@@ -1,7 +1,12 @@
 #include"elt_timer.h"
 #include<signal.h>
+#ifdef EX_WINDOWS
 
-Uint32 elt_time = 0;
+#elif defined(EX_LINUX)
+#   include<errno.h>
+#endif // EX_WINDOWS
+
+Uint64 elt_time = 0;
 
 DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback, void* param){
 	Uint32 pid;
@@ -15,9 +20,10 @@ DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback,
 		WT_EXECUTEDEFAULT));
 #elif defined(EX_LINUX)
     timer_t timerid;
-	struct sigevent sev;
+	struct sigevent sev = {0};;
 	struct sigaction sa;
     struct itimerspec its;
+    struct itimerspec itval, oitval;
 	long long freq_nanosecs;
 	sigset_t mask;
 
@@ -25,36 +31,30 @@ DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback,
 	sa.sa_flags = SA_SIGINFO;
     sa.sa_sigaction = callback;
     sigemptyset(&sa.sa_mask);
-    if(sigaction(SIG,&sa, NULL) == -1)
-        ExError("sigaction");
-
-    //sigem
-    sigemptyset(&mask);
-    sigaddset(&mask, SIG);
-    if (sigprocmask(SIG_SETMASK, &mask, NULL) == -1)
-        ExError("sigprocmask");
+    if(sigaction(SIGRTMAX,&sa, NULL) == -1)
+        fprintf(stderr,strerror(errno));
 
 	sev.sigev_notify = SIGEV_SIGNAL;
-	sev.sigev_signo = SIG;
+	sev.sigev_signo = SIGRTMAX;
 	sev.sigev_value.sival_ptr = &timerid;
 
 	if(timer_create(CLOCK_REALTIME,&sev,&timerid) == -1)
-		ExDevPrint("error");
+        fprintf(stderr,strerror(errno));
 
-    freq_nanosecs = interval * 100000000;
-    its.it_value.tv_sec = freq_nanosecs / 1000000000;
+    freq_nanosecs = interval * 1000;
+    /*its.it_value.tv_sec = freq_nanosecs / 1000000000;
     its.it_value.tv_nsec = freq_nanosecs % 100000000;
     its.it_interval.tv_sec = its.it_value.tv_sec;
-    its.it_interval.tv_nsec = its.it_value.tv_nsec;
+    its.it_interval.tv_nsec = its.it_value.tv_nsec;*/
+    its.it_value.tv_nsec = freq_nanosecs;
+    its.it_interval.tv_sec = 0;
+    its.it_interval.tv_nsec = 0;
 
-    if(timer_settime(timerid,0,&its,NULL) == -1)
-        ExError("timer_settime");
-    if (sigprocmask(SIG_UNBLOCK, &mask, NULL) == -1)
-               ExError("sigprocmask");
-
+    if(timer_settime(timerid,0,&its,&oitval) == -1)
+        fprintf(stderr,strerror(errno));
 
 #endif
-	return pid;
+	return timerid;
 }
 DECLSPEC Boolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id){
 #ifdef EX_WINDOWS
@@ -62,7 +62,8 @@ DECLSPEC Boolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id){
 	ExIsWinError(error = DeleteTimerQueueTimer(EX_NULL,(HANDLE)timer_id, EX_NULL));
 	return error;
 #elif defined(EX_LINUX)
-
+    if(timer_delete(timer_id) == -1)
+        fprintf(stderr,strerror(errno));
 	return 0;
 #endif
 }
@@ -72,9 +73,9 @@ DECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms){
 }
 
 DECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void){
-#ifdef EX_WINDOWS
+#ifdef EX_WINDOWS   /*TODO fix high res-resolution*/
 	return (timeGetTime() - elt_time);
 #elif defined(EX_LINUX)
-	return (time(NULL) - elt_time);
+	return (clock() - elt_time);
 #endif
 }

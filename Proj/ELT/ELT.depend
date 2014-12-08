@@ -1,8 +1,7 @@
 # depslib dependency file v1.0
-1417343970 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_console.c
+1417978747 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_console.c
 	"elt_console.h"
 	"System/elt_win.h"
-	<Cmd/mathlib.h>
 	<Windows.h>
 
 1416688679 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_console.h
@@ -13,7 +12,7 @@
 	"./../EngineAssembly.h"
 	"elt_event.h"
 
-1417907934 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/EngineAssembly.h
+1417972661 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/EngineAssembly.h
 	"ExPreProcessor.h"
 	"ExNT.h"
 	"System/elt_event.h"
@@ -34,9 +33,10 @@
 	"Input/elt_joystick.h"
 	"elt_cpuinfo.h"
 	"elt_timer.h"
+	"math/matrix.h"
 	"elt_matrix.h"
 
-1417801193 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/ExPreProcessor.h
+1417956058 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/ExPreProcessor.h
 	<stddef.h>
 	<cstdio>
 	<climits>
@@ -75,11 +75,11 @@
 	"./../EngineAssembly.h"
 	"elt_joystick.h"
 
-1416579750 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/Input/elt_joystick.h
+1417953849 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/Input/elt_joystick.h
 	"./../EngineAssembly.h"
 	"elt_gamecontroller.h"
 
-1417280774 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_timer.h
+1418043491 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_timer.h
 	"elt_thread.h"
 	<ctime>
 	<time.h>
@@ -92,11 +92,11 @@
 	"./../EngineAssembly.h"
 	"./../elt_console.h"
 
-1414517456 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_loadso.h
+1417971650 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_loadso.h
 	"EngineAssembly.h"
 	"System/elt_win.h"
 
-1417716409 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/Input/elt_keyboard.h
+1417953822 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/Input/elt_keyboard.h
 	"./../EngineAssembly.h"
 
 1416689223 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/Input/elt_mouse.h
@@ -110,7 +110,7 @@
 	"System/elt_gl.h"
 	"System/Win32/win_directX.h"
 
-1417905309 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_gl.h
+1417955742 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_gl.h
 	"./../ExPreProcessor.h"
 	"Win32/win_win32.h"
 	"Unix/unix_win.h"
@@ -176,7 +176,7 @@
 	"./../../EngineAssembly.h"
 	<_dbdao.h>
 
-1416999423 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_cpuinfo.c
+1417971900 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_cpuinfo.c
 	"elt_cpuinfo.h"
 	<immintrin.h>
 	<intrin.h>
@@ -191,16 +191,16 @@
 	"elt_thread.h"
 	<pthread.h>
 
-1416863468 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_timer.c
+1418044939 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_timer.c
 	"elt_timer.h"
 	<signal.h>
+	<errno.h>
 
-1417908008 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/EngineEx2.c
+1417978805 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/EngineEx2.c
 	"EngineConfig.h"
 	"EngineAssembly.h"
 	"System/Win32/wnd_common.h"
 	<GL/GLU.h>
-	<Cmd/mathlib.h>
 	<GL/gl.h>
 	<signal.h>
 	<string.h>
@@ -208,11 +208,11 @@
 1414708026 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/EngineConfig.h
 	"EngineAssembly.h"
 
-1417909163 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/ExCommon.c
+1417978813 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/ExCommon.c
 	"ExCommon.h"
-	<Cmd/mathlib.h>
 	<unistd.h>
 	<sys/utsname.h>
+	<sys/sysinfo.h>
 	<errno.h>
 	<libgen.h>
 	<X11/Xlib.h>
@@ -221,7 +221,7 @@
 	<WinInet.h>
 	<sys/socket.h>
 
-1417907705 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/ExEngine.c
+1418042113 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/ExEngine.c
 	"EngineEx.h"
 	"System/elt_cl.h"
 	"System/elt_gl.h"
@@ -234,7 +234,7 @@
 	<delayimp.h>
 	<mcheck.h>
 
-1417816159 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_cl.h
+1417953727 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_cl.h
 	"./../EngineAssembly.h"
 
 1416149134 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/Win32/win_net.h
@@ -246,14 +246,13 @@
 1414070934 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_audio.h
 	"./../EngineAssembly.h"
 
-1417908804 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/main.c
+1418044719 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/main.c
 	"EngineAssembly.h"
 	<CL/cl.h>
 	<CL/cl_gl.h>
 	<X11/keysym.h>
 	<GL/gl.h>
 	<signal.h>
-	<Cmd/cmdlib.h>
 
 1417470340 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/Input/elt_gamecontroller.c
 	"elt_gamecontroller.h"
@@ -289,9 +288,8 @@
 	<dinput.h>
 	<linux/input.h>
 
-1417343970 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/Input/XBoxControllerHandler.c
+1417978747 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/Input/XBoxControllerHandler.c
 	"XBoxControllerHandler.h"
-	<Cmd/mathlib.h>
 	<dinput.h>
 	<XInput.h>
 
@@ -299,7 +297,7 @@
 	"elt_audio.h"
 	<alsa/asoundlib.h>
 
-1417876609 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_cl.c
+1417979006 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_cl.c
 	"elt_cl.h"
 	<CL/cl.h>
 	<CL/cl.h>
@@ -311,9 +309,8 @@
 	<CL/cl.h>
 	<CL/opencl.h>
 	"CL/cl_gl.h"
-	<Cmd/mathlib.h>
 
-1417713960 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_errorhandler.c
+1417953507 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_errorhandler.c
 	"elt_errorhandler.h"
 	"elt_log.h"
 	"./../elt_console.h"
@@ -321,14 +318,13 @@
 	<limits.h>
 	<Cmd/cmdlib.h>
 
-1417800606 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_event.c
+1417978747 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_event.c
 	"elt_event.h"
 	"Unix/unix_win.h"
 	"./../ExAssert.h"
-	<Cmd/mathlib.h>
 	<WindowsX.h>
 
-1417942992 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_gl.c
+1417974523 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_gl.c
 	"elt_gl.h"
 	<EGL/egl.h>
 	<GL/glew.h>
@@ -347,11 +343,10 @@
 1414070994 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_log.c
 	"elt_log.h"
 
-1417801155 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_win.c
+1417978747 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_win.c
 	"elt_win.h"
 	"elt_gl.h"
 	"elt_cl.h"
-	<Cmd/mathlib.h>
 	"Win32/win_win32.h"
 	"Win32/wnd_input.h"
 	<EGL/egl.h>
@@ -365,7 +360,7 @@
 
 1416997346 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_icon.h
 
-1417799249 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/Unix/unix_win.c
+1417978747 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/Unix/unix_win.c
 	"unix_win.h"
 	<unistd.h>
 	<stdio.h>
@@ -388,4 +383,30 @@
 
 1417943184 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_net.h
 	"./../EngineAssembly.h"
+
+1418039817 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/math/quad.c
+	"quad.h"
+
+1418039789 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/math/quad.h
+	<math.h>
+	"vect.h"
+
+1417971858 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/math/frustum.c
+	"frustum.h"
+	"quad.h"
+
+1417976789 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/math/frustum.h
+
+1417956259 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/math/vect.c
+
+1417977840 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/math/matrix.c
+	"matrix.h"
+	<immintrin.h>
+	<immintrin.h>
+
+1417977090 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/math/matrix.h
+	"vect.h"
+	"quad.h"
+
+1417975809 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/math/vect.h
 

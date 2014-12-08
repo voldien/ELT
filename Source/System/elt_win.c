@@ -1,7 +1,7 @@
 #include"elt_win.h"
 #include"elt_gl.h"
 #include"elt_cl.h"
-#include<Cmd/mathlib.h>	//TODO fix
+//#include<Cmd/mathlib.h>	//TODO fix
 #if defined(EX_WINDOWS)
 	#include"Win32/win_win32.h"
 	#include"Win32/wnd_input.h"

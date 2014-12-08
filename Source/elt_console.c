@@ -1,6 +1,6 @@
 #include"elt_console.h"
 #include"System/elt_win.h"
-#include<Cmd/mathlib.h>
+//#include<Cmd/mathlib.h>
 #ifdef EX_WINDOWS
 #include<Windows.h>
 #endif

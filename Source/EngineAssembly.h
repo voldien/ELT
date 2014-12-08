@@ -206,6 +206,8 @@ extern DECLSPEC int ELTAPIENTRY ExSetParameteri(Enum eflag, int value);
 */
 extern DECLSPEC int ELTAPIENTRY ExSetParameterf(Enum eflag, float value);
 
+//extern DECLSPEC int ELTAPIENTRY ExSetCallback(Enum callbackflag, void (*s) (unsigned int) callback);
+
 
 extern DECLSPEC void ELTAPIENTRY AssignDescription(const EngineDescription* p_engineDescription);
 
@@ -232,6 +234,6 @@ extern DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int le
 #include"Input/elt_joystick.h"
 #include"elt_cpuinfo.h"
 #include"elt_timer.h"
-
+#include"math/matrix.h"
 #include"elt_matrix.h"
 #endif

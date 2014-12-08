@@ -282,10 +282,12 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetHModuleErrorMessageW(ERESULT dw){
 #endif
 }
 
-#define EX_ERROR_MESSAGE EX_TEXT("%s has just crashed %s Do you want to send a bug report to the developers team?")
 
+
+/**/
 static void debug_log_trace(void){
 #ifdef EX_WINDOWS
+
 #elif defined(EX_LINUX)
     void* trace[15];
     char** strings;
@@ -304,6 +306,7 @@ static void debug_log_trace(void){
     \SignalCatch
     catch signal and interpret the signal
 */
+#define EX_ERROR_MESSAGE EX_TEXT("%s has just crashed %s Do you want to send a bug report to the developers team?")
 DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 	ExChar wchar[512];
 	ExChar app_name[PATH_MAX];
@@ -312,12 +315,12 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 #ifdef EX_WINDOWS
 	SYSTEMTIME time;
 #endif
-    /*
+    /**
         log trace information.
     */
     debug_log_trace();
 
-	ExGetApplicationName(app_name,sizeof(app_name));
+	ExGetApplicationName(app_name,sizeof(app_name));        /*  Get application name   */
 
 	switch(signal){
 	case SIGSEGV:
@@ -381,6 +384,7 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 
 	// deal with the information
 #ifdef EX_WINDOWS
+    /*  Set callback*/
 	switch(istosend){
 	case IDYES:
 		ExPutFTPFile(EX_TEXT("broodcity.hostoi.com"),EX_TEXT("a9178654"),EX_TEXT("smilla1"),(const ExChar*)cfilename,EX_TEXT("public_html"));
@@ -392,6 +396,8 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 		break;
 	default:break;
 	}
+#elif defined(EX_LINUX)
+
 #endif
 	exit(signal);
 	return;

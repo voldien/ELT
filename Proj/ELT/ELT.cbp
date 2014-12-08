@@ -175,6 +175,22 @@
 		<Unit filename="../../Source/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="../../Source/math/frustum.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/math/frustum.h" />
+		<Unit filename="../../Source/math/matrix.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/math/matrix.h" />
+		<Unit filename="../../Source/math/quad.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/math/quad.h" />
+		<Unit filename="../../Source/math/vect.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/math/vect.h" />
 		<Unit filename="../../Source/resource.h" />
 		<Extensions>
 			<code_completion />

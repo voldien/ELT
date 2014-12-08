@@ -2,7 +2,7 @@
 #include"Unix/unix_win.h"
 #include"./../ExAssert.h"
 #ifndef MATH_LIB_H
-	#include<Cmd/mathlib.h>
+//	#include<Cmd/mathlib.h>
 #endif
 #ifdef EX_WINDOWS
 	#include<WindowsX.h>

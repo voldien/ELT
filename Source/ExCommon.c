@@ -1,9 +1,8 @@
 #include"ExCommon.h"
-#include<Cmd/mathlib.h>
-
 #ifdef EX_LINUX
 #   include<unistd.h>
 #   include<sys/utsname.h>
+#   include<sys/sysinfo.h>
 #   include<errno.h>
 #   include<libgen.h>
 #   include<X11/Xlib.h>
@@ -178,13 +177,13 @@ DECLSPEC Int32 ELTAPIENTRY ExGetMonitorHz(Uint32 index){
 #elif defined(EX_LINUX)
     unsigned int num_sizes;
     Display*dis = XOpenDisplay(NULL);
-    Window root = RootWindow(dis,*(int*)XScreenOfDisplay(dis,index));
+    Window root = RootWindow(dis,index);
     XRRScreenSize* xrrs = XRRSizes(dis, 0, &num_sizes);
 
     XRRScreenConfiguration* conf = XRRGetScreenInfo(dis, root);
 
 
-	return XRRConfigCurrentRate(conf);;
+	return XRRConfigCurrentRate(conf);
 #endif
 }
 
@@ -260,8 +259,15 @@ DECLSPEC void ELTAPIENTRY ExGetApplicationName(ExChar* name,Int32 length){
 	ExIsError(GetModuleFileName(EX_NULL,path,sizeof(path)));
 	_wsplitpath(path,0,0,name,0);
 #elif defined(EX_LINUX)
-    getpid();
-	//memcpy(name,program_invocation_name,length);
+#   if defined(EX_GNUC) || defined(EX_GNUC)
+    extern char* __progname;
+    memcpy(name,/*program_invocation_name*/__progname,length);
+    return name;
+#   else
+    extern char* __progname;
+    memcpy(name,/*program_invocation_name*/"",length);
+    return name;
+#   endif
 #endif
 }
 
@@ -273,8 +279,9 @@ DECLSPEC Uint64 ELTAPIENTRY ExGetTotalSystemMemory(void){
 	GlobalMemoryStatusEx(&status);
 	return status.ullTotalPhys;
 #else
-
-	return 0;
+    struct sysinfo sys_info;
+    sysinfo(&sys_info);
+	return sys_info.totalram;
 #endif
 }
 
@@ -285,8 +292,9 @@ DECLSPEC Uint64 ELTAPIENTRY ExGetTotalVirtualMemory(void){
 	GlobalMemoryStatusEx(&status);
 	return status.ullTotalVirtual;
 #else
-
-	return 0;
+    struct sysinfo sys_info;
+    sysinfo(&sys_info);
+	return sys_info.totalswap;
 #endif
 }
 

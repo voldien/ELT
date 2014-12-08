@@ -15,12 +15,12 @@ typedef struct ex_GUID{
 #ifdef __cplusplus	// C++ Environment
 extern "C"{
 #endif
-/*
-	// Number of joystick
+/**
+	Number of joystick
 */
 extern DECLSPEC Uint32 ELTAPIENTRY ExNumJoysticks(void);
-/*
-    //
+/**
+    Open joystick by device index
 */
 extern DECLSPEC void* ELTAPIENTRY ExJoystickOpen(Int32  device_index);
 /*

@@ -11,6 +11,8 @@
 //http://stackoverflow.com/questions/1666093/cpuid-implementations-in-c
 #ifdef EX_WINDOWS
 	#define cpuid __cpuid
+
+
 #elif defined(EX_LINUX)
 	#include <unistd.h>
 	#include<cpuid.h>
@@ -18,6 +20,13 @@
 	#define cpuid(regs,i) 	asm volatile \
 			("cpuid" : "=a" (regs[0]), "=b" (regs[1]), "=c" (regs[2]), "=d" (regs[3])\
 			: "a" (i), "c" (0))
+    #define cpuid2(func,a,b,c,d)\
+    __asm__ __volatile__ ( \
+"        pushq %%rbx        \n" \
+"        cpuid              \n" \
+"        movq %%rbx, %%rsi  \n" \
+"        popq %%rbx         \n" : \
+            "=a" (a), "=S" (b), "=c" (c), "=d" (d) : "a" (func))
 #endif
 
 DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
@@ -26,7 +35,67 @@ DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
 	ExGetRegValuec(HKEY_LOCAL_MACHINE,EX_TEXT("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0\\"),EX_TEXT("ProcessorNameString"),cpu_name);
 	return cpu_name;	// TODO
 #elif defined(EX_LINUX)
-	FILE* file;
+    static char cpu_name[48];
+    int i = 0;
+    int a,b,c,d;
+//https://github.com/soreau/SDL/blob/master/src/cpuinfo/SDL_cpuinfo.c
+    cpuid2(0x80000000,a,b,c,d);
+    if(a >= 0x80000004){
+        cpuid2(0x80000002, a, b, c, d);
+        cpu_name[i++] = (char)(a & 0xff); a >>= 8;
+        cpu_name[i++] = (char)(a & 0xff); a >>= 8;
+        cpu_name[i++] = (char)(a & 0xff); a >>= 8;
+        cpu_name[i++] = (char)(a & 0xff); a >>= 8;
+        cpu_name[i++] = (char)(b & 0xff); b >>= 8;
+        cpu_name[i++] = (char)(b & 0xff); b >>= 8;
+        cpu_name[i++] = (char)(b & 0xff); b >>= 8;
+        cpu_name[i++] = (char)(b & 0xff); b >>= 8;
+        cpu_name[i++] = (char)(c & 0xff); c >>= 8;
+        cpu_name[i++] = (char)(c & 0xff); c >>= 8;
+        cpu_name[i++] = (char)(c & 0xff); c >>= 8;
+        cpu_name[i++] = (char)(c & 0xff); c >>= 8;
+        cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+        cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+        cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+        cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+        cpuid2(0x80000003, a, b, c, d);
+        cpu_name[i++] = (char)(a & 0xff); a >>= 8;
+        cpu_name[i++] = (char)(a & 0xff); a >>= 8;
+        cpu_name[i++] = (char)(a & 0xff); a >>= 8;
+        cpu_name[i++] = (char)(a & 0xff); a >>= 8;
+        cpu_name[i++] = (char)(b & 0xff); b >>= 8;
+        cpu_name[i++] = (char)(b & 0xff); b >>= 8;
+        cpu_name[i++] = (char)(b & 0xff); b >>= 8;
+        cpu_name[i++] = (char)(b & 0xff); b >>= 8;
+        cpu_name[i++] = (char)(c & 0xff); c >>= 8;
+        cpu_name[i++] = (char)(c & 0xff); c >>= 8;
+        cpu_name[i++] = (char)(c & 0xff); c >>= 8;
+        cpu_name[i++] = (char)(c & 0xff); c >>= 8;
+        cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+        cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+        cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+        cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+        cpuid2(0x80000004, a, b, c, d);
+        cpu_name[i++] = (char)(a & 0xff); a >>= 8;
+        cpu_name[i++] = (char)(a & 0xff); a >>= 8;
+        cpu_name[i++] = (char)(a & 0xff); a >>= 8;
+        cpu_name[i++] = (char)(a & 0xff); a >>= 8;
+        cpu_name[i++] = (char)(b & 0xff); b >>= 8;
+        cpu_name[i++] = (char)(b & 0xff); b >>= 8;
+        cpu_name[i++] = (char)(b & 0xff); b >>= 8;
+        cpu_name[i++] = (char)(b & 0xff); b >>= 8;
+        cpu_name[i++] = (char)(c & 0xff); c >>= 8;
+        cpu_name[i++] = (char)(c & 0xff); c >>= 8;
+        cpu_name[i++] = (char)(c & 0xff); c >>= 8;
+        cpu_name[i++] = (char)(c & 0xff); c >>= 8;
+        cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+        cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+        cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+        cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+    }
+
+    return cpu_name;
+	/*FILE* file;
 	struct CpuInfo{
 		char vendor_id[50];
 		int family;
@@ -37,7 +106,7 @@ DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
 	file = fopen("/proc/cpuinfo","rb");
 	fread((void*)&info.vendor_id[0], 1, sizeof(info),file);
 	fclose(file);
-	return info.model;
+	return info.model;*/
 #endif
 }
 
@@ -78,7 +147,7 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void){
 	SYSTEM_INFO info;
 	GetSystemInfo(&info);
 	return info.dwNumberOfProcessors;
-#else
+#elif defined(EX_LINUX)
 	return sysconf(_SC_NPROCESSORS_ONLN);
 #endif
 }

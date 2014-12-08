@@ -1,5 +1,4 @@
 #!/bin/bash
-
 #installation of ELT by comand prompt
 
 #success=`make -f Source/ELT.mak`

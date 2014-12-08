@@ -1,5 +1,5 @@
 #include"XBoxControllerHandler.h"
-#include<Cmd/mathlib.h>
+//#include<Cmd/mathlib.h>
 /*
 #if defined(EX_WINDOWS)
 #       include<dinput.h>

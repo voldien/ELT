@@ -225,7 +225,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineFlag){
 #endif
 	}
 	if(ELT_INIT_TIMER & engineFlag){
-		elt_time = ExCurrentTime();
+		elt_time = clock();
 	}
 	return hr;
 }

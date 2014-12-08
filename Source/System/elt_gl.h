@@ -101,11 +101,12 @@ extern DECLSPEC Boolean ELTAPIENTRY ExGLFullScreen(Boolean cdsfullscreen, ExWin 
 #define EX_GLTRANSPARENT_FULLBLUR 0x2
 
 /**
-// Set OpenGL Transparent.
-// remark:
-// you'll need to use glClear or from pixel shader alpha channel to see effect
-// glClearColor
-// read more about DwmEnableBlurBehindWindow : http://msdn.microsoft.com/en-us/library/windows/desktop/aa969508(v=vs.85).aspx
+//  Set OpenGL Transparent.
+//  remark:
+//  you'll need to use glClear or from pixel shader alpha channel to see effect
+//  glClearColor
+//  ExSetHint(EX_ALPHA, x > 0);
+//  read more about DwmEnableBlurBehindWindow : http://msdn.microsoft.com/en-us/library/windows/desktop/aa969508(v=vs.85).aspx
 */
 extern DECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin hWnd,Enum ienum);
 

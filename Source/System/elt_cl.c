@@ -17,7 +17,6 @@
 #elif defined(EX_MAC)
 
 #endif
-#include<Cmd/mathlib.h>
 
 
 #define CL_GET_GPU_INDEX(x) ( ( x ) << (ELT_GPU0 & 0xffffffff))

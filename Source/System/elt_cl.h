@@ -8,10 +8,10 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 #include"./../EngineAssembly.h"
 
 
-#define ELT_GPU0 0x0
-#define ELT_CPU0 0x20
-#define ELT_CL_FLOPS_HIGHEST 0x400
-#define ELT_CL_AVAILABLE_PLATFORM 0x1000
+#define ELT_GPU0 0x0                        /**/
+#define ELT_CPU0 0x20                       /**/
+#define ELT_CL_FLOPS_HIGHEST 0x400          /**/
+#define ELT_CL_AVAILABLE_PLATFORM 0x1000    /**/
 #ifdef __cplusplus	// C++ Environment
 extern "C"{
 #endif
