@@ -28,11 +28,11 @@ extern "C"{
 	// Create thread
 */
 extern DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpParamater,Uint32* pid);
-/*
-	// Deatch thread
+/**
+	Detach thread
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread);
-/*
+/**
 	//
 */
 extern DECLSPEC void ELTAPIENTRY ExLockThread(ExThread thread);
@@ -40,16 +40,16 @@ extern DECLSPEC void ELTAPIENTRY ExLockThread(ExThread thread);
     Get current thread identification.
 */
 extern DECLSPEC ExThread ELTAPIENTRY ExGetCurrentThread(void);
-/*
-	// Get Thread ID
+/**
+	Get Thread ID
 */
 extern DECLSPEC Uint32 ELTAPIENTRY ExGetThreadID(ExThread thread);
-/*
-	// Get Thread name
+/**
+	Get Thread name
 */
 extern DECLSPEC const char* ELTAPIENTRY ExGetThreadName(ExThread thread);
-/*
-	//
+/**
+	Set thread priority
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread,Enum nPriority);
 /*

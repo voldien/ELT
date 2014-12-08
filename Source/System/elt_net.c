@@ -12,9 +12,8 @@
 DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port,unsigned int protocol){
     unsigned int sockfd,newsockdf;
     struct sockaddr_in serv_addr, cli_addr;
-
     /**
-
+        create socket
     */
     switch(protocol){
         case ELT_CLIENT:
@@ -42,7 +41,6 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
         return -1;
     }
 
-
     return sockfd;
 }
 
@@ -54,8 +52,8 @@ DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int p
     struct sockaddr_in serv_addr;
     struct hostent *server;
     int sockfd;/**TODO check if sockdf should be input parameter*/
-
-    sockdf = ExOpenSocket(ip,port);
+    /**/
+    sockfd = ExOpenSocket(ip,port,ELT_CLIENT);
 
     bzero((char*)&serv_addr, sizeof(serv_addr));
     server = gethostbyname(ip);

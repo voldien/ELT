@@ -36,7 +36,7 @@ extern DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigne
 
 */
 extern DECLSPEC int ELTAPIENTRY ExReadSocket(unsigned int socket, unsigned int* data,unsigned size);
-/*
+/**
 
 */
 extern DECLSPEC int ELTAPIENTRY ExWriteSocket(unsigned int socket, unsigned int* data,unsigned size);

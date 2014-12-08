@@ -1,7 +1,6 @@
 #include"elt_win.h"
 #include"elt_gl.h"
 #include"elt_cl.h"
-//#include<Cmd/mathlib.h>	//TODO fix
 #if defined(EX_WINDOWS)
 	#include"Win32/win_win32.h"
 	#include"Win32/wnd_input.h"
@@ -33,7 +32,7 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length){
 #ifdef EX_LINUX
     glGetIntegerv(GL_MAJOR_VERSION, &major_version);
     glGetIntegerv(GL_MINOR_VERSION, &minor_version);
-    glXQueryVersion(XOpenDisplay(NULL),&major_version,&minor_version );
+    //glXQueryVersion(XOpenDisplay(NULL),&major_version,&minor_version );
 #endif
 #ifdef EX_UNICODE
 	wsprintf(wchar,EX_ENGINE_VERSION_STRING,

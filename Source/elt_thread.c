@@ -33,6 +33,9 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpPar
         fprintf(stderr, strerror(errno));
     if(pthread_detach(t0) == -1)
         fprintf(stderr, strerror(errno));
+
+    if(pid)//TODO
+        *pid = mpid;
 	return t0;
 #endif
 }
@@ -49,7 +52,7 @@ DECLSPEC ExThread ELTAPIENTRY ExGetCurrentThread(void){
     return 0;
 #elif defined(EX_LINUX)
     return pthread_self();
-#endif // EX_WINDOWS
+#endif
 
 }
 

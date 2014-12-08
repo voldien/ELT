@@ -78,6 +78,7 @@ DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window){
 #ifdef EX_WINDOWS
 	eglDisplay = eglGetDisplay(NULL);
 #elif defined(EX_LINUX)
+
 	if(eglBindAPI(EGL_OPENGL_API) != EGL_TRUE)
         ExError("Bind API!");
 	eglDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
@@ -305,6 +306,7 @@ static int create_temp_gl_win(OpenGLContext* pglc_context){
 
 
 #elif defined(EX_LINUX)
+#ifdef EX_DEBUG
 static void describe_fbconfig(GLXFBConfig fbconfig){
 	int doublebuffer;
 	int red_bits,green_bits, blue_bits, alpha_bits, depth_bits;
@@ -316,7 +318,8 @@ static void describe_fbconfig(GLXFBConfig fbconfig){
 	glXGetFBConfigAttrib(display,fbconfig,GLX_ALPHA_SIZE,&alpha_bits);
 	glXGetFBConfigAttrib(display,fbconfig,GLX_DEPTH_SIZE,&depth_bits);
 }
-
+#endif
+/**choose fb configure  */
 static int choose_fbconfig(GLXFBConfig* p_fbconfig){
 	GLXFBConfig* fbconfigs;
 	XVisualInfo* visual;
@@ -353,12 +356,12 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 	Int32 nResults[1] = {0};
 	Int32 pixFmt = 1, attrSize = 0;
 
-    /*
+    /**
         Get Pixel Format attribute
     */
     wglGetPixelFormatAttribivARB = (WGLCHOOSEPIXELFORMATARB_T)GL_GET_PROC("wglGetPixelFormatAttribivARB");
 
-	if(wglGetPixelFormatAttribivARB(hDc, pixFmt,0, 1, attrib, nResults)){
+	if(wglGetPixelFormatAttribivARB(hDc, pixFmt,0, 1, attrib, &nResults[0])){
 
 	}
 
@@ -391,7 +394,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 		   // EGL_ALPHA_SIZE, 4,
             EGL_DEPTH_SIZE, 16,
             //EGL_SAMPLES, 4,
-		    EGL_SURFACE_TYPE,
+		    //EGL_SURFACE_TYPE,
 		    EGL_OPENGL_ES2_BIT,
 		    EGL_NONE
 		     };
@@ -856,6 +859,8 @@ DECLSPEC Boolean ELTAPIENTRY ExGLFullScreen(Boolean cdsfullscreen, ExWin window,
 	return TRUE;
 #elif defined(EX_MAC)
 
+
+
 	return TRUE;
 #endif
 }
@@ -904,13 +909,13 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(void){
 }
 
 DECLSPEC Int32 ELTAPIENTRY ExIsVendorAMD(void){
-	return (strstr((const char*)glGetString(GL_VENDOR), "AMD") != NULL);
+	return strstr((const char*)glGetString(GL_VENDOR), "AMD") ? TRUE : FALSE;
 }
 DECLSPEC Int32 ELTAPIENTRY ExIsVendorNvidia(void){
-	return (strstr((const char*)glGetString(GL_VENDOR), "NVIDIA") != NULL);
+	return (strstr((const char*)glGetString(GL_VENDOR), "NVIDIA")) ? TRUE : FALSE;
 }
 DECLSPEC Int32 ELTAPIENTRY ExIsVendorIntel(void){
-	return (strstr((const char*)glGetString(GL_VENDOR), "INTEL") != NULL);
+	return strstr((const char*)glGetString(GL_VENDOR), "INTEL") ? TRUE : FALSE;
 }
 DECLSPEC Enum ELTAPIENTRY ExGetGLVendorEnum(void){
 	if(ExIsVendorNvidia())return EX_GPU_NVIDIA;
