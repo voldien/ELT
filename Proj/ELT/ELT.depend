@@ -410,3 +410,419 @@
 
 1417975809 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/math/vect.h
 
+1418045434 source:/home/voldie/codeprojects/elt/Source/elt_console.c
+	"elt_console.h"
+	"System/elt_win.h"
+	<Windows.h>
+
+1416899876 /home/voldie/codeprojects/elt/Source/elt_console.h
+	"System/elt_win.h"
+	<io.h>
+
+1416899876 /home/voldie/codeprojects/elt/Source/System/elt_win.h
+	"./../EngineAssembly.h"
+	"elt_event.h"
+
+1418045434 /home/voldie/codeprojects/elt/Source/EngineAssembly.h
+	"ExPreProcessor.h"
+	"ExNT.h"
+	"System/elt_event.h"
+	"EngineEx.h"
+	"ExCommon.h"
+	"Input/XBoxControllerHandler.h"
+	<Cmd/cmdlib.h>
+	<tchar.h>
+	<strsafe.h>
+	"elt_timer.h"
+	"System/elt_win.h"
+	"System/elt_errorhandler.h"
+	"System/elt_event.h"
+	"System/elt_net.h"
+	"elt_loadso.h"
+	"Input/elt_keyboard.h"
+	"Input/elt_mouse.h"
+	"Input/elt_joystick.h"
+	"elt_cpuinfo.h"
+	"elt_timer.h"
+	"math/matrix.h"
+	"elt_matrix.h"
+
+1418045434 /home/voldie/codeprojects/elt/Source/ExPreProcessor.h
+	<stddef.h>
+	<cstdio>
+	<climits>
+	<stdio.h>
+	<limits.h>
+
+1417515673 /home/voldie/codeprojects/elt/Source/ExNT.h
+	"ExPreProcessor.h"
+	<Windows.h>
+	<X11/X.h>
+	<stdlib.h>
+	<errno.h>
+	<ctype.h>
+	<stdarg.h>
+
+1418045434 /home/voldie/codeprojects/elt/Source/System/elt_event.h
+	"./../ExNT.h"
+	<X11/Xlib.h>
+
+1417703571 /home/voldie/codeprojects/elt/Source/EngineEx.h
+	"EngineAssembly.h"
+
+1418045434 /home/voldie/codeprojects/elt/Source/ExCommon.h
+	"EngineAssembly.h"
+	"ExAssert.h"
+	<malloc.h>
+
+1416512896 /home/voldie/codeprojects/elt/Source/ExAssert.h
+	<assert.h>
+
+1417515673 /home/voldie/codeprojects/elt/Source/Input/XBoxControllerHandler.h
+	"./../EngineAssembly.h"
+	"elt_gamecontroller.h"
+
+1417515673 /home/voldie/codeprojects/elt/Source/Input/elt_gamecontroller.h
+	"./../EngineAssembly.h"
+	"elt_joystick.h"
+
+1418045434 /home/voldie/codeprojects/elt/Source/Input/elt_joystick.h
+	"./../EngineAssembly.h"
+	"elt_gamecontroller.h"
+
+1418045434 /home/voldie/codeprojects/elt/Source/elt_timer.h
+	"elt_thread.h"
+	<ctime>
+	<time.h>
+
+1418045434 /home/voldie/codeprojects/elt/Source/elt_thread.h
+	"EngineAssembly.h"
+	"ExNT.h"
+
+1418045434 /home/voldie/codeprojects/elt/Source/System/elt_errorhandler.h
+	"./../EngineAssembly.h"
+	"./../elt_console.h"
+
+1418046665 /home/voldie/codeprojects/elt/Source/System/elt_net.h
+	"./../EngineAssembly.h"
+
+1418045434 /home/voldie/codeprojects/elt/Source/elt_loadso.h
+	"EngineAssembly.h"
+	"System/elt_win.h"
+
+1418045434 /home/voldie/codeprojects/elt/Source/Input/elt_keyboard.h
+	"./../EngineAssembly.h"
+
+1416899876 /home/voldie/codeprojects/elt/Source/Input/elt_mouse.h
+	"./../EngineAssembly.h"
+	"./../System/elt_errorhandler.h"
+
+1416512896 /home/voldie/codeprojects/elt/Source/elt_cpuinfo.h
+	"EngineAssembly.h"
+
+1418045434 /home/voldie/codeprojects/elt/Source/math/matrix.h
+	"vect.h"
+	"quad.h"
+
+1418045434 /home/voldie/codeprojects/elt/Source/math/vect.h
+
+1418045434 /home/voldie/codeprojects/elt/Source/math/quad.h
+	<math.h>
+	"vect.h"
+
+1416512896 /home/voldie/codeprojects/elt/Source/elt_matrix.h
+	"System/elt_gl.h"
+	"System/Win32/win_directX.h"
+
+1418045434 /home/voldie/codeprojects/elt/Source/System/elt_gl.h
+	"./../ExPreProcessor.h"
+	"Win32/win_win32.h"
+	"Unix/unix_win.h"
+	"Mac/macosx_win.h"
+	"elt_win.h"
+	"elt_win.h"
+
+1417515673 /home/voldie/codeprojects/elt/Source/System/Win32/win_win32.h
+	"./../../ExPreProcessor.h"
+	<Windows.h>
+	"./../../EngineAssembly.h"
+	"win_wndproc.h"
+	"win_directX.h"
+	"wnd_common.h"
+	"wnd_snd.h"
+	"win_controls.h"
+	"wnd_filedialog.h"
+	"wnd_input.h"
+	"win_GL.h"
+
+1417515673 /home/voldie/codeprojects/elt/Source/System/Win32/win_wndproc.h
+	"win_win32.h"
+	"win_GL.h"
+	<ScrnSave.h>
+
+1416512896 /home/voldie/codeprojects/elt/Source/System/Win32/win_GL.h
+	"./../../EngineAssembly.h"
+	"./../elt_gl.h"
+	"win_win32.h"
+
+1416512896 /home/voldie/codeprojects/elt/Source/System/Win32/win_directX.h
+	"./../../EngineAssembly.h"
+
+1417515673 /home/voldie/codeprojects/elt/Source/System/Win32/wnd_common.h
+	"./../../EngineAssembly.h"
+	"./../../elt_console.h"
+	<Windows.h>
+	<vector>
+	<string>
+
+1416512896 /home/voldie/codeprojects/elt/Source/System/Win32/wnd_snd.h
+	"win_win32.h"
+	<windows.h>
+	<mmsystem.h>
+	<dsound.h>
+	<stdio.h>
+
+1416512896 /home/voldie/codeprojects/elt/Source/System/Win32/win_controls.h
+	"./../../ExPreProcessor.h"
+	"win_win32.h"
+
+1417515673 /home/voldie/codeprojects/elt/Source/System/Win32/wnd_filedialog.h
+	"./../../ExPreProcessor.h"
+	"win_win32.h"
+
+1417515673 /home/voldie/codeprojects/elt/Source/System/Win32/wnd_input.h
+	"win_win32.h"
+
+1416512896 /home/voldie/codeprojects/elt/Source/System/Unix/unix_win.h
+	"./../../EngineAssembly.h"
+
+1416512896 /home/voldie/codeprojects/elt/Source/System/Mac/macosx_win.h
+	"./../../EngineAssembly.h"
+	<_dbdao.h>
+
+1418045434 source:/home/voldie/codeprojects/elt/Source/elt_cpuinfo.c
+	"elt_cpuinfo.h"
+	<immintrin.h>
+	<intrin.h>
+	<unistd.h>
+	<cpuid.h>
+
+1417515673 source:/home/voldie/codeprojects/elt/Source/elt_loadso.c
+	"elt_loadso.h"
+	<dlfcn.h>
+
+1418049099 source:/home/voldie/codeprojects/elt/Source/elt_thread.c
+	"elt_thread.h"
+	<pthread.h>
+	<errno.h>
+
+1418045434 source:/home/voldie/codeprojects/elt/Source/elt_timer.c
+	"elt_timer.h"
+	<signal.h>
+	<errno.h>
+
+1418045434 source:/home/voldie/codeprojects/elt/Source/EngineEx2.c
+	"EngineConfig.h"
+	"EngineAssembly.h"
+	"System/Win32/wnd_common.h"
+	<GL/GLU.h>
+	<GL/gl.h>
+	<signal.h>
+	<string.h>
+
+1416512896 /home/voldie/codeprojects/elt/Source/EngineConfig.h
+	"EngineAssembly.h"
+
+1418045434 source:/home/voldie/codeprojects/elt/Source/ExCommon.c
+	"ExCommon.h"
+	<unistd.h>
+	<sys/utsname.h>
+	<sys/sysinfo.h>
+	<errno.h>
+	<libgen.h>
+	<X11/Xlib.h>
+	<X11/extensions/Xrandr.h>
+	<Windows.h>
+	<WinInet.h>
+	<sys/socket.h>
+
+1418045434 source:/home/voldie/codeprojects/elt/Source/ExEngine.c
+	"EngineEx.h"
+	"System/elt_cl.h"
+	"System/elt_gl.h"
+	"System/elt_errorhandler.h"
+	"System/Win32/wnd_input.h"
+	"System/Win32/win_net.h"
+	"System/elt_log.h"
+	"System/elt_audio.h"
+	<signal.h>
+	<delayimp.h>
+	<mcheck.h>
+
+1418045434 /home/voldie/codeprojects/elt/Source/System/elt_cl.h
+	"./../EngineAssembly.h"
+
+1416512896 /home/voldie/codeprojects/elt/Source/System/Win32/win_net.h
+	"./../../EngineAssembly.h"
+
+1416512896 /home/voldie/codeprojects/elt/Source/System/elt_log.h
+	"./../EngineAssembly.h"
+
+1416512896 /home/voldie/codeprojects/elt/Source/System/elt_audio.h
+	"./../EngineAssembly.h"
+
+1417515673 source:/home/voldie/codeprojects/elt/Source/Input/elt_gamecontroller.c
+	"elt_gamecontroller.h"
+	"elt_joystick.h"
+	<Xinput.h>
+	<Cmd/cmdlib.h>
+
+1417515673 source:/home/voldie/codeprojects/elt/Source/Input/elt_joystick.c
+	"elt_joystick.h"
+	<string.h>
+	<Windows.h>
+	<dinput.h>
+	<dinputd.h>
+	<Xinput.h>
+	<unistd.h>
+	<fcntl.h>
+	<sys/ioctl.h>
+	<stdio.h>
+	<linux/joystick.h>
+
+1418045434 source:/home/voldie/codeprojects/elt/Source/Input/elt_keyboard.c
+	"elt_keyboard.h"
+	<dinput.h>
+	<dinputd.h>
+	<Dbt.h>
+	<oleauto.h>
+	<shellapi.h>
+	<X11/keysym.h>
+	<X11/extensions/XInput.h>
+
+1417515673 source:/home/voldie/codeprojects/elt/Source/Input/elt_mouse.c
+	"elt_mouse.h"
+	<dinput.h>
+	<linux/input.h>
+
+1418045434 source:/home/voldie/codeprojects/elt/Source/Input/XBoxControllerHandler.c
+	"XBoxControllerHandler.h"
+	<dinput.h>
+	<XInput.h>
+
+1418049067 source:/home/voldie/codeprojects/elt/Source/main.c
+	"EngineAssembly.h"
+	<CL/cl.h>
+	<CL/cl_gl.h>
+	<X11/keysym.h>
+	<GL/gl.h>
+	<signal.h>
+	<sys/types.h>
+	<sys/socket.h>
+	<netinet/in.h>
+
+1418045434 source:/home/voldie/codeprojects/elt/Source/math/frustum.c
+	"frustum.h"
+	"quad.h"
+
+1418045434 /home/voldie/codeprojects/elt/Source/math/frustum.h
+
+1418045434 source:/home/voldie/codeprojects/elt/Source/math/matrix.c
+	"matrix.h"
+	<immintrin.h>
+	<immintrin.h>
+
+1418045434 source:/home/voldie/codeprojects/elt/Source/math/quad.c
+	"quad.h"
+
+1418045434 source:/home/voldie/codeprojects/elt/Source/math/vect.c
+
+1418045955 source:/home/voldie/codeprojects/elt/Source/System/elt_audio.c
+	"elt_audio.h"
+	<alsa/asoundlib.h>
+
+1418045434 source:/home/voldie/codeprojects/elt/Source/System/elt_cl.c
+	"elt_cl.h"
+	<CL/cl.h>
+	<CL/cl.h>
+	<CL/opencl.h>
+	<CL/cl_gl_ext.h>
+	<CL/cl_platform.h>
+	<CL/cl_dx9_media_sharing.h>
+	<GL/glew.h>
+	<CL/cl.h>
+	<CL/opencl.h>
+	"CL/cl_gl.h"
+
+1418045434 source:/home/voldie/codeprojects/elt/Source/System/elt_errorhandler.c
+	"elt_errorhandler.h"
+	"elt_log.h"
+	"./../elt_console.h"
+	<signal.h>
+	<limits.h>
+	<Cmd/cmdlib.h>
+
+1418045434 source:/home/voldie/codeprojects/elt/Source/System/elt_event.c
+	"elt_event.h"
+	"Unix/unix_win.h"
+	"./../ExAssert.h"
+	<WindowsX.h>
+
+1418045434 source:/home/voldie/codeprojects/elt/Source/System/elt_gl.c
+	"elt_gl.h"
+	<EGL/egl.h>
+	<GL/glew.h>
+	<GL/glext.h>
+	<X11/extensions/Xrender.h>
+	<X11/Xatom.h>
+	<X11/keysym.h>
+	<EGL/egl.h>
+	<GL/glx.h>
+	<GL/glxext.h>
+	<GLES/gl2.h>
+	<GLES/gl2ext.h>
+	<GLES/gl2platform.h>
+	<GL/glu.h>
+
+1416512896 source:/home/voldie/codeprojects/elt/Source/System/elt_log.c
+	"elt_log.h"
+
+1418047833 source:/home/voldie/codeprojects/elt/Source/System/elt_net.c
+	"elt_net.h"
+	<sys/types.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<errno.h>
+
+1418045434 source:/home/voldie/codeprojects/elt/Source/System/elt_win.c
+	"elt_win.h"
+	"elt_gl.h"
+	"elt_cl.h"
+	"Win32/win_win32.h"
+	"Win32/wnd_input.h"
+	<EGL/egl.h>
+	"Unix/unix_win.h"
+	<X11/Xlib.h>
+	<EGL/egl.h>
+	<GL/glx.h>
+	"Mac/macosx_win.h"
+	<EGL/egl.h>
+	"../elt_icon.h"
+
+1417515673 /home/voldie/codeprojects/elt/Source/elt_icon.h
+
+1418045434 source:/home/voldie/codeprojects/elt/Source/System/Unix/unix_win.c
+	"unix_win.h"
+	<unistd.h>
+	<stdio.h>
+	<stdlib.h>
+	<X11/Xlib.h>
+	<X11/Xatom.h>
+	<X11/keysym.h>
+	<X11/extensions/XInput.h>
+	<X11/extensions/Xrender.h>
+	<dlfcn.h>
+	<GL/gl.h>
+	<GL/glx.h>
+	"../elt_gl.h"
+

@@ -7,8 +7,9 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 #define ELT_NET_H
 #include"./../EngineAssembly.h"
 
-#define ELT_TCP 0x1 /*  reliable,  two-way  */
-#define ELT_UDP 0x2 /**/
+#define ELT_CLIENT 0x0
+#define ELT_TCP 0x1 /**  reliable,  two-way  */
+#define ELT_UDP 0x2 /** UDP protocal */
 /**
     Open socket
 */
@@ -27,9 +28,11 @@ extern DECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(unsigned int socket);
 extern DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int port);
 
 /**
-*/
 
-/*
+*/
+//extern DECLSPEC unsigned int ELTAPIENTRY ExNetListen(unsigned int socket,unsigned int blog);
+
+/**
 
 */
 extern DECLSPEC int ELTAPIENTRY ExReadSocket(unsigned int socket, unsigned int* data,unsigned size);
