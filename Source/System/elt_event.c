@@ -1,9 +1,6 @@
 #include"elt_event.h"
 #include"Unix/unix_win.h"
 #include"./../ExAssert.h"
-#ifndef MATH_LIB_H
-//	#include<Cmd/mathlib.h>
-#endif
 #ifdef EX_WINDOWS
 	#include<WindowsX.h>
 #elif defined(EX_LINUX)
@@ -12,7 +9,7 @@
 
 
 
-DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvents* event){
+DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 
 #ifdef EX_WINDOWS
 	assert(event);

@@ -2,14 +2,34 @@
 //__SSE4__ ||
 //#define ENABLE_AVX
 #ifdef ENABLE_AVX
-	#include<immintrin.h>
-	//#include<intrin.h>
+#   ifdef _WIN32
+#      include<intrin.h>
+#   endif
+#   include<immintrin.h>
 #elif defined(__AVX2__)
 	#include<immintrin.h>
 #endif
 
-void mat4x4_multi_vec4(const vec4x4_t lf_mat4,const float rf_vec4[4],float out_vec4[4]){
+void mat4x4_multi_vec4(const vec4x4_t lf_mat4,const float rf_vec4[4],float out_vec4[4]){/*TODO check if it's correct*/
+	out_vec4[0] = lf_mat4[0][1] * rf_vec4[0] +
+				  lf_mat4[0][1] * rf_vec4[1] +
+				  lf_mat4[0][2] * rf_vec4[2] +
+				  lf_mat4[0][3] * rf_vec4[3];
 
+	out_vec4[1] = lf_mat4[1][0] * rf_vec4[0] +
+				  lf_mat4[1][1] * rf_vec4[1] +
+				  lf_mat4[1][2] * rf_vec4[2] +
+				  lf_mat4[1][3] * rf_vec4[3];
+
+	out_vec4[2] = lf_mat4[2][0] * rf_vec4[0] +
+				  lf_mat4[2][1] * rf_vec4[1] +
+				  lf_mat4[2][2] * rf_vec4[2] +
+				  lf_mat4[2][3] * rf_vec4[3];
+
+	out_vec4[3] = lf_mat4[3][0] * rf_vec4[0] +
+				  lf_mat4[3][1] * rf_vec4[1] +
+				  lf_mat4[3][2] * rf_vec4[2] +
+				  lf_mat4[3][3] * rf_vec4[3];
 }
 /*
 static inline __m128 lincomb_AVX_4mem(const float *a, const vec4x4_t B){
@@ -78,6 +98,27 @@ void mat4x4_multi_mat4x4(const vec4x4_t mat,const vec4x4_t mat2, vec4x4_t outf_m
 
 
 #endif
+}
+
+void mat4x4_divs_mat4x4(const vec4x4_t lf_mat4, const vec4x4_t rf_mat4, vec4x4_t outf_mat4){
+	// division.
+	outf_mat4[0][0] = lf_mat4[0][0] / rf_mat4[0][0];	outf_mat4[0][1] = lf_mat4[0][1] / rf_mat4[0][1];	outf_mat4[0][2] = lf_mat4[0][2] / rf_mat4[0][2];	outf_mat4[0][3] = lf_mat4[0][3] / rf_mat4[0][3];
+	outf_mat4[1][0] = lf_mat4[1][0] / rf_mat4[1][0];	outf_mat4[1][1] = lf_mat4[1][1] / rf_mat4[1][1];	outf_mat4[1][2] = lf_mat4[1][2] / rf_mat4[1][2];	outf_mat4[1][3] = lf_mat4[1][3] / rf_mat4[1][3];
+	outf_mat4[2][0] = lf_mat4[2][0] / rf_mat4[2][0];	outf_mat4[2][1] = lf_mat4[2][1] / rf_mat4[2][1];	outf_mat4[2][2] = lf_mat4[2][2] / rf_mat4[2][2];	outf_mat4[2][3] = lf_mat4[2][3] / rf_mat4[2][3];
+	outf_mat4[3][0] = lf_mat4[3][0] / rf_mat4[3][0];	outf_mat4[3][1] = lf_mat4[3][1] / rf_mat4[3][1];	outf_mat4[3][2] = lf_mat4[3][2] / rf_mat4[3][2];	outf_mat4[3][3] = lf_mat4[3][3] / rf_mat4[3][3];
+}
+void mat4x4_addi_mat4x4(const vec4x4_t lf_mat4, const vec4x4_t rf_mat4, vec4x4_t outf_mat4){
+	// addition
+	outf_mat4[0][0] = lf_mat4[0][0] + rf_mat4[0][0];	outf_mat4[0][1] = lf_mat4[0][1] + rf_mat4[0][1];	outf_mat4[0][2] = lf_mat4[0][2] + rf_mat4[0][2];	outf_mat4[0][3] = lf_mat4[0][3] + rf_mat4[0][3];
+	outf_mat4[1][0] = lf_mat4[1][0] + rf_mat4[1][0];	outf_mat4[1][1] = lf_mat4[1][1] + rf_mat4[1][1];	outf_mat4[1][2] = lf_mat4[1][2] + rf_mat4[1][2];	outf_mat4[1][3] = lf_mat4[1][3] + rf_mat4[1][3];
+	outf_mat4[2][0] = lf_mat4[2][0] + rf_mat4[2][0];	outf_mat4[2][1] = lf_mat4[2][1] + rf_mat4[2][1];	outf_mat4[2][2] = lf_mat4[2][2] + rf_mat4[2][2];	outf_mat4[2][3] = lf_mat4[2][3] + rf_mat4[2][3];
+	outf_mat4[3][0] = lf_mat4[3][0] + rf_mat4[3][0];	outf_mat4[3][1] = lf_mat4[3][1] + rf_mat4[3][1];	outf_mat4[3][2] = lf_mat4[3][2] + rf_mat4[3][2];	outf_mat4[3][3] = lf_mat4[3][3] + rf_mat4[3][3];
+}
+void mat4x4_subt_mat4x4(const vec4x4_t lf_mat4, const vec4x4_t rf_mat4, vec4x4_t outf_mat4){
+	outf_mat4[0][0] = lf_mat4[0][0] - rf_mat4[0][0];	outf_mat4[0][1] = lf_mat4[0][1] - rf_mat4[0][1];	outf_mat4[0][2] = lf_mat4[0][2] - rf_mat4[0][2];	outf_mat4[0][3] = lf_mat4[0][3] - rf_mat4[0][3];
+	outf_mat4[1][0] = lf_mat4[1][0] - rf_mat4[1][0];	outf_mat4[1][1] = lf_mat4[1][1] - rf_mat4[1][1];	outf_mat4[1][2] = lf_mat4[1][2] - rf_mat4[1][2];	outf_mat4[1][3] = lf_mat4[1][3] - rf_mat4[1][3];
+	outf_mat4[2][0] = lf_mat4[2][0] - rf_mat4[2][0];	outf_mat4[2][1] = lf_mat4[2][1] - rf_mat4[2][1];	outf_mat4[2][2] = lf_mat4[2][2] - rf_mat4[2][2];	outf_mat4[2][3] = lf_mat4[2][3] - rf_mat4[2][3];
+	outf_mat4[3][0] = lf_mat4[3][0] - rf_mat4[3][0];	outf_mat4[3][1] = lf_mat4[3][1] - rf_mat4[3][1];	outf_mat4[3][2] = lf_mat4[3][2] - rf_mat4[3][2];	outf_mat4[3][3] = lf_mat4[3][3] - rf_mat4[3][3];
 }
 
 

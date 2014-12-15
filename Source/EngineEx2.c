@@ -45,12 +45,22 @@ extern DECLSPEC int ELTAPIENTRY ExGetHint(Enum e_enum){
         default:return 0;
     }
 }
+
+#define ELT_DISPLAY 0x1
 DECLSPEC int ELTAPIENTRY ExSetParameteri(Enum eflag, int value){
+    switch(eflag){
+        case 0:break;
+        case ELT_DISPLAY:display = value;break;
+        default:break;
+    }
 
     return 1;
 }
 DECLSPEC int ELTAPIENTRY ExSetParameterf(Enum eflag, float value){
-
+    switch(eflag){
+        case 0:break;
+        default:break;
+    }
     return 1;
 }
 

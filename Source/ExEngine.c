@@ -16,11 +16,11 @@
 */
 
 #if defined(EX_WINDOWS)
-    #if defined(EX_VC)
-    #	pragma comment(lib,"opengl32.lib")
-    #	include<delayimp.h>
-    #	pragma comment(lib,"DelayImp.lib")
-    #endif
+#   if defined(EX_VC)
+#   	pragma comment(lib,"opengl32.lib")
+#   	include<delayimp.h>
+#   	pragma comment(lib,"DelayImp.lib")
+#   endif
 
 /**
     // Delay load of .dll file which might not be needed
@@ -47,10 +47,10 @@
     #pragma comment(linker,"/DELAY:UNLOAD")*/
 
 
-    //#pragma comment(linker,"/DelayLoad:Ws2_32.Dll")
-    //#pragma comment(linker,"/Delay:unload")
-/*
-    // Instance
+    #pragma comment(linker,"/DelayLoad:Ws2_32.dll")
+    #pragma comment(linker,"/Delay:unload")
+/**
+    handle Instance
 */
     extern HINSTANCE hdllMoudle;
 #elif defined(EX_LINUX)
@@ -60,10 +60,7 @@
 #elif defined(EX_MAC)
 
 #endif
-/**
-	// allocate data about the creator.
-*/
-char* Developer = "BroodCity Entertainment";
+
 #ifdef EX_WINDOWS
 HINSTANCE hdllMoudle = GetModuleHandle(EX_NULL);
 
@@ -128,8 +125,6 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
     /*  cause fork to fail somehow*/
 	//*stdout = *m_file_log;
 	//setvbuf(fopen, NULL, _IONBF, 0 );
-    fprintf(stderr,"error");
-    fprintf(stdout,"error");
 
 
 #endif
@@ -193,9 +188,9 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 /*
 
 */
-DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineFlag){
+DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 	ERESULT hr = 0;
-	if(ELT_INIT_VIDEO & engineFlag){
+	if(ELT_INIT_VIDEO & engineflag){
         #ifdef EX_WINDOWS
 		/* load OpenGL library*/
 		ExIsWinError(!(hmodule = LoadLibrary(EX_TEXT("OpenGL32.dll"))));
@@ -203,13 +198,13 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineFlag){
 
         #endif
 	}
-	if(ELT_INIT_JOYSTICK & engineFlag){
+	if(ELT_INIT_JOYSTICK & engineflag){
 
 	}
-	if(ELT_INIT_AUDIO & engineFlag){
+	if(ELT_INIT_AUDIO & engineflag){
 		ExAudioInit(0);
 	}
-	if(ELT_INIT_GAMECONTROLLER & engineFlag){
+	if(ELT_INIT_GAMECONTROLLER & engineflag){
 #ifdef EX_WINDOWS
 		LoadLibrary(EX_TEXT("Xinput.dll"));
 		//ExInitGameController();
@@ -217,15 +212,22 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineFlag){
 
 #endif
 	}
-	if(ELT_INIT_EVENTS & engineFlag){
+	if(ELT_INIT_EVENTS & engineflag){
 #if defined(EX_WINDOWS)
 
 #elif defined(EX_LINUX)
 
 #endif
 	}
-	if(ELT_INIT_TIMER & engineFlag){
+	if(ELT_INIT_TIMER & engineflag){
 		elt_time = clock();
+	}
+	if(ELT_INIT_NET & engineflag){
+	    #ifdef EX_LINUX
+        ExLoadLibrary("");
+        #elif defined(EX_WINDOWS)
+        ExLoadLibrary("");
+        #endif
 	}
 	return hr;
 }
@@ -269,6 +271,13 @@ DECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag){
 	if(ELT_INIT_VIDEO & engineflag){
 
 	}
+	if(ELT_INIT_NET & engineflag){
+	    #ifdef EX_LINUX
+        ExLoadLibrary("");
+        #elif defined(EX_WINDOWS)
+        ExLoadLibrary("");
+        #endif
+	}
 }
 
 DECLSPEC void ELTAPIENTRY ExShutDown(void){
@@ -305,14 +314,18 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
     XFlush(display);
 	XCloseDisplay(display);
 
+#ifdef EX_DEBUG /*  Debug info of memory allocation*/
+	mi = mallinfo();
+	printf("%d\n", mi.arena);
+
+	muntrace();
+#endif
+
 #elif defined(EX_APPLE)
 
 #endif
-	fclose(m_file_log);
-	mi = mallinfo();
-	//printf(getenv(MALLOC_TRACE));
+	//fclose(m_file_log);
 
-	muntrace();
 }
 
 DECLSPEC void ELTAPIENTRY ExEnable(Enum enable){
@@ -359,4 +372,8 @@ DECLSPEC void ELTAPIENTRY ExDisable(Enum disable){
 #define EX_COMPILER_VERSION(major, minor, revision) EX_TEXT("ELT-")EX_TO_TEXT(major)EX_TEXT(".")EX_TO_TEXT(minor)EX_TEXT(".")EX_TO_TEXT(revision)
 DECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void){
 	return EX_COMPILER_VERSION(EX_MAJOR_VERSION, EX_MINOR_VERSION, EX_REVISION);
+}
+
+DECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void){
+    return "";
 }

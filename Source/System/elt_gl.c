@@ -7,9 +7,8 @@
     #pragma comment(lib, "Glu32.lib")
     #pragma comment(lib, "gdi32.lib")
     #include<EGL/egl.h>
-    #include<GL/glew.h>
     #include<GL/glext.h>
-    #define GL_GET_PROC(x)   wglGetProcAddress( ( x ) )       /*  get opengl function process address */
+    #define GL_GET_PROC(x)   wglGetProcAddress( ( x ) )         /*  get opengl function process address */
 #elif defined(EX_LINUX)
     #include<X11/extensions/Xrender.h>
     #include<X11/Xatom.h>
@@ -17,14 +16,14 @@
     #include<EGL/egl.h>
     #include<GL/glx.h>
     #include<GL/glxext.h>
-    #define GL_GET_PROC(x) glXGetProcAddress( ( x ) )         /*  get opengl function process address */
+    #define GL_GET_PROC(x) glXGetProcAddress( ( x ) )           /*  get opengl function process address */
 #elif defined(EX_ANDROID)
 	#ifdef GL_ES_VERSION_2_0
         #include<GLES/gl2.h>
         #include<GLES/gl2ext.h>
         #include<GLES/gl2platform.h>
 	#endif
-#define GL_GET_PROC(x) (x)                              /*  get opengl function process address */
+#define GL_GET_PROC(x) (x)                                      /*  get opengl function process address */
 #endif
 #include<GL/glu.h>
 
@@ -46,7 +45,6 @@ static int isExtensionSupported(const char* extList, const char* extension){
 	where = strchr(extension, ' ');
 	if(where || extension[0] == '\0')
 		return 0;
-
 
 	for(start = extList; ; ){
 		where = strstr(start, extension);
@@ -74,14 +72,31 @@ DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window){
 	EGLSurface eglSurface;
 	EGLContext eglContext;
 	ERESULT hr;
-	ExCreateContextAttrib(window,attrs,0,0,EX_OPENGLES);
+	//ExCreateContextAttrib(window,attrs,0,0,EX_OPENGLES);
+
+EGLint configAttribList[] =
+{
+    EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+    EGL_RED_SIZE,       8,
+    EGL_GREEN_SIZE,     8,
+    EGL_BLUE_SIZE,      8,
+    EGL_ALPHA_SIZE,     8,
+    EGL_DEPTH_SIZE,     24,
+
+    EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
+    EGL_NONE, EGL_NONE
+};
+
+
+
 #ifdef EX_WINDOWS
 	eglDisplay = eglGetDisplay(NULL);
 #elif defined(EX_LINUX)
 
 	if(eglBindAPI(EGL_OPENGL_API) != EGL_TRUE)
         ExError("Bind API!");
-	eglDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+	eglDisplay = eglGetDisplay((EGLNativeDisplayType)NULL);
+	eglDisplay = eglGetDisplay(display);
     EGLint ctxattr[] = {
       EGL_CONTEXT_CLIENT_VERSION, 2,
       EGL_NONE
@@ -93,9 +108,11 @@ DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window){
         \Initialize OpenGL ES
 	*/
 	hr = eglInitialize(eglDisplay, &major, &minor);
-	if(!hr)Error("Failed to Initilize OpenGL ES");
+	if(!hr)ExError("Failed to Initialize OpenGL ES");
 	//	Choose Config
-	hr = eglChooseConfig(eglDisplay, attrs, &eglConfig, 1, &numConfig);
+	hr = eglChooseConfig(eglDisplay, configAttribList, &eglConfig, 1, &numConfig);
+	if(hr != EGL_TRUE)
+        ExError("");
 
 	if(!(eglSurface = eglCreateWindowSurface(eglDisplay,eglConfig,(EGLNativeWindowType)window,NULL)))
         ExError("error");
@@ -105,6 +122,9 @@ DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window){
 
 	if((hr = eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext)) != EGL_TRUE)
         ExError("OpenGL ES Error");
+
+    if(ExGetCurrentGLDC() == window)
+        return 0;
 
 	ExInitOpenGLStates(0);
 	return eglContext;
@@ -543,7 +563,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 	GLXFBConfig fbconfig;
     glXQueryVersion(display,&maj,&min);
 
-    /*
+    /**
         Get Current Supported Version of OpenGL
     */
     glGetIntegerv(GL_MAJOR_VERSION, &major_version);
@@ -552,8 +572,8 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 
 
     int context_attribs[]={
-        GLX_CONTEXT_MAJOR_VERSION_ARB,/* major_version*/3,
-        GLX_CONTEXT_MINOR_VERSION_ARB,/* minor_version*/2,
+        GLX_CONTEXT_MAJOR_VERSION_ARB,/* major_version*/3, //TODO obtain latest major version
+        GLX_CONTEXT_MINOR_VERSION_ARB,/* minor_version*/2, //TODO obtain latest minor version
         #ifdef EX_DEBUG
         GLX_CONTEXT_FLAGS_ARB,GLX_CONTEXT_DEBUG_BIT_ARB | GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,   /*  Debug TODO add hint*/
         #else
@@ -561,7 +581,6 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
         #endif
         None
     };
-	//render_vendor = ExGetGLVendorEnum();
 
 	if(!glXQueryExtension(display,&dummy, &dummy))
 		Error("OpenGL not supported by X server\n");
@@ -569,14 +588,17 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 	if(isExtensionSupported(glXQueryExtensionsString(display,DefaultScreen(display)), "GLX_ARB_create_context")){
 		typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
 		glXCreateContextAttribsARBProc glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc)glXGetProcAddress((const GLubyte*)"glXCreateContextAttribsARB");
+        //glXGetProcAddress("glXCreateAssociatedContextAMD");
+
 		if(glXCreateContextAttribsARB){
 			choose_fbconfig(&fbconfig);
+
 			glc = glXCreateContextAttribsARB(display, fbconfig,0, True,context_attribs);
             glXMakeCurrent(display, window,glc);
 			XSync(display,False);
 		}
 	}
-	else{
+	else{   /*      */
 		int att[60] = {0};
 		ExCreateContextAttrib(0,&att[0],0,0,EX_OPENGL);
 		vi = glXChooseVisual(display,DefaultScreen(display),att);
@@ -608,7 +630,7 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
 
     glGetIntegerv(GL_MAJOR_VERSION, &major_version);
 	glGetIntegerv(GL_MINOR_VERSION, &minor_version);
-	Int attribs[] ={
+	int attribs[] ={
 			WGL_CONTEXT_MAJOR_VERSION_ARB, major_version,
 			WGL_CONTEXT_MINOR_VERSION_ARB, minor_version,
 			WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
@@ -629,7 +651,9 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
 
     return shared_glc;
     #elif defined(EX_LINUX)
+    typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
     GLXFBConfig fbconfig;
+    glXCreateContextAttribsARBProc glXCreateContextAttribsARB;
     glGetIntegerv(GL_MAJOR_VERSION, &major_version);
 	glGetIntegerv(GL_MINOR_VERSION, &minor_version);
 
@@ -638,8 +662,8 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
 
 
     int context_attribs[]={
-        GLX_CONTEXT_MAJOR_VERSION_ARB,/* major_version*/3,
-        GLX_CONTEXT_MINOR_VERSION_ARB,/* minor_version*/2,
+        GLX_CONTEXT_MAJOR_VERSION_ARB,major_version,
+        GLX_CONTEXT_MINOR_VERSION_ARB,minor_version,
         #ifdef EX_DEBUG
         GLX_CONTEXT_FLAGS_ARB,GLX_CONTEXT_DEBUG_BIT_ARB | GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,   /*  Debug TODO add hint*/
         #else
@@ -648,8 +672,8 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
         None
     };
 
-    typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
-    glXCreateContextAttribsARBProc glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc)glXGetProcAddress((const GLubyte*)"glXCreateContextAttribsARB");
+    /*  Get context ARB */
+    glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc)glXGetProcAddress((const GLubyte*)"glXCreateContextAttribsARB");
 
     if(glXCreateContextAttribsARB)
         shared_glc = glXCreateContextAttribsARB(display, fbconfig,glc, True,context_attribs);
@@ -658,7 +682,7 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
     }
 
     return shared_glc;
-    #endif // EX_WINDOWS
+    #endif
 }
 
 

@@ -22,7 +22,6 @@ void quad_multi_vec3(float lf_quat[4], vec3_t rf_vec,float out_quat[4]){
 	out_quat[QW] = -(lf_quat[QX] * rf_vec[0]) - (lf_quat[QY] * rf_vec[1]) - (lf_quat[QZ] * rf_vec[2]);
 }
 
-
 void quad_add_quad(const float lf_quad[4],const float rf_quad[4], float out_quad[4]){
 	out_quad[QW] = lf_quad[0] + rf_quad[0];
 	out_quad[QX] = lf_quad[1] + rf_quad[1];

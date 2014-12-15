@@ -1,6 +1,20 @@
 /*
-===========================================================================
-Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
+========================================================================
+    ELT (Engine Library Toolkit) is a multi platform engine toolkit
+    Copyright (C) 2014  Valdemar Lindberg
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 #ifndef ELT_KEYBOARD_H
@@ -15,33 +29,33 @@ typedef Keycode ExScancode;
 extern "C"{
 #endif
 /**
-	// Get KeyCode name identification index
+	Get KeyCode name identification index
 */
 extern DECLSPEC Keycode ELTAPIENTRY ExGetKeyFromName(const char* name);
 /**
-	//	Get Key from Scancode
+	Get Key from Scancode
 */
 extern DECLSPEC Keycode ELTAPIENTRY ExGetKeyFromScancode(ExScancode scancode);
 /**
-	// Get KeyCode name
+	Get KeyCode name
 */
 extern DECLSPEC const char* ELTAPIENTRY ExGetKeyName(Keycode keycode);
 
 /**
-	// Get Window that is keyboard is focus to
+	Get Window that is keyboard is focus to
 */
 extern DECLSPEC ExWin ELTAPIENTRY ExGetKeyboardFocus(void);
 /**
-	//
+	Get keyboard state.
 */
 extern DECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys);
 /**
-	//
+
 */
 extern DECLSPEC Keycode ELTAPIENTRY ExGetModeState(void);
 
 /**
-	// is any key pressed
+	Is any key pressed
 */
 extern DECLSPEC Boolean ELTAPIFASTENTRY ExAnyKey(void);
 /**

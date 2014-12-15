@@ -1,37 +1,22 @@
 /*
-===========================================================================
-Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
+========================================================================
+    ELT (Engine Library Toolkit) is a multi platform engine toolkit
+    Copyright (C) 2014  Valdemar Lindberg
 
-this file is a part of ELT source code.
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-ELT source code is free software; you can redistribute it
-and/or modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of the License,
-or (at your option) any later version.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-ELT source code is distributed in the hope that it will be
-useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-
-//**************************************************************//
-//																//
-//	CopyRight � BroodCity 2014 voldemor2009@hotmail.com			//
-//																//
-//	EngineEx is Extension version of a Fundemental Engine		//
-//	Providing More than Basic to run a Game Engine. EngineEx	//
-//	Support OPENGL & DIRECTX Rendering Interface.				//
-//	Support to Compile as 32 Bit Application.					//
-//																//
-//	Designed for Engine Development.							//
-//	UpComing Version Deployment to Linux & Android.				//
-//	Mac Might Be apply in further. Iphone Won't be added		//
-//	Because of it's License & Software Issue.					//
-//																//
-//																//
-//--------------------------------------------------------------//
 
 // #define ENGINE_EX_STATIC_BUILD			// Use as Static Lib
 // #define ENGINE_EX_STATIC_TO_DLL_BUILD	// Use as Static Lib to DLL

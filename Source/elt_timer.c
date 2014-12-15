@@ -1,4 +1,5 @@
 #include"elt_timer.h"
+#include<time.h>
 #include<signal.h>
 #ifdef EX_WINDOWS
 
@@ -69,13 +70,31 @@ DECLSPEC Boolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id){
 }
 
 DECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms){
-	ExSleep(ms);
+    #ifdef EX_WINDOWS
+
+    #elif defined(EX_LINUX)
+    struct timespec tim, tim2;
+    tim.tv_sec = 0;
+    tim.tv_nsec = ms * 1000000;
+
+    if(nanosleep(&tim , NULL) < 0 ){
+        fprintf(stderr, strerror(errno));
+    }
+    #endif
 }
 
-DECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void){
-#ifdef EX_WINDOWS   /*TODO fix high res-resolution*/
+DECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void){/*TODO fix high res-resolution*/
+#ifdef EX_WINDOWS
 	return (timeGetTime() - elt_time);
 #elif defined(EX_LINUX)
 	return (clock() - elt_time);
 #endif
+}
+DECLSPEC long ELTAPIENTRY ExGetHiResTime(void){
+    #ifdef EX_WINDOWS
+    #elif defined(EX_LINUX)
+    struct timespec t_spec;
+    clock_gettime(CLOCK_MONOTONIC, &t_spec);
+    return t_spec.tv_nsec;
+    #endif // EX_WINDOWS
 }

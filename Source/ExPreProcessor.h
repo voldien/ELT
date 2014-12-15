@@ -1,6 +1,20 @@
 /*
-===========================================================================
-Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
+========================================================================
+    ELT (Engine Library Toolkit) is a multi platform engine toolkit
+    Copyright (C) 2014  Valdemar Lindberg
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 #ifndef EX_PRE_PROCESSOR_H
@@ -451,8 +465,8 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 	// ELT Version
 */
 #define EX_ENGINE_VERSION_MAJOR 0x0
-#define EX_ENGINE_VERSION_MINOR 0x0
-#define EX_ENGINE_VERSION_REVISION 0x39
+#define EX_ENGINE_VERSION_MINOR 0x5
+#define EX_ENGINE_VERSION_REVISION 0x41
 
 #define EX_ENGINE_PREALPHA EX_TEXT("pa")	        /* Pre alpha    */
 #define EX_ENGINE_ALPHA EX_TEXT("a")		        /* Alpha        */
@@ -500,6 +514,7 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 #else
 	#define EX_ARGS ...
 #endif
+
 
 #ifdef INTERNAL_ENGINEX
 	#ifdef EX_WINDOWS

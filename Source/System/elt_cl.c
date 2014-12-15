@@ -74,7 +74,7 @@ DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowCont
 			cdDevices = (cl_device_id*)malloc(sizeof(cl_device_id) *uiDevCount);
 			ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_GPU, uiDevCount, cdDevices, NULL);
 		}
-		// if gpu failur. check CPU
+		// if gpu failure. check CPU
 		else if(!(ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_CPU, 0, NULL, &uiDevCount))){
 			// create OpenCL Devices on the CPU
 			cdDevices = (cl_device_id*)malloc(sizeof(cl_device_id) *uiDevCount);
@@ -214,6 +214,7 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum fl
 DECLSPEC void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, void* p_cl_device_id){
     if(!p_cl_device_id)
         return;
+    return 0;
     char device_string[1024];
     Boolean nv_device_attibute_query = FALSE;
 	cl_device_id device = (cl_device_id)p_cl_device_id;

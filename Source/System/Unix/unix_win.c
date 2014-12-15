@@ -10,16 +10,14 @@
 #include<X11/extensions/XInput.h>
 #include<X11/extensions/Xrender.h>
 #include<dlfcn.h>
-#undef glXChooseFBConfig
-#undef glXGetVisualFromFBConfig
-#undef glXGetFBConfigs
-#undef glXGetFBConfigAttrib
-#undef glXCreateWindow
 #include<GL/gl.h>
 #include<GL/glx.h>
 #include"../elt_gl.h"
 //mathlib
 Display *display = 0;
+
+
+extern int choose_fbconfig(GLXFBConfig* p_fbconfig);
 
 DECLSPEC XID ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){
 	Visual* visual;
@@ -134,7 +132,8 @@ DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 
     if(major >= 1 && minor >= 3){
         //glx_window = glXCreateWindow(display, fbConfigs,window,0);
         //pglx_window[0] = glx_window;
-        pglx_window[0] = 1;
+        if(pglx_window)
+            pglx_window[0] = 1;
     }
 
 	XStoreName(display,window, ExGetDefaultWindowTitle(title,sizeof(title)));

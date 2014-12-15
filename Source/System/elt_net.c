@@ -9,6 +9,7 @@
 #endif // EX_WINDOWS
 
 // http://www.linuxhowtos.org/data/6/server.c
+
 DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port,unsigned int protocol){
     unsigned int sockfd,newsockdf;
     struct sockaddr_in serv_addr, cli_addr;

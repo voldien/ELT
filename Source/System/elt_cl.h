@@ -1,6 +1,20 @@
 /*
-===========================================================================
-Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
+========================================================================
+    ELT (Engine Library Toolkit) is a multi platform engine toolkit
+    Copyright (C) 2014  Valdemar Lindberg
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 #ifndef ELT_CL_H
@@ -8,10 +22,10 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 #include"./../EngineAssembly.h"
 
 
-#define ELT_GPU0 0x0                        /**/
-#define ELT_CPU0 0x20                       /**/
-#define ELT_CL_FLOPS_HIGHEST 0x400          /**/
-#define ELT_CL_AVAILABLE_PLATFORM 0x1000    /**/
+#define ELT_GPU0 0x0                        /* GPU index 0 + offset*/
+#define ELT_CPU0 0x20                       /* CPU index 0 + offset*/
+#define ELT_CL_FLOPS_HIGHEST 0x400          /* Device with most FLOPS */
+#define ELT_CL_AVAILABLE_PLATFORM 0x1000    /* Get available device */
 #ifdef __cplusplus	// C++ Environment
 extern "C"{
 #endif

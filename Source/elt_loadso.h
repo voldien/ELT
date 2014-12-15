@@ -1,6 +1,20 @@
 /*
-===========================================================================
-Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
+========================================================================
+    ELT (Engine Library Toolkit) is a multi platform engine toolkit
+    Copyright (C) 2014  Valdemar Lindberg
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 #ifndef ELT_LOADSO_H
@@ -11,27 +25,27 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 extern "C"{
 #endif
 /**
-	// Load function
+	Load function
 */
 extern DECLSPEC HANDLE ELTAPIENTRY ExLoadFunction(HANDLE handle, const char* pProcName);
 /**
-	// Load Module object
+	Load Module object
 */
 extern DECLSPEC HANDLE ELTAPIENTRY ExLoadObject(const ExChar* sofile);
 /**
-	// UnLoad Module object
+	UnLoad Module object
 */
 extern DECLSPEC void ELTAPIENTRY ExUnLoadObject(HANDLE handle);
 /**
-	// Is Module Loaded
+	Is Module Loaded
 */
 extern DECLSPEC HANDLE ELTAPIENTRY ExIsModuleLoaded(const ExChar* file);
 /**
-
+    Is Module Loaded
 */
 #define ExGetFileModule ExIsModuleLoaded
 /**
-
+    Load Object
 */
 #define ExLoadLibrary ExLoadObject
 

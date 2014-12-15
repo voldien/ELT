@@ -17,16 +17,17 @@ DECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName){
 	PROCESS_INFORMATION pi = {0};
 	STARTUPINFO si = {0};
     si.cb = sizeof(si);
-	if( !CreateProcess(applicationName,   // No module name (use command line)
-       EX_TEXT(""),        // Command line
-        NULL,           // Process handle not inheritable
-        NULL,           // Thread handle not inheritable
-        FALSE,          // Set handle inheritance to FALSE
+	if( !CreateProcess(
+        applicationName,    // No module name (use command line)
+        EX_TEXT(""),        // Command line
+        NULL,               // Process handle not inheritable
+        NULL,               // Thread handle not inheritable
+        FALSE,              // Set handle inheritance to FALSE
         CREATE_NEW_PROCESS_GROUP,              // No creation flags
-        NULL,           // Use parent's environment block
-        NULL,           // Use parent's starting directory
-        &si,            // Pointer to STARTUPINFO structure
-        &pi )           // Pointer to PROCESS_INFORMATION structure
+        NULL,               // Use parent's environment block
+        NULL,               // Use parent's starting directory
+        &si,                // Pointer to STARTUPINFO structure
+        &pi )               // Pointer to PROCESS_INFORMATION structure
     ) {
 		ExDevWindowPrintc(EX_TEXT("CreateProcess failed (%d).\n"),EX_CONSOLE_RED);
 		return FALSE;
@@ -99,7 +100,7 @@ DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName, ...){
 	return TRUE;
 #elif defined(EX_LINUX)
     pid_t pid;
-// TODO FIX
+    // TODO FIX
 /*	while((arg_temp = va_arg(argptr, ExChar*)) != NULL){
 		strcat(argv,arg_temp);
 		wcscat(argv,EX_TEXT(" "));
@@ -252,7 +253,7 @@ DECLSPEC void ELTAPIENTRY ExGetAppliationPath(ExChar* wChar, Int32 lengthSize){
 #endif
 	return;
 }
-
+//function manually
 DECLSPEC void ELTAPIENTRY ExGetApplicationName(ExChar* name,Int32 length){
 #ifdef EX_WINDOWS
 	ExChar path[MAX_PATH];

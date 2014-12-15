@@ -11,7 +11,7 @@
 
 
 // Error Message text
-ExChar* errorText = EX_NULL;
+ExChar* errorText = NULL;
 /*
 	// ExError
 */
@@ -132,6 +132,7 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode){
     xlib error callback
 */
 static int ctxErrorHandler(Display* dpy, XErrorEvent* error){
+    #ifdef EX_DEBUG
     char error_buffer[1024];
     XGetErrorText(dpy, error->error_code, error_buffer, sizeof(error_buffer));
     fprintf(stderr,
@@ -143,6 +144,7 @@ static int ctxErrorHandler(Display* dpy, XErrorEvent* error){
             error->request_code,
             error->serial
             );
+    #endif
     return 0;
 }
 #endif
@@ -205,6 +207,8 @@ DECLSPEC void ELTAPIENTRY ExErrorExit(ExChar* lpszFunction) {
     LocalFree(lpDisplayBuf);
     ExitProcess(dw);
 #elif defined(EX_LINEX)
+    ExSignalCatch(2);
+    exit(EXIT_FAILURE);
 #endif
 	return;
 }
@@ -276,23 +280,48 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetHModuleErrorMessageW(ERESULT dw){
 	   EX_NULL));   // arguments - see note
 	return (ExChar*)errorText;
 #elif defined(EX_LINUX)
+	if(!errorText)
+		errorText = (ExChar*)malloc(512);
 	XGetErrorText(display,dw,errorText,512);
 	return errorText;
-
 #endif
 }
 
 
 
-/**/
+/*
+    back trace
+    http://stackoverflow.com/questions/5693192/win32-backtrace-from-c-code
+*/
 static void debug_log_trace(void){
 #ifdef EX_WINDOWS
+    HANDLE process;
+    void* stack[100];
+    unsigned int frames;
+    SYMBOL_INFO* symbol;
+
+
+    process = GetCurrentProcess();
+
+    SymInitialize(process, NULL,TRUE);
+
+    frames = CaptureStackBackTrace(0,100, stack, NULL);
+    symbol = (SYMBOL_INFO*)calloc(sizeof( SYMBOL_INFO ) + 256 * sizeof( char ), 1 );
+    symbol->MaxNameLen = 255;
+    symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+
+    for(i = 0; i < frames;i++){
+        SymFromAddr(process,(DWORD64)(stack[i]),0, symbol);
+        fprintf(stderr,"%i: %s - 0x%0X\n",frames - i - 1, symbol->Name, symbol->Address);
+    }
+    free(symbol);
+
 
 #elif defined(EX_LINUX)
-    void* trace[15];
+    void* trace[100];
     char** strings;
     unsigned int i,j;
-    j = backtrace(&trace, 15);
+    j = backtrace(&trace,sizeof(trace) / sizeof(trace[0]));
 
     strings = backtrace_symbols(trace,j);
     for(i = 0; i < j; i++){
@@ -309,7 +338,7 @@ static void debug_log_trace(void){
 #define EX_ERROR_MESSAGE EX_TEXT("%s has just crashed %s Do you want to send a bug report to the developers team?")
 DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 	ExChar wchar[512];
-	ExChar app_name[PATH_MAX];
+	ExChar app_name[128];
 	char cfilename[260];
 	Uint32 istosend;
 #ifdef EX_WINDOWS
@@ -320,7 +349,7 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
     */
     debug_log_trace();
 
-	ExGetApplicationName(app_name,sizeof(app_name));        /*  Get application name   */
+	ExGetApplicationName(&app_name[0],sizeof(app_name));        /*  Get application name   */
 
 	switch(signal){
 	case SIGSEGV:
@@ -366,10 +395,20 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
     */
     int pos;
 
-	char* buffer = (char*)malloc(fileLenght(stdout) + fileLenght(stderr));
+	//m_file_log = fopen("EngineExDevLog.txt", "w+" );
+	//FILE* fopen;
+	/**/
+	//if(dup2(1,(fopen = fdopen(4,"w+"))) == -1)
+   //     fprintf(stderr,"error");
+
+	/**stdout = *m_file_log;
+	setvbuf(fopen, NULL, _IONBF, 0 );
+    unsigned int size = fileLenght(fopen);
+	//char* buffer = (char*)malloc(fileLenght(stdout) + fileLenght(stderr));
+	char* buffer = (char*)malloc(255);
 	fseek(stdout,0,SEEK_SET);
 	fseek(stderr,0,SEEK_SET);
-	fread(buffer, 1, fileLenght(stdout),stdout);
+	fread(buffer, 1, 255,stdout);
 	buffer += fileLenght(stdout);
 	//fgetpos(stderr,&pos);
 
@@ -379,7 +418,7 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 	SaveFile(cfilename,buffer,fileLenght(stdout) + fileLenght(stderr));
 
 
-    fclose(m_file_log);
+    fclose(m_file_log);*/
 
 
 	// deal with the information

@@ -62,6 +62,4 @@ typedef vec_t vec4_t[4];
 
 
 
-
-
 #endif // _ELT_VECT_H

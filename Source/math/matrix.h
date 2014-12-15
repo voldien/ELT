@@ -1,5 +1,22 @@
+/*
+========================================================================
+    ELT (Engine Library Toolkit) is a multi platform engine toolkit
+    Copyright (C) 2014  Valdemar Lindberg
 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
 #ifndef _ELT_MATRIX_H
 #define _ELT_MATRIX_H
 #include"vect.h"
@@ -55,6 +72,17 @@ extern void mat4x4_rotation(vec4x4_t f_mat4,float angle, vec3_t axis);
 extern void mat4x4_rotationX(vec4x4_t f_mat4, float x_radi);
 extern void mat4x4_rotationY(vec4x4_t f_mat4, float y_radi);
 extern void mat4x4_rotationZ(vec4x4_t f_mat4, float z_radi);
+
+/*
+
+*/
+extern void mat4x4_multi_translation(vec4x4_t f_mat4, vec3_t translate);
+extern void mat4x4_multi_scale(vec4x4_t f_mat4, vec3_t scale);
+extern void mat4x4_multi_rotationx(vec4x4_t f_mat4, float f_x_radi);
+extern void mat4x4_multi_rotationy(vec4x4_t f_mat4, float f_y_radi);
+extern void mat4x4_multi_rotationz(vec4x4_t f_mat4, float f_z_radi);
+
+extern void mat4x4_multi_rotationQ(vec4x4_t f_mat4, float f_quad[4]);
 
 
 

@@ -187,6 +187,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../Source/math/quad.h" />
+		<Unit filename="../../Source/math/raytrace.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/math/raytrace.h" />
 		<Unit filename="../../Source/math/vect.c">
 			<Option compilerVar="CC" />
 		</Unit>
