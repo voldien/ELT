@@ -92,6 +92,10 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 		    event->key.code = XLookupKeysym(&event->msg.xkey,0);//.keycode;
 		    event->mouse.x = event->msg.xkey.x;
 		    event->mouse.y = event->msg.xkey.y;
+		    event->key.alt = event->msg.xkey.state & Mod1Mask;
+		    event->key.ctrl = event->msg.xkey.state & ControlMask;
+		    event->key.shift = event->msg.xkey.state & ShiftMask;
+		    event->key.system = event->msg.xkey.state & Mod1Mask;
         }break;
 		case KeyRelease:{
 		    event->eventid |= EX_EVENT_KEY;
