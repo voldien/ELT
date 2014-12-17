@@ -150,6 +150,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../Source/System/elt_win.h" />
+		<Unit filename="../../Source/elt_alloc.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="../../Source/elt_alloc.h" />
 		<Unit filename="../../Source/elt_console.c">
 			<Option compilerVar="CC" />

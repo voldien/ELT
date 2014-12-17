@@ -4,6 +4,7 @@
 #   include"System/Win32/wnd_common.h"
 #include<GL/GLU.h>
 #elif defined(EX_LINUX)
+#   include"System/Unix/unix_win.h"
 #endif
 #ifndef CMD_LIB_H
 	//#   include<Cmd/cmdlib.h>

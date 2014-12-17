@@ -246,7 +246,8 @@ extern DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int le
 #include"Input/elt_mouse.h"
 #include"Input/elt_joystick.h"
 #include"elt_cpuinfo.h"
+#include"System/elt_gl.h"
 #include"elt_timer.h"
+#include"elt_alloc.h"
 #include"math/matrix.h"
-#include"elt_matrix.h"
 #endif

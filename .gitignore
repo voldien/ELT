@@ -4,13 +4,16 @@
 #ignore backup files. is not needed.
 
 *.~
+*~
 
 #ignore windows machine files.
 
 *.obj
+*.obj~
 
 *.c~
 
 *.h~
 *.exe
 *.sdf
+*.sh~

@@ -931,7 +931,7 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void){
 DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(void){
 	return (Uint32)(atof((const char*)glGetString(GL_VERSION)) * 100.0f);
 }
-
+//TODO see if it can be obtain before creating the context.
 DECLSPEC Int32 ELTAPIENTRY ExIsVendorAMD(void){
 	return strstr((const char*)glGetString(GL_VENDOR), "AMD") ? TRUE : FALSE;
 }

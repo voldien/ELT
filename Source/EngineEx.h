@@ -21,7 +21,6 @@
 #define _ENGINE_EX_H
 #include"EngineAssembly.h"
 
-#define EX_DEVELOPER_EMAIL EX_TEXT("BroodCity@hotmail.com")
 #define EX_VENDOR EX_TEXT("BroodCity")
 
 /*

@@ -3,7 +3,8 @@
 #include"./../elt_console.h"
 #ifdef EX_WINDOWS
 #elif defined(EX_LINUX)
-//#include<syslog.h>
+#   include<syslog.h>
+#   include"Unix/unix_win.h"
 #endif
 #include<signal.h>
 #include<limits.h>

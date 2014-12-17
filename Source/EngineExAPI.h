@@ -1,6 +1,6 @@
 /*
 ========================================================================
-    ELT (Engine Library Toolkit) is a multi platform engine toolkit
+    ELT (Engine Library Toolkit) is a multi platform engine toolkit designed for OpenGL in mind.
     Copyright (C) 2014  Valdemar Lindberg
 
     This program is free software: you can redistribute it and/or modify
@@ -75,7 +75,7 @@
 #elif defined(EX_MAC)
 
 #elif defined(EX_ANDROID)
-	//#include"System
+
 #elif defined(EX_PS4)
 
 #elif defined(EX_PS3)
@@ -85,9 +85,8 @@
 #elif defined(EX_WEB)
 
 #else
-	#error "Error! no supporting Devices"
+	#error "Error! no supporting Devices"   /**/
 #endif
-
 #include"ExCommon.h"
 /*End*/
 #else

@@ -6,6 +6,7 @@ IDirectInputDevice8* hMouseDevice = EX_NULL;
 MouseHandler* m_MouseHandler = EX_NULL;
 #elif defined(EX_LINUX)
 #   include<linux/input.h>
+#   include"./../System/Unix/unix_win.h"
 #endif
 
 

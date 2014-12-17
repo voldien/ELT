@@ -38,21 +38,27 @@ extern "C"{
 #define EX_THREAD_PRIORITY_LOW 0x1
 #define EX_THREAD_PRIORITY_MEDIUM 0x2
 #define EX_THREAD_PRIORITY_HIGH 0x3
-/*
-	// Create thread
+/**
+	Create thread.
+	\callback function to invoke
+	\lpParameter
 */
 extern DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpParamater,Uint32* pid);
 /**
 	Detach thread
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread);
-
+/*
+*/
 extern DECLSPEC ERESULT ELTAPIENTRY ExExitThread(ExThread thread);
 
 /**
 	//
 */
 extern DECLSPEC void ELTAPIENTRY ExLockThread(ExThread thread);
+
+extern DECLSPEC void ELTAPIENTRY ExUnLockThread(ExThread thread);
+
 /**
     Get current thread identification.
 */
@@ -69,8 +75,8 @@ extern DECLSPEC const char* ELTAPIENTRY ExGetThreadName(ExThread thread);
 	Set thread priority
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread,Enum nPriority);
-/*
-	// wait the thread
+/**
+	Wait the thread
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExWaitThread(ExThread thread, Int32* status);
 

@@ -144,9 +144,9 @@ typedef struct elt_poll_events{
     long time;
 #endif
 
-}ExEvent;  //TODO change to ExEvent
-/*
-	//	Get Event
+}ExEvent;
+/**
+	Poll Event from process.
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
 

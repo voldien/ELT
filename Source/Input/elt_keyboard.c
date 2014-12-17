@@ -9,6 +9,7 @@
 #elif defined(EX_LINUX)
     #include<X11/keysym.h>
     #include<X11/extensions/XInput.h>
+    #include"./../System/Unix/unix_win.h"
 #elif defined(EX_ANDROID)
 
 #endif
@@ -18,6 +19,7 @@
 IDirectInputDevice8* m_keyboard_device;
 #endif
 unsigned char KeyBoardState[2][0xff];
+
 
 
 DECLSPEC Keycode ELTAPIENTRY ExGetKeyFromName(const char* name){

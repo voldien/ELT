@@ -43,9 +43,12 @@ extern "C"{
 #endif
 
 
-/**/
+/*
+
+*/
 extern void mat4x4_multi_vec4(const vec4x4_t lf_mat4,const float rf_vec4[4],float out_vec4[4]);
-/**/
+/*
+*/
 extern void mat4x4_multi_mat4x4(const vec4x4_t lf_mat4,const vec4x4_t rf_mat4, vec4x4_t outf_mat4);
 
 extern void mat4x4_divs_mat4x4(const vec4x4_t lf_mat4, const vec4x4_t rf_mat4, vec4x4_t outf_mat4);
@@ -96,4 +99,4 @@ extern int mat4x4_unproj(float winx, float winy, float winz,const vec4x4_t proje
 }
 #endif
 
-#endif // _ELT_MATRIX_H
+#endif

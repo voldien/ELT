@@ -104,7 +104,9 @@ DECLSPEC const ExChar* ELTAPIENTRY ExJoyStickName(Uint32 ptr){
 	char name[128];
 	if(ioctl(joy_id[ptr],JSIOCGNAME(sizeof(name)),name) < 0)
 		strncpy(name,"Unknown", sizeof(name));
+#ifdef EX_DEBUG
 	printf(name);
+#endif
 	return name;
 #endif
 }
@@ -133,7 +135,7 @@ DECLSPEC Int32 ELTAPIENTRY ExJoystickNumAxis(Int32 device_index){
         return num_axis;
     else
         return -1;
-    #endif // EX_WINDOWS
+    #endif
 }
 
 DECLSPEC Int16 ELTAPIENTRY ExJoystickGetAxis(Int32 device_index,int axis){
@@ -147,7 +149,7 @@ DECLSPEC Int16 ELTAPIENTRY ExJoystickGetAxis(Int32 device_index,int axis){
         if(js.type & JS_EVENT_AXIS)
             return js.value;
     }else return -1;
-    #endif // EX_WINDOWS
+    #endif
 }
 /**
     \Button Get joystick button
@@ -233,43 +235,3 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitJoyStick( ExWin hwnd){
 #endif
 	return 0;
 }*/
-
-//DECLSPEC Int32 EX_CALLBACK EnumObjectsCallBack( const DIDEVICEOBJECTINSTANCE* pdidoi,VOID* pContext ){
-	//HWND hwnd = (HWND)pContext;
-	//
-    //// For axes that are returned, set the DIPROP_RANGE property for the
-    //// enumerated axis in order to scale min/max values.
-	//if(pdidoi->dwType & DIDFT_AXIS){
-	//	DIPROPRANGE diprg;
-	//	diprg.diph.dwSize = SIZEOF(DIPROPRANGE);
-	//	diprg.diph.dwHeaderSize = SIZEOF(DIPROPRANGE);
-	//	diprg.diph.dwHow = DIPH_BYID;
-	//	diprg.diph.dwObj = pdidoi->dwType;
-	//	diprg.lMin = -1000;
-	//	diprg.lMax = 1000;
-	//	if(FAILED(m_joyStickhandler->p_joystick[0]->SetProperty(DIPROP_RANGE, &diprg.diph))){
-	//		return DIENUM_STOP;
-	//	}
-	//}
-//	return TRUE;
-//}
-// Desc : Called once for each enumerated joysticl. if we find one. create a device interface on it so we can play it.
-//DECLSPEC Int32 EX_CALLBACK EnumJoysticksCallback( const DIDEVICEINSTANCE* pdidInstance,VOID* pContext ){
-	//DI_ENUM_CONTEXT* pEnumContext = (DI_ENUM_CONTEXT*)pContext;
-	//HRESULT hr;
-	//
-	////if(/* g_bFilterOutXinputDevices &&*/ ExIsXInputDevice( &pdidInstance->guidProduct ) )
-    ////   return DIENUM_CONTINUE;
-	//
-	//if(pEnumContext->bPreferredJoyCfgValid &&
-	//	!IsEqualGUID(pdidInstance->guidInstance, pEnumContext->pPreferredJoyCfg->guidInstance))
-	//	return DIENUM_CONTINUE;
-	//
-	//hr = g_pDI->CreateDevice(pdidInstance->guidInstance, &m_joyStickhandler->p_joystick[0], NULL);
-	//
-	//if(FAILED(hr))
-	//	return DIENUM_CONTINUE;
-	//
-	//ExUpdateJoyStickController();
-//	return DIENUM_STOP;
-//}

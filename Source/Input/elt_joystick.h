@@ -37,21 +37,21 @@ extern DECLSPEC Uint32 ELTAPIENTRY ExNumJoysticks(void);
     Open joystick by device index
 */
 extern DECLSPEC void* ELTAPIENTRY ExJoystickOpen(Int32  device_index);
-/*
-    //
+/**
+    Close Joystick by device index
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExJoyStickClose(Int32 device_index);
 
-/*
-	// Get Joystick Device GUID
+/**
+	Get Joystick Device GUID
 */
 extern DECLSPEC ExGUID ELTAPIENTRY ExJoystickGetDeviceGUID(Int32 device_index);
-/*
-	// Get Joystick name
+/**
+	Get Joystick name
 */
 extern DECLSPEC const ExChar* ELTAPIENTRY ExJoyStickName(Uint32 ptr);
-/*
-	// Get number of buttons on a joystick
+/**
+	Get number of buttons on a joystick
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExJoystickNumButtons(Uint32 ptr);
 /**

@@ -28,12 +28,7 @@
 #ifdef __cplusplus	// C++ Environment
 extern "C"{
 #endif
-#define DATABLOCK 0x1000 // 4096 // 4 kbyte
-#define ExMallocBlock(size) (malloc((( ( size ) / DATABLOCK) + 1) * DATABLOCK))
-#define ExMalloc malloc
-#define ExCalloc calloc
-#define ExReAlloc realloc
-#define ExFree(p_pointer) {free(p_pointer);p_pointer = EX_NULL;}
+
 
 /**
 	create process
