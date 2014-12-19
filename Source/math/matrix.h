@@ -58,7 +58,7 @@ extern void mat4x4_subt_mat4x4(const vec4x4_t lf_mat4, const vec4x4_t rf_mat4, v
 extern void mat4x4_identity(vec4x4_t f_mat4);
 extern void mat4x4_transpose(vec4x4_t f_mat4);
 extern float mat4x4_determinant(vec4x4_t f_mat4);
-extern void mat4x4_inverse(vec4x4_t f_mat4);
+extern float mat4x4_inverse(vec4x4_t f_mat4);
 extern void mat4x4_decompose(const vec4x4_t f_mat4, vec3_t f_position, quat_t f_rotation, vec3_t f_scale);
 
 /**
@@ -71,7 +71,7 @@ extern void mat4x4_translationv(vec4x4_t f_mat4,const vec3_t translation);
 extern void mat4x4_scale(vec4x4_t f_mat4, float x,float y, float z);
 extern void mat4x4_scalev(vec4x4_t f_mat4, vec3_t scale);
 
-extern void mat4x4_rotation(vec4x4_t f_mat4,float angle, vec3_t axis);
+extern void mat4x4_rotation(vec4x4_t f_mat4,float angle,const vec3_t axis);
 extern void mat4x4_rotationX(vec4x4_t f_mat4, float x_radi);
 extern void mat4x4_rotationY(vec4x4_t f_mat4, float y_radi);
 extern void mat4x4_rotationZ(vec4x4_t f_mat4, float z_radi);
@@ -79,13 +79,13 @@ extern void mat4x4_rotationZ(vec4x4_t f_mat4, float z_radi);
 /*
 
 */
-extern void mat4x4_multi_translation(vec4x4_t f_mat4, vec3_t translate);
-extern void mat4x4_multi_scale(vec4x4_t f_mat4, vec3_t scale);
+extern void mat4x4_multi_translation(vec4x4_t f_mat4,const vec3_t translate);
+extern void mat4x4_multi_scale(vec4x4_t f_mat4,const vec3_t scale);
 extern void mat4x4_multi_rotationx(vec4x4_t f_mat4, float f_x_radi);
 extern void mat4x4_multi_rotationy(vec4x4_t f_mat4, float f_y_radi);
 extern void mat4x4_multi_rotationz(vec4x4_t f_mat4, float f_z_radi);
 
-extern void mat4x4_multi_rotationQ(vec4x4_t f_mat4, float f_quad[4]);
+extern void mat4x4_multi_rotationQ(vec4x4_t f_mat4,const float f_quad[4]);
 
 
 

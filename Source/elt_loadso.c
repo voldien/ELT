@@ -36,8 +36,8 @@ DECLSPEC void ELTAPIENTRY ExUnLoadObject(HANDLE handle){
 		fprintf(stderr,dlerror());
 #endif
 }
-/*
-    // Check if file module is loaded.
+/**
+    Check if file module is loaded.
 */
 DECLSPEC HANDLE ELTAPIENTRY ExIsModuleLoaded(const ExChar* file){
 #ifdef EX_WINDOWS

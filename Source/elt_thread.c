@@ -119,7 +119,6 @@ DECLSPEC ERESULT ELTAPIENTRY ExWaitThread(ExThread thread, Int32* status){
 #elif defined(EX_LINUX)
     if(pthread_join(thread,NULL) == -1)
         fprintf(stderr,strerror(errno));
-
 #endif
 	return TRUE;
 }

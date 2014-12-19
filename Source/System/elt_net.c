@@ -18,7 +18,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
     unsigned int sockfd,newsockdf;
     unsigned int sock_domain,socket_protocol;
     struct sockaddr_in serv_addr, cli_addr;
-    struct sockaddr_un name;
+    //struct sockaddr_un name;
 
     if(protocol & ELT_LOCAL){
         sock_domain = PF_LOCAL;

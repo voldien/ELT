@@ -192,7 +192,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 	ERESULT hr = 0;
 	if(ELT_INIT_VIDEO & engineflag){
         #ifdef EX_WINDOWS
-		/* load OpenGL library*/
+		/* Load OpenGL library*/
 		ExIsWinError(!(hmodule = LoadLibrary(EX_TEXT("OpenGL32.dll"))));
         #elif defined(EX_LINUX)
 
@@ -226,7 +226,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 	    #ifdef EX_LINUX
         ExLoadLibrary("");
         #elif defined(EX_WINDOWS)
-        ExLoadLibrary("");
+        ExLoadLibrary("WS2_32.dll");
         #endif
 	}
 	return hr;
