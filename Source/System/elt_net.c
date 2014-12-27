@@ -91,7 +91,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int p
 
 
     bzero((char*)&serv_addr, sizeof(serv_addr));
-    server = gethostbyname(ip);
+    server = gethostbyname(ip);/*get host information by ip name or ip explicitly*/
 
     serv_addr.sin_family = server->h_addrtype; /*AF_INET;*/
 

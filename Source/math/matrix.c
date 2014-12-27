@@ -365,5 +365,6 @@ int mat4x4_unproj(float winx, float winy, float winz,const vec4x4_t projection,c
     mat4x4_multi_mat4x4(projection, modelview,mvp);
     mat4x4_inverse(mvp);
 
+    return 1;
 }
 

@@ -37,6 +37,10 @@ DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContex(Enum flag){
     cl_context hClContext;
     Uint32 uiDeviceUsed = 0,uiEndDev = 0;
 
+    /**
+    TODO check if needed or logic is accepted*/
+    //LoadLibrary("libOpenCL.so")
+
 	/**
         Get platform id
 	*/
@@ -143,7 +147,9 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum fl
     /**
         Get number of platform identification
     */
-    ciErrNum = clGetPlatformIDs (0, NULL, &num_platforms);
+    //ciErrNum = clGetPlatformIDs (1, &clPlatformIDs, &num_platforms);
+
+    ciErrNum = clGetPlatformIDs (1, NULL, &num_platforms);
     if (ciErrNum != CL_SUCCESS){
         ExDevPrintf(" Error %i in clGetPlatformIDs Call !!!", ciErrNum);
         return -1000;

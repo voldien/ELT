@@ -1,6 +1,5 @@
 #include"unix_win.h"
 #ifdef EX_LINUX
-
 #include<unistd.h>
 #include<stdio.h>
 #include<stdlib.h>

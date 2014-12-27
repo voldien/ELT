@@ -17,9 +17,9 @@
 
 
 #if [ cd Source/ ] ; then
-	cd Source/
+#	cd Source/
 sudo 
-	find . -name '*.h' -exec cp --parents \{\} /usr/include/ELT/ \;
+	find Source/ -name '*.h' -exec cp --parents \{\} /usr/include/ELT/ \;
 	#sudo cp -r Source/*.h /usr/include/ELT
-	cd .. ; 
+	# ..  
 #fi

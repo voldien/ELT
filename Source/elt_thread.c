@@ -1,12 +1,13 @@
 #include"elt_thread.h"
 
 #ifdef EX_WINDOWS
-	#define EX_START_THREAD(x)	ResumeThread( ( x ) )
+#   define EX_START_THREAD(x)	ResumeThread( ( x ) )
 #elif defined(EX_LINUX)
-	#include<pthread.h>
+#   include<pthread.h>
 #include<errno.h>
-	#define EX_START_THREAD(x)	pthread_detach( ( x ))
+#   define EX_START_THREAD(x)	pthread_detach( ( x ))
 #elif defined(EX_MAC)
+
 #endif
 #include<signal.h>
 
