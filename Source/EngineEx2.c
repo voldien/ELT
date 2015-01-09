@@ -9,6 +9,9 @@
 #ifndef CMD_LIB_H
 	//#   include<Cmd/cmdlib.h>
 #endif
+#include"System/elt_gl.h"
+#include"System/elt_cl.h"
+
 #include<GL/gl.h>
 #include<signal.h>
 #include<string.h>

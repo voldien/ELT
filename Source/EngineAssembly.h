@@ -219,6 +219,9 @@ extern DECLSPEC int ELTAPIENTRY ExSetParameteri(Enum eflag, int value);
 */
 extern DECLSPEC int ELTAPIENTRY ExSetParameterf(Enum eflag, float value);
 
+#define EX_OPENGL_
+extern DECLSPEC int ExGeti(Enum Flag);
+
 //extern DECLSPEC int ELTAPIENTRY ExSetCallback(Enum callbackflag, void (*s) (unsigned int) callback);
 
 
@@ -229,9 +232,6 @@ extern DECLSPEC void ELTAPIENTRY AssignDescription(const EngineDescription* p_en
 */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length);
 
-
-
-#define EX_ENGINE_DEVELOPER EX_TEXT("BroodCity Entertainment")
 
 #ifdef __cplusplus
 }

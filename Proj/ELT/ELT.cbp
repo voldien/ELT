@@ -67,12 +67,12 @@
 			<Add library="GL" />
 			<Add library="dl" />
 			<Add library="pthread" />
-			<Add library="OpenCL" />
 			<Add library="EGL" />
 			<Add library="Xrender" />
 			<Add library="rt" />
 			<Add library="cmdlib" />
 			<Add library="asound" />
+			<Add library="OpenCL" />
 		</Linker>
 		<Unit filename="../../Source/EngineAssembly.h" />
 		<Unit filename="../../Source/EngineEx.h" />

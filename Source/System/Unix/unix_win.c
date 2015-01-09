@@ -22,30 +22,38 @@ DECLSPEC XID ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int
 	Visual* visual;
 	Int depth, text_x,text_y;
 	XSetWindowAttributes swa = {};
+    XSetWindowAttributes  xattr;
+    Atom  atom;
+    int   one = 1;
 	Window window;
 	XFontStruct* fontinfo;
 	XGCValues gr_values;
 	GC graphical_context;
 	ExChar title[260];
+	int winmask = 0;
+
 
 	visual = DefaultVisual(display, 0);
 	depth = DefaultDepth(display,0);
-
-	swa.background_pixel = XWhitePixel(display,0);
+    winmask = CWEventMask;
+	//swa.background_pixel = XWhitePixel(display,0);
 	swa.event_mask = ExposureMask | PointerMotionMask | KeyPressMask;
 
 	window = XCreateWindow(display,DefaultRootWindow(display),
                               x,y,width,height,0,
-                              depth,InputOutput,visual, CWBackPixel,&swa);
+                              depth,InputOutput,visual, winmask,&swa);
 
 	XStoreName(display,window, ExGetDefaultWindowTitle(title,sizeof(title)));
-	XSelectInput(display,window,ExposureMask | StructureNotifyMask);
 
-	fontinfo = XLoadQueryFont(display, EX_TEXT("10x20"));
+    xattr.override_redirect = False;
+    XChangeWindowAttributes (display, window, CWOverrideRedirect, &xattr );
+	//XSelectInput(display,window,ExposureMask | StructureNotifyMask);
+
+	/*fontinfo = XLoadQueryFont(display, EX_TEXT("10x20"));
 	gr_values.font = fontinfo->fid;
 	gr_values.foreground = XBlackPixel(display,0);
 	graphical_context = XCreateGC(display,window, GCFont + GCForeground, &gr_values);
-
+*/
 	return window;
 }
 /**
@@ -161,5 +169,15 @@ DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 
     //}
     XFlush(display);
 	return window;
+}
+
+
+DECLSPEC int ExSupportOpenGL(void){
+    int major,minor;
+	if(!glXQueryVersion(display,&major,&minor)){
+        fprintf(stderr,"could not");
+        return FALSE;
+    }
+    return TRUE;
 }
 #endif

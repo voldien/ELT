@@ -188,7 +188,7 @@ DECLSPEC Int32 ELTAPIENTRY ExGetMonitorHz(Uint32 index){
 	return XRRConfigCurrentRate(conf);
 #endif
 }
-
+/*
 DECLSPEC Boolean ExLoadFileExplorer(char* path,const ExChar* filter){
 #ifdef EX_WINDOWS
 	ExChar wcpath[MAX_PATH];
@@ -217,7 +217,7 @@ DECLSPEC Boolean ExSaveFileExplorer(char* path,const ExChar* filter){
 	return FALSE;
 #endif
 
-}
+}*/
 
 
 DECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct){
@@ -231,8 +231,10 @@ DECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct){
 		*pct = spsPwr.BatteryLifePercent;
 #elif defined(EX_LINUX)
 
-
-
+    if(sec)
+        *sec = 1;
+    if(pct)
+        *pct = 1;
 #endif
 	return TRUE;
 }

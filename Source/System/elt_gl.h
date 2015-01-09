@@ -100,6 +100,8 @@ extern DECLSPEC Boolean ELTAPIENTRY ExDestroyContext(WindowContext drawable, Ope
 */
 extern DECLSPEC Boolean ELTAPIENTRY ExDestroyCurrentContext(void);
 
+
+
 /*
 	// Initlize OpenGL
 */

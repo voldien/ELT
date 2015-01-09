@@ -182,7 +182,7 @@ float mat4x4_inverse(vec4x4_t f_mat4){   //TODO check if functional
     float detm;
 	float invdet;
 	float res[4][4];
-	detm = determinant_mat4(f_mat4);
+	detm = mat4x4_determinant(f_mat4);
 	if(detm > 0.0f){
 		invdet = 1.0f / detm;
 		res[0][0] = invdet  * (f_mat4[1][1] * (f_mat4[2][2] * f_mat4[3][3] - f_mat4[2][3] * f_mat4[3][2]) + f_mat4[1][2] * (f_mat4[2][3] * f_mat4[3][1] - f_mat4[2][1] * f_mat4[3][3]) + f_mat4[1][3] * (f_mat4[2][1] * f_mat4[3][2] - f_mat4[2][2] * f_mat4[3][1]));
@@ -276,41 +276,41 @@ void mat4x4_rotationZ(vec4x4_t f_mat4, float z_radi){
 void mat4x4_multi_translation(vec4x4_t f_mat4,const vec3_t translate){
 	vec4x4 ftranslate;
 	vec4x4 ftranslate2;
-	translation_mat4(ftranslate, translate);
-	mulit_mat4(f_mat4,ftranslate,ftranslate2);
+	mat4x4_translationv(ftranslate, translate);
+	mat4x4_multi_mat4x4(f_mat4,ftranslate,ftranslate2);
 	memcpy(f_mat4,ftranslate2,sizeof(vec_t) * 16);
 }
 void mat4x4_multi_scale(vec4x4_t f_mat4,const vec3_t scale){
 	vec4x4 fscale;
 	vec4x4 fscale2;
-	scale_mat4(fscale, scale);
-	mulit_mat4(f_mat4,fscale,fscale2);
+	mat4x4_scalev(fscale, scale);
+	mat4x4_multi_mat4x4(f_mat4,fscale,fscale2);
 	memcpy(f_mat4,fscale2, sizeof(float) * 16);
 }
 void mat4x4_multi_rotationx(vec4x4_t f_mat4, float f_x_radi){
 	vec4x4 f_rot_x;
 	vec4x4 f_rot_x2;
-	rotationX_mat4(f_rot_x, f_x_radi);
-	mulit_mat4(f_mat4,f_rot_x,f_rot_x2);
+	mat4x4_rotationX(f_rot_x, f_x_radi);
+	mat4x4_multi_mat4x4(f_mat4,f_rot_x,f_rot_x2);
 	memcpy(f_mat4,f_rot_x2,sizeof(vec4x4));
 }
 void mat4x4_multi_rotationy(vec4x4_t f_mat4, float f_y_radi){
 	vec4x4 f_rot_y;
-	rotationY_mat4(f_rot_y, f_y_radi);
-	mulit_mat4(f_mat4,f_rot_y,f_mat4);
+	mat4x4_rotationY(f_rot_y, f_y_radi);
+	mat4x4_multi_mat4x4(f_mat4,f_rot_y,f_mat4);
 }
 void mat4x4_multi_rotationz(vec4x4_t f_mat4, float f_z_radi){
 	vec4x4 f_rot_z,f_rot_z2;
-	rotationZ_mat4(f_rot_z, f_z_radi);
-	mulit_mat4(f_mat4,f_rot_z,f_rot_z2);
+	mat4x4_rotationZ(f_rot_z, f_z_radi);
+	mat4x4_multi_mat4x4(f_mat4,f_rot_z,f_rot_z2);
 	memcpy(f_mat4,f_rot_z2,sizeof(vec4x4));
 }
 
 void mat4x4_multi_rotationQ(vec4x4_t f_mat4,const float f_quad[4]){
 	vec4x4 f_rot_q;
 	vec4x4 f_rot_q2;
-	rotationQ_mat4(f_rot_q, f_quad);
-	mulit_mat4(f_mat4,f_rot_q,f_rot_q2);
+	//rotationQ_mat4(f_rot_q, f_quad);
+	mat4x4_multi_mat4x4(f_mat4,f_rot_q,f_rot_q2);
 	memcpy(f_mat4,f_rot_q2,sizeof(vec4x4));
 }
 

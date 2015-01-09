@@ -31,13 +31,15 @@
 	#define EX_C	// C environment
 #endif
 
-/*
+/**
     Compiler
 */
 #ifdef _MSC_VER //	Visual Studio C++ Compiler.
 	#define EX_VC
 	#define ENGINE_EX_COMPILER 1
-	#if _MSC_VER >= 1800
+	#if _MSC_VER >= 1900
+		#define EX_V13 _MSC_VER
+	#elif _MSC_VER >= 1800
 		#define EX_V12 _MSC_VER
 	#elif _MSC_VER >= 1700
 		#define EX_VC11 _MSC_VER
@@ -70,6 +72,9 @@
 	#define EX_INTEL
 	#define ENGINE_EX_COMPILER 4
 	#define EX_COMPILER_NAME "Intel C++"
+#elif defined(clang)            /*  LLVM    */
+    #define EX_LLVM 1
+	#define ENGINE_EX_COMPILER 5
 #else
 	#error UnSupported Compiler.
 #endif
@@ -120,7 +125,7 @@
 		#define EX_APPLE
 		#define EX_UNIX
 		#if defined(__arm__)
-			#define EX_APPLE_IOS
+			#define EX_APPLE_IOS    /*  Apple iphone/ipad OS    */
 		#elif defined(MACOSX) || defined(macintosh) || defined(Macintosh)
 			#define EX_MAC
 		#endif
@@ -130,6 +135,8 @@
 		#define EX_UNIX
 	#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)   /*  BSD*/
 		#define EX_BSD
+    #elif defined(__llvm__) || defined(__clang__)   /*  llvm    */
+        #define EX_LLVM
 	#endif
 #else
 	#error  Unsupported architecture!   /*  No architecture support implicitly. remove this line to compile anyway*/
@@ -174,7 +181,7 @@
 	#define EX_UNICODE
 	#define _EX_TEXT(quote) L##quote
 	#define EX_TEXT(quote)  _EX_TEXT(quote)
-#else
+#else   /*  ASCI / UTF8 */
 	#define EX_ANSI
     #define EX_TEXT(quote) quote
 #endif
@@ -212,11 +219,11 @@
 #define C_EXTERN extern "C"
 #define CPP_EXTERN extern "C++"
 #define VIRTUAL virtual
-#define NORETURN __declspec(noreturn)				// No Return, while loop forever.
+#define NORETURN __declspec(noreturn)				// No Return, will loop forever.
 
-/*
-	// No Initialization Virtual Table. [4 BYTE In size]
-	// only supports in C++ environments
+/**
+	No Initialization Virtual Table. [4 byte In size] //TODO confirm size of virtual table
+	only supports in C++ environments
 */
 #ifdef EX_WINDOWS
 	#define NOINITVTABLE __declspec(novtable)
@@ -224,8 +231,8 @@
 	#define NOINITVTABLE
 #endif
 
-/*
-	// No Throw
+/**
+	No Throw
 */
 #ifdef EX_WINDOWS
 	#define NOTHROW __declspec(nothrow)						// No Throw
@@ -233,13 +240,21 @@
 	#define NOTHROW
 #endif
 
-/*
-	// Properties
+/**
+	Properties
 */
-#define PROPERTIES(_get, _set,_type) __declspec(property(get = _get, put = _set)) _type
-#define READONLY_PROPERTY(t,n) __declspec(property(get = property__get_##x)) t x;\typedef t property__tmp_type_##n
-#define GET(x) property__tmp_type_##x property__get_##n()
-#define SET(n) void property__set_##x(const property__tmp_type_##x& value)
+#ifdef __cplusplus  // C++ feature
+#   ifdef EX_WINDOWS
+#      define PROPERTIES(_get, _set,_type) __declspec(property(get = _get, put = _set)) _type
+#      define READONLY_PROPERTY(t,n) __declspec(property(get = property__get_##x)) t x;\typedef t property__tmp_type_##n
+#      define GET(x) property__tmp_type_##x property__get_##n()
+#      define SET(n) void property__set_##x(const property__tmp_type_##x& value)
+#   elif defined(EX_LINUX)
+
+#   endif
+#else
+//#define PROPERTIES(_get, _set,_type) #error "error"
+#endif
 
 //
 #define SCK_VERSION1 0x0101		//WinSocket Version 1
@@ -247,7 +262,7 @@
 
 
 /*
-	//
+	Internal
 */
 #if defined(_ENGINE_INTERNAL) || (EX_ENGINE_VERSION_MAJOR < 1)	// Macro Defination Only Defined in this solution.
 	#define INTERNAL_ENGINEX	// Used for Assembly Data and Include Data Structor.
@@ -263,7 +278,7 @@
 #endif
 #endif
 
-/*
+/**
 	Calling Convention
 */
 #ifdef EX_WINDOWS	// Windows Calling Convention.
@@ -293,8 +308,8 @@
 	#define EX_POP_PACK
 #endif
 
-/*
-// inline
+/**
+    inline
 */
 #ifdef EX_WINDOWS
 	#define INLINE inline
@@ -303,8 +318,8 @@
 	#define INLINE inline
 #endif
 
-/*
-// force inline
+/**
+    force inline
 */
 #if defined(EX_VC)
 	#define EX_FORCE_INLINE __forceinline
@@ -316,8 +331,8 @@
 	#define EX_FORCE_INLINE inline
 #endif
 
-/*
-	//	No Inline
+/**
+	No inline
 */
 #if defined EX_WINDOWS || defined EX_XBOX
 	#define EX_NOINLINE __declspec(noinline)
@@ -327,8 +342,8 @@
 	#define EX_NOINLINE
 #endif
 
-/*
-	//Null Pointer
+/**
+	Null Pointer
  */
 #ifdef EX_WINDOWS
 #if  (__cplusplus == 201103L)
@@ -340,19 +355,19 @@
 	#define EX_NULL NULL
 #endif
 
-/*
-	#define EXDEPRECATED(x) __declspec(deprecated(x))		// deprecated Decleration (x = Warning Message)
+/**
+	#define EXDEPRECATED(x) __declspec(deprecated(x))		// Deprecated deceleration (x = Warning Message)
 */
 #ifdef EX_WINDOWS
-	#define EXDEPRECATED  __declspec(deprecated)		// deprecated Decleration (x = Warning Message)
+	#define EXDEPRECATED  __declspec(deprecated)		// Deprecated deceleration (x = Warning Message)
 	#define EXDEPRECATEDMESSAGE(x) __declspec(deprecated(x))
 #else
-	#define EXDEPRECATED(x) attribute(deprecated(x))		// deprecated Decleration (x = Warning Message)
+	#define EXDEPRECATED(x) attribute(deprecated(x))		// Deprecated deceleration (x = Warning Message)
 #define EXDEPRECATEDMESSAGE(x) attribute(deprecated(x))
 #endif
 
-/*
-	// alignment
+/**
+	Alignment of data
 */
 #ifndef EX_ALIGN
 	#if defined(EX_VC)
@@ -371,8 +386,8 @@
 	#define EX_DLL _DLL
 #endif
 
-/*
-	// Function and other premacro
+/**
+	Function and other predefined macro
 */
 #if defined(EX_VC)
 	#define EX_FUNCNAME __FUNCTION__
@@ -389,16 +404,16 @@
 
 #endif
 
-/*
-	// Int max bits size supported by compiler or hardware
+/**
+	Int max bits size supported by compiler or hardware
 */
 #if defined(EX_VC)
 	#define EX_INT_MAX_BITS _INTEGRAL_MAX_BITS
-#else
+#elif defined(EX_GNUC)
 	#define EX_INT_MAX_BITS 32
 #endif
-/*
-	// Unused
+/**
+	Unused indication. // will make the compiler exclude it from the final binary.
 */
 #define EX_UNUSED(_p)	((void)(_p))
 
@@ -411,9 +426,9 @@
 #endif
 #endif
 
-/*
+/**
 	Rendering Software Interface.
- */
+*/
 #ifdef EX_WINDOWS
 	#define EX_SUPPORT_OPENGL
 	#define EX_SUPPORT_DIRECTX
@@ -428,8 +443,8 @@
 	#define EX_EDGE
 #endif
 
-/*
-	// c structs
+/**
+	C struct
 */
 #ifdef EX_CPP
 	#define EX_C_STRUCT
@@ -438,8 +453,8 @@
 #endif
 
 
-/*
-	// assembly instruction identication
+/**
+	Assembly instruction identification
 */
 #if defined(EX_WINDOWS) && defined(EX_VC)
 	#define EX_ASSM __asm
@@ -461,12 +476,12 @@
 	#endif
 #endif
 
-/*
-	// ELT Version
+/**
+	ELT Version
 */
 #define EX_ENGINE_VERSION_MAJOR 0x0
 #define EX_ENGINE_VERSION_MINOR 0x5
-#define EX_ENGINE_VERSION_REVISION 0x41
+#define EX_ENGINE_VERSION_REVISION 0x51
 
 #define EX_ENGINE_PREALPHA EX_TEXT("pa")	        /* Pre alpha    */
 #define EX_ENGINE_ALPHA EX_TEXT("a")		        /* Alpha        */
@@ -474,37 +489,38 @@
 #define EX_ENGINE_STABLE EX_TEXT("r")		        /* Stable       */
 #define EX_ENGINE_RELEASE_SOMETHING EX_TEXT("rc")	/*              */
 #define EX_ENGINE_RELEASE_BETTER EX_TEXT("rc5")		/*          */
-/*
-	// ELT Version [8 bit major | 8 bit minor | 8 bit bugfix | 8 bit reserved ]
+/**
+	ELT Version [8 bit major | 8 bit minor | 8 bit bugfix | 8 bit reserved ]
 */
 #define EX_ENGINE_VERSION ((EX_ENGINE_VERSION_MAJOR << 24) + (EX_ENGINE_VERSION_MINOR << 16) + (EX_ENGINE_VERSION_REVISION << 8) + 0)
 
 #if defined(EX_VC) && defined(EX_INTERNAL_DEVELOP_ENVIROMENT)
 	#pragma comment(linker,"/VERSION:0[.50]")
 #endif
-
-
+/**
+    ELT status
+*/
 #ifdef EX_DEBUG
 	#define EX_ENGINE_STATUS EX_ENGINE_PREALPHA
 #else
 	#define EX_ENGINE_STATUS EX_ENGINE_PREALPHA
 #endif
-/*
-	// information
+/**
+	Information
 */
 #define EX_ENGINE_COMPILER_ARCHITECTURE
 #define EX_ENGINE_BUILT_DATA __DATE__
 #define EX_ENGINE_BUILT_TIME __TIME__
 
 
-// all project don't support NDEBUG || _DEBUG
+// all project don't enable NDEBUG || _DEBUG by default. has be predefined explicitly
 #if (NDEBUG || _DEBUG)
 	#if !(defined NDEBUG ^ defined _DEBUG)
 		#error Exactly one of NDEBUG and _DEBUG needs to be defined by preprocessor
 	#endif
 #endif
 
-/*
+/**
 	Argumentental function
 */
 #ifdef EX_VC

@@ -25,7 +25,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
         socket_protocol = 0;
     }
     else{
-        socket_protocol = IPPROTO_TCP;
+        socket_protocol = 0;
         sock_domain = AF_INET;
     }
     /**
@@ -44,12 +44,12 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
         return sockfd;
     }
     else if(protocol & ELT_TCP){
-        socket_protocol = IPPROTO_UDP;
+        socket_protocol = 0;
         if((sockfd = socket(sock_domain, SOCK_STREAM, socket_protocol)) == -1)
             fprintf(stderr,strerror(errno));
     }
     else if(protocol & ELT_UDP){
-        socket_protocol = IPPROTO_UDP;
+        socket_protocol = 0;
         if((sockfd = socket(sock_domain, SOCK_DGRAM, socket_protocol)) == -1)
             fprintf(stderr,strerror(errno));
     }
@@ -64,8 +64,8 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
     serv_addr.sin_addr.s_addr = inet_addr(ip);
     serv_addr.sin_port = htons(port);
     if(bind(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0){
-        fprintf(stderr,strerror(errno));
-        return -1;
+        //fprintf(stderr,strerror(errno));
+        //return -1;
     }
 
     return sockfd;

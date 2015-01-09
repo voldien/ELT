@@ -1,5 +1,6 @@
 #include"elt_cl.h"
 #if defined(EX_WINDOWS)
+#   define OPENCL_LIBRARY_NAME "OpenCL.dll"
 	#include<CL/cl.h>
 	#include<CL/cl.h>
 	#include<CL/opencl.h>
@@ -10,17 +11,25 @@
 	/*handle to OpenCL Library */
     HANDLE cl_libhandle;
 #elif defined(EX_LINUX)
-	#include<GL/glew.h>
-	#include<CL/cl.h>
-	#include<CL/opencl.h>
-	#include"CL/cl_gl.h"
+#   define OPENCL_LIBRARY_NAME "libOpenCL.so"
+#   include<GL/glew.h>
+#   include<CL/cl.h>
+#   include<CL/opencl.h>
+#   include"CL/cl_gl.h"
+#elif defined(EX_ANDROID)
+
 #elif defined(EX_MAC)
 
 #endif
 
+/**
+	OpenCL Error
+*/
+#define ExIsCLError(x)  { if( ( x ) != CL_SUCCESS ){ ExDevPrintc("Error",EX_CONSOLE_RED); } }
 
-#define CL_GET_GPU_INDEX(x) ( ( x ) << (ELT_GPU0 & 0xffffffff))
-#define CL_GET_CPU_INDEX(x) ( ( x ) << ELT_CPU0)
+
+#define ELT_CL_GPU_INDEX(x) ((x & 0x000000ff))
+#define ELT_CL_CPU_INDEX(x) ((x & 0x0000ff00))
 
 cl_context hClContext = NULL;
 DECLSPEC void* ELTAPIFASTENTRY ExGetCLContext(void){return hClContext;}
@@ -28,7 +37,7 @@ DECLSPEC void* ELTAPIFASTENTRY ExGetCLContext(void){return hClContext;}
 DECLSPEC void* ELTAPIFASTENTRY ExGetCurrentCLContext(void){return hClContext;}
 
 
-DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContex(Enum flag){
+DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContext(Enum flag){
 	Int32 cpPlatform,ciErrNum;Uint32 uiDevCount = 0;
 	// device ids
 
@@ -39,8 +48,12 @@ DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContex(Enum flag){
 
     /**
     TODO check if needed or logic is accepted*/
-    //LoadLibrary("libOpenCL.so")
-
+    if(!ExIsModuleLoaded(OPENCL_LIBRARY_NAME))
+        #ifdef EX_LINUX
+        ExLoadLibrary(OPENCL_LIBRARY_NAME);
+        #elif defined(EX_WINDOWS)
+        cl_libhandle = ExLoadLibrary(OPENCL_LIBRARY_NAME);
+        #endif
 	/**
         Get platform id
 	*/
@@ -51,13 +64,13 @@ DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContex(Enum flag){
 	cl_context_properties props[] = {
         CL_CONTEXT_PLATFORM,cpPlatform,
 		NULL};
+
+    //hClContext = clCreateContext(props,1,d,0,0,(cl_int*)&errNum);
+
 	hClContext = clCreateContextFromType(props,CL_DEVICE_TYPE_GPU,NULL, NULL, (cl_int*)&errNum);
     if(!hClContext)
         ExDevPrint("Failed");
 
-	//if(!(hClContext = clCreateContext(props,1, &cdDevices[uiDeviceUsed],0,0,&ciErrNum))){
-	//	ExDevPrintf("Failed to Create OpenCL Context based on the OpenGL Context");
-	//}
 	return (ERESULT)hClContext;
 }
 
@@ -66,6 +79,15 @@ DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowCont
 		// device ids
 	    cl_device_id *cdDevices;
 	    Uint32 uiDeviceUsed = 0,uiEndDev = 0;
+
+        /**
+        TODO check if needed or logic is accepted*/
+        if(!ExIsModuleLoaded(OPENCL_LIBRARY_NAME))
+            #ifdef EX_LINUX
+            ExLoadLibrary(OPENCL_LIBRARY_NAME);
+            #elif defined(EX_WINDOWS)
+            cl_libhandle = ExLoadLibrary(OPENCL_LIBRARY_NAME);
+            #endif
 
 		// Get Platform ID
 		if(!ExGetCLPlatformID(&cpPlatform,erenderingFlag)){
@@ -123,20 +145,74 @@ DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowCont
 		return (void*)hClContext;
 }
 
+DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(void* context,void* param_value,Enum param_name){
+    cl_int ciErrNum,size;
+
+    switch(param_name){
+        case CL_CONTEXT_DEVICES:{
+            unsigned int num_dev;
+            ExQueryCLContext(context,&num_dev, CL_CONTEXT_NUM_DEVICES);
+            ciErrNum = clGetContextInfo(context, CL_CONTEXT_DEVICES,num_dev * sizeof(cl_device_id),param_value,&size);
+            }
+            break;
+        case CL_CONTEXT_INTEROP_USER_SYNC:
+            ciErrNum = clGetContextInfo(context, CL_CONTEXT_INTEROP_USER_SYNC,sizeof(cl_uint),param_value,&size);
+            break;
+        case CL_CONTEXT_NUM_DEVICES:
+            ciErrNum = clGetContextInfo(context, CL_CONTEXT_NUM_DEVICES,sizeof(cl_uint),param_value,&size);
+            break;
+        case CL_CONTEXT_PROPERTIES:
+            ciErrNum = clGetContextInfo(context, CL_CONTEXT_PROPERTIES,sizeof(cl_context_properties),param_value,&size);
+            break;
+        case CL_CONTEXT_REFERENCE_COUNT:
+
+            break;
+        #ifdef EX_WINDOWS
+        case CL_CONTEXT_D3D10_PREFER_SHARED_RESOURCES_KHR:
+
+            break;
+        #endif
+        case CL_CONTEXT_PLATFORM:
+            ciErrNum = clGetContextInfo(context, CL_CONTEXT_PLATFORM,sizeof(cl_platform_id),param_value,&size);
+            break;
+    }
+
+    return ciErrNum;
+
+}
+
 DECLSPEC void ELTAPIENTRY ExReleaseCL(void){
 	if(hClContext)
 		if(clReleaseContext(hClContext) != CL_FALSE)
-			ExDevPrint("Failed to Release Contex");
+			ExDevPrint("Failed to release context.");
 }
 DECLSPEC void ELTAPIENTRY ExReleaseCLContext(void* context){
 	ExIsCLError(clReleaseContext(context));
+}
+
+/**
+    evaluate which device has the highest flops.
+*/
+static int ExCLHighestFLOPS(Int32* clSelectedPlatformID){
+    int i,ciErrNum;
+    unsigned long int n_flops;
+
+    //clGetDeviceIDs(clPlatformIDs[i],CL_DEVICE_TYPE_ALL,0,0,&num_device);
+
+   // ciErrNum = clGetDeviceIDs(clPlatformIDs[i], CL_DEVICE_AVAILABLE,num_device,&device[0],NULL);
+    //for(i = 0; i < num_device;i++){
+
+    //    clGetDeviceInfo(device, CL_DEVICE_MAX_COMPUTE_UNITS, sizeof(compute_units), &compute_units, NULL);
+
+    //}
+    return 1;
 }
 
 DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum flag){
     char chBuffer[1024];
     cl_uint num_platforms,num_device;
     cl_uint num_gpu,num_cpu;
-    cl_device_id device_id[32];
+    cl_device_id device_id[16];
     cl_device_info device_info;
 
     cl_platform_id temp_clPlatformIDs;
@@ -147,9 +223,9 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum fl
     /**
         Get number of platform identification
     */
-    //ciErrNum = clGetPlatformIDs (1, &clPlatformIDs, &num_platforms);
+    ciErrNum = clGetPlatformIDs (1, &clPlatformIDs, &num_platforms);
 
-    ciErrNum = clGetPlatformIDs (1, NULL, &num_platforms);
+    ciErrNum = clGetPlatformIDs (2, NULL, &num_platforms);
     if (ciErrNum != CL_SUCCESS){
         ExDevPrintf(" Error %i in clGetPlatformIDs Call !!!", ciErrNum);
         return -1000;
@@ -160,15 +236,16 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum fl
 			return -2000;
 		}
 		else{
-			cl_uint i;
+			cl_uint i,j;
 
             ciErrNum = clGetPlatformIDs (num_platforms, &temp_clPlatformIDs, NULL);
+			if(ciErrNum == CL_DEVICE_NOT_FOUND)
+                ExDevPrint("Couldn't find");
 
 			ciErrNum = clGetDeviceIDs(temp_clPlatformIDs,CL_DEVICE_TYPE_GPU, NULL,NULL,&num_gpu);
 
 			ciErrNum = clGetDeviceIDs(temp_clPlatformIDs,CL_DEVICE_TYPE_CPU, NULL,NULL,&num_cpu);
-			if(ciErrNum == CL_DEVICE_NOT_FOUND)
-                ExDevPrint("Couldn't find");
+
 
 
 			if((clPlatformIDs = (cl_platform_id*)malloc(num_platforms * sizeof(cl_platform_id))) == EX_NULL){
@@ -178,17 +255,32 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum fl
 
             // get platform info for each platform and trap the NVIDIA platform if found
             ciErrNum = clGetPlatformIDs (num_platforms, clPlatformIDs, NULL);
+
+
             for(i = 0; i < num_platforms; ++i){
+                ciErrNum = clGetPlatformInfo (clPlatformIDs[i], CL_PLATFORM_NAME, 1024, &chBuffer, NULL);
+
+
+                // get number of devices
+                clGetDeviceIDs(clPlatformIDs[i],CL_DEVICE_TYPE_ALL,0,0,&num_device);
+                ciErrNum = clGetDeviceIDs(clPlatformIDs[i], CL_DEVICE_AVAILABLE,num_device,&device_id[0],NULL);
+                for(j = 0; j < num_device;j++){
+
+                    if(ELT_CL_GPU_INDEX(flag) == j)
+                        break;
+                    #ifdef EX_DEBUG
+                    ExPrintCLDevInfo(0,&device_id[j]);
+                    #endif
+
+                    //ciErrNum = clGetDeviceInfo(device_id[j],device_info,sizeof(device_info), )
+
+                    continue;
+                }
 
 
                 ciErrNum = clGetDeviceIDs(clPlatformIDs[i], CL_DEVICE_TYPE_GPU,1,&device_id[0],NULL);
                 //clGetDeviceInfo(clPlatformIDs[i], CL_DEVICE_TYPE_GPU,1,&device_id,&num_cpu);
-                ciErrNum = clGetPlatformInfo (clPlatformIDs[i], CL_PLATFORM_NAME, 1024, &chBuffer, NULL);
 
-
-                //ExPrintCLDevInfo(0,&device_id[0]);
-
-                //clGetDeviceInfo(device_id,&device_info,0,0,0);
 
                 if(ciErrNum == CL_SUCCESS){
                     if(strstr(chBuffer, "NVIDIA") != NULL){	// nvidia exists
@@ -220,10 +312,9 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum fl
 DECLSPEC void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, void* p_cl_device_id){
     if(!p_cl_device_id)
         return;
-    return 0;
     char device_string[1024];
     Boolean nv_device_attibute_query = FALSE;
-	cl_device_id device = (cl_device_id)p_cl_device_id;
+	cl_device_id device = *(cl_device_id*)p_cl_device_id;
     // CL_DEVICE_NAME
     clGetDeviceInfo(device, CL_DEVICE_NAME, sizeof(device_string), &device_string, EX_NULL);
     ExPrintf("  CL_DEVICE_NAME: \t\t\t%s\n", device_string);

@@ -158,7 +158,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 	}
 	else if(flag & EX_OPENCL){
 		window = ExCreateNativeWindow(x,y,width,height);
-		glc = ExCreateCLContex(0);
+		glc = ExCreateCLContext(0);
 		return window;
 	}
 #elif defined(EX_MAC)

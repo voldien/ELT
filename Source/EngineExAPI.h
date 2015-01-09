@@ -18,6 +18,19 @@
 
 */
 
+/*
+=================================INFO===================================
+
+    Info : The project is called ELT (Engine Library toolkit). however
+    the syntax doesn't really live up to it. Because ExInit for initialize
+    the project should have actually be named EltInit. That's because
+    it's original names EngineEx because it was a engine extension.
+    I would guess they are a bit synomny. however the Syntax is
+    Ex[function name].
+
+========================================================================
+*/
+
 // #define ENGINE_EX_STATIC_BUILD			// Use as Static Lib
 // #define ENGINE_EX_STATIC_TO_DLL_BUILD	// Use as Static Lib to DLL
 // #define ENGINE_EX_DLL_IMPORT				// Import DLL

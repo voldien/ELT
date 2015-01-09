@@ -28,6 +28,11 @@
 #include<GL/glu.h>
 
 /*
+	// OpenGL Error
+*/
+#define ExIsGLError(x)  { if( ( x ) <= 0 ){ ExDevGLPrintc("Error",EX_CONSOLE_RED); } }
+
+/*
     // GPU Vendors constant of.
 */
 #define EX_GPU_UNKNOWN 0x0
@@ -76,15 +81,10 @@ DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window){
 
 EGLint configAttribList[] =
 {
-    EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
-    EGL_RED_SIZE,       8,
-    EGL_GREEN_SIZE,     8,
-    EGL_BLUE_SIZE,      8,
-    EGL_ALPHA_SIZE,     8,
-    EGL_DEPTH_SIZE,     24,
-
-    EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
-    EGL_NONE, EGL_NONE
+EGL_BUFFER_SIZE, 16,
+      EGL_RENDERABLE_TYPE,
+      EGL_OPENGL_ES2_BIT,
+      EGL_NONE
 };
 
 
@@ -93,10 +93,11 @@ EGLint configAttribList[] =
 	eglDisplay = eglGetDisplay(NULL);
 #elif defined(EX_LINUX)
 
-	if(eglBindAPI(EGL_OPENGL_API) != EGL_TRUE)
-        ExError("Bind API!");
-	eglDisplay = eglGetDisplay((EGLNativeDisplayType)NULL);
-	eglDisplay = eglGetDisplay(display);
+	//if(eglBindAPI(EGL_OPENGL_API) != EGL_TRUE)
+    //    ExError("Bind API!");
+   // eglBindAPI(EGL_OPENGL_ES_API);
+	//eglDisplay = eglGetDisplay(0);
+	eglDisplay = eglGetDisplay((EGLNativeDisplayType)display);
     EGLint ctxattr[] = {
       EGL_CONTEXT_CLIENT_VERSION, 2,
       EGL_NONE
@@ -107,8 +108,11 @@ EGLint configAttribList[] =
 	/**
         \Initialize OpenGL ES
 	*/
-	hr = eglInitialize(eglDisplay, &major, &minor);
-	if(!hr)ExError("Failed to Initialize OpenGL ES");
+	//if(eglBindAPI(EGL_OPENGL_API) != EGL_TRUE)
+    //    ExError("Bind API!");
+
+	if((hr = eglInitialize(eglDisplay, &major, &minor)) != EGL_TRUE)
+        ExError("Failed to Initialize OpenGL ES");
 	//	Choose Config
 	hr = eglChooseConfig(eglDisplay, configAttribList, &eglConfig, 1, &numConfig);
 	if(hr != EGL_TRUE)
@@ -127,10 +131,12 @@ EGLint configAttribList[] =
         return 0;
 
 	ExInitOpenGLStates(0);
+
+
 	return eglContext;
 }
 
-/*
+/**
 	Get window associated with the opengl context
 */
 DECLSPEC ExWin ELTAPIENTRY ExGetOpenGLContextWindow(OpenGLContext glc){
@@ -143,23 +149,24 @@ DECLSPEC ExWin ELTAPIENTRY ExGetOpenGLContextWindow(OpenGLContext glc){
 	return eglGetCurrentSurface(NULL);
 #endif
 }
-
+/*  Get Drawable*/
 DECLSPEC WindowContext ELTAPIFASTENTRY ExGetCurrentGLDC(void){
 #ifdef EX_WINDOWS
 	return wglGetCurrentDC();
 #elif defined(EX_LINUX)
 	return glXGetCurrentDrawable();
 #elif defined(EX_ANDROID)
-	return NULL;
+	return eglGetCurrentSurface(NULL);
 #endif
 }
+
 DECLSPEC OpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void){
 #ifdef EX_WINDOWS
 	return wglGetCurrentContext();
 #elif defined(EX_LINUX)
 	return glXGetCurrentContext();
 #elif defined(EX_ANDROID)
-    return NULL;
+	return eglGetCurrentContext(NULL);
 #endif
 }
 
@@ -172,12 +179,17 @@ DECLSPEC void ELTAPIENTRY ExMakeGLCurrent(WindowContext drawable, OpenGLContext 
 	eglMakeCurrent(eglDisplay, drawable, drawable, glc);
 #endif
 }
+/**
+=================================00
+            Windows GL Impl
+=================================00
+*/
 #ifdef EX_WINDOWS
 /**
     Extension function types
 */
 
-typedef int (APIENTRY * WGLSWAPINTERVALEXT_T) (int);    /* wglSwapIntervalEXT typedef (Win32 buffer-swap interval control)*/
+typedef int (APIENTRY * WGLSWAPINTERVALEXT_T) (int);            /** wglSwapIntervalEXT typedef (Win32 buffer-swap interval control)*/
 
 typedef BOOL (WINAPI * WGLCHOOSEPIXELFORMATARB_T) (HDC, const int *, const FLOAT *, UINT, int *, UINT *);   // wglChoosePixelFormatARB typedef
 
@@ -324,7 +336,11 @@ static int create_temp_gl_win(OpenGLContext* pglc_context){
     return window;
 }
 
-
+/*
+=================================00
+            LINUX GL Impl
+=================================00
+*/
 #elif defined(EX_LINUX)
 #ifdef EX_DEBUG
 static void describe_fbconfig(GLXFBConfig fbconfig){
@@ -544,7 +560,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     else
         wExDevPrintf(EX_TEXT("Failed to Set PixelFormat : %s \n"),ExGetErrorMessage(GetLastError()));
 
-    /*
+    /**
         Create OpenGL Context.
     */
     if(!(glc = wglCreateContextAttribsARB(deviContext, EX_NULL,attribs))){
@@ -583,7 +599,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     };
 
 	if(!glXQueryExtension(display,&dummy, &dummy))
-		Error("OpenGL not supported by X server\n");
+		ExError("OpenGL not supported by X server\n");
 
 	if(isExtensionSupported(glXQueryExtensionsString(display,DefaultScreen(display)), "GLX_ARB_create_context")){
 		typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
@@ -698,7 +714,7 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
 	wglSwapIntervalEXT((engineDescription.EngineFlag & ENGINE_SUPPORT_VSYNC));
 	// gl Viewport
 	glViewport(0,0,rect.right - rect.left,rect.bottom - rect.top);
-#elif defined(EX_LINUX)
+#elif !defined(EX_LINUX)
     typedef void (*glXSwapIntervalEXTProc)(Display*, GLXDrawable drawable, int intervale);
     glXSwapIntervalEXTProc glXSwapIntervalEXT = (glXSwapIntervalEXTProc)GL_GET_PROC((const GLubyte*)"glXSwapIntervalEXT");
     glXSwapIntervalEXT(display, (GLXDrawable)ExGetCurrentGLDC(), 0);
@@ -736,6 +752,7 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_FRONT);
 	glFrontFace(GL_CW);
+	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 	glClearColor(0.0f,0.0f,0.0f,1.0f);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
@@ -924,6 +941,7 @@ DECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window,Enum ienum){
     XFree(startup_state);
 #endif
 }
+
 
 DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void){
 	return (Uint32)(atof((const char*)glGetString(GL_SHADING_LANGUAGE_VERSION)) * 100.0f);

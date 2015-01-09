@@ -42,10 +42,14 @@ extern DECLSPEC void* ELTAPIFASTENTRY ExGetCurrentCLContext(void);
 /**
     Create OpenCL Context
 */
-extern DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContex(Enum eEnumFlag);
+extern DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContext(Enum eEnumFlag);
 
 /**
-	Release CL Context
+    Query Context information
+*/
+extern DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(void* context,void* param_value,Enum param_name);
+/**
+	Release Current CL Context
 */
 extern DECLSPEC void ELTAPIENTRY ExReleaseCL(void);
 /**

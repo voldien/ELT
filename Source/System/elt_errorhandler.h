@@ -27,22 +27,16 @@ typedef void(ELTAPIENTRY *singalcallback)(Int32);
 #ifdef  __cplusplus	// C++ Environment
 extern "C"{
 #endif
-/*
-	//
+/**
+	ExInternalError
 */
 #define ExIsError(x) { if( ( x ) <= 0 ){ ExDevPrintc("Error",EX_CONSOLE_RED);} }
-/*
-	// C error
+/**
+	C error
 */
 #define ExIsCError(x) { if( ( x ) <= 0){ ExDevPrintfc("Error | %s",EX_CONSOLE_RED,strerror(errno));}}
-/*
-	// OpenGL Error
-*/
-#define ExIsGLError(x)  { if( ( x ) <= 0 ){ ExDevGLPrintc("Error",EX_CONSOLE_RED); } }
-/*
-	// OpenCL Error
-*/
-#define ExIsCLError(x)  { if( ( x ) <= 0 ){ ExDevPrintc("Error",EX_CONSOLE_RED); } }
+
+
 
 #if defined(EX_WINDOWS)
 	#define ExIsWinError(x) { if( (Long)( x ) <= 0 ){ExDevWindowPrintc(EX_TEXT("Error"),EX_CONSOLE_RED);} }
@@ -62,24 +56,26 @@ extern "C"{
 #define EX_ERROR_LOG_ERR 0x10
 #define EX_SIGN_
 /**
-	// Error
+	Error
+	application will terminate with error failure message.
+	printout of error messages.
 */
 extern DECLSPEC void ELTAPIENTRY ExError(const ExChar* error,...);
 /**
-	// Error with argument of how the error will be treated
+	Error with argument of how the error will be treated
 */
 extern DECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...);
 
 /**
-	// Get Error
+	Get Error
 */
 extern DECLSPEC ERESULT ELTAPIFASTENTRY ExGetError(void);
-/*
-	// Set Error
+/**
+	Set Error
 */
 extern DECLSPEC void ELTAPIFASTENTRY ExSetError(ERESULT error);
-/*
-	// Clear Errors
+/**
+	Clear Errors
 */
 extern DECLSPEC void ELTAPIFASTENTRY ExClearError(void);
 /**
