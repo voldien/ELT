@@ -77,8 +77,11 @@ DECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys){
 
 */
 DECLSPEC Keycode ELTAPIENTRY ExGetModeState(void){
+#ifdef EX_WINDOWS
+	return 0;
+#elif defined(EX_LINUX)
     return XGrabKey(display,AnyKey, ControlMask | ShiftMask,ExGetKeyboardFocus(), True, GrabModeAsync,GrabModeSync);
-    return 0;
+#endif
 }
 
 DECLSPEC ERESULT ELTAPIENTRY ExInitKeyBoard(ExWin win){

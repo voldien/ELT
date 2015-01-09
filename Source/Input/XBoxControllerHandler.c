@@ -43,7 +43,7 @@ ERESULT ExInitXController(void){
 		//ZeroPointer(m_XBoxControllers,sizeof(XBoxDesc));
 	}
 	for(Uint x = 0; x < EX_CONTROLLER_MAX_COUNT; x++){
-		memset(m_XBoxControllers->p_XboxControllers,0,SIZEOF(XINPUT_STATE) * EX_CONTROLLER_MAX_COUNT);
+		memset(m_XBoxControllers->p_XboxControllers,0,sizeof(XINPUT_STATE) * EX_CONTROLLER_MAX_COUNT);
 		if(xBoxCIndex[x] == TRUE){
 			XInputGetState(x, &m_XBoxControllers->p_XboxControllers[x]);
 			m_XBoxControllers->enabled[x] = xBoxCIndex[x] | EX_CONTROLLER_ENABLED;

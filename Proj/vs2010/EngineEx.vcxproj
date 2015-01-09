@@ -117,7 +117,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glu32.lib;Cmd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>
       </EntryPointSymbol>
       <ModuleDefinitionFile>
@@ -278,7 +278,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\EngineAssembly.h" />
-    <ClInclude Include="..\..\Source\EngineConfig.h" />
     <ClInclude Include="..\..\Source\EngineEx.h" />
     <ClInclude Include="..\..\Source\EngineExAPI.h" />
     <ClInclude Include="..\..\Source\ExAssert.h" />

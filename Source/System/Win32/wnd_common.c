@@ -1,6 +1,6 @@
 #include"wnd_common.h"
 #ifdef EX_WINDOWS
-#include<Cmd/mathlib.h>
+
 #include<string.h>
 #ifdef EX_CPP
 	using namespace std;
@@ -33,7 +33,7 @@ DECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetPrimaryMontior(void){
 	while(EnumDisplayDevices(NULL, index++, &dd,0)){
 		if(dd.StateFlags & DISPLAY_DEVICE_PRIMARY_DEVICE) return dd;
 		// check the iteration count for preventing infinity loop here.
-		if(index > SIZEOF(Boolean) * 256){// check how many monitor is attached. 
+		if(index > sizeof(Boolean) * 256){// check how many monitor is attached. 
 			ExDevPrintf("Failed to Find Primary Monitor Device");
 			break;
 		}
@@ -118,7 +118,7 @@ DECLSPEC void ELTAPIENTRY ExAsciiToUnicode(const char* cchar, WCHAR** wchar){
 	if(!cchar)return;
 	length = strlen(cchar);
 	if(!wchar[0])
-		wchar[0] = (WCHAR*)ExMalloc(SIZEOF(WCHAR) * length + 2);
+		wchar[0] = (WCHAR*)ExMalloc(sizeof(WCHAR) * length + 2);
 	if(MultiByteToWideChar(CP_OEMCP,0,cchar,-1,wchar[0], length + 2)){
 		wExDevPrintf(EX_TEXT("Failed to Convert to Unicode | %s"), ExGetErrorMessage(GetLastError()));
 	}
@@ -131,8 +131,8 @@ DECLSPEC void ELTAPIENTRY ExUnicodeToAscii(const WCHAR* wchar, char** cchar){
 	if(!wchar)return;
 	Int32 length = wcslen(wchar);
 	if(!*cchar)
-		cchar[0] = (char*)ExMalloc(SIZEOF(char) * length + 1);
-	if(WideCharToMultiByte(CP_OEMCP,0,wchar, -1, cchar[0],SIZEOF(char) * length + SIZEOF(char), 0,0) <= 0){
+		cchar[0] = (char*)ExMalloc(sizeof(char) * length + 1);
+	if(WideCharToMultiByte(CP_OEMCP,0,wchar, -1, cchar[0],sizeof(char) * length + sizeof(char), 0,0) <= 0){
 		wExDevPrintf(EX_TEXT("Failed to Convert to Asci | %s"), ExGetErrorMessage(GetLastError()));
 	}
 }

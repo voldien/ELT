@@ -1,5 +1,6 @@
 #include"win_controls.h"
 #ifdef EX_WINDOWS
+#include<Uxtheme.h>
 #include"./../../resource.h"
 	#include <commctrl.h>
 	#pragma comment(lib, "comctl32.lib")
@@ -44,7 +45,7 @@ DECLSPEC void* ELTAPIENTRY ExGetMenuEvent(HMENU hMenu){
 }
 DECLSPEC void ELTAPIENTRY ExReleaseMenuEvent(HMENU hMenu){
 	MENUINFO info;
-	info.cbSize = SIZEOF(MENUINFO);
+	info.cbSize = sizeof(MENUINFO);
 	info.fMask = MIM_MENUDATA;
 	// get menu info data.
 	if(!GetMenuInfo(hMenu, &info))
@@ -54,7 +55,7 @@ DECLSPEC void ELTAPIENTRY ExReleaseMenuEvent(HMENU hMenu){
 /*	Set menu Item Event*/
 DECLSPEC void ELTAPIENTRY SetMenuItemEvent(HMENU subMenu, Uint32 pos, void* eventHandle){
 	MENUITEMINFO menuInfo;
-	menuInfo.cbSize = SIZEOF(MENUINFO);
+	menuInfo.cbSize = sizeof(MENUINFO);
 	menuInfo.fMask = MIIM_DATA;
 	menuInfo.dwItemData = (ULONG_PTR)eventHandle;
 	if(!SetMenuItemInfo(subMenu, pos, TRUE,&menuInfo)){
@@ -65,7 +66,7 @@ DECLSPEC void ELTAPIENTRY SetMenuItemEvent(HMENU subMenu, Uint32 pos, void* even
 /*	Get menu Item Event*/
 DECLSPEC void* ELTAPIENTRY GetMenuItemEvent(HMENU subMenu, Uint32 pos){
 	MENUITEMINFO menuInfo;
-	menuInfo.cbSize = SIZEOF(MENUINFO);
+	menuInfo.cbSize = sizeof(MENUINFO);
 	menuInfo.fMask = MIIM_DATA;
 	if(!GetMenuItemInfo(subMenu, pos, TRUE, &menuInfo)){
 		ExDevWindowPrintc(EX_TEXT("Failed Get Menu Item"),EX_CONSOLE_RED);//failed;
@@ -112,9 +113,9 @@ DECLSPEC HMENU ELTAPIENTRY ExCreatePopupMenuB(HMENU hmenu,HBITMAP bitmap){
 DECLSPEC HMENU ELTAPIENTRY ExCreatePopUpMenuItem2(HMENU hpopupMenu,const WCHAR* string, CallBack callback){
 	MENUITEMINFO menuInfo;
 	ExMenuEvent* event;
-	menuInfo.cbSize = SIZEOF(MENUITEMINFO);
+	menuInfo.cbSize = sizeof(MENUITEMINFO);
 
-	event = (ExMenuEvent*)ExMalloc(SIZEOF(ExMenuEvent));
+	event = (ExMenuEvent*)ExMalloc(sizeof(ExMenuEvent));
 	event->buttonPushed = callback;
 
 	menuInfo.fMask = MIIM_STRING | MIIM_STATE | MIIM_DATA;
@@ -134,9 +135,9 @@ DECLSPEC HMENU ELTAPIENTRY ExCreatePopUpMenuItem(HMENU hpopupMenu,const WCHAR* s
 DECLSPEC HMENU ELTAPIENTRY ExCreateMenuItemB(HMENU hpopupMenu, HBITMAP bitmap,  CallBack callback){
 	MENUITEMINFO menuInfo;
 	ExMenuEvent* event;
-	menuInfo.cbSize = SIZEOF(MENUITEMINFO);
+	menuInfo.cbSize = sizeof(MENUITEMINFO);
 
-	event = (ExMenuEvent*)ExMalloc(SIZEOF(ExMenuEvent));
+	event = (ExMenuEvent*)ExMalloc(sizeof(ExMenuEvent));
 	event->buttonPushed = callback;
 
 	menuInfo.fMask = MIIM_BITMAP | MIIM_STATE | MIIM_DATA;
@@ -151,7 +152,7 @@ DECLSPEC HMENU ELTAPIENTRY ExCreateMenuItemB(HMENU hpopupMenu, HBITMAP bitmap,  
 
 DECLSPEC Boolean ELTAPIENTRY ExCreateMenuSeparator(HMENU hMenu){
 	MENUITEMINFO menuInfo;
-	menuInfo.cbSize = SIZEOF(MENUITEMINFO);
+	menuInfo.cbSize = sizeof(MENUITEMINFO);
 	menuInfo.fMask = MIIM_FTYPE;
 	menuInfo.fType = MFT_SEPARATOR;
 	if(!InsertMenuItem(hMenu, GetMenuItemCount(hMenu), TRUE, &menuInfo)){
@@ -211,8 +212,8 @@ DECLSPEC void ELTAPIENTRY ExSetStatusBarParts(ExWin statusHwnd,Int32 count){
 //=========================================
 //		Button		 //
 DECLSPEC ExWin ELTAPIENTRY ExCreateButton(ExWin parentHwnd,CallBack callback){
-	ExButtonEvent*  event = (ExButtonEvent*)ExMalloc(SIZEOF(ExButtonEvent));
-	memset(event, 0, SIZEOF(ExButtonEvent));
+	ExButtonEvent*  event = (ExButtonEvent*)ExMalloc(sizeof(ExButtonEvent));
+	memset(event, 0, sizeof(ExButtonEvent));
 	event->buttonPushed = callback;
 	HWND hwndButton = CreateWindow( 
     EX_TEXT("BUTTON"),  // Predefined class; Unicode assumed 
@@ -417,7 +418,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateListView(ExWin parenthWnd){
 
     ListView_SetTileViewInfo(hWndListView, &tileViewInfo);
 
-	ExListViewEvent* listviewEvent = (ExListViewEvent*)ExMalloc(SIZEOF(ExListViewEvent));
+	ExListViewEvent* listviewEvent = (ExListViewEvent*)ExMalloc(sizeof(ExListViewEvent));
 	ExSetControlEvent(hWndListView, listviewEvent);
 	return hWndListView;
 }
@@ -597,8 +598,8 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateTab(ExWin tabhWnd){
 }
 
 DECLSPEC ExWin ELTAPIENTRY ExCreateListBox(ExWin parentHwnd){
-	ExListBoxEvent* listbox = (ExListBoxEvent*)ExMalloc(SIZEOF(ExListBoxEvent));
-	memset(listbox,0,SIZEOF(ExListBoxEvent));
+	ExListBoxEvent* listbox = (ExListBoxEvent*)ExMalloc(sizeof(ExListBoxEvent));
+	memset(listbox,0,sizeof(ExListBoxEvent));
 	HWND hWndList = CreateWindowEx(WS_EX_CLIENTEDGE,
 		EX_TEXT("listbox"),
 		EX_TEXT(""),
@@ -628,7 +629,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateTextInput(ExWin parentHwnd){
 		ExDevWindowPrintc(EX_TEXT("Failed to Create TextInput"), EX_CONSOLE_RED);
 	}
 	 if(TRUE){
-		 ExTextInputEvent* event = (ExTextInputEvent*)ExMalloc(SIZEOF(ExTextInputEvent));
+		 ExTextInputEvent* event = (ExTextInputEvent*)ExMalloc(sizeof(ExTextInputEvent));
 		 ExSetControlEvent(hwnd,event);
 	 }
 	 return hwnd;
@@ -649,8 +650,8 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateStaticControl(ExWin parentHwnd,CallBack callb
 		GetModuleHandle(EX_NULL),
 		NULL);
 	if(callback){
-		ExStaticControlEvent* staticControl = (ExStaticControlEvent*)ExMalloc(SIZEOF(ExStaticControlEvent));
-		memset(staticControl,0,SIZEOF(ExStaticControlEvent));
+		ExStaticControlEvent* staticControl = (ExStaticControlEvent*)ExMalloc(sizeof(ExStaticControlEvent));
+		memset(staticControl,0,sizeof(ExStaticControlEvent));
 		staticControl->buttonPushed = callback;
 		ExSetControlEvent(hWndstatic,staticControl);
 	}

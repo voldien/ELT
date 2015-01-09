@@ -26,7 +26,6 @@
 #include"EngineEx.h"
 #include"ExCommon.h"
 #include"Input/XBoxControllerHandler.h"
-#include<Cmd/cmdlib.h>
 #if defined(EX_WINDOWS)
 	#pragma warning(disable : 4480) // enum
 	#pragma warning(disable : 4995) // deprecated

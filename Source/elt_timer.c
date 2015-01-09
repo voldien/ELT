@@ -19,6 +19,7 @@ DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback,
 		0,
 		interval,
 		WT_EXECUTEDEFAULT));
+	return pid;
 #elif defined(EX_LINUX)
     timer_t timerid;
 	struct sigevent sev = {0};;
@@ -53,9 +54,9 @@ DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback,
 
     if(timer_settime(timerid,0,&its,&oitval) == -1)
         fprintf(stderr,strerror(errno));
-
-#endif
 	return timerid;
+#endif
+
 }
 DECLSPEC Boolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id){
 #ifdef EX_WINDOWS
@@ -92,6 +93,8 @@ DECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void){/*TODO fix high res-resolution*/
 }
 DECLSPEC long int ELTAPIENTRY ExGetHiResTime(void){
     #ifdef EX_WINDOWS
+
+	return 0;
     #elif defined(EX_LINUX)
     struct timespec t_spec;
     clock_gettime(CLOCK_MONOTONIC, &t_spec);

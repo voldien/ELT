@@ -5,7 +5,6 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 */
 #ifndef GL_CACHING_H
 #define GL_CACHING_H
-#include<Cmd/cmdlib.h>
 #include<Cmd/mathlib.h>
 #include<gl/glew.h>
 

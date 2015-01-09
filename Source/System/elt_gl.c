@@ -422,7 +422,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 		0}; // NULL termination
 		// create pixel attribute block
 	//copy block
-	memcpy(attribs,pixAttribs,SIZEOF(pixAttribs));
+	memcpy(attribs,pixAttribs,sizeof(pixAttribs));
 #elif defined(EX_LINUX)
 	if(erenderingflag & EX_OPENGLES){
 		Int32 pixAttribs[] = {
@@ -818,7 +818,7 @@ DECLSPEC Boolean ELTAPIENTRY ExGLFullScreen(Boolean cdsfullscreen, ExWin window,
 		dm;
 		if(!EnumDisplaySettings(dd.DeviceName, ENUM_CURRENT_SETTINGS, &dm))
 			wExDevPrintf(EX_TEXT("EnumDisplay Settings Failed | %s.\n"), ExGetErrorMessage(GetLastError()));
-		dm.dmSize = SIZEOF(dm);
+		dm.dmSize = sizeof(dm);
 		if(screenRes == EX_NULL){
 			// resolution from the window.
 			dm.dmPelsWidth = (rect.right - rect.left);

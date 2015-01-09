@@ -78,8 +78,10 @@ DECLSPEC void* ELTAPIENTRY ExJoystickOpen(Int32 device_index){
 DECLSPEC int ELTAPIENTRY ExJoyStickClose(Int32 device_index){
     #ifdef EX_WINDOWS
 
+	return 0;
     #elif defined(EX_LINUX)
     close(joy_id[device_index]);
+
     #endif // EX_WINDOWS
 }
 
@@ -188,9 +190,9 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitJoyStick( ExWin hwnd){
 			return -1;
 	return 1;
 	//if(!m_joyStickhandler){
-	//	m_joyStickhandler = (HJoyStick*)ExMalloc(SIZEOF(HJoyStick));
-	//	memset(m_joyStickhandler,0, SIZEOF(HJoyStick));
-	//	m_joyStickhandler->joyState = (DIJOYSTATE*)ExMalloc(SIZEOF(DIJOYSTATE));
+	//	m_joyStickhandler = (HJoyStick*)ExMalloc(sizeof(HJoyStick));
+	//	memset(m_joyStickhandler,0, sizeof(HJoyStick));
+	//	m_joyStickhandler->joyState = (DIJOYSTATE*)ExMalloc(sizeof(DIJOYSTATE));
 	//}
 	////for(Uint32 x = 0; x < EX_JOYSTICK_MAX_COUNT; x++){
 	////	continue;

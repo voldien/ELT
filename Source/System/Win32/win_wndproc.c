@@ -112,7 +112,7 @@ DECLSPEC LRESULT WINAPI MainWndProc(HWND hWnd,UINT uMsg, WPARAM wParam, LPARAM l
 	}break;
 	case WM_MENUCOMMAND:{
 		// get data;
-		MENUITEMINFO menuitemInfo = {SIZEOF(MENUITEMINFO)};
+		MENUITEMINFO menuitemInfo = {sizeof(MENUITEMINFO)};
 		menuitemInfo.fMask = MIIM_DATA;
 		GetMenuItemInfo((HMENU)lParam,wParam, TRUE,&menuitemInfo);
 		// event handler
@@ -308,7 +308,7 @@ DECLSPEC LRESULT WINAPI WndProcNative(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 				ExTextInputEvent* event = (ExTextInputEvent*)GetWindowLongPtr((HWND)lParam,GWLP_USERDATA);
 				if(event){
 					if(event->textInput){
-						//SendMessage((HWND)lParam,EM_GETLINE,0, SIZEOF(
+						//SendMessage((HWND)lParam,EM_GETLINE,0, sizeof(
 						event->textInput(0);
 					}
 				}
@@ -317,7 +317,7 @@ DECLSPEC LRESULT WINAPI WndProcNative(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 	}break;
 	case WM_MENUCOMMAND:{
 		// get menu item data;
-		MENUITEMINFO menuitemInfo = {SIZEOF(MENUITEMINFO)};
+		MENUITEMINFO menuitemInfo = {sizeof(MENUITEMINFO)};
 		menuitemInfo.fMask = MIIM_DATA;
 		GetMenuItemInfo((HMENU)lParam,wParam, TRUE,&menuitemInfo);
 		// event handler

@@ -279,7 +279,7 @@ DECLSPEC void ELTAPIENTRY ExGetApplicationName(ExChar* name,Int32 length){
 DECLSPEC Uint64 ELTAPIENTRY ExGetTotalSystemMemory(void){
 #ifdef EX_WINDOWS
 	MEMORYSTATUSEX status;
-	status.dwLength = SIZEOF(status);
+	status.dwLength = sizeof(status);
 	GlobalMemoryStatusEx(&status);
 	return status.ullTotalPhys;
 #else
@@ -292,7 +292,7 @@ DECLSPEC Uint64 ELTAPIENTRY ExGetTotalSystemMemory(void){
 DECLSPEC Uint64 ELTAPIENTRY ExGetTotalVirtualMemory(void){
 #ifdef EX_WINDOWS
 	MEMORYSTATUSEX status;
-	status.dwLength = SIZEOF(status);
+	status.dwLength = sizeof(status);
 	GlobalMemoryStatusEx(&status);
 	return status.ullTotalVirtual;
 #else

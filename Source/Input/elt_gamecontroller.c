@@ -6,17 +6,14 @@
 #elif defined(EX_LINUX)
 
 #endif
-#include<Cmd/cmdlib.h>
-
 
 DECLSPEC ExBoolean ELTAPIENTRY ExIsGameController(Int32 joystick_index){
-
-	return 0;
+	return (ExBoolean)0;
 }
 
 DECLSPEC Uint16 ELTAPIENTRY ExGameControllerGetAxis(int index, int* axis){
 	//XInputGetState(index,axis);
-	return 0;
+	return (Uint16)0;
 }
 
 

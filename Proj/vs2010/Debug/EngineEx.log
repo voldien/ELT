@@ -1,222 +1,116 @@
-﻿Build started 11/30/2014 11:34:04 AM.
+﻿Build started 1/9/2015 11:17:09 PM.
 Project "C:\Users\Public\Desktop\codeprojects\elt\Proj\vs2010\EngineEx.vcxproj" on node 2 (build target(s)).
 InitializeBuildStatus:
   Touching "Debug\EngineEx.unsuccessfulbuild".
 ClCompile:
   C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W4 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _ENGINE_INTERNAL /D GLEW_BUILD /D EX_INCLUDE_DIRECTX /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\Source\EngineEx2.c ..\..\Source\ExCommon.c ..\..\Source\ExEngine.c ..\..\Source\Input\XBoxControllerHandler.c ..\..\Source\Input\elt_gamecontroller.c ..\..\Source\Input\elt_joystick.c ..\..\Source\Input\elt_keyboard.c ..\..\Source\Input\elt_mouse.c ..\..\Source\System\Win32\win_GL.c ..\..\Source\System\Win32\win_controls.c ..\..\Source\System\Win32\win_directX.c ..\..\Source\System\Win32\win_net.c ..\..\Source\System\Win32\win_win32.c ..\..\Source\System\Win32\win_wndproc.c ..\..\Source\System\Win32\wnd_common.c ..\..\Source\System\Win32\wnd_filedialog.c ..\..\Source\System\Win32\wnd_input.c ..\..\Source\System\Win32\wnd_snd.c ..\..\Source\System\elt_audio.c ..\..\Source\System\elt_cl.c ..\..\Source\System\elt_errorhandler.c ..\..\Source\System\elt_event.c ..\..\Source\System\elt_gl.c ..\..\Source\System\elt_log.c ..\..\Source\System\elt_win.c ..\..\Source\elt_console.c ..\..\Source\elt_cpuinfo.c ..\..\Source\elt_loadso.c ..\..\Source\elt_thread.c ..\..\Source\elt_timer.c ..\..\Source\main.c
   main.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
-c:\program files (x86)\microsoft visual studio 10.0\vc\include\cmd\cmdlib.h(76): error C2733: second C linkage of overloaded function 'CopyFileW' not allowed
-          c:\program files (x86)\microsoft visual studio 10.0\vc\include\cmd\cmdlib.h(76) : see declaration of 'CopyFileW'
-c:\users\public\desktop\codeprojects\elt\source\main.c(21): warning C4245: 'initializing' : conversion from 'int' to 'size_t', signed/unsigned mismatch
-c:\users\public\desktop\codeprojects\elt\source\main.c(151): error C3861: 'glGenBuffers': identifier not found
-c:\users\public\desktop\codeprojects\elt\source\main.c(152): error C3861: 'glGenBuffers': identifier not found
-c:\users\public\desktop\codeprojects\elt\source\main.c(163): error C3861: 'ExCreateCLContex': identifier not found
-c:\users\public\desktop\codeprojects\elt\source\main.c(206): warning C4127: conditional expression is constant
-c:\users\public\desktop\codeprojects\elt\source\main.c(210): error C3861: 'eglGetCurrentDisplay': identifier not found
-c:\users\public\desktop\codeprojects\elt\source\main.c(211): error C3861: 'eglGetCurrentSurface': identifier not found
-  elt_timer.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\elt_timer.c(62): warning C4244: '=' : conversion from 'BOOL' to 'Boolean', possible loss of data
-  elt_thread.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\elt_thread.c(69): warning C4245: '=' : conversion from 'int' to 'Enum', signed/unsigned mismatch
-  elt_loadso.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
-  elt_cpuinfo.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\elt_cpuinfo.c(27): warning C4172: returning address of local variable or temporary
-  elt_console.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\elt_console.c(36): error C2065: '_O_TEXT' : undeclared identifier
-c:\users\public\desktop\codeprojects\elt\source\elt_console.c(48): error C2065: '_O_TEXT' : undeclared identifier
-c:\users\public\desktop\codeprojects\elt\source\elt_console.c(60): error C2065: '_O_TEXT' : undeclared identifier
-c:\users\public\desktop\codeprojects\elt\source\elt_console.c(127): warning C4244: 'return' : conversion from 'BOOL' to 'Boolean', possible loss of data
-c:\users\public\desktop\codeprojects\elt\source\elt_console.c(219): warning C4238: nonstandard extension used : class rvalue used as lvalue
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(243): warning C4005: 'ExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(206) : see previous definition of 'ExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): warning C4005: 'wExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(210) : see previous definition of 'wExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\main.c(26): warning C4245: 'initializing' : conversion from 'int' to 'size_t', signed/unsigned mismatch
+c:\users\public\desktop\codeprojects\elt\source\main.c(61): warning C4100: 'fileName' : unreferenced formal parameter
+c:\users\public\desktop\codeprojects\elt\source\main.c(109): error C2664: 'ExMakeGLCurrent' : cannot convert parameter 1 from 'void *' to 'WindowContext'
+          Conversion from 'void*' to pointer to non-'void' requires an explicit cast
+c:\users\public\desktop\codeprojects\elt\source\main.c(110): warning C4127: conditional expression is constant
+c:\users\public\desktop\codeprojects\elt\source\main.c(114): error C2664: 'SwapBuffers' : cannot convert parameter 1 from 'void *' to 'HDC'
+          Conversion from 'void*' to pointer to non-'void' requires an explicit cast
+c:\users\public\desktop\codeprojects\elt\source\main.c(133): error C2440: 'return' : cannot convert from 'unsigned int' to 'void *'
+          Conversion from integral type to pointer type requires reinterpret_cast, C-style cast or function-style cast
+c:\users\public\desktop\codeprojects\elt\source\main.c(143): error C2664: 'ExQueryCLContext' : cannot convert parameter 1 from 'unsigned int' to 'void *'
+          Conversion from integral type to pointer type requires reinterpret_cast, C-style cast or function-style cast
+c:\users\public\desktop\codeprojects\elt\source\main.c(144): error C2664: 'CreateCommandQueue' : cannot convert parameter 1 from 'unsigned int' to 'cl_context'
+          Conversion from integral type to pointer type requires reinterpret_cast, C-style cast or function-style cast
+c:\users\public\desktop\codeprojects\elt\source\main.c(154): warning C4127: conditional expression is constant
+c:\users\public\desktop\codeprojects\elt\source\main.c(157): error C3861: 'eglWaitGL': identifier not found
+c:\users\public\desktop\codeprojects\elt\source\main.c(158): error C3861: 'eglSwapBuffers': identifier not found
+c:\users\public\desktop\codeprojects\elt\source\main.c(158): error C3861: 'eglGetCurrentDisplay': identifier not found
+c:\users\public\desktop\codeprojects\elt\source\main.c(158): error C3861: 'eglGetCurrentSurface': identifier not found
+c:\users\public\desktop\codeprojects\elt\source\main.c(159): error C2065: 'display' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\main.c(159): error C3861: 'glXSwapBuffers': identifier not found
+c:\users\public\desktop\codeprojects\elt\source\main.c(159): error C3861: 'eglGetCurrentSurface': identifier not found
+c:\users\public\desktop\codeprojects\elt\source\main.c(178): error C2664: 'ExIsModuleLoaded' : cannot convert parameter 1 from 'const char [15]' to 'const ExChar *'
+          Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+c:\users\public\desktop\codeprojects\elt\source\main.c(179): error C2664: 'ExLoadObject' : cannot convert parameter 1 from 'const char [13]' to 'const ExChar *'
+          Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+c:\users\public\desktop\codeprojects\elt\source\main.c(185): error C2065: 'XColor' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\main.c(185): error C2146: syntax error : missing ';' before identifier 'black'
+c:\users\public\desktop\codeprojects\elt\source\main.c(185): error C2065: 'black' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\main.c(220): error C2065: 'socklen_t' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\main.c(220): error C2146: syntax error : missing ';' before identifier 'clilen'
+c:\users\public\desktop\codeprojects\elt\source\main.c(220): error C2065: 'clilen' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\main.c(275): error C2664: 'ExGetApplicationName' : cannot convert parameter 1 from 'char [256]' to 'ExChar *'
+          Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+c:\users\public\desktop\codeprojects\elt\source\main.c(289): warning C4244: 'argument' : conversion from 'unsigned int' to 'Keycode', possible loss of data
+c:\users\public\desktop\codeprojects\elt\source\main.c(289): error C2440: 'initializing' : cannot convert from 'const char *' to 'ExChar *'
+          Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+c:\users\public\desktop\codeprojects\elt\source\main.c(316): error C3861: 'glGenBuffers': identifier not found
+c:\users\public\desktop\codeprojects\elt\source\main.c(370): warning C4244: 'initializing' : conversion from 'long' to 'float', possible loss of data
+c:\users\public\desktop\codeprojects\elt\source\main.c(378): warning C4127: conditional expression is constant
+c:\users\public\desktop\codeprojects\elt\source\main.c(385): error C3861: 'eglGetCurrentDisplay': identifier not found
+c:\users\public\desktop\codeprojects\elt\source\main.c(386): error C3861: 'eglGetCurrentSurface': identifier not found
   elt_win.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_win.c(8): fatal error C1083: Cannot open include file: 'EGL/egl.h': No such file or directory
-  elt_log.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(243): warning C4005: 'ExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(206) : see previous definition of 'ExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): warning C4005: 'wExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(210) : see previous definition of 'wExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\system\elt_win.c(7): fatal error C1083: Cannot open include file: 'EGL/egl.h': No such file or directory
   elt_gl.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(243): warning C4005: 'ExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(206) : see previous definition of 'ExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): warning C4005: 'wExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(210) : see previous definition of 'wExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
 c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(9): fatal error C1083: Cannot open include file: 'EGL/egl.h': No such file or directory
-  elt_event.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
-  elt_errorhandler.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
-c:\program files (x86)\microsoft visual studio 10.0\vc\include\cmd\cmdlib.h(76): error C2733: second C linkage of overloaded function 'CopyFileW' not allowed
-          c:\program files (x86)\microsoft visual studio 10.0\vc\include\cmd\cmdlib.h(76) : see declaration of 'CopyFileW'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.c(305): error C2065: 'PATH_MAX' : undeclared identifier
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.c(399): warning C4804: '<=' : unsafe use of type 'bool' in operation
   elt_cl.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
-  elt_audio.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
-  wnd_snd.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
-  wnd_input.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
-  wnd_filedialog.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\win32\wnd_filedialog.c(17): warning C4244: 'return' : conversion from 'BOOL' to 'Boolean', possible loss of data
-c:\users\public\desktop\codeprojects\elt\source\system\win32\wnd_filedialog.c(57): warning C4244: 'return' : conversion from 'BOOL' to 'Boolean', possible loss of data
-c:\users\public\desktop\codeprojects\elt\source\system\win32\wnd_filedialog.c(72): warning C4244: 'return' : conversion from 'BOOL' to 'Boolean', possible loss of data
-c:\users\public\desktop\codeprojects\elt\source\system\win32\wnd_filedialog.c(78): warning C4244: 'return' : conversion from 'BOOL' to 'Boolean', possible loss of data
-  wnd_common.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\win32\wnd_common.c(222): warning C4244: '=' : conversion from 'LSTATUS' to 'WORD', possible loss of data
-c:\users\public\desktop\codeprojects\elt\source\system\win32\wnd_common.c(232): warning C4244: '=' : conversion from 'LSTATUS' to 'WORD', possible loss of data
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(243): warning C4005: 'ExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(206) : see previous definition of 'ExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): warning C4005: 'wExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(210) : see previous definition of 'wExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\system\elt_cl.c(41): warning C4101: 'ciErrNum' : unreferenced local variable
+c:\users\public\desktop\codeprojects\elt\source\system\elt_cl.c(47): warning C4189: 'uiEndDev' : local variable is initialized but not referenced
+c:\users\public\desktop\codeprojects\elt\source\system\elt_cl.c(47): warning C4189: 'uiDeviceUsed' : local variable is initialized but not referenced
+c:\users\public\desktop\codeprojects\elt\source\system\elt_cl.c(41): warning C4189: 'uiDevCount' : local variable is initialized but not referenced
+c:\users\public\desktop\codeprojects\elt\source\system\elt_cl.c(44): warning C4101: 'cdDevices' : unreferenced local variable
+c:\users\public\desktop\codeprojects\elt\source\system\elt_cl.c(81): warning C4189: 'uiEndDev' : local variable is initialized but not referenced
+c:\users\public\desktop\codeprojects\elt\source\system\elt_cl.c(191): error C2664: 'clReleaseContext' : cannot convert parameter 1 from 'void *' to 'cl_context'
+          Conversion from 'void*' to pointer to non-'void' requires an explicit cast
+c:\users\public\desktop\codeprojects\elt\source\system\elt_cl.c(202): error C2664: 'clGetDeviceIDs' : cannot convert parameter 1 from 'Int32' to 'cl_platform_id'
+          Conversion from integral type to pointer type requires reinterpret_cast, C-style cast or function-style cast
   win_wndproc.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(243): warning C4005: 'ExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(206) : see previous definition of 'ExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): warning C4005: 'wExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(210) : see previous definition of 'wExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
 c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(69): warning C4333: '>>' : right shift by too large amount, data loss
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(143): warning C4482: nonstandard extension used: enum 'EngineSupport' used in qualified name
+c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(143): error C2065: 'ENGINE_FULLSCREEN' : undeclared identifier
 c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(143): error C2039: 'width' : is not a member of 'EngineFormatDescription'
-          c:\users\public\desktop\codeprojects\elt\source\engineassembly.h(178) : see declaration of 'EngineFormatDescription'
+          c:\users\public\desktop\codeprojects\elt\source\engineassembly.h(186) : see declaration of 'EngineFormatDescription'
 c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(183): warning C4333: '>>' : right shift by too large amount, data loss
 c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(215): warning C4127: conditional expression is constant
 c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(263): error C2065: 'CCM_SETWINDOWTHEME' : undeclared identifier
@@ -234,184 +128,140 @@ c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(274):
 c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(425): warning C4333: '>>' : right shift by too large amount, data loss
 c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(450): error C2664: 'ExDisplayContextMenu' : cannot convert parameter 2 from 'POINT' to 'POINT *'
           No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
-  win_win32.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
-c:\program files (x86)\microsoft visual studio 10.0\vc\include\cmd\cmdlib.h(76): error C2733: second C linkage of overloaded function 'CopyFileW' not allowed
-          c:\program files (x86)\microsoft visual studio 10.0\vc\include\cmd\cmdlib.h(76) : see declaration of 'CopyFileW'
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_win32.c(189): warning C4245: 'return' : conversion from 'int' to 'DWORD', signed/unsigned mismatch
-  win_net.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
-  Generating Code...
-  Compiling...
   win_directX.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(243): warning C4005: 'ExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(206) : see previous definition of 'ExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): warning C4005: 'wExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(210) : see previous definition of 'wExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
 c:\users\public\desktop\codeprojects\elt\source\system\win32\win_directx.c(5): fatal error C1083: Cannot open include file: 'D3dx9tex.h': No such file or directory
   win_controls.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(328): error C3861: 'SetWindowTheme': identifier not found
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(630): warning C4127: conditional expression is constant
-  win_GL.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(243): warning C4005: 'ExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(206) : see previous definition of 'ExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): warning C4005: 'wExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(210) : see previous definition of 'wExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(329): warning C4189: 'ok' : local variable is initialized but not referenced
+c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(426): warning C4100: 'height' : unreferenced formal parameter
+c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(426): warning C4100: 'width' : unreferenced formal parameter
+c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(426): warning C4100: 'y' : unreferenced formal parameter
+c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(426): warning C4100: 'x' : unreferenced formal parameter
+c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(465): warning C4189: 'buttonStyles' : local variable is initialized but not referenced
+c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(512): warning C4100: 'buttoncallback' : unreferenced formal parameter
+c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(523): warning C4100: 'templates' : unreferenced formal parameter
+c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(523): warning C4100: 'bitmap' : unreferenced formal parameter
+c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(523): warning C4100: 'text' : unreferenced formal parameter
+c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(525): warning C4189: 'numButtons' : local variable is initialized but not referenced
+c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(539): warning C4189: 'numButtons' : local variable is initialized but not referenced
+c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(593): warning C4100: 'tabhWnd' : unreferenced formal parameter
+c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(631): warning C4127: conditional expression is constant
   elt_mouse.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(243): warning C4005: 'ExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(206) : see previous definition of 'ExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): warning C4005: 'wExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(210) : see previous definition of 'wExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
 c:\users\public\desktop\codeprojects\elt\source\input\elt_mouse.c(6): error C2143: syntax error : missing ';' before '*'
 c:\users\public\desktop\codeprojects\elt\source\input\elt_mouse.c(6): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
 c:\users\public\desktop\codeprojects\elt\source\input\elt_mouse.c(6): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-c:\users\public\desktop\codeprojects\elt\source\input\elt_mouse.c(76): warning C4244: '=' : conversion from 'BOOL' to 'Boolean', possible loss of data
-c:\users\public\desktop\codeprojects\elt\source\input\elt_mouse.c(116): warning C4244: 'return' : conversion from 'int' to 'Boolean', possible loss of data
-c:\users\public\desktop\codeprojects\elt\source\input\elt_mouse.c(280): warning C4244: 'argument' : conversion from 'const Int' to 'float', possible loss of data
-  elt_keyboard.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\input\elt_keyboard.c(36): warning C4172: returning address of local variable or temporary
-c:\users\public\desktop\codeprojects\elt\source\input\elt_keyboard.c(58): warning C4244: 'initializing' : conversion from 'BOOL' to 'unsigned char', possible loss of data
-c:\users\public\desktop\codeprojects\elt\source\input\elt_keyboard.c(160): warning C4244: 'return' : conversion from 'SHORT' to 'Boolean', possible loss of data
-c:\users\public\desktop\codeprojects\elt\source\input\elt_keyboard.c(169): warning C4244: 'return' : conversion from 'SHORT' to 'Boolean', possible loss of data
-c:\users\public\desktop\codeprojects\elt\source\input\elt_keyboard.c(177): warning C4244: 'return' : conversion from 'SHORT' to 'Boolean', possible loss of data
-  elt_joystick.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\input\elt_joystick.c(143): warning C4244: 'return' : conversion from 'unsigned int' to 'Int16', possible loss of data
-c:\users\public\desktop\codeprojects\elt\source\input\elt_joystick.c(159): warning C4244: 'return' : conversion from 'unsigned int' to 'Uint8', possible loss of data
+c:\users\public\desktop\codeprojects\elt\source\input\elt_mouse.c(77): warning C4244: '=' : conversion from 'BOOL' to 'Boolean', possible loss of data
+c:\users\public\desktop\codeprojects\elt\source\input\elt_mouse.c(117): warning C4244: 'return' : conversion from 'int' to 'Boolean', possible loss of data
+c:\users\public\desktop\codeprojects\elt\source\input\elt_mouse.c(266): warning C4244: 'argument' : conversion from 'const Int' to 'float', possible loss of data
   elt_gamecontroller.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
-  XBoxControllerHandler.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(243): warning C4005: 'ExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(206) : see previous definition of 'ExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): warning C4005: 'wExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(210) : see previous definition of 'wExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\input\elt_gamecontroller.c(10): warning C4100: 'joystick_index' : unreferenced formal parameter
+c:\users\public\desktop\codeprojects\elt\source\input\elt_gamecontroller.c(14): warning C4100: 'axis' : unreferenced formal parameter
+c:\users\public\desktop\codeprojects\elt\source\input\elt_gamecontroller.c(14): warning C4100: 'index' : unreferenced formal parameter
+c:\users\public\desktop\codeprojects\elt\source\input\elt_gamecontroller.c(20): warning C4100: 'RightMotorSpeed' : unreferenced formal parameter
+c:\users\public\desktop\codeprojects\elt\source\input\elt_gamecontroller.c(20): warning C4100: 'LeftMotorSpeed' : unreferenced formal parameter
+c:\users\public\desktop\codeprojects\elt\source\input\elt_gamecontroller.c(20): warning C4100: 'index' : unreferenced formal parameter
   ExEngine.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(243): warning C4005: 'ExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(206) : see previous definition of 'ExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): warning C4005: 'wExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(210) : see previous definition of 'wExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
 c:\users\public\desktop\codeprojects\elt\source\exengine.c(47): warning C4138: '*/' found outside of comment
 c:\users\public\desktop\codeprojects\elt\source\exengine.c(47): warning C4081: expected 'newline'; found '*'
-c:\users\public\desktop\codeprojects\elt\source\exengine.c(124): error C2664: 'dup2' : cannot convert parameter 2 from 'FILE *' to 'int'
-          There is no context in which this conversion is possible
-c:\users\public\desktop\codeprojects\elt\source\exengine.c(140): error C2065: 'EX_ENGINE_VERSION_BUGFIX' : undeclared identifier
-c:\users\public\desktop\codeprojects\elt\source\exengine.c(195): error C2065: 'hmodule' : undeclared identifier
-c:\users\public\desktop\codeprojects\elt\source\exengine.c(306): error C2065: 'mi' : undeclared identifier
-c:\users\public\desktop\codeprojects\elt\source\exengine.c(306): error C3861: 'mallinfo': identifier not found
-c:\users\public\desktop\codeprojects\elt\source\exengine.c(309): error C3861: 'muntrace': identifier not found
-c:\users\public\desktop\codeprojects\elt\source\exengine.c(353): error C2308: concatenating mismatched strings
+c:\users\public\desktop\codeprojects\elt\source\exengine.c(70): warning C4100: 'lpvReserved' : unreferenced formal parameter
+c:\users\public\desktop\codeprojects\elt\source\exengine.c(100): warning C4101: 'lStdHandle' : unreferenced local variable
+c:\users\public\desktop\codeprojects\elt\source\exengine.c(98): warning C4101: 'hmodule' : unreferenced local variable
+c:\users\public\desktop\codeprojects\elt\source\exengine.c(99): warning C4101: 'hConHandle' : unreferenced local variable
+c:\users\public\desktop\codeprojects\elt\source\exengine.c(375): error C2308: concatenating mismatched strings
           Concatenating wide "ELT-" with narrow "x"
-c:\users\public\desktop\codeprojects\elt\source\exengine.c(353): error C2308: concatenating mismatched strings
+c:\users\public\desktop\codeprojects\elt\source\exengine.c(375): error C2308: concatenating mismatched strings
           Concatenating wide "ELT-." with narrow "x"
-c:\users\public\desktop\codeprojects\elt\source\exengine.c(353): error C2308: concatenating mismatched strings
+c:\users\public\desktop\codeprojects\elt\source\exengine.c(375): error C2308: concatenating mismatched strings
           Concatenating wide "ELT-.." with narrow "x"
-  ExCommon.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\excommon.c(317): warning C4172: returning address of local variable or temporary
-c:\users\public\desktop\codeprojects\elt\source\excommon.c(383): warning C4127: conditional expression is constant
   EngineEx2.c
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : 'constant'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2143: syntax error : missing ';' before '}'
-c:\users\public\desktop\codeprojects\elt\source\exnt.h(137): error C2059: syntax error : '}'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(235): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(194) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(237): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(197) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(239): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(201) : see previous definition of 'wExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\engineex2.c(29): warning C4244: '=' : conversion from 'int' to 'Uint8', possible loss of data
-c:\users\public\desktop\codeprojects\elt\source\engineex2.c(30): warning C4244: '=' : conversion from 'int' to 'Uint8', possible loss of data
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(243): warning C4005: 'ExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(206) : see previous definition of 'ExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): warning C4005: 'wExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(210) : see previous definition of 'wExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
 c:\users\public\desktop\codeprojects\elt\source\engineex2.c(31): warning C4244: '=' : conversion from 'int' to 'Uint8', possible loss of data
-c:\users\public\desktop\codeprojects\elt\source\engineex2.c(32): error C2065: 'GL_SAMPLES' : undeclared identifier
-c:\users\public\desktop\codeprojects\elt\source\engineex2.c(32): error C2051: case expression not constant
 c:\users\public\desktop\codeprojects\elt\source\engineex2.c(32): warning C4244: '=' : conversion from 'int' to 'Uint8', possible loss of data
-c:\users\public\desktop\codeprojects\elt\source\engineex2.c(43): warning C4065: switch statement contains 'default' but no 'case' labels
+c:\users\public\desktop\codeprojects\elt\source\engineex2.c(33): warning C4244: '=' : conversion from 'int' to 'Uint8', possible loss of data
+c:\users\public\desktop\codeprojects\elt\source\engineex2.c(34): error C2065: 'GL_SAMPLES' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\engineex2.c(34): error C2051: case expression not constant
+c:\users\public\desktop\codeprojects\elt\source\engineex2.c(34): warning C4244: '=' : conversion from 'int' to 'Uint8', possible loss of data
+c:\users\public\desktop\codeprojects\elt\source\engineex2.c(46): error C2065: 'GL_SAMPLES' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\engineex2.c(46): error C2051: case expression not constant
   Generating Code...
+c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(181): warning C4706: assignment within conditional expression
+c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(474): warning C4706: assignment within conditional expression
+c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(628): warning C4706: assignment within conditional expression
+  Skipping... (no relevant changes detected)
+  elt_timer.c
+  elt_thread.c
+  elt_loadso.c
+  elt_cpuinfo.c
+  elt_console.c
+  elt_log.c
+  elt_event.c
+  elt_errorhandler.c
+  elt_audio.c
+  wnd_snd.c
+  wnd_input.c
+  wnd_filedialog.c
+  wnd_common.c
+  win_win32.c
+  win_net.c
+  win_GL.c
+  elt_keyboard.c
+  elt_joystick.c
+  XBoxControllerHandler.c
+  ExCommon.c
 Done Building Project "C:\Users\Public\Desktop\codeprojects\elt\Proj\vs2010\EngineEx.vcxproj" (build target(s)) -- FAILED.
 
 Build FAILED.
 
-Time Elapsed 00:00:27.25
+Time Elapsed 00:00:10.17

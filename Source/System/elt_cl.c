@@ -1,6 +1,6 @@
 #include"elt_cl.h"
 #if defined(EX_WINDOWS)
-#   define OPENCL_LIBRARY_NAME "OpenCL.dll"
+#   define OPENCL_LIBRARY_NAME EX_TEXT("OpenCL.dll")
 	#include<CL/cl.h>
 	#include<CL/cl.h>
 	#include<CL/opencl.h>
@@ -146,34 +146,35 @@ DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowCont
 }
 
 DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(void* context,void* param_value,Enum param_name){
-    cl_int ciErrNum,size;
+    cl_int ciErrNum;
+	size_t size;
 
     switch(param_name){
         case CL_CONTEXT_DEVICES:{
             unsigned int num_dev;
             ExQueryCLContext(context,&num_dev, CL_CONTEXT_NUM_DEVICES);
-            ciErrNum = clGetContextInfo(context, CL_CONTEXT_DEVICES,num_dev * sizeof(cl_device_id),param_value,&size);
+            ciErrNum = clGetContextInfo((cl_context)context, CL_CONTEXT_DEVICES,num_dev * sizeof(cl_device_id),param_value,&size);
             }
             break;
         case CL_CONTEXT_INTEROP_USER_SYNC:
-            ciErrNum = clGetContextInfo(context, CL_CONTEXT_INTEROP_USER_SYNC,sizeof(cl_uint),param_value,&size);
+            ciErrNum = clGetContextInfo((cl_context)context, CL_CONTEXT_INTEROP_USER_SYNC,sizeof(cl_uint),param_value,&size);
             break;
         case CL_CONTEXT_NUM_DEVICES:
-            ciErrNum = clGetContextInfo(context, CL_CONTEXT_NUM_DEVICES,sizeof(cl_uint),param_value,&size);
+            ciErrNum = clGetContextInfo((cl_context)context, CL_CONTEXT_NUM_DEVICES,sizeof(cl_uint),param_value,&size);
             break;
         case CL_CONTEXT_PROPERTIES:
-            ciErrNum = clGetContextInfo(context, CL_CONTEXT_PROPERTIES,sizeof(cl_context_properties),param_value,&size);
+            ciErrNum = clGetContextInfo((cl_context)context, CL_CONTEXT_PROPERTIES,sizeof(cl_context_properties),param_value,&size);
             break;
         case CL_CONTEXT_REFERENCE_COUNT:
             //ciErrNum = clGetContextInfo(context, CL_CONTEXT_REFERENCE_COUNT,sizeof(cl_reference),param_value,&size);
             break;
         #ifdef EX_WINDOWS
-        case CL_CONTEXT_D3D10_PREFER_SHARED_RESOURCES_KHR:
-            ciErrNum = clGetContextInfo(context, CL_CONTEXT_REFERENCE_COUNT,sizeof(cl_reference),param_value,&size);
-            break;
+/*        case CL_CONTEXT_D3D10_PREFER_SHARED_RESOURCES_KHR:
+            ciErrNum = clGetContextInfo((cl_context)context, CL_CONTEXT_REFERENCE_COUNT,sizeof(cl_reference),param_value,&size);
+            break;*/
         #endif
         case CL_CONTEXT_PLATFORM:
-            ciErrNum = clGetContextInfo(context, CL_CONTEXT_PLATFORM,sizeof(cl_platform_id),param_value,&size);
+            ciErrNum = clGetContextInfo((cl_context)context, CL_CONTEXT_PLATFORM,sizeof(cl_platform_id),param_value,&size);
             break;
         default:break;
     }
@@ -224,7 +225,7 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum fl
     /**
         Get number of platform identification
     */
-    ciErrNum = clGetPlatformIDs (1, &clPlatformIDs, &num_platforms);
+    ciErrNum = clGetPlatformIDs (1, (cl_platform_id*)&clPlatformIDs, &num_platforms);
 
     ciErrNum = clGetPlatformIDs (2, NULL, &num_platforms);
     if (ciErrNum != CL_SUCCESS){

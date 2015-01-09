@@ -2,13 +2,13 @@
 #include"elt_log.h"
 #include"./../elt_console.h"
 #ifdef EX_WINDOWS
+#	include<DbgHelp.h>
 #elif defined(EX_LINUX)
 #   include<syslog.h>
 #   include"Unix/unix_win.h"
 #endif
 #include<signal.h>
 #include<limits.h>
-#include<Cmd/cmdlib.h>
 
 
 // Error Message text
@@ -299,6 +299,7 @@ static void debug_log_trace(void){
     HANDLE process;
     void* stack[100];
     unsigned int frames;
+	unsigned int i,j;
     SYMBOL_INFO* symbol;
 
 

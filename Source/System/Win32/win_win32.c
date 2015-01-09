@@ -2,7 +2,6 @@
 #ifdef EX_WINDOWS
 #include"./../../resource.h"
 #	include<Windows.h>	// Window header
-#	include<Cmd/cmdlib.h>
 #	include<WindowsX.h>
 #	include <commctrl.h>
 #	include<WinUser.h>
@@ -115,7 +114,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateNativWindow(Int32 x, Int32 y, Int32 width, In
 	HWND hwnd;
 	ExChar title[260];
 	WNDCLASSEX wc = {0}; 
-	wc.cbSize = SIZEOF(wc);
+	wc.cbSize = sizeof(wc);
 	wc.hInstance = GetModuleHandle(NULL);
 	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC ;
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
@@ -146,7 +145,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateMIDWindow(Int32 x, Int32 y, Int32 width , Int
 	WNDCLASSEX wc;
 	ExWin hwnd;
 	memset(&wc,0, sizeof(wc));
-	wc.cbSize = SIZEOF(wc);
+	wc.cbSize = sizeof(wc);
 	wc.hInstance = GetModuleHandle(NULL);
 	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC ;
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);

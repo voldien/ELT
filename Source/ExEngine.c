@@ -138,7 +138,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 
 // unicode
 #ifdef UNICODE
-	printf("Initialize engine version: %d.%d.%d\n",EX_ENGINE_VERSION_MAJOR,EX_ENGINE_VERSION_MINOR,EX_ENGINE_VERSION_BUGFIX);
+	printf("Initialize engine version: %d.%d.%d\n",EX_ENGINE_VERSION_MAJOR,EX_ENGINE_VERSION_MINOR,EX_ENGINE_VERSION_REVISION);
 	wprintf(EX_TEXT("Operating System : %s\n"),ExGetOSName());
 #endif
 
@@ -190,6 +190,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 */
 DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 	ERESULT hr = 0;
+	HANDLE hmodule;
 	if(ELT_INIT_VIDEO & engineflag){
         #ifdef EX_WINDOWS
 		/* Load OpenGL library*/
@@ -226,7 +227,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 	    #ifdef EX_LINUX
         ExLoadLibrary("");
         #elif defined(EX_WINDOWS)
-        ExLoadLibrary("WS2_32.dll");
+        ExLoadLibrary(EX_TEXT("WS2_32.dll"));
         #endif
 	}
 	return hr;
@@ -275,7 +276,7 @@ DECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag){
 	    #ifdef EX_LINUX
         ExLoadLibrary("");
         #elif defined(EX_WINDOWS)
-        ExLoadLibrary("");
+        ExLoadLibrary(EX_TEXT(""));
         #endif
 	}
 }
@@ -375,5 +376,5 @@ DECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void){
 }
 
 DECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void){
-    return "";
+    return EX_TEXT("");
 }

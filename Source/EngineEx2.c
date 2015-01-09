@@ -2,13 +2,12 @@
 #include"EngineAssembly.h"
 #ifdef EX_WINDOWS		// TODO solve
 #   include"System/Win32/wnd_common.h"
-#include<GL/GLU.h>
+#	include<GL/GLU.h>
+#include<GL/GL.h>
 #elif defined(EX_LINUX)
 #   include"System/Unix/unix_win.h"
 #endif
-#ifndef CMD_LIB_H
-	//#   include<Cmd/cmdlib.h>
-#endif
+
 #include"System/elt_gl.h"
 #include"System/elt_cl.h"
 
@@ -54,7 +53,11 @@ extern DECLSPEC int ELTAPIENTRY ExGetHint(Enum e_enum){
 DECLSPEC int ELTAPIENTRY ExSetParameteri(Enum eflag, int value){
     switch(eflag){
         case 0:break;
+#if defined(EX_WINDOWS)
+
+#elif defined(EX_LINUX)
         case ELT_DISPLAY:display = value;break;
+#endif
         default:break;
     }
 
