@@ -85,16 +85,16 @@ DECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms){
 
 DECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void){/*TODO fix high res-resolution*/
 #ifdef EX_WINDOWS
-	return (timeGetTime() - elt_time);
+	return (timeGetTime() - elt_time);  /*  return in milliseconds   */
 #elif defined(EX_LINUX)
 	return (clock() - elt_time);
 #endif
 }
-DECLSPEC long ELTAPIENTRY ExGetHiResTime(void){
+DECLSPEC long int ELTAPIENTRY ExGetHiResTime(void){
     #ifdef EX_WINDOWS
     #elif defined(EX_LINUX)
     struct timespec t_spec;
     clock_gettime(CLOCK_MONOTONIC, &t_spec);
-    return t_spec.tv_nsec;
+    return t_spec.tv_nsec;  /*  return time in nano seconds*/
     #endif // EX_WINDOWS
 }

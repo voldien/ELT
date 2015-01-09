@@ -47,9 +47,15 @@ extern DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine ca
 */
 extern DECLSPEC Boolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id);
 /**
-	Delay current thread.
+	Delay current thread in milliseconds.
 */
 extern DECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms);
+
+/**
+	Delay current thread in nano seconds.
+*/
+extern DECLSPEC void ELTAPIENTRY ExDelay2(Uint32 nano_sec);
+
 /**
 	Get performance counter
 */
@@ -65,9 +71,13 @@ extern DECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void);
 /**
 	Get numbers Ticks sense ELT_TIMER was initialize
 */
-extern DECLSPEC long ELTAPIENTRY ExGetHiResTime(void);
+extern DECLSPEC long int ELTAPIENTRY ExGetHiResTime(void);
 
+/**
+    Get in seconds in float. where 1.0 is a second.
+*/
 #define ExGetSecondsf ((float)ExGetTicks() / (float)EX_TICKS_PER_SECOND)
+
 
 #ifdef  __cplusplus	// C++ Environment
 }

@@ -8,7 +8,8 @@
 
 #endif
 
-
+/**
+*/
 DECLSPEC HANDLE ELTAPIENTRY ExLoadFunction(HANDLE handle,const char* pProcName){
 #ifdef EX_WINDOWS
 	return GetProcAddress((HMODULE)handle,pProcName);
@@ -16,6 +17,7 @@ DECLSPEC HANDLE ELTAPIENTRY ExLoadFunction(HANDLE handle,const char* pProcName){
 	return dlsym(handle,pProcName);
 #endif
 }
+
 DECLSPEC HANDLE ELTAPIENTRY ExLoadObject(const ExChar* sofile){
 	HANDLE handle;
 #ifdef EX_WINDOWS

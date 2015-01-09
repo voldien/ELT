@@ -107,8 +107,8 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 		ExCreateOpenGLES(window);
 	}
 	/**
-		//	create window for directX.
-		//	not recommended. because ELT won't be designed for handling DirectX
+		//	Create window for directX.
+		//	not recommended. because ELT won't be designed for handling DirectX because of a reason
 		//	Instead its recommend to create the directX context yourself.
 		//	however ELT support DirectX 9 context initialization
 	*/

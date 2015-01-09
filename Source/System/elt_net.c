@@ -64,7 +64,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
     serv_addr.sin_addr.s_addr = inet_addr(ip);
     serv_addr.sin_port = htons(port);
     if(bind(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0){
-        //fprintf(stderr,strerror(errno));
+        fprintf(stderr,strerror(errno));
         //return -1;
     }
 

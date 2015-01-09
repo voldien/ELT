@@ -8,7 +8,7 @@
     #pragma comment(lib, "gdi32.lib")
     #include<EGL/egl.h>
     #include<GL/glext.h>
-    #define GL_GET_PROC(x)   wglGetProcAddress( ( x ) )         /*  get opengl function process address */
+    #define GL_GET_PROC(x)   wglGetProcAddress( ( x ) )         /*  get OpenGL function process address */
 #elif defined(EX_LINUX)
     #include<X11/extensions/Xrender.h>
     #include<X11/Xatom.h>
@@ -16,24 +16,28 @@
     #include<EGL/egl.h>
     #include<GL/glx.h>
     #include<GL/glxext.h>
-    #define GL_GET_PROC(x) glXGetProcAddress( ( x ) )           /*  get opengl function process address */
+    #define GL_GET_PROC(x) glXGetProcAddress( ( x ) )           /*  get OpenGL function process address */
 #elif defined(EX_ANDROID)
 	#ifdef GL_ES_VERSION_2_0
         #include<GLES/gl2.h>
         #include<GLES/gl2ext.h>
         #include<GLES/gl2platform.h>
 	#endif
-#define GL_GET_PROC(x) (x)                                      /*  get opengl function process address */
+#define GL_GET_PROC(x) (x)                                      /*  get OpenGL function process address */
 #endif
 #include<GL/glu.h>
 
-/*
-	// OpenGL Error
+#define ExDevGLPrint(pFormat)	printf(pFormat EX_DEVELOP_ERROR_LOG,glGetError(),glewGetErrorString(glGetError()), __FILE__,__LINE__, EX_FUNCDNAME);
+#define ExDevGLPrintc(pFormat,color)	{Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat EX_DEVELOP_ERROR_LOG,glGetError(),glewGetString(glGetError()),__LINE__, __FILE__,EX_FUNCNAME);ExSetConsoleColor(__colour__);}
+#define ExDevGLPrintf(pFormat,...)	{Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat  EX_DEVELOP_ERROR_LOG,__VA_ARGS__,glGetError(),glewGetString(glGetError()),LINE__, __FILE__,EX_FUNCNAME);ExSetConsoleColor(__colour__);}
+#define ExDevGLPrintfc(pFormat,color,...){Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat EX_DEVELOP_ERROR_LOG,__VA_ARGS__,glGetError(), glewGetString(glGetError()), __LINE__, __FILE__,EX_FUNCNAME	);ExSetConsoleColor(__colour__);}
+/**
+	OpenGL Error
 */
 #define ExIsGLError(x)  { if( ( x ) <= 0 ){ ExDevGLPrintc("Error",EX_CONSOLE_RED); } }
 
-/*
-    // GPU Vendors constant of.
+/**
+    GPU Vendors constant of.
 */
 #define EX_GPU_UNKNOWN 0x0
 #define EX_GPU_NVIDIA 0x1
@@ -303,7 +307,7 @@ static OpenGLContext create_temp_gl_context(HWND window){
 	}
 	return gl_context;
 }
-/*
+/**
     Generate a temporarily window for creating the extension window.
 */
 static int create_temp_gl_win(OpenGLContext* pglc_context){
@@ -336,7 +340,7 @@ static int create_temp_gl_win(OpenGLContext* pglc_context){
     return window;
 }
 
-/*
+/**
 =================================00
             LINUX GL Impl
 =================================00
@@ -464,7 +468,8 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 
 	}
 #elif defined(EX_ANDROID)
-	if(erenderinflag & EX_OPENGL){
+
+	if(erenderinflag & EX_OPENGL){  /* as for today 2015 -01 -09 must devices on android don't support OpenGL TODO:solve in future*/
 
 	}
 	else if(erenderingflag & EX_OPENGLES){
@@ -629,6 +634,9 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 	if(!glXIsDirect(display, glc))
         fprintf(stderr,"Indirect GLX rendering context obtained\n");
 	return glc;
+#elif defined(EX_ANDROID)
+
+    return glc;
 #endif
 }
 
@@ -718,8 +726,11 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
     typedef void (*glXSwapIntervalEXTProc)(Display*, GLXDrawable drawable, int intervale);
     glXSwapIntervalEXTProc glXSwapIntervalEXT = (glXSwapIntervalEXTProc)GL_GET_PROC((const GLubyte*)"glXSwapIntervalEXT");
     glXSwapIntervalEXT(display, (GLXDrawable)ExGetCurrentGLDC(), 0);
-#endif
+#elif defined(EX_ANDROID)
 
+#endif
+#endif
+    int sampleSupport;
 
 
 	// depth
@@ -731,12 +742,18 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
 		glEnable(GL_ALPHA_TEST);
 	else glDisable(GL_ALPHA_TEST);
 
+
+    if(engineDescription.sample[0]){
+        glEnable(GL_MULTISAMPLE_ARB);
+        glGetIntegerv(GL_SAMPLE_BUFFERS,&sampleSupport);
+        if(sampleSupport){}
+    }
 //if(engineDescription.EngineFlag & ENGINE_SUPPORT_PRIMITIV_SAMPLE){
 //
 //	Int32 sampleSupport;
 //	glGetIntegerv(GL_SAMPLE_BUFFERS,&sampleSupport);
 //	if(sampleSupport)
-//		glEnable(GL_MULTISAMPLE_ARB);
+//
 //}
 //else{ glDisable(GL_MULTISAMPLE_ARB);}
 
@@ -752,13 +769,12 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_FRONT);
 	glFrontFace(GL_CW);
-	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 	glClearColor(0.0f,0.0f,0.0f,1.0f);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-#endif
+
 }
 
 DECLSPEC Boolean ELTAPIENTRY ExDestroyContext(WindowContext drawable, OpenGLContext glc){
@@ -779,6 +795,7 @@ DECLSPEC Boolean ELTAPIENTRY ExDestroyContext(WindowContext drawable, OpenGLCont
 	glXDestroyContext(display,glc);
 	return hr;
 #elif defined(EX_ANDROID)
+    return eglDestroyContext(glc);
 
 #endif
 }
@@ -898,8 +915,7 @@ DECLSPEC Boolean ELTAPIENTRY ExGLFullScreen(Boolean cdsfullscreen, ExWin window,
 
 
 	return TRUE;
-#elif defined(EX_MAC)
-
+#elif defined(EX_ANDROID)
 
 
 	return TRUE;
@@ -939,6 +955,8 @@ DECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window,Enum ienum){
 
     XSetWMProperties(display,window, &textprop, &textprop, NULL, 0, &hints,  startup_state, NULL );
     XFree(startup_state);
+#elif defined(EX_ANDROID)
+
 #endif
 }
 
@@ -947,7 +965,12 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void){
 	return (Uint32)(atof((const char*)glGetString(GL_SHADING_LANGUAGE_VERSION)) * 100.0f);
 }
 DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(void){
-	return (Uint32)(atof((const char*)glGetString(GL_VERSION)) * 100.0f);
+    if(!ExGetCurrentOpenGLContext()){
+
+    }
+    else{
+        return (Uint32)(atof((const char*)glGetString(GL_VERSION)) * 100.0f);
+    }
 }
 //TODO see if it can be obtain before creating the context.
 DECLSPEC Int32 ELTAPIENTRY ExIsVendorAMD(void){

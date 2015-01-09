@@ -165,20 +165,20 @@ DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(void* context,void* param_value,En
             ciErrNum = clGetContextInfo(context, CL_CONTEXT_PROPERTIES,sizeof(cl_context_properties),param_value,&size);
             break;
         case CL_CONTEXT_REFERENCE_COUNT:
-
+            //ciErrNum = clGetContextInfo(context, CL_CONTEXT_REFERENCE_COUNT,sizeof(cl_reference),param_value,&size);
             break;
         #ifdef EX_WINDOWS
         case CL_CONTEXT_D3D10_PREFER_SHARED_RESOURCES_KHR:
-
+            ciErrNum = clGetContextInfo(context, CL_CONTEXT_REFERENCE_COUNT,sizeof(cl_reference),param_value,&size);
             break;
         #endif
         case CL_CONTEXT_PLATFORM:
             ciErrNum = clGetContextInfo(context, CL_CONTEXT_PLATFORM,sizeof(cl_platform_id),param_value,&size);
             break;
+        default:break;
     }
 
     return ciErrNum;
-
 }
 
 DECLSPEC void ELTAPIENTRY ExReleaseCL(void){
@@ -195,9 +195,10 @@ DECLSPEC void ELTAPIENTRY ExReleaseCLContext(void* context){
 */
 static int ExCLHighestFLOPS(Int32* clSelectedPlatformID){
     int i,ciErrNum;
+    unsigned int num_device;
     unsigned long int n_flops;
 
-    //clGetDeviceIDs(clPlatformIDs[i],CL_DEVICE_TYPE_ALL,0,0,&num_device);
+    clGetDeviceIDs(clSelectedPlatformID[i],CL_DEVICE_TYPE_ALL,0,0,&num_device);
 
    // ciErrNum = clGetDeviceIDs(clPlatformIDs[i], CL_DEVICE_AVAILABLE,num_device,&device[0],NULL);
     //for(i = 0; i < num_device;i++){
@@ -310,6 +311,8 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum fl
 }
 
 DECLSPEC void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, void* p_cl_device_id){
+#ifdef EX_DEBUG
+
     if(!p_cl_device_id)
         return;
     char device_string[1024];
@@ -535,6 +538,7 @@ DECLSPEC void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, void* p_cl_device_id)
      ExPrintf("CHAR %u, SHORT %u, INT %u, LONG %u, FLOAT %u, DOUBLE %u\n\n\n",
            vec_width[0], vec_width[1], vec_width[2], vec_width[3], vec_width[4], vec_width[5]);
 
+#endif
 }
 
 DECLSPEC Int32 ELTAPIENTRY ExGetClDevCap(void* device){

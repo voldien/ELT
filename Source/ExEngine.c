@@ -23,7 +23,7 @@
 #   endif
 
 /**
-    // Delay load of .dll file which might not be needed
+    Delay load of .dll file which might not be needed
 */
     #pragma comment(linker,"/DELAYLOAD:avcodec-55.dll")
     #pragma comment(linker,"/DELAY:UNLOAD")
@@ -62,7 +62,7 @@
 #endif
 
 #ifdef EX_WINDOWS
-HINSTANCE hdllMoudle = GetModuleHandle(EX_NULL);
+HINSTANCE hdllMoudle;
 
 BOOL WINAPI DllMain(
 _In_  HINSTANCE hinstDLL,
@@ -87,7 +87,7 @@ _In_  HINSTANCE hinstDLL,
 #endif
 
 
-extern unsigned int elt_time;
+extern Uint64 elt_time; /*  high accuracy   */
 
 
 /**

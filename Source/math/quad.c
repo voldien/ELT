@@ -42,22 +42,22 @@ void quad_divi_quad(const float lf_quad[4],const float rf_quad[4], float out_qua
 }
 
 
-/*
+
 extern void quad_direction(float lf_quad[4], vec3_t dir){
 	float quad[4];
 	float quad_t[4];
 	float quad_t2[4];
 	vec3_t forward = NVEC3_UNIT_Z;
-	mulit_quat_vec3(lf_quad,forward,quad_t2);
+	//mulit_quat_vec3(lf_quad,forward,quad_t2);
 	QuaternionCopy(lf_quad,quad);
 	//quat_multiplyVec3(lf_quad,forward,dir);
 	//return;
 	QuaternionInverse(quad);
-	multi_quad(quad_t2,quad,quad_t);
+	//multi_quad(quad_t2,quad,quad_t);
 	dir[0] = quad_t[QX];
 	dir[1] = quad_t[QY];
 	dir[2] = quad_t[QZ];
-}
+}/*
 extern void quad_directionv(float lf_quad[4], vec3_t dir,const vec3_t _dir){
 	float quad[4];
 	float quad_t[4];

@@ -53,6 +53,8 @@ DECLSPEC ExWin ELTAPIENTRY ExGetKeyboardFocus(void){
 	int revert_to_return;
 	XGetInputFocus(display,&window,&revert_to_return);
 	return window;
+#elif defined(EX_ANDROID)
+
 #elif defined(EX_MAC)
     return NULL;
 #endif

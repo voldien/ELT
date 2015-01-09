@@ -38,8 +38,8 @@ DECLSPEC ExCursor ELTAPIENTRY ExCreateCursor(const Uint8* data, const Uint8* mas
     return XCreatePixmap(display, 0, width,height,8);
 #endif
 }
-/*
-	// Create System Cursor
+/**
+	Create System Cursor
 */
 DECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(Enum system_id){
 	ExChar* data;
@@ -214,21 +214,6 @@ DECLSPEC void ELTAPIENTRY ExDisconnectMouse(void){
 	//ExIsHError(hMouseDevice->Unacquire());
 #endif
 	return;
-}
-DECLSPEC void ELTAPIENTRY ExMouseShutDown(void){
-	ERESULT hr;
-#if defined(EX_WINDOWS)
-	/*if(m_MouseHandler){
-		if(FAILED(hr = hMouseDevice->Release())){
-			wExDevPrintf(TEXT("Failed ShutDown Mouse Device : %s"),ExGetHResultErrorMessage(hr));
-		}
-		free(m_MouseHandler);
-		m_MouseHandler = EX_NULL;
-	}*/
-#elif defined(EX_LINUX)
-
-#endif
-	return ;
 }
 
 DECLSPEC const Int ELTAPIFASTENTRY ExGetMouseDeltaX(void){

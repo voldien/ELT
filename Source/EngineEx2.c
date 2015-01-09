@@ -41,11 +41,11 @@ extern DECLSPEC void ELTAPIENTRY ExSetHint(Enum e_enum, int value){
 */
 extern DECLSPEC int ELTAPIENTRY ExGetHint(Enum e_enum){
     switch(e_enum){
-        /*case GL_DEPTH_BITS: engineDescription.DepthBits = value;break;
-        case GL_STENCIL_BITS:engineDescription.StencilBits = value;break;
-        case GL_ALPHA:engineDescription.alphaChannel = value;break;
-        case GL_SAMPLES:engineDescription.sample[0] = CLAMP(value,0,UCHAR_MAX);break;
-        */
+        case GL_DEPTH_BITS: return engineDescription.DepthBits;
+        case GL_STENCIL_BITS: return engineDescription.StencilBits;
+        case GL_ALPHA:return engineDescription.alphaChannel;
+        case GL_SAMPLES:return engineDescription.sample[0];
+
         default:return 0;
     }
 }
