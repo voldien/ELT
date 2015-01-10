@@ -154,7 +154,7 @@ DECLSPEC void ELTAPIENTRY ExKeyBoardShutDown(void){
 	return;
 }
 
-DECLSPEC Boolean ELTAPIFASTENTRY ExAnyKey(void){
+DECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKey(void){
 	/*for(Uint32 x = 0; x < CHAR_MAX; x++){
 		if(m_KeyBoard->KeyBoardState[x] != 0)
 			return TRUE;
@@ -163,7 +163,7 @@ DECLSPEC Boolean ELTAPIFASTENTRY ExAnyKey(void){
 	}*/
 	return FALSE;
 }
-DECLSPEC Boolean ELTAPIFASTENTRY ExAnyKeyDown(void){
+DECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void){
 	/*for(Uint32 x = 0; x < 255; x++){
 		if(m_KeyBoard->KeyBoardState[x] != 0)
 			return TRUE;
@@ -172,7 +172,7 @@ DECLSPEC Boolean ELTAPIFASTENTRY ExAnyKeyDown(void){
 	}*/
 	return FALSE;
 }
-DECLSPEC Boolean ELTAPIFASTENTRY ExIsKey(const Uint32 keyCode){
+DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(const Uint32 keyCode){
 #if defined(EX_WINDOWS)
 	return GetAsyncKeyState(keyCode);
 	ExUpdateKeyboard();
@@ -181,7 +181,7 @@ DECLSPEC Boolean ELTAPIFASTENTRY ExIsKey(const Uint32 keyCode){
 	return 0;
 #endif
 }
-DECLSPEC Boolean ELTAPIFASTENTRY ExIsKeyDown(const Uint32 keyCode){
+DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(const Uint32 keyCode){
 #if defined(EX_WINDOWS)
 	return GetAsyncKeyState(keyCode);
 	return (KeyBoardState[_index][keyCode] & 0x80) != FALSE ? TRUE : FALSE;
@@ -189,7 +189,7 @@ DECLSPEC Boolean ELTAPIFASTENTRY ExIsKeyDown(const Uint32 keyCode){
 	return 0;
 #endif
 }
-DECLSPEC Boolean ELTAPIFASTENTRY ExIsKeyUp(const Uint32 keyCode){
+DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyUp(const Uint32 keyCode){
 #if defined(EX_WINDOWS)
 	return GetAsyncKeyState(keyCode);
 	if(!((KeyBoardState[_index][keyCode]) & 0x80))

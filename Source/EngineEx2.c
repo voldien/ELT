@@ -19,7 +19,7 @@ EngineDescription engineDescription = {0};
 
 DECLSPEC void ELTAPIENTRY AssignDescription(const EngineDescription* p_engineDescription){memcpy(&engineDescription, p_engineDescription,sizeof(EngineDescription));}
 DECLSPEC const Uint64 ELTAPIENTRY ExGetEngineFlag(void){	return engineDescription.EngineFlag;}
-DECLSPEC Boolean ELTAPIENTRY ExIsEngineState(const ULLong engineBitState){ return (engineDescription.EngineFlag & engineBitState) != 0 ? TRUE : FALSE;}
+DECLSPEC ExBoolean ELTAPIENTRY ExIsEngineState(const ULLong engineBitState){ return (engineDescription.EngineFlag & engineBitState) != 0 ? TRUE : FALSE;}
 DECLSPEC EngineDescription ELTAPIENTRY ExGetEngineDescription(void){return engineDescription;}
 DECLSPEC EngineDescription* ELTAPIENTRY ExGetEngineDescriptionPointer(void){return ((EngineDescription*)&engineDescription);}
 

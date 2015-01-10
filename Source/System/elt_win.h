@@ -60,7 +60,7 @@ extern DECLSPEC void ELTAPIENTRY ExSetWindowMode(ExWin window, Enum mode);
 /*
     // Destroy Window
 */
-extern DECLSPEC Boolean ELTAPIENTRY ExDestroyWindow(ExWin window);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExDestroyWindow(ExWin window);
 
 /*
 	// Set Window Title
@@ -133,7 +133,7 @@ extern DECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window);
 //	#return if PeekMessage was success.
 // PeekMessage : http://msdn.microsoft.com/en-us/library/windows/desktop/ms644943(v=vs.85).aspx
 */
-extern DECLSPEC Boolean ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event);
 
 
 

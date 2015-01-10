@@ -63,7 +63,7 @@ extern "C"{
 /*
 	//Capture mouse
 */
-extern DECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(Boolean enabled);
+extern DECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(ExBoolean enabled);
 /*
 	// clip cursor onto specificed rect
 */
@@ -79,11 +79,11 @@ extern DECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(Enum system_id);
 /*
 	// Free cursor
 */
-extern DECLSPEC Boolean ELTAPIENTRY ExFreeCursor(ExCursor cursor);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExFreeCursor(ExCursor cursor);
 /*
 	// Set Cursor
 */
-extern DECLSPEC Boolean ELTAPIENTRY ExSetCursor(ExCursor cursor);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExSetCursor(ExCursor cursor);
 /*
 	// Get Cursor
 */
@@ -108,7 +108,7 @@ extern DECLSPEC void ELTAPIENTRY ExWarpMouseGlobal(Int32 x, Int32 y);
 */
 extern DECLSPEC void ELTAPIENTRY ExWarpMouseInWindow(ExWin win,Int32 x, Int32 y);
 
-extern DECLSPEC Boolean ELTAPIENTRY ExShowCursor(Boolean enabled);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExShowCursor(ExBoolean enabled);
 
 
 
@@ -129,11 +129,11 @@ extern DECLSPEC void ELTAPIENTRY ExUpdateMouse(void);
 extern DECLSPEC void ELTAPIENTRY ExMouseShutDown(void);
 
 //---------------------------------------------------
-extern DECLSPEC const Boolean ELTAPIFASTENTRY ExGetButton(Uint32 keyCode);
+extern DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButton(Uint32 keyCode);
 //---------------------------------------------------
-extern DECLSPEC const Boolean ELTAPIFASTENTRY ExGetButtonDown(Uint32 keyCode);
+extern DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButtonDown(Uint32 keyCode);
 //---------------------------------------------------
-extern DECLSPEC const Boolean ELTAPIFASTENTRY ExGetButtonUp(Uint32 keyCode);
+extern DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButtonUp(Uint32 keyCode);
 
 extern DECLSPEC const Int ELTAPIFASTENTRY ExGetMouseDeltaX(void);
 extern DECLSPEC const Int ELTAPIFASTENTRY ExGetMouseDeltaY(void);

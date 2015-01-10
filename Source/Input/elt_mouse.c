@@ -10,11 +10,11 @@
 #endif
 
 
-DECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(Boolean enabled){
+DECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(ExBoolean enabled){
 #ifdef EX_WINDOWS
 	return (Int32)SetCapture(enabled ? GetFocus() : EX_NULL);
 	#elif defined(EX_LINUX)
-	return XGrabPointer(display, 0,false,0,GrabModeSync, GrabModeSync, None, None, CurrentTime);
+	return XGrabPointer(display, 0,False,0,GrabModeSync, GrabModeSync, None, None, CurrentTime);
 #endif
 	return TRUE;
 }
@@ -71,8 +71,8 @@ DECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(Enum system_id){
 #endif
 }
 
-DECLSPEC Boolean ELTAPIENTRY ExFreeCursor(ExCursor cursor){
-	Boolean destroyed;
+DECLSPEC ExBoolean ELTAPIENTRY ExFreeCursor(ExCursor cursor){
+	ExBoolean destroyed;
 #ifdef EX_WINDOWS
 	ExIsWinError(!(destroyed = DestroyCursor(cursor)));
 #elif defined(EX_LINUX)
@@ -81,7 +81,7 @@ DECLSPEC Boolean ELTAPIENTRY ExFreeCursor(ExCursor cursor){
 	return destroyed;
 }
 
-DECLSPEC Boolean ELTAPIENTRY ExSetCursor(ExCursor cursor){
+DECLSPEC ExBoolean ELTAPIENTRY ExSetCursor(ExCursor cursor){
 #if defined(EX_WINDOWS)
 	return (SetCursor(cursor) == cursor);
 #elif defined(EX_LINUX)
@@ -112,7 +112,7 @@ DECLSPEC Uint32 ELTAPIENTRY ExGetMouseState(Int32* x, Int32* y){
 #endif
 }
 
-DECLSPEC Boolean ELTAPIENTRY ExShowCursor(Boolean enabled){
+DECLSPEC ExBoolean ELTAPIENTRY ExShowCursor(ExBoolean enabled){
 #ifdef EX_WINDOWS
 	return ShowCursor(enabled);
 #elif defined(EX_LINUX)
@@ -242,19 +242,19 @@ DECLSPEC const Int ELTAPIFASTENTRY  ExGetMouseYCoord(void){
 	return 0;
 }
 
-DECLSPEC const Boolean ELTAPIFASTENTRY ExGetButton(Uint32 keyCode){
+DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButton(Uint32 keyCode){
 #ifdef EX_WINDOWS
 	return (MouseState[0].rgbButtons[keyCode] & 0x80) ? TRUE : FALSE;
 #endif
 	return 0;
 }
-DECLSPEC const Boolean ELTAPIFASTENTRY ExGetButtonDown(Uint32 keyCode){
+DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButtonDown(Uint32 keyCode){
 #ifdef EX_WINDOWS
 	return (MouseState[0].rgbButtons[keyCode] & 0x80) ? TRUE : FALSE;
 #endif
 	return 0;
 }
-DECLSPEC const Boolean ELTAPIFASTENTRY ExGetButtonUp(Uint32 keyCode){
+DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButtonUp(Uint32 keyCode){
 #ifdef EX_WINDOWS
 	return !(MouseState[0].rgbButtons[keyCode]  & 0x80) &&
 		(MouseState[1].rgbButtons[keyCode]  & 0x80) != FALSE ? TRUE : FALSE;

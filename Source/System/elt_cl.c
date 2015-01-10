@@ -106,16 +106,21 @@ DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowCont
 			cdDevices = (cl_device_id*)malloc(sizeof(cl_device_id) *uiDevCount);
 			ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_CPU, uiDevCount, cdDevices, NULL);
 		}
+
+		//if(clGetDeviceInfo(cdDevices[0],CL_DEVICE_EXTENSIONS,))
+
 		// print developing info of the CL
-		ExPrintCLDevInfo(0, cdDevices[uiDeviceUsed]);
+		ExPrintCLDevInfo(0, &cdDevices[uiDeviceUsed]);
 	    uiDeviceUsed = CLAMP(uiDeviceUsed, 0, uiDevCount - 1);
 
 	#ifdef EX_WINDOWS
 		//  get Device Context
-		if(window == NULL)window = ExGetCurrentGLDC();
+		if(!window)window = ExGetCurrentGLDC();
 	#endif
 
-		// Context Properties
+		/**
+            Context Properties
+		*/
 		cl_context_properties props[7] = {
 	        CL_GL_CONTEXT_KHR, (cl_context_properties)glc,
 	#ifdef EX_WINDOWS
@@ -137,7 +142,7 @@ DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowCont
 		else if(erenderingFlag & EX_OPENCL){props[2] = CL_CGL_SHAREGROUP_KHR;}
 		else if(erenderingFlag & EX_OPENGLES){props[2] = CL_EGL_DISPLAY_KHR;}
 
-		if(!(hClContext = clCreateContext(props,1, &cdDevices[uiDeviceUsed],0,0,&ciErrNum))){
+		if(!(hClContext = clCreateContext(props,1, &cdDevices[0],NULL,NULL,&ciErrNum))){
 			ExDevPrint("Failed to Create OpenCL Context based on the OpenGL Context");
 		}
 
@@ -176,6 +181,20 @@ DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(void* context,void* param_value,En
         case CL_CONTEXT_PLATFORM:
             ciErrNum = clGetContextInfo((cl_context)context, CL_CONTEXT_PLATFORM,sizeof(cl_platform_id),param_value,&size);
             break;
+        case CL_CURRENT_DEVICE_FOR_GL_CONTEXT_KHR:{
+            void* con_prop;
+            void* func = clGetExtensionFunctionAddress("clGetGLContextInfoKHR");
+            ExQueryCLContext(context,&con_prop,CL_CONTEXT_PROPERTIES);
+
+            //ciErrNum = ((clGetGLContextInfoKHR*)(func))(con_prop,CL_CURRENT_DEVICE_FOR_GL_CONTEXT_KHR,sizeof(void*),param_value,&size);
+            }
+            break;
+        case CL_DEVICES_FOR_GL_CONTEXT_KHR:{
+            void* con_prop;
+            ExQueryCLContext(context,&con_prop,CL_CONTEXT_PROPERTIES);
+
+            //ciErrNum = clGetGLContextInfoKHR(con_prop,CL_DEVICES_FOR_GL_CONTEXT_KHR,sizeof(void*),param_value,&size);
+            }break;
         default:break;
     }
 
@@ -317,7 +336,7 @@ DECLSPEC void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, void* p_cl_device_id)
     if(!p_cl_device_id)
         return;
     char device_string[1024];
-    Boolean nv_device_attibute_query = FALSE;
+    int nv_device_attibute_query = FALSE;
 	cl_device_id device = *(cl_device_id*)p_cl_device_id;
     // CL_DEVICE_NAME
     clGetDeviceInfo(device, CL_DEVICE_NAME, sizeof(device_string), &device_string, EX_NULL);
@@ -544,7 +563,7 @@ DECLSPEC void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, void* p_cl_device_id)
 
 DECLSPEC Int32 ELTAPIENTRY ExGetClDevCap(void* device){
     char cDevString[1024];
-    Boolean bDevAttributeQuery = FALSE;
+    int bDevAttributeQuery = FALSE;
     int iDevArch = -1;
 	cl_int iComputeCapMajor, iComputeCapMinor;
 

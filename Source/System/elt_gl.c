@@ -777,8 +777,8 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
 
 }
 
-DECLSPEC Boolean ELTAPIENTRY ExDestroyContext(WindowContext drawable, OpenGLContext glc){
-	Boolean hr;
+DECLSPEC ExBoolean ELTAPIENTRY ExDestroyContext(WindowContext drawable, OpenGLContext glc){
+	ExBoolean hr;
 	// if hDC is null
 	if(!drawable)
 		drawable = ExGetCurrentGLDC();
@@ -801,7 +801,7 @@ DECLSPEC Boolean ELTAPIENTRY ExDestroyContext(WindowContext drawable, OpenGLCont
 }
 
 
-DECLSPEC Boolean ELTAPIENTRY ExGLFullScreen(Boolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes){
+DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes){
 #ifdef EX_WINDOWS
 	RECT rect;
 	DEVMODE dm;

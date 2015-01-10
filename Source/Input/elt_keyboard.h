@@ -57,17 +57,17 @@ extern DECLSPEC Keycode ELTAPIENTRY ExGetModeState(void);
 /**
 	Is any key pressed
 */
-extern DECLSPEC Boolean ELTAPIFASTENTRY ExAnyKey(void);
+extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKey(void);
 /**
 	//
 */
-extern DECLSPEC Boolean ELTAPIFASTENTRY ExAnyKeyDown(void);
+extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void);
 /**
 	//
 */
-extern DECLSPEC Boolean ELTAPIFASTENTRY ExIsKey(const Uint32 keyCode);
-extern DECLSPEC Boolean ELTAPIFASTENTRY ExIsKeyDown(const Uint32 keyCode);
-extern DECLSPEC Boolean ELTAPIFASTENTRY ExIsKeyUp(const Uint32 keyCode);
+extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(const Uint32 keyCode);
+extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(const Uint32 keyCode);
+extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyUp(const Uint32 keyCode);
 
 
 

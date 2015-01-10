@@ -150,7 +150,7 @@ static int ctxErrorHandler(Display* dpy, XErrorEvent* error){
 }
 #endif
 
-DECLSPEC Boolean ELTAPIENTRY ExInitErrorHandler(void){
+DECLSPEC ExBoolean ELTAPIENTRY ExInitErrorHandler(void){
 #if defined(EX_LINUX)
 	if(XSetErrorHandler(ctxErrorHandler))
         ExDevPrintf("error");
@@ -444,7 +444,7 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 	return;
 }
 
-DECLSPEC Boolean ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcallback signal_callback){
+DECLSPEC ExBoolean ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcallback signal_callback){
 	Int32 hr;
 	hr = (Int32)signal(isignal,signal_callback);
 	ExIsError(hr != (Int32)SIG_ERR);

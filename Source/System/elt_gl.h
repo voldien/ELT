@@ -93,12 +93,12 @@ extern DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedes
 /**
 	Destroy OpenGL Context
 */
-extern DECLSPEC Boolean ELTAPIENTRY ExDestroyContext(WindowContext drawable, OpenGLContext glc);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExDestroyContext(WindowContext drawable, OpenGLContext glc);
 
 /**
 	Destroy and release current OpenGL Context attached to current thread
 */
-extern DECLSPEC Boolean ELTAPIENTRY ExDestroyCurrentContext(void);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExDestroyCurrentContext(void);
 
 
 
@@ -109,7 +109,7 @@ extern DECLSPEC void ELTAPIENTRY ExInitOpenGL(ExWin hwnd, EngineDescription* eng
 /**
 	Set Window associated with OpenGL context fullScreen.
 */
-extern DECLSPEC Boolean ELTAPIENTRY ExGLFullScreen(Boolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes);
 
 
 #define EX_GLTRANSPARENT_ENABLE 0x1

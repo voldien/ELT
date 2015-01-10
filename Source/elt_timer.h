@@ -45,7 +45,7 @@ extern DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine ca
 /**
 	Remove timer thread routine
 */
-extern DECLSPEC Boolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id);
 /**
 	Delay current thread in milliseconds.
 */

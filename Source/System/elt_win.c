@@ -211,7 +211,7 @@ DECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin window){
 }
 
 
-DECLSPEC Boolean ELTAPIENTRY ExDestroyWindow(ExWin window){
+DECLSPEC ExBoolean ELTAPIENTRY ExDestroyWindow(ExWin window){
 #if defined(EX_WINDOWS)
 	return DestroyWindow(window);
 #elif defined(EX_LINUX)
@@ -370,7 +370,7 @@ DECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, HANDLE hIcon){
 #endif
 }
 
-DECLSPEC Boolean ELTAPIENTRY ExPollWindowEvent(ExWin hWnd, ExWindowEvent* event){
+DECLSPEC ExBoolean ELTAPIENTRY ExPollWindowEvent(ExWin hWnd, ExWindowEvent* event){
 #ifdef EX_WINDOWS
 	//event->event = 0;
 	// peek Message for given window handle.

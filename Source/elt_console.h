@@ -41,19 +41,19 @@ extern DECLSPEC ExWin ELTAPIENTRY ExGetConsoleWindow(void);
 /*
 	// Set Console size
 */
-extern DECLSPEC Boolean ELTAPIENTRY ExSetConsoleSize(HANDLE handle, const Int32* size);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExSetConsoleSize(HANDLE handle, const Int32* size);
 /*
 	// Get Console size
 */
-extern DECLSPEC Boolean ELTAPIENTRY ExGetConsoleSize(HANDLE handle, Int32* size);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExGetConsoleSize(HANDLE handle, Int32* size);
 /*
 	// Set Cursor Position
 */
-extern DECLSPEC Boolean ELTAPIENTRY ExSetConsoleCursorPos(HANDLE handle, Coord* coord);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExSetConsoleCursorPos(HANDLE handle, Coord* coord);
 /*
 	// Get Cursor position
 */
-extern DECLSPEC Boolean ELTAPIENTRY ExGetConsoleCursorPos(HANDLE handle, Coord* coord);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExGetConsoleCursorPos(HANDLE handle, Coord* coord);
 
 extern DECLSPEC ERESULT ELTAPIENTRY InsertConsoleInHWND(ExWin hwnd);
 

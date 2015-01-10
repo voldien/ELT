@@ -20,11 +20,11 @@ extern DECLSPEC ERESULT ELTAPIENTRY ExReadEngineConfig(const char* path, EngineD
 /* Write Config File */
 extern DECLSPEC ERESULT ELTAPIENTRY ExWriteEngineConfig(const char* path, EngineDescription* description);
 /* Set Data */
-extern DECLSPEC Boolean ELTAPIENTRY ExSetDataEngineConfig(char* ParameterType, char* ParameterInfo, EngineDescription* engineDescription);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExSetDataEngineConfig(char* ParameterType, char* ParameterInfo, EngineDescription* engineDescription);
 /* Get Data */
 
 /**/
-extern DECLSPEC Boolean ELTAPIENTRY ExLoadEngineDesc(const char* path, EngineDescription* engineDescription);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExLoadEngineDesc(const char* path, EngineDescription* engineDescription);
 /**/
 extern DECLSPEC void ELTAPIENTRY ExSaveEngineDesc(const char* path, EngineDescription* engineDescription);
 

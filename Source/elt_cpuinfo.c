@@ -110,28 +110,28 @@ DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
 #endif
 }
 
-/*
-	// Has CPU Support For AVX (Advanced Vector Extension)
+/**
+	Has CPU Support For AVX (Advanced Vector Extension)
 */
-DECLSPEC Boolean ELTAPIENTRY ExHasAVX(void){
+DECLSPEC ExBoolean ELTAPIENTRY ExHasAVX(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	return (cpuInfo[2] >> 28) &  0x1;
 }
-DECLSPEC Boolean ELTAPIENTRY ExHasAVX2(void){
+DECLSPEC ExBoolean ELTAPIENTRY ExHasAVX2(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	return 0;
 }
 
-DECLSPEC Boolean ELTAPIENTRY ExHas3DNow(void){
+DECLSPEC ExBoolean ELTAPIENTRY ExHas3DNow(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,0x80000001);
 	if((cpuInfo[3] >> 30) & 0x1)return TRUE;
 	else return FALSE;
 }
 
-DECLSPEC Boolean ELTAPIENTRY ExHasMMX(void){
+DECLSPEC ExBoolean ELTAPIENTRY ExHasMMX(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	if((cpuInfo[3] >> 23) & 0x1)
@@ -152,7 +152,7 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void){
 #endif
 }
 
-DECLSPEC Boolean ELTAPIENTRY ExHasSSE(void){
+DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	if((cpuInfo[3] >> 25) & 0x1)
@@ -160,7 +160,7 @@ DECLSPEC Boolean ELTAPIENTRY ExHasSSE(void){
 	else
 		return FALSE;
 }
-DECLSPEC Boolean ELTAPIENTRY ExHasSSE2(void){
+DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE2(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	if((cpuInfo[3] >> 26) & 0x1)
@@ -168,7 +168,7 @@ DECLSPEC Boolean ELTAPIENTRY ExHasSSE2(void){
 	else
 		return FALSE;
 }
-DECLSPEC Boolean ELTAPIENTRY ExHasSSE3(void){
+DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE3(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	if((cpuInfo[2] >> 9) & 0x1)
@@ -176,7 +176,7 @@ DECLSPEC Boolean ELTAPIENTRY ExHasSSE3(void){
 	else
 		return FALSE;
 }
-DECLSPEC Boolean ELTAPIENTRY ExHasSSE41(void){
+DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE41(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	if((cpuInfo[2] >> 19) & 0x1)
@@ -184,7 +184,7 @@ DECLSPEC Boolean ELTAPIENTRY ExHasSSE41(void){
 	else
 		return FALSE;
 }
-DECLSPEC Boolean ELTAPIENTRY ExHasSSE42(void){
+DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	if((cpuInfo[2] >> 20) & 0x1)

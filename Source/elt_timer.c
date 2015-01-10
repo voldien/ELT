@@ -58,7 +58,7 @@ DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback,
 #endif
 
 }
-DECLSPEC Boolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id){
+DECLSPEC ExBoolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id){
 #ifdef EX_WINDOWS
 	Boolean error;
 	ExIsWinError(error = DeleteTimerQueueTimer(EX_NULL,(HANDLE)timer_id, EX_NULL));

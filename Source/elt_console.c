@@ -108,7 +108,7 @@ DECLSPEC ExWin ELTAPIENTRY ExGetConsoleWindow(void){
 #endif
 }
 
-DECLSPEC Boolean ELTAPIENTRY ExSetConsoleSize(HANDLE handle, const Int32* size){
+DECLSPEC ExBoolean ELTAPIENTRY ExSetConsoleSize(HANDLE handle, const Int32* size){
 #ifdef EX_WINDOWS
 
 	//ExSetWindowSize(
@@ -122,14 +122,14 @@ DECLSPEC Boolean ELTAPIENTRY ExSetConsoleSize(HANDLE handle, const Int32* size){
 }
 
 
-DECLSPEC Boolean ELTAPIENTRY ExSetConsoleCursorPos(HANDLE handle, Coord* coord){
+DECLSPEC ExBoolean ELTAPIENTRY ExSetConsoleCursorPos(HANDLE handle, Coord* coord){
 #ifdef EX_WINDOWS
 	return SetConsoleCursorPosition(handle, *(COORD*)coord);
 #elif defined(EX_LINUX)
 	return 0;
 #endif
 }
-DECLSPEC Boolean ELTAPIENTRY ExGetConsoleCursorPos(HANDLE handle, Coord* coord){
+DECLSPEC ExBoolean ELTAPIENTRY ExGetConsoleCursorPos(HANDLE handle, Coord* coord){
 #ifdef EX_WINDOWS
 	CONSOLE_SCREEN_BUFFER_INFO info;
 	GetConsoleScreenBufferInfo(handle,&info);
