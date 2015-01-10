@@ -150,7 +150,7 @@ DECLSPEC HMENU ELTAPIENTRY ExCreateMenuItemB(HMENU hpopupMenu, HBITMAP bitmap,  
 	return hpopupMenu;
 }
 
-DECLSPEC Boolean ELTAPIENTRY ExCreateMenuSeparator(HMENU hMenu){
+DECLSPEC ExBoolean ELTAPIENTRY ExCreateMenuSeparator(HMENU hMenu){
 	MENUITEMINFO menuInfo;
 	menuInfo.cbSize = sizeof(MENUITEMINFO);
 	menuInfo.fMask = MIIM_FTYPE;
@@ -509,7 +509,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateToolBar(ExWin parenthWnd){
     
     return hWndToolbar;
 }
-DECLSPEC Boolean ELTAPIENTRY ExAddToolBarTemplate(ExWin hWndToolbar, WCHAR* text, Uint32 templates,ExButtonPushed buttoncallback){
+DECLSPEC ExBoolean ELTAPIENTRY ExAddToolBarTemplate(ExWin hWndToolbar, WCHAR* text, Uint32 templates,ExButtonPushed buttoncallback){
 
     const int ImageListID    = 0;
     const int numButtons     = 1;

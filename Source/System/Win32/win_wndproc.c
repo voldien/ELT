@@ -23,7 +23,7 @@ DECLSPEC void ELTAPIENTRY WIN_EnableAltTab(void){
 }
 GUID WceusbshGUID = { 0x25dbce51, 0x6c8f, 0x4a72, 
                       0x8a,0x6d,0xb5,0x4c,0x2b,0x4f,0xc8,0x35 };
-DECLSPEC Boolean ELTAPIENTRY WIN_EnableDeviceNotification(ExWin hWnd){
+DECLSPEC ExBoolean ELTAPIENTRY WIN_EnableDeviceNotification(ExWin hWnd){
 	HDEVNOTIFY hDevNotify = 0;
 	DEV_BROADCAST_DEVICEINTERFACE  notificationFilter = {0};
 

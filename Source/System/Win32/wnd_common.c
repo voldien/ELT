@@ -49,7 +49,7 @@ BOOL CALLBACK EnumWindowsProc(_In_  ExWin hwnd,_In_  LPARAM lParam){
 	i.cbSize = sizeof(ALTTABINFO);
 	if(GetAltTabInfo (hwnd,-1,&i,0,0))
 		*((Uint32*)lParam) += 1;
-	//Boolean isVis = IsWindowVisible(hwnd);
+	//ExBoolean isVis = IsWindowVisible(hwnd);
 	//*(Uint*)lParam+= isVis;
 	return TRUE; 
 }
@@ -144,7 +144,7 @@ DECLSPEC char* ELTAPIENTRY ExConvertAscii(const WCHAR* wwchar){
 // http://forum.codecall.net/topic/63205-registry-operations-using-win32-part-1/
 #define ExOpenRegKey(hKey,directory,phKey) RegOpenKeyEx(hKey,directory,0, KEY_ALL_ACCESS, phKey)
 
-DECLSPEC Boolean ELTAPIENTRY ExExistRegKey(HKEY hKey, const ExChar* directory){
+DECLSPEC ExBoolean ELTAPIENTRY ExExistRegKey(HKEY hKey, const ExChar* directory){
 	return ExOpenRegKey(hKey,directory,NULL) == ERROR_SUCCESS ? TRUE : FALSE;
 }
 

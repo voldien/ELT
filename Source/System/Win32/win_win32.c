@@ -212,7 +212,7 @@ DECLSPEC Long ELTAPIENTRY ExGetWindowStyleEx(ExWin hwnd){
 }
 
 
-DECLSPEC Boolean ELTAPIENTRY ExGetWindowMessage(ExWin hWnd){
+DECLSPEC ExBoolean ELTAPIENTRY ExGetWindowMessage(ExWin hWnd){
 	MSG messageHandler;
 	if(GetMessage(&messageHandler, hWnd, NULL, NULL)){
 		TranslateMessage(&messageHandler);
@@ -222,7 +222,7 @@ DECLSPEC Boolean ELTAPIENTRY ExGetWindowMessage(ExWin hWnd){
 	else
 		return FALSE;
 }
-DECLSPEC Boolean ELTAPIENTRY ExGetWindowPeekMessage(ExWin hwnd){
+DECLSPEC ExBoolean ELTAPIENTRY ExGetWindowPeekMessage(ExWin hwnd){
 	MSG messageHandler;
 	if(PeekMessage(&messageHandler,hwnd, 0,0,PM_REMOVE)){
 		TranslateMessage(&messageHandler);

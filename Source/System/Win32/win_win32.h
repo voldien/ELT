@@ -123,8 +123,8 @@ extern DECLSPEC Long ELTAPIENTRY ExGetWindowStyleEx(ExWin hwnd);
 extern DECLSPEC ExWin ELTAPIENTRY ExCreateSubWindow(Int32 x,Int32 y, Int32 width, Int32 height);
 
 //* behavior of window
-extern DECLSPEC Boolean ELTAPIENTRY ExGetWindowMessage(ExWin hwnd);
-extern DECLSPEC Boolean ELTAPIENTRY ExGetWindowPeekMessage(ExWin hwnd);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExGetWindowMessage(ExWin hwnd);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExGetWindowPeekMessage(ExWin hwnd);
 
 /**/
 extern DECLSPEC void ELTAPIENTRY ExRunWinMessageLoop(void);

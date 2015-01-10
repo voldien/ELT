@@ -2,7 +2,7 @@
 #include<control.h>
 #include<Windows.h>
 #ifdef EX_WINDOWS
-DECLSPEC Boolean ELTAPIENTRY ExCreateOpenDialog(ExChar* path){
+DECLSPEC ExBoolean ELTAPIENTRY ExCreateOpenDialog(ExChar* path){
 	// zero memory 
 	OPENFILENAME openfile = {0};
 	openfile.lStructSize = sizeof(OPENFILENAME);
@@ -18,7 +18,7 @@ DECLSPEC Boolean ELTAPIENTRY ExCreateOpenDialog(ExChar* path){
 	openfile.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST |OFN_NOCHANGEDIR;
 	return GetOpenFileName(&openfile);
 }
-DECLSPEC Boolean ELTAPIENTRY ExCreateOpenDialog2(ExFileDialog* exFileDialog){
+DECLSPEC ExBoolean ELTAPIENTRY ExCreateOpenDialog2(ExFileDialog* exFileDialog){
 	OPENFILENAME openfile = {0};
 	openfile.lStructSize = sizeof(OPENFILENAME);
 	openfile.hwndOwner = exFileDialog->hWnd;
@@ -44,7 +44,7 @@ DECLSPEC Boolean ELTAPIENTRY ExCreateOpenDialog2(ExFileDialog* exFileDialog){
 	}
 }
 
-DECLSPEC Boolean ELTAPIENTRY ExCreateSaveDialog(ExChar* path){
+DECLSPEC ExBoolean ELTAPIENTRY ExCreateSaveDialog(ExChar* path){
 	OPENFILENAME savefile;
 	memset(&savefile,0,sizeof(OPENFILENAME));
 	savefile.lStructSize = sizeof(OPENFILENAME);
@@ -59,7 +59,7 @@ DECLSPEC Boolean ELTAPIENTRY ExCreateSaveDialog(ExChar* path){
 	return GetSaveFileName(&savefile);
 }
 
-DECLSPEC Boolean ELTAPIENTRY ExCreateSaveDialog2(ExFileDialog* exFileDialog){
+DECLSPEC ExBoolean ELTAPIENTRY ExCreateSaveDialog2(ExFileDialog* exFileDialog){
 	OPENFILENAME savefile;
 	memset(&savefile,0,sizeof(OPENFILENAME));
 	savefile.lStructSize = sizeof(OPENFILENAME);
@@ -74,13 +74,13 @@ DECLSPEC Boolean ELTAPIENTRY ExCreateSaveDialog2(ExFileDialog* exFileDialog){
 	return GetSaveFileName(&savefile);
 }
 
-DECLSPEC Boolean ELTAPIENTRY ExCreateFontDialog(void){
+DECLSPEC ExBoolean ELTAPIENTRY ExCreateFontDialog(void){
 	CHOOSEFONT fontdlg = {0};
 	fontdlg.lStructSize = sizeof(fontdlg);
 	return ChooseFont (&fontdlg);
 }
 
-DECLSPEC Boolean ELTAPIENTRY ExCreateColorDialog(ExWin owner,Uint8 colour[4]){
+DECLSPEC ExBoolean ELTAPIENTRY ExCreateColorDialog(ExWin owner,Uint8 colour[4]){
 	COLORREF acrCustClr[16];
 	CHOOSECOLOR chcolour = {0};
 	chcolour.hwndOwner = owner;

@@ -131,7 +131,7 @@ DECLSPEC void ELTAPIENTRY ExUpdateKeyboard(void){
 	ERESULT hr;
 #if defined(EX_WINDOWS)
 	//swap(index,index1);
-	/*if(FAILED(hr = m_keyboard_device->GetDeviceState(sizeof(Boolean)* 256, (LPVOID)m_KeyBoard->KeyBoardState[_index]))){
+	/*if(FAILED(hr = m_keyboard_device->GetDeviceState(sizeof(ExBoolean)* 256, (LPVOID)m_KeyBoard->KeyBoardState[_index]))){
 		if(FAILED(hr = m_keyboard_device->Acquire())) // connect to the keyboard
 			ExIsHError(hr);
 		while(hr == DIERR_INPUTLOST || hr == DIERR_NOTACQUIRED){
@@ -174,7 +174,7 @@ DECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void){
 }
 DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(const Uint32 keyCode){
 #if defined(EX_WINDOWS)
-	return GetAsyncKeyState(keyCode);
+	return (ExBoolean)GetAsyncKeyState(keyCode);
 	ExUpdateKeyboard();
 	return (KeyBoardState[_index][keyCode] & 0x80);
 #elif defined(EX_LINUX)
@@ -183,7 +183,7 @@ DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(const Uint32 keyCode){
 }
 DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(const Uint32 keyCode){
 #if defined(EX_WINDOWS)
-	return GetAsyncKeyState(keyCode);
+	return (ExBoolean)GetAsyncKeyState(keyCode);
 	return (KeyBoardState[_index][keyCode] & 0x80) != FALSE ? TRUE : FALSE;
 #elif defined(EX_LINUX)
 	return 0;

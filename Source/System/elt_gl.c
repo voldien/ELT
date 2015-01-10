@@ -1,15 +1,18 @@
 #include"elt_gl.h"
 
-	// library connection to DLL
+
 #ifdef EX_WINDOWS
     #pragma warning(disable : 4273) // 'function' : inconsistent DLL linkage
+	// library connection to DLL
     #pragma comment(lib, "Opengl32.lib")
     #pragma comment(lib, "Glu32.lib")
     #pragma comment(lib, "gdi32.lib")
-	#include<Windows.h>
 	#include<dwmapi.h>
+	#include<WinUser.h>
+	#include<Windows.h>
 	#include<GL/GL.h>
     #include<EGL/egl.h>
+
 	#include<GL/wglext.h>
 
     //#include<GL/glext.h>
@@ -134,9 +137,9 @@ EGL_BUFFER_SIZE, 16,
         ExError(EX_TEXT("Error"));
 
 	if((hr = eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext)) != EGL_TRUE)
-        ExError("OpenGL ES Error");
+        ExError(EX_TEXT("OpenGL ES Error"));
 
-    if(ExGetCurrentGLDC() == window)
+    if(ExGetOpenGLContextWindow() == window)
         return 0;
 
 	ExInitOpenGLStates(0);
@@ -207,6 +210,8 @@ typedef BOOL (WINAPI * WGLGETPIXELFORMATATTRIBIVARB_T) (HDC, int, int, UINT, con
 typedef const char *(APIENTRY * WGLGETEXTENSIONSSTRINGEXT_T)( void );   // wglGetExtensionStringEXT typedef
 
 typedef const char *(APIENTRY * WGLGETEXTENSIONSSTRINGARB_T)( HDC );    // wglGetExtensionStringARB typedef
+
+typedef void*	(APIENTRY * WGLCREATECONTEXTATTRIBSARB)(HDC);			/**/
 
 static void ELTAPIENTRY ExCreatePFD( void* pPFD, Int32 colorbits, Int32 depthbits, Int32 stencilbits){
 
@@ -498,8 +503,10 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     WGLGETEXTENSIONSSTRINGEXT_T wglGetExtensionStringEXT;
     WGLGETEXTENSIONSSTRINGARB_T wglGetExtensionStringARB;
     HWND temp_gl_hwnd;
+	PIXELFORMATDESCRIPTOR pfd;
 	HDC hDC;
     int pixAttribs[60] = {0};
+	int pixelFormat[1];
     int major_version, minor_version;
     int attrib[] = {WGL_NUMBER_PIXEL_FORMATS_ARB};
     int nResults[1] ={0};
@@ -524,9 +531,10 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     wglGetPixelFormatAttribivARB =  (WGLGETPIXELFORMATATTRIBIVARB_T)GL_GET_PROC("wglGetPixelFormatAttribivARB");
     wglGetExtensionStringEXT =      (WGLGETEXTENSIONSSTRINGEXT_T)GL_GET_PROC("wglGetExtensionStringEXT");
     wglGetExtensionStringARB =      (WGLGETEXTENSIONSSTRINGARB_T)GL_GET_PROC("wglGetExtensionStringARB");
+	wglCreateContextAttribsARB
 
-    if(!wglGetPixelFormatAttribivARB(hDC, pixFmt,0,1, att, nResults))
-        ExError("Error");
+    if(!wglGetPixelFormatAttribivARB(hDC, pixFmt,0,1, attrib, nResults))
+        ExError(EX_TEXT("Error"));
 
     /**
 		Get supported opengl version.
@@ -564,9 +572,9 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     /*
         Get Device Context from window
     */
-    deviContext = GetDC(window);
+    hDC = GetDC(window);
 
-    if(SetPixelFormat(deviContext, pixelFormat[0], &pfd))
+    if(SetPixelFormat(hDC, pixelFormat[0], &pfd))
         printf("Succedded to Set PixelFormat With the PixelFormat Number %i.\n",nResults[0] );
     else
         wExDevPrintf(EX_TEXT("Failed to Set PixelFormat : %s \n"),ExGetErrorMessage(GetLastError()));
@@ -574,9 +582,10 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     /**
         Create OpenGL Context.
     */
-    if(!(glc = wglCreateContextAttribsARB(deviContext, EX_NULL,attribs))){
-        ExDevPrintf(EX_TEXT("Failed to Create OpenGL Context ARB | %s.\n"),glewGetErrorString(glGetError()));
-        MessageBoxA(EX_NULL,  (LPCSTR)glewGetErrorString(glGetError()),"Error | OpenGL Context",MB_OK | MB_ICONERROR);
+    if(!(glc = wglCreateContextAttribsARB(hDC, EX_NULL,pixAttribs))){
+        //ExDevPrintf(EX_TEXT("Failed to Create OpenGL Context ARB | %s.\n"),glewGetErrorString(glGetError()));
+        //MessageBoxA(EX_NULL,  (LPCSTR)glewGetErrorString(glGetError()),"Error | OpenGL Context",MB_OK | MB_ICONERROR);
+		ExMessageBox(EX_NULL, EX_TEXT(""), EX_TEXT(""), MB_OK |MB_ICONERROR);
     }
 
     if(!ReleaseDC(WindowFromDC(wglGetCurrentDC()),wglGetCurrentDC()))
@@ -654,12 +663,21 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
     OpenGLContext shared_glc;
     #ifdef EX_WINDOWS
     HDC hdc;
+    WGLSWAPINTERVALEXT_T wglSwapIntervalEXT;
+    WGLCHOOSEPIXELFORMATARB_T wglChoosePixelFormatARB;
+    WGLGETPIXELFORMATATTRIBIVARB_T wglGetPixelFormatAttribivARB;
+    WGLGETEXTENSIONSSTRINGEXT_T wglGetExtensionStringEXT;
+    WGLGETEXTENSIONSSTRINGARB_T wglGetExtensionStringARB;
 
     hdc = GetDC(window);
 
-
+	/*
+		Get major and minor version of opengl
+	*/
     glGetIntegerv(GL_MAJOR_VERSION, &major_version);
 	glGetIntegerv(GL_MINOR_VERSION, &minor_version);
+
+
 	int attribs[] ={
 			WGL_CONTEXT_MAJOR_VERSION_ARB, major_version,
 			WGL_CONTEXT_MINOR_VERSION_ARB, minor_version,
@@ -670,11 +688,11 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
 			0
 	};
 
-    if(!wglChoosePixelFormatARB(hdc,0,0,0,0))
-        ExError("");
+    if(!wglChoosePixelFormatARB(hdc,0,0,0,0,0))
+        ExError(EX_TEXT(""));
     //if(!SetPixelFormat(hdc, 0, 0))
 
-    //shared_glc = wglCreateContextAttribsARB(hd c, glc,0);
+    shared_glc = wglCreateContextAttribsARB(hdc c, glc,0);
 
     wglCopyContext(glc, shared_glc, GL_ALL_ATTRIB_BITS);
     wglShareLists(glc, shared_glc);
@@ -720,6 +738,8 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
 DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescription){
 #if (EX_ENGINE_VERSION_MAJOR < 1 )
 #ifdef EX_WINDOWS
+	WGLSWAPINTERVALEXT_T wglSwapIntervalEXT = (WGLSWAPINTERVALEXT_T)GL_GET_PROC((const GLubyte*)"wglSwapIntervalEXT");
+
 	ExWin hWnd;	// Window
 	RECT rect;	// client Rect
 	hWnd = WindowFromDC(wglGetCurrentDC());
@@ -870,7 +890,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin win
 		engineDescription.EngineFlag = (~ENGINE_FULLSCREEN & engineDescription.EngineFlag);
 		UpdateWindow(window);
 		SetForegroundWindow(window);
-		return !cdsfullscreen;
+		return (ExBoolean)!cdsfullscreen;
 	}
 #elif defined(EX_LINUX)
     int one = 1;

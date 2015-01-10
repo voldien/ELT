@@ -189,7 +189,7 @@ DECLSPEC Int32 ELTAPIENTRY ExGetMonitorHz(Uint32 index){
 #endif
 }
 /*
-DECLSPEC Boolean ExLoadFileExplorer(char* path,const ExChar* filter){
+DECLSPEC ExBoolean ExLoadFileExplorer(char* path,const ExChar* filter){
 #ifdef EX_WINDOWS
 	ExChar wcpath[MAX_PATH];
 	char**p_temp_path = &path;
@@ -203,7 +203,7 @@ DECLSPEC Boolean ExLoadFileExplorer(char* path,const ExChar* filter){
 	return FALSE;
 #endif
 }
-DECLSPEC Boolean ExSaveFileExplorer(char* path,const ExChar* filter){
+DECLSPEC ExBoolean ExSaveFileExplorer(char* path,const ExChar* filter){
 #ifdef EX_WINDOWS
 	ExChar wcpath[MAX_PATH];
 	char**p_temp_path = &path;

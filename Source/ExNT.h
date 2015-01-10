@@ -145,7 +145,7 @@ typedef void* DataBuffer;
 	typedef Uint8 Boolean;
 #endif
 #ifndef CMD_LIB_H
-    typedef enum{xfalse, xtrue }ExBoolean;
+    typedef enum : int {xfalse, xtrue }ExBoolean;
 #else
     typedef Boolean ExBoolean;
 #endif

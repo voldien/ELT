@@ -61,7 +61,7 @@ extern DECLSPEC char* ELTAPIENTRY ExConvertAscii(const WCHAR* wwchar);
 /*
 	// exist
 */
-extern DECLSPEC Boolean ELTAPIENTRY ExExistRegKey(HKEY hKey, const ExChar* directory);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExExistRegKey(HKEY hKey, const ExChar* directory);
 // get value
 extern DECLSPEC Uint32 ELTAPIENTRY ExGetRegValuei(HKEY hKey, const ExChar* directory, const ExChar* cregname);
 extern DECLSPEC Uint64 ELTAPIENTRY ExGetRegValuel(HKEY hKey, const ExChar* directory, const ExChar* cregname);
@@ -83,7 +83,7 @@ extern DECLSPEC void ELTAPIENTRY ExCreateRegKey(HKEY hKey, const ExChar* directo
 */
 extern DECLSPEC void ELTAPIENTRY ExCreateFileExts(const ExChar* filetype);
 extern DECLSPEC void ELTAPIENTRY ExCreateFileExtsDesc(const ExChar* filetype,const ExChar* description);
-extern DECLSPEC Boolean ELTAPIENTRY ExRemoveFileExts(const ExChar* filetype);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExRemoveFileExts(const ExChar* filetype);
 
 #ifdef __cplusplus // C++ environment
 }

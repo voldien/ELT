@@ -31,7 +31,7 @@ extern DECLSPEC void ELTAPIENTRY WIN_EnableAltTab(void);
 /*
 
 */
-extern DECLSPEC Boolean ELTAPIENTRY WIN_EnableDeviceNotification(ExWin hWnd);
+extern DECLSPEC ExBoolean ELTAPIENTRY WIN_EnableDeviceNotification(ExWin hWnd);
 /*
 	//	main window procedure
 	//	Remark : 

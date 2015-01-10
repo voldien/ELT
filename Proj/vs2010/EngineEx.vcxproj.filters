@@ -211,9 +211,6 @@
     <ClInclude Include="..\..\Source\Input\GUIDs.h">
       <Filter>Header Files\input</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Input\XBoxControllerHandler.h">
-      <Filter>Header Files\input</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\System\Win32\win_controls.h">
       <Filter>Header Files\system\window</Filter>
     </ClInclude>

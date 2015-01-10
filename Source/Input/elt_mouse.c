@@ -114,7 +114,7 @@ DECLSPEC Uint32 ELTAPIENTRY ExGetMouseState(Int32* x, Int32* y){
 
 DECLSPEC ExBoolean ELTAPIENTRY ExShowCursor(ExBoolean enabled){
 #ifdef EX_WINDOWS
-	return ShowCursor(enabled);
+	return (ExBoolean)ShowCursor(enabled);
 #elif defined(EX_LINUX)
     if(!enabled)
         return XUndefineCursor(display, ExGetKeyboardFocus());

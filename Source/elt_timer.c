@@ -60,7 +60,7 @@ DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback,
 }
 DECLSPEC ExBoolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id){
 #ifdef EX_WINDOWS
-	Boolean error;
+	ExBoolean error;
 	ExIsWinError(error = DeleteTimerQueueTimer(EX_NULL,(HANDLE)timer_id, EX_NULL));
 	return error;
 #elif defined(EX_LINUX)

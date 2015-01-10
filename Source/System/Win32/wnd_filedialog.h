@@ -21,30 +21,28 @@ typedef struct ex_file_dialog{
 /*
 	//	Create Default Open Dialog
 */
-extern DECLSPEC Boolean ELTAPIENTRY ExCreateOpenDialog(ExChar* path);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExCreateOpenDialog(ExChar* path);
 /*
 	//	Create Custum Open Dialog
 */
-extern DECLSPEC Boolean ELTAPIENTRY ExCreateOpenDialog2(ExFileDialog* exFileDialog);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExCreateOpenDialog2(ExFileDialog* exFileDialog);
 
-extern DECLSPEC Boolean ELTAPIENTRY ExCreateMultiOpenDialog(ExChar* path);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExCreateMultiOpenDialog(ExChar* path);
 
-extern DECLSPEC Boolean ELTAPIENTRY ExCreateSaveDialog(ExChar* path);
-extern DECLSPEC Boolean ELTAPIENTRY ExCreateSaveDialog2(ExFileDialog* exFileDialog);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExCreateSaveDialog(ExChar* path);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExCreateSaveDialog2(ExFileDialog* exFileDialog);
 /*
 	//	Choose Font
 */
-extern DECLSPEC Boolean ELTAPIENTRY ExCreateFontDialog(void);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExCreateFontDialog(void);
 
 
 
-extern DECLSPEC Boolean ELTAPIENTRY ExCreateMultiSaveDialog(ExChar* path);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExCreateMultiSaveDialog(ExChar* path);
 /*
 	
 */
-extern DECLSPEC Boolean ELTAPIENTRY ExCreateColorDialog(ExWin owner,Uint8 colour[4]);
-
-
+extern DECLSPEC ExBoolean ELTAPIENTRY ExCreateColorDialog(ExWin owner,Uint8 colour[4]);
 
 
 

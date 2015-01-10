@@ -113,7 +113,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 		window = ExCreateDirectXWindow(x,y,width, height);
 		directx = (void*)ExInitDirectX(window);
 		if(flag & EX_OPENCL)
-            ExCreateCLSharedContext(directx,GetDC(window),EX_DIRECTX);
+            ExCreateCLSharedContext((OpenGLContext)directx,GetDC(window),EX_DIRECTX);
 		return window;
 	}
 #endif
