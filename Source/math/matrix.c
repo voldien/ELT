@@ -247,8 +247,6 @@ void mat4x4_scalev(vec4x4_t f_mat4, vec3_t scale){
 
 void mat4x4_rotation(vec4x4_t f_mat4,float angle,const vec3_t axis){
 
-
-
 }
 void mat4x4_rotationX(vec4x4_t f_mat4, float x_radi){
 	// rotation X in eular
