@@ -4,6 +4,7 @@
 #if defined(EX_WINDOWS)
 	#include"Win32/win_win32.h"
 	#include"Win32/wnd_input.h"
+	#include<WindowsX.h>
 	#include<EGL/egl.h>
 #elif defined(EX_LINUX)
 	#include"Unix/unix_win.h"
@@ -53,7 +54,7 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length){
 static void* create_elt_icon(ExWin window){
     #ifdef EX_WINDOWS
     HANDLE icon;
-    icon = CreateIcon(GetModuleFile(NULL), GetSystemMetrics(SM_CXICON),GetSystemMetrics(SM_CYICON),1,1,0,0);
+    icon = CreateIcon(GetModuleHandle(NULL), GetSystemMetrics(SM_CXICON),GetSystemMetrics(SM_CYICON),1,1,0,0);
     ExSetWindowIcon(window,icon);
     #elif defined(EX_LINUX)
     //http://www.sbin.org/doc/Xlib/chapt_03.html
@@ -79,30 +80,25 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
     void* directx;
 	if((flag & ENGINE_NATIVE) || flag == 0){
 		// create default window
-		return ExCreateNativWindow(x,y,width, height);
+		return ExCreateNativeWindow(x,y,width, height);
 	}
 	// create window dedicated for opengl
-	else if(flag & ENGINE_OPENGL){
+	else if(flag & EX_OPENGL){
 		window = ExCreateOpenGLWindow(x,y,width, height);
-		glc ExCreateGLContext(window);
-		/*glc = ExCreateSharedGLContext(ExGetCurrentGLDC(), ExGetOpenGLContext(),GetDC(window));
-		if(glc){
-            // set the window to be current opengl Context.
-            ExMakeGLCurrent(EX_NULL,EX_NULL);
-            ExMakeGLCurrent(GetDC(window),glc);
-		}*/
-		if(flag & ENGINE_OPENCL)
+		glc = ExCreateGLContext(window);
+
+		if(flag & EX_OPENCL)
 			ExCreateCLSharedContext(glc,GetDC(window),EX_OPENGL);
 		return window;
 	}
 	else if(flag & EX_OPENGLES){
-		window = ExCreateNativeWindow(x,y,width,height);
-		glc = ExCreateOpenGLES(window);
+		window = (ExWin)ExCreateNativeWindow(x,y,width,height);
+		glc = (OpenGLContext)ExCreateOpenGLES(window);
 
 		if(flag & EX_OPENCL)
 			ExCreateCLSharedContext(glc,GetDC(window),EX_OPENGLES);
 	}
-	else if(flag & ENGINE_OPENCL){
+	else if(flag & EX_OPENCL){
 		window = ExCreateOpenGLWindow(x,y,width, height);
 		ExCreateOpenGLES(window);
 	}
@@ -113,11 +109,11 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 		//	however ELT support DirectX 9 context initialization
 	*/
 #if  defined(EX_INCLUDE_DIRECTX)
-	else if(flag & ENGINE_DIRECTX){
+	else if(flag & EX_DIRECTX){
 		window = ExCreateDirectXWindow(x,y,width, height);
-		directx = ExInitDirectX(window);
+		directx = (void*)ExInitDirectX(window);
 		if(flag & EX_OPENCL)
-            ExCreateCLSharedContext(directx,GetDC(window),ENGINE_DIRECTX);
+            ExCreateCLSharedContext(directx,GetDC(window),EX_DIRECTX);
 		return window;
 	}
 #endif
@@ -204,7 +200,7 @@ DECLSPEC void ELTAPIENTRY ExHideWindow(ExWin window){
 DECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin window){
 #ifdef EX_WINDOWS
     CloseWindow(window);
-	DestroyWindow(window,SW_HIDE);
+	DestroyWindow(window);
 #elif defined(EX_LINUX)
     XDestroyWindow(display, window);
 #endif

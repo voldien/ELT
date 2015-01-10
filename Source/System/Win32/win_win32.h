@@ -84,7 +84,7 @@ extern DECLSPEC ExWin ELTAPIENTRY ExCreateDirectXWindow(Int32 x, Int32 y, Int32 
 /**/
 extern DECLSPEC ExWin ELTAPIENTRY ExCreateOpenGLWindow(Int32 x, Int32 y, Int32 width, Int32 height);
 /**/
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateNativWindow(Int32 x, Int32 y, Int32 width, Int32 height);
+extern DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height);
 
 extern DECLSPEC ExWin ELTAPIENTRY ExCreateDesktopWindow(Int32 x, Int32 y, Int32 width, Int32 height);
 

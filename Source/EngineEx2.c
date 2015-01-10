@@ -3,7 +3,8 @@
 #ifdef EX_WINDOWS		// TODO solve
 #   include"System/Win32/wnd_common.h"
 #	include<GL/GLU.h>
-#include<GL/GL.h>
+#	include<GL/GL.h>
+//#	include<GL/wglew.h>
 #elif defined(EX_LINUX)
 #   include"System/Unix/unix_win.h"
 #endif
@@ -43,7 +44,7 @@ extern DECLSPEC int ELTAPIENTRY ExGetHint(Enum e_enum){
         case GL_DEPTH_BITS: return engineDescription.DepthBits;
         case GL_STENCIL_BITS: return engineDescription.StencilBits;
         case GL_ALPHA:return engineDescription.alphaChannel;
-        case GL_SAMPLES:return engineDescription.sample[0];
+        //case GL_SAMPLES:return engineDescription.sample[0];
 
         default:return 0;
     }

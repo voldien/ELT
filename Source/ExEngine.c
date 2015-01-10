@@ -44,7 +44,10 @@
     #pragma comment(linker,"/DELAYLOAD:avformat-55.dll")
     #pragma comment(linker,"/DELAY:UNLOAD")
     #pragma comment(linker,"/DELAYLOAD:D3D9.dll")
-    #pragma comment(linker,"/DELAY:UNLOAD")*/
+    #pragma comment(linker,"/DELAY:UNLOAD")
+    #pragma comment(linker,"-DELAYLOAD:D3D9.dll")
+    #pragma comment(linker,"-DELAY:UNLOAD")
+
 
 
     #pragma comment(linker,"/DelayLoad:Ws2_32.dll")

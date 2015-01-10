@@ -1,6 +1,7 @@
 #include"win_wndproc.h"
 #ifdef EX_WINDOWS
 #include<Windows.h>
+#include<CommCtrl.h>
 #include<WindowsX.h>
 #include<Dbt.h>
 
@@ -140,7 +141,8 @@ DECLSPEC LRESULT WINAPI MainWndProc(HWND hWnd,UINT uMsg, WPARAM wParam, LPARAM l
 	}break;
 	case WM_SYSKEYDOWN:{//System Key Down
 			if(wParam == VK_RETURN){
-				ExGLFullScreen(!(engineDescription.EngineFlag & ENGINE_FULLSCREEN) ,hWnd,0,&engineDescription.width);
+				//if(ExGeti(ENGINE_FULLSCREEN))
+				//ExGLFullScreen(!(engineDescription.EngineFlag & ENGINE_FULLSCREEN) ,hWnd,0,0);
 			}
 		}break;
 	case WM_DEVICECHANGE:{
@@ -447,7 +449,7 @@ DECLSPEC BOOL WINAPI ExOnContextMenu(HWND hWnd,Int x, Int y){
  
     if (PtInRect(&rc, pt)) { 
         ClientToScreen(hWnd, &pt); 
-        ExDisplayContextMenu(hWnd, pt); 
+        ExDisplayContextMenu(hWnd, &pt); 
         return TRUE; 
     } 
     // Return FALSE if no menu is displayed. 

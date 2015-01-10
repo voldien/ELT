@@ -207,7 +207,7 @@ DECLSPEC void ELTAPIENTRY ExReleaseCL(void){
 			ExDevPrint("Failed to release context.");
 }
 DECLSPEC void ELTAPIENTRY ExReleaseCLContext(void* context){
-	ExIsCLError(clReleaseContext(context));
+	ExIsCLError(clReleaseContext((cl_context)context));
 }
 
 /**
@@ -218,7 +218,7 @@ static int ExCLHighestFLOPS(Int32* clSelectedPlatformID){
     unsigned int num_device;
     unsigned long int n_flops;
 
-    clGetDeviceIDs(clSelectedPlatformID[i],CL_DEVICE_TYPE_ALL,0,0,&num_device);
+    clGetDeviceIDs((cl_platform_id)clSelectedPlatformID[i],CL_DEVICE_TYPE_ALL,0,0,&num_device);
 
    // ciErrNum = clGetDeviceIDs(clPlatformIDs[i], CL_DEVICE_AVAILABLE,num_device,&device[0],NULL);
     //for(i = 0; i < num_device;i++){

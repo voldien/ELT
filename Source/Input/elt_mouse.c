@@ -3,7 +3,7 @@
 #   include<dinput.h>
     DIMOUSESTATE2 MouseState[2];
     IDirectInputDevice8* hMouseDevice = EX_NULL;
-    MouseHandler* m_MouseHandler = EX_NULL;
+    //MouseHandler* m_MouseHandler = EX_NULL;
 #elif defined(EX_LINUX)
 #   include<linux/input.h>
 #   include"./../System/Unix/unix_win.h"
@@ -74,7 +74,7 @@ DECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(Enum system_id){
 DECLSPEC ExBoolean ELTAPIENTRY ExFreeCursor(ExCursor cursor){
 	ExBoolean destroyed;
 #ifdef EX_WINDOWS
-	ExIsWinError(!(destroyed = DestroyCursor(cursor)));
+	ExIsWinError(!(destroyed = (ExBoolean)DestroyCursor(cursor)));
 #elif defined(EX_LINUX)
     destroyed = XFreeCursor(display,cursor);
 #endif

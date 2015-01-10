@@ -6,8 +6,13 @@
     #pragma comment(lib, "Opengl32.lib")
     #pragma comment(lib, "Glu32.lib")
     #pragma comment(lib, "gdi32.lib")
+	#include<Windows.h>
+	#include<dwmapi.h>
+	#include<GL/GL.h>
     #include<EGL/egl.h>
-    #include<GL/glext.h>
+	#include<GL/wglext.h>
+
+    //#include<GL/glext.h>
     #define GL_GET_PROC(x)   wglGetProcAddress( ( x ) )         /*  get OpenGL function process address */
 #elif defined(EX_LINUX)
     #include<X11/extensions/Xrender.h>
@@ -116,17 +121,17 @@ EGL_BUFFER_SIZE, 16,
     //    ExError("Bind API!");
 
 	if((hr = eglInitialize(eglDisplay, &major, &minor)) != EGL_TRUE)
-        ExError("Failed to Initialize OpenGL ES");
+        ExError(EX_TEXT("Failed to Initialize OpenGL ES"));
 	//	Choose Config
 	hr = eglChooseConfig(eglDisplay, configAttribList, &eglConfig, 1, &numConfig);
 	if(hr != EGL_TRUE)
-        ExError("");
+        ExError(EX_TEXT(""));
 
 	if(!(eglSurface = eglCreateWindowSurface(eglDisplay,eglConfig,(EGLNativeWindowType)window,NULL)))
-        ExError("error");
+        ExError(EX_TEXT("error"));
 
 	if(!(eglContext = eglCreateContext(eglDisplay,eglConfig,EGL_NO_CONTEXT,ctxattr)))
-        ExError("Error");
+        ExError(EX_TEXT("Error"));
 
 	if((hr = eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext)) != EGL_TRUE)
         ExError("OpenGL ES Error");
@@ -261,16 +266,17 @@ static void ELTAPIENTRY ExCreatePFD2( void *pPFD, EngineDescription* desc){
 static OpenGLContext create_temp_gl_context(HWND window){
 	PIXELFORMATDESCRIPTOR pfd;
 	OpenGLContext gl_context;
+	int npixelFormat;
 	HDC hDC;
 	/*/
         Create Pixel Description
 	*/
-	ExCreatePFD(&pdf,32,24,8);
+	ExCreatePFD(&pfd,32,24,8);
 	hDC = GetDC(window);    /*Get device context*/
 	/**
         // Choose Pixel Format.
 	*/
-	if(!(npixelFormat = ChoosePixelFormat(hDC,(const PIXELFORMATDESCRIPTOR*)pPFD)){
+	if(!(npixelFormat = ChoosePixelFormat(hDC,(const PIXELFORMATDESCRIPTOR*)&pfd)){
 		ExIsWinError(npixelFormat);
 		return NULL;
 	}
@@ -310,11 +316,11 @@ static OpenGLContext create_temp_gl_context(HWND window){
 /**
     Generate a temporarily window for creating the extension window.
 */
-static int create_temp_gl_win(OpenGLContext* pglc_context){
+static HWND  create_temp_gl_win(OpenGLContext* pglc_context){
     HWND hwnd;
     OpenGLContext glc;
     WNDCLASSEX  wc= {0};
-    #define TEMP_WINDOW_CLASS "temp"
+    #define TEMP_WINDOW_CLASS EX_TEXT("temp")
     wc.cbSize = sizeof(wc);
     wc.style = CS_HREDDRAW | SC_VREDRAW | CS_OWNDC;
     wc.lpfnWndProc = MainWndProc;
@@ -324,20 +330,20 @@ static int create_temp_gl_win(OpenGLContext* pglc_context){
     wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
     wc.lpszClassName = TEMP_WINDOW_CLASS;
 
-    hwnd = CreateWindowEx(WS_EX_APPWINDOW,TEMP_WINDOW_CLASS,"",
-		(WS_OVERLAPPEDWINDOW ^WS_THICKFRAME ^ WS_MAXIMIZEBOX),x, y,
-		 width,
-		 height,
+    hwnd = CreateWindowEx(WS_EX_APPWINDOW,TEMP_WINDOW_CLASS,EX_TEXT(""),
+		(WS_OVERLAPPEDWINDOW ^WS_THICKFRAME ^ WS_MAXIMIZEBOX),0, 0,
+		 10,
+		 10,
 		EX_NULL,
 		EX_NULL,
 		wc.hInstance,
 		EX_NULL);
-    glc = create_temp_gl_context(window);
+    glc = create_temp_gl_context(hwnd);/*create temp opengl context*/
     if(!glc)
-        ExError("Failure");
+        ExError(EX_TEXT("Failure"));
     if(pglc_context)
         *pglc_context = glc;
-    return window;
+    return hwnd;
 }
 
 /**
@@ -502,7 +508,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     /**
         Create Temporarily openGL Context and it's associated window
     */
-	if(temp_gl_hwnd = create_temp_gl_win(&glc))
+	if(temp_gl_hwnd = (HWND)create_temp_gl_win(&glc))
 		printf("Success to Create Default OpenGL Context.\n");
 
 	ExGLPrintDevInfo();
@@ -538,7 +544,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
         #ifdef EX_DEBUG
         WGL_CONTEXT_FLAGS_ARB,WGL_CONTEXT_DEBUG_BIT_ARB,
         #endif
-        None
+        NULL
     };
 
     /*TODO: Naming between context attributes and for choosing a pixel-format
@@ -548,7 +554,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 
 
     if(!wglChoosePixelFormatARB(hDC, &pixAttribs[0], NULL, 1, pixelFormat, (unsigned int*)&nResults[0]))
-        Error("function : wglChoosePixelFormatARB Failed");
+        ExError(EX_TEXT("function : wglChoosePixelFormatARB Failed"));
 
 
     if(ExDestroyContext(deviContext,glc)){
@@ -569,7 +575,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
         Create OpenGL Context.
     */
     if(!(glc = wglCreateContextAttribsARB(deviContext, EX_NULL,attribs))){
-        ExDevPrintf("Failed to Create OpenGL Context ARB | %s.\n",glewGetErrorString(glGetError()));
+        ExDevPrintf(EX_TEXT("Failed to Create OpenGL Context ARB | %s.\n"),glewGetErrorString(glGetError()));
         MessageBoxA(EX_NULL,  (LPCSTR)glewGetErrorString(glGetError()),"Error | OpenGL Context",MB_OK | MB_ICONERROR);
     }
 
@@ -668,7 +674,7 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
         ExError("");
     //if(!SetPixelFormat(hdc, 0, 0))
 
-    shared_glc = wglCreateContextAttribsARB(hd c, glc,0);
+    //shared_glc = wglCreateContextAttribsARB(hd c, glc,0);
 
     wglCopyContext(glc, shared_glc, GL_ALL_ATTRIB_BITS);
     wglShareLists(glc, shared_glc);
@@ -830,11 +836,11 @@ DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin win
 			dm.dmPelsHeight = screenRes[1];
 		}
 		dm.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT;
-		if (engineDescription.FullScreen_Hz != 0 ){
+		/*if (engineDescription.FullScreen_Hz != 0 ){
 			// apply display frequency
 			dm.dmDisplayFrequency = engineDescription.FullScreen_Hz;
 			dm.dmFields |= DM_DISPLAYFREQUENCY;
-		}
+		}*/
 		if(engineDescription.ColorBits != 0){
 			// glw_state.allowdisplaydepthchange )
 			dm.dmBitsPerPel = engineDescription.ColorBits;

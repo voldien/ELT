@@ -108,7 +108,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateOpenGLWindow(Int32 x, Int32 y, Int32 width, I
 	UpdateWindow(hWnd);
 	return hWnd;
 }
-DECLSPEC ExWin ELTAPIENTRY ExCreateNativWindow(Int32 x, Int32 y, Int32 width, Int32 height){
+DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){
 
 	ATOM reg;
 	HWND hwnd;

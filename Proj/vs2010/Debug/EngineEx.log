@@ -1,9 +1,12 @@
-﻿Build started 1/9/2015 11:17:09 PM.
+﻿Build started 1/10/2015 11:01:33 AM.
 Project "C:\Users\Public\Desktop\codeprojects\elt\Proj\vs2010\EngineEx.vcxproj" on node 2 (build target(s)).
 InitializeBuildStatus:
   Touching "Debug\EngineEx.unsuccessfulbuild".
 ClCompile:
-  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W4 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _ENGINE_INTERNAL /D GLEW_BUILD /D EX_INCLUDE_DIRECTX /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\Source\EngineEx2.c ..\..\Source\ExCommon.c ..\..\Source\ExEngine.c ..\..\Source\Input\XBoxControllerHandler.c ..\..\Source\Input\elt_gamecontroller.c ..\..\Source\Input\elt_joystick.c ..\..\Source\Input\elt_keyboard.c ..\..\Source\Input\elt_mouse.c ..\..\Source\System\Win32\win_GL.c ..\..\Source\System\Win32\win_controls.c ..\..\Source\System\Win32\win_directX.c ..\..\Source\System\Win32\win_net.c ..\..\Source\System\Win32\win_win32.c ..\..\Source\System\Win32\win_wndproc.c ..\..\Source\System\Win32\wnd_common.c ..\..\Source\System\Win32\wnd_filedialog.c ..\..\Source\System\Win32\wnd_input.c ..\..\Source\System\Win32\wnd_snd.c ..\..\Source\System\elt_audio.c ..\..\Source\System\elt_cl.c ..\..\Source\System\elt_errorhandler.c ..\..\Source\System\elt_event.c ..\..\Source\System\elt_gl.c ..\..\Source\System\elt_log.c ..\..\Source\System\elt_win.c ..\..\Source\elt_console.c ..\..\Source\elt_cpuinfo.c ..\..\Source\elt_loadso.c ..\..\Source\elt_thread.c ..\..\Source\elt_timer.c ..\..\Source\main.c
+  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _ENGINE_INTERNAL /D EX_INCLUDE_DIRECTX /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /wd2440 /analyze- /errorReport:prompt ..\..\Source\EngineEx2.c ..\..\Source\ExEngine.c ..\..\Source\Input\elt_keyboard.c ..\..\Source\Input\elt_mouse.c ..\..\Source\System\elt_errorhandler.c ..\..\Source\System\elt_gl.c ..\..\Source\System\elt_win.c ..\..\Source\elt_console.c ..\..\Source\elt_cpuinfo.c ..\..\Source\elt_timer.c ..\..\Source\main.c -fpermissive -wd2440 
+cl : Command line warning D9014: invalid value '2440' for '/wd'; assuming '4999'
+cl : Command line warning D9014: invalid value '2440' for '/wd'; assuming '4999'
+cl : Command line warning D9002: ignoring unknown option '-fpermissive'
   main.c
 c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
           c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
@@ -14,47 +17,110 @@ c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): 
 c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
 c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
 c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
-c:\users\public\desktop\codeprojects\elt\source\main.c(26): warning C4245: 'initializing' : conversion from 'int' to 'size_t', signed/unsigned mismatch
-c:\users\public\desktop\codeprojects\elt\source\main.c(61): warning C4100: 'fileName' : unreferenced formal parameter
-c:\users\public\desktop\codeprojects\elt\source\main.c(109): error C2664: 'ExMakeGLCurrent' : cannot convert parameter 1 from 'void *' to 'WindowContext'
+c:\users\public\desktop\codeprojects\elt\source\main.c(112): error C2664: 'ExMakeGLCurrent' : cannot convert parameter 1 from 'void *' to 'WindowContext'
           Conversion from 'void*' to pointer to non-'void' requires an explicit cast
-c:\users\public\desktop\codeprojects\elt\source\main.c(110): warning C4127: conditional expression is constant
-c:\users\public\desktop\codeprojects\elt\source\main.c(114): error C2664: 'SwapBuffers' : cannot convert parameter 1 from 'void *' to 'HDC'
+c:\users\public\desktop\codeprojects\elt\source\main.c(117): error C2664: 'SwapBuffers' : cannot convert parameter 1 from 'void *' to 'HDC'
           Conversion from 'void*' to pointer to non-'void' requires an explicit cast
-c:\users\public\desktop\codeprojects\elt\source\main.c(133): error C2440: 'return' : cannot convert from 'unsigned int' to 'void *'
+c:\users\public\desktop\codeprojects\elt\source\main.c(136): error C2440: 'return' : cannot convert from 'unsigned int' to 'void *'
           Conversion from integral type to pointer type requires reinterpret_cast, C-style cast or function-style cast
-c:\users\public\desktop\codeprojects\elt\source\main.c(143): error C2664: 'ExQueryCLContext' : cannot convert parameter 1 from 'unsigned int' to 'void *'
+c:\users\public\desktop\codeprojects\elt\source\main.c(146): error C2440: '=' : cannot convert from 'void *' to 'unsigned int'
+          There is no context in which this conversion is possible
+c:\users\public\desktop\codeprojects\elt\source\main.c(147): error C2664: 'ExQueryCLContext' : cannot convert parameter 1 from 'unsigned int' to 'void *'
           Conversion from integral type to pointer type requires reinterpret_cast, C-style cast or function-style cast
-c:\users\public\desktop\codeprojects\elt\source\main.c(144): error C2664: 'CreateCommandQueue' : cannot convert parameter 1 from 'unsigned int' to 'cl_context'
+c:\users\public\desktop\codeprojects\elt\source\main.c(150): error C2664: 'ExQueryCLContext' : cannot convert parameter 1 from 'unsigned int' to 'void *'
           Conversion from integral type to pointer type requires reinterpret_cast, C-style cast or function-style cast
-c:\users\public\desktop\codeprojects\elt\source\main.c(154): warning C4127: conditional expression is constant
-c:\users\public\desktop\codeprojects\elt\source\main.c(157): error C3861: 'eglWaitGL': identifier not found
-c:\users\public\desktop\codeprojects\elt\source\main.c(158): error C3861: 'eglSwapBuffers': identifier not found
-c:\users\public\desktop\codeprojects\elt\source\main.c(158): error C3861: 'eglGetCurrentDisplay': identifier not found
-c:\users\public\desktop\codeprojects\elt\source\main.c(158): error C3861: 'eglGetCurrentSurface': identifier not found
-c:\users\public\desktop\codeprojects\elt\source\main.c(159): error C2065: 'display' : undeclared identifier
-c:\users\public\desktop\codeprojects\elt\source\main.c(159): error C3861: 'glXSwapBuffers': identifier not found
-c:\users\public\desktop\codeprojects\elt\source\main.c(159): error C3861: 'eglGetCurrentSurface': identifier not found
-c:\users\public\desktop\codeprojects\elt\source\main.c(178): error C2664: 'ExIsModuleLoaded' : cannot convert parameter 1 from 'const char [15]' to 'const ExChar *'
+c:\users\public\desktop\codeprojects\elt\source\main.c(151): error C2664: 'CreateCommandQueue' : cannot convert parameter 1 from 'unsigned int' to 'cl_context'
+          Conversion from integral type to pointer type requires reinterpret_cast, C-style cast or function-style cast
+c:\users\public\desktop\codeprojects\elt\source\main.c(166): error C2065: 'display' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\main.c(166): error C3861: 'glXSwapBuffers': identifier not found
+c:\users\public\desktop\codeprojects\elt\source\main.c(192): error C2065: 'XColor' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\main.c(192): error C2146: syntax error : missing ';' before identifier 'black'
+c:\users\public\desktop\codeprojects\elt\source\main.c(192): error C2065: 'black' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\main.c(229): error C2065: 'socklen_t' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\main.c(229): error C2146: syntax error : missing ';' before identifier 'clilen'
+c:\users\public\desktop\codeprojects\elt\source\main.c(229): error C2065: 'clilen' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\main.c(284): error C2664: 'ExGetApplicationName' : cannot convert parameter 1 from 'char [256]' to 'ExChar *'
           Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
-c:\users\public\desktop\codeprojects\elt\source\main.c(179): error C2664: 'ExLoadObject' : cannot convert parameter 1 from 'const char [13]' to 'const ExChar *'
+c:\users\public\desktop\codeprojects\elt\source\main.c(298): error C2440: 'initializing' : cannot convert from 'const char *' to 'ExChar *'
           Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
-c:\users\public\desktop\codeprojects\elt\source\main.c(185): error C2065: 'XColor' : undeclared identifier
-c:\users\public\desktop\codeprojects\elt\source\main.c(185): error C2146: syntax error : missing ';' before identifier 'black'
-c:\users\public\desktop\codeprojects\elt\source\main.c(185): error C2065: 'black' : undeclared identifier
-c:\users\public\desktop\codeprojects\elt\source\main.c(220): error C2065: 'socklen_t' : undeclared identifier
-c:\users\public\desktop\codeprojects\elt\source\main.c(220): error C2146: syntax error : missing ';' before identifier 'clilen'
-c:\users\public\desktop\codeprojects\elt\source\main.c(220): error C2065: 'clilen' : undeclared identifier
-c:\users\public\desktop\codeprojects\elt\source\main.c(275): error C2664: 'ExGetApplicationName' : cannot convert parameter 1 from 'char [256]' to 'ExChar *'
-          Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
-c:\users\public\desktop\codeprojects\elt\source\main.c(289): warning C4244: 'argument' : conversion from 'unsigned int' to 'Keycode', possible loss of data
-c:\users\public\desktop\codeprojects\elt\source\main.c(289): error C2440: 'initializing' : cannot convert from 'const char *' to 'ExChar *'
-          Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
-c:\users\public\desktop\codeprojects\elt\source\main.c(316): error C3861: 'glGenBuffers': identifier not found
-c:\users\public\desktop\codeprojects\elt\source\main.c(370): warning C4244: 'initializing' : conversion from 'long' to 'float', possible loss of data
-c:\users\public\desktop\codeprojects\elt\source\main.c(378): warning C4127: conditional expression is constant
-c:\users\public\desktop\codeprojects\elt\source\main.c(385): error C3861: 'eglGetCurrentDisplay': identifier not found
-c:\users\public\desktop\codeprojects\elt\source\main.c(386): error C3861: 'eglGetCurrentSurface': identifier not found
+c:\users\public\desktop\codeprojects\elt\source\main.c(325): error C3861: 'glGenBuffers': identifier not found
+c:\users\public\desktop\codeprojects\elt\source\main.c(379): warning C4244: 'initializing' : conversion from 'long' to 'float', possible loss of data
+c:\users\public\desktop\codeprojects\elt\source\main.c(394): error C2440: 'initializing' : cannot convert from 'EGLDisplay' to 'int'
+          There is no context in which this conversion is possible
+c:\users\public\desktop\codeprojects\elt\source\main.c(395): error C2440: 'initializing' : cannot convert from 'EGLSurface' to 'int'
+          There is no context in which this conversion is possible
+  elt_timer.c
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(243): warning C4005: 'ExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(206) : see previous definition of 'ExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): warning C4005: 'wExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(210) : see previous definition of 'wExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\elt_timer.c(65): error C2440: 'return' : cannot convert from 'Boolean' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\elt_timer.c(89): warning C4244: 'return' : conversion from 'Uint64' to 'Uint32', possible loss of data
+  elt_cpuinfo.c
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(243): warning C4005: 'ExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(206) : see previous definition of 'ExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): warning C4005: 'wExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(210) : see previous definition of 'wExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\elt_cpuinfo.c(36): warning C4172: returning address of local variable or temporary
+c:\users\public\desktop\codeprojects\elt\source\elt_cpuinfo.c(119): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\elt_cpuinfo.c(124): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\elt_cpuinfo.c(130): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\elt_cpuinfo.c(131): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\elt_cpuinfo.c(138): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\elt_cpuinfo.c(140): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\elt_cpuinfo.c(159): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\elt_cpuinfo.c(161): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\elt_cpuinfo.c(167): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\elt_cpuinfo.c(169): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\elt_cpuinfo.c(175): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\elt_cpuinfo.c(177): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\elt_cpuinfo.c(183): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\elt_cpuinfo.c(185): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\elt_cpuinfo.c(191): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\elt_cpuinfo.c(193): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+  elt_console.c
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(243): warning C4005: 'ExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(206) : see previous definition of 'ExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): warning C4005: 'wExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(210) : see previous definition of 'wExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\elt_console.c(117): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\elt_console.c(127): error C2440: 'return' : cannot convert from 'BOOL' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\elt_console.c(137): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
   elt_win.c
 c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
           c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
@@ -65,7 +131,15 @@ c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): 
 c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
 c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
 c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
-c:\users\public\desktop\codeprojects\elt\source\system\elt_win.c(7): fatal error C1083: Cannot open include file: 'EGL/egl.h': No such file or directory
+c:\users\public\desktop\codeprojects\elt\source\system\elt_win.c(116): error C2664: 'ExCreateCLSharedContext' : cannot convert parameter 1 from 'void *' to 'OpenGLContext'
+          Conversion from 'void*' to pointer to non-'void' requires an explicit cast
+c:\users\public\desktop\codeprojects\elt\source\system\elt_win.c(212): error C2440: 'return' : cannot convert from 'BOOL' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\system\elt_win.c(382): warning C4333: '>>' : right shift by too large amount, data loss
+c:\users\public\desktop\codeprojects\elt\source\system\elt_win.c(452): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\system\elt_win.c(454): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
   elt_gl.c
 c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
           c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
@@ -76,93 +150,92 @@ c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): 
 c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
 c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
 c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
-c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(9): fatal error C1083: Cannot open include file: 'EGL/egl.h': No such file or directory
-  elt_cl.c
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(243): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(206) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(210) : see previous definition of 'wExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
-c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
-c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
-c:\users\public\desktop\codeprojects\elt\source\system\elt_cl.c(41): warning C4101: 'ciErrNum' : unreferenced local variable
-c:\users\public\desktop\codeprojects\elt\source\system\elt_cl.c(47): warning C4189: 'uiEndDev' : local variable is initialized but not referenced
-c:\users\public\desktop\codeprojects\elt\source\system\elt_cl.c(47): warning C4189: 'uiDeviceUsed' : local variable is initialized but not referenced
-c:\users\public\desktop\codeprojects\elt\source\system\elt_cl.c(41): warning C4189: 'uiDevCount' : local variable is initialized but not referenced
-c:\users\public\desktop\codeprojects\elt\source\system\elt_cl.c(44): warning C4101: 'cdDevices' : unreferenced local variable
-c:\users\public\desktop\codeprojects\elt\source\system\elt_cl.c(81): warning C4189: 'uiEndDev' : local variable is initialized but not referenced
-c:\users\public\desktop\codeprojects\elt\source\system\elt_cl.c(191): error C2664: 'clReleaseContext' : cannot convert parameter 1 from 'void *' to 'cl_context'
-          Conversion from 'void*' to pointer to non-'void' requires an explicit cast
-c:\users\public\desktop\codeprojects\elt\source\system\elt_cl.c(202): error C2664: 'clGetDeviceIDs' : cannot convert parameter 1 from 'Int32' to 'cl_platform_id'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(133): error C2065: 'ctxattr' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(137): error C2664: 'ExError' : cannot convert parameter 1 from 'const char [16]' to 'const ExChar *'
+          Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(139): error C2446: '==' : no conversion from 'ExWin' to 'WindowContext'
+          Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(139): error C2440: '==' : cannot convert from 'ExWin' to 'WindowContext'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(279): error C2143: syntax error : missing ')' before '{'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(286): error C2065: 'pPFD' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(301): error C2065: 'pglc' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(306): error C2065: 'pglc' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(325): error C2065: 'CS_HREDDRAW' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(325): error C2065: 'SC_VREDRAW' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(331): error C2440: '=' : cannot convert from 'const char [5]' to 'LPCWSTR'
+          Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(334): error C2065: 'x' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(334): error C2065: 'y' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(335): error C2065: 'width' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(336): error C2065: 'height' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(341): error C2065: 'window' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(343): error C2664: 'ExError' : cannot convert parameter 1 from 'const char [8]' to 'const ExChar *'
+          Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(346): error C2065: 'window' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(410): error C2664: 'BOOL (HDC,const int *,const FLOAT *,UINT,int *,UINT *)' : cannot convert parameter 6 from 'Int32 *' to 'UINT *'
+          Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(410): error C2664: 'BOOL (HDC,const int *,const FLOAT *,UINT,int *,UINT *)' : cannot convert parameter 5 from 'Int32' to 'int *'
           Conversion from integral type to pointer type requires reinterpret_cast, C-style cast or function-style cast
-  win_wndproc.c
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(410): error C2664: 'BOOL (HDC,const int *,const FLOAT *,UINT,int *,UINT *)' : cannot convert parameter 3 from 'Int32 [1]' to 'const FLOAT *'
+          Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(410): error C2664: 'BOOL (HDC,const int *,const FLOAT *,UINT,int *,UINT *)' : cannot convert parameter 2 from 'WindowContext' to 'const int *'
+          Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(511): error C2440: '=' : cannot convert from 'int' to 'HWND'
+          Conversion from integral type to pointer type requires reinterpret_cast, C-style cast or function-style cast
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(515): error C2065: 'deviContext' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(528): error C2065: 'att' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(529): error C2664: 'ExError' : cannot convert parameter 1 from 'const char [6]' to 'const ExChar *'
+          Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(534): error C2065: 'GL_MAJOR_VERSION' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(535): error C2065: 'GL_MINOR_VERSION' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(553): error C2065: 'deviContext' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(553): error C2065: 'dataSize' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(556): error C2065: 'pixelFormat' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(557): error C3861: 'Error': identifier not found
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(560): error C2065: 'deviContext' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(567): error C2065: 'deviContext' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(569): error C2065: 'deviContext' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(569): error C2065: 'pixelFormat' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(569): error C2065: 'pfd' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(577): error C2065: 'deviContext' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(577): error C2065: 'attribs' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(577): error C3861: 'wglCreateContextAttribsARB': identifier not found
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(578): error C3861: 'glewGetErrorString': identifier not found
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(579): error C3861: 'glewGetErrorString': identifier not found
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(661): error C2065: 'GL_MAJOR_VERSION' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(662): error C2065: 'GL_MINOR_VERSION' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(673): error C3861: 'wglChoosePixelFormatARB': identifier not found
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(674): error C2664: 'ExError' : cannot convert parameter 1 from 'const char [1]' to 'const ExChar *'
+          Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(728): error C3861: 'wglSwapIntervalEXT': identifier not found
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(753): error C2065: 'GL_MULTISAMPLE_ARB' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(754): error C2065: 'GL_SAMPLE_BUFFERS' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(793): error C2440: '=' : cannot convert from 'BOOL' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(817): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(857): error C2065: 'ENGINE_FULLSCREEN' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(862): error C2440: 'return' : cannot convert from 'bool' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(870): error C2065: 'ENGINE_FULLSCREEN' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(873): error C2440: 'return' : cannot convert from 'bool' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(971): error C2065: 'GL_SHADING_LANGUAGE_VERSION' : undeclared identifier
+  elt_errorhandler.c
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
 c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
           c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
 c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(243): warning C4005: 'ExDevPrint' : macro redefinition
           c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(206) : see previous definition of 'ExDevPrint'
 c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): warning C4005: 'wExDevPrint' : macro redefinition
           c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(210) : see previous definition of 'wExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
-c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
-c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(69): warning C4333: '>>' : right shift by too large amount, data loss
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(143): error C2065: 'ENGINE_FULLSCREEN' : undeclared identifier
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(143): error C2039: 'width' : is not a member of 'EngineFormatDescription'
-          c:\users\public\desktop\codeprojects\elt\source\engineassembly.h(186) : see declaration of 'EngineFormatDescription'
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(183): warning C4333: '>>' : right shift by too large amount, data loss
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(215): warning C4127: conditional expression is constant
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(263): error C2065: 'CCM_SETWINDOWTHEME' : undeclared identifier
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(263): error C2051: case expression not constant
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(267): error C2065: 'NM_CLICK' : undeclared identifier
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(267): error C2051: case expression not constant
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(268): error C2065: 'LPNMMOUSE' : undeclared identifier
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(268): error C2146: syntax error : missing ';' before identifier 'lpnmmouse'
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(268): error C2065: 'lpnmmouse' : undeclared identifier
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(268): error C2065: 'LPNMMOUSE' : undeclared identifier
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(268): error C2146: syntax error : missing ';' before identifier 'lParam'
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(270): error C2065: 'SBN_SIMPLEMODECHANGE' : undeclared identifier
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(270): error C2051: case expression not constant
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(274): warning C4060: switch statement contains no 'case' or 'default' labels
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(425): warning C4333: '>>' : right shift by too large amount, data loss
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_wndproc.c(450): error C2664: 'ExDisplayContextMenu' : cannot convert parameter 2 from 'POINT' to 'POINT *'
-          No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
-  win_directX.c
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(243): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(206) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(210) : see previous definition of 'wExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
-c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
-c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_directx.c(5): fatal error C1083: Cannot open include file: 'D3dx9tex.h': No such file or directory
-  win_controls.c
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(243): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(206) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(210) : see previous definition of 'wExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
-c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
-c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(329): warning C4189: 'ok' : local variable is initialized but not referenced
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(426): warning C4100: 'height' : unreferenced formal parameter
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(426): warning C4100: 'width' : unreferenced formal parameter
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(426): warning C4100: 'y' : unreferenced formal parameter
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(426): warning C4100: 'x' : unreferenced formal parameter
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(465): warning C4189: 'buttonStyles' : local variable is initialized but not referenced
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(512): warning C4100: 'buttoncallback' : unreferenced formal parameter
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(523): warning C4100: 'templates' : unreferenced formal parameter
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(523): warning C4100: 'bitmap' : unreferenced formal parameter
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(523): warning C4100: 'text' : unreferenced formal parameter
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(525): warning C4189: 'numButtons' : local variable is initialized but not referenced
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(539): warning C4189: 'numButtons' : local variable is initialized but not referenced
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(593): warning C4100: 'tabhWnd' : unreferenced formal parameter
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(631): warning C4127: conditional expression is constant
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.c(179): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.c(450): warning C4804: '<=' : unsafe use of type 'bool' in operation
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.c(451): error C2440: 'return' : cannot convert from 'bool' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
   elt_mouse.c
 c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
           c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
@@ -173,13 +246,24 @@ c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): 
 c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
 c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
 c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
-c:\users\public\desktop\codeprojects\elt\source\input\elt_mouse.c(6): error C2143: syntax error : missing ';' before '*'
-c:\users\public\desktop\codeprojects\elt\source\input\elt_mouse.c(6): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-c:\users\public\desktop\codeprojects\elt\source\input\elt_mouse.c(6): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-c:\users\public\desktop\codeprojects\elt\source\input\elt_mouse.c(77): warning C4244: '=' : conversion from 'BOOL' to 'Boolean', possible loss of data
-c:\users\public\desktop\codeprojects\elt\source\input\elt_mouse.c(117): warning C4244: 'return' : conversion from 'int' to 'Boolean', possible loss of data
+c:\users\public\desktop\codeprojects\elt\source\input\elt_mouse.c(86): error C2440: 'return' : cannot convert from 'bool' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\input\elt_mouse.c(117): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\input\elt_mouse.c(247): error C2440: 'return' : cannot convert from 'int' to 'const ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\input\elt_mouse.c(249): error C2440: 'return' : cannot convert from 'int' to 'const ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\input\elt_mouse.c(253): error C2440: 'return' : cannot convert from 'int' to 'const ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\input\elt_mouse.c(255): error C2440: 'return' : cannot convert from 'int' to 'const ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\input\elt_mouse.c(260): error C2440: 'return' : cannot convert from 'int' to 'const ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\input\elt_mouse.c(262): error C2440: 'return' : cannot convert from 'int' to 'const ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
 c:\users\public\desktop\codeprojects\elt\source\input\elt_mouse.c(266): warning C4244: 'argument' : conversion from 'const Int' to 'float', possible loss of data
-  elt_gamecontroller.c
+  elt_keyboard.c
 c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
           c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
 c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(243): warning C4005: 'ExDevPrint' : macro redefinition
@@ -189,12 +273,24 @@ c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): 
 c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
 c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
 c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
-c:\users\public\desktop\codeprojects\elt\source\input\elt_gamecontroller.c(10): warning C4100: 'joystick_index' : unreferenced formal parameter
-c:\users\public\desktop\codeprojects\elt\source\input\elt_gamecontroller.c(14): warning C4100: 'axis' : unreferenced formal parameter
-c:\users\public\desktop\codeprojects\elt\source\input\elt_gamecontroller.c(14): warning C4100: 'index' : unreferenced formal parameter
-c:\users\public\desktop\codeprojects\elt\source\input\elt_gamecontroller.c(20): warning C4100: 'RightMotorSpeed' : unreferenced formal parameter
-c:\users\public\desktop\codeprojects\elt\source\input\elt_gamecontroller.c(20): warning C4100: 'LeftMotorSpeed' : unreferenced formal parameter
-c:\users\public\desktop\codeprojects\elt\source\input\elt_gamecontroller.c(20): warning C4100: 'index' : unreferenced formal parameter
+c:\users\public\desktop\codeprojects\elt\source\input\elt_keyboard.c(40): warning C4172: returning address of local variable or temporary
+c:\users\public\desktop\codeprojects\elt\source\input\elt_keyboard.c(131): warning C4101: 'hr' : unreferenced local variable
+c:\users\public\desktop\codeprojects\elt\source\input\elt_keyboard.c(164): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\input\elt_keyboard.c(173): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\input\elt_keyboard.c(177): error C2440: 'return' : cannot convert from 'SHORT' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\input\elt_keyboard.c(179): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\input\elt_keyboard.c(186): error C2440: 'return' : cannot convert from 'SHORT' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\input\elt_keyboard.c(187): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\input\elt_keyboard.c(194): error C2440: 'return' : cannot convert from 'SHORT' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\input\elt_keyboard.c(197): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
   ExEngine.c
 c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
           c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
@@ -205,9 +301,6 @@ c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): 
 c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
 c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
 c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
-c:\users\public\desktop\codeprojects\elt\source\exengine.c(47): warning C4138: '*/' found outside of comment
-c:\users\public\desktop\codeprojects\elt\source\exengine.c(47): warning C4081: expected 'newline'; found '*'
-c:\users\public\desktop\codeprojects\elt\source\exengine.c(70): warning C4100: 'lpvReserved' : unreferenced formal parameter
 c:\users\public\desktop\codeprojects\elt\source\exengine.c(100): warning C4101: 'lStdHandle' : unreferenced local variable
 c:\users\public\desktop\codeprojects\elt\source\exengine.c(98): warning C4101: 'hmodule' : unreferenced local variable
 c:\users\public\desktop\codeprojects\elt\source\exengine.c(99): warning C4101: 'hConHandle' : unreferenced local variable
@@ -227,41 +320,13 @@ c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): 
 c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
 c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
 c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
-c:\users\public\desktop\codeprojects\elt\source\engineex2.c(31): warning C4244: '=' : conversion from 'int' to 'Uint8', possible loss of data
-c:\users\public\desktop\codeprojects\elt\source\engineex2.c(32): warning C4244: '=' : conversion from 'int' to 'Uint8', possible loss of data
-c:\users\public\desktop\codeprojects\elt\source\engineex2.c(33): warning C4244: '=' : conversion from 'int' to 'Uint8', possible loss of data
-c:\users\public\desktop\codeprojects\elt\source\engineex2.c(34): error C2065: 'GL_SAMPLES' : undeclared identifier
-c:\users\public\desktop\codeprojects\elt\source\engineex2.c(34): error C2051: case expression not constant
-c:\users\public\desktop\codeprojects\elt\source\engineex2.c(34): warning C4244: '=' : conversion from 'int' to 'Uint8', possible loss of data
-c:\users\public\desktop\codeprojects\elt\source\engineex2.c(46): error C2065: 'GL_SAMPLES' : undeclared identifier
-c:\users\public\desktop\codeprojects\elt\source\engineex2.c(46): error C2051: case expression not constant
+c:\users\public\desktop\codeprojects\elt\source\engineex2.c(23): error C2440: 'return' : cannot convert from 'int' to 'ExBoolean'
+          Conversion to enumeration type requires an explicit cast (static_cast, C-style cast or function-style cast)
+c:\users\public\desktop\codeprojects\elt\source\engineex2.c(35): error C2065: 'GL_SAMPLES' : undeclared identifier
+c:\users\public\desktop\codeprojects\elt\source\engineex2.c(35): error C2051: case expression not constant
   Generating Code...
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(181): warning C4706: assignment within conditional expression
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(474): warning C4706: assignment within conditional expression
-c:\users\public\desktop\codeprojects\elt\source\system\win32\win_controls.c(628): warning C4706: assignment within conditional expression
-  Skipping... (no relevant changes detected)
-  elt_timer.c
-  elt_thread.c
-  elt_loadso.c
-  elt_cpuinfo.c
-  elt_console.c
-  elt_log.c
-  elt_event.c
-  elt_errorhandler.c
-  elt_audio.c
-  wnd_snd.c
-  wnd_input.c
-  wnd_filedialog.c
-  wnd_common.c
-  win_win32.c
-  win_net.c
-  win_GL.c
-  elt_keyboard.c
-  elt_joystick.c
-  XBoxControllerHandler.c
-  ExCommon.c
 Done Building Project "C:\Users\Public\Desktop\codeprojects\elt\Proj\vs2010\EngineEx.vcxproj" (build target(s)) -- FAILED.
 
 Build FAILED.
 
-Time Elapsed 00:00:10.17
+Time Elapsed 00:00:11.95
