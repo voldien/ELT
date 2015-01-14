@@ -4,6 +4,8 @@
 #ifdef EX_WINDOWS
 	#include<WindowsX.h>
 #elif defined(EX_LINUX)
+    #include<X11/X.h>
+#elif defined(EX_ANDROID)
 
 #endif
 

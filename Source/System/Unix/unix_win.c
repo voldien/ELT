@@ -49,11 +49,14 @@ DECLSPEC XID ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int
     XChangeWindowAttributes (display, window, CWOverrideRedirect, &xattr );
 	//XSelectInput(display,window,ExposureMask | StructureNotifyMask);
 
-	/*fontinfo = XLoadQueryFont(display, EX_TEXT("10x20"));
+    /*
+
+    */
+	fontinfo = XLoadQueryFont(display, EX_TEXT("10x20"));
 	gr_values.font = fontinfo->fid;
 	gr_values.foreground = XBlackPixel(display,0);
 	graphical_context = XCreateGC(display,window, GCFont + GCForeground, &gr_values);
-*/
+
 	return window;
 }
 /**

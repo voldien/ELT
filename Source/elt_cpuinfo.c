@@ -139,8 +139,8 @@ DECLSPEC ExBoolean ELTAPIENTRY ExHasMMX(void){
 	else
 		return FALSE;
 }
-/*
-	// Get CPU number of cpu cores
+/**
+	Get number of CPU cores
 */
 DECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void){
 #ifdef EX_WINDOWS

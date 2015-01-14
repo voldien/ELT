@@ -82,10 +82,11 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 		// create default window
 		return ExCreateNativeWindow(x,y,width, height);
 	}
-	// create window dedicated for opengl
+	// create window dedicated for OpenGL
 	else if(flag & EX_OPENGL){
 		window = ExCreateOpenGLWindow(x,y,width, height);
 		glc = ExCreateGLContext(window);
+		ExMakeGLCurrent(window,glc);
 
 		if(flag & EX_OPENCL)
 			ExCreateCLSharedContext(glc,GetDC(window),EX_OPENGL);
@@ -94,13 +95,13 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 	else if(flag & EX_OPENGLES){
 		window = (ExWin)ExCreateNativeWindow(x,y,width,height);
 		glc = (OpenGLContext)ExCreateOpenGLES(window);
-
+		ExMakeGLCurrent(window,glc);
 		if(flag & EX_OPENCL)
 			ExCreateCLSharedContext(glc,GetDC(window),EX_OPENGLES);
 	}
 	else if(flag & EX_OPENCL){
-		window = ExCreateOpenGLWindow(x,y,width, height);
-		ExCreateOpenGLES(window);
+		window = ExCreateNativeWindow(x,y,width,height);
+		glc = ExCreateCLContext(ELT_GPU0);
 	}
 	/**
 		//	Create window for directX.

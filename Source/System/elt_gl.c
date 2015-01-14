@@ -12,9 +12,7 @@
 	#include<Windows.h>
 	#include<GL/GL.h>
     #include<EGL/egl.h>
-
 	#include<GL/wglext.h>
-
     //#include<GL/glext.h>
     #define GL_GET_PROC(x)   wglGetProcAddress( ( x ) )         /*  get OpenGL function process address */
 #elif defined(EX_LINUX)
@@ -139,8 +137,8 @@ EGL_BUFFER_SIZE, 16,
 	if((hr = eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext)) != EGL_TRUE)
         ExError(EX_TEXT("OpenGL ES Error"));
 
-    if(ExGetOpenGLContextWindow() == window)
-        return 0;
+/*    if(ExGetOpenGLContextWindow(eglContext) == window)
+        return 0;*/
 
 	ExInitOpenGLStates(0);
 
@@ -211,7 +209,7 @@ typedef const char *(APIENTRY * WGLGETEXTENSIONSSTRINGEXT_T)( void );   // wglGe
 
 typedef const char *(APIENTRY * WGLGETEXTENSIONSSTRINGARB_T)( HDC );    // wglGetExtensionStringARB typedef
 
-typedef void*	(APIENTRY * WGLCREATECONTEXTATTRIBSARB)(HDC);			/**/
+typedef HGLRC (APIENTRY * WGLCREATECONTEXTATTRIBSARB)(HDC,HGLRC hShareContext,const int *attribList);			/*  */
 
 static void ELTAPIENTRY ExCreatePFD( void* pPFD, Int32 colorbits, Int32 depthbits, Int32 stencilbits){
 
@@ -273,7 +271,7 @@ static OpenGLContext create_temp_gl_context(HWND window){
 	OpenGLContext gl_context;
 	int npixelFormat;
 	HDC hDC;
-	/*/
+	/**
         Create Pixel Description
 	*/
 	ExCreatePFD(&pfd,32,24,8);
@@ -531,7 +529,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     wglGetPixelFormatAttribivARB =  (WGLGETPIXELFORMATATTRIBIVARB_T)GL_GET_PROC("wglGetPixelFormatAttribivARB");
     wglGetExtensionStringEXT =      (WGLGETEXTENSIONSSTRINGEXT_T)GL_GET_PROC("wglGetExtensionStringEXT");
     wglGetExtensionStringARB =      (WGLGETEXTENSIONSSTRINGARB_T)GL_GET_PROC("wglGetExtensionStringARB");
-	wglCreateContextAttribsARB
+	wglCreateContextAttribsARB =    (WGLCREATECONTEXTATTRIBSARB)GL_GET_PROC("wglCreateContextAttribsARB");
 
     if(!wglGetPixelFormatAttribivARB(hDC, pixFmt,0,1, attrib, nResults))
         ExError(EX_TEXT("Error"));
@@ -555,6 +553,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
         NULL
     };
 
+
     /*TODO: Naming between context attributes and for choosing a pixel-format
         Create pixel format attributes
     */
@@ -565,7 +564,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
         ExError(EX_TEXT("function : wglChoosePixelFormatARB Failed"));
 
 
-    if(ExDestroyContext(deviContext,glc)){
+    if(ExDestroyContext(deviContext,glc)){  /*  destroy temp context    */
             DestroyWindow(temp_gl_hwnd);
     }else ExDevPrint("Failed to delete Temp OpenGL Context.\n");
 
@@ -587,6 +586,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
         //MessageBoxA(EX_NULL,  (LPCSTR)glewGetErrorString(glGetError()),"Error | OpenGL Context",MB_OK | MB_ICONERROR);
 		ExMessageBox(EX_NULL, EX_TEXT(""), EX_TEXT(""), MB_OK |MB_ICONERROR);
     }
+
 
     if(!ReleaseDC(WindowFromDC(wglGetCurrentDC()),wglGetCurrentDC()))
         wprintf(EX_TEXT("Failed to Release DC : %s \n"),ExGetErrorMessage(GetLastError()));
@@ -618,13 +618,15 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
         None
     };
 
-	if(!glXQueryExtension(display,&dummy, &dummy))
+	if(!glXQueryExtension(display,&dummy, &dummy)){
 		ExError("OpenGL not supported by X server\n");
+    }
 
 	if(isExtensionSupported(glXQueryExtensionsString(display,DefaultScreen(display)), "GLX_ARB_create_context")){
 		typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
 		glXCreateContextAttribsARBProc glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc)glXGetProcAddress((const GLubyte*)"glXCreateContextAttribsARB");
-        //glXGetProcAddress("glXCreateAssociatedContextAMD");
+
+        glXGetProcAddress("glXCreateAssociatedContextAMD"); /*  AMD */
 
 		if(glXCreateContextAttribsARB){
 			choose_fbconfig(&fbconfig);
@@ -642,14 +644,17 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 		glc = glXCreateContext(display,vi,0,0);
 	}
 	/*
+
 	*/
 	if(!glc){
         glc = glXCreateNewContext(display, fbconfig, GLX_RGBA_TYPE,0,True);
 	}
 	if(!glXIsDirect(display, glc))
-        fprintf(stderr,"Indirect GLX rendering context obtained\n");
+        fprintf(stderr,"Indirect GLX rendering context obtained\n");    /*a lose of performance.*/
 	return glc;
 #elif defined(EX_ANDROID)
+
+
 
     return glc;
 #endif
@@ -661,17 +666,18 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLContext glc){
     int major_version,minor_version;
     OpenGLContext shared_glc;
-    #ifdef EX_WINDOWS
+#   ifdef EX_WINDOWS
     HDC hdc;
     WGLSWAPINTERVALEXT_T wglSwapIntervalEXT;
     WGLCHOOSEPIXELFORMATARB_T wglChoosePixelFormatARB;
     WGLGETPIXELFORMATATTRIBIVARB_T wglGetPixelFormatAttribivARB;
     WGLGETEXTENSIONSSTRINGEXT_T wglGetExtensionStringEXT;
     WGLGETEXTENSIONSSTRINGARB_T wglGetExtensionStringARB;
+    WGLCREATECONTEXTATTRIBSARB wglCreateContextAttribsARB;
 
     hdc = GetDC(window);
 
-	/*
+	/**
 		Get major and minor version of opengl
 	*/
     glGetIntegerv(GL_MAJOR_VERSION, &major_version);
@@ -685,7 +691,7 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
 #ifdef EX_DEBUG
 			WGL_CONTEXT_FLAGS_ARB,WGL_CONTEXT_DEBUG_BIT_ARB,
 #endif
-			0
+			NULL
 	};
 
     if(!wglChoosePixelFormatARB(hdc,0,0,0,0,0))
@@ -698,7 +704,7 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
     wglShareLists(glc, shared_glc);
 
     return shared_glc;
-    #elif defined(EX_LINUX)
+#   elif defined(EX_LINUX)
     typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
     GLXFBConfig fbconfig;
     glXCreateContextAttribsARBProc glXCreateContextAttribsARB;
@@ -730,6 +736,8 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
     }
 
     return shared_glc;
+    #elif defined(EX_ANDROID)
+
     #endif
 }
 
@@ -822,7 +830,6 @@ DECLSPEC ExBoolean ELTAPIENTRY ExDestroyContext(WindowContext drawable, OpenGLCo
 	return hr;
 #elif defined(EX_ANDROID)
     return eglDestroyContext(glc);
-
 #endif
 }
 
@@ -856,11 +863,6 @@ DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin win
 			dm.dmPelsHeight = screenRes[1];
 		}
 		dm.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT;
-		/*if (engineDescription.FullScreen_Hz != 0 ){
-			// apply display frequency
-			dm.dmDisplayFrequency = engineDescription.FullScreen_Hz;
-			dm.dmFields |= DM_DISPLAYFREQUENCY;
-		}*/
 		if(engineDescription.ColorBits != 0){
 			// glw_state.allowdisplaydepthchange )
 			dm.dmBitsPerPel = engineDescription.ColorBits;
@@ -897,8 +899,6 @@ DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin win
 	XEvent xev = {0};
     XWindowAttributes xwa;
     XSetWindowAttributes xattr;
-
-
 
     xattr.override_redirect = False;
     XChangeWindowAttributes(display, window, CWOverrideRedirect, &xattr);

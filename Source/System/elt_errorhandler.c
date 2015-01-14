@@ -6,6 +6,9 @@
 #elif defined(EX_LINUX)
 #   include<syslog.h>
 #   include"Unix/unix_win.h"
+#   include<unistd.h>
+#   include<fcntl.h>
+#elif defined(EX_ANDROID)
 #endif
 #include<signal.h>
 #include<limits.h>
@@ -13,8 +16,8 @@
 
 // Error Message text
 ExChar* errorText = NULL;
-/*
-	// ExError
+/**
+	ExError
 */
 DECLSPEC void ELTAPIENTRY ExError(const ExChar* error,...){
 	va_list argptr;
@@ -129,7 +132,7 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode){
 	}
 }
 #if defined(EX_LINUX)
-/*
+/**
     xlib error callback
 */
 static int ctxErrorHandler(Display* dpy, XErrorEvent* error){
@@ -166,7 +169,6 @@ DECLSPEC ExBoolean ELTAPIENTRY ExInitErrorHandler(void){
 	/*              */
     ExSetSignal(SIGQUIT, exit);
 #endif
-
 
 	//Software termination signal from kill
 	ExSetSignal(SIGTERM,ExSignalCatch);
@@ -290,7 +292,7 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetHModuleErrorMessageW(ERESULT dw){
 
 
 
-/*
+/**
     back trace
     http://stackoverflow.com/questions/5693192/win32-backtrace-from-c-code
 */
@@ -318,7 +320,6 @@ static void debug_log_trace(void){
     }
     free(symbol);
 
-
 #elif defined(EX_LINUX)
     void* trace[100];
     char** strings;
@@ -328,9 +329,12 @@ static void debug_log_trace(void){
     strings = backtrace_symbols(trace,j);
     for(i = 0; i < j; i++){
         fprintf(stderr,"%s\n",strings[i]);
-
     }
     free(strings);
+#elif defined(EX_ANDROID)
+
+
+
 #endif
 }
 /**
@@ -343,8 +347,12 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 	ExChar app_name[128];
 	char cfilename[260];
 	Uint32 istosend;
+
 #ifdef EX_WINDOWS
 	SYSTEMTIME time;
+#elif defined(EX_LINUX)
+    time_t t;
+	struct tm tm;
 #endif
     /**
         log trace information.
@@ -388,24 +396,27 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 	sprintf(cfilename, ("ErrorLog_%d_%d_%d_%d_%d_%d.txt"), time.wYear,time.wMonth,time.wDay,time.wHour,time.wMinute,time.wSecond);
 
 #elif defined(EX_LINUX)
-	time_t t = time(NULL);
-	struct tm tm = *localtime(&t);
-	ExSPrintf(cfilename, EX_TEXT("ErrorLog_%d_%d_%d_%d_%d_%d.txt"), tm.tm_year,tm.tm_mon,tm.tm_wday,tm.tm_hour,tm.tm_min,tm.tm_sec);
+	t = time(NULL);
+	tm = *localtime(&t);
+	ExSPrintf(cfilename, EX_TEXT("ErrorLog_%d_%d_%d_%d_%d_%d"), tm.tm_year,tm.tm_mon,tm.tm_wday,tm.tm_hour,tm.tm_min,tm.tm_sec);
 #endif
-    /*
+    /**
         save error to
     */
     int pos;
-
+    int dup;
 	//m_file_log = fopen("EngineExDevLog.txt", "w+" );
 	//FILE* fopen;
+	dup = open(cfilename,O_CREAT);
 	/**/
-	//if(dup2(1,(fopen = fdopen(4,"w+"))) == -1)
-   //     fprintf(stderr,"error");
+	if(dup2(2,dup) == -1)
+        fprintf(stderr,"error");
 
+
+    int size = ftell(dup);
 	/**stdout = *m_file_log;
 	setvbuf(fopen, NULL, _IONBF, 0 );
-    unsigned int size = fileLenght(fopen);
+
 	//char* buffer = (char*)malloc(fileLenght(stdout) + fileLenght(stderr));
 	char* buffer = (char*)malloc(255);
 	fseek(stdout,0,SEEK_SET);
@@ -425,7 +436,7 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 
 	// deal with the information
 #ifdef EX_WINDOWS
-    /*  Set callback*/
+    /**  Set callback    */
 	switch(istosend){
 	case IDYES:
 		ExPutFTPFile(EX_TEXT("broodcity.hostoi.com"),EX_TEXT("a9178654"),EX_TEXT("smilla1"),(const ExChar*)cfilename,EX_TEXT("public_html"));
@@ -438,7 +449,10 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 	default:break;
 	}
 #elif defined(EX_LINUX)
-
+    switch(istosend){
+        case 1:break;
+        case 2:break;
+    }
 #endif
 	exit(signal);
 	return;

@@ -362,8 +362,8 @@
 	#define EXDEPRECATED  __declspec(deprecated)		// Deprecated deceleration (x = Warning Message)
 	#define EXDEPRECATEDMESSAGE(x) __declspec(deprecated(x))
 #else
-	#define EXDEPRECATED(x) attribute(deprecated(x))		// Deprecated deceleration (x = Warning Message)
-#define EXDEPRECATEDMESSAGE(x) attribute(deprecated(x))
+	#define EXDEPRECATED attribute(( deprecated ))		// Deprecated deceleration (x = Warning Message)
+    #define EXDEPRECATEDMESSAGE(x) attribute( ( deprecated(x) ))
 #endif
 
 /**

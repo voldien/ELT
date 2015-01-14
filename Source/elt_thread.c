@@ -63,7 +63,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExExitThread(ExThread thread){
 
 DECLSPEC ExThread ELTAPIENTRY ExGetCurrentThread(void){
 #ifdef EX_WINDOWS
-    return 0;
+    return GetCurrentThread();
 #elif defined(EX_LINUX)
     return pthread_self();
 #endif
@@ -75,7 +75,6 @@ DECLSPEC Uint32 ELTAPIENTRY ExGetThreadID(ExThread thread){
 #ifdef EX_WINDOWS
 	return GetThreadId(thread);
 #elif defined(EX_LINUX)
-
 	return thread;
 #endif
 }
@@ -85,7 +84,6 @@ DECLSPEC const char* ELTAPIENTRY ExGetThreadName(ExThread thread){
 #ifdef EX_WINDOWS
     return NULL;
 #elif defined(EX_LINUX)
-
     char name[64];
     pthread_getname_np(thread,name);
 	return name;

@@ -80,18 +80,18 @@ extern void quad_directionv(float lf_quad[4], vec3_t dir,const vec3_t _dir){
 /**
 	quaternion x rotation in radian
 */
-//float quad_pitch(const float lf_quad[4]){
-//    	return (float)asinf(-2.0f * (lf_quad[QZ] * lf_quad[QY] + lf_quad[QW] * lf_quad[QX]));
-//}
+float quad_pitch(const float lf_quad[4]){
+    	return (float)asinf(-2.0f * (lf_quad[QZ] * lf_quad[QY] + lf_quad[QW] * lf_quad[QX]));
+}
 /**
 	quaternion y rotation in radian
 */
-//float quad_yaw(const float lf_quad[4]){
-//    return (float)atan2f(2.0f * (lf_quad[QW] * lf_quad[QX] + lf_quad[QY] * lf_quad[QW]),( 1.0f - ( 2.0f * (lf_quad[QX] * lf_quad[QX] + lf_quad[QY] * lf_quad[QY]))));
-//}
+float quad_yaw(const float lf_quad[4]){
+    return (float)atan2f(2.0f * (lf_quad[QW] * lf_quad[QX] + lf_quad[QY] * lf_quad[QW]),( 1.0f - ( 2.0f * (lf_quad[QX] * lf_quad[QX] + lf_quad[QY] * lf_quad[QY]))));
+}
 /**
 	quaternion z rotation in radian
 */
-//float quad_roll(const float lf_quad[4]){
-//	return (float)atan2f(2.0f * (lf_quad[QW] * lf_quad[QZ] + lf_quad[QX] * lf_quad[QY]), 1.0f - (2.0f * (lf_quad[QY] * lf_quad[QY] + lf_quad[QZ] * lf_quad[QZ])));
-//}
+float quad_roll(const float lf_quad[4]){
+	return (float)atan2f(2.0f * (lf_quad[QW] * lf_quad[QZ] + lf_quad[QX] * lf_quad[QY]), 1.0f - (2.0f * (lf_quad[QY] * lf_quad[QY] + lf_quad[QZ] * lf_quad[QZ])));
+}

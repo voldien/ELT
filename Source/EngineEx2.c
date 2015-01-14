@@ -18,7 +18,6 @@
 
 EngineDescription engineDescription = {0};
 
-DECLSPEC void ELTAPIENTRY AssignDescription(const EngineDescription* p_engineDescription){memcpy(&engineDescription, p_engineDescription,sizeof(EngineDescription));}
 DECLSPEC const Uint64 ELTAPIENTRY ExGetEngineFlag(void){	return engineDescription.EngineFlag;}
 DECLSPEC ExBoolean ELTAPIENTRY ExIsEngineState(const ULLong engineBitState){ return (engineDescription.EngineFlag & engineBitState) != 0 ? TRUE : FALSE;}
 DECLSPEC EngineDescription ELTAPIENTRY ExGetEngineDescription(void){return engineDescription;}
@@ -53,6 +52,7 @@ extern DECLSPEC int ELTAPIENTRY ExGetHint(Enum e_enum){
 #define ELT_DISPLAY 0x1
 DECLSPEC int ELTAPIENTRY ExSetParameteri(Enum eflag, int value){
     switch(eflag){
+
         case 0:break;
 #if defined(EX_WINDOWS)
 
@@ -71,8 +71,6 @@ DECLSPEC int ELTAPIENTRY ExSetParameterf(Enum eflag, float value){
     }
     return 1;
 }
-
-
 
 static EngineDescription ELTAPIENTRY EngineDefaultDescription(void){
 	EngineDescription defaultDescripton = {0};
