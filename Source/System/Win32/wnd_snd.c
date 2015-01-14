@@ -14,23 +14,23 @@ LPDIRECTSOUND8 pDS = EX_NULL;
 DECLSPEC ERESULT ELTAPIENTRY ExInitDirectSound(ExWin hWnd, Uint32 flag){
 	ERESULT hr;
 
-	CoInitializeEx(EX_NULL,COINIT_MULTITHREADED);
-
+	CoInitializeEx(NULL,COINIT_MULTITHREADED);
+	/*
 	if(FAILED(hr = DirectSoundCreate8(EX_NULL, &pDS,EX_NULL))){
 		ExDevPrintf("Failed to Create DirectSound %s", ExGetHResultErrorMessage(hr));
 	}
 	if(FAILED( hr = pDS->SetCooperativeLevel(hWnd, DSSCL_PRIORITY))){
 		ExDevPrintf("Failed to Set Cooperative Level on DirectSound %s", ExGetHResultErrorMessage(hr));
 	}
-
+	*/
 	return hr;
 }
 
 
 DECLSPEC void ELTAPIENTRY ExReleaseDirectSound(void){
-	ERESULT hr;
+/*	ERESULT hr;
 	if(pDS)
 		if(FAILED(hr = pDS->Release()))
-			wExDevPrintf(EX_TEXT("Failed to Release DirectSound"), ExGetHResultErrorMessage(hr));
+			wExDevPrintf(EX_TEXT("Failed to Release DirectSound"), ExGetHResultErrorMessage(hr));*/
 }
 #endif

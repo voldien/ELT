@@ -52,7 +52,7 @@ extern DECLSPEC void ELTAPIENTRY ExReleaseDirectXContext(void* d3d);
 /*
 
 */
-extern DECLSPEC void ELTAPIENTRY ExDirectFullScreen(Boolean fullscreen);
+extern DECLSPEC void ELTAPIENTRY ExDirectFullScreen(ExBoolean fullscreen);
 
 #ifdef __cplusplus // C++ environment
 }

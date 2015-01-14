@@ -44,7 +44,7 @@ DECLSPEC ExBoolean ELTAPIENTRY WIN_EnableDeviceNotification(ExWin hWnd){
 
 
 
-	return (hDevNotify) ? TRUE : FALSE;
+	return (ExBoolean)((hDevNotify) ? TRUE : FALSE);
 }
 /*
 	// Main Proc designed for OpenGL Window mainly. 
@@ -238,9 +238,10 @@ DECLSPEC LRESULT WINAPI WndProcNative(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 		DestroyWindow(hWnd);
 	}break;
 	case WM_SIZE:{
+		HWND hWndChild;
 		PostMessage(hWnd, WM_USER_SIZE, wParam,lParam);
 		// send message to all the children of resizing!
-		for(HWND hWndChild = ::GetTopWindow(hWnd); hWndChild != NULL; hWndChild = ::GetNextWindow(hWndChild, GW_HWNDNEXT)){
+		for(hWndChild = GetTopWindow(hWnd); hWndChild != NULL; hWndChild = ::GetNextWindow(hWndChild, GW_HWNDNEXT)){
 			SendMessage(hWndChild, uMsg, wParam, lParam);
 		}
 	}break;

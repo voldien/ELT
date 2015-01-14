@@ -212,10 +212,11 @@ DECLSPEC void ELTAPIENTRY ExSetStatusBarParts(ExWin statusHwnd,Int32 count){
 //=========================================
 //		Button		 //
 DECLSPEC ExWin ELTAPIENTRY ExCreateButton(ExWin parentHwnd,CallBack callback){
+	HWND hwndButton;
 	ExButtonEvent*  event = (ExButtonEvent*)ExMalloc(sizeof(ExButtonEvent));
 	memset(event, 0, sizeof(ExButtonEvent));
 	event->buttonPushed = callback;
-	HWND hwndButton = CreateWindow( 
+	hwndButton = CreateWindow( 
     EX_TEXT("BUTTON"),  // Predefined class; Unicode assumed 
     EX_TEXT(""),      // Button text 
     WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON ,  // Styles 

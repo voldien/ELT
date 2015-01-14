@@ -16,7 +16,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExCreateOpenDialog(ExChar* path){
 	openfile.nMaxFileTitle = 0;
 	openfile.lpstrInitialDir = EX_NULL;
 	openfile.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST |OFN_NOCHANGEDIR;
-	return GetOpenFileName(&openfile);
+	return (ExBoolean)GetOpenFileName(&openfile);
 }
 DECLSPEC ExBoolean ELTAPIENTRY ExCreateOpenDialog2(ExFileDialog* exFileDialog){
 	OPENFILENAME openfile = {0};
@@ -36,11 +36,11 @@ DECLSPEC ExBoolean ELTAPIENTRY ExCreateOpenDialog2(ExFileDialog* exFileDialog){
 	if(GetOpenFileName(&openfile)){
 		// succed
 
-		return TRUE;
+		return (ExBoolean)TRUE;
 	}
 	else{
 		wExDevPrintf(TEXT("Failed to Create Open Dialog : [Error] %s"), ExGetErrorMessage(CommDlgExtendedError()));
-		return FALSE;
+		return (ExBoolean)FALSE;
 	}
 }
 
@@ -56,7 +56,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExCreateSaveDialog(ExChar* path){
 	savefile.nFilterIndex = 1;
 	savefile.nMaxFile = MAX_PATH;
 	savefile.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST |OFN_NOCHANGEDIR;
-	return GetSaveFileName(&savefile);
+	return (ExBoolean)GetSaveFileName(&savefile);
 }
 
 DECLSPEC ExBoolean ELTAPIENTRY ExCreateSaveDialog2(ExFileDialog* exFileDialog){
@@ -71,13 +71,13 @@ DECLSPEC ExBoolean ELTAPIENTRY ExCreateSaveDialog2(ExFileDialog* exFileDialog){
 	savefile.nFilterIndex = 1;
 	savefile.nMaxFile = MAX_PATH;
 	savefile.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST |OFN_NOCHANGEDIR;
-	return GetSaveFileName(&savefile);
+	return (ExBoolean)GetSaveFileName(&savefile);
 }
 
 DECLSPEC ExBoolean ELTAPIENTRY ExCreateFontDialog(void){
 	CHOOSEFONT fontdlg = {0};
 	fontdlg.lStructSize = sizeof(fontdlg);
-	return ChooseFont (&fontdlg);
+	return (ExBoolean)ChooseFont (&fontdlg);
 }
 
 DECLSPEC ExBoolean ELTAPIENTRY ExCreateColorDialog(ExWin owner,Uint8 colour[4]){
@@ -89,8 +89,8 @@ DECLSPEC ExBoolean ELTAPIENTRY ExCreateColorDialog(ExWin owner,Uint8 colour[4]){
 	chcolour.lpCustColors = acrCustClr;
 	if(ChooseColor(&chcolour)){
 		memcpy(colour,&chcolour.rgbResult, sizeof(colour));
-		return TRUE;
-	}else return FALSE;
+		return (ExBoolean)TRUE;
+	}else return (ExBoolean)FALSE;
 }
 
 #endif

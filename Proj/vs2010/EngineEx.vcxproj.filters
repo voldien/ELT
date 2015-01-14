@@ -137,6 +137,9 @@
     <ClCompile Include="..\..\Source\System\Win32\wnd_snd.c">
       <Filter>Source Files\system\window</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\System\elt_net.c">
+      <Filter>Source Files\system</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\EngineAssembly.h">

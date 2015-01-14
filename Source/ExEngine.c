@@ -25,28 +25,16 @@
 /**
     Delay load of .dll file which might not be needed
 */
-    #pragma comment(linker,"/DELAYLOAD:avcodec-55.dll")
-    #pragma comment(linker,"/DELAY:UNLOAD")
-    #pragma comment(linker,"/DELAYLOAD:avdevice-55.dll")
-    #pragma comment(linker,"/DELAY:UNLOAD")
-    #pragma comment(linker,"/DELAYLOAD:avfilter-4.dll")
-    #pragma comment(linker,"/DELAY:UNLOAD")
-    #pragma comment(linker,"/DELAYLOAD:postproc-52.dll")
-    #pragma comment(linker,"/DELAY:UNLOAD")
-    #pragma comment(linker,"/DELAYLOAD:swresample-0.dll")
-    #pragma comment(linker,"/DELAY:UNLOAD")
-    #pragma comment(linker,"/DELAYLOAD:xinput1_3.dll")
-    #pragma comment(linker,"/DELAY:UNLOAD")
-    #pragma comment(linker,"/DELAYLOAD:swscale-2.dll")
-    #pragma comment(linker,"/DELAY:UNLOAD")
-    #pragma comment(linker,"/DELAYLOAD:avutil-52.dll")
-    #pragma comment(linker,"/DELAY:UNLOAD")
-    #pragma comment(linker,"/DELAYLOAD:avformat-55.dll")
-    #pragma comment(linker,"/DELAY:UNLOAD")
-    #pragma comment(linker,"/DELAYLOAD:D3D9.dll")
-    #pragma comment(linker,"/DELAY:UNLOAD")
-    #pragma comment(linker,"-DELAYLOAD:D3D9.dll")
-    #pragma comment(linker,"-DELAY:UNLOAD")
+    #pragma comment(linker,"/DELAYLOAD:\"avcodec-55.dll\"")
+    #pragma comment(linker,"/DELAYLOAD:\"avdevice-55.dll\"")
+    #pragma comment(linker,"/DELAYLOAD:\"avfilter-4.dll\"")
+    #pragma comment(linker,"/DELAYLOAD:\"postproc-52.dll\"")
+    #pragma comment(linker,"/DELAYLOAD:\"swresample-0.dll\"")
+    #pragma comment(linker,"/DELAYLOAD:\"xinput1_3.dll\"")
+    #pragma comment(linker,"/DELAYLOAD:\"swscale-2.dll\"")
+    #pragma comment(linker,"/DELAYLOAD:\"avutil-52.dll\"")
+    #pragma comment(linker,"/DELAYLOAD:\"avformat-55.dll\"")
+    #pragma comment(linker,"/DELAYLOAD:\"D3D9.dll\"")
 
 
 

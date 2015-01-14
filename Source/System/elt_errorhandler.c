@@ -399,7 +399,7 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 	t = time(NULL);
 	tm = *localtime(&t);
 	ExSPrintf(cfilename, EX_TEXT("ErrorLog_%d_%d_%d_%d_%d_%d"), tm.tm_year,tm.tm_mon,tm.tm_wday,tm.tm_hour,tm.tm_min,tm.tm_sec);
-#endif
+
     /**
         save error to
     */
@@ -414,6 +414,7 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 
 
     int size = ftell(dup);
+#endif
 	/**stdout = *m_file_log;
 	setvbuf(fopen, NULL, _IONBF, 0 );
 

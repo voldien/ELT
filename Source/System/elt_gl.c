@@ -101,6 +101,10 @@ EGL_BUFFER_SIZE, 16,
 
 #ifdef EX_WINDOWS
 	eglDisplay = eglGetDisplay(NULL);
+    EGLint ctxattr[] = {
+      EGL_CONTEXT_CLIENT_VERSION, 2,
+      EGL_NONE
+    };
 #elif defined(EX_LINUX)
 
 	//if(eglBindAPI(EGL_OPENGL_API) != EGL_TRUE)
@@ -116,7 +120,7 @@ EGL_BUFFER_SIZE, 16,
 	eglDisplay = eglGetDisplay(0);
 #endif
 	/**
-        \Initialize OpenGL ES
+        Initialize OpenGL ES
 	*/
 	//if(eglBindAPI(EGL_OPENGL_API) != EGL_TRUE)
     //    ExError("Bind API!");
@@ -286,7 +290,7 @@ static OpenGLContext create_temp_gl_context(HWND window){
 	/**
         // Set Pixel format
 	*/
-	if(!SetPixelFormat(hDC, npixelFormat,(const PIXELFORMATDESCRIPTOR*)pPFD)){
+	if(!SetPixelFormat(hDC, npixelFormat,(const PIXELFORMATDESCRIPTOR*)&pfd)){
 		wExDevPrintf(EX_TEXT("Failed to Set PixelFormat : %s\n"), ExGetErrorMessage(GetLastError()));
 		return NULL;
 	}
@@ -403,7 +407,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     WGLCHOOSEPIXELFORMATARB_T wglGetPixelFormatAttribivARB;
 	Int32 attrib[] = { WGL_NUMBER_PIXEL_FORMATS_ARB };
 	Int32 nResults[1] = {0};
-	Int32 pixFmt = 1, attrSize = 0;
+	Int32 pixFmt[1] = {0}, attrSize = 0;
 
     /**
         Get Pixel Format attribute
@@ -500,6 +504,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     WGLGETPIXELFORMATATTRIBIVARB_T wglGetPixelFormatAttribivARB;
     WGLGETEXTENSIONSSTRINGEXT_T wglGetExtensionStringEXT;
     WGLGETEXTENSIONSSTRINGARB_T wglGetExtensionStringARB;
+    WGLCREATECONTEXTATTRIBSARB wglCreateContextAttribsARB;
     HWND temp_gl_hwnd;
 	PIXELFORMATDESCRIPTOR pfd;
 	HDC hDC;
@@ -517,7 +522,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 		printf("Success to Create Default OpenGL Context.\n");
 
 	ExGLPrintDevInfo();
-	deviContext = GetDC(window);
+	hDC = GetDC(window);
 	/**
         \ TODO change the condition.
 	*/
@@ -530,6 +535,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     wglGetExtensionStringEXT =      (WGLGETEXTENSIONSSTRINGEXT_T)GL_GET_PROC("wglGetExtensionStringEXT");
     wglGetExtensionStringARB =      (WGLGETEXTENSIONSSTRINGARB_T)GL_GET_PROC("wglGetExtensionStringARB");
 	wglCreateContextAttribsARB =    (WGLCREATECONTEXTATTRIBSARB)GL_GET_PROC("wglCreateContextAttribsARB");
+
 
     if(!wglGetPixelFormatAttribivARB(hDC, pixFmt,0,1, attrib, nResults))
         ExError(EX_TEXT("Error"));
@@ -557,14 +563,14 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     /*TODO: Naming between context attributes and for choosing a pixel-format
         Create pixel format attributes
     */
-    ExCreateContextAttrib(deviContext,&pixAttribs,&dataSize,&engineDescription);
+    ExCreateContextAttrib(hDC,&pixAttribs,&dataSize,&engineDescription);
 
 
     if(!wglChoosePixelFormatARB(hDC, &pixAttribs[0], NULL, 1, pixelFormat, (unsigned int*)&nResults[0]))
         ExError(EX_TEXT("function : wglChoosePixelFormatARB Failed"));
 
 
-    if(ExDestroyContext(deviContext,glc)){  /*  destroy temp context    */
+    if(ExDestroyContext(hDC,glc)){  /*  destroy temp context    */
             DestroyWindow(temp_gl_hwnd);
     }else ExDevPrint("Failed to delete Temp OpenGL Context.\n");
 

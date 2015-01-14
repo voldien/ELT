@@ -20,7 +20,7 @@ extern DECLSPEC ERESULT ELTAPIENTRY ExInitNet(Uint32 flag);
 
 extern DECLSPEC ERESULT ELTAPIENTRY ExCreatServer(const char* ip, const char* port);
 
-extern DECLSPEC Boolean ELTAPIENTRY ExRelaseNet(void);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExRelaseNet(void);
 
 
 #ifdef EX_CPP

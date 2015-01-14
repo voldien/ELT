@@ -7,12 +7,19 @@
 #   include<netinet/in.h>
 #   include<errno.h>
 #   include<netdb.h>
+#elif defined(EX_WINDOWS)
+#pragma comment(lib,"libws2_32.lib")
+#	include<WinSock.h>
+
 #endif // EX_WINDOWS
 
 // http://www.linuxhowtos.org/data/6/server.c
 
 DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port,unsigned int protocol){
     #ifdef EX_WINDOWS
+	
+
+
     #elif defined(EX_LINUX)
     #endif
     unsigned int sockfd,newsockdf;

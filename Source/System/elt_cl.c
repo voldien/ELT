@@ -174,7 +174,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(void* context,void* param_value,En
             break;
         case CL_CONTEXT_REFERENCE_COUNT:{
 
-            ciErrNum = clGetContextInfo(context, CL_CONTEXT_REFERENCE_COUNT,sizeof(cl_uint),param_value,&size);
+            ciErrNum = clGetContextInfo((cl_context)context, CL_CONTEXT_REFERENCE_COUNT,sizeof(cl_uint),param_value,&size);
 
             }break;
         #ifdef EX_WINDOWS
@@ -188,7 +188,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(void* context,void* param_value,En
         case CL_CURRENT_DEVICE_FOR_GL_CONTEXT_KHR:{
             typedef cl_int (CL_API_CALL*clGetGLContextInfoKHR)(const cl_context_properties * /* properties */,cl_gl_context_info /* param_name */,size_t/* param_value_size */,void */* param_value */,size_t */* param_value_size_ret */);
             cl_context_properties con_prop[10] = {0};
-            clGetGLContextInfoKHR func = clGetExtensionFunctionAddress("clGetGLContextInfoKHR");
+            clGetGLContextInfoKHR func = (clGetGLContextInfoKHR)clGetExtensionFunctionAddress("clGetGLContextInfoKHR");
 
             ExQueryCLContext(context,&con_prop,CL_CONTEXT_PROPERTIES);
 

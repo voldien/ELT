@@ -41,9 +41,10 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -108,12 +109,12 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <CompileAs>CompileAsCpp</CompileAs>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <TreatWarningAsError>false</TreatWarningAsError>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
-      <AdditionalOptions>/fpermissive /wd2440 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>  /Wall %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
     </ClCompile>
@@ -267,6 +268,7 @@
     <ClCompile Include="..\..\Source\System\elt_event.c" />
     <ClCompile Include="..\..\Source\System\elt_gl.c" />
     <ClCompile Include="..\..\Source\System\elt_log.c" />
+    <ClCompile Include="..\..\Source\System\elt_net.c" />
     <ClCompile Include="..\..\Source\System\elt_win.c" />
     <ClCompile Include="..\..\Source\System\Win32\win_controls.c" />
     <ClCompile Include="..\..\Source\System\Win32\win_directX.c" />

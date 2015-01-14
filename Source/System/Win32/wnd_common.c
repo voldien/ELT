@@ -29,11 +29,11 @@ DECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetSafeMonitor(Uint32 index){
 DECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetPrimaryMontior(void){
 	DISPLAY_DEVICE dd;
 	dd.cb = sizeof(DISPLAY_DEVICE);
-	Int index = 0;
+	Int32 index = 0;
 	while(EnumDisplayDevices(NULL, index++, &dd,0)){
 		if(dd.StateFlags & DISPLAY_DEVICE_PRIMARY_DEVICE) return dd;
 		// check the iteration count for preventing infinity loop here.
-		if(index > sizeof(Boolean) * 256){// check how many monitor is attached. 
+		if(index > sizeof(ExBoolean) * 256){// check how many monitor is attached. 
 			ExDevPrintf("Failed to Find Primary Monitor Device");
 			break;
 		}
@@ -128,8 +128,8 @@ DECLSPEC WCHAR* ELTAPIENTRY ExConvertToUnicode(const char* cchar){
 }
 
 DECLSPEC void ELTAPIENTRY ExUnicodeToAscii(const WCHAR* wchar, char** cchar){
-	if(!wchar)return;
 	Int32 length = wcslen(wchar);
+	if(!wchar)return;
 	if(!*cchar)
 		cchar[0] = (char*)ExMalloc(sizeof(char) * length + 1);
 	if(WideCharToMultiByte(CP_OEMCP,0,wchar, -1, cchar[0],sizeof(char) * length + sizeof(char), 0,0) <= 0){
@@ -145,7 +145,7 @@ DECLSPEC char* ELTAPIENTRY ExConvertAscii(const WCHAR* wwchar){
 #define ExOpenRegKey(hKey,directory,phKey) RegOpenKeyEx(hKey,directory,0, KEY_ALL_ACCESS, phKey)
 
 DECLSPEC ExBoolean ELTAPIENTRY ExExistRegKey(HKEY hKey, const ExChar* directory){
-	return ExOpenRegKey(hKey,directory,NULL) == ERROR_SUCCESS ? TRUE : FALSE;
+	return (ExBoolean)ExOpenRegKey(hKey,directory,NULL) == ERROR_SUCCESS ? TRUE : FALSE;
 }
 
 DECLSPEC Uint32 ELTAPIENTRY ExGetRegValuei(HKEY hKey, const ExChar* directory, const ExChar* cregname){
