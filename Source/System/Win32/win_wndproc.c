@@ -148,7 +148,7 @@ DECLSPEC LRESULT WINAPI MainWndProc(HWND hWnd,UINT uMsg, WPARAM wParam, LPARAM l
 	case WM_DEVICECHANGE:{
 		WCHAR strBuff[256];
 			//temp
-			ExInitXController();
+			//ExInitXController();
 			switch(wParam){
 			case DBT_DEVICEARRIVAL:
           //  msgCount++;

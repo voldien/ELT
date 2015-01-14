@@ -34,14 +34,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineModuleDefination.def" />
-    <None Include="HyperionIcon.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="EngineEx.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\main.c">

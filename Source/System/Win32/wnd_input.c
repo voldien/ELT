@@ -23,11 +23,11 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitDirectInput(Uint32 flag){
 DECLSPEC ERESULT ELTAPIENTRY ExInitDirectInputDevice(ExWin hWnd, Uint32 flag){
 	ERESULT hr;
 	//if((flag & ENGINE_SUPPORT_JOYSTICK))
-		hr = ExInitJoyStick(hWnd);
+		//hr = ExInitJoyStick(hWnd);
 	//if((flag & ENGINE_SUPPORT_KEYBOARD))
 		//hr = ExInitKeyBoard(hWnd);
 	//if((flag & ENGINE_SUPPORT_MOUSE))
-		hr = ExInitMouse(hWnd);
+		//hr = ExInitMouse(hWnd);
 	//if((flag & ENGINE_SUPPORT_XBOX))
 	//	hr = ExInitXController();
 	return hr;
@@ -44,7 +44,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExShutDownDirect(void){
 	}*/
 //	ExJoyStickShutDown();
 //	ExPSShutDown();
-	ExXShutDown();
+	//ExXShutDown();
 	return ehr;
 }
 

@@ -97,7 +97,7 @@ extern DECLSPEC HMENU ELTAPIENTRY ExCreatePopUpMenuItem(HMENU hpopupMenu,const E
 /**/
 extern DECLSPEC HMENU ELTAPIENTRY ExCreateMenuItemB(HMENU hpopupMenu, HBITMAP bitmap,  CallBack callback);
 
-extern DECLSPEC Boolean ELTAPIENTRY ExCreateMenuSeparator(HMENU hMenu);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExCreateMenuSeparator(HMENU hMenu);
 
 extern DECLSPEC void ELTAPIENTRY ExMenuItemID(HMENU item, Uint32 id);
 /*
@@ -150,7 +150,7 @@ extern DECLSPEC ExWin ELTAPIENTRY ExCreateHeader(ExWin parenthWnd, Int32 x, Int3
 */
 /*	Create a toolBar	*/
 extern DECLSPEC ExWin ELTAPIENTRY ExCreateToolBar(ExWin parenthWnd);
-extern DECLSPEC Boolean ELTAPIENTRY ExAddToolBarTemplate(ExWin hWndToolbar, ExChar* text, Uint32 templates,ExButtonPushed buttoncallback);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExAddToolBarTemplate(ExWin hWndToolbar, ExChar* text, Uint32 templates,ExButtonPushed buttoncallback);
 extern DECLSPEC void ELTAPIENTRY ExAddToolBarButton(ExWin hWndToolbar,ExChar* text,HBITMAP bitmap,Uint32 templates,ExButtonPushed buttoncallback);
 extern DECLSPEC void ELTAPIENTRY ExAddToolBarButtonT(ExWin hWndToolbar,ExChar* text);
 extern DECLSPEC void ELTAPIENTRY ExAddToolBarButtonB(ExWin hWndToolbar,HBITMAP bitmap);

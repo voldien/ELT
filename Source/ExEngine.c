@@ -17,15 +17,15 @@
 
 #if defined(EX_WINDOWS)
 #   if defined(EX_VC)
-#   	pragma comment(lib,"opengl32.lib")
+
 #   	include<delayimp.h>
-#   	pragma comment(lib,"DelayImp.lib")
+#   	pragma comment(lib,"delayimp.lib")
 #   endif
 
 /**
     Delay load of .dll file which might not be needed
 */
-    #pragma comment(linker,"/DELAYLOAD:\"avcodec-55.dll\"")
+    /*#pragma comment(linker,"/DELAYLOAD:\"avcodec-55.dll\"")
     #pragma comment(linker,"/DELAYLOAD:\"avdevice-55.dll\"")
     #pragma comment(linker,"/DELAYLOAD:\"avfilter-4.dll\"")
     #pragma comment(linker,"/DELAYLOAD:\"postproc-52.dll\"")
@@ -35,11 +35,11 @@
     #pragma comment(linker,"/DELAYLOAD:\"avutil-52.dll\"")
     #pragma comment(linker,"/DELAYLOAD:\"avformat-55.dll\"")
     #pragma comment(linker,"/DELAYLOAD:\"D3D9.dll\"")
+    #pragma comment(linker,"/DELAYLOAD:""OpenCL.dll""")*/
+    //#pragma comment(linker,"/delayload:\"libEGL.dll\"")
 
 
-
-    #pragma comment(linker,"/DelayLoad:Ws2_32.dll")
-    #pragma comment(linker,"/Delay:unload")
+    //#pragma comment(linker,"/DelayLoad:Ws2_32.dll")
 /**
     handle Instance
 */
@@ -283,7 +283,8 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 	Int32 display;
 
 	ExReleaseCL();
-	ExReleaseGL();
+	ExDestroyContext(ExGetCurrentGLDrawable(), ExGetCurrentOpenGLContext());
+
 	ExUnRegisterClasses();
 #if defined(EX_INCLUDE_DIRECTX)
 	ExReleaseDirectX();
@@ -363,7 +364,8 @@ DECLSPEC void ELTAPIENTRY ExDisable(Enum disable){
 #define EX_TO_TEXT(x) "x"
 #define EX_COMPILER_VERSION(major, minor, revision) EX_TEXT("ELT-")EX_TO_TEXT(major)EX_TEXT(".")EX_TO_TEXT(minor)EX_TEXT(".")EX_TO_TEXT(revision)
 DECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void){
-	return EX_COMPILER_VERSION(EX_MAJOR_VERSION, EX_MINOR_VERSION, EX_REVISION);
+	return EX_TEXT("");
+	//return EX_COMPILER_VERSION(EX_MAJOR_VERSION, EX_MINOR_VERSION, EX_REVISION);
 }
 
 DECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void){

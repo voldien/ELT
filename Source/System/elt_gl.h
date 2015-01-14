@@ -18,7 +18,7 @@
 
 */
 #ifndef ELT_GL_H
-#define ELT_GL_H
+#define ELT_GL_H 1
 #include"./../ExPreProcessor.h"
 
 #ifdef EX_WINDOWS
@@ -36,6 +36,7 @@
 
 
 #if defined(EX_WINDOWS)
+	#include<Windows.h>
 	#include"Win32/win_win32.h"
 #elif defined(EX_LINUX)
 	#include"Unix/unix_win.h"

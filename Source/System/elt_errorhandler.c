@@ -3,6 +3,7 @@
 #include"./../elt_console.h"
 #ifdef EX_WINDOWS
 #	include<DbgHelp.h>
+#pragma comment(lib, "Dbghelp.lib")
 #elif defined(EX_LINUX)
 #   include<syslog.h>
 #   include"Unix/unix_win.h"

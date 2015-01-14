@@ -145,7 +145,8 @@ typedef void* DataBuffer;
 	typedef Uint8 Boolean;
 #endif
 #ifndef CMD_LIB_H
-    typedef enum {xfalse, xtrue }ExBoolean;
+    //typedef enum {xfalse, xtrue }ExBoolean;
+	typedef  char ExBoolean;
 #else
     typedef Boolean ExBoolean;
 #endif
@@ -158,6 +159,7 @@ typedef void* HANDLE;
 #endif
 #ifdef EX_WINDOWS
 typedef __success(return >= 0) long ERESULT;
+
 #else
 typedef long ERESULT;
 #endif

@@ -17,11 +17,14 @@
 
 DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port,unsigned int protocol){
     #ifdef EX_WINDOWS
-	
+    unsigned int sockfd,newsockdf;
+    unsigned int sock_domain,socket_protocol;
+    struct sockaddr_in serv_addr, cli_addr;
 
 
+	return 0;
     #elif defined(EX_LINUX)
-    #endif
+
     unsigned int sockfd,newsockdf;
     unsigned int sock_domain,socket_protocol;
     struct sockaddr_in serv_addr, cli_addr;
@@ -76,19 +79,23 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
     }
 
     return sockfd;
+    #endif
 }
 
 DECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(unsigned int socket){
     #ifdef EX_WINDOWS
+	return 0;
     #elif defined(EX_LINUX)
-    #endif
     return close(socket);
+    #endif
+
 }
 
 DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int port){
     #ifdef EX_WINDOWS
+	return 0 ;
     #elif defined(EX_LINUX)
-    #endif
+
     struct sockaddr_in serv_addr;
     struct hostent *server;
     int sockfd;/**TODO check if sockdf should be input parameter*/
@@ -111,5 +118,6 @@ DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int p
         fprintf(stderr,strerror(errno));
 
     return sockfd;
+    #endif
 }
 

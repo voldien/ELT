@@ -4,17 +4,21 @@
 #ifdef EX_WINDOWS
     #pragma warning(disable : 4273) // 'function' : inconsistent DLL linkage
 	// library connection to DLL
-    #pragma comment(lib, "Opengl32.lib")
+	#pragma comment(lib,"opengl32.lib")
+   // #pragma comment(lib, "Opengl32.lib")
     #pragma comment(lib, "Glu32.lib")
     #pragma comment(lib, "gdi32.lib")
+	#pragma comment(lib,"libEGL.lib")
 	#include<dwmapi.h>
 	#include<WinUser.h>
 	#include<Windows.h>
 	#include<GL/GL.h>
     #include<EGL/egl.h>
+	#include<GL/glext.h>
 	#include<GL/wglext.h>
     //#include<GL/glext.h>
-    #define GL_GET_PROC(x)   wglGetProcAddress( ( x ) )         /*  get OpenGL function process address */
+    #define GL_GET_PROC(x)   wglGetProcAddress( (LPCSTR)( x ) )         /*  get OpenGL function process address */
+
 #elif defined(EX_LINUX)
     #include<X11/extensions/Xrender.h>
     #include<X11/Xatom.h>
@@ -272,18 +276,18 @@ static void ELTAPIENTRY ExCreatePFD2( void *pPFD, EngineDescription* desc){
 */
 static OpenGLContext create_temp_gl_context(HWND window){
 	PIXELFORMATDESCRIPTOR pfd;
-	OpenGLContext gl_context;
+	OpenGLContext gl_context,hrc;
 	int npixelFormat;
 	HDC hDC;
 	/**
         Create Pixel Description
 	*/
-	ExCreatePFD(&pfd,32,24,8);
+	ExCreatePFD(&pfd,32,24,0);
 	hDC = GetDC(window);    /*Get device context*/
 	/**
         // Choose Pixel Format.
 	*/
-	if(!(npixelFormat = ChoosePixelFormat(hDC,(const PIXELFORMATDESCRIPTOR*)&pfd)){
+	if(!(npixelFormat = ChoosePixelFormat(hDC,(const PIXELFORMATDESCRIPTOR*)&pfd))){
 		ExIsWinError(npixelFormat);
 		return NULL;
 	}
@@ -305,19 +309,19 @@ static OpenGLContext create_temp_gl_context(HWND window){
 	/**
         // Make Current Context On this Thread
 	*/
-	if(!wglMakeCurrent(hDC,pglc)){
+	if(!wglMakeCurrent(hDC,gl_context)){
 		wExDevPrintf(EX_TEXT("Failed to Make OpenGL Current : %s\n"), ExGetErrorMessage(GetLastError()));
 		return NULL;
 	}
 
-	hrc = pglc;
+	hrc = gl_context;
 	// Release Context
-	if(ReleaseDC(window,hDC))
+	/*if(ReleaseDC(window,hDC))
 		return gl_context;
 	else{
 		wExDevPrintf(EX_TEXT("Failed to Release DC : %s \n"), ExGetErrorMessage(GetLastError()));
 		return gl_context;
-	}
+	}*/
 	return gl_context;
 }
 /**
@@ -329,22 +333,31 @@ static HWND  create_temp_gl_win(OpenGLContext* pglc_context){
     WNDCLASSEX  wc= {0};
     #define TEMP_WINDOW_CLASS EX_TEXT("temp")
     wc.cbSize = sizeof(wc);
-    wc.style = CS_HREDDRAW | SC_VREDRAW | CS_OWNDC;
+	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
     wc.lpfnWndProc = MainWndProc;
-    wc.hInstance = GetModuleHandle(NULL);
+	wc.hInstance = GetModuleHandle(NULL);
     wc.hIcon = (HICON)LoadIcon(wc.hInstance,NULL);
     wc.hCursor = LoadCursor(wc.hInstance, NULL);
     wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
+	wc.lpfnWndProc = MainWndProc;
+	wc.hbrBackground =  (HBRUSH) 0;
+	wc.cbClsExtra = 0;
+	wc.cbWndExtra = 0;
+	wc.lpszMenuName = EX_NULL;
     wc.lpszClassName = TEMP_WINDOW_CLASS;
+
+	RegisterClassEx(&wc);
 
     hwnd = CreateWindowEx(WS_EX_APPWINDOW,TEMP_WINDOW_CLASS,EX_TEXT(""),
 		(WS_OVERLAPPEDWINDOW ^WS_THICKFRAME ^ WS_MAXIMIZEBOX),0, 0,
 		 10,
 		 10,
-		EX_NULL,
-		EX_NULL,
+		NULL,
+		NULL,
 		wc.hInstance,
-		EX_NULL);
+		NULL);
+	if(!hwnd)
+			return (HWND)0;
     glc = create_temp_gl_context(hwnd);/*create temp opengl context*/
     if(!glc)
         ExError(EX_TEXT("Failure"));
@@ -405,14 +418,15 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 		return;
 #ifdef EX_WINDOWS
     WGLCHOOSEPIXELFORMATARB_T wglGetPixelFormatAttribivARB;
-	Int32 attrib[] = { WGL_NUMBER_PIXEL_FORMATS_ARB };
-	Int32 nResults[1] = {0};
-	Int32 pixFmt[1] = {0}, attrSize = 0;
+	int attrib[] = { WGL_NUMBER_PIXEL_FORMATS_ARB };
+	unsigned int nResults[1] = {0};
+	int pixFmt[1] = {0};
+	unsigned int attrSize = 0;
 
     /**
         Get Pixel Format attribute
     */
-    wglGetPixelFormatAttribivARB = (WGLCHOOSEPIXELFORMATARB_T)GL_GET_PROC("wglGetPixelFormatAttribivARB");
+    wglGetPixelFormatAttribivARB = (WGLCHOOSEPIXELFORMATARB_T)GL_GET_PROC("wglGetPixelFormatAttribivARB");/*Get the process*/
 
 	if(wglGetPixelFormatAttribivARB(hDc, pixFmt,0, 1, attrib, &nResults[0])){
 
@@ -514,14 +528,22 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     int attrib[] = {WGL_NUMBER_PIXEL_FORMATS_ARB};
     int nResults[1] ={0};
     int pixFmt = 1;
+	unsigned int dataSize;
 
     /**
         Create Temporarily openGL Context and it's associated window
     */
 	if(temp_gl_hwnd = (HWND)create_temp_gl_win(&glc))
 		printf("Success to Create Default OpenGL Context.\n");
+	ExMakeGLCurrent(GetDC(temp_gl_hwnd), glc);
 
-	ExGLPrintDevInfo();
+    /**
+		Get supported opengl version.
+    */
+    glGetIntegerv(GL_MAJOR_VERSION, &major_version);
+    glGetIntegerv(GL_MINOR_VERSION, &minor_version);
+
+	//ExGLPrintDevInfo();
 	hDC = GetDC(window);
 	/**
         \ TODO change the condition.
@@ -540,11 +562,8 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     if(!wglGetPixelFormatAttribivARB(hDC, pixFmt,0,1, attrib, nResults))
         ExError(EX_TEXT("Error"));
 
-    /**
-		Get supported opengl version.
-    */
-    glGetIntegerv(GL_MAJOR_VERSION, &major_version);
-    glGetIntegerv(GL_MINOR_VERSION, &minor_version);
+
+
 
     /*
         Context attributes
@@ -563,7 +582,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     /*TODO: Naming between context attributes and for choosing a pixel-format
         Create pixel format attributes
     */
-    ExCreateContextAttrib(hDC,&pixAttribs,&dataSize,&engineDescription);
+	ExCreateContextAttrib(hDC,&pixAttribs[0],(Int32*)&dataSize,&engineDescription, EX_OPENGL);
 
 
     if(!wglChoosePixelFormatARB(hDC, &pixAttribs[0], NULL, 1, pixelFormat, (unsigned int*)&nResults[0]))
@@ -704,8 +723,7 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
         ExError(EX_TEXT(""));
     //if(!SetPixelFormat(hdc, 0, 0))
 
-    shared_glc = wglCreateContextAttribsARB(hdc c, glc,0);
-
+    shared_glc = wglCreateContextAttribsARB(hdc,glc,0);
     wglCopyContext(glc, shared_glc, GL_ALL_ATTRIB_BITS);
     wglShareLists(glc, shared_glc);
 
@@ -752,7 +770,7 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
 DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescription){
 #if (EX_ENGINE_VERSION_MAJOR < 1 )
 #ifdef EX_WINDOWS
-	WGLSWAPINTERVALEXT_T wglSwapIntervalEXT = (WGLSWAPINTERVALEXT_T)GL_GET_PROC((const GLubyte*)"wglSwapIntervalEXT");
+	WGLSWAPINTERVALEXT_T wglSwapIntervalEXT = (WGLSWAPINTERVALEXT_T)GL_GET_PROC("wglSwapIntervalEXT");
 
 	ExWin hWnd;	// Window
 	RECT rect;	// client Rect
@@ -882,7 +900,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin win
 		if((cdsRet = ChangeDisplaySettingsEx(dd.DeviceName,&dm,EX_NULL,(CDS_TEST),0)) == DISP_CHANGE_SUCCESSFUL){
 			cdsRet = ChangeDisplaySettingsEx(dd.DeviceName,&dm,EX_NULL,(CDS_FULLSCREEN),0);
 			ExPrintf("displayed changed to fullscreen Mode\n");
-			engineDescription.EngineFlag |= ENGINE_FULLSCREEN;
+			//engineDescription.EngineFlag |= ENGINE_FULLSCREEN;
 			return cdsfullscreen;
 		}
 		// try to find another rus
@@ -895,7 +913,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin win
 		SetWindowLongPtr(window, GWL_EXSTYLE, WS_EX_APPWINDOW);
 		ChangeDisplaySettings(0,0);
 		ShowWindow(window, SW_NORMAL);
-		engineDescription.EngineFlag = (~ENGINE_FULLSCREEN & engineDescription.EngineFlag);
+		//engineDescription.EngineFlag = (~ENGINE_FULLSCREEN & engineDescription.EngineFlag);
 		UpdateWindow(window);
 		SetForegroundWindow(window);
 		return (ExBoolean)!cdsfullscreen;

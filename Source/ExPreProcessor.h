@@ -532,6 +532,10 @@
 #endif
 
 
+#ifdef EX_VC
+#define WIN32_LEAN_AND MEAN
+#endif
+
 #ifdef INTERNAL_ENGINEX
 	#ifdef EX_WINDOWS
 		#pragma warning(disable : 4996)	// Disable a warning

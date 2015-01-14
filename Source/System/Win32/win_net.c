@@ -20,7 +20,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExCreatServer(const char* ip, const char* port){
 
 	return 0;
 }
-DECLSPEC Boolean ELTAPIENTRY ExRelaseNet(void){
+DECLSPEC ExBoolean ELTAPIENTRY ExRelaseNet(void){
 	if(!WSACleanup()){
 		ExDevPrintf("error");
 		return 0;

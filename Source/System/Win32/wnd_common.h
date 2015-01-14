@@ -17,7 +17,7 @@ extern "C"{
 /*	
 	//Set Monitor Sleep
 */
-extern DECLSPEC void ELTAPIENTRY ExSleepMonitor(void){SendMessage(HWND_BROADCAST, WM_SYSCOMMAND,SC_SCREENSAVE, (LPARAM)2);}
+//extern DECLSPEC void ELTAPIENTRY ExSleepMonitor(void){SendMessage(HWND_BROADCAST, WM_SYSCOMMAND,SC_SCREENSAVE, (LPARAM)2);}
 
 
 

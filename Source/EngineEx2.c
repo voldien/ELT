@@ -2,8 +2,7 @@
 #include"EngineAssembly.h"
 #ifdef EX_WINDOWS		// TODO solve
 #   include"System/Win32/wnd_common.h"
-#	include<GL/GLU.h>
-#	include<GL/GL.h>
+
 //#	include<GL/wglew.h>
 #elif defined(EX_LINUX)
 #   include"System/Unix/unix_win.h"
@@ -15,6 +14,9 @@
 #include<GL/gl.h>
 #include<signal.h>
 #include<string.h>
+#ifdef EX_WINDOWS
+#	include<GL/glext.h>
+#endif
 
 EngineDescription engineDescription = {0};
 

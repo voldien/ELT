@@ -41,7 +41,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v100</PlatformToolset>
@@ -82,7 +82,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>E:\Program Files %28x86%29\Microsoft Visual Studio 10.0\VC\include;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Program Files %28x86%29\Microsoft Visual Studio 10.0\VC\lib;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86;$(SolutionDir)..\EngineEx\Cmd\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>E:\Program Files %28x86%29\Microsoft Visual Studio 10.0\VC\lib;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -109,32 +109,32 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <CompileAs>CompileAsCpp</CompileAs>
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <TreatWarningAsError>false</TreatWarningAsError>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
-      <AdditionalOptions>  /Wall %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glu32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>
       </EntryPointSymbol>
       <ModuleDefinitionFile>
       </ModuleDefinitionFile>
       <AddModuleNamesToAssembly>
       </AddModuleNamesToAssembly>
-      <DelayLoadDLLs>D3D9.dll;dinput8.dll;ws2_32.dll</DelayLoadDLLs>
+      <DelayLoadDLLs>D3D9.dll;dinput8.dll;ws2_32.dll;OpenCL.dll</DelayLoadDLLs>
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
       <TargetMachine>MachineX86</TargetMachine>
       <Version>
       </Version>
+      <AdditionalOptions>/delayload:"libEGL.dll" %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Lib>
       <AdditionalDependencies>IL\DevIL.lib;IL\ILU.lib;IL\ILUT.lib;D3D9.lib;Cmd.lib;freetype.lib;OpenCL.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -238,14 +238,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="EngineModuleDefination.def" />
-    <None Include="HyperionIcon.ico">
-      <DeploymentContent>true</DeploymentContent>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="EngineEx.rc">
-      <DeploymentContent>true</DeploymentContent>
-    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\elt_console.c" />

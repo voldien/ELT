@@ -7,7 +7,7 @@
 	#include<dinput.h>
 	#include<dinputd.h>
 	#include<Xinput.h>
-	#pragma comment(lib, "dxguid.lib")
+	//#pragma comment(lib, "dxguid.lib")
 	#pragma comment(lib, "dinput8.lib")
 	//typedef struct JoyStickHandler{
 	//	 IDirectInputDevice8* p_joystick[1];
