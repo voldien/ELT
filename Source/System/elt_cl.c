@@ -12,15 +12,18 @@
     HANDLE cl_libhandle;
 #elif defined(EX_LINUX)
 #   define OPENCL_LIBRARY_NAME "libOpenCL.so"
-#   include<GL/glew.h>
 #   include<CL/cl.h>
 #   include<CL/opencl.h>
 #   include"CL/cl_gl.h"
+#   include<GL/gl.h>
+#   include<GL/glext.h>
 #elif defined(EX_ANDROID)
 
 #elif defined(EX_MAC)
 
 #endif
+
+#define GL_SHARING_EXTENSION "cl_khr_gl_sharing"
 
 /**
 	OpenCL Error
@@ -31,10 +34,21 @@
 #define ELT_CL_GPU_INDEX(x) ((x & 0x000000ff))
 #define ELT_CL_CPU_INDEX(x) ((x & 0x0000ff00))
 
+static char* get_device_extension(cl_device_id device){
+    unsigned int extension_size;
+    char* extension;
+    clGetDeviceInfo(device,CL_DEVICE_EXTENSIONS, NULL, extension_size,&extension_size);
+    extension = (char*)malloc(extension_size);
+    clGetDeviceInfo(device, CL_DEVICE_EXTENSIONS, extension_size,extension, &extension_size);
+    return extension;
+}
+
 cl_context hClContext = NULL;
 DECLSPEC void* ELTAPIFASTENTRY ExGetCLContext(void){return hClContext;}
 
 DECLSPEC void* ELTAPIFASTENTRY ExGetCurrentCLContext(void){return hClContext;}
+
+
 
 
 DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContext(Enum flag){
@@ -75,79 +89,88 @@ DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContext(Enum flag){
 }
 
 DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowContext window,Enum erenderingFlag){
-		Int32 cpPlatform,ciErrNum;Uint32 uiDevCount = 0;
-		// device ids
-	    cl_device_id *cdDevices;
-	    Uint32 uiDeviceUsed = 0,uiEndDev = 0;
+    Int32 cpPlatform,ciErrNum;Uint32 uiDevCount = 0;
+    // device ids
+    cl_device_id *cdDevices;
+    Uint32 uiDeviceUsed = 0,uiEndDev = 0;
 
-        /**
-        TODO check if needed or logic is accepted*/
-        if(!ExIsModuleLoaded(OPENCL_LIBRARY_NAME))
-            #ifdef EX_LINUX
-            ExLoadLibrary(OPENCL_LIBRARY_NAME);
-            #elif defined(EX_WINDOWS)
-            cl_libhandle = ExLoadLibrary(OPENCL_LIBRARY_NAME);
-            #endif
+    /**
+    TODO check if needed or logic is accepted*/
+    if(!ExIsModuleLoaded(OPENCL_LIBRARY_NAME))
+        #ifdef EX_LINUX
+        ExLoadLibrary(OPENCL_LIBRARY_NAME);
+        #elif defined(EX_WINDOWS)
+        cl_libhandle = ExLoadLibrary(OPENCL_LIBRARY_NAME);
+        #endif
 
-		// Get Platform ID
-		if(!ExGetCLPlatformID(&cpPlatform,erenderingFlag)){
-			ExDevPrint("Failed to Get CL Platform ID");
-		}
+    // Get Platform ID
+    if(!ExGetCLPlatformID(&cpPlatform,erenderingFlag)){
+        ExDevPrint("Failed to Get CL Platform ID");
+    }
 
-		// Get Device ID
-	    if(!(ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_GPU, 0, NULL, &uiDevCount))){
-			// create OpenCL Devices on the GPU
-			cdDevices = (cl_device_id*)malloc(sizeof(cl_device_id) *uiDevCount);
-			ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_GPU, uiDevCount, cdDevices, NULL);
-		}
-		// if gpu failure. check CPU
-		else if(!(ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_CPU, 0, NULL, &uiDevCount))){
-			// create OpenCL Devices on the CPU
-			cdDevices = (cl_device_id*)malloc(sizeof(cl_device_id) *uiDevCount);
-			ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_CPU, uiDevCount, cdDevices, NULL);
-		}
+    // Get Device ID
+    if(!(ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_GPU, 0, NULL, &uiDevCount))){
+        // create OpenCL Devices on the GPU
+        cdDevices = (cl_device_id*)malloc(sizeof(cl_device_id) *uiDevCount);
+        ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_GPU, uiDevCount, cdDevices, NULL);
+    }
+    // if gpu failure. check CPU
+    else if(!(ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_CPU, 0, NULL, &uiDevCount))){
+        // create OpenCL Devices on the CPU
+        cdDevices = (cl_device_id*)malloc(sizeof(cl_device_id) *uiDevCount);
+        ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_CPU, uiDevCount, cdDevices, NULL);
+    }
 
-		//if(clGetDeviceInfo(cdDevices[0],CL_DEVICE_EXTENSIONS,))
+    //if(clGetDeviceInfo(cdDevices[0],CL_DEVICE_EXTENSIONS,))
 
-		// print developing info of the CL
-		ExPrintCLDevInfo(0, &cdDevices[uiDeviceUsed]);
-	    uiDeviceUsed = CLAMP(uiDeviceUsed, 0, uiDevCount - 1);
+    // print developing info of the CL
+    ExPrintCLDevInfo(0, &cdDevices[uiDeviceUsed]);
+    uiDeviceUsed = CLAMP(uiDeviceUsed, 0, uiDevCount - 1);
 
-	#ifdef EX_WINDOWS
-		//  get Device Context
-		if(!window)window = ExGetCurrentGLDC();
-	#endif
-
-		/**
-            Context Properties
-		*/
-		cl_context_properties props[7] = {
-	        CL_GL_CONTEXT_KHR, (cl_context_properties)glc,
-	#ifdef EX_WINDOWS
-	        CL_WGL_HDC_KHR, (cl_context_properties)window,
-	#elif defined(EX_LINUX)
-			CL_GLX_DISPLAY_KHR,(cl_context_properties)window,
-	#elif defined(EX_ANDROID)
-			CL_EGL_DISPLAY_KHR, (cl_context_properties)window,
-	#endif
-	        CL_CONTEXT_PLATFORM, (cl_context_properties)cpPlatform,
-	        NULL
-	    };
 #ifdef EX_WINDOWS
-		if(erenderingFlag & EX_OPENGL){props[2] = CL_WGL_HDC_KHR;}
-		else if(erenderingFlag & EX_DIRECTX){props[0] = CL_CONTEXT_ADAPTER_D3D9_KHR;}
-#elif defined(EX_LINUX)
-		if(erenderingFlag & EX_OPENGL){props[2] = CL_GLX_DISPLAY_KHR;}
+    //  get Device Context
+    if(!window)window = ExGetCurrentGLDC();
 #endif
-		else if(erenderingFlag & EX_OPENCL){props[2] = CL_CGL_SHAREGROUP_KHR;}
-		else if(erenderingFlag & EX_OPENGLES){props[2] = CL_EGL_DISPLAY_KHR;}
 
-		if(!(hClContext = clCreateContext(props,1, &cdDevices[0],NULL,NULL,&ciErrNum))){
-			ExDevPrint("Failed to Create OpenCL Context based on the OpenGL Context");
-		}
+    /**
+        Context Properties
+    */
+    cl_context_properties props[7] = {
+        CL_GL_CONTEXT_KHR, (cl_context_properties)glc,
+#ifdef EX_WINDOWS
+        CL_WGL_HDC_KHR, (cl_context_properties)window,
+#elif defined(EX_LINUX)
+        CL_GLX_DISPLAY_KHR,(cl_context_properties)window,
+#elif defined(EX_ANDROID)
+        CL_EGL_DISPLAY_KHR, (cl_context_properties)window,
+#endif
+        CL_CONTEXT_PLATFORM, (cl_context_properties)cpPlatform,
+        NULL
+    };
+#ifdef EX_WINDOWS
+    if(erenderingFlag & EX_OPENGL){props[2] = CL_WGL_HDC_KHR;}
+    else if(erenderingFlag & EX_DIRECTX){props[0] = CL_CONTEXT_ADAPTER_D3D9_KHR;}
+#elif defined(EX_LINUX)
+    if(erenderingFlag & EX_OPENGL){props[2] = CL_GLX_DISPLAY_KHR;}
+#endif
+    else if(erenderingFlag & EX_OPENCL){props[2] = CL_CGL_SHAREGROUP_KHR;}
+    else if(erenderingFlag & EX_OPENGLES){props[2] = CL_EGL_DISPLAY_KHR;}
 
-		free(cdDevices);
-		return (void*)hClContext;
+//get_device_extension(device),
+
+
+
+    if(!(hClContext = clCreateContext(props,1, &cdDevices[0],NULL,NULL,&ciErrNum))){
+        ExDevPrint("Failed to Create OpenCL Context based on the OpenGL Context");
+    }
+
+    /**/
+    //glCreateSyncFromCLeventARB(hClContext,0,0);
+    //glDeleteSync
+
+
+    free(cdDevices);
+    return (void*)hClContext;
 }
 
 DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(void* context,void* param_value,Enum param_name){
