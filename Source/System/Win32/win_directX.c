@@ -17,10 +17,16 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitDirectX(ExWin window){
 	ERESULT hresult = 0;
 	size_t win_size[2];
 	D3DCAPS9 m_d3dDevCaps;
-	D3DPRESENT_PARAMETERS d3StructInfo;
+	D3DPRESENT_PARAMETERS d3StructInfo = {0};
 	// make sure the 
+	/**
+		modular needed for directx
+	*/
 	if(!GetModuleHandle(EX_TEXT("D3d9.dll")))
-		if(!ExLoadObject(EX_TEXT("D3d9.dll")))return E_ABI_ERROR;
+		if(!ExLoadLibrary(EX_TEXT("D3d9.dll")))return E_ABI_ERROR;
+	if(!GetModuleHandle(EX_TEXT("Gdi32.dll")))
+		if(!ExLoadLibrary(EX_TEXT("Gdi32.dll")))return E_ABI_ERROR;
+
 
 	if(!d3d){// if d3d hasn't been created
 		if(!(d3d = Direct3DCreate9(D3D_SDK_VERSION)))
@@ -28,7 +34,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitDirectX(ExWin window){
 	}
 	ExGetWindowSizev(window,(exsize*)&win_size[0]);
 	if(FAILED(hresult = d3d->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &m_d3dDevCaps))){
-		wExDevPrintf(EX_TEXT("Failed to Get DirectX 9 developer compadbility"), ExGetHResultErrorMessage(hresult));
+		//wExDevPrintf(EX_TEXT("Failed to Get DirectX 9 developer compadbility"), ExGetHResultErrorMessage(hresult));
 	}
 	Int vp = D3DCREATE_HARDWARE_VERTEXPROCESSING;
 	if(m_d3dDevCaps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT){
@@ -62,7 +68,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitDirectX(ExWin window){
 							&directDevice))){	// 
 								ExIsDXError(hresult);
 	}
-	return (hresult == S_OK);
+	return (hresult == S_OK) ? (ERESULT)d3d : 0;
 }
 
 DECLSPEC void ELTAPIENTRY ExReleaseDirectX(void){

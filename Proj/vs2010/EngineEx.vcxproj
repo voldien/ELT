@@ -297,7 +297,6 @@
     <ClInclude Include="..\..\Source\System\elt_render.h" />
     <ClInclude Include="..\..\Source\System\elt_video.h" />
     <ClInclude Include="..\..\Source\System\elt_win.h" />
-    <ClInclude Include="..\..\Source\System\GL_caching.h" />
     <ClInclude Include="..\..\Source\System\Win32\win_controls.h" />
     <ClInclude Include="..\..\Source\System\Win32\win_directX.h" />
     <ClInclude Include="..\..\Source\System\Win32\win_GL.h" />

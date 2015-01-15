@@ -1,16 +1,14 @@
 #include"elt_net.h"
-#ifdef EX_WINDOWS
-
-#elif defined(EX_LINUX)
+#if defined(EX_LINUX)
 #   include<sys/types.h>
 #   include<sys/socket.h>
 #   include<netinet/in.h>
 #   include<errno.h>
 #   include<netdb.h>
 #elif defined(EX_WINDOWS)
-#pragma comment(lib,"libws2_32.lib")
+#pragma comment(lib,"Ws2_32.lib")
 #	include<WinSock.h>
-
+WSADATA wsadata = {0};
 #endif // EX_WINDOWS
 
 // http://www.linuxhowtos.org/data/6/server.c
@@ -19,10 +17,22 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
     #ifdef EX_WINDOWS
     unsigned int sockfd,newsockdf;
     unsigned int sock_domain,socket_protocol;
-    struct sockaddr_in serv_addr, cli_addr;
+    SOCKADDR_IN serv_addr, cli_addr;
+
+	if(wsadata.wVersion != 0x0202)
+		WSAStartup(0x0202, &wsadata);
 
 
-	return 0;
+	serv_addr.sin_family = AF_INET;
+	serv_addr.sin_port = htons(port);
+	serv_addr.sin_addr.S_un.S_addr = inet_addr(ip);
+
+	sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+
+	if(bind(0,(struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0){
+		fprintf(stderr,strerror(errno));
+	}
+	return sockfd;
     #elif defined(EX_LINUX)
 
     unsigned int sockfd,newsockdf;
@@ -84,7 +94,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
 
 DECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(unsigned int socket){
     #ifdef EX_WINDOWS
-	return 0;
+	return closesocket((SOCKET)socket);
     #elif defined(EX_LINUX)
     return close(socket);
     #endif
@@ -93,6 +103,8 @@ DECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(unsigned int socket){
 
 DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int port){
     #ifdef EX_WINDOWS
+	gethostbyname(ip);
+
 	return 0 ;
     #elif defined(EX_LINUX)
 

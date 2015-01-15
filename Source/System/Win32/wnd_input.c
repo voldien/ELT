@@ -36,7 +36,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitDirectInputDevice(ExWin hWnd, Uint32 flag){
 
 
 DECLSPEC ERESULT ELTAPIENTRY ExShutDownDirect(void){
-	ERESULT ehr;
+	ERESULT ehr = 0;
 	/*if(!g_pDI)
 		return 2;
 	if(!FAILED(ehr = g_pDI->Release())){

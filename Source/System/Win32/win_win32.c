@@ -128,6 +128,8 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, I
 	wc.cbWndExtra = 0;
 	wc.lpszMenuName = EX_NULL;
 	wc.lpszClassName = EX_NATIVE_WINDOW_CLASS;
+
+
 	// register window class
 	if(!(reg = RegisterClassEx(&wc))){
 		if(GetLastError() != ERROR_CLASS_ALREADY_EXISTS)

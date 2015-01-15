@@ -158,9 +158,6 @@
     <ClInclude Include="..\..\Source\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\System\GL_caching.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\System\elt_audio.h">
       <Filter>Header Files\system</Filter>
     </ClInclude>

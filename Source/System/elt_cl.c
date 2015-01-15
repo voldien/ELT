@@ -37,7 +37,7 @@
 static char* get_device_extension(cl_device_id device){
     unsigned int extension_size;
     char* extension;
-    clGetDeviceInfo(device,CL_DEVICE_EXTENSIONS, NULL, extension_size,&extension_size);
+    clGetDeviceInfo(device,CL_DEVICE_EXTENSIONS, NULL, (void*)extension_size,&extension_size);
     extension = (char*)malloc(extension_size);
     clGetDeviceInfo(device, CL_DEVICE_EXTENSIONS, extension_size,extension, &extension_size);
     return extension;

@@ -336,7 +336,7 @@ DECLSPEC const ExChar* ELTAPIENTRY ExGetOSName(void){
 	}
 	// check what version this computer is running.
 	if ((pOSVI.dwMajorVersion ==6)&&(pOSVI.dwMinorVersion==4))
-		return EX_TEXT("Windows 9");
+		return EX_TEXT("Windows 10");
 	else if ((pOSVI.dwMajorVersion ==6)&&(pOSVI.dwMinorVersion==3))
 		return EX_TEXT("Windows 8.1");
 	else if ((pOSVI.dwMajorVersion ==6)&&(pOSVI.dwMinorVersion==2))

@@ -286,6 +286,9 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 	ExDestroyContext(ExGetCurrentGLDrawable(), ExGetCurrentOpenGLContext());
 
 	ExUnRegisterClasses();
+	if(ExIsModuleLoaded(EX_TEXT("Ws2_32.dll")))
+		WSACleanup();
+
 #if defined(EX_INCLUDE_DIRECTX)
 	ExReleaseDirectX();
 #endif
