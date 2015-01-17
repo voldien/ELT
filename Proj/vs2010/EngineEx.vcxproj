@@ -120,14 +120,14 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glu32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glu32.lib;opengl32.lib;libEGL.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>
       </EntryPointSymbol>
       <ModuleDefinitionFile>
       </ModuleDefinitionFile>
       <AddModuleNamesToAssembly>
       </AddModuleNamesToAssembly>
-      <DelayLoadDLLs>D3D9.dll;dinput8.dll;ws2_32.dll;OpenCL.dll</DelayLoadDLLs>
+      <DelayLoadDLLs>D3D9.dll;dinput8.dll;ws2_32.dll;OpenCL.dll;libEGL.dll;</DelayLoadDLLs>
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>

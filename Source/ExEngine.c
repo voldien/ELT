@@ -183,9 +183,9 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 
     */
     //if(!XQueryExtension(display,"XInputExtension", ))
-
+#ifdef EX_LINUX
     XAllowEvents(display , SyncBoth,CurrentTime);
-
+#endif
 
 	return _h_result;
 }

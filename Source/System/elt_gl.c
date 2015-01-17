@@ -9,6 +9,8 @@
     #pragma comment(lib, "Glu32.lib")
     #pragma comment(lib, "gdi32.lib")
 	#pragma comment(lib,"libEGL.lib")
+	#pragma comment(lib,"libGLESv2.lib")
+	//#pragma comment(lib,"libEGL.lib")
 	#include<dwmapi.h>
 	#include<WinUser.h>
 	#include<Windows.h>
@@ -93,6 +95,14 @@ DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window){
 	EGLSurface eglSurface;
 	EGLContext eglContext;
 	ERESULT hr;
+	if(!ExIsModuleLoaded(EX_TEXT("libEGL.dll")))
+		ExLoadLibrary(EX_TEXT("libEGL.dll"));
+	if(!ExIsModuleLoaded(EX_TEXT("libGLESv2.dll")))
+		ExLoadLibrary(EX_TEXT("libGLESv2.dll"));
+	
+	//if(!ExIsModuleLoaded(EX_TEXT("libEGL.dll")))
+	//	ExLoadLibrary(EX_TEXT("libEGL.dll"));
+
 	//ExCreateContextAttrib(window,attrs,0,0,EX_OPENGLES);
 
 EGLint configAttribList[] =
@@ -123,7 +133,7 @@ EGL_BUFFER_SIZE, 16,
       EGL_NONE
     };
 #elif defined(EX_ANDROID)
-	eglDisplay = eglGetDisplay(0);
+	eglDisplay = eglGetDisplay(NULL);
 #endif
 	/**
         Initialize OpenGL ES

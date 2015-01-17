@@ -131,7 +131,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExShowCursor(ExBoolean enabled){
 #endif
 }
 
-DECLSPEC ExBoolean ELTAPIENTRY ExWrapGlobalMouse(int x, int y){
+DECLSPEC void ELTAPIENTRY ExWarpMouseGlobal(int x, int y){
 #ifdef EX_WINDOWS
 #elif defined(EX_LINUX)
 //    return XWrapPointer(display, 0,0,x,y,0,0,0,0);
