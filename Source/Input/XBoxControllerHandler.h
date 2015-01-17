@@ -59,14 +59,14 @@ DECLSPEC void ELTAPIFASTENTRY ExUpdateXController(Uint8 userIndex);
 //----------------------------------------------------------
 DECLSPEC void ELTAPIENTRY ExSetXVibration(Ushort leftMotor, Ushort rightMotor, Uint userIndex);
 //----------------------------------------------------------
-DECLSPEC Float ELTAPIENTRY ExgetLMagnitude(Uint8 userIndex);
+DECLSPEC float ELTAPIENTRY ExgetLMagnitude(Uint8 userIndex);
 //----------------------------------------------------------
-DECLSPEC Float ELTAPIENTRY ExgetRMagnitude(Uint8 userIndex);
+DECLSPEC float ELTAPIENTRY ExgetRMagnitude(Uint8 userIndex);
 
-DECLSPEC Float ELTAPIENTRY ExGetXLX(Uint8 userIndex);
-DECLSPEC Float ELTAPIENTRY ExGetXLY(Uint8 userIndex);
-DECLSPEC Float ELTAPIENTRY ExGetXRX(Uint8 userIndex);
-DECLSPEC Float ELTAPIENTRY ExGetXRY(Uint8 userIndex);
+DECLSPEC float ELTAPIENTRY ExGetXLX(Uint8 userIndex);
+DECLSPEC float ELTAPIENTRY ExGetXLY(Uint8 userIndex);
+DECLSPEC float ELTAPIENTRY ExGetXRX(Uint8 userIndex);
+DECLSPEC float ELTAPIENTRY ExGetXRY(Uint8 userIndex);
 DECLSPEC ExBoolean ELTAPIENTRY ExXIsPad(Uint32 keyCode, Uint32 userIndex);
 DECLSPEC ExBoolean ELTAPIENTRY ExXIsPadDown(Uint32 keyCode, Uint32 userIndex);
 DECLSPEC ExBoolean ELTAPIENTRY ExXIsPadUp(Uint32 keyCode, Uint32 userIndex);

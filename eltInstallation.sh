@@ -1,7 +1,4 @@
 #!/bin/bash
-
-#installation of ELT by comand prompt
-
 #success=`make -f Source/ELT.mak`
 
 #if [ success -eq 0 ] ; then
@@ -14,7 +11,6 @@
 #else
 
 #fi
-
 
 #if [ cd Source/ ] ; then
 #	cd Source/

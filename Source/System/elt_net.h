@@ -25,8 +25,15 @@
 #define ELT_TCP 0x2     /*  reliable,  two-way  */
 #define ELT_UDP 0x4     /* UDP protocol */
 #define ELT_LOCAL 0x8
+
+#ifdef __cplusplus  //  C++ Environment
+extern "C" {
+#endif
 /**
     Open socket
+    \
+    \
+    \
 */
 extern DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port,unsigned int protocol);
 
@@ -56,6 +63,10 @@ extern DECLSPEC int ELTAPIENTRY ExReadSocket(unsigned int socket, unsigned int* 
 */
 extern DECLSPEC int ELTAPIENTRY ExWriteSocket(unsigned int socket, unsigned int* data,unsigned size);
 
+
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif

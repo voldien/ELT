@@ -113,12 +113,12 @@
 		#define EX_WINDOWS                      /**/
 		#define EX_BITS_ARCHITECTURE 32         /**/
 	#endif
-	#if defined (__linux__) || defined(__linux) || defined(linux)/* Linux */
+	#if ( defined(__linux__) || defined(__linux) || defined(linux) ) && (!(__ANDROID__) || !(ANDROID))/* Linux */
 		#define EX_LINUX                        /**/
 		#define EX_UNIX                         /**/
 	#elif defined(__unix__) /*  Unix    */
 		#define EX_UNIX
-	#elif defined (ANDROID) /* Android */
+	#elif defined (ANDROID) || defined(__ANDROID__) || __ANDROID_API__ > 9  /* Android */
 		#define EX_ANDROID
 		#define EX_UNIX
 	#elif defined (__APPLE__)   /*  Apple product   */
@@ -197,12 +197,17 @@
 	#if defined(EX_WINDOWS) /*&& defined(EX_VC)*/
 		#define EX_IMPORT __declspec(dllimport)
 		#define EX_EXPORT __declspec(dllexport)
-	#elif defined(EX_LINUX)
+	#elif defined(EX_LINUX)                 /*      Linux       */
 		#define EX_IMPORT	__attribute__ ((__visibility__ ("default")))
 		#define EX_EXPORT	__attribute__ ((__visibility__ ("default")))
-	#elif defined(EX_ANDROID)
-		#define EX_IMPORT	__attribute__ ((__visibility__ ("default")))
-		#define EX_EXPORT	__attribute__ ((__visibility__ ("default")))
+	#elif defined(EX_ANDROID)               /*      Android     */
+        #ifndef EX_JINI
+            #define EX_IMPORT	__attribute__ ((__visibility__ ("default")))
+            #define EX_EXPORT	__attribute__ ((__visibility__ ("default")))
+		#else
+            #define EX_IMPORT
+            #define EX_EXPORT	JNIEXPORT
+		#endif
 	#elif defined(EX_MAC)
 		#define EX_IMPORT	__attribute__ ((__visibility__ ("default")))
 		#define EX_EXPORT	__attribute__ ((__visibility__ ("default")))
@@ -282,16 +287,21 @@
 	Calling Convention
 */
 #ifdef EX_WINDOWS	// Windows Calling Convention.
-	#define ELTAPIENTRY __cdecl
+	#define ELTAPIENTRY     __cdecl
 	#define ELTAPIFASTENTRY __fastcall
 	#define ELTAPITHISENTRY __thiscall
-	#define ELTAPISTDENTRY __stdcall
+	#define ELTAPISTDENTRY  __stdcall
+#elif defined(EX_ANDROID)   /** Android Calling Convention*/
+    #define ELTAPIENTRY JNICALL
+    #define ELTAPIFASTENTRY JNICALL
+    #define ELTAPITHISENTRY JNICALL
+    #define ELTAPISTDENTRY JNICALL
 #else
 #   ifndef __cdecl
         #define __cdecl  __attribute__ ((__cdecl__))
 #   endif
-	#define ELTAPIENTRY //__cdecl
-	#define ELTAPISTDENTRY //__cdecl
+	#define ELTAPIENTRY     //__cdecl
+	#define ELTAPISTDENTRY  //__cdecl
 	#define ELTAPIFASTENTRY //__cdecl
 	#define ELTAPITHISENTRY //__cdecl
 #endif
@@ -475,6 +485,25 @@
 		#define DECLSPEC // defines nothing. preventing compiling errors
 	#endif
 #endif
+
+
+/**
+    ELT Library file name
+*/
+#ifdef EX_DEBUG
+#   ifdef EX_WINDOWS
+#       define EX_LIBRARY_NAME "libEngineEx.dll"
+#   elif defined(EX_LINUX)
+#       define EX_LIBRARY_NAME "libEngineExD.so"
+#   endif
+#else
+#   if defined(EX_WINDOWS)
+#       define EX_LIBRARY_NAME "libEngineEx.dll"
+#   elif defined(EX_LINUX)
+#       define EX_LIBRARY_NAME "libEngineEx.so"
+#   endif
+#endif
+
 
 /**
 	ELT Version

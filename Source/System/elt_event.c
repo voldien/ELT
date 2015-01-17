@@ -89,6 +89,9 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 		XNextEvent(display,&event->msg);
 
 		switch(event->msg.type){
+    case KeymapNotify:
+            XRefreshKeyboardMapping(&event->msg.xmapping);
+        break;
 		case KeyPress:{
 		    event->eventid |= EX_EVENT_KEY;
 		    event->key.code = XLookupKeysym(&event->msg.xkey,0);//.keycode;

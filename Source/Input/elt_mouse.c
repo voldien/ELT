@@ -6,6 +6,8 @@
     //MouseHandler* m_MouseHandler = EX_NULL;
 #elif defined(EX_LINUX)
 #   include<linux/input.h>
+#   include<X11/Xlib.h>
+#   include<X11/cursorfont.h>
 #   include"./../System/Unix/unix_win.h"
 #endif
 
@@ -64,10 +66,12 @@ DECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(Enum system_id){
 	}
 	return LoadCursor(GetModuleHandle(EX_NULL), data);
 #elif defined(EX_LINUX)
+    switch(system_id){
+        case EXC_ARROW:data = XC_arrow;break;
+        case EXC_IBEAM:break;
+    }
+    return XCreateFontCursor(display,data);
 
-    XCreateFontCursor(display,system_id);
-
-	return TRUE;
 #endif
 }
 
@@ -86,7 +90,10 @@ DECLSPEC ExBoolean ELTAPIENTRY ExSetCursor(ExCursor cursor){
 	return (SetCursor(cursor) == cursor);
 #elif defined(EX_LINUX)
     //TODO solve window
-    return XDefineCursor(display,NULL, cursor);
+    //if(!cursor)
+    //   return XUndefinedCursor(display, NULL);
+    //else
+        return XDefineCursor(display,NULL, cursor);
 #endif
 }
 
@@ -122,6 +129,14 @@ DECLSPEC ExBoolean ELTAPIENTRY ExShowCursor(ExBoolean enabled){
         return XDefineCursor(display,0, None);
 
 #endif
+}
+
+DECLSPEC ExBoolean ELTAPIENTRY ExWrapGlobalMouse(int x, int y){
+#ifdef EX_WINDOWS
+#elif defined(EX_LINUX)
+//    return XWrapPointer(display, 0,0,x,y,0,0,0,0);
+return 0;
+#endif // EX_WINDOWS
 }
 
 

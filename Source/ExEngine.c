@@ -3,8 +3,12 @@
 #include"System/elt_gl.h"
 #include"System/elt_errorhandler.h"
 #ifdef EX_WINDOWS // TODO FIX
-	#include"System/Win32/wnd_input.h"
-	#include"System/Win32/win_net.h"
+#   include"System/Win32/wnd_input.h"
+#   include"System/Win32/win_net.h"
+#elif defined(EX_ANDROID)
+#   include<android/log.h>
+#   include<android/native_activity.h>
+#   include<jni.h>
 #endif
 #include"System/elt_log.h"
 #include"System/elt_audio.h"
@@ -23,7 +27,7 @@
 #   endif
 
 /**
-    Delay load of .dll file which might not be needed
+    Delay load of .dll file which might not be needed TODO how to make it work in the first place...
 */
     /*#pragma comment(linker,"/DELAYLOAD:\"avcodec-55.dll\"")
     #pragma comment(linker,"/DELAYLOAD:\"avdevice-55.dll\"")
@@ -173,6 +177,15 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	}else ExError(EX_TEXT("Failed to initialize error handler."));
 
     engineDescription.EngineFlag |= engineFlag;
+
+
+    /*
+
+    */
+    //if(!XQueryExtension(display,"XInputExtension", ))
+
+    XAllowEvents(display , SyncBoth,CurrentTime);
+
 
 	return _h_result;
 }

@@ -9,6 +9,7 @@
 #elif defined(EX_LINUX)
     #include<X11/keysym.h>
     #include<X11/extensions/XInput.h>
+    #include<X11/extensions/XKB.h>
     #include"./../System/Unix/unix_win.h"
 #elif defined(EX_ANDROID)
 
@@ -65,11 +66,17 @@ DECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys){
 	unsigned char ispressed = GetKeyboardState(&KeyBoardState[0][0]);
 	return KeyBoardState[0];
 #elif defined(EX_LINUX)
-	if(numkeys)*numkeys=0xff;
-	XQueryKeymap(display,KeyBoardState[0]);
+	if(numkeys)
+        *numkeys = XQueryKeymap(display,KeyBoardState[0]);
+    else XQueryKeymap(display,KeyBoardState[0]);
+    //struct XkbStateRec state;
+    XGetKeyboardMapping(display, XK_a, 32, KeyBoardState[0]);
+    //XkbGetState(display, XkbUseCordKbd, &state);
+    //XChangeKeyboardMapping(display,XK_a, 1, KeyBoardState[0], 32);
 	//XQueryKeyboard(display);
 	//XGetPointerMapping(display,(unsigned char*)KeyBoardState[0],255);
 	//XQueryDeviceState(display,)
+
 	return KeyBoardState[0];
 #endif
 }

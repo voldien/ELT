@@ -8,8 +8,12 @@
 #   include<syslog.h>
 #   include"Unix/unix_win.h"
 #   include<unistd.h>
+#   include<sys/types.h>
+#   include<sys/stat.h>
 #   include<fcntl.h>
 #elif defined(EX_ANDROID)
+#   include<android/log.h>
+
 #endif
 #include<signal.h>
 #include<limits.h>
@@ -408,7 +412,7 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
     int dup;
 	//m_file_log = fopen("EngineExDevLog.txt", "w+" );
 	//FILE* fopen;
-	dup = open(cfilename,O_CREAT);
+	//dup = open(cfilename,O_CREAT);
 	/**/
 	if(dup2(2,dup) == -1)
         fprintf(stderr,"error");

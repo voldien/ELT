@@ -32,6 +32,8 @@
         #include<GLES/gl2.h>
         #include<GLES/gl2ext.h>
         #include<GLES/gl2platform.h>
+    #else
+    #include<android/system/window.h>
 	#endif
 #define GL_GET_PROC(x) (x)                                      /*  get OpenGL function process address */
 #endif

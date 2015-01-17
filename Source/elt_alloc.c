@@ -14,5 +14,7 @@ DECLSPEC int ELTAPIENTRY ExGetPageSize(void){
     #elif defined(EX_LINUX)
     long sz = sysconf(_SC_PAGESIZE);
     return sz;
+    #elif defined(EX_ANDROID)
+    return 1024;
     #endif
 }

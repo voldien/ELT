@@ -20,6 +20,7 @@
 #ifndef ELT_KEYBOARD_H
 #define ELT_KEYBOARD_H
 #include"./../EngineAssembly.h"
+#include"eltkeycode.h"
 #ifndef DIRECTINPUT_VERSION
 #	define DIRECTINPUT_VERSION 0x800
 #endif

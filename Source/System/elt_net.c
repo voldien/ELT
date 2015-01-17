@@ -1,14 +1,16 @@
 #include"elt_net.h"
-#if defined(EX_LINUX)
+#if defined(EX_LINUX)   /*  Linux network*/
 #   include<sys/types.h>
 #   include<sys/socket.h>
 #   include<netinet/in.h>
 #   include<errno.h>
 #   include<netdb.h>
-#elif defined(EX_WINDOWS)
+#elif defined(EX_WINDOWS)   /*  Windows network*/
 #pragma comment(lib,"Ws2_32.lib")
 #	include<WinSock.h>
 WSADATA wsadata = {0};
+#elif defined(EX_ANDROID)
+
 #endif // EX_WINDOWS
 
 // http://www.linuxhowtos.org/data/6/server.c
@@ -33,6 +35,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
 		fprintf(stderr,strerror(errno));
 	}
 	return sockfd;
+
     #elif defined(EX_LINUX)
 
     unsigned int sockfd,newsockdf;

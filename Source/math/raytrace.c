@@ -14,17 +14,22 @@ int line_intersec_box(const vec3_t pos,const vec3_t dir,const vec3_t size,const 
 
 int line_intersec_sphere(const vec3_t pos,const  vec3_t dir, const vec3_t center, float radius){
     vec3_t rc;
-    float b,c,d, t;
+    float a,b,c,d, t,disc;
     VectorSubtract(dir,center,rc);
-
+    a = DotProduct(dir,dir);
+    b = 2.0f * DotProduct(dir,rc);
     c = DotProduct(rc,rc) - (radius * radius);
-    b = DotProduct(dir,rc);
-    d = b*b - c;
-    t = -b - sqrt(abs(d));
-    if(t > 0.0)
-        return 1;
-    else
-        return 0;
 
-    return t;
+    disc =  b*b - 4 * a * c;
+    if(disc > 0){
+        //d = b*b - c;
+        t = (-b - d) / (2.0f *a);
+        if(t > 0.0)
+            return 1;
+        else
+            return 0;
+
+    //return t;
+    }
+    return 0;
 }

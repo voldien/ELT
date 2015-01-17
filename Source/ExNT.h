@@ -25,7 +25,7 @@
 #elif defined(EX_LINUX)
 	#include<X11/X.h>
 #elif defined(EX_ANDROID)
-
+#   include<android/log.h>
 #elif defined(EX_MAC)
 
 #endif
@@ -98,6 +98,11 @@
 
 	typedef float Float;
 	typedef double Double;
+
+#if EX_INT_MAX_BITS > 64
+	typedef signed __int128 Int128;
+	typedef unsigned __int128 Uint128;
+#endif
 //#ifdef EX_WIN64
 //#else
 //	typedef unsigned int uintptr_t;

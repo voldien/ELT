@@ -11,6 +11,9 @@
 	#include<X11/Xlib.h>
 	#include<EGL/egl.h>
 	#include<GL/glx.h>
+#elif defined(EX_ANDROID)
+#   include<android/system/window.h>
+
 #elif defined(EX_MAC)
 	#include"Mac/macosx_win.h"
 	#include<EGL/egl.h>
