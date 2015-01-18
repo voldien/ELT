@@ -265,7 +265,7 @@
 1418641819 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_audio.h
 	"./../EngineAssembly.h"
 
-1421576841 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/main.c
+1421582009 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/main.c
 	"EngineAssembly.h"
 	<CL/cl.h>
 	<CL/cl_gl.h>
@@ -423,13 +423,14 @@
 	<GL/glx.h>
 	"../elt_gl.h"
 
-1421412322 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_net.c
+1421582004 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_net.c
 	"elt_net.h"
 	<sys/types.h>
 	<sys/socket.h>
 	<netinet/in.h>
 	<errno.h>
 	<netdb.h>
+	<WinInet.h>
 	<WinSock.h>
 
 1421412282 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_net.h
