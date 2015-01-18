@@ -1,11 +1,15 @@
 #include"elt_thread.h"
 
-#ifdef EX_WINDOWS
+#ifdef EX_WINDOWS           /*  Windows */
 #   define EX_START_THREAD(x)	ResumeThread( ( x ) )
-#elif defined(EX_LINUX)
+#elif defined(EX_LINUX)     /*  Linux   */
 #   include<pthread.h>
-#include<errno.h>
-#   define EX_START_THREAD(x)	pthread_detach( ( x ))
+#   include<errno.h>
+#   define EX_START_THREAD(x)	pthread_detach( ( x ))  /*TODO change*/
+#elif defined(EX_ANDROID)   /*  */
+#   include<pthread.h>
+#   define EX_START_THREAD(x)	pthread_detach( ( x )) /*TODO change*/
+
 #elif defined(EX_MAC)
 
 #endif
@@ -25,7 +29,7 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpPar
 		*pid = p_id;
 	EX_START_THREAD(hnd);
 	return hnd;
-#elif defined(EX_LINUX)
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
 	pthread_t t0;
     pthread_attr_t attr;
 	Uint mpid;
@@ -43,7 +47,7 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpPar
 DECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread){
 #ifdef EX_WINDOWS
 	return TerminateThread(thread,0);
-#elif defined(EX_LINUX)
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
     if(pthread_detach(thread) == -1){
         fprintf(stderr, strerror(errno));
         return 0;
@@ -54,7 +58,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread){
 DECLSPEC ERESULT ELTAPIENTRY ExExitThread(ExThread thread){
 #ifdef EX_WINDOWS
 	return TerminateThread(thread,NULL);
-#elif defined(EX_LINUX)
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
    return pthread_kill(thread,0);
     //pthread_exit(thread);
 
@@ -64,7 +68,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExExitThread(ExThread thread){
 DECLSPEC ExThread ELTAPIENTRY ExGetCurrentThread(void){
 #ifdef EX_WINDOWS
     return GetCurrentThread();
-#elif defined(EX_LINUX)
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
     return pthread_self();
 #endif
 
@@ -74,7 +78,7 @@ DECLSPEC ExThread ELTAPIENTRY ExGetCurrentThread(void){
 DECLSPEC Uint32 ELTAPIENTRY ExGetThreadID(ExThread thread){
 #ifdef EX_WINDOWS
 	return GetThreadId(thread);
-#elif defined(EX_LINUX)
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
 	return thread;
 #endif
 }
@@ -83,7 +87,7 @@ DECLSPEC const char* ELTAPIENTRY ExGetThreadName(ExThread thread){
 #ifdef EX_DEBUG
 #ifdef EX_WINDOWS
     return NULL;
-#elif defined(EX_LINUX)
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
     char name[64];
     pthread_getname_np(thread,name);
 	return name;
@@ -101,7 +105,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread,Enum nPriority)
 		default:break;
 	}
 	return SetThreadPriority(thread,nPriority);
-#elif defined(EX_LINUX)
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
 	struct sched_param param;
 	switch(nPriority){
 		case EX_THREAD_PRIORITY_LOW:break;
@@ -115,7 +119,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread,Enum nPriority)
 DECLSPEC ERESULT ELTAPIENTRY ExWaitThread(ExThread thread, Int32* status){
 #ifdef EX_WINDOWS
     WaitForSingleObject(thread,INFINITE);
-#elif defined(EX_LINUX)
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
     if(pthread_join(thread,NULL) == -1)
         fprintf(stderr,strerror(errno));
 #endif

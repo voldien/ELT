@@ -271,8 +271,8 @@ typedef union doubleUnion{
 
 #define EX_CALLBACK ELTAPISTDENTRY
 
-/*
-	//Thread
+/**
+	Thread
 */
 typedef void*(THREAD_CALLBACK *thread_routine)(void*);
 typedef void* ExThread;

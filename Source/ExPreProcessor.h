@@ -236,6 +236,16 @@
 	#define NOINITVTABLE
 #endif
 
+
+/**
+        Virtual table size
+*/
+#ifdef __cplusplus   // C++ feature
+#define EX_VIRTUAL_VTAB_SIZE(x)
+#else
+#define EX_VIRTUAL_VTAB_SIZE(x) EX_UNUSED(x)
+#endif
+
 /**
 	No Throw
 */
@@ -269,11 +279,11 @@
 /*
 	Internal
 */
-#if defined(_ENGINE_INTERNAL) || (EX_ENGINE_VERSION_MAJOR < 1)	// Macro Defination Only Defined in this solution.
-	#define INTERNAL_ENGINEX	// Used for Assembly Data and Include Data Structor.
+#if defined(_ENGINE_INTERNAL) || (EX_ENGINE_VERSION_MAJOR < 1)	// Macro Definition Only Defined in this solution.
+	#define INTERNAL_ENGINEX	// Used for Assembly Data and Include Data structure.
 	#define EX_INTERNAL_DEVELOP_ENVIROMENT
 #elif defined(EXTERNAL_ENGINE_INTERNAL)
-	#define INTERNAL_ENGINEX	// Used for Assembly Data and Include Data Structor.
+	#define INTERNAL_ENGINEX	// Used for Assembly Data and Include Data structure.
 	#define EX_INTERNAL_DEVELOP_ENVIROMENT
 #endif
 
@@ -356,24 +366,28 @@
 	Null Pointer
  */
 #ifdef EX_WINDOWS
-#if  (__cplusplus == 201103L)
-	#define EX_NULL nullptr;
+#   if  (__cplusplus == 201103L)
+        #define EX_NULL nullptr
+#   else
+        #define EX_NULL NULL
+#   endif
 #else
-	#define EX_NULL NULL
-#endif
-#else
-	#define EX_NULL NULL
+#   if  (__cplusplus == 201103L)
+#       define EX_NULL nullptr
+#   else
+#       define EX_NULL NULL
+#   endif
 #endif
 
 /**
 	#define EXDEPRECATED(x) __declspec(deprecated(x))		// Deprecated deceleration (x = Warning Message)
 */
 #ifdef EX_WINDOWS
-	#define EXDEPRECATED  __declspec(deprecated)		// Deprecated deceleration (x = Warning Message)
+	#define EXDEPRECATED  __declspec(deprecated)		    // Deprecated deceleration (x = Warning Message)
 	#define EXDEPRECATEDMESSAGE(x) __declspec(deprecated(x))
 #else
-	#define EXDEPRECATED attribute(( deprecated ))		// Deprecated deceleration (x = Warning Message)
-    #define EXDEPRECATEDMESSAGE(x) attribute( ( deprecated(x) ))
+	#define EXDEPRECATED __attribute__(( deprecated ))		    // Deprecated deceleration (x = Warning Message)
+    #define EXDEPRECATEDMESSAGE(msg) __attribute__ (( deprecated ( msg ) ))
 #endif
 
 /**

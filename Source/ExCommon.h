@@ -40,12 +40,12 @@ extern DECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName)
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName,...);
 
-/*
-	// Get System Primary Screen Size
+/**
+	Get System Primary Screen Size
 */
 extern DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(struct exsize* size);
-/*
-	// Get System Monitor
+/**
+	Get System Monitor
 */
 extern DECLSPEC void ELTAPIENTRY ExGetMonitorSize(Uint32 index, struct exsize* size);
 /*

@@ -30,12 +30,17 @@
     #include<GL/glxext.h>
     #define GL_GET_PROC(x) glXGetProcAddress( ( x ) )           /*  get OpenGL function process address */
 #elif defined(EX_ANDROID)
+#   include<jni.h>
+#   include<android/system/window.h>
+#   include<android/native_window_jni.h>
 	#ifdef GL_ES_VERSION_2_0
         #include<GLES/gl2.h>
         #include<GLES/gl2ext.h>
         #include<GLES/gl2platform.h>
     #else
-    #include<android/system/window.h>
+        #include<GLES/gl.h>
+        #include<GLES/glext.h>
+        #include<GLES/glplatform.h>
 	#endif
 #define GL_GET_PROC(x) (x)                                      /*  get OpenGL function process address */
 #endif
@@ -99,7 +104,7 @@ DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window){
 		ExLoadLibrary(EX_TEXT("libEGL.dll"));
 	if(!ExIsModuleLoaded(EX_TEXT("libGLESv2.dll")))
 		ExLoadLibrary(EX_TEXT("libGLESv2.dll"));
-	
+
 	//if(!ExIsModuleLoaded(EX_TEXT("libEGL.dll")))
 	//	ExLoadLibrary(EX_TEXT("libEGL.dll"));
 
@@ -170,7 +175,6 @@ EGL_BUFFER_SIZE, 16,
 	Get window associated with the opengl context
 */
 DECLSPEC ExWin ELTAPIENTRY ExGetOpenGLContextWindow(OpenGLContext glc){
-
 #ifdef EX_WINDOWS
 	return WindowFromDC(wglGetCurrentDC());
 #elif defined(EX_LINUX)
@@ -179,7 +183,9 @@ DECLSPEC ExWin ELTAPIENTRY ExGetOpenGLContextWindow(OpenGLContext glc){
 	return eglGetCurrentSurface(NULL);
 #endif
 }
-/*  Get Drawable*/
+/**
+    //Get Drawable
+*/
 DECLSPEC WindowContext ELTAPIFASTENTRY ExGetCurrentGLDC(void){
 #ifdef EX_WINDOWS
 	return wglGetCurrentDC();

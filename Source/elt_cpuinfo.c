@@ -27,6 +27,9 @@
 "        movq %%rbx, %%rsi  \n" \
 "        popq %%rbx         \n" : \
             "=a" (a), "=S" (b), "=c" (c), "=d" (d) : "a" (func))
+#elif defined(EX_ANDROID)
+
+#   define cpuid(regs, i)
 #endif
 
 DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
@@ -107,6 +110,8 @@ DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
 	fread((void*)&info.vendor_id[0], 1, sizeof(info),file);
 	fclose(file);
 	return info.model;*/
+#elif defined(EX_ANDROID)
+
 #endif
 }
 
