@@ -6,8 +6,11 @@
 #   include<errno.h>
 #   include<netdb.h>
 #elif defined(EX_WINDOWS)   /*  Windows network*/
-#pragma comment(lib,"Ws2_32.lib")
+#	pragma comment(lib,"Ws2_32.lib")
+#	pragma comment(lib,"wininet")
+#	include<WinInet.h>
 #	include<WinSock.h>
+
 WSADATA wsadata = {0};
 #elif defined(EX_ANDROID)
 
@@ -29,9 +32,11 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
 	serv_addr.sin_port = htons(port);
 	serv_addr.sin_addr.S_un.S_addr = inet_addr(ip);
 
-	sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	sockfd = socket(AF_INET, SOCK_STREAM, 0);
+	if(protocol & ELT_CLIENT)
+		return sockfd;
 
-	if(bind(0,(struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0){
+	if(bind(0,(struct sockaddr*)&serv_addr, sizeof(serv_addr)) == SOCKET_ERROR){
 		fprintf(stderr,strerror(errno));
 	}
 	return sockfd;
@@ -106,11 +111,27 @@ DECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(unsigned int socket){
 
 DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int port){
     #ifdef EX_WINDOWS
-	gethostbyname(ip);
+    SOCKADDR_IN serv_addr;
+    struct hostent *server;
+    int sockfd;/**TODO check if sockdf should be input parameter*/
+	if(wsadata.wVersion != 0x0202)
+		WSAStartup(0x0202, &wsadata);
 
-	return 0 ;
+    sockfd = ExOpenSocket(ip,port,ELT_CLIENT);
+	server = gethostbyname(ip);
+
+
+	serv_addr.sin_port = htons(port);
+	serv_addr.sin_family = server->h_addrtype; /*AF_INET;*/
+	serv_addr.sin_addr.S_un.S_addr = inet_addr(ip);
+
+    if(connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr))  == SOCKET_ERROR){
+		wprintf(EX_TEXT("connect function failed with error: %ld\n"), WSAGetLastError());
+	}
+        fprintf(stderr,strerror(errno));
+
+	return sockfd ;
     #elif defined(EX_LINUX)
-
     struct sockaddr_in serv_addr;
     struct hostent *server;
     int sockfd;/**TODO check if sockdf should be input parameter*/

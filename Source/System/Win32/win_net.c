@@ -1,11 +1,11 @@
 #include"win_net.h"
 #ifdef EX_WINDOWS
-#include<WinInet.h>
-#include<WinSock.h>
+//#include<WinInet.h>
+//#include<WinSock.h>
 //#include<WS2tcpip.h>
 //#include<IPHlpApi.h>
-#pragma comment(lib, "Ws2_32.lib")
-#pragma comment(lib,"wininet")
+//#pragma comment(lib, "Ws2_32.lib")
+
 WSADATA winsocket = {};
 
 DECLSPEC ERESULT ELTAPIENTRY ExInitNet(Uint32 flag){
