@@ -1,9 +1,9 @@
-﻿Build started 1/18/2015 12:39:01 PM.
+﻿Build started 1/18/2015 1:35:36 PM.
 Project "C:\Users\Public\Desktop\codeprojects\elt\Proj\vs2010\EngineEx.vcxproj" on node 2 (build target(s)).
 InitializeBuildStatus:
   Creating "Debug\EngineEx.unsuccessfulbuild" because "AlwaysCreate" was specified.
 ClCompile:
-  c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _ENGINE_INTERNAL /D EX_INCLUDE_DIRECTX /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\Source\System\elt_net.c ..\..\Source\main.c
+  c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _ENGINE_INTERNAL /D EX_INCLUDE_DIRECTX /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\Source\main.c
   main.c
 c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
           c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
@@ -15,21 +15,6 @@ c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091
 c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
 c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
 c:\users\public\desktop\codeprojects\elt\source\main.c(15): warning C4101: 'window' : unreferenced local variable
-  elt_net.c
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(243): warning C4005: 'ExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(206) : see previous definition of 'ExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): warning C4005: 'wExDevPrint' : macro redefinition
-          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(210) : see previous definition of 'wExDevPrint'
-c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
-c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
-c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
-c:\users\public\desktop\codeprojects\elt\source\system\elt_net.c(25): warning C4101: 'cli_addr' : unreferenced local variable
-c:\users\public\desktop\codeprojects\elt\source\system\elt_net.c(23): warning C4101: 'newsockdf' : unreferenced local variable
-c:\users\public\desktop\codeprojects\elt\source\system\elt_net.c(24): warning C4101: 'sock_domain' : unreferenced local variable
-c:\users\public\desktop\codeprojects\elt\source\system\elt_net.c(24): warning C4101: 'socket_protocol' : unreferenced local variable
-  Generating Code...
 Link:
   c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Public\Desktop\codeprojects\elt\Proj\vs2010\Debug\EngineEx.exe" /INCREMENTAL:NO /NOLOGO glu32.lib opengl32.lib libEGL.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib Delayimp.lib /DELAYLOAD:D3D9.dll /DELAYLOAD:dinput8.dll /DELAYLOAD:ws2_32.dll /DELAYLOAD:OpenCL.dll /DELAYLOAD:libEGL.dll /MANIFEST /ManifestFile:"Debug\EngineEx.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Public\Desktop\codeprojects\elt\Proj\vs2010\Debug\EngineEx.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /DELAY:UNLOAD /IMPLIB:"C:\Users\Public\Desktop\codeprojects\elt\Proj\vs2010\Debug\EngineEx.lib" /MACHINE:X86 Debug\elt_console.obj
   Debug\elt_cpuinfo.obj
@@ -77,4 +62,4 @@ Done Building Project "C:\Users\Public\Desktop\codeprojects\elt\Proj\vs2010\Engi
 
 Build succeeded.
 
-Time Elapsed 00:00:02.65
+Time Elapsed 00:00:02.21

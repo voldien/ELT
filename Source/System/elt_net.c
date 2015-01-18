@@ -10,8 +10,15 @@
 #	pragma comment(lib,"wininet")
 #	include<WinInet.h>
 #	include<WinSock.h>
+//#	include<WS2tcpip.h>
 
 WSADATA wsadata = {0};
+#define EX_WSA_VERSION MAKEWORD(2,2)
+static int init_wsa(void){
+	if(wsadata.wVersion != EX_WSA_VERSION){
+		if(!WSAStartup(EX_WSA_VERSION, &wsadata))return -1;
+	}
+}
 #elif defined(EX_ANDROID)
 
 #endif // EX_WINDOWS
@@ -24,20 +31,21 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
     unsigned int sock_domain,socket_protocol;
     SOCKADDR_IN serv_addr, cli_addr;
 
-	if(wsadata.wVersion != 0x0202)
-		WSAStartup(0x0202, &wsadata);
+	if(wsadata.wVersion != EX_WSA_VERSION){
+		if(WSAStartup(EX_WSA_VERSION, &wsadata))return -1;
+	}
 
 
 	serv_addr.sin_family = AF_INET;
 	serv_addr.sin_port = htons(port);
 	serv_addr.sin_addr.S_un.S_addr = inet_addr(ip);
 
-	sockfd = socket(AF_INET, SOCK_STREAM, 0);
+	sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if(protocol & ELT_CLIENT)
 		return sockfd;
 
-	if(bind(0,(struct sockaddr*)&serv_addr, sizeof(serv_addr)) == SOCKET_ERROR){
-		fprintf(stderr,strerror(errno));
+	if(bind(sockfd,(SOCKADDR *)&serv_addr, sizeof(serv_addr)) == SOCKET_ERROR){
+		wprintf(EX_TEXT("connect function failed with error: %ld\n"), WSAGetLastError());
 	}
 	return sockfd;
 
@@ -87,10 +95,10 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
     }
 
     bzero((char*)&serv_addr,sizeof(serv_addr));
-
+	
     serv_addr.sin_family = sock_domain;
     serv_addr.sin_addr.s_addr = inet_addr(ip);
-
+	inet_pton(sock_domain,ip, &serv_serv.sin_addr);
     //serv_addr.sin_addr.s_addr = INADDR_ANY;
 
     serv_addr.sin_port = htons(port);
@@ -117,8 +125,9 @@ DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int p
     SOCKADDR_IN serv_addr;
     struct hostent *server;
     int sockfd;/**TODO check if sockdf should be input parameter*/
-	if(wsadata.wVersion != 0x0202)
-		WSAStartup(0x0202, &wsadata);
+
+	if(wsadata.wVersion != EX_WSA_VERSION)
+		WSAStartup(EX_WSA_VERSION, &wsadata);
 
     sockfd = ExOpenSocket(ip,port,ELT_CLIENT);
 	server = gethostbyname(ip);
