@@ -188,7 +188,7 @@
 	<unistd.h>
 	<cpuid.h>
 
-1420834032 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_loadso.c
+1421696966 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_loadso.c
 	"elt_loadso.h"
 	<link.h>
 	<dlfcn.h>
@@ -208,7 +208,7 @@
 	<signal.h>
 	<errno.h>
 
-1421242687 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/EngineEx2.c
+1421695547 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/EngineEx2.c
 	"EngineConfig.h"
 	"EngineAssembly.h"
 	"System/Win32/wnd_common.h"
@@ -265,7 +265,7 @@
 1418641819 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_audio.h
 	"./../EngineAssembly.h"
 
-1421582009 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/main.c
+1421695847 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/main.c
 	"EngineAssembly.h"
 	<CL/cl.h>
 	<CL/cl_gl.h>
@@ -324,7 +324,7 @@
 	"elt_audio.h"
 	<alsa/asoundlib.h>
 
-1421347942 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_cl.c
+1421696932 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_cl.c
 	"elt_cl.h"
 	<CL/cl.h>
 	<CL/cl.h>
@@ -360,7 +360,7 @@
 	<WindowsX.h>
 	<X11/X.h>
 
-1421579081 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_gl.c
+1421698042 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_gl.c
 	"elt_gl.h"
 	<dwmapi.h>
 	<WinUser.h>
@@ -389,7 +389,7 @@
 1418468847 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_log.c
 	"elt_log.h"
 
-1421514093 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_win.c
+1421695524 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_win.c
 	"elt_win.h"
 	"elt_gl.h"
 	"elt_cl.h"
@@ -423,17 +423,25 @@
 	<GL/glx.h>
 	"../elt_gl.h"
 
-1421582004 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_net.c
+1421697131 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_net.c
 	"elt_net.h"
+	<stdio.h>
+	<stdlib.h>
 	<sys/types.h>
 	<sys/socket.h>
 	<netinet/in.h>
+	<arpa/inet.h>
+	<sys/ioctl.h>
 	<errno.h>
 	<netdb.h>
+	<unistd.h>
+	<net/if.h>
 	<WinInet.h>
 	<WinSock.h>
+	<unistd.h>
+	<string.h>
 
-1421412282 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_net.h
+1421695477 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_net.h
 	"./../EngineAssembly.h"
 
 1421151586 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/math/quad.c

@@ -16,6 +16,7 @@
 #include<string.h>
 #ifdef EX_WINDOWS
 #	include<GL/glext.h>
+#elif defined(EX_LINUX)
 #endif
 
 EngineDescription engineDescription = {0};

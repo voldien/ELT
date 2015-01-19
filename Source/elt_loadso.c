@@ -56,7 +56,7 @@ DECLSPEC HANDLE ELTAPIENTRY ExIsModuleLoaded(const ExChar* file){
         printf(stderr,dlerror());
     #endif
 
-    void* p = handle;// + sizeof(void*) * 3;
+    void* p = handle;// + sizeof(void*) * 3;    /*to skip the first waste one .*/
     struct link_map* map = p;
     while(map->l_next){
         map = map->l_next;

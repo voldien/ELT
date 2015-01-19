@@ -2,15 +2,15 @@
 
 
 #ifdef EX_WINDOWS
+    #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.dll")
+    #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.dll")
     #pragma warning(disable : 4273) // 'function' : inconsistent DLL linkage
 	// library connection to DLL
 	#pragma comment(lib,"opengl32.lib")
-   // #pragma comment(lib, "Opengl32.lib")
     #pragma comment(lib, "Glu32.lib")
     #pragma comment(lib, "gdi32.lib")
 	#pragma comment(lib,"libEGL.lib")
 	#pragma comment(lib,"libGLESv2.lib")
-	//#pragma comment(lib,"libEGL.lib")
 	#include<dwmapi.h>
 	#include<WinUser.h>
 	#include<Windows.h>
@@ -22,6 +22,8 @@
     #define GL_GET_PROC(x)   wglGetProcAddress( (LPCSTR)( x ) )         /*  get OpenGL function process address */
 
 #elif defined(EX_LINUX)
+    #define EX_EGL_LIB_MOUDLE_NAME "libEGL.so"
+    #define EX_GLES_LIB_MOUDLE_NAME "libGLESv2.so"
     #include<X11/extensions/Xrender.h>
     #include<X11/Xatom.h>
     #include<X11/keysym.h>
@@ -30,6 +32,8 @@
     #include<GL/glxext.h>
     #define GL_GET_PROC(x) glXGetProcAddress( ( x ) )           /*  get OpenGL function process address */
 #elif defined(EX_ANDROID)
+    #define EX_EGL_LIB_MOUDLE_NAME "libEGL.so"
+    #define EX_GLES_LIB_MOUDLE_NAME "libGLESv2.so"
 #   include<jni.h>
 #   include<android/system/window.h>
 #   include<android/native_window_jni.h>
@@ -91,6 +95,9 @@ static int isExtensionSupported(const char* extList, const char* extension){
 	return 0;
 }
 
+
+
+
 DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window){
 	int major ,minor ;
 	EGLint attrs[60];
@@ -100,10 +107,10 @@ DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window){
 	EGLSurface eglSurface;
 	EGLContext eglContext;
 	ERESULT hr;
-	if(!ExIsModuleLoaded(EX_TEXT("libEGL.dll")))
-		ExLoadLibrary(EX_TEXT("libEGL.dll"));
-	if(!ExIsModuleLoaded(EX_TEXT("libGLESv2.dll")))
-		ExLoadLibrary(EX_TEXT("libGLESv2.dll"));
+	if(!ExIsModuleLoaded(EX_EGL_LIB_MOUDLE_NAME))
+		ExLoadLibrary(EX_EGL_LIB_MOUDLE_NAME);
+	if(!ExIsModuleLoaded(EX_GLES_LIB_MOUDLE_NAME))
+		ExLoadLibrary(EX_GLES_LIB_MOUDLE_NAME);
 
 	//if(!ExIsModuleLoaded(EX_TEXT("libEGL.dll")))
 	//	ExLoadLibrary(EX_TEXT("libEGL.dll"));
@@ -139,6 +146,10 @@ EGL_BUFFER_SIZE, 16,
     };
 #elif defined(EX_ANDROID)
 	eglDisplay = eglGetDisplay(NULL);
+    EGLint ctxattr[] = {
+      EGL_CONTEXT_CLIENT_VERSION, 2,
+      EGL_NONE
+    };
 #endif
 	/**
         Initialize OpenGL ES

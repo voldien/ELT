@@ -37,9 +37,9 @@
 static char* get_device_extension(cl_device_id device){
     unsigned int extension_size;
     char* extension;
-    clGetDeviceInfo(device,CL_DEVICE_EXTENSIONS, NULL, (void*)extension_size,&extension_size);
+    clGetDeviceInfo(device,CL_DEVICE_EXTENSIONS, NULL, NULL,&extension_size);
     extension = (char*)malloc(extension_size);
-    clGetDeviceInfo(device, CL_DEVICE_EXTENSIONS, extension_size,extension, &extension_size);
+    clGetDeviceInfo(device, CL_DEVICE_EXTENSIONS, extension_size,extension, NULL);
     return extension;
 }
 
@@ -61,7 +61,8 @@ DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContext(Enum flag){
     Uint32 uiDeviceUsed = 0,uiEndDev = 0;
 
     /**
-    TODO check if needed or logic is accepted*/
+        TODO check if needed or logic is accepted
+    */
     if(!ExIsModuleLoaded(OPENCL_LIBRARY_NAME))
         #ifdef EX_LINUX
         ExLoadLibrary(OPENCL_LIBRARY_NAME);
@@ -92,6 +93,8 @@ DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowCont
     Int32 cpPlatform,ciErrNum;Uint32 uiDevCount = 0;
     // device ids
     cl_device_id *cdDevices;
+    char* extension;
+    int i;
     Uint32 uiDeviceUsed = 0,uiEndDev = 0;
 
     /**
@@ -121,6 +124,16 @@ DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowCont
         ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_CPU, uiDevCount, cdDevices, NULL);
     }
 
+    /**
+        Check witch device support gl sharing TODO add for DIRECTX
+    */
+    for(i = 0; i < uiDevCount; i++){
+        extension = get_device_extension(cdDevices[i]);
+        if(strstr(extension,GL_SHARING_EXTENSION))
+            break;
+        free(extension);
+    }
+    free(extension);
     //if(clGetDeviceInfo(cdDevices[0],CL_DEVICE_EXTENSIONS,))
 
     // print developing info of the CL
@@ -156,11 +169,8 @@ DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowCont
     else if(erenderingFlag & EX_OPENCL){props[2] = CL_CGL_SHAREGROUP_KHR;}
     else if(erenderingFlag & EX_OPENGLES){props[2] = CL_EGL_DISPLAY_KHR;}
 
-//get_device_extension(device),
 
-
-
-    if(!(hClContext = clCreateContext(props,1, &cdDevices[0],NULL,NULL,&ciErrNum))){
+    if(!(hClContext = clCreateContext(props,1, &cdDevices[i],NULL,NULL,&ciErrNum))){
         ExDevPrint("Failed to Create OpenCL Context based on the OpenGL Context");
     }
 

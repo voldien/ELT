@@ -42,7 +42,10 @@ extern DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned i
 */
 extern DECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(unsigned int socket);
 
+/**
 
+*/
+extern DECLSPEC unsigned int ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port,unsigned int socket);
 
 /**
     Connect to socket
@@ -55,11 +58,11 @@ extern DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigne
 //extern DECLSPEC unsigned int ELTAPIENTRY ExNetListen(unsigned int socket,unsigned int blog);
 
 /**
-
+    Read Socket data
 */
 extern DECLSPEC int ELTAPIENTRY ExReadSocket(unsigned int socket, unsigned int* data,unsigned size);
 /**
-
+    Write Socket data
 */
 extern DECLSPEC int ELTAPIENTRY ExWriteSocket(unsigned int socket, unsigned int* data,unsigned size);
 

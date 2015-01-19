@@ -1,10 +1,16 @@
 #include"elt_net.h"
+#include <stdio.h>
+#include <stdlib.h>
 #if defined(EX_LINUX)   /*  Linux network*/
 #   include<sys/types.h>
 #   include<sys/socket.h>
 #   include<netinet/in.h>
+#   include<arpa/inet.h>
+#   include<sys/ioctl.h>
 #   include<errno.h>
 #   include<netdb.h>
+#   include <unistd.h>
+#   include<net/if.h>
 #elif defined(EX_WINDOWS)   /*  Windows network*/
 #	pragma comment(lib,"Ws2_32.lib")
 #	pragma comment(lib,"wininet")
@@ -20,10 +26,16 @@ static int init_wsa(void){
 	}
 }
 #elif defined(EX_ANDROID)
+#   include <unistd.h>
 
 #endif // EX_WINDOWS
+#include<string.h>
 
 // http://www.linuxhowtos.org/data/6/server.c
+
+
+static int ip_exist(void){return 0;}
+
 
 DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port,unsigned int protocol){
     #ifdef EX_WINDOWS
@@ -62,8 +74,11 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
     }
     else{
         socket_protocol = 0;
-        sock_domain = AF_INET;
+        sock_domain = PF_INET;
     }
+
+    struct ifreq ifr = {0};
+
     /**
         create socket
     */
@@ -81,7 +96,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
     }
     else if(protocol & ELT_TCP){
         socket_protocol = 0;
-        if((sockfd = socket(sock_domain, SOCK_STREAM, socket_protocol)) == -1)
+        if((sockfd = socket(sock_domain, SOCK_STREAM, IPPROTO_IP)) == -1)
             fprintf(stderr,strerror(errno));
     }
     else if(protocol & ELT_UDP){
@@ -93,18 +108,35 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
         if((sockfd = socket(sock_domain, SOCK_STREAM, socket_protocol)) == -1)
             fprintf(stderr,strerror(errno));
     }
+    strncpy(ifr.ifr_name, "eth1", IFNAMSIZ);
+    ifr.ifr_addr.sa_family = AF_INET;
+    inet_pton(AF_INET, ip, ifr.ifr_addr.sa_data + 2);
+    ioctl(sockfd, SIOCSIFADDR, &ifr);
+
+    inet_pton(AF_INET, "255.255.0.0", ifr.ifr_addr.sa_data + 2);
+    ioctl(sockfd, SIOCSIFNETMASK, &ifr);
+
+    ioctl(sockfd, SIOCGIFFLAGS, &ifr);
+
+    ifr.ifr_flags |= (IFF_UP | IFF_RUNNING);
+
+    ioctl(sockfd, SIOCSIFFLAGS, &ifr);
 
     bzero((char*)&serv_addr,sizeof(serv_addr));
-	
+
     serv_addr.sin_family = sock_domain;
-    serv_addr.sin_addr.s_addr = inet_addr(ip);
-	inet_pton(sock_domain,ip, &serv_serv.sin_addr);
+    //serv_addr.sin_addr.s_addr = inet_addr(ip);
+	inet_pton(sock_domain,ip, &serv_addr.sin_addr);
     //serv_addr.sin_addr.s_addr = INADDR_ANY;
 
     serv_addr.sin_port = htons(port);
+
+    /**
+        TODO solve how to create a ip address
+    */
     if(bind(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0){
         fprintf(stderr,strerror(errno));
-        //return -1;
+        return -1;
     }
 
     return sockfd;
@@ -124,13 +156,14 @@ DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int p
     #ifdef EX_WINDOWS
     SOCKADDR_IN serv_addr;
     struct hostent *server;
-    int sockfd;/**TODO check if sockdf should be input parameter*/
+    int sockfd;/**TODO check if sockfd should be input parameter*/
 
 	if(wsadata.wVersion != EX_WSA_VERSION)
 		WSAStartup(EX_WSA_VERSION, &wsadata);
 
     sockfd = ExOpenSocket(ip,port,ELT_CLIENT);
-	server = gethostbyname(ip);
+
+	server = gethostbyname(ip);/*   Get information of the ip address */
 
 
 	serv_addr.sin_port = htons(port);
