@@ -14,6 +14,10 @@
 #elif defined(EX_ANDROID)
 #   include<android/log.h>
 
+
+#define LOGI(...)
+#define LOGE(...)
+
 #endif
 #include<signal.h>
 #include<limits.h>

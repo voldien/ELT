@@ -22,8 +22,8 @@
 #include"./../EngineAssembly.h"
 
 
-#define ELT_GPU0 0x0                        /* GPU index 0 + offset*/
-#define ELT_CPU0 0x20                       /* CPU index 0 + offset*/
+#define ELT_GPU0 0x20                        /* GPU index 0 + offset*/
+#define ELT_CPU0 0x40                       /* CPU index 0 + offset*/
 #define ELT_CL_FLOPS_HIGHEST 0x400          /* Device with most FLOPS */
 #define ELT_CL_AVAILABLE_PLATFORM 0x1000    /* Get available device */
 //#define EX_CL_GL_SYNC   0x2000    //TODO check if it's needed

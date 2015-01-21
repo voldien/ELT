@@ -148,9 +148,14 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 	}else {/*XSync(display,0);*/ return FALSE;}
 #elif defined(EX_ANDROID)
 
+
 #elif defined(EX_MAC)
 
 #elif defined(EX_IPHONE)
+
+#elif defined(EX_WEB)
+
+#elif defined(EX_PS3)
 
 #endif
 }

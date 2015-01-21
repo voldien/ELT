@@ -31,6 +31,12 @@
     <Filter Include="Source Files\system\window">
       <UniqueIdentifier>{2172e036-ee67-4ce9-ad5d-1ddbc4e6906b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\math">
+      <UniqueIdentifier>{02c42f4f-08f3-40bb-98e2-0174acf08707}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\math">
+      <UniqueIdentifier>{b2937d19-c897-4faa-8298-65290db7a56a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineModuleDefination.def" />
@@ -232,6 +238,21 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\System\Win32\wnd_snd.h">
       <Filter>Header Files\system\window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\math\frustum.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\math\matrix.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\math\quad.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\math\raytrace.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\math\vect.h">
+      <Filter>Header Files\math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

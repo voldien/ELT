@@ -137,6 +137,8 @@
 		#define EX_BSD
     #elif defined(__llvm__) || defined(__clang__)   /*  llvm    */
         #define EX_LLVM
+#	elif defined(__pnacl__) ||defined(__native_client__)	/*	nacl google	*/
+		#define EX_NACL 1
 	#endif
 #else
 	#error  Unsupported architecture!   /*  No architecture support implicitly. remove this line to compile anyway*/

@@ -18,6 +18,7 @@
 #   include<GL/gl.h>
 #   include<GL/glext.h>
 #elif defined(EX_ANDROID)
+#   define OPENCL_LIBRARY_NAME "libOpenCL.so"
 
 #elif defined(EX_MAC)
 
@@ -28,11 +29,15 @@
 /**
 	OpenCL Error
 */
-#define ExIsCLError(x)  { if( ( x ) != CL_SUCCESS ){ ExDevPrintc("Error",EX_CONSOLE_RED); } }
+#define ExIsCLError(x)  { if( ( x ) != CL_SUCCESS ){ ExDevPrintfc("Error | %s",EX_CONSOLE_RED,ExGetErrorMessage( ( x ) )); } }
 
 
-#define ELT_CL_GPU_INDEX(x) ((x & 0x000000ff))
+#define ELT_CL_GPU_INDEX(x) ((x & (ELT_GPU0 >> (ELT_GPU0 / 2))))
 #define ELT_CL_CPU_INDEX(x) ((x & 0x0000ff00))
+
+/**/
+extern DECLSPEC int ELTAPIENTRY ExGetOpenCLDevice(cl_platform_id platform,cl_device_id* device,unsigned int flag);
+static char* ELTAPIENTRY ExGetErrorMessage(cl_int error);
 
 static char* get_device_extension(cl_device_id device){
     unsigned int extension_size;
@@ -52,9 +57,9 @@ DECLSPEC void* ELTAPIFASTENTRY ExGetCurrentCLContext(void){return hClContext;}
 
 
 DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContext(Enum flag){
-	Int32 cpPlatform,ciErrNum;Uint32 uiDevCount = 0;
+	cl_int cpPlatform,ciErrNum;Uint32 uiDevCount = 0;
+	int i = 0;
 	// device ids
-
     cl_device_id *cdDevices;
     Uint32 errNum;
     cl_context hClContext;
@@ -78,13 +83,42 @@ DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContext(Enum flag){
 
 	cl_context_properties props[] = {
         CL_CONTEXT_PLATFORM,cpPlatform,
-		NULL};
+		NULL
+	};
+
+
+
+	if(flag & ELT_GPU0){
+		uiDevCount = ELT_CL_GPU_INDEX(flag);
+	}
+	else if(flag & ELT_CPU0){
+		uiDevCount = ELT_CL_CPU_INDEX(flag);	
+	}
+	else if(flag & ELT_CL_AVAILABLE_PLATFORM){
+	
+	}
+    // Get Device ID
+    if(!(ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_GPU, 0, NULL, &uiDevCount))){
+        // create OpenCL Devices on the GPU
+        cdDevices = (cl_device_id*)malloc(sizeof(cl_device_id) *uiDevCount);
+        ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_GPU, uiDevCount, cdDevices, NULL);
+    }
+    // if gpu failure. check CPU
+    else if(!(ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_CPU, 0, NULL, &uiDevCount))){
+        // create OpenCL Devices on the CPU
+        cdDevices = (cl_device_id*)malloc(sizeof(cl_device_id) *uiDevCount);
+        ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_CPU, uiDevCount, cdDevices, NULL);
+    }
+
+
+
+	//hClContext = clCreateContextFromType(props,CL_DEVICE_TYPE_GPU,NULL, NULL, (cl_int*)&errNum);
+
+	hClContext = clCreateContext(props,1, &cdDevices[i],NULL,NULL,&ciErrNum);
 
     //hClContext = clCreateContext(props,1,d,0,0,(cl_int*)&errNum);
-
-	hClContext = clCreateContextFromType(props,CL_DEVICE_TYPE_GPU,NULL, NULL, (cl_int*)&errNum);
     if(!hClContext)
-        ExDevPrint("Failed");
+        ExIsCLError(ciErrNum);
 
 	return (ERESULT)hClContext;
 }
@@ -342,11 +376,15 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum fl
                 //clGetDeviceInfo(clPlatformIDs[i], CL_DEVICE_TYPE_GPU,1,&device_id,&num_cpu);
 
 
-                if(ciErrNum == CL_SUCCESS){
+                if(/*ciErrNum == CL_SUCCESS*/ TRUE){
                     if(strstr(chBuffer, "NVIDIA") != NULL){	// nvidia exists
                         *clSelectedPlatformID = (Int)clPlatformIDs[i];
                         break;
                     }else if(strstr(chBuffer,"AMD") != NULL){
+                        *clSelectedPlatformID = (Int)clPlatformIDs[i];
+                        break;
+                    }
+                    else if(strstr(chBuffer,"Intel(R) OpenCL") != NULL){
                         *clSelectedPlatformID = (Int)clPlatformIDs[i];
                         break;
                     }
@@ -636,4 +674,85 @@ DECLSPEC Int32 ELTAPIENTRY ExGetClDevCap(void* device){
     }
 
     return iDevArch;
+}
+
+
+
+static char* ELTAPIENTRY ExGetErrorMessage(cl_int error){
+#ifdef EX_DEBUG
+    static const char* errorString[] = {
+        "CL_SUCCESS",
+        "CL_DEVICE_NOT_FOUND",
+        "CL_DEVICE_NOT_AVAILABLE",
+        "CL_COMPILER_NOT_AVAILABLE",
+        "CL_MEM_OBJECT_ALLOCATION_FAILURE",
+        "CL_OUT_OF_RESOURCES",
+        "CL_OUT_OF_HOST_MEMORY",
+        "CL_PROFILING_INFO_NOT_AVAILABLE",
+        "CL_MEM_COPY_OVERLAP",
+        "CL_IMAGE_FORMAT_MISMATCH",
+        "CL_IMAGE_FORMAT_NOT_SUPPORTED",
+        "CL_BUILD_PROGRAM_FAILURE",
+        "CL_MAP_FAILURE",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "CL_INVALID_VALUE",
+        "CL_INVALID_DEVICE_TYPE",
+        "CL_INVALID_PLATFORM",
+        "CL_INVALID_DEVICE",
+        "CL_INVALID_CONTEXT",
+        "CL_INVALID_QUEUE_PROPERTIES",
+        "CL_INVALID_COMMAND_QUEUE",
+        "CL_INVALID_HOST_PTR",
+        "CL_INVALID_MEM_OBJECT",
+        "CL_INVALID_IMAGE_FORMAT_DESCRIPTOR",
+        "CL_INVALID_IMAGE_SIZE",
+        "CL_INVALID_SAMPLER",
+        "CL_INVALID_BINARY",
+        "CL_INVALID_BUILD_OPTIONS",
+        "CL_INVALID_PROGRAM",
+        "CL_INVALID_PROGRAM_EXECUTABLE",
+        "CL_INVALID_KERNEL_NAME",
+        "CL_INVALID_KERNEL_DEFINITION",
+        "CL_INVALID_KERNEL",
+        "CL_INVALID_ARG_INDEX",
+        "CL_INVALID_ARG_VALUE",
+        "CL_INVALID_ARG_SIZE",
+        "CL_INVALID_KERNEL_ARGS",
+        "CL_INVALID_WORK_DIMENSION",
+        "CL_INVALID_WORK_GROUP_SIZE",
+        "CL_INVALID_WORK_ITEM_SIZE",
+        "CL_INVALID_GLOBAL_OFFSET",
+        "CL_INVALID_EVENT_WAIT_LIST",
+        "CL_INVALID_EVENT",
+        "CL_INVALID_OPERATION",
+        "CL_INVALID_GL_OBJECT",
+        "CL_INVALID_BUFFER_SIZE",
+        "CL_INVALID_MIP_LEVEL",
+        "CL_INVALID_GLOBAL_WORK_SIZE",
+    };
+
+    const int errorCount = sizeof(errorString) / sizeof(errorString[0]);
+
+    const int index = -error;
+
+    return (index >= 0 && index < errorCount) ? errorString[index] : "Unspecified Error";
+#else
+	return "";
+#endif
 }
