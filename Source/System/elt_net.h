@@ -23,8 +23,8 @@
 
 #define ELT_CLIENT 0x1  /*  Client socket*/
 #define ELT_TCP 0x2     /*  reliable,  two-way  */
-#define ELT_UDP 0x4     /* UDP protocol */
-#define ELT_LOCAL 0x8
+#define ELT_UDP 0x4     /*  UDP protocol */
+#define ELT_LOCAL 0x8   /*  Local inter communication */
 
 #ifdef __cplusplus  //  C++ Environment
 extern "C" {

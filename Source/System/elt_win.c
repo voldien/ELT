@@ -12,7 +12,17 @@
 	#include<EGL/egl.h>
 	#include<GL/glx.h>
 #elif defined(EX_ANDROID)
-#   include<android/system/window.h>
+#   include<android/native_window.h>
+#   include<EGL/egl.h>
+#   ifdef GL_ES_VERSION_2_0
+        #include<GLES/gl2.h>
+        #include<GLES/gl2ext.h>
+        #include<GLES/gl2platform.h>
+#   else
+        #include<GLES/gl.h>
+        #include<GLES/glext.h>
+        #include<GLES/glplatform.h>
+#   endif
 
 #elif defined(EX_MAC)
 	#include"Mac/macosx_win.h"
@@ -173,10 +183,30 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 	else
 		return EX_NULL;
 #elif defined(EX_ANDROID)
+
 	if((flag & ENGINE_NATIVE) || flag == 0){
 
+
 	}
-	else if((flag & ENGINE_OPENGL) ||(flag & ENGINE_OPENCL)){
+	else if(flag & EX_OPENGL){
+        window = 0;
+        glc = ExCreateGLContext(window);
+        if(flag & EX_OPENCL)
+            ExCreateCLSharedContext(glc, window, EX_OPENGL);
+        return window;
+
+	}
+	else if(flag & EX_OPENGLES){
+        window = 0;
+        glc = ExCreateOpenGLES(window);
+        if(flag & EX_OPENCL)
+            ExCreateCLSharedContext(glc, window, EX_OPENGL);
+        return window;
+	}
+	else if(flag & EX_OPENCL){
+        window = 0;
+        ExCreateCLContext(0);
+        return window;
 
 	}
 	else

@@ -1,5 +1,5 @@
 #include"elt_loadso.h"
-#if defined(EX_LINUX)
+#if defined(EX_LINUX) || defined(EX_ANDROID)
 #   include<link.h>
 #   include<dlfcn.h>
 #   include<errno.h>

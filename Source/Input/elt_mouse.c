@@ -9,6 +9,8 @@
 #   include<X11/Xlib.h>
 #   include<X11/cursorfont.h>
 #   include"./../System/Unix/unix_win.h"
+#elif defined(EX_ANDROID)
+    #include<android/input.h>
 #endif
 
 

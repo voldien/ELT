@@ -72,7 +72,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id){
 
 DECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms){
     #ifdef EX_WINDOWS
-
+    Sleep(ms);
     #elif defined(EX_LINUX)
     struct timespec tim, tim2;
     tim.tv_sec = 0;
@@ -83,11 +83,27 @@ DECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms){
     }
     #endif
 }
+DECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nano_sec){
+    #ifdef EX_WINDOWS
+    struct timeval tv;  // TODO Does this nano sleep work ?
+    tv.tv_sec = nano_sec / 10e^9;
+    tv.tv_usec = nano_sec
+    select(0,0,0,0,&tv);
+    #elif defined(EX_LINUX) || defined(EX_ANDROID)
+    struct timespec tim, tim2;
+    tim.tv_sec = 0;
+    tim.tv_nsec = nano_sec;
+
+    if(nanosleep(&tim , NULL) < 0 ){
+        fprintf(stderr, strerror(errno));
+    }
+    #endif
+}
 
 DECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void){/*TODO fix high res-resolution*/
 #ifdef EX_WINDOWS
 	return (timeGetTime() - elt_time);  /*  return in milliseconds   */
-#elif defined(EX_LINUX)
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
 	return (clock() - elt_time);
 #endif
 }

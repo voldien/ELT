@@ -27,10 +27,14 @@ extern "C"{
 #endif
 
 extern Display *display;
+
 extern DECLSPEC XID ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height);
+
 extern DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 height, void** glx_window);
 
 extern DECLSPEC int ExSupportOpenGL(void);
+
+
 #ifdef __cplusplus // C++ environment
 };
 #endif

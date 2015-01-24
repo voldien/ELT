@@ -1,7 +1,7 @@
 #include"elt_net.h"
 #include <stdio.h>
 #include <stdlib.h>
-#if defined(EX_LINUX)   /*  Linux network*/
+#if defined(EX_LINUX) | defined(EX_ANDROID)   /*  Linux network*/
 #   include<sys/types.h>
 #   include<sys/socket.h>
 #   include<netinet/in.h>
@@ -20,7 +20,7 @@
 
 WSADATA wsadata = {0};
 #define EX_WSA_VERSION MAKEWORD(2,2)
-static int init_wsa(void){
+static int init_wsa(void){  /*  initialize was*/
 	if(wsadata.wVersion != EX_WSA_VERSION){
 		if(!WSAStartup(EX_WSA_VERSION, &wsadata))return -1;
 	}
@@ -35,6 +35,7 @@ static int init_wsa(void){
 
 
 static int ip_exist(void){return 0;}
+
 
 
 DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port,unsigned int protocol){
@@ -61,7 +62,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
 	}
 	return sockfd;
 
-    #elif defined(EX_LINUX)
+    #elif defined(EX_LINUX) || defined(EX_ANDROID)
 
     unsigned int sockfd,newsockdf;
     unsigned int sock_domain,socket_protocol;
@@ -122,13 +123,14 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
 
     ioctl(sockfd, SIOCSIFFLAGS, &ifr);
 
+
+
     bzero((char*)&serv_addr,sizeof(serv_addr));
 
     serv_addr.sin_family = sock_domain;
     //serv_addr.sin_addr.s_addr = inet_addr(ip);
-	inet_pton(sock_domain,ip, &serv_addr.sin_addr);
     //serv_addr.sin_addr.s_addr = INADDR_ANY;
-
+	inet_pton(sock_domain,ip, &serv_addr.sin_addr);
     serv_addr.sin_port = htons(port);
 
     /**

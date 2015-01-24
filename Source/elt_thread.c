@@ -2,14 +2,10 @@
 
 #ifdef EX_WINDOWS           /*  Windows */
 #   define EX_START_THREAD(x)	ResumeThread( ( x ) )
-#elif defined(EX_LINUX)     /*  Linux   */
+#elif defined(EX_LINUX) || defined(EX_ANDROID)    /*  Linux   */
 #   include<pthread.h>
 #   include<errno.h>
 #   define EX_START_THREAD(x)	pthread_detach( ( x ))  /*TODO change*/
-#elif defined(EX_ANDROID)   /*  */
-#   include<pthread.h>
-#   define EX_START_THREAD(x)	pthread_detach( ( x )) /*TODO change*/
-
 #elif defined(EX_MAC)
 
 #endif

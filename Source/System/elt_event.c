@@ -6,7 +6,10 @@
 #elif defined(EX_LINUX)
     #include<X11/X.h>
 #elif defined(EX_ANDROID)
-
+    #include<android/window.h>
+    #include<android/input.h>
+    #include<android/looper.h>
+    #include<android/sensor.h>
 #endif
 
 
@@ -148,7 +151,7 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 	}else {/*XSync(display,0);*/ return FALSE;}
 #elif defined(EX_ANDROID)
 
-
+    return TRUE;
 #elif defined(EX_MAC)
 
 #elif defined(EX_IPHONE)

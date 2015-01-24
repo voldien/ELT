@@ -37,7 +37,7 @@
 
 /**/
 extern DECLSPEC int ELTAPIENTRY ExGetOpenCLDevice(cl_platform_id platform,cl_device_id* device,unsigned int flag);
-static char* ELTAPIENTRY ExGetErrorMessage(cl_int error);
+static char* ELTAPIENTRY ExGetCLErrorMessage(cl_int error);
 
 static char* get_device_extension(cl_device_id device){
     unsigned int extension_size;
@@ -92,10 +92,10 @@ DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContext(Enum flag){
 		uiDevCount = ELT_CL_GPU_INDEX(flag);
 	}
 	else if(flag & ELT_CPU0){
-		uiDevCount = ELT_CL_CPU_INDEX(flag);	
+		uiDevCount = ELT_CL_CPU_INDEX(flag);
 	}
 	else if(flag & ELT_CL_AVAILABLE_PLATFORM){
-	
+
 	}
     // Get Device ID
     if(!(ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_GPU, 0, NULL, &uiDevCount))){
@@ -678,7 +678,7 @@ DECLSPEC Int32 ELTAPIENTRY ExGetClDevCap(void* device){
 
 
 
-static char* ELTAPIENTRY ExGetErrorMessage(cl_int error){
+static char* ELTAPIENTRY ExGetCLErrorMessage(cl_int error){
 #ifdef EX_DEBUG
     static const char* errorString[] = {
         "CL_SUCCESS",

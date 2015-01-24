@@ -60,32 +60,32 @@
 #ifdef __cplusplus	// C++ Environment
 extern "C"{
 #endif
-/*
-	//Capture mouse
+/**
+	Capture mouse
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(ExBoolean enabled);
-/*
-	// clip cursor onto specificed rect
+/**
+    clip cursor onto specificed rect
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExClipCursor(const struct exrect* rect);
-/*
-	// Create Cursor
+/**
+	Create Cursor
 */
 extern DECLSPEC ExCursor ELTAPIENTRY ExCreateCursor(const Uint8* data, const Uint8* mask, Int32 width,Int32 height, Int32 hot_x, Int32 hot_y);
-/*
-	// Create System Cursor
+/**
+	Create System Cursor
 */
 extern DECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(Enum system_id);
-/*
-	// Free cursor
+/**
+	Free cursor
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExFreeCursor(ExCursor cursor);
-/*
-	// Set Cursor
+/**
+	Set Cursor
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExSetCursor(ExCursor cursor);
-/*
-	// Get Cursor
+/**
+	Get Cursor
 */
 extern DECLSPEC ExCursor ELTAPIENTRY ExGetCursor(void);
 

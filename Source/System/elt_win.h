@@ -35,16 +35,16 @@ extern "C"{
 struct exsize{unsigned int width,height;};
 struct exrect{int x,y,width,height;};
 
-/*
-	//Create Window [x coordination, y coordination]
+/**
+	Create Window [x coordination, y coordination]
 */
 extern DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height,Enum flag);
-/*
-	// show window
+/**
+	show window
 */
 extern DECLSPEC void ELTAPIENTRY ExShowWindow(ExWin window);
-/*
-	// Hide Window
+/**
+	Hide Window
 */
 extern DECLSPEC void ELTAPIENTRY ExHideWindow(ExWin window);
 /*
@@ -57,27 +57,27 @@ extern DECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin window);
 */
 extern DECLSPEC void ELTAPIENTRY ExSetWindowMode(ExWin window, Enum mode);
 
-/*
-    // Destroy Window
+/**
+    Destroy Window
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExDestroyWindow(ExWin window);
 
-/*
-	// Set Window Title
+/**
+	Set Window Title
 */
 extern DECLSPEC void ELTAPIENTRY ExSetWindowTitle(ExWin window,const ExChar* title);
-/*
-	// Get Windows Title
+/**
+	Get Windows Title
 */
 extern DECLSPEC void ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title);
 
-/*
-	// Set Windows Position
+/**
+	Set Windows Position
 */
 extern DECLSPEC void ELTAPIENTRY ExSetWindowPos(ExWin window,Int32 x,Int32 y);
 
-/*
-	// Set Windows Position
+/**
+	Set Windows Position
 */
 extern DECLSPEC void ELTAPIENTRY ExSetWindowPosv(ExWin window,const Int32* position);
 /*
@@ -106,10 +106,14 @@ extern DECLSPEC void ELTAPIENTRY ExGetWindowRect(ExWin window, struct exrect* re
 
 
 
-/*
-	//	Get Window mode
+/**
+    Get Window mode
 */
 extern DECLSPEC Uint32 ELTAPIENTRY ExGetWindowFlag(ExWin window);
+/**
+    Set Window Flag
+*/
+extern DECLSPEC void ELTAPIENTRY ExSetWindowFlag(ExWin window, Enum flag);
 
 /*
  *	Assign Icon Handle onto window

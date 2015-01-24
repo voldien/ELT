@@ -36,7 +36,7 @@ DECLSPEC XID ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int
 	visual = DefaultVisual(display, 0);
 	depth = DefaultDepth(display,0);
     winmask = CWEventMask;
-	//swa.background_pixel = XWhitePixel(display,0);
+	swa.background_pixel = XWhitePixel(display,0);
 	swa.event_mask = ExposureMask | PointerMotionMask | KeyPressMask;
 
 	window = XCreateWindow(display,DefaultRootWindow(display),
@@ -49,7 +49,8 @@ DECLSPEC XID ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int
     XChangeWindowAttributes (display, window, CWOverrideRedirect, &xattr );
 	//XSelectInput(display,window,ExposureMask | StructureNotifyMask);
 
-    /*
+
+    /**
 
     */
 	fontinfo = XLoadQueryFont(display, EX_TEXT("10x20"));
@@ -86,7 +87,7 @@ DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 
 	int numfbconfigs,i;
     int num;
 
-    /*
+    /**
         create attribute
     */
     ExCreateContextAttrib(0,&VisData[0],0,0,EX_OPENGL);

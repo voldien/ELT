@@ -54,7 +54,7 @@ extern DECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms);
 /**
 	Delay current thread in nano seconds.
 */
-extern DECLSPEC void ELTAPIENTRY ExDelay2(Uint32 nano_sec);
+extern DECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nano_sec);
 
 /**
 	Get performance counter

@@ -43,36 +43,36 @@ extern DECLSPEC ExBoolean ELTAPIENTRY ExHasAVX2(void);
 	// Has CPU Support For 3DNow (AMD feature)
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExHas3DNow(void);
-/*
+/**
 	//
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExHasMMX(void);
-/*
-	// Get CPU number of cpu cores
+/**
+	Get CPU number of cpu cores
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void);
 /*
 	//
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExGetCPUCacheLineSize(void);
-/*
-	// Is SSE ( Streaming SIMD Extensions ) available
+/**
+	Is SSE ( Streaming SIMD Extensions ) available
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE(void);
-/*
-	// Is SSE 2 ( Streaming SIMD Extensions ) available
+/**
+	Is SSE 2 ( Streaming SIMD Extensions ) available
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE2(void);
-/*
-	// Is SSE 3 ( Streaming SIMD Extensions ) available
+/**
+	Is SSE 3 ( Streaming SIMD Extensions ) available
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE3(void);
-/*
-	// Is SSE 41 ( Streaming SIMD Extensions ) available
+/**
+	Is SSE 41 ( Streaming SIMD Extensions ) available
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE41(void);
-/*
-	// Is SSE 41 ( Streaming SIMD Extensions ) available
+/**
+	Is SSE 41 ( Streaming SIMD Extensions ) available
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void);
 

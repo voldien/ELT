@@ -3,7 +3,7 @@
 #include"./../elt_console.h"
 #ifdef EX_WINDOWS
 #	include<DbgHelp.h>
-#pragma comment(lib, "Dbghelp.lib")
+#   pragma comment(lib, "Dbghelp.lib")
 #elif defined(EX_LINUX)
 #   include<syslog.h>
 #   include"Unix/unix_win.h"
@@ -12,18 +12,21 @@
 #   include<sys/stat.h>
 #   include<fcntl.h>
 #elif defined(EX_ANDROID)
+#   include<syslog.h>
 #   include<android/log.h>
-
-
-#define LOGI(...)
-#define LOGE(...)
+#   include<unistd.h>
+#   include<sys/types.h>
+#   include<sys/stat.h>
+#   include<fcntl.h>
+#   define LOGI(...)    __android_log_print(ANDROID_LOG_INFO, "",__VA_ARGS__)
+#   define LOGE(...)    __android_log_print(ANDROID_LOG_ERROR, "", __VA_ARGS__)
 
 #endif
 #include<signal.h>
 #include<limits.h>
 
 
-// Error Message text
+// Error Message textq
 ExChar* errorText = NULL;
 /**
 	ExError

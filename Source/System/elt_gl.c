@@ -11,6 +11,7 @@
     #pragma comment(lib, "gdi32.lib")
 	#pragma comment(lib,"libEGL.lib")
 	#pragma comment(lib,"libGLESv2.lib")
+
 	#include<dwmapi.h>
 	#include<WinUser.h>
 	#include<Windows.h>
@@ -28,15 +29,15 @@
     #include<X11/Xatom.h>
     #include<X11/keysym.h>
     #include<EGL/egl.h>
+    #include<EGL/eglext.h>
     #include<GL/glx.h>
     #include<GL/glxext.h>
     #define GL_GET_PROC(x) glXGetProcAddress( ( x ) )           /*  get OpenGL function process address */
 #elif defined(EX_ANDROID)
     #define EX_EGL_LIB_MOUDLE_NAME "libEGL.so"
     #define EX_GLES_LIB_MOUDLE_NAME "libGLESv2.so"
-#   include<jni.h>
-#   include<android/system/window.h>
-#   include<android/native_window_jni.h>
+    #include<jni.h>
+    #include<android/native_activity.h>
 	#ifdef GL_ES_VERSION_2_0
         #include<GLES/gl2.h>
         #include<GLES/gl2ext.h>
@@ -46,7 +47,11 @@
         #include<GLES/glext.h>
         #include<GLES/glplatform.h>
 	#endif
+    #include<EGL/egl.h>
+    #include<EGL/eglext.h>
 #define GL_GET_PROC(x) (x)                                      /*  get OpenGL function process address */
+
+#elif defined(EX_MAC)
 #endif
 #include<GL/glu.h>
 
