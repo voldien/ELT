@@ -2,8 +2,8 @@
 #include<time.h>
 #include<signal.h>
 #ifdef EX_WINDOWS
-
-#elif defined(EX_LINUX)
+#   include<WinBase.h>
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
 #   include<errno.h>
 #endif // EX_WINDOWS
 
@@ -20,7 +20,7 @@ DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback,
 		interval,
 		WT_EXECUTEDEFAULT));
 	return pid;
-#elif defined(EX_LINUX)
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
     timer_t timerid;
 	struct sigevent sev = {0};;
 	struct sigaction sa;
@@ -63,7 +63,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id){
 	ExBoolean error;
 	ExIsWinError(error = DeleteTimerQueueTimer(EX_NULL,(HANDLE)timer_id, EX_NULL));
 	return error;
-#elif defined(EX_LINUX)
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
     if(timer_delete(timer_id) == -1)
         fprintf(stderr,strerror(errno));
 	return 0;
@@ -73,7 +73,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id){
 DECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms){
     #ifdef EX_WINDOWS
     Sleep(ms);
-    #elif defined(EX_LINUX)
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
     struct timespec tim, tim2;
     tim.tv_sec = 0;
     tim.tv_nsec = ms * 1000000;
@@ -111,7 +111,7 @@ DECLSPEC long int ELTAPIENTRY ExGetHiResTime(void){
     #ifdef EX_WINDOWS
 
 	return 0;
-    #elif defined(EX_LINUX)
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
     struct timespec t_spec;
     clock_gettime(CLOCK_MONOTONIC, &t_spec);
     return t_spec.tv_nsec;  /*  return time in nano seconds*/

@@ -136,6 +136,8 @@ DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(struct exsize* size){
 	Screen* scrn = DefaultScreenOfDisplay(display);
 	size->width = scrn->width;
 	size->height = scrn->height;
+#elif defined(EX_ANDROID)
+
 #endif
 }
 DECLSPEC void ELTAPIENTRY ExGetMonitorSize(Uint32 index, struct exsize* size){
@@ -145,7 +147,7 @@ DECLSPEC void ELTAPIENTRY ExGetMonitorSize(Uint32 index, struct exsize* size){
 	Screen* scrn = XScreenOfDisplay(display,index);
 	size->width = scrn->width;
 	size->height = scrn->height;
-
+#elif defined(EX_ANDROID)
 
 #endif
 }
@@ -159,12 +161,16 @@ DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenRect(struct exrect* rect){
 	rect->y = 0;
 	rect->width = scrn->width;
 	rect->height = scrn->height;
+#elif defined(EX_ANDROID)
+
 #endif
 }
 DECLSPEC void ELTAPIENTRY ExGetMonitorRect(Uint32 index, struct exrect* rect){
 #ifdef EX_WINDOWS
 
 #elif defined(EX_LINUX)
+
+#elif defined(EX_ANDROID)
 
 #endif
 }
@@ -186,38 +192,10 @@ DECLSPEC Int32 ELTAPIENTRY ExGetMonitorHz(Uint32 index){
 
 
 	return XRRConfigCurrentRate(conf);
-#endif
-}
-/*
-DECLSPEC ExBoolean ExLoadFileExplorer(char* path,const ExChar* filter){
-#ifdef EX_WINDOWS
-	ExChar wcpath[MAX_PATH];
-	char**p_temp_path = &path;
-	ExFileDialog dialog = {0,filter, wcpath};
-	if(ExCreateOpenDialog2(&dialog)){
-		ExUnicodeToAscii(wcpath, p_temp_path);
-		return TRUE;
-	}
-	return FALSE;
-#elif defined(EX_LINUX)
-	return FALSE;
-#endif
-}
-DECLSPEC ExBoolean ExSaveFileExplorer(char* path,const ExChar* filter){
-#ifdef EX_WINDOWS
-	ExChar wcpath[MAX_PATH];
-	char**p_temp_path = &path;
-	ExFileDialog dialog = {0,filter, wcpath};
-	if(ExCreateSaveDialog2(&dialog)){
-		ExUnicodeToAscii(&wcpath[0], &path);
-		return TRUE;
-	}
-	return FALSE;
-#elif defined(EX_LINUX)
-	return FALSE;
-#endif
+#elif defined(EX_ANDROID)
 
-}*/
+#endif
+}
 
 
 DECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct){
@@ -235,24 +213,27 @@ DECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct){
         *sec = 1;
     if(pct)
         *pct = 1;
+#elif defined(EX_ANDROID)
+
 #endif
 	return TRUE;
 }
 
-DECLSPEC void ELTAPIENTRY ExGetExecutePath(ExChar* wChar, Int32 lengthSize){
+DECLSPEC void ELTAPIENTRY ExGetExecutePath(ExChar* wChar, Int32 length){
 #ifdef EX_WINDOWS
 	ExIsError(GetModuleFileName(EX_NULL,wChar,lengthSize));
-#elif defined(EX_LINUX)
-
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
+    extern char* __progname;
+    memcpy(wChar,/*program_invocation_name*/__progname,length);
 #endif
 	return;
 }
-DECLSPEC void ELTAPIENTRY ExGetAppliationPath(ExChar* wChar, Int32 lengthSize){
+DECLSPEC void ELTAPIENTRY ExGetAppliationPath(ExChar* wChar, Int32 length){
 #ifdef EX_WINDOWS
-	ExIsError(GetCurrentDirectory(lengthSize,wChar));
-#elif defined(EX_LINUX)
+	ExIsError(GetCurrentDirectory(length,wChar));
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
     //readlink()
-	getcwd(wChar,lengthSize);
+	getcwd(wChar,length);
 #endif
 	return;
 }
@@ -282,7 +263,7 @@ DECLSPEC Uint64 ELTAPIENTRY ExGetTotalSystemMemory(void){
 	status.dwLength = sizeof(status);
 	GlobalMemoryStatusEx(&status);
 	return status.ullTotalPhys;
-#else
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
     struct sysinfo sys_info;
     sysinfo(&sys_info);
 	return sys_info.totalram;
@@ -295,7 +276,7 @@ DECLSPEC Uint64 ELTAPIENTRY ExGetTotalVirtualMemory(void){
 	status.dwLength = sizeof(status);
 	GlobalMemoryStatusEx(&status);
 	return status.ullTotalVirtual;
-#else
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
     struct sysinfo sys_info;
     sysinfo(&sys_info);
 	return sys_info.totalswap;
@@ -382,10 +363,8 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetCurrentUser(void){
 	ULong csize;
 	ExIsError(GetUserName(user,&csize));
 	return user;
-#elif defined(EX_LINUX)
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
 	return getenv("USER");
-#elif defined(EX_ANDROID)
-    return "";
 #endif
 }
 // get clipboard text

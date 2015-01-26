@@ -2,7 +2,7 @@
 
 #ifdef EX_WINDOWS           /*  Windows */
 #   define EX_START_THREAD(x)	ResumeThread( ( x ) )
-#elif defined(EX_LINUX) || defined(EX_ANDROID)    /*  Linux   */
+#elif defined(EX_LINUX) || defined(EX_ANDROID)    /*  Linux & android  */
 #   include<pthread.h>
 #   include<errno.h>
 #   define EX_START_THREAD(x)	pthread_detach( ( x ))  /*TODO change*/

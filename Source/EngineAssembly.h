@@ -186,7 +186,7 @@ extern "C"{
 typedef struct EngineFormatDescription{
 	Uint64 EngineFlag;		// Engine Flag Stats
 	Uint32 SampleQuality;	// Sample Quallity Flag Stats
-	Uint8 sample[4];
+	Uint8 sample[4];        //
 	Uint32 BufferCount;		// Number of Buffer Drawn To Window
 	Uint32 BufferFlag;		// Buffer Flag Statment
 	Uint32 AffinityCount;	// Number Core To Drive The Engine
@@ -226,8 +226,8 @@ extern DECLSPEC int ExGeti(Enum Flag);
 
 extern DECLSPEC void ELTAPIENTRY AssignDescription(const EngineDescription* p_engineDescription);
 
-/*
-	// Get ELT Window default Title!
+/**
+    Get ELT Window default Title!
 */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length);
 

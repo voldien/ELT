@@ -53,6 +53,10 @@ extern DECLSPEC int ELTAPIENTRY ExGetHint(Enum e_enum){
 }
 
 #define ELT_DISPLAY 0x1
+#define ELT_DISPLAY1 0x1
+#define ELT_DISPLAY2 0x1
+#define ELT_DISPLAY3 0x1
+#define ELT_DISPLAY4 0x1
 DECLSPEC int ELTAPIENTRY ExSetParameteri(Enum eflag, int value){
     switch(eflag){
 

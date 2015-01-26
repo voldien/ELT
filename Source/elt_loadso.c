@@ -5,7 +5,7 @@
 #   include<errno.h>
 #   include<libgen.h>
 #elif defined(EX_WINDOWS)
-
+#   include<Winbase.h>
 #endif
 
 /**
@@ -48,7 +48,7 @@ DECLSPEC void ELTAPIENTRY ExUnLoadObject(HANDLE handle){
 DECLSPEC HANDLE ELTAPIENTRY ExIsModuleLoaded(const ExChar* file){
 #ifdef EX_WINDOWS
 	return GetModuleHandle(file);
-#elif defined(EX_LINUX) || defined(EX_UNIX)
+#elif defined(EX_LINUX) || defined(EX_UNIX) || defined(EX_ANDROID)
     char buffer[256];
     void* handle = dlopen(NULL, RTLD_NOW);
     #ifdef EX_DEBUG

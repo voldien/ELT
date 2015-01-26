@@ -1,5 +1,0 @@
-error
-[FileLine 99 : FileName /home/voldie/CodeBlockTest/EngineEx/System/elt_errorhandler.c]
-[0mError
-[FileLine 313 : FileName /home/voldie/CodeBlockTest/EngineEx/System/elt_errorhandler.c]
-[0mSucceeded to Initialize Error Handler

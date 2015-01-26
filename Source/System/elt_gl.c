@@ -76,7 +76,7 @@
 static int isExtensionSupported(const char* extList, const char* extension){
 #ifdef EX_WINDOWS
 
-#elif defined(EX_LINUX)
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
 	const char* start;
 	const char *where, *terminator;
 	where = strchr(extension, ' ');

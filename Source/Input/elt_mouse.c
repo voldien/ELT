@@ -17,7 +17,7 @@
 DECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(ExBoolean enabled){
 #ifdef EX_WINDOWS
 	return (Int32)SetCapture(enabled ? GetFocus() : EX_NULL);
-	#elif defined(EX_LINUX)
+#elif defined(EX_LINUX)
 	return XGrabPointer(display, 0,False,0,GrabModeSync, GrabModeSync, None, None, CurrentTime);
 #endif
 	return TRUE;
