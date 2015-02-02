@@ -1,7 +1,7 @@
 #include"elt_net.h"
 #include <stdio.h>
 #include <stdlib.h>
-#if defined(EX_LINUX) | defined(EX_ANDROID)   /*  Linux network*/
+#if defined(EX_LINUX) | defined(EX_ANDROID)   /*  Linux network and android*/
 #   include<sys/types.h>
 #   include<sys/socket.h>
 #   include<netinet/in.h>
@@ -9,7 +9,7 @@
 #   include<sys/ioctl.h>
 #   include<errno.h>
 #   include<netdb.h>
-#   include <unistd.h>
+#   include<unistd.h>
 #   include<net/if.h>
 #elif defined(EX_WINDOWS)   /*  Windows network*/
 #	pragma comment(lib,"Ws2_32.lib")
@@ -25,16 +25,36 @@ static int init_wsa(void){  /*  initialize was*/
 		if(!WSAStartup(EX_WSA_VERSION, &wsadata))return -1;
 	}
 }
-#elif defined(EX_ANDROID)
-#   include <unistd.h>
-
 #endif // EX_WINDOWS
 #include<string.h>
 
 // http://www.linuxhowtos.org/data/6/server.c
 
 
-static int ip_exist(void){return 0;}
+/**
+	create ip address on current machine
+*/
+static int create_ip_address(const char* ip, unsigned int port){
+#ifdef EX_WINDOWS
+
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
+
+#endif 
+
+}
+
+static int ip_exists(const char* ip){
+#if defined(EX_WINDOWS)
+
+#elif defined(EX_LINUX) || defiend(EX_ANDROID)
+	struct hostent* host;
+	host = gethostbyname(ip);
+	if(!host)
+		return FALSE;
+	return TRUE;
+#endif
+	return 0;
+}
 
 
 
@@ -47,7 +67,10 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
 	if(wsadata.wVersion != EX_WSA_VERSION){
 		if(WSAStartup(EX_WSA_VERSION, &wsadata))return -1;
 	}
-
+	
+	if(!ip_exists(ip)){
+		create_ip_address(ip,port);
+	}
 
 	serv_addr.sin_family = AF_INET;
 	serv_addr.sin_port = htons(port);
@@ -109,6 +132,11 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
         if((sockfd = socket(sock_domain, SOCK_STREAM, socket_protocol)) == -1)
             fprintf(stderr,strerror(errno));
     }
+
+	if(!ip_exist(ip)){
+		create_ip_address(ip,port);
+	}
+
     strncpy(ifr.ifr_name, "eth1", IFNAMSIZ);
     ifr.ifr_addr.sa_family = AF_INET;
     inet_pton(AF_INET, ip, ifr.ifr_addr.sa_data + 2);
@@ -148,7 +176,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
 DECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(unsigned int socket){
     #ifdef EX_WINDOWS
 	return closesocket((SOCKET)socket);
-    #elif defined(EX_LINUX)
+    #elif defined(EX_LINUX) || defined(EX_ANDROID)
     return close(socket);
     #endif
 
@@ -204,3 +232,30 @@ DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int p
     #endif
 }
 
+
+DECLSPEC int ELTAPIENTRY ExWriteSocket(unsigned int socket, char* data, unsigned len){
+	int len;
+#ifdef EX_WINDOWS
+	send(socket,data,len,MSG_DONTROUTE);
+
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
+
+	if((len = write(socket,data,len)) < 0){
+		fprintf(stderr,strerror(errno));
+		return -1;
+	}
+	return len;
+#endif
+}
+
+DECLSPEC int ELTAPIENTRY ExReadSocket(unsigned int socket, char* data, unsigned int len){
+#ifdef EX_WINDOWS
+	if(recv(socket, data, len,0))
+		return 0;
+
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
+	if(read(socket, data,len) <0)
+		return -1;
+#endif
+	
+}
