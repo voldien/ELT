@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef ELT_WIN_H
-#define ELT_WIN_H
+#ifndef _ELT_WIN_H
+#define _ELT_WIN_H 1
 #include"./../EngineAssembly.h"
 #include"elt_event.h"
 #include"elt_cl.h"
@@ -124,6 +124,10 @@ extern DECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, HANDLE hIcon);
  */
 extern DECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window);
 
+/**
+
+*/
+extern DECLSPEC Int32 ELTAPIENTRY ExIsScreenSaverEnable(void);
 
 //extern DECLSPEC Int32 ELTAPIENTRY ExVideoQuit(void);
 

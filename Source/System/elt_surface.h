@@ -17,28 +17,38 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _ELT_FILE_H
-#define _ELT_FILE_H 1
-#include"./../EngineAssembly.h"
-#ifdef __cplusplus //	C++ Environment
+#ifndef _ELT_SURFACE_H_
+#define _ElT_SURFACE_H_ 1
+#include"elt_win.h"
+
+#define RGB_COLOR(r,g,b)	(r << 24) | (g << 16) | (b << 8)
+#define RGB_COLOR(r,g,b)	((r << 24) | (g << 16) | (b << 8) | a)
+
+
+#define EX_RGB 0x20
+#define EX_RGBA 0x40
+
+#ifdef __cplusplus
 extern "C"{
 #endif
 /**
-	Get file size in bytes
+    Create Surface
 */
-extern DECLSPEC long ELTAPIENTRY ExGetFileSize(const char* cfilname);
-/**
-	Load data by specified pathname
-*/
-extern DECLSPEC int ELTAPIENTRY ExLoadFile(const char* cfilename,void** data);
-/**
-	Save File by specified file name
-*/
-extern DECLSPEC int ELTAPIENTRY ExSaveFile(const char* cfilename, void* data, unsigned int csize);
+extern DECLSPEC void* ExCreatSurface(unsigned int width, unsigned height, unsigned int format);
+
+extern DECLSPEC int ExDestroySurface(void* handle);
+
+extern DECLSPEC int ExResizeSurface(void* handle, unsigned int width, unsigned height);
+
+extern DECLSPEC int ExSetSurfacePixe(void* handle, unsigned int x, unsigned int y, long pixel);
+
+
+extern DECLSPEC int ExFillRect(void* handle,struct exrect* rect, Uint32 color);
+
 
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // _ELT_FILE_H
+#endif

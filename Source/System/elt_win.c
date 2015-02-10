@@ -11,6 +11,7 @@
 	#include<X11/Xlib.h>
 	#include<EGL/egl.h>
 	#include<GL/glx.h>
+	#include<X11/extensions/dpms.h>
 #elif defined(EX_ANDROID)
 #   include<android/native_window.h>
 #   include<EGL/egl.h>
@@ -401,6 +402,20 @@ DECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, HANDLE hIcon){
 	return TRUE;
 #endif
 }
+
+DECLSPEC Int32 ELTAPIENTRY ExIsScreenSaverEnable(void){
+#ifdef EX_WINDOWS
+
+    return 0;
+#elif defined(EX_LINUX)
+    int dummy;
+   // if(DPMSQueryExtension(display,&dummy,&dummy)){
+
+    //}
+    return 0;
+#endif
+}
+
 
 DECLSPEC ExBoolean ELTAPIENTRY ExPollWindowEvent(ExWin hWnd, ExWindowEvent* event){
 #ifdef EX_WINDOWS

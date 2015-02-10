@@ -47,7 +47,7 @@
 				</Linker>
 			</Target>
 			<Target title="Release_Share">
-				<Option output="bin/Release/ELT" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/libEnginEx" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -60,7 +60,7 @@
 				</Linker>
 			</Target>
 			<Target title="Debug_android">
-				<Option output="bin/Debug/ELT" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug_Android/libEnginEx" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="arm-elf-gcc" />
@@ -146,6 +146,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../Source/System/elt_event.h" />
+		<Unit filename="../../Source/System/elt_file.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="../../Source/System/elt_gl.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -158,11 +161,16 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../Source/System/elt_net.h" />
+		<Unit filename="../../Source/System/elt_surface.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/System/elt_surface.h" />
 		<Unit filename="../../Source/System/elt_video.h" />
 		<Unit filename="../../Source/System/elt_win.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../Source/System/elt_win.h" />
+		<Unit filename="../../Source/System/eltfile.h" />
 		<Unit filename="../../Source/elt_alloc.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -140,7 +140,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
 		create_ip_address(ip,port);
 	}
 
-    strncpy(ifr.ifr_name, "eth1", IFNAMSIZ);
+   /* strncpy(ifr.ifr_name, "eth1", IFNAMSIZ);
     ifr.ifr_addr.sa_family = AF_INET;
     inet_pton(AF_INET, ip, ifr.ifr_addr.sa_data + 2);
     ioctl(sockfd, SIOCSIFADDR, &ifr);
@@ -153,7 +153,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
     ifr.ifr_flags |= (IFF_UP | IFF_RUNNING);
 
     ioctl(sockfd, SIOCSIFFLAGS, &ifr);
-
+*/
 
 
     bzero((char*)&serv_addr,sizeof(serv_addr));
@@ -291,7 +291,7 @@ DECLSPEC int ELTAPIENTRY ExGetHostIp(char ip[16]){
     int fd;
     struct ifreq ifr;
 
-    if((fd = socket(AF_INET, SOCK_DGRAM,0)) < 0){
+    if((fd = socket(AF_INET, SOCK_DGRAM,0)) < 0){   /**/
         fprintf(stderr,strerror(errno));
         return -1;
     }
