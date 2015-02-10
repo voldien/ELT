@@ -1,9 +1,22 @@
-﻿Build started 2/10/2015 9:18:07 AM.
+﻿Build started 2/10/2015 9:20:34 AM.
 Project "C:\Users\Public\Desktop\codeprojects\elt\Proj\vs2010\EngineEx.vcxproj" on node 2 (build target(s)).
 InitializeBuildStatus:
   Creating "Debug\EngineEx.unsuccessfulbuild" because "AlwaysCreate" was specified.
 ClCompile:
-  c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _ENGINE_INTERNAL /D EX_INCLUDE_DIRECTX /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\Source\System\elt_gl.c
+  c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _ENGINE_INTERNAL /D EX_INCLUDE_DIRECTX /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\Source\System\elt_gl.c ..\..\Source\main.c
+  main.c
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(243): warning C4005: 'ExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(206) : see previous definition of 'ExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(245): warning C4005: 'wExDevPrint' : macro redefinition
+          c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(210) : see previous definition of 'wExDevPrint'
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(28): warning C4091: 'typedef ' : ignored on left of 'vec4x4_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(33): warning C4091: 'typedef ' : ignored on left of 'vec3x3_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\math\matrix.h(38): warning C4091: 'typedef ' : ignored on left of 'vec2x2_s' when no variable is declared
+c:\users\public\desktop\codeprojects\elt\source\main.c(15): warning C4101: 'socket' : unreferenced local variable
+c:\users\public\desktop\codeprojects\elt\source\main.c(13): warning C4101: 'ip' : unreferenced local variable
+c:\users\public\desktop\codeprojects\elt\source\main.c(16): warning C4101: 'context' : unreferenced local variable
   elt_gl.c
 c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(241): warning C4005: 'ExDevPrintf' : macro redefinition
           c:\users\public\desktop\codeprojects\elt\source\system\elt_errorhandler.h(203) : see previous definition of 'ExDevPrintf'
@@ -20,6 +33,7 @@ c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(740): warning C4
 c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(741): warning C4101: 'wglGetExtensionStringEXT' : unreferenced local variable
 c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(738): warning C4101: 'wglSwapIntervalEXT' : unreferenced local variable
 c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(742): warning C4101: 'wglGetExtensionStringARB' : unreferenced local variable
+  Generating Code...
 c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(764): warning C4700: uninitialized local variable 'wglChoosePixelFormatARB' used
 c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(768): warning C4700: uninitialized local variable 'wglCreateContextAttribsARB' used
 c:\users\public\desktop\codeprojects\elt\source\system\elt_gl.c(1066): warning C4715: 'ExGetOpenGLVersion' : not all control paths return a value
@@ -70,4 +84,4 @@ Done Building Project "C:\Users\Public\Desktop\codeprojects\elt\Proj\vs2010\Engi
 
 Build succeeded.
 
-Time Elapsed 00:00:01.78
+Time Elapsed 00:00:02.80
