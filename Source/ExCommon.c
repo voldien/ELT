@@ -221,7 +221,7 @@ DECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct){
 
 DECLSPEC void ELTAPIENTRY ExGetExecutePath(ExChar* wChar, Int32 length){
 #ifdef EX_WINDOWS
-	ExIsError(GetModuleFileName(EX_NULL,wChar,lengthSize));
+	ExIsError(GetModuleFileName(EX_NULL,wChar,length));
 #elif defined(EX_LINUX) || defined(EX_ANDROID)
     extern char* __progname;
     memcpy(wChar,/*program_invocation_name*/__progname,length);

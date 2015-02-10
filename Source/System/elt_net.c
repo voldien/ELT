@@ -16,6 +16,7 @@
 #	pragma comment(lib,"wininet")
 #	include<WinInet.h>
 #	include<WinSock.h>
+
 //#	include<WS2tcpip.h>
 
 WSADATA wsadata = {0};
@@ -37,8 +38,9 @@ static int init_wsa(void){  /*  initialize was*/
 static int create_ip_address(const char* ip, unsigned int port){
 #ifdef EX_WINDOWS
 
+	return 1;
 #elif defined(EX_LINUX) || defined(EX_ANDROID)
-
+	return 1;
 #endif
 
 }
@@ -237,7 +239,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int p
 DECLSPEC int ELTAPIENTRY ExWriteSocket(unsigned int socket, unsigned char* data, unsigned size){
 	int len;
 #ifdef EX_WINDOWS
-	if((len = send(socket,data,len,MSG_DONTROUTE)) < 0)
+	if((len = send(socket,(char*)data,len,MSG_DONTROUTE)) < 0)
         return -1;
     return len;
 #elif defined(EX_LINUX) || defined(EX_ANDROID)
@@ -252,7 +254,7 @@ DECLSPEC int ELTAPIENTRY ExWriteSocket(unsigned int socket, unsigned char* data,
 
 DECLSPEC int ELTAPIENTRY ExReadSocket(unsigned int socket,unsigned  char* data, unsigned int size){
 #ifdef EX_WINDOWS
-	if(recv(socket, data, size,0))
+	if(recv(socket, (char*)data, size,0))
 		return 0;
 #elif defined(EX_LINUX) || defined(EX_ANDROID)
 	if(read(socket, data,size) <0)
@@ -263,6 +265,28 @@ DECLSPEC int ELTAPIENTRY ExReadSocket(unsigned int socket,unsigned  char* data, 
 
 DECLSPEC int ELTAPIENTRY ExGetHostIp(char ip[16]){
 #ifdef EX_WINDOWS
+	SOCKET fd;
+	char name[256];
+	struct in_addr addr;
+	struct hostent* host;
+	int len;
+
+	init_wsa();
+
+	if((fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
+		return -1;
+
+	gethostname(name,sizeof(name));
+
+	host = gethostbyname(name);
+
+	memcpy(&addr,host->h_addr_list[0],sizeof(struct in_addr));
+
+	memcpy(ip, inet_ntoa(addr), 16);
+
+	ExCloseSocket(fd);
+
+	return TRUE;
 #elif defined(EX_LINUX)|| defined(EX_ANDROID)
     int fd;
     struct ifreq ifr;

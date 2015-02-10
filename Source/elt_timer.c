@@ -86,8 +86,8 @@ DECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms){
 DECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nano_sec){
     #ifdef EX_WINDOWS
     struct timeval tv;  // TODO Does this nano sleep work ?
-    tv.tv_sec = nano_sec / 10e^9;
-    tv.tv_usec = nano_sec
+    tv.tv_sec = nano_sec / 1000000000;
+    tv.tv_usec = nano_sec;
     select(0,0,0,0,&tv);
     #elif defined(EX_LINUX) || defined(EX_ANDROID)
     struct timespec tim, tim2;

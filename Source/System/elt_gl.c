@@ -554,7 +554,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 	HDC hDC;
     int pixAttribs[60] = {0};
 	int pixelFormat[1];
-    int major_version, minor_version;
+    int major_version = 0, minor_version = 0;
     int attrib[] = {WGL_NUMBER_PIXEL_FORMATS_ARB};
     int nResults[1] ={0};
     int pixFmt = 1;
@@ -566,6 +566,14 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 	if(temp_gl_hwnd = (HWND)create_temp_gl_win(&glc))
 		printf("Success to Create Default OpenGL Context.\n");
 	ExMakeGLCurrent(GetDC(temp_gl_hwnd), glc);
+#ifdef EX_DEBUG
+	printf("opengl Version : %u",ExGetOpenGLVersion());
+#endif
+
+	/*
+		latest version aviable
+	*/
+
 
     /**
 		Get supported opengl version.
@@ -589,6 +597,10 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 	wglCreateContextAttribsARB =    (WGLCREATECONTEXTATTRIBSARB)GL_GET_PROC("wglCreateContextAttribsARB");
 
 
+	if(!wglCreateContextAttribsARB)	/*	exit because we can get a better opengl context*/
+		return glc;
+
+
     if(!wglGetPixelFormatAttribivARB(hDC, pixFmt,0,1, attrib, nResults))
         ExError(EX_TEXT("Error"));
 
@@ -599,8 +611,8 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
         Context attributes
     */
     int context_attribs[]={
-        WGL_CONTEXT_MAJOR_VERSION_ARB, major_version,
-        WGL_CONTEXT_MINOR_VERSION_ARB, minor_version,
+		WGL_CONTEXT_MAJOR_VERSION_ARB, !major_version ? ((ExGetOpenGLVersion() - (ExGetOpenGLVersion() % 100)) / 100) : major_version,
+        WGL_CONTEXT_MINOR_VERSION_ARB, minor_version ? ExGetOpenGLVersion() % 100 : minor_version,
         WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
         #ifdef EX_DEBUG
         WGL_CONTEXT_FLAGS_ARB,WGL_CONTEXT_DEBUG_BIT_ARB,
