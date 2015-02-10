@@ -60,11 +60,15 @@ extern DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigne
 /**
     Read Socket data
 */
-extern DECLSPEC int ELTAPIENTRY ExReadSocket(unsigned int socket, unsigned int* data,unsigned size);
+extern DECLSPEC int ELTAPIENTRY ExReadSocket(unsigned int socket, unsigned char* data,unsigned size);
 /**
     Write Socket data
 */
-extern DECLSPEC int ELTAPIENTRY ExWriteSocket(unsigned int socket, unsigned int* data,unsigned size);
+extern DECLSPEC int ELTAPIENTRY ExWriteSocket(unsigned int socket, unsigned char* data,unsigned size);
+
+/**
+*/
+extern DECLSPEC int ELTAPIENTRY ExGetHostIp(char ip[15]);
 
 
 #ifdef __cplusplus

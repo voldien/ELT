@@ -204,14 +204,13 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
         #endif
 	}
 	if(ELT_INIT_JOYSTICK & engineflag){
-
 	}
 	if(ELT_INIT_AUDIO & engineflag){
 		ExAudioInit(0);
 	}
 	if(ELT_INIT_GAMECONTROLLER & engineflag){
 #ifdef EX_WINDOWS
-		LoadLibrary(EX_TEXT("Xinput.dll"));
+		ExLoadLibrary(EX_TEXT("Xinput.dll"));
 		//ExInitGameController();
 #elif defined(EX_LINUX)
 
@@ -286,11 +285,10 @@ DECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag){
 }
 
 DECLSPEC void ELTAPIENTRY ExShutDown(void){
-	ExQuitSubSytem(0xFFFFFFFF);
 #ifdef EX_LINUX
     struct mallinfo mi;
 #endif // EX_LINUX
-
+	ExQuitSubSytem(0xFFFFFFFF);
 #ifdef EX_WINDOWS
 	DEVMODE d = {};
 	Int32 display;

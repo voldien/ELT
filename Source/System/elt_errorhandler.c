@@ -20,7 +20,6 @@
 #   include<fcntl.h>
 #   define LOGI(...)    __android_log_print(ANDROID_LOG_INFO, "",__VA_ARGS__)
 #   define LOGE(...)    __android_log_print(ANDROID_LOG_ERROR, "", __VA_ARGS__)
-
 #endif
 #include<signal.h>
 #include<limits.h>

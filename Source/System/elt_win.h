@@ -83,12 +83,12 @@ extern DECLSPEC void ELTAPIENTRY ExSetWindowPosv(ExWin window,const Int32* posit
 /*
  */
 extern DECLSPEC void ELTAPIENTRY ExGetWindowPosv(ExWin window, Int32* position);
-/*
-	// Set Window size
+/**
+	Set Window size
 */
 extern DECLSPEC void ELTAPIENTRY ExSetWindowSize(ExWin window,Int32 width, Int32 height);
-/*
-	// Set Window Size
+/**
+	Set Window Size
 */
 extern DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window,const struct exsize* size);
 /*

@@ -25,19 +25,33 @@ DECLSPEC XID ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int
     XSetWindowAttributes  xattr;
     Atom  atom;
     int   one = 1;
+    int screen;
 	Window window;
 	XFontStruct* fontinfo;
 	XGCValues gr_values;
 	GC graphical_context;
 	ExChar title[260];
 	int winmask = 0;
+	XVisualInfo vis_info;
 
 
 	visual = DefaultVisual(display, 0);
 	depth = DefaultDepth(display,0);
+	screen = DefaultScreen(display);
     winmask = CWEventMask;
+
+    if(!XMatchVisualInfo(display, screen , depth, TrueColor,&vis_info)){
+
+    }
+    visual = vis_info.visual;
+
 	swa.background_pixel = XWhitePixel(display,0);
-	swa.event_mask = ExposureMask | PointerMotionMask | KeyPressMask;
+	swa.event_mask =  ExposureMask | VisibilityChangeMask | KeyPressMask | PointerMotionMask | StructureNotifyMask | ResizeRedirectMask;
+	swa.border_pixel = 0;
+	swa.bit_gravity = StaticGravity;
+
+	swa.colormap = XCreateColormap(display, RootWindow(display,vis_info.screen), vis_info.visual, AllocNone);
+
 
 	window = XCreateWindow(display,DefaultRootWindow(display),
                               x,y,width,height,0,

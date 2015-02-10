@@ -75,8 +75,7 @@
 /*  check if extension is supported */
 static int isExtensionSupported(const char* extList, const char* extension){
 #ifdef EX_WINDOWS
-
-#elif defined(EX_LINUX) || defined(EX_ANDROID)
+//#elif defined(EX_LINUX) || defined(EX_ANDROID)
 	const char* start;
 	const char *where, *terminator;
 	where = strchr(extension, ' ');
@@ -116,9 +115,6 @@ DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window){
 		ExLoadLibrary(EX_EGL_LIB_MOUDLE_NAME);
 	if(!ExIsModuleLoaded(EX_GLES_LIB_MOUDLE_NAME))
 		ExLoadLibrary(EX_GLES_LIB_MOUDLE_NAME);
-
-	//if(!ExIsModuleLoaded(EX_TEXT("libEGL.dll")))
-	//	ExLoadLibrary(EX_TEXT("libEGL.dll"));
 
 	//ExCreateContextAttrib(window,attrs,0,0,EX_OPENGLES);
 

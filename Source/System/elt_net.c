@@ -39,14 +39,15 @@ static int create_ip_address(const char* ip, unsigned int port){
 
 #elif defined(EX_LINUX) || defined(EX_ANDROID)
 
-#endif 
+#endif
 
 }
 
 static int ip_exists(const char* ip){
+
 #if defined(EX_WINDOWS)
 
-#elif defined(EX_LINUX) || defiend(EX_ANDROID)
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
 	struct hostent* host;
 	host = gethostbyname(ip);
 	if(!host)
@@ -67,7 +68,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
 	if(wsadata.wVersion != EX_WSA_VERSION){
 		if(WSAStartup(EX_WSA_VERSION, &wsadata))return -1;
 	}
-	
+
 	if(!ip_exists(ip)){
 		create_ip_address(ip,port);
 	}
@@ -133,7 +134,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
             fprintf(stderr,strerror(errno));
     }
 
-	if(!ip_exist(ip)){
+	if(!ip_exists(ip)){
 		create_ip_address(ip,port);
 	}
 
@@ -233,14 +234,15 @@ DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int p
 }
 
 
-DECLSPEC int ELTAPIENTRY ExWriteSocket(unsigned int socket, char* data, unsigned len){
+DECLSPEC int ELTAPIENTRY ExWriteSocket(unsigned int socket, unsigned char* data, unsigned size){
 	int len;
 #ifdef EX_WINDOWS
-	send(socket,data,len,MSG_DONTROUTE);
-
+	if((len = send(socket,data,len,MSG_DONTROUTE)) < 0)
+        return -1;
+    return len;
 #elif defined(EX_LINUX) || defined(EX_ANDROID)
 
-	if((len = write(socket,data,len)) < 0){
+	if((len = write(socket,data,size)) < 0){
 		fprintf(stderr,strerror(errno));
 		return -1;
 	}
@@ -248,14 +250,38 @@ DECLSPEC int ELTAPIENTRY ExWriteSocket(unsigned int socket, char* data, unsigned
 #endif
 }
 
-DECLSPEC int ELTAPIENTRY ExReadSocket(unsigned int socket, char* data, unsigned int len){
+DECLSPEC int ELTAPIENTRY ExReadSocket(unsigned int socket,unsigned  char* data, unsigned int size){
 #ifdef EX_WINDOWS
-	if(recv(socket, data, len,0))
+	if(recv(socket, data, size,0))
 		return 0;
-
 #elif defined(EX_LINUX) || defined(EX_ANDROID)
-	if(read(socket, data,len) <0)
+	if(read(socket, data,size) <0)
 		return -1;
 #endif
-	
+
+}
+
+DECLSPEC int ELTAPIENTRY ExGetHostIp(char ip[16]){
+#ifdef EX_WINDOWS
+#elif defined(EX_LINUX)|| defined(EX_ANDROID)
+    int fd;
+    struct ifreq ifr;
+
+    if((fd = socket(AF_INET, SOCK_DGRAM,0)) < 0){
+        fprintf(stderr,strerror(errno));
+        return -1;
+    }
+
+    ifr.ifr_addr.sa_family = AF_INET;
+
+    strncpy(ifr.ifr_name, "eth0", IFNAMSIZ-1);
+
+    ioctl(fd, SIOCGIFADDR, &ifr);
+
+    close(fd);
+
+    memcpy(ip, inet_ntoa(((struct sockaddr_in*)&ifr.ifr_addr)->sin_addr),sizeof(ip));
+    return True;
+#endif // EX_WINDOWS
+
 }
