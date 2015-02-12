@@ -143,6 +143,14 @@
 #else
 	#error  Unsupported architecture!   /*  No architecture support implicitly. remove this line to compile anyway*/
 #endif
+
+//TODO TEST!!
+#if defined (ANDROID) || defined(__ANDROID__) || __ANDROID_API__ > 9  /* Android */
+    #define EX_ANDROID
+    #define EX_UNIX
+#endif
+
+
 /**
     C Compiler Version
 */
@@ -304,10 +312,10 @@
 	#define ELTAPITHISENTRY __thiscall
 	#define ELTAPISTDENTRY  __stdcall
 #elif defined(EX_ANDROID)   /** Android Calling Convention*/
-    #define ELTAPIENTRY JNICALL
-    #define ELTAPIFASTENTRY JNICALL
-    #define ELTAPITHISENTRY JNICALL
-    #define ELTAPISTDENTRY JNICALL
+    #define ELTAPIENTRY //JNICALL
+    #define ELTAPIFASTENTRY //JNICALL
+    #define ELTAPITHISENTRY //JNICALL
+    #define ELTAPISTDENTRY //JNICALL
 #else
 #   ifndef __cdecl
         #define __cdecl  __attribute__ ((__cdecl__))
@@ -460,7 +468,7 @@
 	#define EX_SUPPORT_DIRECTX
 #elif defined(EX_LINUX)
 	#define EX_SUPPORT_OPENGL
-#elif EX_ANDROID
+#elif defined(EX_ANDROID)
 	#define EX_OPENGL_ES
 #elif EX_WEB
 	#define EX_OPENGL_ES

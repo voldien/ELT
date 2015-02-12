@@ -253,10 +253,10 @@ typedef union doubleUnion{
 	typedef XID WindowContext;
 	#define THREAD_CALLBACK //__cdecl
 #elif defined(EX_ANDROID)
-	typedef XID ExWin;
-	typedef GLXContext OpenGLContext;
-	typedef XID WindowContext;
-	#define THREAD_CALLBACK __cdecl
+	typedef void* ExWin;
+	typedef void* OpenGLContext;
+	typedef void* WindowContext;
+	#define THREAD_CALLBACK //__cdecl
 #elif defined(EX_MAC)
 	typedef XID ExWin;
 	typedef GLXContext OpenGLContext;

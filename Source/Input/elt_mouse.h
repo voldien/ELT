@@ -25,7 +25,7 @@
 
 	typedef HCURSOR ExCursor;
 	//extern IDirectInputDevice8* hMouseDevice;
-#elif defined(EX_LINUX)
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
 
 	typedef void* ExCursor;
 #endif

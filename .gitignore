@@ -28,5 +28,9 @@
 *.x86_64
 *.hex
 
-
+#
 *~
+
+#
+Proj/android/obj
+Prog/android/libs
