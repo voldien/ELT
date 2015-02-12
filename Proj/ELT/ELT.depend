@@ -197,7 +197,7 @@
 	<libgen.h>
 	<Winbase.h>
 
-1423761129 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_thread.c
+1423780855 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_thread.c
 	"elt_thread.h"
 	<pthread.h>
 	<errno.h>
@@ -245,7 +245,7 @@
 	<WinInet.h>
 	<sys/socket.h>
 
-1423778933 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/ExEngine.c
+1423779460 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/ExEngine.c
 	"EngineEx.h"
 	"System/elt_cl.h"
 	"System/elt_gl.h"
@@ -291,7 +291,7 @@
 	"elt_joystick.h"
 	<Xinput.h>
 
-1422101852 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/Input/elt_joystick.c
+1423779518 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/Input/elt_joystick.c
 	"elt_joystick.h"
 	<string.h>
 	<Windows.h>
@@ -303,6 +303,9 @@
 	<sys/ioctl.h>
 	<stdio.h>
 	<linux/joystick.h>
+	<android/input.h>
+	<android/keycodes.h>
+	<android/sensor.h>
 
 1421516505 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/Input/elt_keyboard.c
 	"elt_keyboard.h"
@@ -410,7 +413,7 @@
 1418468847 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_log.c
 	"elt_log.h"
 
-1423559736 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_win.c
+1423779554 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_win.c
 	"elt_win.h"
 	"elt_gl.h"
 	"elt_cl.h"
@@ -424,6 +427,8 @@
 	<GL/glx.h>
 	<X11/extensions/dpms.h>
 	<android/native_window.h>
+	<android/rect.h>
+	<android/window.h>
 	<EGL/egl.h>
 	<GLES/gl2.h>
 	<GLES/gl2ext.h>

@@ -53,7 +53,17 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpPar
 
 DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback,void* lpParamater,Uint32* pid,unsigned int ncore){
 #if defined(EX_WINDOWS)
-    return 0;
+	DWORD p_id;
+	HANDLE hnd;
+	if(!(hnd = CreateThread(0,128,(LPTHREAD_START_ROUTINE)callback,lpParamater,0,&p_id))){
+		ExIsError(hnd);
+		return EX_NULL;
+	}
+    SetThreadAffinityMask(hnd, ncore);
+	if(!pid)
+		*pid = p_id;
+	EX_START_THREAD(hnd);
+	return hnd;
 #elif defined(EX_LINUX) || defined(EX_ANDROID)
 	pthread_t t0;
     pthread_attr_t attr;

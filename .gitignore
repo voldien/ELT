@@ -1,20 +1,32 @@
-#ignore machine code files
+# Object files
 *.o
-
-#ignore backup files. is not needed.
-
-*.~
-*~
-
-#ignore windows machine files.
-
+*.ko
 *.obj
-*.obj~
+*.elf
 
-*.c~
+# Precompiled Headers
+*.gch
+*.pch
 
-*.h~
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
 *.exe
-*.sdf
-*.sh~
-*.pdb
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+
+*~

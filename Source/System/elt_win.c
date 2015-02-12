@@ -14,6 +14,8 @@
 	#include<X11/extensions/dpms.h>
 #elif defined(EX_ANDROID)
 #   include<android/native_window.h>
+#   include<android/rect.h>
+#   include<android/window.h>
 #   include<EGL/egl.h>
 #   ifdef GL_ES_VERSION_2_0
         #include<GLES/gl2.h>

@@ -34,6 +34,10 @@
 	#include<stdio.h>
 	#include<linux/joystick.h>
 	Int32 joy_id[4];
+#elif defined(EX_ANDROID)
+#include<android/input.h>
+#include<android/keycodes.h>
+#include<android/sensor.h>
 #endif
 
 

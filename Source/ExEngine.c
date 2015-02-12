@@ -8,7 +8,9 @@
 #elif defined(EX_ANDROID)
 #   include<android/log.h>
 #   include<android/native_activity.h>
+
 #   include<jni.h>
+extern struct android_app* ex_app;
 #endif
 #include"System/elt_log.h"
 #include"System/elt_audio.h"
