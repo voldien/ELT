@@ -130,16 +130,15 @@ EGL_BUFFER_SIZE, 16,
 
 #ifdef EX_WINDOWS
 	eglDisplay = eglGetDisplay(NULL);
+	if(eglBindAPI(EGL_OPENGL_API) != EGL_TRUE)
+        ExError("Bind API!");
     EGLint ctxattr[] = {
       EGL_CONTEXT_CLIENT_VERSION, 2,
       EGL_NONE
     };
 #elif defined(EX_LINUX)
-
-	//if(eglBindAPI(EGL_OPENGL_API) != EGL_TRUE)
-    //    ExError("Bind API!");
-   // eglBindAPI(EGL_OPENGL_ES_API);
-	//eglDisplay = eglGetDisplay(0);
+	if(eglBindAPI(EGL_OPENGL_API) != EGL_TRUE)
+        ExError("Bind API!");
 	eglDisplay = eglGetDisplay((EGLNativeDisplayType)display);
     EGLint ctxattr[] = {
       EGL_CONTEXT_CLIENT_VERSION, 2,
@@ -155,14 +154,11 @@ EGL_BUFFER_SIZE, 16,
 	/**
         Initialize OpenGL ES
 	*/
-	//if(eglBindAPI(EGL_OPENGL_API) != EGL_TRUE)
-    //    ExError("Bind API!");
 
 	if((hr = eglInitialize(eglDisplay, &major, &minor)) != EGL_TRUE)
         ExError(EX_TEXT("Failed to Initialize OpenGL ES"));
 	//	Choose Config
-	hr = eglChooseConfig(eglDisplay, configAttribList, &eglConfig, 1, &numConfig);
-	if(hr != EGL_TRUE)
+	if((hr = eglChooseConfig(eglDisplay, configAttribList, &eglConfig, 1, &numConfig)) != EGL_TRUE)
         ExError(EX_TEXT(""));
 
 	if(!(eglSurface = eglCreateWindowSurface(eglDisplay,eglConfig,(EGLNativeWindowType)window,NULL)))

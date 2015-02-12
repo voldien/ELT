@@ -29,6 +29,8 @@
 #ifdef __cplusplus  //  C++ Environment
 extern "C" {
 #endif
+
+
 /**
     Open socket
     \

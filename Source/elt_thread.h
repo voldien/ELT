@@ -44,6 +44,8 @@ extern "C"{
 	\lpParameter
 */
 extern DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpParamater,Uint32* pid);
+
+extern DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback,void* lpParamater,Uint32* pid,unsigned int core);
 /**
 	Detach thread
 */
@@ -53,10 +55,13 @@ extern DECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread);
 extern DECLSPEC ERESULT ELTAPIENTRY ExExitThread(ExThread thread);
 
 /**
-	//
+	Lock Thread
 */
 extern DECLSPEC void ELTAPIENTRY ExLockThread(ExThread thread);
 
+/**
+    UnLock thread
+*/
 extern DECLSPEC void ELTAPIENTRY ExUnLockThread(ExThread thread);
 
 /**

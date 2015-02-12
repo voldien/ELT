@@ -201,9 +201,12 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 		ExIsWinError(!(hmodule = LoadLibrary(EX_TEXT("OpenGL32.dll"))));
         #elif defined(EX_LINUX)
 
+        #elif defined(EX_ANDROID)
+
         #endif
 	}
 	if(ELT_INIT_JOYSTICK & engineflag){
+
 	}
 	if(ELT_INIT_AUDIO & engineflag){
 		ExAudioInit(0);
@@ -213,6 +216,8 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 		ExLoadLibrary(EX_TEXT("Xinput.dll"));
 		//ExInitGameController();
 #elif defined(EX_LINUX)
+
+#elif defined(EX_ANDROID)
 
 #endif
 	}
@@ -229,6 +234,9 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 	if(ELT_INIT_NET & engineflag){
 	    #ifdef EX_LINUX
         ExLoadLibrary("");
+
+        #elif defined(EX_ANDROID)
+
         #elif defined(EX_WINDOWS)
         ExLoadLibrary(EX_TEXT("WS2_32.dll"));
         #endif

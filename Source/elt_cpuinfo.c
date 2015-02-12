@@ -152,7 +152,7 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void){
 	SYSTEM_INFO info;
 	GetSystemInfo(&info);
 	return info.dwNumberOfProcessors;
-#elif defined(EX_LINUX)
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
 	return sysconf(_SC_NPROCESSORS_ONLN);
 #endif
 }

@@ -331,7 +331,7 @@ static void debug_log_trace(void){
     }
     free(symbol);
 
-#elif defined(EX_LINUX)
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
     void* trace[100];
     char** strings;
     unsigned int i,j;
@@ -342,9 +342,6 @@ static void debug_log_trace(void){
         fprintf(stderr,"%s\n",strings[i]);
     }
     free(strings);
-#elif defined(EX_ANDROID)
-
-
 
 #endif
 }

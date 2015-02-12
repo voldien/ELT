@@ -40,6 +40,21 @@ static int create_ip_address(const char* ip, unsigned int port){
 
 	return 1;
 #elif defined(EX_LINUX) || defined(EX_ANDROID)
+    struct ifreq ifr = {0};
+   /* strncpy(ifr.ifr_name, "eth1", IFNAMSIZ);
+    ifr.ifr_addr.sa_family = AF_INET;
+    inet_pton(AF_INET, ip, ifr.ifr_addr.sa_data + 2);
+    ioctl(sockfd, SIOCSIFADDR, &ifr);
+
+    inet_pton(AF_INET, "255.255.0.0", ifr.ifr_addr.sa_data + 2);
+    ioctl(sockfd, SIOCSIFNETMASK, &ifr);
+
+    ioctl(sockfd, SIOCGIFFLAGS, &ifr);
+
+    ifr.ifr_flags |= (IFF_UP | IFF_RUNNING);
+
+    ioctl(sockfd, SIOCSIFFLAGS, &ifr);
+*/
 	return 1;
 #endif
 
@@ -90,7 +105,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
 
     #elif defined(EX_LINUX) || defined(EX_ANDROID)
 
-    unsigned int sockfd,newsockdf;
+    unsigned int sockfd;
     unsigned int sock_domain,socket_protocol;
     struct sockaddr_in serv_addr, cli_addr;
     //struct sockaddr_un name;
@@ -104,7 +119,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
         sock_domain = PF_INET;
     }
 
-    struct ifreq ifr = {0};
+
 
     /**
         create socket
@@ -140,21 +155,6 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
 		create_ip_address(ip,port);
 	}
 
-   /* strncpy(ifr.ifr_name, "eth1", IFNAMSIZ);
-    ifr.ifr_addr.sa_family = AF_INET;
-    inet_pton(AF_INET, ip, ifr.ifr_addr.sa_data + 2);
-    ioctl(sockfd, SIOCSIFADDR, &ifr);
-
-    inet_pton(AF_INET, "255.255.0.0", ifr.ifr_addr.sa_data + 2);
-    ioctl(sockfd, SIOCSIFNETMASK, &ifr);
-
-    ioctl(sockfd, SIOCGIFFLAGS, &ifr);
-
-    ifr.ifr_flags |= (IFF_UP | IFF_RUNNING);
-
-    ioctl(sockfd, SIOCSIFFLAGS, &ifr);
-*/
-
 
     bzero((char*)&serv_addr,sizeof(serv_addr));
 
@@ -185,6 +185,33 @@ DECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(unsigned int socket){
 
 }
 
+DECLSPEC unsigned int ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port,unsigned int socket){
+#ifdef EX_WINDOWS
+
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
+    unsigned int sock_domain,socket_protocol;
+    struct sockaddr_in serv_addr, cli_addr;
+	struct hostent* host;
+	host = gethostbyname(ip);
+
+    bzero((char*)&serv_addr,sizeof(serv_addr));
+
+    serv_addr.sin_family = host->h_addrtype;
+	inet_pton(0,ip, &serv_addr.sin_addr);
+    serv_addr.sin_port = htons(port);
+
+    /**
+        TODO solve how to create a ip address
+    */
+    if(bind(socket, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0){
+        fprintf(stderr,strerror(errno));
+        return -1;
+    }
+    return socket;
+#endif // EX_WINDOWS
+
+}
+
 DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int port){
     #ifdef EX_WINDOWS
     SOCKADDR_IN serv_addr;
@@ -209,7 +236,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int p
         fprintf(stderr,strerror(errno));
 
 	return sockfd ;
-    #elif defined(EX_LINUX)
+    #elif defined(EX_LINUX) || defined(EX_ANDROID)
     struct sockaddr_in serv_addr;
     struct hostent *server;
     int sockfd;/**TODO check if sockdf should be input parameter*/
@@ -282,7 +309,9 @@ DECLSPEC int ELTAPIENTRY ExGetHostIp(char ip[16]){
 
 	memcpy(&addr,host->h_addr_list[0],sizeof(struct in_addr));
 
-	memcpy(ip, inet_ntoa(addr), 16);
+	memcpy(ip, inet_ntoa(addr), strlen(inet_ntoa(addr)));
+
+    ip[strlen(strlen(inet_ntoa(addr)))] = '\0';   /*end the string*/
 
 	ExCloseSocket(fd);
 
@@ -304,8 +333,12 @@ DECLSPEC int ELTAPIENTRY ExGetHostIp(char ip[16]){
 
     close(fd);
 
-    memcpy(ip, inet_ntoa(((struct sockaddr_in*)&ifr.ifr_addr)->sin_addr),sizeof(ip));
-    return True;
+    memcpy(ip,
+           inet_ntoa(((struct sockaddr_in*)&ifr.ifr_addr)->sin_addr),
+           strlen(inet_ntoa(((struct sockaddr_in*)&ifr.ifr_addr)->sin_addr)));
+
+    ip[strlen(inet_ntoa(((struct sockaddr_in*)&ifr.ifr_addr)->sin_addr))] = '\0';   /*end the string*/
+    return TRUE;
 #endif // EX_WINDOWS
 
 }

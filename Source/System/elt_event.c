@@ -83,6 +83,12 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 			event->eventid |= EX_EVENT_DROP;
 			break;
 		}
+		switch(lParam){ /*  network */
+            case FD_ACCEPT:break;
+            case FD_CONNECT:break;
+            case FD_READ:break;
+            case FD_CLOSE:break;
+		}
 		default:break;
 	}
 
@@ -150,6 +156,8 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 		return TRUE;
 	}else {/*XSync(display,0);*/ return FALSE;}
 #elif defined(EX_ANDROID)
+    ALooper_pollall(0, NULL,0,0);
+
 
     return TRUE;
 #elif defined(EX_MAC)

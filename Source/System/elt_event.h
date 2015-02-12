@@ -66,21 +66,36 @@ struct ExMouseWheelEvent{
 	Int32 delta;
 	Int32 x,y;
 };
-struct ExKeyEvent{
+typedef struct ex_key_event{
 	Uint8 code;
 	Uint8 alt;
 	Uint8 shift;
 	Uint8 system;
 	Uint8 ctrl;
-};
+}ExKeyEvent;
+
+
 struct ex_drop_event{
 	Int32 number;
 	Int32 cize;
 };
 
+typedef struct ex_touch_finger_event{
+    unsigned int type;          /**/
+    unsigned int touchid;       /**/
+    unsigned int fingerid;      /**/
+    float x;                    /**/
+    float y;                    /**/
+    float dx;                   /**/
+    float dy;                   /**/
+    float pressure;             /**/
+
+}ExTouchFingerEvent;
+
+
 typedef struct window_poll_events{
 	Enum event;
-	EX_C_STRUCT ExKeyEvent key;
+	ExKeyEvent key;
 	EX_C_STRUCT ExSizeEvent size;
 	EX_C_STRUCT ExMouseMoveEvent mouse;
 	EX_C_STRUCT ExMouseWheelEvent mouseWheelEvent;
@@ -104,6 +119,7 @@ typedef struct window_poll_events{
 #elif defined(EX_LINUX)
 	XEvent msg;
 #elif defined(EX_MAC)
+
 #elif defined(EX_ANDROID)
 
 #endif
@@ -115,7 +131,7 @@ typedef struct elt_poll_events{
         Enum eventid;
         Enum event;
 	};
-	EX_C_STRUCT ExKeyEvent key;
+    ExKeyEvent key;
 	EX_C_STRUCT ExMouseMoveEvent mouse;
 	EX_C_STRUCT ExMouseWheelEvent mouseWheelEvent;
 	EX_C_STRUCT elt_win_button_event button;

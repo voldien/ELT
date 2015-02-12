@@ -3,8 +3,17 @@
 #ifdef EX_WINDOWS           /*  Windows */
 #   define EX_START_THREAD(x)	ResumeThread( ( x ) )
 #elif defined(EX_LINUX) || defined(EX_ANDROID)    /*  Linux & android  */
+#   define _GNU_SOURCE
+#   define __USE_GNU
 #   include<pthread.h>
 #   include<errno.h>
+#   include<unistd.h>
+#   include <sched.h>
+#   include <stdlib.h>
+#   include <unistd.h>
+#   include <stdio.h>
+#   include <assert.h>
+
 #   define EX_START_THREAD(x)	pthread_detach( ( x ))  /*TODO change*/
 #elif defined(EX_MAC)
 
@@ -28,7 +37,8 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpPar
 #elif defined(EX_LINUX) || defined(EX_ANDROID)
 	pthread_t t0;
     pthread_attr_t attr;
-	Uint mpid;
+    cpu_set_t cpus;
+    int mpid;
 
     pthread_attr_init(&attr);
 	if((mpid = pthread_create(&t0,&attr, callback,lpParamater)) == -1)
@@ -38,6 +48,33 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpPar
         *pid = mpid;
 	return t0;
 #endif
+}
+
+
+DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback,void* lpParamater,Uint32* pid,unsigned int ncore){
+#if defined(EX_WINDOWS)
+    return 0;
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
+	pthread_t t0;
+    pthread_attr_t attr;
+    cpu_set_t cpus;
+    int mpid;
+
+    pthread_attr_init(&attr);
+
+    CPU_ZERO(&cpus);
+    CPU_SET(ncore,&cpus);
+
+    pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t),&cpus);
+
+	if((mpid = pthread_create(&t0,&attr, callback,lpParamater)) == -1)
+        fprintf(stderr, strerror(errno));
+
+    if(pid)//TODO
+        *pid = mpid;
+	return t0;
+#endif
+
 }
 
 DECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread){
@@ -85,7 +122,7 @@ DECLSPEC const char* ELTAPIENTRY ExGetThreadName(ExThread thread){
     return NULL;
 #elif defined(EX_LINUX) || defined(EX_ANDROID)
     char name[64];
-    pthread_getname_np(thread,name);
+    pthread_getname_np(thread,name,sizeof(name));
 	return name;
 #endif
 #endif

@@ -87,7 +87,7 @@ extern DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window);
 extern DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLContext context);
 
 /*
-	// Initilize OpenGL States
+	// Initialize OpenGL States
 */
 extern DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescription);
 
