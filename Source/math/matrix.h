@@ -25,17 +25,17 @@
 
 // matrix = {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
 typedef vec_t vec4x4_t[4][4];
-typedef struct vec4x4_s{float m11,m21,m31,m41,m12,m22,m32,m42,m13,m23,m33,m43,m14,m24,m34,m44;};
+typedef struct vec4x4_s{float m11,m21,m31,m41,m12,m22,m32,m42,m13,m23,m33,m43,m14,m24,m34,m44;}mat4;
 #define vec4x4 ALIGN(16) vec4x4_t
 
 // matrix = {{0,0,0},{0,0,0},{0,0,0}};
 typedef vec_t vec3x3_t[3][3];
-typedef struct vec3x3_s{float m11,m21,m31,m41,m12,m22,m32,m42,m13,m23,m33,m43,m14,m24,m34,m44;};
+typedef struct vec3x3_s{float m11,m21,m31,m41,m12,m22,m32,m42,m13,m23,m33,m43,m14,m24,m34,m44;}mat3;
 #define vec3x3 ALIGN(9) vec3x3_t
 
 // matrix = {{0,0},{0,0}};
 typedef vec_t vec2x2_t[2][2];
-typedef struct vec2x2_s{float m11,m21,m31,m41,m12,m22,m32,m42,m13,m23,m33,m43,m14,m24,m34,m44;};
+typedef struct vec2x2_s{float m11,m21,m31,m41,m12,m22,m32,m42,m13,m23,m33,m43,m14,m24,m34,m44;}mat2;
 #define vec2x2 ALIGN(4) vec2x2_t
 
 #ifdef __cplusplus

@@ -8,6 +8,12 @@
 #   include<libgen.h>
 #   include<X11/Xlib.h>
 #   include<X11/extensions/Xrandr.h>
+#elif defined(EX_ANDROID)
+#   include<unistd.h>
+#   include<sys/utsname.h>
+#   include<sys/sysinfo.h>
+#   include<errno.h>
+#   include<libgen.h>
 #elif defined(EX_WINDOWS)
 #	include<Windows.h>
 #	include<WinInet.h>

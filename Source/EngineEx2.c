@@ -1,19 +1,28 @@
 #include"EngineConfig.h"
 #include"EngineAssembly.h"
+#include<signal.h>
+#include<string.h>
+
 #ifdef EX_WINDOWS		// TODO solve
 #   include"System/Win32/wnd_common.h"
-
-//#	include<GL/wglew.h>
-#elif defined(EX_LINUX)
+#   include<GL/gl.h>
+#elif defined(EX_LINUX)     /** Linux   */
 #   include"System/Unix/unix_win.h"
+#   include<GL/gl.h>
+#elif defined(EX_ANDROID)   /** Android */
+#   ifdef GL_ES_VERSION_2_0
+#      include<GLES2/gl2.h>
+#   else
+#      include<GLES/gl.h>
+#   endif
 #endif
 
 #include"System/elt_gl.h"
 #include"System/elt_cl.h"
 
-#include<GL/gl.h>
-#include<signal.h>
-#include<string.h>
+
+
+
 #ifdef EX_WINDOWS
 #	include<GL/glext.h>
 #elif defined(EX_LINUX)

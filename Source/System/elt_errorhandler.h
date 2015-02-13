@@ -42,7 +42,7 @@ extern "C"{
 	#define ExIsWinError(x) { if( (Long)( x ) <= 0 ){ExDevWindowPrintc(EX_TEXT("Error"),EX_CONSOLE_RED);} }
 	#define ExIsHError(x) {ERESULT temp; if((temp = ( x ) ) != S_OK ){ExDevWindowHPrintc(EX_TEXT("Error"),temp,EX_CONSOLE_RED);}}
 	#define ExIsDXError(x) {ERESULT temp; if((temp = ( x ) ) != S_OK ){ExDevWindowHPrintc(EX_TEXT("Error"),temp,EX_CONSOLE_RED);}}
-#elif defined(EX_LINUX)
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
 	//dlerror
 	#define ExIsWinError(x) { if( (Long)( x ) <= 0 ){ExDevWindowPrintc(EX_TEXT("Error"),EX_CONSOLE_RED);} }
 	#define ExIsXWinError(x)
@@ -132,6 +132,11 @@ extern DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal);
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcallback signal_callback);
 
+#ifdef EX_ANDROID
+#define fprintf(x,...)    __android_log_print(ANDROID_LOG_DEBUG, "" ,__VA_ARGS__)
+#define printf(x,...)    __android_log_print(ANDROID_LOG_DEBUG, x ,__VA_ARGS__)
+#endif
+
 #ifdef EX_UNICODE
 	#define ExPrint wprintf
 	#define ExSPrintf wsprintf
@@ -139,6 +144,8 @@ extern DECLSPEC ExBoolean ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcal
 	#define ExPrint printf
 	#define ExSPrintf sprintf
 #endif
+
+
 
 #if  defined(EX_DEBUG)
 	// Ex Print For Developing [error code : errormessage, filename, fileline, function name]

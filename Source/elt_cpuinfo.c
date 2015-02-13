@@ -1,11 +1,15 @@
 #include"elt_cpuinfo.h"
 // get AVX
-#include<immintrin.h>
+
 #ifdef EX_WINDOWS
 // get CPUID
+#include<immintrin.h>
 #   include<intrin.h>
 #elif defined(EX_LINUX)
-
+#   include<immintrin.h>
+#   include<unistd.h>
+#elif defined(EX_ANDROID)
+#   include<unistd.h>
 #endif
 
 //http://stackoverflow.com/questions/1666093/cpuid-implementations-in-c

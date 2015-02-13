@@ -71,9 +71,8 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateConsole(void){
 #ifdef EX_CPP
 	std::ios::sync_with_stdio();
 #endif
-
 	return (ExWin)hConHandle;
-#elif defined(EX_LINUX)
+#elif defined(EX_UNIX)
 	/*pid_t i;
 	char buf[10];
 	Int32 fds, fdm, status;
@@ -97,6 +96,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateConsole(void){
 		sprintf(buf,"xterm -S%c/2", basename(buf));
 		system(buf);
 	}*/
+	return 0;
 #endif
 }
 
@@ -115,7 +115,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExSetConsoleSize(HANDLE handle, const Int32* size
 	//SetConsoleScreenBufferSize(handle,(COORD)*size);
 	//SetConsoleScreenBufferSize(handle,(COORD)*size);
 	return 0;
-#elif defined(EX_LINUX)
+#elif defined(EX_UNIX)
     return 0;
 #elif defined(EX_MAC)
 #endif
@@ -125,7 +125,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExSetConsoleSize(HANDLE handle, const Int32* size
 DECLSPEC ExBoolean ELTAPIENTRY ExSetConsoleCursorPos(HANDLE handle, Coord* coord){
 #ifdef EX_WINDOWS
 	return SetConsoleCursorPosition(handle, *(COORD*)coord);
-#elif defined(EX_LINUX)
+#elif defined(EX_UNIX)
 	return 0;
 #endif
 }
@@ -149,14 +149,14 @@ DECLSPEC ERESULT ELTAPIENTRY InsertConsoleInHWND(ExWin hwnd){
 
 DECLSPEC void ELTAPIENTRY ExWriteColorTextA(const char* text, Uint16 hexColor){
 	// get current and allocate the
-	ExSetConsoleColor(hexColor);
-	fprintf(stdin,text);
+	//ExSetConsoleColor(hexColor);
+	//fprintf(stdin,text);
 	return;
 }
 
 DECLSPEC void ELTAPIENTRY ExWriteColorTextW(const ExChar* text, Uint16 hexColor){
 	// get current and allocate the
-	ExPrint(text);
+	//ExPrint(text);
 	return;
 }
 
@@ -178,23 +178,23 @@ DECLSPEC void ELTAPIENTRY ExSetConsoleColor(Uint16 colour){
 		wExDevPrintf(EX_TEXT("failed to Set Console Text Attribute | %s"), ExGetErrorMessage(GetLastError()));
 #else
 	switch(colour){
-	case EX_CONSOLE_BLACK:printf(KNRM);break;
-	case EX_CONSOLE_BLUE :printf(KBLU);break;
-	case EX_CONSOLE_GREEN :printf(KNRM);break;
-	case EX_CONSOLE_AQUA :printf(KNRM);break;
-	case EX_CONSOLE_RED :printf(KNRM);break;
-	case EX_CONSOLE_PURPLE :printf(KNRM);break;
-	case EX_CONSOLE_YELLOW :printf(KNRM);break;
-	case EX_CONSOLE_WHITE :printf(KNRM);break;
-	case EX_CONSOLE_GRAY :printf(KNRM);break;
-	case EX_CONSOLE_LIGHT_BLUE :printf(KNRM);break;
-	case EX_CONSOLE_LIGHT_GREEN :printf(KNRM);break;
-	case EX_CONSOLE_LIGHT_AQUA :printf(KNRM);break;
-	case EX_CONSOLE_LIGHT_RED :printf(KNRM);break;
-	case EX_CONSOLE_LIGHT_PURPLE :printf(KNRM);break;
-	case EX_CONSOLE_LIGHT_YELLOW :printf(KNRM);break;
-	case EX_CONSOLE_LIGHT_WHITE :printf(KNRM);break;
-	case EX_CONSOLE_COLOR_RESET:printf(RESET);break;
+	case EX_CONSOLE_BLACK: printf(KNRM);break;
+	case EX_CONSOLE_BLUE : printf(KBLU);break;
+	case EX_CONSOLE_GREEN : printf(KNRM);break;
+	case EX_CONSOLE_AQUA : printf(KNRM);break;
+	case EX_CONSOLE_RED : printf(KNRM);break;
+	case EX_CONSOLE_PURPLE : printf(KNRM);break;
+	case EX_CONSOLE_YELLOW : printf(KNRM);break;
+	case EX_CONSOLE_WHITE : printf(KNRM);break;
+	case EX_CONSOLE_GRAY : printf(KNRM);break;
+	case EX_CONSOLE_LIGHT_BLUE : printf(KNRM);break;
+	case EX_CONSOLE_LIGHT_GREEN : printf(KNRM);break;
+	case EX_CONSOLE_LIGHT_AQUA : printf(KNRM);break;
+	case EX_CONSOLE_LIGHT_RED : printf(KNRM);break;
+	case EX_CONSOLE_LIGHT_PURPLE : printf(KNRM);break;
+	case EX_CONSOLE_LIGHT_YELLOW : printf(KNRM);break;
+	case EX_CONSOLE_LIGHT_WHITE : printf(KNRM);break;
+	case EX_CONSOLE_COLOR_RESET: printf(RESET);break;
 	}
 #endif
 }
@@ -205,7 +205,7 @@ DECLSPEC Uint16 ELTAPIENTRY ExGetConsoleColor(void){
 	if(GetStdHandle(STD_OUTPUT_HANDLE) == INVALID_HANDLE_VALUE)return 0;
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),&bufferInfo);
 	return bufferInfo.wAttributes;
-#elif defined(EX_LINUX)
+#elif defined(EX_UNIX)
 	return 0;
 #endif
 }
@@ -218,7 +218,7 @@ DECLSPEC Int32 ELTAPIENTRY ExGetConsoleFontSize(ULong stdHandle,Coord* coord){
 	}
 	memcpy(coord, &GetConsoleFontSize(GetStdHandle(stdHandle),info.nFont),sizeof(Coord));
 	return TRUE;
-#elif defined(EX_LINUX)
+#elif defined(EX_UNIX)
 	return 0;
 #endif
 }

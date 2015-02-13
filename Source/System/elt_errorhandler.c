@@ -220,7 +220,7 @@ DECLSPEC void ELTAPIENTRY ExErrorExit(ExChar* lpszFunction) {
     LocalFree(lpMsgBuf);
     LocalFree(lpDisplayBuf);
     ExitProcess(dw);
-#elif defined(EX_LINEX)
+#elif defined(EX_LINEX) || defined(EX_ANDROID)
     ExSignalCatch(2);
     exit(EXIT_FAILURE);
 #endif
@@ -246,6 +246,8 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetErrorMessageW(ULong dw){
 		errorText = (ExChar*)malloc(512);
 	XGetErrorText(display,dw,errorText,512);
 	return errorText;
+#elif defined(EX_ANDROID)
+    return NULL;
 #endif
 }
 
@@ -272,6 +274,8 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetHResultErrorMessageW(ERESULT hresult){
 		errorText = (ExChar*)malloc(512);
 	XGetErrorText(display,hresult,errorText,512);
 	return errorText;
+#elif defined(EX_ANDROID)
+    return NULL;
 #endif
 }
 
@@ -298,6 +302,8 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetHModuleErrorMessageW(ERESULT dw){
 		errorText = (ExChar*)malloc(512);
 	XGetErrorText(display,dw,errorText,512);
 	return errorText;
+#elif defined(EX_ANDROID)
+    return NULL;
 #endif
 }
 

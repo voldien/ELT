@@ -56,7 +56,7 @@
 	#endif
     #pragma warning(disable : 4201)
 	#define EX_COMPILER_NAME "Visual Studio C++/C"
-#elif defined(__GNUC__) || defined(__SNC__)	/*  GNU C Compiler*/
+#elif defined(__GNUC__) || defined(__SNC__) || defined( __GNUC_MINOR__)	/*  GNU C Compiler*/
 	#ifdef EX_CPP // G++
 	#endif
 	#define EX_GNUC
@@ -116,39 +116,43 @@
 	#if ( defined(__linux__) || defined(__linux) || defined(linux) ) && (!(__ANDROID__) || !(ANDROID))/* Linux */
 		#define EX_LINUX                        /**/
 		#define EX_UNIX                         /**/
-	#elif defined(__unix__) /*  Unix    */
-		#define EX_UNIX
+
 	#elif defined (ANDROID) || defined(__ANDROID__) || __ANDROID_API__ > 9  /* Android */
-		#define EX_ANDROID
-		#define EX_UNIX
+		#define EX_ANDROID 1
+		#define EX_UNIX 1
 	#elif defined (__APPLE__)   /*  Apple product   */
-		#define EX_APPLE
-		#define EX_UNIX
+		#define EX_APPLE 1
+		#define EX_UNIX 1
 		#if defined(__arm__)
 			#define EX_APPLE_IOS    /*  Apple iphone/ipad OS    */
 		#elif defined(MACOSX) || defined(macintosh) || defined(Macintosh)
-			#define EX_MAC
+			#define EX_MAC 1
 		#endif
 	#elif defined(__CYGWIN) /*  */
-		#define EX_CYGWIN
-		#define EX_LINUX
-		#define EX_UNIX
+		#define EX_CYGWIN 1
+		#define EX_LINUX 1
+		#define EX_UNIX 1
 	#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)   /*  BSD*/
 		#define EX_BSD
     #elif defined(__llvm__) || defined(__clang__)   /*  llvm    */
         #define EX_LLVM
-#	elif defined(__pnacl__) ||defined(__native_client__)	/*	nacl google	*/
+    #elif defined(__pnacl__) ||defined(__native_client__)	/*	nacl google	*/
 		#define EX_NACL 1
 	#endif
+
+#if defined(__unix__) /*  Unix    */
+    #define EX_UNIX 1
+#endif
+
 #else
 	#error  Unsupported architecture!   /*  No architecture support implicitly. remove this line to compile anyway*/
 #endif
 
 //TODO TEST!!
-#if defined (ANDROID) || defined(__ANDROID__) || __ANDROID_API__ > 9  /* Android */
-    #define EX_ANDROID
-    #define EX_UNIX
-#endif
+//#if defined (ANDROID) || defined(__ANDROID__) || __ANDROID_API__ > 9  /* Android */
+//    #define EX_ANDROID
+//    #define EX_UNIX
+//#endif
 
 
 /**

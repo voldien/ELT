@@ -55,8 +55,9 @@ extern DECLSPEC unsigned int ELTAPIENTRY ExBindSocket(const char* ip, unsigned i
 extern DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int port);
 
 /**
-
+    Listen
 */
+#define ExListen    listen
 //extern DECLSPEC unsigned int ELTAPIENTRY ExNetListen(unsigned int socket,unsigned int blog);
 
 /**

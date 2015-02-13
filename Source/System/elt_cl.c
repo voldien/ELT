@@ -14,14 +14,23 @@
 #   define OPENCL_LIBRARY_NAME "libOpenCL.so"
 #   include<CL/cl.h>
 #   include<CL/opencl.h>
-#   include"CL/cl_gl.h"
+#   include<CL/cl_gl.h>
 #   include<GL/gl.h>
 #   include<GL/glext.h>
 #elif defined(EX_ANDROID)
 #   define OPENCL_LIBRARY_NAME "libOpenCL.so"
+#   include<jni.h>
+    /**TODO fix this temporizingly solution */
+#   include <CL/cl.h>
+#   include<opencl.h>
+#   include<CL/cl_gl.h>
+#   include<CL/cl_platform.h>
 
-#elif defined(EX_MAC)
-
+#   ifdef GL_ES_VERSION_2_0 /**  OpenGL ES*/
+#       include<GLES2/gl2.h>
+#   else
+#       include<GLES/gl.h>
+#   endif
 #endif
 
 #define GL_SHARING_EXTENSION "cl_khr_gl_sharing"
@@ -199,6 +208,8 @@ DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowCont
     else if(erenderingFlag & EX_DIRECTX){props[0] = CL_CONTEXT_ADAPTER_D3D9_KHR;}
 #elif defined(EX_LINUX)
     if(erenderingFlag & EX_OPENGL){props[2] = CL_GLX_DISPLAY_KHR;}
+#elif defined(EX_ANDROID)
+    if(erenderingFlag & EX_OPENGL || erenderingFlag & EX_OPENGLES){props[2] = CL_EGL_DISPLAY_KHR;}
 #endif
     else if(erenderingFlag & EX_OPENCL){props[2] = CL_CGL_SHAREGROUP_KHR;}
     else if(erenderingFlag & EX_OPENGLES){props[2] = CL_EGL_DISPLAY_KHR;}

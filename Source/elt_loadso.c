@@ -1,5 +1,6 @@
 #include"elt_loadso.h"
 #if defined(EX_LINUX) || defined(EX_ANDROID)
+#   include<stdio.h>
 #   include<link.h>
 #   include<dlfcn.h>
 #   include<errno.h>
@@ -25,8 +26,10 @@ DECLSPEC HANDLE ELTAPIENTRY ExLoadObject(const ExChar* sofile){
 	return handle;
 #elif defined(EX_LINUX) || defined(EX_ANDROID) || defined(EX_MAC)
 	handle = dlopen(sofile,RTLD_LAZY);
+    #ifdef EX_DEBUG
 	if(!handle)
 		fprintf(stderr,dlerror());
+    #endif
 	return handle;
 #endif
 }
@@ -34,12 +37,12 @@ DECLSPEC void ELTAPIENTRY ExUnLoadObject(HANDLE handle){
 #ifdef EX_WINDOWS
 	ExIsWinError(FreeLibrary((HMODULE)handle));
 #elif defined(EX_LINUX) || defined(EX_ANDROID) || defined(EX_MAC)
-#ifdef EX_DEBUG
-
-#endif
 	handle = dlclose(handle);
+#ifdef EX_DEBUG
 	if(!handle)
 		fprintf(stderr,dlerror());
+#endif
+
 #endif
 }
 /**
