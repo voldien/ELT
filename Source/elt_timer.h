@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef ELT_TIMER_H
-#define ELT_TIMER_H
+#ifndef ELT_TIMER_H_ 1
+#define ELT_TIMER_H_ 1
 #include"elt_thread.h"
 #ifdef __cplusplus
 	#include<ctime>

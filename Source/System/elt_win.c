@@ -49,7 +49,7 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length){
 #ifdef EX_LINUX
     //glGetIntegerv(GL_MAJOR_VERSION, &major_version);
     //glGetIntegerv(GL_MINOR_VERSION, &minor_version);
-    glXQueryVersion(XOpenDisplay(NULL),&major_version,&minor_version );
+    glXQueryVersion(XOpenDisplay(NULL),&major_version,&minor_version);
 #elif defined(EX_WINDOWS)
 	major_version = minor_version = 0;
 #endif
@@ -224,7 +224,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 DECLSPEC void ELTAPIENTRY ExShowWindow(ExWin window){
 #ifdef EX_WINDOWS
 	ShowWindow(window,SW_SHOW);
-#else
+#elif defined(EX_LINUX)
     XRaiseWindow(display,window);
 	XMapWindow(display,(Window*)window);
 #endif

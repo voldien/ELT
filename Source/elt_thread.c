@@ -13,7 +13,6 @@
 #   include <unistd.h>
 #   include <stdio.h>
 #   include <assert.h>
-
 #   define EX_START_THREAD(x)	pthread_detach( ( x ))  /*TODO change*/
 #elif defined(EX_MAC)
 
@@ -71,11 +70,12 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback,voi
     int mpid;
 
     pthread_attr_init(&attr);
-
+#ifdef EX_LINUX)    /*  Android don't seem to support */
     CPU_ZERO(&cpus);
     CPU_SET(ncore,&cpus);
 
     pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t),&cpus);
+#endif
 
 	if((mpid = pthread_create(&t0,&attr, callback,lpParamater)) == -1)
         fprintf(stderr, strerror(errno));

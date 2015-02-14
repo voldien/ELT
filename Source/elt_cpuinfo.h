@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef ELT_CPUINFO_H
-#define ELT_CPUINFO_H
+#ifndef ELT_CPUINFO_H_
+#define ELT_CPUINFO_H_ 1
 #include"EngineAssembly.h"
 
 #ifdef __cplusplus	// C++ Environment

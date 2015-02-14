@@ -128,7 +128,7 @@ DECLSPEC void ELTAPIFASTENTRY ExSetError(ERESULT error){
 DECLSPEC void ELTAPIFASTENTRY ExClearError(void){
 	memset(ex_error,E_OK, sizeof(ex_error));
 }
-/*
+/**
 
 */
 DECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode){
@@ -160,34 +160,38 @@ static int ctxErrorHandler(Display* dpy, XErrorEvent* error){
             error->serial
             );
     #endif
-    return 0;
+    return NULL;
 }
 #endif
 
 DECLSPEC ExBoolean ELTAPIENTRY ExInitErrorHandler(void){
 #if defined(EX_LINUX)
+    /**
+        enable X window error message handler.
+    */
 	if(XSetErrorHandler(ctxErrorHandler))
         ExDevPrintf("error");
 #endif
+
 	//interrupt
 	ExSetSignal(SIGINT,ExSignalCatch);
 #ifdef EX_WINDOWS
 	// Sudden Abort
 	ExSetSignal(SIGABRT_COMPAT,ExSignalCatch);
-#elif defined(EX_LINUX)
+#elif defined(EX_UNIX)
 	/* Stack fault.  */
 	ExSetSignal(SIGSTKFLT,ExSignalCatch);
 	/*              */
     ExSetSignal(SIGQUIT, exit);
 #endif
 
-	//Software termination signal from kill
+	/*Software termination signal from kill*/
 	ExSetSignal(SIGTERM,ExSignalCatch);
-	//floating point exception
+	/*floating point exception*/
 	ExSetSignal(SIGFPE,ExSignalCatch);
-	// segment violation
+	/*segment violation*/
 	ExSetSignal(SIGSEGV,ExSignalCatch);
-	//illegal instruction
+	/*illegal instruction*/
 	ExSetSignal(SIGILL,ExSignalCatch);
 	return TRUE;
 }
@@ -229,7 +233,7 @@ DECLSPEC void ELTAPIENTRY ExErrorExit(ExChar* lpszFunction) {
 
 DECLSPEC ExChar* ELTAPIENTRY ExGetErrorMessageW(ULong dw){
 #ifdef EX_WINDOWS
-	if(errorText)
+	if(errorText)/*free allocated error message.*/
 		LocalFree(errorText);
     FormatMessage(
         FORMAT_MESSAGE_ALLOCATE_BUFFER |
@@ -337,7 +341,7 @@ static void debug_log_trace(void){
     }
     free(symbol);
 
-#elif defined(EX_LINUX) || defined(EX_ANDROID)
+#elif defined(EX_LINUX)
     void* trace[100];
     char** strings;
     unsigned int i,j;
@@ -348,6 +352,9 @@ static void debug_log_trace(void){
         fprintf(stderr,"%s\n",strings[i]);
     }
     free(strings);
+
+#elif defined(EX_ANDROID)
+
 
 #endif
 }
@@ -394,7 +401,7 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 	case SIGABRT:
 		ExSPrintf(wchar,EX_ERROR_MESSAGE,app_name,EX_TEXT("Error : abnormal termination trigged by abort call.\n"));
 		break;
-#if defined(EX_LINUX) || defined(EX_UNIX)
+#if defined(EX__UNIX)
     	case SIGQUIT:
         break;
 #endif

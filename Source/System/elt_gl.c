@@ -1,11 +1,11 @@
 #include"elt_gl.h"
-
-
+#include"./../ExPreProcessor.h"
 #ifdef EX_WINDOWS
     #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.dll")
     #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.dll")
     #pragma warning(disable : 4273) // 'function' : inconsistent DLL linkage
-	// library connection to DLL
+
+	// library
 	#pragma comment(lib,"opengl32.lib")
     #pragma comment(lib, "Glu32.lib")
     #pragma comment(lib, "gdi32.lib")
@@ -19,12 +19,13 @@
     #include<EGL/egl.h>
 	#include<GL/glext.h>
 	#include<GL/wglext.h>
+    #include<GL/glu.h>
     //#include<GL/glext.h>
     #define GL_GET_PROC(x)   wglGetProcAddress( (LPCSTR)( x ) )         /*  get OpenGL function process address */
 
 #elif defined(EX_LINUX)
-    #define EX_EGL_LIB_MOUDLE_NAME "libEGL.so"
-    #define EX_GLES_LIB_MOUDLE_NAME "libGLESv2.so"
+    #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.so")
+    #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.so")
     #include<X11/extensions/Xrender.h>
     #include<X11/Xatom.h>
     #include<X11/keysym.h>
@@ -32,10 +33,11 @@
     #include<EGL/eglext.h>
     #include<GL/glx.h>
     #include<GL/glxext.h>
-    #define GL_GET_PROC(x) glXGetProcAddress( ( x ) )           /*  get OpenGL function process address */
+    #include<GL/glu.h>
+    #define GL_GET_PROC(x) glXGetProcAddress( ( x ) )           /**  get OpenGL function process address */
 #elif defined(EX_ANDROID)
-    #define EX_EGL_LIB_MOUDLE_NAME "libEGL.so"
-    #define EX_GLES_LIB_MOUDLE_NAME "libGLESv2.so"
+    #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.so")      /** */
+    #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.so")  /** */
     #include<jni.h>
     #include<android/native_activity.h>
 	#ifdef GL_ES_VERSION_2_0
@@ -49,11 +51,14 @@
 	#endif
     #include<EGL/egl.h>
     #include<EGL/eglext.h>
-#define GL_GET_PROC(x) (x)                                      /*  get OpenGL function process address */
+    #include<EGL/eglplatform.h>
+    static EGLDisplay eglDisplay;
+#define GL_GET_PROC(x) (x)                                      /* * get OpenGL function process address */
 
 #elif defined(EX_MAC)
-#endif
 #include<GL/glu.h>
+#endif
+
 
 #define ExDevGLPrint(pFormat)	printf(pFormat EX_DEVELOP_ERROR_LOG,glGetError(),glewGetErrorString(glGetError()), __FILE__,__LINE__, EX_FUNCDNAME);
 #define ExDevGLPrintc(pFormat,color)	{Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat EX_DEVELOP_ERROR_LOG,glGetError(),glewGetString(glGetError()),__LINE__, __FILE__,EX_FUNCNAME);ExSetConsoleColor(__colour__);}
@@ -64,13 +69,13 @@
 */
 #define ExIsGLError(x)  { if( ( x ) <= 0 ){ ExDevGLPrintc("Error",EX_CONSOLE_RED); } }
 
-/**
-    GPU Vendors constant of.
-*/
-#define EX_GPU_UNKNOWN 0x0
-#define EX_GPU_NVIDIA 0x1
-#define EX_GPU_INTEL 0x2
-#define EX_GPU_AMD 0x4
+
+
+
+
+
+
+
 
 /*  check if extension is supported */
 static int isExtensionSupported(const char* extList, const char* extension){
@@ -103,11 +108,14 @@ static int isExtensionSupported(const char* extList, const char* extension){
 
 
 DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window){
+    #ifndef EX_ANDROID
+	EGLDisplay eglDisplay;
+	#endif
 	int major ,minor ;
 	EGLint attrs[60];
 	EGLint numConfig = 0;
 	EGLConfig eglConfig = 0;
-	EGLDisplay eglDisplay;
+
 	EGLSurface eglSurface;
 	EGLContext eglContext;
 	ERESULT hr;
@@ -210,7 +218,7 @@ DECLSPEC OpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void){
 #elif defined(EX_LINUX)
 	return glXGetCurrentContext();
 #elif defined(EX_ANDROID)
-	return eglGetCurrentContext(NULL);
+	return eglGetCurrentContext();
 #endif
 }
 
@@ -522,7 +530,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 	}
 #elif defined(EX_ANDROID)
 
-	if(erenderinflag & EX_OPENGL){  /* as for today 2015 -01 -09 must devices on android don't support OpenGL TODO:solve in future*/
+	if(erenderingflag & EX_OPENGL){  /* as for today 2015 -01 -09 must devices on android don't support OpenGL TODO:solve in future*/
 
 	}
 	else if(erenderingflag & EX_OPENGLES){
@@ -818,17 +826,16 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
 	wglSwapIntervalEXT((engineDescription.EngineFlag & ENGINE_SUPPORT_VSYNC));
 	// gl Viewport
 	glViewport(0,0,rect.right - rect.left,rect.bottom - rect.top);
-#elif !defined(EX_LINUX)
+#elif defined(EX_LINUX)
     typedef void (*glXSwapIntervalEXTProc)(Display*, GLXDrawable drawable, int intervale);
     glXSwapIntervalEXTProc glXSwapIntervalEXT = (glXSwapIntervalEXTProc)GL_GET_PROC((const GLubyte*)"glXSwapIntervalEXT");
-    glXSwapIntervalEXT(display, (GLXDrawable)ExGetCurrentGLDC(), 0);
+    if(glXSwapIntervalEXT)
+        glXSwapIntervalEXT(display, (GLXDrawable)ExGetCurrentGLDC(), 0);
 #elif defined(EX_ANDROID)
 
 #endif
 #endif
     int sampleSupport;
-
-
 	// depth
 	glClearDepth(1.0f);
 	// color mask
@@ -838,12 +845,13 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
 		glEnable(GL_ALPHA_TEST);
 	else glDisable(GL_ALPHA_TEST);
 
-
+#ifndef EX_ANDROID
     if(engineDescription.sample[0]){
         glEnable(GL_MULTISAMPLE_ARB);
         glGetIntegerv(GL_SAMPLE_BUFFERS,&sampleSupport);
         if(sampleSupport){}
     }
+#endif
 //if(engineDescription.EngineFlag & ENGINE_SUPPORT_PRIMITIV_SAMPLE){
 //
 //	Int32 sampleSupport;
@@ -866,8 +874,9 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
 	glCullFace(GL_FRONT);
 	glFrontFace(GL_CW);
 	glClearColor(0.0f,0.0f,0.0f,1.0f);
+#ifndef EX_ANDROID
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
+#endif
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 
@@ -891,17 +900,20 @@ DECLSPEC ExBoolean ELTAPIENTRY ExDestroyContext(WindowContext drawable, OpenGLCo
 	glXDestroyContext(display,glc);
 	return hr;
 #elif defined(EX_ANDROID)
-    return eglDestroyContext(glc);
+    return eglDestroyContext(eglDisplay,glc);
 #endif
 }
 
-
+/**
+    Opengl Fullscreen
+*/
 DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes){
 #ifdef EX_WINDOWS
 	RECT rect;
 	DEVMODE dm;
 	DISPLAY_DEVICE dd;
 	Int cdsRet;
+
 	if(!window)
 		return FALSE;
 	// going for fullscreen.
@@ -1033,8 +1045,8 @@ DECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window,Enum ienum){
 
     hints.x = 0;
     hints.y = 0;
-    hints.width = 512;
-    hints.height = 512;
+    hints.width = size.width;
+    hints.height = size.height;
     hints.flags = USPosition |USSize;
 
 	startup_state = XAllocClassHint();
@@ -1050,11 +1062,14 @@ DECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window,Enum ienum){
 
 
 DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void){
+#ifndef EX_ANDROID
 	return (Uint32)(atof((const char*)glGetString(GL_SHADING_LANGUAGE_VERSION)) * 100.0f);
+#else
+    return 0;
+#endif
 }
 DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(void){
     if(!ExGetCurrentOpenGLContext()){
-
     }
     else{
         return (Uint32)(atof((const char*)glGetString(GL_VERSION)) * 100.0f);

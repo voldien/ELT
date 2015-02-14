@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef ELT_THREAD_H
-#define ELT_THREAD_H
+#ifndef ELT_THREAD_H_ 1
+#define ELT_THREAD_H_ 1
 #include"EngineAssembly.h"
 #include"ExNT.h"
 #if defined(EX_WINDOWS)

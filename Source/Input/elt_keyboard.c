@@ -12,7 +12,7 @@
     #include<X11/extensions/XKB.h>
     #include"./../System/Unix/unix_win.h"
 #elif defined(EX_ANDROID)
-
+#   include<android/input.h>
 #endif
 
 #ifdef EX_WINDOWS

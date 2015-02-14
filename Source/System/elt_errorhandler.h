@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef ELT_ERROR_HANDLER_H
-#define ELT_ERROR_HANDLER_H
+#ifndef ELT_ERROR_HANDLER_H_
+#define ELT_ERROR_HANDLER_H_ 1
 #include"./../EngineAssembly.h"
 #include"./../elt_console.h"
 
@@ -42,7 +42,7 @@ extern "C"{
 	#define ExIsWinError(x) { if( (Long)( x ) <= 0 ){ExDevWindowPrintc(EX_TEXT("Error"),EX_CONSOLE_RED);} }
 	#define ExIsHError(x) {ERESULT temp; if((temp = ( x ) ) != S_OK ){ExDevWindowHPrintc(EX_TEXT("Error"),temp,EX_CONSOLE_RED);}}
 	#define ExIsDXError(x) {ERESULT temp; if((temp = ( x ) ) != S_OK ){ExDevWindowHPrintc(EX_TEXT("Error"),temp,EX_CONSOLE_RED);}}
-#elif defined(EX_LINUX) || defined(EX_ANDROID)
+#elif defined(EX_UNIX)
 	//dlerror
 	#define ExIsWinError(x) { if( (Long)( x ) <= 0 ){ExDevWindowPrintc(EX_TEXT("Error"),EX_CONSOLE_RED);} }
 	#define ExIsXWinError(x)
@@ -127,14 +127,19 @@ extern DECLSPEC ExChar* ELTAPIENTRY ExGetHModuleErrorMessageW(ERESULT dw);
 	Signal Catch
 */
 extern DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal);
-/*
-	// Set Signal callback.
+/**
+	Set Signal callback.
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcallback signal_callback);
 
+
+
+
 #ifdef EX_ANDROID
-#define fprintf(x,...)    __android_log_print(ANDROID_LOG_DEBUG, "" ,__VA_ARGS__)
-#define printf(x,...)    __android_log_print(ANDROID_LOG_DEBUG, x ,__VA_ARGS__)
+
+#define fprintf(x,...)   __android_log_print(ANDROID_LOG_INFO,"EngineEx", x ,##__VA_ARGS__ )
+#define printf(x,...)    __android_log_print(ANDROID_LOG_INFO,"EngineEx", x ,##__VA_ARGS__ )
+
 #endif
 
 #ifdef EX_UNICODE
@@ -261,4 +266,6 @@ extern DECLSPEC ExBoolean ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcal
 #ifdef  __cplusplus	// C++ Environment
 }
 #endif
+
+
 #endif

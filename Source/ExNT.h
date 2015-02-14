@@ -168,8 +168,8 @@ typedef __success(return >= 0) long ERESULT;
 #else
 typedef long ERESULT;
 #endif
-/*
-	// ELT Character data type
+/**
+    ELT Character data type
 */
 #ifdef EX_UNICODE
 	typedef wchar_t ExChar;

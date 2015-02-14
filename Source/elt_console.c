@@ -176,7 +176,7 @@ DECLSPEC void ELTAPIENTRY ExSetConsoleColor(Uint16 colour){
 
 	if(!SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),colour))
 		wExDevPrintf(EX_TEXT("failed to Set Console Text Attribute | %s"), ExGetErrorMessage(GetLastError()));
-#else
+#elif defined(EX_LINUX)
 	switch(colour){
 	case EX_CONSOLE_BLACK: printf(KNRM);break;
 	case EX_CONSOLE_BLUE : printf(KBLU);break;

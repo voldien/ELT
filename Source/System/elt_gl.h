@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef ELT_GL_H
-#define ELT_GL_H 1
+#ifndef _ELT_GL_H_
+#define _ELT_GL_H_ 1
 #include"./../ExPreProcessor.h"
 
 #ifdef EX_WINDOWS
@@ -30,11 +30,9 @@
 #elif defined(EX_ANDROID)
 	#define ExSwapBuffers eglSwapBuffers
 #endif
-/*
-	// default opengl includer
+/**
+	default opengl includer
 */
-
-
 #if defined(EX_WINDOWS)
 	#include<Windows.h>
 	#include"Win32/win_win32.h"
@@ -47,9 +45,22 @@
 #endif
 #include"elt_win.h"
 
-#ifdef __cplusplus	//	C++ Env
+
+
+/**
+    GPU Vendors constant of.
+*/
+#define EX_GPU_UNKNOWN 0x0
+#define EX_GPU_NVIDIA 0x1
+#define EX_GPU_INTEL 0x2
+#define EX_GPU_AMD 0x4
+
+
+#ifdef __cplusplus	//	C++ Environment
 extern "C"{
 #endif
+
+
 /**
 	Get Window associated with OpenGL Context
 */

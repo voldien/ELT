@@ -58,8 +58,6 @@ extern DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigne
     Listen
 */
 #define ExListen    listen
-//extern DECLSPEC unsigned int ELTAPIENTRY ExNetListen(unsigned int socket,unsigned int blog);
-
 /**
     Read Socket data
 */
@@ -70,6 +68,7 @@ extern DECLSPEC int ELTAPIENTRY ExReadSocket(unsigned int socket, unsigned char*
 extern DECLSPEC int ELTAPIENTRY ExWriteSocket(unsigned int socket, unsigned char* data,unsigned size);
 
 /**
+
 */
 extern DECLSPEC int ELTAPIENTRY ExGetHostIp(char ip[15]);
 
