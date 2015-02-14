@@ -448,7 +448,7 @@
 			#define EX_ALIGN_PREFIX(alignment) __declspec(align(alignment))
 	#elif defined(EX_GNUC)
 			#define EX_ALIGN(alignment, decl) decl __attribute__ ((aligned(alignment)))
-			#define EX_ALIGN_PREFIX(alignment) __declspec(align(alignment))
+			#define EX_ALIGN_PREFIX(alignment) __attribute__ ((aligned(alignment)))
 	#else
 			#define EX_ALIGN(alignment, decl)
 			#define EX_ALIGN_PREFIX(alignment)
@@ -556,13 +556,13 @@
 #ifdef EX_DEBUG
 #   ifdef EX_WINDOWS
 #       define EX_LIBRARY_NAME "libEngineEx.dll"
-#   elif defined(EX_LINUX)
+#   elif defined(EX_UNIX)
 #       define EX_LIBRARY_NAME "libEngineExD.so"
 #   endif
 #else
 #   if defined(EX_WINDOWS)
 #       define EX_LIBRARY_NAME "libEngineEx.dll"
-#   elif defined(EX_LINUX)
+#   elif defined(EX_UNIX)
 #       define EX_LIBRARY_NAME "libEngineEx.so"
 #   endif
 #endif
@@ -571,6 +571,8 @@
 /**
 	ELT Version
 */
+#define EX_ENGINE   "Engine Library Toolkit"
+
 #define EX_ENGINE_VERSION_MAJOR 0x0
 #define EX_ENGINE_VERSION_MINOR 0x5
 #define EX_ENGINE_VERSION_REVISION 0x51

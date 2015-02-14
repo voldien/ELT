@@ -126,6 +126,7 @@ typedef struct window_poll_events{
 }ExWindowEvent;
 
 
+EX_ALIGN_PREFIX(4)
 typedef struct elt_poll_events{
 	union{
         Enum eventid;
@@ -139,6 +140,7 @@ typedef struct elt_poll_events{
 	EX_C_STRUCT ex_drop_event drop;
 	EX_C_STRUCT ExSizeEvent size;
 	EX_C_STRUCT ExSystemEvent system;
+	ExTouchFingerEvent touch;
 
 #ifdef EX_WINDOWS
 	union{

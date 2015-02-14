@@ -7,10 +7,15 @@
     #include<oleauto.h>
     #include<shellapi.h>
 #elif defined(EX_LINUX)
+    #include<X11/Xlib.h>
     #include<X11/keysym.h>
     #include<X11/extensions/XInput.h>
     #include<X11/extensions/XKB.h>
+    #include <X11/XKBlib.h>
+    #include <X11/Xatom.h>
+    #include<X11/extensions/XInput.h>
     #include"./../System/Unix/unix_win.h"
+    #include <linux/input.h>
 #elif defined(EX_ANDROID)
 #   include<android/input.h>
 #endif
@@ -69,13 +74,16 @@ DECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys){
 	if(numkeys)
         *numkeys = XQueryKeymap(display,KeyBoardState[0]);
     else XQueryKeymap(display,KeyBoardState[0]);
+
+
     //struct XkbStateRec state;
-    XGetKeyboardMapping(display, XK_a, 32, KeyBoardState[0]);
-    //XkbGetState(display, XkbUseCordKbd, &state);
+    //XGetKeyboardMapping(display, XK_VoidSymbol, 255, KeyBoardState[0]);
+    //XkbGetState(display, 0, KeyBoardState[0]);
     //XChangeKeyboardMapping(display,XK_a, 1, KeyBoardState[0], 32);
 	//XQueryKeyboard(display);
 	//XGetPointerMapping(display,(unsigned char*)KeyBoardState[0],255);
-	//XQueryDeviceState(display,)
+	//XDevice device;
+	//XQueryDeviceState(display,&device);
 
 	return KeyBoardState[0];
 #endif

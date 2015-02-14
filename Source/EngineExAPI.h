@@ -77,10 +77,7 @@
 #endif
 #include"EngineAssembly.h"
 #include"EngineEx.h"
-#include"System/elt_win.h"
-#include"System/elt_gl.h"
 #include"elt_thread.h"
-#include"System/elt_cl.h"
 #if defined(EX_WINDOWS)
 
 #elif defined(EX_LINUX)

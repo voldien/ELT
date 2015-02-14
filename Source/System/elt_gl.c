@@ -79,8 +79,7 @@
 
 /*  check if extension is supported */
 static int isExtensionSupported(const char* extList, const char* extension){
-#ifdef EX_WINDOWS
-//#elif defined(EX_LINUX) || defined(EX_ANDROID)
+#if defined(EX_WINDOWS) || defined(EX_LINUX)
 	const char* start;
 	const char *where, *terminator;
 	where = strchr(extension, ' ');
@@ -101,7 +100,7 @@ static int isExtensionSupported(const char* extList, const char* extension){
 		start  = terminator;
 	}
 #endif
-	return 0;
+	return FALSE;
 }
 
 
@@ -680,7 +679,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 
     int context_attribs[]={
         GLX_CONTEXT_MAJOR_VERSION_ARB,/* major_version*/3, //TODO obtain latest major version
-        GLX_CONTEXT_MINOR_VERSION_ARB,/* minor_version*/2, //TODO obtain latest minor version
+        GLX_CONTEXT_MINOR_VERSION_ARB,/* minor_version*/3, //TODO obtain latest minor version
         #ifdef EX_DEBUG
         GLX_CONTEXT_FLAGS_ARB,GLX_CONTEXT_DEBUG_BIT_ARB | GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,   /*  Debug TODO add hint*/
         #else
@@ -712,7 +711,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 		ExCreateContextAttrib(0,&att[0],0,0,EX_OPENGL);
 		vi = glXChooseVisual(display,DefaultScreen(display),att);
 
-		glc = glXCreateContext(display,vi,0,0);
+		glc = glXCreateContext(display,vi,0,True);
 	}
 	/*
 

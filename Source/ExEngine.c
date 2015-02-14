@@ -8,7 +8,6 @@
 #elif defined(EX_ANDROID)
 #   include<android/log.h>
 #   include<android/native_activity.h>
-
 #   include<jni.h>
 extern struct android_app* ex_app;
 #endif
@@ -59,8 +58,8 @@ extern struct android_app* ex_app;
 #endif
 
 #ifdef EX_WINDOWS
-HINSTANCE hdllMoudle;
 
+HINSTANCE hdllMoudle;   /*  handle instance */
 BOOL WINAPI DllMain(
 _In_  HINSTANCE hinstDLL,
   _In_  DWORD fdwReason,
@@ -160,17 +159,20 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 
         }
     #endif
-    /*
+    /**
             Create Connection with Display Server.
     */
-    display = XOpenDisplay(NULL);
-
+    display = XOpenDisplay(getenv("DISPLAY"));
+    if(!display)
+        ExError("couldn't open Display\n");
 #elif defined(EX_APPLE)
 
 #elif defined(EX_ANDROID)
 
+
+
 #endif
-    /*
+    /**
         Initialize sub system
     */
     ExInitSubSystem(engineFlag);
@@ -180,12 +182,10 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 
     engineDescription.EngineFlag |= engineFlag;
 
-
-    /*
-
-    */
-    //if(!XQueryExtension(display,"XInputExtension", ))
 #ifdef EX_LINUX
+    /**
+        enable X events
+    */
     XAllowEvents(display , SyncBoth,CurrentTime);
 #endif
 
@@ -300,7 +300,7 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 #endif // EX_LINUX
 	ExQuitSubSytem(0xFFFFFFFF);
 #ifdef EX_WINDOWS
-	DEVMODE d = {};
+	DEVMODE d = {0};
 	Int32 display;
 
 	ExReleaseCL();
@@ -341,8 +341,7 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 #elif defined(EX_APPLE)
 
 #endif
-	//fclose(m_file_log);
-
+	fclose(m_file_log);
 }
 
 DECLSPEC void ELTAPIENTRY ExEnable(Enum enable){

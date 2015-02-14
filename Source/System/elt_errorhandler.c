@@ -169,7 +169,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExInitErrorHandler(void){
     /**
         enable X window error message handler.
     */
-	if(XSetErrorHandler(ctxErrorHandler))
+	if(!XSetErrorHandler(ctxErrorHandler))
         ExDevPrintf("error");
 #endif
 

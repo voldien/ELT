@@ -158,7 +158,7 @@ DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 
         //glx_window = glXCreateWindow(display, fbConfigs,window,0);
         //pglx_window[0] = glx_window;
         if(pglx_window)
-            pglx_window[0] = 1;
+            pglx_window[0] = 0;
     }
 
 	XStoreName(display,window, ExGetDefaultWindowTitle(title,sizeof(title)));

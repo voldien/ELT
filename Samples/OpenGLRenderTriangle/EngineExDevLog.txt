@@ -1,8 +1,0 @@
-error
-[FileLine 142 : FileName /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_errorhandler.c]
-
-************ ERROR ************
-Failed to Create Vertex Shader
-
-************ ERROR ************
-Failed to Create Fragment shader

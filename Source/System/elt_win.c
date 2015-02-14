@@ -188,8 +188,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 #elif defined(EX_ANDROID)
 
 	if((flag & ENGINE_NATIVE) || flag == 0){
-
-
+        window =
 	}
 	else if(flag & EX_OPENGL){
         window = 0;
@@ -227,6 +226,8 @@ DECLSPEC void ELTAPIENTRY ExShowWindow(ExWin window){
 #elif defined(EX_LINUX)
     XRaiseWindow(display,window);
 	XMapWindow(display,(Window*)window);
+#elif defined(EX_ANDROID)
+
 #endif
 }
 DECLSPEC void ELTAPIENTRY ExHideWindow(ExWin window){
@@ -234,6 +235,8 @@ DECLSPEC void ELTAPIENTRY ExHideWindow(ExWin window){
 	ShowWindow(window,SW_HIDE);
 #elif defined(EX_LINUX)
     XUnmapWindow(display,window);
+#elif defined(EX_ANDROID)
+
 #endif
 }
 DECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin window){
@@ -242,6 +245,8 @@ DECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin window){
 	DestroyWindow(window);
 #elif defined(EX_LINUX)
     XDestroyWindow(display, window);
+#elif defined(EX_ANDROID)
+
 #endif
 }
 
@@ -251,6 +256,8 @@ DECLSPEC ExBoolean ELTAPIENTRY ExDestroyWindow(ExWin window){
 	return DestroyWindow(window);
 #elif defined(EX_LINUX)
 	return XDestroyWindow(display,(Window*)window);
+#elif defined(EX_ANDROID)
+
 #endif
 }
 
@@ -260,6 +267,8 @@ DECLSPEC void ELTAPIENTRY ExSetWindowTitle(ExWin window,const ExChar* title){
 	ExIsWinError(SetWindowText(window,title));
 #elif defined(EX_LINUX)
 	XStoreName(display,(Window*)window,title);
+#elif defined(EX_ANDROID)
+
 #endif
 }
 DECLSPEC void ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title){
@@ -268,6 +277,7 @@ DECLSPEC void ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title){
 	ExIsWinError(GetWindowText(window,title,EX_STR_LEN(title)));
 #elif defined(EX_LINUX)
 	XFetchName(display,(Window*)window,&title);
+#elif defined(EX_ANDROID)
 #endif
 }
 
