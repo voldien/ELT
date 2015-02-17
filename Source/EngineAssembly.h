@@ -37,6 +37,7 @@
 
 #elif defined(EX_ANDROID)
 #   include<android/api-level.h>
+#   include"System/Android/elt_activity.h"
 #elif defined(EX_MAC)
 
 #endif

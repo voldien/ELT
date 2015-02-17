@@ -17,11 +17,20 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _ENGINE_EX_H
-#define _ENGINE_EX_H
+#ifndef _ENGINE_EX_H_
+#define _ENGINE_EX_H_ 1
 #include"EngineAssembly.h"
 
+
+
 #define EX_VENDOR EX_TEXT("BroodCity")
+
+/*resolve position later!!*/
+#ifdef EX_ANDROID
+extern int main(int argc, char** argv);
+#endif
+
+
 
 /*
 	// Developer information
