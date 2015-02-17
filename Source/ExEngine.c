@@ -10,6 +10,8 @@
 #   include<android/native_activity.h>
 #   include<jni.h>
 extern struct android_app* ex_app;
+extern ANativeActivity* activity;
+
 #endif
 #include"System/elt_log.h"
 #include"System/elt_audio.h"

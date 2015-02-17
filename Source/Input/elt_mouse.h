@@ -115,19 +115,6 @@ extern DECLSPEC ExBoolean ELTAPIENTRY ExShowCursor(ExBoolean enabled);
 
 
 
-
-//---------------------------------------------------
-extern DECLSPEC ERESULT ELTAPIENTRY ExInitMouse(ExWin hwnd);
-
-extern DECLSPEC ERESULT ELTAPIENTRY ExSetMouseCooperative(ExWin hWnd, Uint64 flag);
-
-//---------------------------------------------------
-/* Update Mouse Buffer.
-*/
-extern DECLSPEC void ELTAPIENTRY ExUpdateMouse(void);
-//---------------------------------------------------
-extern DECLSPEC void ELTAPIENTRY ExMouseShutDown(void);
-
 //---------------------------------------------------
 extern DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButton(Uint32 keyCode);
 //---------------------------------------------------
@@ -135,13 +122,12 @@ extern DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButtonDown(Uint32 keyCode);
 //---------------------------------------------------
 extern DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButtonUp(Uint32 keyCode);
 
-extern DECLSPEC const Int ELTAPIFASTENTRY ExGetMouseDeltaX(void);
-extern DECLSPEC const Int ELTAPIFASTENTRY ExGetMouseDeltaY(void);
 
-extern DECLSPEC const Int ELTAPIFASTENTRY ExGetMouseXCoord(void);
-extern DECLSPEC const Int ELTAPIFASTENTRY  ExGetMouseYCoord(void);
 
-extern DECLSPEC const Float ELTAPIFASTENTRY ExGetMouseMagnitude(void);
+/**/
+extern DECLSPEC const int ELTAPIENTRY ExGetTouchDown(unsigned int fingerid);
+
+extern DECLSPEC const int ELTAPIENTRY ExGetTouchPosition(unsigned int fingerid, float* pos);
 
 #ifdef __cplusplus	// C++ Environment
 }

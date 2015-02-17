@@ -29,6 +29,9 @@ typedef Keycode ExScancode;
 #ifdef __cplusplus	// C++ Environment
 extern "C"{
 #endif
+
+
+#define ExGetKeyCode(array,keycode) ( ( ( array ) [ ( keycode ) /8] )  & (1 << ( ( keycode )  % 8)))
 /**
 	Get KeyCode name identification index
 */
@@ -67,8 +70,8 @@ extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void);
 	//
 */
 extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(const Uint32 keyCode);
-extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(const Uint32 keyCode);
-extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyUp(const Uint32 keyCode);
+extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyPressed(const Uint32 keyCode);
+extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyReleased(const Uint32 keyCode);
 
 
 

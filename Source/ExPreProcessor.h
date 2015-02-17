@@ -108,6 +108,7 @@
         #define EX_PS3                          /**/
 	#elif defined(__arm__)
         #define EX_PSP2                         /**/
+        #define EX_RAS_PI                       /**/
 	#endif
 	#if defined(_WIN32) /*  Window*/
 		#define EX_WINDOWS                      /**/

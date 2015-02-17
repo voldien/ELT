@@ -71,7 +71,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Debug_Window_Share">
-				<Option output="bin/Debug/EnginEx" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/libEnginEx" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="3" />
 				<Option compiler="cross_windows" />
@@ -100,6 +100,8 @@
 			<Add library="rt" />
 			<Add library="asound" />
 			<Add library="OpenCL" />
+			<Add library="xcb" />
+			<Add library="X11-xcb" />
 		</Linker>
 		<Unit filename="../../Source/EngineAssembly.h" />
 		<Unit filename="../../Source/EngineEx.h" />

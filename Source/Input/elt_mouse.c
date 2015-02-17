@@ -112,7 +112,7 @@ DECLSPEC Uint32 ELTAPIENTRY ExGetGlobalMouseState(Int32* x, Int32* y){
 
 DECLSPEC Uint32 ELTAPIENTRY ExGetMouseState(Int32* x, Int32* y){
 #if defined(EX_WINDOWS)
-	return GetCursorPos((LPPOINT)x);
+	return GetCursorPos((LPPOINT)x);    /*y is next to x in address memory.*/
 #elif defined(EX_LINUX)
     int i,j,mask_return;
     Window* root;
@@ -141,124 +141,6 @@ return 0;
 #endif // EX_WINDOWS
 }
 
-
-DECLSPEC ERESULT ELTAPIENTRY ExInitMouse(ExWin hWnd){
-	ERESULT hr;
-#if defined(EX_WINDOWS)
-	/*if(m_MouseHandler){
-		m_MouseHandler = (MouseHandler*)ExMalloc(sizeof(MouseHandler));
-
-		memset(&MouseState[0],0,sizeof(DIMOUSESTATE2));
-		memset(&MouseState[1],0,sizeof(DIMOUSESTATE2));
-	}
-	// Create Device
-	if(FAILED(hr = g_pDI->CreateDevice(GUID_SysMouse,&hMouseDevice,EX_NULL))){
-		ExIsHError(hr);
-		ExMouseShutDown();
-		return hr;
-	}
-	// Data Format
-	if(FAILED(hr = hMouseDevice->SetDataFormat(&c_dfDIMouse))){
-		ExIsHError(hr);
-		ExMouseShutDown();
-		return hr;
-	}
-	// Cooperative Level
-	hr = ExSetMouseCooperative(hWnd, ExGetEngineFlag());*/
-#elif defined(EX_LINUX)
-#endif
-	return hr;
-}
-
-DECLSPEC ERESULT ELTAPIENTRY ExSetMouseCooperative(ExWin hWnd, Uint64 flag){
-	ERESULT hr;
-#if defined(EX_WINDOWS)
-	if(!hMouseDevice || !hWnd)return FALSE;
-
-
-
-	DIPROPDWORD         dipdw;
-	dipdw.diph.dwSize = sizeof(DIPROPDWORD);
-	dipdw.diph.dwHeaderSize = sizeof(DIPROPHEADER);
-	dipdw.diph.dwObj = 0;
-	dipdw.diph.dwHow = DIPH_DEVICE;
-	dipdw.dwData = DIPROPAXISMODE_REL; //or ABS here
-
-	hr = hMouseDevice->SetProperty(DIPROP_AXISMODE, &dipdw.diph);
-	if(FAILED(hr = hMouseDevice->SetCooperativeLevel(hWnd,
-		DISCL_FOREGROUND | DISCL_NONEXCLUSIVE))){
-		ExIsHError(hr);
-		return hr;
-	}
-	if(FAILED(hr = hMouseDevice->Acquire())){
-		if(FAILED(hr = hMouseDevice->Unacquire()))
-			wExDevPrintf(TEXT("Failed to Acquire DirectInput Mouse : %s\n"),ExGetHResultErrorMessage(hr));
-		else
-			if(FAILED(hr = hMouseDevice->Acquire()))
-				wExDevPrintf(TEXT("Failed to Acquire DirectInput Mouse : %s\n"),ExGetHResultErrorMessage(hr));
-		return hr;
-	}
-	DIDEVCAPS  MouseCapabilities;
-	MouseCapabilities.dwSize = sizeof(MouseCapabilities);
-	hMouseDevice->GetCapabilities(&MouseCapabilities);
-	if(MouseCapabilities.dwFlags & DIDC_ATTACHED){
-		int x = 0;
-	}
-	hr =  hMouseDevice->Poll();
-	ExUpdateMouse();
-#endif
-	return hr;
-}
-
-Uint32 mindex = 0;
-Uint32 mindex1 = 1;
-DECLSPEC void ELTAPIENTRY ExUpdateMouse(void){
-	ERESULT hr;
-#if defined(EX_WINDOWS)
-//	swap(mindex,mindex1);
-	/*hr = hMouseDevice->Poll();
-	if(FAILED(hr = hMouseDevice->GetDeviceState(sizeof(DIMOUSESTATE), (LPVOID)&m_MouseHandler->MouseState[mindex]))){
-		hr = hMouseDevice->Acquire();
-		if(hr == DIERR_INPUTLOST || hr == DIERR_NOTACQUIRED)
-			hr = hMouseDevice->Acquire();
-	}*/
-#elif defined(EX_LINUX)
-#endif
-	return;
-}
-DECLSPEC void ELTAPIENTRY ExDisconnectMouse(void){
-#ifdef EX_WINDOWS
-	//ExIsHError(hMouseDevice->Unacquire());
-#endif
-	return;
-}
-
-DECLSPEC const Int ELTAPIFASTENTRY ExGetMouseDeltaX(void){
-#ifdef EX_WINDOWS
-	return (MouseState[0].lX -MouseState[1].lX);
-#endif
-	return 0;
-}
-DECLSPEC const Int ELTAPIFASTENTRY ExGetMouseDeltaY(void){
-#ifdef EX_WINDOWS
-	return (MouseState[0].lY -MouseState[1].lY);
-#endif
-	return 0;
-}
-
-DECLSPEC const Int ELTAPIFASTENTRY ExGetMouseXCoord(void){
-#ifdef EX_WINDOWS
-	return (MouseState[0].lX);
-#endif
-	return 0;
-}
-DECLSPEC const Int ELTAPIFASTENTRY  ExGetMouseYCoord(void){
-#ifdef EX_WINDOWS
-	return (MouseState[0].lY);
-#endif
-	return 0;
-}
-
 DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButton(Uint32 keyCode){
 #ifdef EX_WINDOWS
 	return (MouseState[0].rgbButtons[keyCode] & 0x80) ? TRUE : FALSE;
@@ -279,6 +161,4 @@ DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButtonUp(Uint32 keyCode){
 	return 0;
 }
 
-DECLSPEC const Float ELTAPIFASTENTRY ExGetMouseMagnitude(void){
-	return (Float)sqrtf(ExGetMouseDeltaX() * ExGetMouseDeltaX() + ExGetMouseDeltaY() * ExGetMouseDeltaY());
-}
+
