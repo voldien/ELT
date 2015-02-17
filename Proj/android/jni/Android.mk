@@ -7,7 +7,7 @@ FILE_LIST := $(wildcard $(LOCAL_PATH)/../../../Source/*.c)
 FILE_LIST += $(wildcard $(LOCAL_PATH)/../../../Source/System/*.c)
 FILE_LIST += $(wildcard $(LOCAL_PATH)/../../../Source/Input/*.c)
 FILE_LIST += $(wildcard $(LOCAL_PATH)/../../../Source/math/*.c)
-
+FILE_LIST -= $(LOCAL_PATH)/../../../Source/System/elt_cl.c
 
 include $(CLEAR_VARS)
 
@@ -28,6 +28,6 @@ LOCAL_CFLAGS += -Wno-error=format-security
 
 LOCAL_CPPFLAGS := -fexceptions
 
-LOCAL_LDLIBS := -lGLESv2 -lEGL -llog -landroid #-lOpenCL#-lPVROCL #-lOpenCL
+LOCAL_LDLIBS := -lGLESv2 -lEGL -llog -landroid -ldl # -lpthread #-lOpenCL#-lPVROCL #-lOpenCL
 
 include $(BUILD_SHARED_LIBRARY)

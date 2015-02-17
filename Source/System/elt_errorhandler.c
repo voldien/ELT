@@ -178,7 +178,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExInitErrorHandler(void){
 #ifdef EX_WINDOWS
 	// Sudden Abort
 	ExSetSignal(SIGABRT_COMPAT,ExSignalCatch);
-#elif defined(EX_UNIX)
+#elif defined(EX_LINUX)
 	/* Stack fault.  */
 	ExSetSignal(SIGSTKFLT,ExSignalCatch);
 	/*              */

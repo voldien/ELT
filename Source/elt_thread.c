@@ -36,7 +36,6 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpPar
 #elif defined(EX_LINUX) || defined(EX_ANDROID)
 	pthread_t t0;
     pthread_attr_t attr;
-    cpu_set_t cpus;
     int mpid;
 
     pthread_attr_init(&attr);
@@ -66,11 +65,13 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback,voi
 #elif defined(EX_LINUX) || defined(EX_ANDROID)
 	pthread_t t0;
     pthread_attr_t attr;
+    #ifdef EX_LINUX
     cpu_set_t cpus;
+    #endif
     int mpid;
 
     pthread_attr_init(&attr);
-#ifdef EX_LINUX)    /*  Android don't seem to support */
+#ifdef EX_LINUX    /*  Android don't seem to support */
     CPU_ZERO(&cpus);
     CPU_SET(ncore,&cpus);
 

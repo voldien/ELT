@@ -1,12 +1,14 @@
 #include"elt_event.h"
 #include"Unix/unix_win.h"
 #include"./../ExAssert.h"
+#include"./../ExPreProcessor.h"
 #ifdef EX_WINDOWS
 	#include<WindowsX.h>
 #elif defined(EX_LINUX)
     #include<X11/X.h>
 #elif defined(EX_ANDROID)
     #include<android/window.h>
+    #include<android/rect.h>
     #include<android/input.h>
     #include<android/looper.h>
     #include<android/sensor.h>
@@ -156,7 +158,7 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 		return TRUE;
 	}else {/*XSync(display,0);*/ return FALSE;}
 #elif defined(EX_ANDROID)
-    ALooper_pollall(0, NULL,0,0);
+    //ALooper_pollall(0, NULL,0,0);
 
 
     return TRUE;

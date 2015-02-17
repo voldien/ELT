@@ -39,12 +39,13 @@
 	"elt_alloc.h"
 	"math/matrix.h"
 
-1423916911 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/ExPreProcessor.h
+1424187487 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/ExPreProcessor.h
 	<stddef.h>
 	<cstdio>
 	<climits>
 	<stdio.h>
 	<limits.h>
+	<jni.h>
 
 1423906407 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/ExNT.h
 	"ExPreProcessor.h"
@@ -192,7 +193,7 @@
 	<unistd.h>
 	<cpuid.h>
 
-1423817974 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_loadso.c
+1424185181 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_loadso.c
 	"elt_loadso.h"
 	<stdio.h>
 	<link.h>
@@ -201,7 +202,7 @@
 	<libgen.h>
 	<Winbase.h>
 
-1423908691 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_thread.c
+1424185237 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_thread.c
 	"elt_thread.h"
 	<pthread.h>
 	<errno.h>
@@ -220,7 +221,7 @@
 	<WinBase.h>
 	<errno.h>
 
-1423818751 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/EngineEx2.c
+1424186816 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/EngineEx2.c
 	"EngineConfig.h"
 	"EngineAssembly.h"
 	<signal.h>
@@ -229,8 +230,12 @@
 	<GL/gl.h>
 	"System/Unix/unix_win.h"
 	<GL/gl.h>
-	<GLES2/gl2.h>
+	<GLES/gl2.h>
+	<GLES/gl2ext.h>
+	<GLES/gl2platform.h>
 	<GLES/gl.h>
+	<GLES/glext.h>
+	<GLES/glplatform.h>
 	"System/elt_gl.h"
 	"System/elt_cl.h"
 	<GL/glext.h>
@@ -257,7 +262,7 @@
 	<WinInet.h>
 	<sys/socket.h>
 
-1423926348 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/ExEngine.c
+1424186854 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/ExEngine.c
 	"EngineEx.h"
 	"System/elt_cl.h"
 	"System/elt_gl.h"
@@ -355,7 +360,7 @@
 	"elt_audio.h"
 	<alsa/asoundlib.h>
 
-1423821189 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_cl.c
+1424184829 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_cl.c
 	"elt_cl.h"
 	<CL/cl.h>
 	<CL/cl.h>
@@ -376,7 +381,7 @@
 	<GLES2/gl2.h>
 	<GLES/gl.h>
 
-1423926713 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_errorhandler.c
+1424185022 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_errorhandler.c
 	"elt_errorhandler.h"
 	"elt_log.h"
 	"./../elt_console.h"
@@ -396,18 +401,20 @@
 	<signal.h>
 	<limits.h>
 
-1423778512 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_event.c
+1424184905 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_event.c
 	"elt_event.h"
 	"Unix/unix_win.h"
 	"./../ExAssert.h"
+	"./../ExPreProcessor.h"
 	<WindowsX.h>
 	<X11/X.h>
 	<android/window.h>
+	<android/rect.h>
 	<android/input.h>
 	<android/looper.h>
 	<android/sensor.h>
 
-1423927377 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_gl.c
+1424184959 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_gl.c
 	"elt_gl.h"
 	"./../ExPreProcessor.h"
 	<dwmapi.h>
@@ -442,7 +449,7 @@
 1418468847 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_log.c
 	"elt_log.h"
 
-1423916733 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_win.c
+1424184882 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_win.c
 	"elt_win.h"
 	"elt_gl.h"
 	"elt_cl.h"

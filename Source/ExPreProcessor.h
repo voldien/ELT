@@ -120,6 +120,7 @@
 
 
 	#elif defined (ANDROID) || defined(__ANDROID__) || __ANDROID_API__ > 9  /* Android */
+        #include<jni.h>
 		#define EX_ANDROID 1
 		#define EX_UNIX 1
 		/*  android Architecture*/
@@ -183,13 +184,6 @@
 	#error  Unsupported architecture!   /*  No architecture support implicitly. remove this line to compile anyway*/
 #endif
 
-//TODO TEST!!
-//#if defined (ANDROID) || defined(__ANDROID__) || __ANDROID_API__ > 9  /* Android */
-//    #define EX_ANDROID
-//    #define EX_UNIX
-//#endif
-
-
 /**
     C Compiler Version
 */
@@ -250,7 +244,7 @@
 		#define EX_IMPORT	__attribute__ ((__visibility__ ("default")))
 		#define EX_EXPORT	__attribute__ ((__visibility__ ("default")))
 	#elif defined(EX_ANDROID)               /*      Android     */
-        #ifndef EX_JINI
+        #ifdef EX_JINI
             #define EX_IMPORT	__attribute__ ((__visibility__ ("default")))
             #define EX_EXPORT	__attribute__ ((__visibility__ ("default")))
 		#else
@@ -351,10 +345,10 @@
 	#define ELTAPITHISENTRY __thiscall
 	#define ELTAPISTDENTRY  __stdcall
 #elif defined(EX_ANDROID)   /** Android Calling Convention*/
-    #define ELTAPIENTRY //JNICALL
-    #define ELTAPIFASTENTRY //JNICALL
-    #define ELTAPITHISENTRY //JNICALL
-    #define ELTAPISTDENTRY //JNICALL
+    #define ELTAPIENTRY JNICALL
+    #define ELTAPIFASTENTRY JNICALL
+    #define ELTAPITHISENTRY JNICALL
+    #define ELTAPISTDENTRY JNICALL
 #else
 #   ifndef __cdecl
         #define __cdecl  __attribute__ ((__cdecl__))

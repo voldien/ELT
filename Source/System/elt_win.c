@@ -108,6 +108,8 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 
 		if(flag & EX_OPENCL)
 			ExCreateCLSharedContext(glc,GetDC(window),EX_OPENGL);
+
+
 		return window;
 	}
 	else if(flag & EX_OPENGLES){
@@ -185,29 +187,41 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 	}
 	else
 		return EX_NULL;
+
+
 #elif defined(EX_ANDROID)
+    /**
+        Android
+    */
+
 
 	if((flag & ENGINE_NATIVE) || flag == 0){
-        window =
+        ANativeWindow_acquire(&window);
 	}
 	else if(flag & EX_OPENGL){
-        window = 0;
+        ANativeWindow_acquire(&window);
         glc = ExCreateGLContext(window);
+        /*
         if(flag & EX_OPENCL)
             ExCreateCLSharedContext(glc, window, EX_OPENGL);
+        */
         return window;
 
 	}
 	else if(flag & EX_OPENGLES){
-        window = 0;
+        ANativeWindow_acquire(&window);
         glc = ExCreateOpenGLES(window);
+        /*
         if(flag & EX_OPENCL)
             ExCreateCLSharedContext(glc, window, EX_OPENGL);
+        */
         return window;
 	}
 	else if(flag & EX_OPENCL){
-        window = 0;
+        ANativeWindow_acquire(&window);
+        /*
         ExCreateCLContext(0);
+        */
         return window;
 
 	}
@@ -299,6 +313,8 @@ DECLSPEC void ELTAPIENTRY ExSetWindowPosv(ExWin window, const Int32* position){
 	SetWindowPos(window, EX_NULL,position[0],position[1], winrect.right - winrect.left,winrect.bottom - winrect.top,SWP_SHOWWINDOW);
 #elif defined(EX_LINUX)
 	XMoveWindow(display,(Window*)window,position[0],position[1]);
+#elif defined(EX_ANDROID)
+
 #endif
 }
 DECLSPEC void ELTAPIENTRY ExGetWindowPosv(ExWin window, Int32* position){

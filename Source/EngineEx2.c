@@ -10,11 +10,15 @@
 #   include"System/Unix/unix_win.h"
 #   include<GL/gl.h>
 #elif defined(EX_ANDROID)   /** Android */
-#   ifdef GL_ES_VERSION_2_0
-#      include<GLES2/gl2.h>
-#   else
-#      include<GLES/gl.h>
-#   endif
+	#ifdef GL_ES_VERSION_2_0
+        #include<GLES/gl2.h>
+        #include<GLES/gl2ext.h>
+        #include<GLES/gl2platform.h>
+    #elif defined(GL_ES_VERSION_1_0)
+        #include<GLES/gl.h>
+        #include<GLES/glext.h>
+        #include<GLES/glplatform.h>
+	#endif
 #endif
 
 #include"System/elt_gl.h"
@@ -40,10 +44,13 @@ DECLSPEC EngineDescription* ELTAPIENTRY ExGetEngineDescriptionPointer(void){retu
 */
 extern DECLSPEC void ELTAPIENTRY ExSetHint(Enum e_enum, int value){
     switch(e_enum){
+#ifdef __gl_h_
         case GL_DEPTH_BITS: engineDescription.DepthBits = value;break;
         case GL_STENCIL_BITS:engineDescription.StencilBits = value;break;
         case GL_ALPHA:engineDescription.alphaChannel = value;break;
         case GL_SAMPLES:engineDescription.sample[0] = CLAMP(value,0,UCHAR_MAX);break;
+#endif
+
         default:break;
     }
 }
@@ -52,11 +59,12 @@ extern DECLSPEC void ELTAPIENTRY ExSetHint(Enum e_enum, int value){
 */
 extern DECLSPEC int ELTAPIENTRY ExGetHint(Enum e_enum){
     switch(e_enum){
+#ifdef __gl_h_
         case GL_DEPTH_BITS: return engineDescription.DepthBits;
         case GL_STENCIL_BITS: return engineDescription.StencilBits;
         case GL_ALPHA:return engineDescription.alphaChannel;
         //case GL_SAMPLES:return engineDescription.sample[0];
-
+#endif
         default:return 0;
     }
 }

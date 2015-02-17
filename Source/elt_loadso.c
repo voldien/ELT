@@ -51,7 +51,7 @@ DECLSPEC void ELTAPIENTRY ExUnLoadObject(HANDLE handle){
 DECLSPEC HANDLE ELTAPIENTRY ExIsModuleLoaded(const ExChar* file){
 #ifdef EX_WINDOWS
 	return GetModuleHandle(file);
-#elif defined(EX_LINUX) || defined(EX_UNIX) || defined(EX_ANDROID)
+#elif defined(EX_LINUX) //|| defined(EX_UNIX) || defined(EX_ANDROID)
     char buffer[256];
     void* handle = dlopen(NULL, RTLD_NOW);
     #ifdef EX_DEBUG
@@ -62,7 +62,7 @@ DECLSPEC HANDLE ELTAPIENTRY ExIsModuleLoaded(const ExChar* file){
     void* p = handle;// + sizeof(void*) * 3;    /*to skip the first waste one .*/
     struct link_map* map = p;
     while(map->l_next){
-        map = map->l_next;
+        map = (struct link_map*)map->l_next;
         readlink(map->l_name, buffer, sizeof(buffer));  /*  get library real name   */
         if(strstr(&buffer[0],".so"))
             (strstr(&buffer[0],".so") + sizeof(".so") - sizeof(char))[0] = '\0';    /*convert the name into what you specif in linker option*/

@@ -836,7 +836,7 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
 #endif
     int sampleSupport;
 	// depth
-	glClearDepth(1.0f);
+	//glClearDepth(1.0f);
 	// color mask
 	glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
 
@@ -865,7 +865,7 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
 	//glDrawBuffer(GL_BACK);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
-	glDepthRange(0.0, 1.0);
+	//glDepthRange(0.0, 1.0);
 	glDepthMask(GL_TRUE);
 	glPolygonOffset(0.0f, 0.0f);
 

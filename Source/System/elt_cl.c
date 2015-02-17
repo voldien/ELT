@@ -44,6 +44,9 @@
 #define ELT_CL_GPU_INDEX(x) ((x & (ELT_GPU0 >> (ELT_GPU0 / 2))))
 #define ELT_CL_CPU_INDEX(x) ((x & 0x0000ff00))
 
+#ifndef EX_ANDROID  /*  TODO resolve this provisional approach to solve the problem*/
+
+
 /**/
 extern DECLSPEC int ELTAPIENTRY ExGetOpenCLDevice(cl_platform_id platform,cl_device_id* device,unsigned int flag);
 static char* ELTAPIENTRY ExGetCLErrorMessage(cl_int error);
@@ -767,3 +770,7 @@ static char* ELTAPIENTRY ExGetCLErrorMessage(cl_int error){
 	return "";
 #endif
 }
+
+
+#endif
+
