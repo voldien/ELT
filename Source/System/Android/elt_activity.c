@@ -39,9 +39,10 @@ void* elt_main(void* states){
 }
 
 
-
+/**
+    entry point for Native Android.
+*/
 void ANativeActivity_onCreate(ANativeActivity* activity, void* saveState, size_t saveStateSize){
-
 
 
 	activity->callbacks->onDestroy = ExQuit;

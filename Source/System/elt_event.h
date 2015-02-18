@@ -158,6 +158,8 @@ typedef struct elt_poll_events{
 	};
 #elif defined(EX_LINUX)
 	XEvent msg;
+#elif defined(EX_ANDROID)
+    void* source;
 #elif defined(EX_MAC)
     long time;
 #endif

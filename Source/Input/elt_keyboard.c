@@ -112,7 +112,6 @@ static inline int ex_get_key_code_internal(Uint32 keyCode){
         case EXK_Subtract:   keysym = XK_KP_Subtract;  break;
         case EXK_Multiply:   keysym = XK_KP_Multiply;  break;
         case EXK_Divide:     keysym = XK_KP_Divide;    break;
-
         case EXK_Numpad0:    keysym = XK_KP_0;         break;
         case EXK_Numpad1:    keysym = XK_KP_1;         break;
         case EXK_Numpad2:    keysym = XK_KP_2;         break;
@@ -123,6 +122,7 @@ static inline int ex_get_key_code_internal(Uint32 keyCode){
         case EXK_Numpad7:    keysym = XK_KP_7;         break;
         case EXK_Numpad8:    keysym = XK_KP_8;         break;
         case EXK_Numpad9:    keysym = XK_KP_9;         break;
+        */
         case EXK_F1:         keysym = XK_F1;           break;
         case EXK_F2:         keysym = XK_F2;           break;
         case EXK_F3:         keysym = XK_F3;           break;
@@ -139,7 +139,7 @@ static inline int ex_get_key_code_internal(Uint32 keyCode){
         case EXK_F14:        keysym = XK_F14;          break;
         case EXK_F15:        keysym = XK_F15;          break;
         case EXK_Pause:      keysym = XK_Pause;        break;
-        */
+
         #elif defined(EX_WINDOW)
         case EXK_A:          vkey = 'A';           break;
         case EXK_B:          vkey = 'B';           break;

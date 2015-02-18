@@ -3,15 +3,16 @@
 #include"./../ExAssert.h"
 #include"./../ExPreProcessor.h"
 #ifdef EX_WINDOWS
-	#include<WindowsX.h>
+#   include<WindowsX.h>
 #elif defined(EX_LINUX)
-    #include<X11/X.h>
+#   include<X11/X.h>
 #elif defined(EX_ANDROID)
-    #include<android/window.h>
-    #include<android/rect.h>
-    #include<android/input.h>
-    #include<android/looper.h>
-    #include<android/sensor.h>
+#   include<errno.h>
+#   include<android/window.h>
+#   include<android/rect.h>
+#   include<android/input.h>
+#   include<android/looper.h>
+#   include<android/sensor.h>
 #endif
 
 
@@ -158,8 +159,14 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 		return TRUE;
 	}else {/*XSync(display,0);*/ return FALSE;}
 #elif defined(EX_ANDROID)
-    //ALooper_pollall(0, NULL,0,0);
+    int ident;
+    int events;
 
+    switch(ident = ALooper_pollAll(0, NULL,&events,&event->source)){
+
+
+        default:break;
+    }
 
     return TRUE;
 #elif defined(EX_MAC)
