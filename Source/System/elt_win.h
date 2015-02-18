@@ -32,6 +32,9 @@ extern "C"{
 	#define ExMessageBox(a,b,c,d) gtk_message_dialog_new()
 #endif
 
+#define EX_WIN_SCREENSAVER_ENABLE   0x200000
+#define EX_WIN_SCREENSAVER_DISABLE  0x400000
+
 struct exsize{unsigned int width,height;};
 struct exrect{int x,y,width,height;};
 
