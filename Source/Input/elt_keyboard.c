@@ -72,6 +72,11 @@ static inline int ex_get_key_code_internal(Uint32 keyCode){
         case EXK_7:   keysym = XK_7;     break;
         case EXK_8:   keysym = XK_8;     break;
         case EXK_9:   keysym = XK_9;     break;
+        case EXK_Left:  keysym = XK_Left;         break;
+        case EXK_Right: keysym = XK_Right;        break;
+        case EXK_Up:    keysym = XK_Up;           break;
+        case EXK_Down:  keysym = XK_Down;         break;
+
         /*case EXK_Escape:     keysym = XK_Escape;       break;
         case EXK_LControl:   keysym = XK_Control_L;    break;
         case EXK_LShift:     keysym = XK_Shift_L;      break;
@@ -107,10 +112,7 @@ static inline int ex_get_key_code_internal(Uint32 keyCode){
         case EXK_Subtract:   keysym = XK_KP_Subtract;  break;
         case EXK_Multiply:   keysym = XK_KP_Multiply;  break;
         case EXK_Divide:     keysym = XK_KP_Divide;    break;
-        case EXK_Left:       keysym = XK_Left;         break;
-        case EXK_Right:      keysym = XK_Right;        break;
-        case EXK_Up:         keysym = XK_Up;           break;
-        case EXK_Down:       keysym = XK_Down;         break;
+
         case EXK_Numpad0:    keysym = XK_KP_0;         break;
         case EXK_Numpad1:    keysym = XK_KP_1;         break;
         case EXK_Numpad2:    keysym = XK_KP_2;         break;
@@ -141,18 +143,18 @@ static inline int ex_get_key_code_internal(Uint32 keyCode){
         #elif defined(EX_WINDOW)
         case EXK_A:          vkey = 'A';           break;
         case EXK_B:          vkey = 'B';           break;
-        case Keyboard::C:          vkey = 'C';           break;
-        case Keyboard::D:          vkey = 'D';           break;
-        case Keyboard::E:          vkey = 'E';           break;
-        case Keyboard::F:          vkey = 'F';           break;
-        case Keyboard::G:          vkey = 'G';           break;
-        case Keyboard::H:          vkey = 'H';           break;
-        case Keyboard::I:          vkey = 'I';           break;
-        case Keyboard::J:          vkey = 'J';           break;
-        case Keyboard::K:          vkey = 'K';           break;
-        case Keyboard::L:          vkey = 'L';           break;
-        case Keyboard::M:          vkey = 'M';           break;
-        case Keyboard::N:          vkey = 'N';           break;
+        case EXK_C:          vkey = 'C';           break;
+        case EXK_D:          vkey = 'D';           break;
+        case EXK_E:          vkey = 'E';           break;
+        case EXK_F:          vkey = 'F';           break;
+        case EXK_G:          vkey = 'G';           break;
+        case EXK_H:          vkey = 'H';           break;
+        case EXK_I:          vkey = 'I';           break;
+        case EXK_J:          vkey = 'J';           break;
+        case EXK_K:          vkey = 'K';           break;
+        case EXK_L:          vkey = 'L';           break;
+        case EXK_M:          vkey = 'M';           break;
+        case EXK_N:          vkey = 'N';           break;
         case Keyboard::O:          vkey = 'O';           break;
         case Keyboard::P:          vkey = 'P';           break;
         case Keyboard::Q:          vkey = 'Q';           break;
@@ -240,8 +242,6 @@ static inline int ex_get_key_code_internal(Uint32 keyCode){
         case Keyboard::F14:        vkey = VK_F14;        break;
         case Keyboard::F15:        vkey = VK_F15;        break;
         case Keyboard::Pause:      vkey = VK_PAUSE;      break;
-
-
         #endif
         default:             keysym = 0;               break;
     }
@@ -282,7 +282,7 @@ DECLSPEC ExWin ELTAPIENTRY ExGetKeyboardFocus(void){
 	XGetInputFocus(display,&window,&revert_to_return);
 	return window;
 #elif defined(EX_ANDROID)
-
+    return NULL;
 #elif defined(EX_MAC)
     return NULL;
 #endif
@@ -309,28 +309,6 @@ DECLSPEC Keycode ELTAPIENTRY ExGetModeState(void){
     return XGrabKey(display,AnyKey, ControlMask | ShiftMask,ExGetKeyboardFocus(), True, GrabModeAsync,GrabModeSync);
 #endif
 }
-
-DECLSPEC ERESULT ELTAPIENTRY ExInitKeyBoard(ExWin win){
-	ERESULT hr;
-#if defined(EX_WINDOWS)
-/*	if(FAILED(hr = g_pDI->CreateDevice(GUID_SysKeyboard, &m_keyboard_device,EX_NULL))){
-		ExIsHError(hr);
-		ExKeyBoardShutDown();
-		return hr;
-	}
-	if(FAILED(hr = m_keyboard_device->SetDataFormat(&c_dfDIKeyboard))){
-		ExIsHError(hr);
-		ExKeyBoardShutDown();
-		return hr;
-	}
-	hr = ExSetKeyBoardCooperative(win,ExGetEngineFlag());
-	*/
-#endif
-	return hr;
-}
-
-
-
 
 DECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKey(void){
 
@@ -468,11 +446,12 @@ DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(const Uint32 keyCode){
 
     if(keycode != 0){
 
+
         xcb_query_keymap_reply_t* keymap = xcb_query_keymap_reply(connection,xcb_query_keymap(connection), NULL);
 
         unsigned char isPressed = (keymap->keys[keycode/8] & (1 << (keycode % 8))) ?  1 : 0;
 
-        free(keymap);
+        free(keymap);   //TODO check how to allocate a buffer, so we don't need to reallocate it every time
         return isPressed;
     }
     return 0;

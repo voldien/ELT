@@ -9,8 +9,10 @@
 #   include<X11/Xlib.h>
 #   include<X11/cursorfont.h>
 #   include"./../System/Unix/unix_win.h"
+#   include <linux/input.h>
+#   include<X11/Xlib-xcb.h>
 #elif defined(EX_ANDROID)
-    #include<android/input.h>
+#   include<android/input.h>
 #endif
 
 
@@ -46,33 +48,34 @@ DECLSPEC ExCursor ELTAPIENTRY ExCreateCursor(const Uint8* data, const Uint8* mas
 	Create System Cursor
 */
 DECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(Enum system_id){
-	ExChar* data;
+	ExChar* arrow;
 #ifdef EX_WINDOWS
 	switch(system_id){
-	case EXC_ARROW: data = IDC_ARROW;
-	case EXC_IBEAM: data = IDC_IBEAM;
-	case EXC_WAIT: data = IDC_WAIT;
-	case EXC_CROSS: data = IDC_CROSS;
-	case EXC_UPARROW: data = IDC_UPARROW;
-	case EXC_SIZE: data = IDC_SIZE;
-	case EXC_ICON: data = IDC_ARROW;
-	case EXC_SIZENWSE: data = IDC_ARROW;
-	case EXC_SIZENESW: data = IDC_ARROW;
-	case EXC_SIZEWE: data = IDC_ARROW;
-	case EXC_SIZENS: data = IDC_ARROW;
-	case EXC_SIZEALL: data = IDC_ARROW;
-	case EXC_NO: data = IDC_ARROW;
-	case EXC_HAND: data = IDC_ARROW;
-	case EXC_APPSTART: data = IDC_ARROW;
-	case EXC_HELP: data = IDC_ARROW;
+	case EXC_ARROW: arrow = IDC_ARROW;
+	case EXC_IBEAM: arrow = IDC_IBEAM;
+	case EXC_WAIT: arrow = IDC_WAIT;
+	case EXC_CROSS: arrow = IDC_CROSS;
+	case EXC_UPARROW: arrow = IDC_UPARROW;
+	case EXC_SIZE: arrow = IDC_SIZE;
+	case EXC_ICON: arrow = IDC_ARROW;
+	case EXC_SIZENWSE: arrow = IDC_ARROW;
+	case EXC_SIZENESW: arrow = IDC_ARROW;
+	case EXC_SIZEWE: arrow = IDC_ARROW;
+	case EXC_SIZENS: arrow = IDC_ARROW;
+	case EXC_SIZEALL: arrow = IDC_ARROW;
+	case EXC_NO: arrow = IDC_ARROW;
+	case EXC_HAND: arrow = IDC_ARROW;
+	case EXC_APPSTART: arrow = IDC_ARROW;
+	case EXC_HELP: arrow = IDC_ARROW;
 	}
-	return LoadCursor(GetModuleHandle(EX_NULL), data);
+	return LoadCursor(GetModuleHandle(EX_NULL), arrow);
 #elif defined(EX_LINUX)
     switch(system_id){
-        case EXC_ARROW:data = XC_arrow;break;
-        case EXC_IBEAM:break;
+        case EXC_ARROW:arrow = XC_arrow;break;
+        case EXC_WAIT: arrow = XC_watch;break;
+        default:arrow= XC_arrow;
     }
-    return XCreateFontCursor(display,data);
+    return XCreateFontCursor(display,arrow);
 
 #endif
 }
@@ -135,9 +138,12 @@ DECLSPEC ExBoolean ELTAPIENTRY ExShowCursor(ExBoolean enabled){
 
 DECLSPEC void ELTAPIENTRY ExWarpMouseGlobal(int x, int y){
 #ifdef EX_WINDOWS
+
 #elif defined(EX_LINUX)
-//    return XWrapPointer(display, 0,0,x,y,0,0,0,0);
-return 0;
+    xcb_connection_t* connection = XGetXCBConnection(display);
+
+    xcb_warp_pointer(connection, None, XDefaultRootWindow(display), 0,0,0,0, x,y);
+    xcb_flush(connection);
 #endif // EX_WINDOWS
 }
 

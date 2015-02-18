@@ -7,6 +7,7 @@ FILE_LIST := $(wildcard $(LOCAL_PATH)/../../../Source/*.c)
 FILE_LIST += $(wildcard $(LOCAL_PATH)/../../../Source/System/*.c)
 FILE_LIST += $(wildcard $(LOCAL_PATH)/../../../Source/Input/*.c)
 FILE_LIST += $(wildcard $(LOCAL_PATH)/../../../Source/math/*.c)
+FILE_LIST += $(wildcard $(LOCAL_PATH)/../../../Source/System/Android/*.c)
 FILE_LIST -= $(LOCAL_PATH)/../../../Source/System/elt_cl.c
 
 include $(CLEAR_VARS)

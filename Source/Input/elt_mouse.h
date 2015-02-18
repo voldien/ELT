@@ -65,7 +65,7 @@ extern "C"{
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(ExBoolean enabled);
 /**
-    clip cursor onto specificed rect
+    clip cursor onto specified rectangle view
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExClipCursor(const struct exrect* rect);
 /**
@@ -103,11 +103,13 @@ extern DECLSPEC Uint32 ELTAPIENTRY ExGetMouseState(Int32* x, Int32* y);
 */
 extern DECLSPEC void ELTAPIENTRY ExWarpMouseGlobal(Int32 x, Int32 y);
 
-/*
-	// Set Cursor relative to window
+/**
+	Set Cursor relative to window
 */
 extern DECLSPEC void ELTAPIENTRY ExWarpMouseInWindow(ExWin win,Int32 x, Int32 y);
-
+/**
+    Show Cursor
+*/
 extern DECLSPEC ExBoolean ELTAPIENTRY ExShowCursor(ExBoolean enabled);
 
 
