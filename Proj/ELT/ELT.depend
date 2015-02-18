@@ -14,7 +14,7 @@
 	"elt_event.h"
 	"elt_cl.h"
 
-1424205753 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/EngineAssembly.h
+1424260412 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/EngineAssembly.h
 	"ExPreProcessor.h"
 	"ExNT.h"
 	"System/elt_event.h"
@@ -24,7 +24,6 @@
 	<tchar.h>
 	<strsafe.h>
 	<android/api-level.h>
-	"System/Android/elt_activity.h"
 	"elt_timer.h"
 	"System/elt_win.h"
 	"System/elt_errorhandler.h"
@@ -39,6 +38,7 @@
 	"elt_timer.h"
 	"elt_alloc.h"
 	"math/matrix.h"
+	"System/Android/elt_activity.h"
 
 1424191793 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/ExPreProcessor.h
 	<stddef.h>
@@ -106,7 +106,7 @@
 	"./../EngineAssembly.h"
 	"eltkeycode.h"
 
-1424259824 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/Input/elt_mouse.h
+1424259859 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/Input/elt_mouse.h
 	"./../EngineAssembly.h"
 	"./../System/elt_errorhandler.h"
 
@@ -263,7 +263,7 @@
 	<WinInet.h>
 	<sys/socket.h>
 
-1424194888 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/ExEngine.c
+1424261135 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/ExEngine.c
 	"EngineEx.h"
 	"System/elt_cl.h"
 	"System/elt_gl.h"
@@ -309,7 +309,7 @@
 	"elt_joystick.h"
 	<Xinput.h>
 
-1423779518 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/Input/elt_joystick.c
+1424261040 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/Input/elt_joystick.c
 	"elt_joystick.h"
 	<string.h>
 	<Windows.h>
@@ -1017,5 +1017,12 @@
 1423560946 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_surface.h
 	"elt_win.h"
 
-1424205435 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/Android/elt_activity.h
+1424260236 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/Android/elt_activity.h
+	<stdio.h>
+	"../../EngineAssembly.h"
+
+1424260789 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/Android/elt_activity.c
+	"elt_activity.h"
+	<android/window.h>
+	<android/native_activity.h>
 

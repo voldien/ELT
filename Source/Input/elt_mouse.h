@@ -22,14 +22,11 @@
 #include"./../EngineAssembly.h"
 #include"./../System/elt_errorhandler.h"
 #ifdef EX_WINDOWS
-
 	typedef HCURSOR ExCursor;
 	//extern IDirectInputDevice8* hMouseDevice;
-#elif defined(EX_LINUX) || defined(EX_ANDROID)
-
+#elif defined(EX_UNIX)
 	typedef void* ExCursor;
 #endif
-
 	#define EXC_ARROW		0x1
 	#define EXC_IBEAM		0x2
 	#define EXC_WAIT		0x3
@@ -50,9 +47,6 @@
 	#if(WINVER >= 0x0400)
 	#define EXC_HELP		0x10
 	#endif
-
-
-
 #define ExMouseButton(x) (m_MouseHandler->MouseState[0]->rgbButtons[x] & 0x80)
 #define ExMousePoint	m_MouseHandler->MouseState[0]->lX
 #define ExMouseMotion

@@ -28,16 +28,17 @@
 		Boolean bPreferredJoyCfgValid;
 	};
 #elif defined(EX_LINUX)
-	#include<unistd.h>
-	#include<fcntl.h>
-	#include<sys/ioctl.h>
-	#include<stdio.h>
-	#include<linux/joystick.h>
+#   include<unistd.h>
+#   include<fcntl.h>
+#   include<sys/ioctl.h>
+#   include<stdio.h>
+#   include<linux/joystick.h>
 	Int32 joy_id[4];
 #elif defined(EX_ANDROID)
-#include<android/input.h>
-#include<android/keycodes.h>
-#include<android/sensor.h>
+#   include<android/input.h>
+#   include<android/keycodes.h>
+#   include<android/sensor.h>
+    Int32 joy_id[4];
 #endif
 
 
@@ -53,8 +54,10 @@ DECLSPEC Uint32 ELTAPIENTRY ExNumJoysticks(void){
 	}
 	return num;
 #elif defined(EX_LINUX)
+	struct js_event event;
+
 	return 0;
-#elif defined(EX_MAC)
+#elif defined(EX_ANDROID)
 	return 0;
 #else
 	return 0;

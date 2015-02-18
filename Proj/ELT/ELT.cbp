@@ -141,6 +141,10 @@
 		</Unit>
 		<Unit filename="../../Source/Input/elt_mouse.h" />
 		<Unit filename="../../Source/Input/eltkeycode.h" />
+		<Unit filename="../../Source/System/Android/elt_activity.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../Source/System/Android/elt_activity.h" />
 		<Unit filename="../../Source/System/Unix/unix_dialog.h" />
 		<Unit filename="../../Source/System/Unix/unix_win.c">
 			<Option compilerVar="CC" />

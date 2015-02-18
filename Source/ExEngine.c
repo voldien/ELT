@@ -9,8 +9,7 @@
 #   include<android/log.h>
 #   include<android/native_activity.h>
 #   include<jni.h>
-extern struct android_app* ex_app;
-extern ANativeActivity* activity;
+
 
 #endif
 #include"System/elt_log.h"
@@ -389,10 +388,9 @@ DECLSPEC void ELTAPIENTRY ExDisable(Enum disable){
 #define EX_TO_TEXT(x) "x"
 #define EX_COMPILER_VERSION(major, minor, revision) EX_TEXT("ELT-")EX_TO_TEXT(major)EX_TEXT(".")EX_TO_TEXT(minor)EX_TEXT(".")EX_TO_TEXT(revision)
 DECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void){
-	return EX_TEXT("");
-	//return EX_COMPILER_VERSION(EX_MAJOR_VERSION, EX_MINOR_VERSION, EX_REVISION);
+	return EX_COMPILER_VERSION(EX_MAJOR_VERSION, EX_MINOR_VERSION, EX_REVISION);
 }
 
 DECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void){
-    return EX_TEXT("");
+    return EX_TEXT(EX_COMPILER_NAME);
 }
