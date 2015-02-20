@@ -12,9 +12,7 @@
 #include<GL/gl.h>
 #include<GL/glx.h>
 #include"../elt_gl.h"
-//mathlib
 Display *display = 0;
-
 
 extern int choose_fbconfig(GLXFBConfig* p_fbconfig);
 

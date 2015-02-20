@@ -179,6 +179,9 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 		return window;
 	}
 #elif defined(EX_MAC)
+    /**
+
+    */
 	if((flag & ENGINE_NATIVE) || flag == 0){
 
 	}
@@ -193,7 +196,6 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
     /**
         Android
     */
-
 
 	if((flag & ENGINE_NATIVE) || flag == 0){
         ANativeWindow_acquire(&window);
@@ -261,6 +263,21 @@ DECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin window){
     XDestroyWindow(display, window);
 #elif defined(EX_ANDROID)
 
+#endif
+}
+
+
+DECLSPEC void ELTAPIENTRY ExSetWindowMode(ExWin window, Enum mode){
+#ifdef EX_WINDOW
+    if(mode & EX_WIN_SCREENSAVER_ENABLE){
+
+    }
+
+#elif defined(EX_LINUX)
+
+    if(mode & EX_WIN_SCREENSAVER_ENABLE){
+
+    }
 #endif
 }
 
@@ -414,25 +431,42 @@ DECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, HANDLE hIcon){
     Pixmap  icon_pixmap;
     unsigned int count;
     XIconSize *size_list;
-    if (!(wm_hints = XAllocWMHints())) {
+/*    if (!(wm_hints = XAllocWMHints())) {
       fprintf(stderr, "%s: failure allocating memory", "ELT");
       return FALSE;
-    }
-
+    }*/
+    Atom net_wm_icon = XInternAtom(display, "_NET_WM_ICON", False);
+    Atom cardinal = XInternAtom(display, "CARDINAL", False);
     wm_hints->initial_state = NormalState;
     /* Does application need keyboard input? */
     wm_hints->input = True;
     wm_hints->icon_pixmap = icon_pixmap;
     wm_hints->flags = IconPixmapHint;
 
-    XFlush(display);
-    XSetWMHints(display, window, wm_hints);
+    //XFlush(display);
+    //XSetWMHints(display, window, wm_hints);
+
+    XChangeProperty(display, window, net_wm_icon, cardinal, 24, PropModeReplace, (const unsigned char*) ELT_ICON, sizeof(ELT_ICON) / 24);
+
+
 	return TRUE;
 #endif
 }
 
+DECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window){
+#ifdef EX_WINDOWS
+
+    return NULL;
+#elif defined(EX_LINUX)
+
+    return NULL;
+#endif // EX_WINDOWS
+}
+
 DECLSPEC Int32 ELTAPIENTRY ExIsScreenSaverEnable(void){
 #ifdef EX_WINDOWS
+    if(ExIsModuleLoaded(""))
+        return TRUE;
 
     return 0;
 #elif defined(EX_LINUX)

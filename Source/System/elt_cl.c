@@ -11,14 +11,14 @@
 	/*handle to OpenCL Library */
     HANDLE cl_libhandle;
 #elif defined(EX_LINUX)
-#   define OPENCL_LIBRARY_NAME "libOpenCL.so"
+#   define OPENCL_LIBRARY_NAME EX_TEXT("libOpenCL.so")
 #   include<CL/cl.h>
 #   include<CL/opencl.h>
 #   include<CL/cl_gl.h>
 #   include<GL/gl.h>
 #   include<GL/glext.h>
 #elif defined(EX_ANDROID)
-#   define OPENCL_LIBRARY_NAME "libOpenCL.so"
+#   define OPENCL_LIBRARY_NAME EX_TEXT("libOpenCL.so")
 #   include<jni.h>
     /**TODO fix this temporizingly solution */
 #   include <CL/cl.h>
@@ -85,6 +85,8 @@ DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContext(Enum flag){
         ExLoadLibrary(OPENCL_LIBRARY_NAME);
         #elif defined(EX_WINDOWS)
         cl_libhandle = ExLoadLibrary(OPENCL_LIBRARY_NAME);
+        #elif defined(EX_ANDROID)
+        ExLoadLibrary(OPENCL_LIBRARY_NAME);
         #endif
 	/**
         Get platform id
@@ -150,6 +152,8 @@ DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowCont
         ExLoadLibrary(OPENCL_LIBRARY_NAME);
         #elif defined(EX_WINDOWS)
         cl_libhandle = ExLoadLibrary(OPENCL_LIBRARY_NAME);
+        #elif defined(EX_ANDROID)
+        ExLoadLibrary(OPENCL_LIBRARY_NAME);
         #endif
 
     // Get Platform ID

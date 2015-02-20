@@ -31,11 +31,9 @@ DECLSPEC void* ELTAPIENTRY ExGetNativeActivity(void){
     Initialization of Android Native
 */
 void* elt_main(void* states){
-
 	if(main)
-		main(0,NULL);
-
-	return NULL;
+		return main(0,NULL);
+    else return EXIT_FAILURE;
 }
 
 

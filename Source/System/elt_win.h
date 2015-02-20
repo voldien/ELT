@@ -1,4 +1,4 @@
-/*
+/**
 ========================================================================
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
@@ -22,6 +22,7 @@
 #include"./../EngineAssembly.h"
 #include"elt_event.h"
 #include"elt_cl.h"
+
 #ifdef  __cplusplus	// C++ Environment
 extern "C"{
 #endif
@@ -55,10 +56,12 @@ extern DECLSPEC void ELTAPIENTRY ExHideWindow(ExWin window);
 */
 extern DECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin window);
 
-/*
-	//
+/**
+	Set window mode
 */
 extern DECLSPEC void ELTAPIENTRY ExSetWindowMode(ExWin window, Enum mode);
+
+
 
 /**
     Destroy Window

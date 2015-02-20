@@ -1,7 +1,7 @@
 #include"elt_net.h"
 #include <stdio.h>
 #include <stdlib.h>
-#if defined(EX_LINUX) | defined(EX_ANDROID)   /*  Linux network and android*/
+#if defined(EX_UNIX)   /*  Linux network and android*/
 #   include<sys/types.h>
 #   include<sys/socket.h>
 #   include<netinet/in.h>
@@ -39,7 +39,7 @@ static int create_ip_address(const char* ip, unsigned int port){
 #ifdef EX_WINDOWS
 
 	return 1;
-#elif defined(EX_LINUX) || defined(EX_ANDROID)
+#elif defined(EX_UNIX)
     struct ifreq ifr = {0};
    /* strncpy(ifr.ifr_name, "eth1", IFNAMSIZ);
     ifr.ifr_addr.sa_family = AF_INET;
@@ -64,7 +64,7 @@ static int ip_exists(const char* ip){
 
 #if defined(EX_WINDOWS)
 
-#elif defined(EX_LINUX) || defined(EX_ANDROID)
+#elif defined(EX_UNIX)
 	struct hostent* host;
 	host = gethostbyname(ip);
 	if(!host)
@@ -103,7 +103,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
 	}
 	return sockfd;
 
-    #elif defined(EX_LINUX) || defined(EX_ANDROID)
+#elif defined(EX_UNIX)
 
     unsigned int sockfd;
     unsigned int sock_domain,socket_protocol;
@@ -179,7 +179,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
 DECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(unsigned int socket){
     #ifdef EX_WINDOWS
 	return closesocket((SOCKET)socket);
-    #elif defined(EX_LINUX) || defined(EX_ANDROID)
+#elif defined(EX_UNIX)
     return close(socket);
     #endif
 
@@ -188,7 +188,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(unsigned int socket){
 DECLSPEC unsigned int ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port,unsigned int socket){
 #ifdef EX_WINDOWS
 
-#elif defined(EX_LINUX) || defined(EX_ANDROID)
+#elif defined(EX_UNIX)
     unsigned int sock_domain,socket_protocol;
     struct sockaddr_in serv_addr, cli_addr;
 	struct hostent* host;
@@ -236,13 +236,12 @@ DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int p
         fprintf(stderr,strerror(errno));
 
 	return sockfd ;
-    #elif defined(EX_LINUX) || defined(EX_ANDROID)
+#elif defined(EX_UNIX)
     struct sockaddr_in serv_addr;
     struct hostent *server;
     int sockfd;/**TODO check if sockdf should be input parameter*/
     /**/
     sockfd = ExOpenSocket(ip,port,ELT_CLIENT);
-    //sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
 
     bzero((char*)&serv_addr, sizeof(serv_addr));
@@ -269,7 +268,7 @@ DECLSPEC int ELTAPIENTRY ExWriteSocket(unsigned int socket, unsigned char* data,
 	if((len = send(socket,(char*)data,len,MSG_DONTROUTE)) < 0)
         return -1;
     return len;
-#elif defined(EX_LINUX) || defined(EX_ANDROID)
+#elif defined(EX_UNIX)
 
 	if((len = write(socket,data,size)) < 0){
 		fprintf(stderr,strerror(errno));
@@ -280,12 +279,15 @@ DECLSPEC int ELTAPIENTRY ExWriteSocket(unsigned int socket, unsigned char* data,
 }
 
 DECLSPEC int ELTAPIENTRY ExReadSocket(unsigned int socket,unsigned  char* data, unsigned int size){
+    int len;
 #ifdef EX_WINDOWS
-	if(recv(socket, (char*)data, size,0))
+	if(len = recv(socket, (char*)data, size,0))
 		return 0;
-#elif defined(EX_LINUX) || defined(EX_ANDROID)
-	if(read(socket, data,size) <0)
+    return len;
+#elif defined(EX_UNIX)
+	if((len = read(socket, data,size)) <0)
 		return -1;
+    return len;
 #endif
 
 }
@@ -316,7 +318,7 @@ DECLSPEC int ELTAPIENTRY ExGetHostIp(char ip[16]){
 	ExCloseSocket(fd);
 
 	return TRUE;
-#elif defined(EX_LINUX)|| defined(EX_ANDROID)
+#elif defined(EX_UNIX)
     int fd;
     struct ifreq ifr;
 
@@ -327,7 +329,7 @@ DECLSPEC int ELTAPIENTRY ExGetHostIp(char ip[16]){
 
     ifr.ifr_addr.sa_family = AF_INET;
 
-    strncpy(ifr.ifr_name, "eth0", IFNAMSIZ-1);
+    strncpy(ifr.ifr_name, "eth0", IFNAMSIZ-1);  /**/
 
     ioctl(fd, SIOCGIFADDR, &ifr);
 
