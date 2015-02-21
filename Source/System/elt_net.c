@@ -5,6 +5,7 @@
 #   include<sys/types.h>
 #   include<sys/socket.h>
 #   include<netinet/in.h>
+#   include<sys/un.h>       /*  sockaddr_un   */
 #   include<arpa/inet.h>
 #   include<sys/ioctl.h>
 #   include<errno.h>
@@ -108,6 +109,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
     unsigned int sockfd;
     unsigned int sock_domain,socket_protocol;
     struct sockaddr_in serv_addr, cli_addr;
+    struct sockaddr_un serv_addr_un;
     //struct sockaddr_un name;
 
     if(protocol & ELT_LOCAL){
@@ -138,7 +140,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
     }
     else if(protocol & ELT_TCP){
         socket_protocol = 0;
-        if((sockfd = socket(sock_domain, SOCK_STREAM, IPPROTO_IP)) == -1)
+        if((sockfd = socket(sock_domain, SOCK_STREAM, 0)) == -1)
             fprintf(stderr,strerror(errno));
     }
     else if(protocol & ELT_UDP){
@@ -191,6 +193,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port
 #elif defined(EX_UNIX)
     unsigned int sock_domain,socket_protocol;
     struct sockaddr_in serv_addr, cli_addr;
+    struct sockaddr_un serv_addr_un;
 	struct hostent* host;
 	host = gethostbyname(ip);
 

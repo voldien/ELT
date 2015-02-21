@@ -45,7 +45,7 @@ extern DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned i
 extern DECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(unsigned int socket);
 
 /**
-
+    Bind socket to ip and port address
 */
 extern DECLSPEC unsigned int ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port,unsigned int socket);
 
@@ -70,7 +70,7 @@ extern DECLSPEC int ELTAPIENTRY ExWriteSocket(unsigned int socket, unsigned char
 /**
 
 */
-extern DECLSPEC int ELTAPIENTRY ExGetHostIp(char ip[15]);
+extern DECLSPEC int ELTAPIENTRY ExGetHostIp(char ip[16]);
 
 
 #ifdef __cplusplus
