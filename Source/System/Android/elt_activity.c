@@ -37,13 +37,50 @@ void* elt_main(void* states){
 }
 
 
+
+
+static void onStart(ANativeActivity* activity){
+
+}
+static void onResume(ANativeActivity* activity){
+
+}
+static void onPause(ANativeActivity* activity){
+
+}
+static void onStop(ANativeActivity* activity){
+
+}
+static void onDestroy(ANativeActivity* activity){
+
+}
+static void onNativeWindowCreated(ANativeActivity* activity, ANativeWindow* window){
+
+}
+static void onInputQueueCreated(ANativeActivity* activity, AInputQueue* queue){
+
+
+}
+static void onContentRectChanged(ANativeActivity* activity, const ARect* rect){
+
+}
+static void onSaveInstanceState(ANativeActivity* activity, size_t* outlen){
+
+}
 /**
     entry point for Native Android.
 */
 void ANativeActivity_onCreate(ANativeActivity* activity, void* saveState, size_t saveStateSize){
 
 
+    activity->callbacks->onStart = onStart;
+    activity->callbacks->onResume = onResume;
+    activity->callbacks->onResume = onPause;
+    activity->callbacks->onStop = onStop;
 	activity->callbacks->onDestroy = ExQuit;
+
+
+	activity->callbacks->onSaveInstanceState = onSaveInstanceState;
 
 
 	ANativeActivity_setWindowFlags(activity, AWINDOW_FLAG_KEEP_SCREEN_ON,AWINDOW_FLAG_KEEP_SCREEN_ON);
