@@ -35,10 +35,9 @@ void* elt_main(void* states){
 		return main(0,NULL);
     else return EXIT_FAILURE;
 }
+/*
 
-
-
-
+*/
 static void onStart(ANativeActivity* activity){
 
 }
@@ -58,8 +57,15 @@ static void onNativeWindowCreated(ANativeActivity* activity, ANativeWindow* wind
 
 }
 static void onInputQueueCreated(ANativeActivity* activity, AInputQueue* queue){
-
-
+    int (*processEvent)(int fd, int events, void* data);
+    AInputQueue_attachLooper(queue,
+                            ALooper_prepare(ALOOPER_PREPARE_ALLOW_NON_CALLBACKS),
+                             1,
+                             processEvent,
+                              NULL);
+}
+static void onInputQueueDestroyed(ANativeActivity* activity, AInputQueue* queue){
+    AInputQueue_detachLooper(queue);
 }
 static void onContentRectChanged(ANativeActivity* activity, const ARect* rect){
 

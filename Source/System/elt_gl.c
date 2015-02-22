@@ -152,7 +152,7 @@ EGL_BUFFER_SIZE, 16,
       EGL_NONE
     };
 #elif defined(EX_ANDROID)
-	eglDisplay = eglGetDisplay(NULL);
+	eglDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
     EGLint ctxattr[] = {
       EGL_CONTEXT_CLIENT_VERSION, 2,
       EGL_NONE

@@ -3,7 +3,7 @@
 #   include<Windows.h>
 #elif defined(EX_UNIX)
 #   include<unistd.h>
-#endif // EX_WINDOWS
+#endif
 
 
 DECLSPEC int ELTAPIENTRY ExGetPageSize(void){
