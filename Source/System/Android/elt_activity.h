@@ -29,7 +29,7 @@ extern "C"{
     Get native Activity pointer
 */
 extern DECLSPEC void* ELTAPIENTRY ExGetNativeActivity(void);
-
+extern DECLSPEC void* ELTAPIENTRY ExGetNativeLooper(void);
 
 
 #ifdef __cplusplus

@@ -1,5 +1,5 @@
 #include"elt_activity.h"
-
+#include"./../../elt_timer.h"
 #ifdef EX_ANDROID
 #include <android/window.h>
 #include <android/native_activity.h>
@@ -27,13 +27,24 @@ DECLSPEC void* ELTAPIENTRY ExGetNativeActivity(void){
 
 
 #ifdef EX_ANDROID
+static void initMain(void){
+
+
+}
 /**
     Initialization of Android Native
 */
 void* elt_main(void* states){
+		
+	ExDelay(500);
+
+
 	if(main)
 		return main(0,NULL);
-    else return EXIT_FAILURE;
+    	else{
+	printf("failed to find main entry point");
+		return EXIT_FAILURE;
+	}
 }
 /*
 
@@ -57,12 +68,13 @@ static void onNativeWindowCreated(ANativeActivity* activity, ANativeWindow* wind
 
 }
 static void onInputQueueCreated(ANativeActivity* activity, AInputQueue* queue){
-    int (*processEvent)(int fd, int events, void* data);
+/*    int (*processEvent)(int fd, int events, void* data);
     AInputQueue_attachLooper(queue,
                             ALooper_prepare(ALOOPER_PREPARE_ALLOW_NON_CALLBACKS),
                              1,
                              processEvent,
                               NULL);
+*/
 }
 static void onInputQueueDestroyed(ANativeActivity* activity, AInputQueue* queue){
     AInputQueue_detachLooper(queue);
@@ -77,7 +89,7 @@ static void onSaveInstanceState(ANativeActivity* activity, size_t* outlen){
     entry point for Native Android.
 */
 void ANativeActivity_onCreate(ANativeActivity* activity, void* saveState, size_t saveStateSize){
-
+    ExPrintf("on Create");
 
     activity->callbacks->onStart = onStart;
     activity->callbacks->onResume = onResume;
