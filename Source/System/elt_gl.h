@@ -28,7 +28,7 @@
 #elif defined(EX_MAC)
 	#define ExSwapBuffers glSwapBuffers
 #elif defined(EX_ANDROID)
-	#define ExSwapBuffers eglSwapBuffers
+	#define ExSwapBuffers(surface) eglSwapBuffers(eglGetDisplay(EGL_DEFAULT_DISPLAY),surface)
 #endif
 /**
 	default opengl includer
