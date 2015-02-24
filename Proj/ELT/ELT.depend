@@ -117,7 +117,7 @@
 	"System/elt_gl.h"
 	"System/Win32/win_directX.h"
 
-1423907550 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_gl.h
+1424715331 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_gl.h
 	"./../ExPreProcessor.h"
 	<Windows.h>
 	"Win32/win_win32.h"
@@ -203,7 +203,7 @@
 	<libgen.h>
 	<Winbase.h>
 
-1424185237 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_thread.c
+1424788432 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/elt_thread.c
 	"elt_thread.h"
 	<pthread.h>
 	<errno.h>
@@ -1019,12 +1019,15 @@
 1423560946 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_surface.h
 	"elt_win.h"
 
-1424260236 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/Android/elt_activity.h
+1424718243 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/Android/elt_activity.h
 	<stdio.h>
 	"../../EngineAssembly.h"
 
-1424629678 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/Android/elt_activity.c
+1424789813 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/Android/elt_activity.c
 	"elt_activity.h"
+	"./../../elt_timer.h"
 	<android/window.h>
 	<android/native_activity.h>
+	<android/asset_manager.h>
+	<android/configuration.h>
 
