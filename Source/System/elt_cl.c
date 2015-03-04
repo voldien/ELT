@@ -45,7 +45,7 @@
 #define ELT_CL_CPU_INDEX(x) ((x & 0x0000ff00))
 
 #ifndef EX_ANDROID  /*  TODO resolve this provisional approach to solve the problem*/
-
+cl_context hClContext = NULL;
 
 /**/
 extern DECLSPEC int ELTAPIENTRY ExGetOpenCLDevice(cl_platform_id platform,cl_device_id* device,unsigned int flag);
@@ -60,7 +60,7 @@ static char* get_device_extension(cl_device_id device){
     return extension;
 }
 
-cl_context hClContext = NULL;
+
 DECLSPEC void* ELTAPIFASTENTRY ExGetCLContext(void){return hClContext;}
 
 DECLSPEC void* ELTAPIFASTENTRY ExGetCurrentCLContext(void){return hClContext;}

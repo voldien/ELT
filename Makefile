@@ -1,6 +1,9 @@
+#!/bin/bash
 # Engine Library ToolKit (ELT)
 # Makefile
 CC = gcc
+CFLAGS=-Wall
+CLIBS=-lGL -lX11 
 # archive 
 ARCHIVE=ar
 DYNAMIC_FLAG=-shared
@@ -33,7 +36,7 @@ LINK_TARGET=EngineEx$(EXE_EXT)
 	
 
 all: $(LINK_TARGET)
-	echo Done
+	echo -en "Done $(du -h libEngineEx.so)"
 
 $(LINK_TARGET) : $(OBJS)
 	$(CC) $(CFLAGS) *.o -o $(LINK_TARGET)  $(LIBS)

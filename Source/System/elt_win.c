@@ -270,11 +270,10 @@ DECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin window){
 DECLSPEC void ELTAPIENTRY ExSetWindowMode(ExWin window, Enum mode){
 #ifdef EX_WINDOW
     if(mode & EX_WIN_SCREENSAVER_ENABLE){
-
+        ExLoadLibrary(EX_TEXT("scrnsave.dll"));
     }
 
 #elif defined(EX_LINUX)
-
     if(mode & EX_WIN_SCREENSAVER_ENABLE){
 
     }

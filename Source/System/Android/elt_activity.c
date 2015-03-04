@@ -54,6 +54,7 @@ void* elt_main(void* states){
 	//	return EXIT_FAILURE;
 	//}
 
+
 	return NULL;
 }
 /*
@@ -115,6 +116,7 @@ static void onSaveInstanceState(ANativeActivity* activity, size_t* outlen){
 }
 
 static void  onLowMemory(ANativeActivity* activity){
+
 
 }
 /**
