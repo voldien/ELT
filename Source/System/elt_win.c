@@ -156,7 +156,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
         void* glx_window; //GLXWindow
 		window = ExCreateGLWindow(x,y,width, height,&glx_window);
         glc = ExCreateGLContext(glx_window == NULL ? glx_window : window);
-		ExMakeGLCurrent(glx_window == NULL ? glx_window : window,glc);
+		ExMakeGLCurrent(glx_window != NULL ? glx_window : window,glc);
 		ExInitOpenGLStates(NULL);
 
 		ExSetWindowIcon(window,       /*TODO make it works nice*/
