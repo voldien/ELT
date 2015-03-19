@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _ELT_WIN_H
-#define _ELT_WIN_H 1
+#ifndef _ELT_WIN_H_
+#define _ELT_WIN_H_ 1
 #include"./../EngineAssembly.h"
 #include"elt_event.h"
 #include"elt_cl.h"

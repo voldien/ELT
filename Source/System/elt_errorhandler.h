@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef ELT_ERROR_HANDLER_H_
-#define ELT_ERROR_HANDLER_H_ 1
+#ifndef _ELT_ERROR_HANDLER_H_
+#define _ELT_ERROR_HANDLER_H_ 1
 #include"./../EngineAssembly.h"
 #include"./../elt_console.h"
 

@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef ELT_MOUSE_H
-#define ELT_MOUSE_H
+#ifndef _ELT_MOUSE_H_
+#define _ELT_MOUSE_H_ 1
 #include"./../EngineAssembly.h"
 #include"./../System/elt_errorhandler.h"
 #ifdef EX_WINDOWS

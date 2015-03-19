@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef UNIX_WIN_H
-#define UNIX_WIN_H
+#ifndef _UNIX_WIN_H_
+#define _UNIX_WIN_H_ 1
 #include"./../../EngineAssembly.h"
 
 #ifdef EX_LINUX

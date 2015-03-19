@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef ELT_AUDIO_H
-#define ELT_AUDIO_H
+#ifndef _ELT_AUDIO_H_
+#define _ELT_AUDIO_H_
 #include"./../EngineAssembly.h"
 #ifdef __cplusplus	// C++ Environment
 extern "C"{

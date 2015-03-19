@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef EX_PRE_PROCESSOR_H
-#define EX_PRE_PROCESSOR_H
+#ifndef _EX_PRE_PROCESSOR_H_
+#define _EX_PRE_PROCESSOR_H_ 1
 #include<stddef.h>
 
 #ifdef __cplusplus

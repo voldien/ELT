@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef EX_NT_H
-#define EX_NT_H
+#ifndef _EX_NT_H_
+#define _EX_NT_H_ 1
 #include"ExPreProcessor.h"
 #if defined(EX_WINDOWS)
 	#include<Windows.h>

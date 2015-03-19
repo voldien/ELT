@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef ELT_EVENT_H
-#define ELT_EVENT_H
+#ifndef _ELT_EVENT_H_
+#define _ELT_EVENT_H_ 1
 #include"./../ExNT.h"
 
 #ifdef EX_LINUX

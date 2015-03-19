@@ -31,8 +31,8 @@
 #ifdef  __cplusplus	// C++ Environment
 extern "C"{
 #endif
-/*
-	// Thread Priority
+/**
+	Thread Priority
 */
 #define EX_THREAD_PRIORITY_LOW 0x1
 #define EX_THREAD_PRIORITY_MEDIUM 0x2
@@ -50,6 +50,7 @@ extern DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callb
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread);
 /*
+
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExExitThread(ExThread thread);
 

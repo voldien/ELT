@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef MATRICES_H
-#define MATRICES_H
+#ifndef _MATRICES_H_
+#define _MATRICES_H_ 1
 #include"System/elt_gl.h"
 #ifdef EX_WINDOWS
 	#include"System/Win32/win_directX.h"

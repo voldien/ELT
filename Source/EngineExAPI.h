@@ -35,8 +35,8 @@
 // #define ENGINE_EX_STATIC_TO_DLL_BUILD	// Use as Static Lib to DLL
 // #define ENGINE_EX_DLL_IMPORT				// Import DLL
 // #define ENGINE_EX_DLL_INSIDE				// DLL inside of current DLL's Lib Connection File.
-#ifndef ENGINE_EX_API
-#define ENGINE_EX_API
+#ifndef _ENGINE_EX_API_
+#define _ENGINE_EX_API_ 1
 
 #ifndef EX_EXTERNAL_DICTIONARY
 	#define EX_INTERNAL_DICTIONARY

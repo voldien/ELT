@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _ELT_QUATERNION_H
-#define _ELT_QUATERNION_H
+#ifndef _ELT_QUATERNION_H_
+#define _ELT_QUATERNION_H_ 1
 #include<math.h>
 #include"vect.h"
 

@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _ELT_FILE_H
-#define _ELT_FILE_H 1
+#ifndef _ELT_FILE_H_
+#define _ELT_FILE_H_ 1
 #include"./../EngineAssembly.h"
 #ifdef __cplusplus //	C++ Environment
 extern "C"{

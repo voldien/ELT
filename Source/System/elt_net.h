@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _ELT_NET_H
-#define _ELT_NET_H 1
+#ifndef _ELT_NET_H_
+#define _ELT_NET_H_ 1
 #include"./../EngineAssembly.h"
 
 #define ELT_CLIENT 0x1  /*  Client socket*/

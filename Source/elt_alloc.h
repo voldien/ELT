@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _ELT_ALLOC_H
-#define _ELT_ALLOC_H
+#ifndef _ELT_ALLOC_H_
+#define _ELT_ALLOC_H_ 1
 #include"EngineAssembly.h"
 
 #define DATABLOCK 0x1000 // 4096 // 4 kbyte

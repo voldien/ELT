@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef ELT_JOYSTICK_H
-#define ELT_JOYSTICK_H
+#ifndef _ELT_JOYSTICK_H_
+#define _ELT_JOYSTICK_H_ 1
 #include"./../EngineAssembly.h"
 
 

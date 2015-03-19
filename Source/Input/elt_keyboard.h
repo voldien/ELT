@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef ELT_KEYBOARD_H
-#define ELT_KEYBOARD_H
+#ifndef _ELT_KEYBOARD_H_
+#define _ELT_KEYBOARD_H_ 1
 #include"./../EngineAssembly.h"
 #include"eltkeycode.h"
 #ifndef DIRECTINPUT_VERSION

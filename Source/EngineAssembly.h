@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef ENGINE_ASSEMBLY_DEFINITION
-#define ENGINE_ASSEMBLY_DEFINITION
+#ifndef _ENGINE_ASSEMBLY_DEFINITION_
+#define _ENGINE_ASSEMBLY_DEFINITION_ 1
 
 #include"ExPreProcessor.h"
 #include"ExNT.h"
