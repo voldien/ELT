@@ -41,31 +41,41 @@ struct expoint{
 #define EX_EVENT_DROP 0x80
 #define EX_EVENT_QUIT 0x100
 
-struct ExSystemEvent{
-	Uint32 message;
-};
-struct ExSizeEvent{
-	Int32 width, height;
-};
-struct ExJoySticEvent{
+typedef struct ex_system_event{
+	unsigned int message;
+}ExSystemEvent;
+
+typedef struct ex_size_event{
+	int width;
+	int height;
+}ExSizeEvent;
+
+typedef struct ex_joy_stick_event{
 	Uint8 button[5];
-};
-struct ExJoySticMoveEvent{
+}ExJoyStickEvent;
+
+typedef struct ex_joystick_move_event{
 	Uint32 x[3];
-};
-struct ExJoySticButtonEvent{
+}ExJoySticMoveEvent;
+
+typedef struct ex_joystick_button_event{
 	Uint8 button[5];
-};
-struct ExMouseMoveEvent{
-	Int32 x,y;
-};
-struct elt_win_button_event{
+}ExJoySticButtonEvent;
+
+typedef struct ex_mouse_move_event{
+	int x;
+    int y;
+}ExMouseMoveEvent;
+
+typedef struct elt_win_button_event{
 	Uint8 button;
-};
-struct ExMouseWheelEvent{
-	Int32 delta;
-	Int32 x,y;
-};
+}ExWinButtonEvent;
+
+typedef struct ex_mouse_wheel_event{
+	int delta;
+	int x,y;
+}ExMouseWheelEvent;
+
 typedef struct ex_key_event{
 	Uint8 code;
 	Uint8 alt;
@@ -74,33 +84,31 @@ typedef struct ex_key_event{
 	Uint8 ctrl;
 }ExKeyEvent;
 
-
 struct ex_drop_event{
-	Int32 number;
-	Int32 cize;
+	int number;
+	int cize;
 };
 
 typedef struct ex_touch_finger_event{
-    unsigned int type;          /**/
-    unsigned int touchid;       /**/
-    unsigned int fingerid;      /**/
-    float x;                    /**/
-    float y;                    /**/
-    float dx;                   /**/
-    float dy;                   /**/
-    float pressure;             /**/
-
+    unsigned int type;          /*              */
+    unsigned int touchid;       /*              */
+    unsigned int fingerid;      /*              */
+    float x;                    /*              */
+    float y;                    /*              */
+    float dx;                   /*              */
+    float dy;                   /*              */
+    float pressure;             /*              */
 }ExTouchFingerEvent;
 
 
 typedef struct window_poll_events{
-	Enum event;
-	ExKeyEvent key;
-	EX_C_STRUCT ExSizeEvent size;
-	EX_C_STRUCT ExMouseMoveEvent mouse;
-	EX_C_STRUCT ExMouseWheelEvent mouseWheelEvent;
-	EX_C_STRUCT elt_win_button_event button;
-	EX_C_STRUCT ex_drop_event drop;
+	Enum event;                                     /*      */
+	ExKeyEvent key;                                 /*      */
+	ExSizeEvent size;                               /*      */
+	ExMouseMoveEvent mouse;                         /*      */
+	ExMouseWheelEvent mouseWheelEvent;              /*      */
+	EX_C_STRUCT elt_win_button_event button;        /*      */
+	EX_C_STRUCT ex_drop_event drop;                 /*      */
 
 #ifdef EX_WINDOWS
 	union{
@@ -108,12 +116,12 @@ typedef struct window_poll_events{
 		MSG msg;
 #endif
 		struct{
-			ExWin       hwnd;		//
-			Uint32      message;	//
-			Uint32		wParam;		//
-			Long		lParam;		//
-			ULong       time;		//
-			EX_C_STRUCT expoint	pt;	//
+			ExWin       hwnd;		/*      */
+			Uint32      message;	/*      */
+			Uint32		wParam;		/*      */
+			Long		lParam;		/*      */
+			ULong       time;		/*      */
+			EX_C_STRUCT expoint	pt;	/*      */
 		};
 	};
 #elif defined(EX_LINUX)
@@ -132,15 +140,15 @@ typedef struct elt_poll_events{
         Enum eventid;
         Enum event;
 	};
-    ExKeyEvent key;
-	EX_C_STRUCT ExMouseMoveEvent mouse;
-	EX_C_STRUCT ExMouseWheelEvent mouseWheelEvent;
-	EX_C_STRUCT elt_win_button_event button;
-	EX_C_STRUCT ExSystemEvent sys;
-	EX_C_STRUCT ex_drop_event drop;
-	EX_C_STRUCT ExSizeEvent size;
-	EX_C_STRUCT ExSystemEvent system;
-	ExTouchFingerEvent touch;
+    ExKeyEvent key;                                 /*          */
+	ExMouseMoveEvent mouse;                         /*          */
+	ExMouseWheelEvent mouseWheelEvent;              /*          */
+	EX_C_STRUCT elt_win_button_event button;        /*          */
+	ExSystemEvent sys;                              /*          */
+	EX_C_STRUCT ex_drop_event drop;                 /*          */
+	ExSizeEvent size;                               /*          */
+	ExSystemEvent system;                           /*          */
+	ExTouchFingerEvent touch;                       /*          */
 
 #ifdef EX_WINDOWS
 	union{

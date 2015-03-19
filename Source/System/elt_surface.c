@@ -26,25 +26,40 @@ DECLSPEC void* ExCreatSurface(unsigned int width, unsigned height, unsigned int 
          surface_bits_per_pixel(format),
          ZPixmap, 0, (char*)buffer,width,height,8,0  );
     return image;
+#elif defined(EX_ANDROID)
+
 #endif
 }
 
 
 DECLSPEC int ExDestroySurface(void* handle){
 #ifdef EX_WINDOWS
-
+    return DeleteObject(handle);
 #elif defined(EX_LINUX)
     return XDestroyImage((XImage*)handle);
+#elif defined(EX_ANDROID)
+
 #endif
 }
 
 
 
-DECLSPEC int ExSetSurfacePixe(void* handle, unsigned int x, unsigned int y, long pixel){
+DECLSPEC int ExSetSurfacePixel(void* handle, unsigned int x, unsigned int y, long pixel){
+#ifdef EX_WINDOWS
+    return SetPixel(handle,x,y,pixel);
+#elif defined(EX_LINUX)
+    return XPutPixel((XImage*)handle, x,y, pixel);
+#elif defined(EX_ANDROID)
+
+#endif
+}
+
+DECLSPEC int ExFillRect(void* handle,struct exrect* rect, unsigned int  color){
 #ifdef EX_WINDOWS
 
 #elif defined(EX_LINUX)
-    return XPutPixel((XImage*)handle, x,y, pixel);
-#endif // EX_WINDOWS
 
+#elif defined(EX_ANDROID)
+
+#endif
 }

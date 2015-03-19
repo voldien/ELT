@@ -24,30 +24,35 @@
 #define RGB_COLOR(r,g,b)	(r << 24) | (g << 16) | (b << 8)
 #define RGB_COLOR(r,g,b)	((r << 24) | (g << 16) | (b << 8) | a)
 
-
 #define EX_RGB 0x20
 #define EX_RGBA 0x40
 
-#ifdef __cplusplus
+#ifdef __cplusplus // C++ environment
 extern "C"{
 #endif
 /**
     Create Surface
 */
 extern DECLSPEC void* ExCreatSurface(unsigned int width, unsigned height, unsigned int format);
-
+/**
+    release surface.
+*/
 extern DECLSPEC int ExDestroySurface(void* handle);
-
+/**
+    resize surface handle
+*/
 extern DECLSPEC int ExResizeSurface(void* handle, unsigned int width, unsigned height);
-
-extern DECLSPEC int ExSetSurfacePixe(void* handle, unsigned int x, unsigned int y, long pixel);
-
-
+/**
+    set surface window
+*/
+extern DECLSPEC int ExSetSurfacePixel(void* handle, unsigned int x, unsigned int y, long pixel);
+/**
+    set fill color..
+*/
 extern DECLSPEC int ExFillRect(void* handle,struct exrect* rect, Uint32 color);
 
 
-
-#ifdef __cplusplus
+#ifdef __cplusplus // C++ environment
 }
 #endif
 

@@ -21,7 +21,7 @@
 #define _ELT_ACTIVITY_H_ 1
 #include<stdio.h>
 #include"../../EngineAssembly.h"
-#ifdef __cplusplus
+#ifdef __cplusplus // C++ environment
 extern "C"{
 #endif
 
@@ -32,7 +32,7 @@ extern DECLSPEC void* ELTAPIENTRY ExGetNativeActivity(void);
 extern DECLSPEC void* ELTAPIENTRY ExGetNativeLooper(void);
 
 
-#ifdef __cplusplus
+#ifdef __cplusplus // C++ environment
 }
 #endif
 

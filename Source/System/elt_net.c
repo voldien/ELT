@@ -189,7 +189,11 @@ DECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(unsigned int socket){
 
 DECLSPEC unsigned int ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port,unsigned int socket){
 #ifdef EX_WINDOWS
+    SOCKADDR_IN serv_addr, cli_addr;
 
+	if(bind(socket,(SOCKADDR *)&serv_addr, sizeof(serv_addr)) == SOCKET_ERROR){
+		wprintf(EX_TEXT("connect function failed with error: %ld\n"), WSAGetLastError());
+	}
 #elif defined(EX_UNIX)
     unsigned int sock_domain,socket_protocol;
     struct sockaddr_in serv_addr, cli_addr;
@@ -344,6 +348,6 @@ DECLSPEC int ELTAPIENTRY ExGetHostIp(char ip[16]){
 
     ip[strlen(inet_ntoa(((struct sockaddr_in*)&ifr.ifr_addr)->sin_addr))] = '\0';   /*end the string*/
     return TRUE;
-#endif // EX_WINDOWS
+#endif
 
 }
