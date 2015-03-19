@@ -17,15 +17,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef ELT_THREAD_H_ 1
+#ifndef ELT_THREAD_H_
 #define ELT_THREAD_H_ 1
 #include"EngineAssembly.h"
 #include"ExNT.h"
+
 #if defined(EX_WINDOWS)
 	#define ExSleep Sleep
-#elif defined(EX_LINUX)
-	#define ExSleep usleep
-#elif defined(EX_MAC)
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
 	#define ExSleep usleep
 #endif
 

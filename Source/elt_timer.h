@@ -28,9 +28,10 @@
 
 #ifdef EX_WINDOWS
 	#define ExCurrentTime timeGetTime	// Get Current Time
-#elif defined(EX_LINUX) || defined(EX_UNIX)
+#elif defined(EX_LINUX) || defined(EX_UNIX) || defined(EX_ANDROID)
 	#define ExCurrentTime(x) time(NULL)	// Get Current Time
 #endif
+
 #define ExGetCurrentTimeHiRes clock
 #define EX_TICKS_PER_SECOND CLOCKS_PER_SEC
 
