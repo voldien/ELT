@@ -18,7 +18,7 @@
 
 */
 #ifndef _ELT_KEYCODE_H_
-#define _ELT_KEYCODE_H_
+#define _ELT_KEYCODE_H_ 1
 
 enum KeyCodes {
     EX_UNKNOWN = 0,

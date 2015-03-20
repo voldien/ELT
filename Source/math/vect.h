@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _ELT_VECT_H
-#define _ELT_VECT_H
+#ifndef _ELT_VECT_H_
+#define _ELT_VECT_H_ 1
 
 #ifndef ALIGN
 #   ifdef _WIN32

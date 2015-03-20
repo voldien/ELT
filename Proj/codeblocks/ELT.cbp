@@ -145,7 +145,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../Source/System/Android/elt_activity.h" />
-		<Unit filename="../../Source/System/Unix/unix_dialog.h" />
 		<Unit filename="../../Source/System/Unix/unix_win.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -17,12 +17,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _ELT_FRUSTUM_H
-#define _ELT_FRUSTUM_H
+#ifndef _ELT_FRUSTUM_H_
+#define _ELT_FRUSTUM_H_ 1
 #include"vect.h"
 #include"matrix.h"
 
-#ifdef __cplusplus
+#ifdef __cplusplus	// C++ Environment
 extern "C"{
 #endif
 
@@ -39,7 +39,7 @@ extern int frustum_point(const vec3_t point, struct frustum* f);
 
 
 
-#ifdef __cplusplus
+#ifdef __cplusplus	// C++ Environment
 }
 #endif
 

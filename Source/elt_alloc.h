@@ -21,7 +21,7 @@
 #define _ELT_ALLOC_H_ 1
 #include"EngineAssembly.h"
 
-#define DATABLOCK 0x1000 // 4096 // 4 kbyte
+#define DATABLOCK 0x1000    // 4096 // 4 kbyte
 #define ExMallocBlock(size) (malloc((( ( size ) / DATABLOCK) + 1) * DATABLOCK))
 #define ExMalloc malloc
 #define ExCalloc calloc

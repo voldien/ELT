@@ -1,12 +1,15 @@
 #include"elt_activity.h"
 #include"./../../elt_timer.h"
+
+
 #ifdef EX_ANDROID
 #include <android/window.h>
 #include <android/native_activity.h>
 #include <android/asset_manager.h>
 #include <android/configuration.h>
+#include<EGL/egl.h>
 
-/*
+/**
 	entry point for normal application to be found here.
 */
 extern struct android_app* ex_app;
@@ -48,7 +51,7 @@ void* elt_main(void* states){
 	ExDelay(500);
 
 	//if(main)
-		return main(0,NULL);
+    return main(0,NULL);
    // else{
      //   printf("failed to find main entry point");
 	//	return EXIT_FAILURE;
@@ -58,7 +61,7 @@ void* elt_main(void* states){
 	return NULL;
 }
 /*
-
+    OnStart
 */
 static void onStart(ANativeActivity* activity){
 
@@ -123,12 +126,10 @@ static void  onLowMemory(ANativeActivity* activity){
     entry point for Native Android.
 */
 void ANativeActivity_onCreate(ANativeActivity* activity, void* saveState, size_t saveStateSize){
+
      elt_activity = activity;
 
-
-
-
-    /*
+    /**
         callbacks
     */
     activity->callbacks->onStart = onStart;
@@ -156,6 +157,8 @@ void ANativeActivity_onCreate(ANativeActivity* activity, void* saveState, size_t
 
 	ANativeActivity_setWindowFlags(activity, AWINDOW_FLAG_KEEP_SCREEN_ON,AWINDOW_FLAG_KEEP_SCREEN_ON);
 
+
+    eglInitialize(eglGetDisplay(EGL_DEFAULT_DISPLAY),NULL,NULL);
 
     /*  create the main thread  */
     ExCreateThread(elt_main,0,0);
