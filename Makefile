@@ -29,6 +29,7 @@ endif
 SRCS = $(wildcard *.c)
 OBJS = $(patsubst %.c,%.o,$(SRCS))
 
+
 CFLAGS=-g -Wall $(DYNAMIC_FLAG) $(ENVIROMENT_PRE_PROCESSOR) $(INCLUDE_PATH) $(LINK_PATH)
 
 # target 
