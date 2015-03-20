@@ -21,19 +21,19 @@
 DECLSPEC void ELTAPIENTRY ExUnRegisterClasses(void){
 	ExChar text[MAX_PATH];
 	if(!FindWindowEx(0,0,EX_OPENGL_WINDOW_CLASS,0))
-		if(UnregisterClass(EX_OPENGL_WINDOW_CLASS, GetModuleHandle(EX_NULL)))
+		if(UnregisterClass(EX_OPENGL_WINDOW_CLASS, GetModuleHandle(NULL)))
 			wsprintf(text, EX_TEXT("failed to unregister class : %s"), EX_OPENGL_WINDOW_CLASS);
 
 	if(!FindWindowEx(0,0,EX_NATIVE_WINDOW_CLASS,0))
-		if(UnregisterClass(EX_NATIVE_WINDOW_CLASS, GetModuleHandle(EX_NULL)))
+		if(UnregisterClass(EX_NATIVE_WINDOW_CLASS, GetModuleHandle(NULL)))
 			wsprintf(text, EX_TEXT("failed to unregister class : %s"), EX_NATIVE_WINDOW_CLASS);
 
 	if(!FindWindowEx(0,0,EX_DIRECTX_WINDOW_CLASS,0))
-		if(UnregisterClass(EX_DIRECTX_WINDOW_CLASS, GetModuleHandle(EX_NULL)))
+		if(UnregisterClass(EX_DIRECTX_WINDOW_CLASS, GetModuleHandle(NULL)))
 			wsprintf(text, EX_TEXT("failed to unregister class : %s"), EX_DIRECTX_WINDOW_CLASS);
 }
 
-DECLSPEC ExWin ELTAPIENTRY ExCreateDirectXWindow(Int32 x, Int32 y, Int32 width, Int32 height){
+DECLSPEC ExWin ELTAPIENTRY ExCreateDirectXWindow(int x, int y, int width, int height){
 	HWND hWnd;
 	ExChar title[260];
 	WNDCLASSEX wc = {0};
@@ -168,7 +168,6 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateMIDWindow(Int32 x, Int32 y, Int32 width , Int
 	if(!(hwnd = CreateMDIWindow(EX_TEXT("ExMIDWindow"),EX_TEXT(""),WS_MAXIMIZE, x,y,width, height, GetDesktopWindow(),wc.hInstance, EX_NULL))){
 		wExDevPrintf(EX_TEXT("Failed to Create MID Window | %s"), ExGetErrorMessage(GetLastError()));
 	}
-	ShowWindow(hwnd, SW_SHOW);
 	return hwnd;
 }
 

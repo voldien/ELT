@@ -3,8 +3,8 @@
 Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 
 */
-#ifndef WIN32_WINDOW_H
-#define WIN32_WINDOW_H
+#ifndef _WIN32_WINDOW_H_
+#define _WIN32_WINDOW_H_ 1
 #include"./../../ExPreProcessor.h"
 #ifdef EX_WINDOWS
 #include<Windows.h>
@@ -25,10 +25,10 @@ typedef void(ELTAPIENTRY *SystemKeyDown)(WPARAM wParam, LPARAM lParam);
 typedef int(ELTAPIENTRY *MouseButton)(Enum action, Enum buttonID);
 
 #ifdef __cplusplus // C++ environment
-C_EXTERN{
+extern "C"{
 #endif
 /*
-	// windows classes
+	windows classes
 */
 #define EX_OPENGL_WINDOW_CLASS EX_TEXT("OpenGL_Window")
 #define EX_NATIVE_WINDOW_CLASS EX_TEXT("Native_Window")
@@ -80,25 +80,20 @@ extern CallBack ExOnUnFocus;
 extern DECLSPEC void ELTAPIENTRY ExUnRegisterClasses(void);
 
 /* Create Window dedicated for DirectX*/
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateDirectXWindow(Int32 x, Int32 y, Int32 width, Int32 height);
+extern DECLSPEC ExWin ELTAPIENTRY ExCreateDirectXWindow(int x, int y, int width,int height);
 /**/
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateOpenGLWindow(Int32 x, Int32 y, Int32 width, Int32 height);
+extern DECLSPEC ExWin ELTAPIENTRY ExCreateOpenGLWindow(int x, int y, int width,int height);
 /**/
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height);
+extern DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(int x, int y, int width, int height);
 
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateDesktopWindow(Int32 x, Int32 y, Int32 width, Int32 height);
+extern DECLSPEC ExWin ELTAPIENTRY ExCreateDesktopWindow(int x, int y, int width, int height);
 
 /*	Create MID Window*/
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateMIDWindow(Int32 x, Int32 y, Int32 width , Int32 height);
+extern DECLSPEC ExWin ELTAPIENTRY ExCreateMIDWindow(int x, int y, int width , int height);
 
 
 /* ReCreate the Window For OpenGL purpose */
 extern DECLSPEC ExWin ELTAPIENTRY ExReConstructWindow(ExWin hWnd);
-
-//----------------------------------------------------------------
-extern DECLSPEC void ELTAPIENTRY ExOpenWindow(ExWin hWnd);
-//----------------------------------------------------------------
-extern DECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin hWnd);
 
 
 /* Set Window Processor [ HWND hwnd, WNDPROC procPointer] */
@@ -139,6 +134,5 @@ extern DECLSPEC void ELTAPIENTRY ExRunWinPeekMessage(void);
 #include"win_controls.h"
 #include"wnd_filedialog.h"
 #include"wnd_input.h"
-#include"win_GL.h"
 #endif
 #endif
