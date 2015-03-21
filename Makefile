@@ -26,6 +26,10 @@ else
 endif
 
 #check if cmdlib exist! otherwise, error! 
+
+vpath %.c source
+vpath %.h include
+
 SRCS = $(wildcard *.c)
 OBJS = $(patsubst %.c,%.o,$(SRCS))
 
@@ -44,6 +48,9 @@ $(LINK_TARGET) : $(OBJS)
 	
 %.o : %.c
 	$(CC) $(CFLAGS) -c $< $(LIBS)
+
+install :
+	
 
 clean:
 	rm -f *.o

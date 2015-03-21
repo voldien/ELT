@@ -126,7 +126,7 @@
 	"elt_win.h"
 	"elt_win.h"
 
-1420908152 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/Win32/win_win32.h
+1426838719 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/Win32/win_win32.h
 	"./../../ExPreProcessor.h"
 	<Windows.h>
 	"./../../EngineAssembly.h"
@@ -137,7 +137,6 @@
 	"win_controls.h"
 	"wnd_filedialog.h"
 	"wnd_input.h"
-	"win_GL.h"
 
 1420908152 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/Win32/win_wndproc.h
 	"win_win32.h"
@@ -291,7 +290,7 @@
 1426781793 /media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/System/elt_audio.h
 	"./../EngineAssembly.h"
 
-1426184005 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/main.c
+1426847505 source:/media/voldie/WC_GREEN_1TB/CodeProjects/ELT/Source/main.c
 	"EngineAssembly.h"
 	<CL/cl.h>
 	<CL/cl.h>
