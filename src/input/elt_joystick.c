@@ -1,4 +1,4 @@
-#include"elt_joystick.h"
+#include"input/elt_joystick.h"
 #include<string.h>
 
 

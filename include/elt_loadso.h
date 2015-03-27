@@ -20,7 +20,7 @@
 #ifndef ELT_LOADSO_H_
 #define ELT_LOADSO_H_ 1
 #include"EngineAssembly.h"
-#include"System/elt_win.h"
+#include"system/elt_win.h"
 #ifdef  __cplusplus	// C++ Environment
 extern "C"{
 #endif

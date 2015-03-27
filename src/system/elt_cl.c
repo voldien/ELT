@@ -1,4 +1,4 @@
-#include"elt_cl.h"
+#include"system/elt_cl.h"
 #if defined(EX_WINDOWS)
 #   define OPENCL_LIBRARY_NAME EX_TEXT("OpenCL.dll")
 	#include<CL/cl.h>

@@ -1,13 +1,13 @@
-#include"elt_win.h"
-#include"elt_gl.h"
-#include"elt_cl.h"
+#include"system/elt_win.h"
+#include"system/elt_gl.h"
+#include"system/elt_cl.h"
 #if defined(EX_WINDOWS)
-	#include"Win32/win_win32.h"
-	#include"Win32/wnd_input.h"
+	#include"system/win/win_win32.h"
+	#include"system/win/wnd_input.h"
 	#include<WindowsX.h>
 	#include<EGL/egl.h>
 #elif defined(EX_LINUX)
-	#include"Unix/unix_win.h"
+	#include"unix/unix_win.h"
 	#include<X11/Xlib.h>
 	#include<EGL/egl.h>
 	#include<GL/glx.h>
@@ -28,11 +28,11 @@
 #   endif
 
 #elif defined(EX_MAC)
-	#include"Mac/macosx_win.h"
+	#include"system/mac/macosx_win.h"
 	#include<EGL/egl.h>
 #endif
 
-#include"../elt_icon.h"
+#include"system/elt_icon.h"
 // Ex Create OpenGL ES declaration
 extern DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window);
 

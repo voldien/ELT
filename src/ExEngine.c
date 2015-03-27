@@ -1,10 +1,10 @@
 #include"EngineEx.h"
-#include"System/elt_cl.h"
-#include"System/elt_gl.h"
-#include"System/elt_errorhandler.h"
+#include"system/elt_cl.h"
+#include"system/elt_gl.h"
+#include"system/elt_errorhandler.h"
 #ifdef EX_WINDOWS // TODO FIX
-#   include"System/Win32/wnd_input.h"
-#   include"System/Win32/win_net.h"
+#   include"system/win/wnd_input.h"
+#   include"system/win/win_net.h"
 #elif defined(EX_ANDROID)
 #   include<android/log.h>
 #   include<android/native_activity.h>
@@ -12,8 +12,8 @@
 
 
 #endif
-#include"System/elt_log.h"
-#include"System/elt_audio.h"
+#include"system/elt_log.h"
+#include"system/elt_audio.h"
 #include<signal.h>
 
 /**

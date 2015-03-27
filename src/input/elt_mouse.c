@@ -1,4 +1,4 @@
-#include"elt_mouse.h"
+#include"input/elt_mouse.h"
 #ifdef EX_WINDOWS
 #   include<dinput.h>
     DIMOUSESTATE2 MouseState[2];
@@ -8,7 +8,7 @@
 #   include<linux/input.h>
 #   include<X11/Xlib.h>
 #   include<X11/cursorfont.h>
-#   include"./../System/Unix/unix_win.h"
+#   include"system/unix/unix_win.h"
 #   include <linux/input.h>
 #   include<X11/Xlib-xcb.h>
 #elif defined(EX_ANDROID)

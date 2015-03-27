@@ -1,4 +1,4 @@
-#include"elt_keyboard.h"
+#include"input/elt_keyboard.h"
 
 #ifdef EX_WINDOWS
     #include<dinput.h>
@@ -14,7 +14,7 @@
     #include <X11/XKBlib.h>
     #include <X11/Xatom.h>
     #include<X11/extensions/XInput.h>
-    #include"./../System/Unix/unix_win.h"
+    #include"system/unix/unix_win.h"
     #include <linux/input.h>
     #include<X11/Xlib-xcb.h>
 

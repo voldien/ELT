@@ -1,5 +1,5 @@
-#include"elt_gamecontroller.h"
-#include"elt_joystick.h"
+#include"input/elt_gamecontroller.h"
+#include"input/elt_joystick.h"
 #if defined(EX_WINDOWS)
 	#include<Xinput.h>
 	#pragma comment(lib, "xinput.lib")

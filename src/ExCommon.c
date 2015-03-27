@@ -1,6 +1,6 @@
 #include"ExCommon.h"
 #ifdef EX_LINUX
-#   include"System/Unix/unix_win.h"
+#   include"system/unix/unix_win.h"
 #   include<unistd.h>
 #   include<sys/utsname.h>
 #   include<sys/sysinfo.h>

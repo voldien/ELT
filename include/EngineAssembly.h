@@ -22,10 +22,9 @@
 
 #include"ExPreProcessor.h"
 #include"ExNT.h"
-#include"System/elt_event.h"
+#include"system/elt_event.h"
 #include"EngineEx.h"
 #include"ExCommon.h"
-#include"Input/XBoxControllerHandler.h"
 #if defined(EX_WINDOWS)
 	#pragma warning(disable : 4480) // enum
 	#pragma warning(disable : 4995) // deprecated
@@ -236,18 +235,18 @@ extern DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int le
 }
 #endif
 #include"elt_timer.h"
-#include"System/elt_win.h"
-#include"System/elt_errorhandler.h"
-#include"System/elt_event.h"
-#include"System/elt_net.h"
+#include"system/elt_win.h"
+#include"system/elt_errorhandler.h"
+#include"system/elt_event.h"
+#include"system/elt_net.h"
 #include"elt_loadso.h"
-#include"Input/elt_keyboard.h"
-#include"Input/elt_mouse.h"
-#include"Input/elt_joystick.h"
+#include"input/elt_keyboard.h"
+#include"input/elt_mouse.h"
+#include"input/elt_joystick.h"
 #include"elt_cpuinfo.h"
-#include"System/elt_gl.h"
+#include"system/elt_gl.h"
 #include"elt_timer.h"
 #include"elt_alloc.h"
 #include"math/matrix.h"
-#include"System/Android/elt_activity.h"
+#include"system/android/elt_activity.h"
 #endif

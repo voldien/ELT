@@ -35,11 +35,11 @@
 */
 #if defined(EX_WINDOWS)
 	#include<Windows.h>
-	#include"Win32/win_win32.h"
+	#include"win/win_win32.h"
 #elif defined(EX_LINUX)
-	#include"Unix/unix_win.h"
+	#include"unix/unix_win.h"
 #elif defined(EX_MAC)
-	#include"Mac/macosx_win.h"
+	#include"mac/macosx_win.h"
 #elif defined(EX_ANDROID)
 
 #endif

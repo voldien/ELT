@@ -17,29 +17,20 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _ELT_ALLOC_H_
-#define _ELT_ALLOC_H_ 1
-#include"EngineAssembly.h"
+#ifndef GUIDS_H
+#define GUIDS_H
+#include"./../ExPreProcessor.h"
+#ifdef EX_WINDOWS
+#include<Guiddef.h>
+#ifdef __cplusplus
+extern "C"{
+#endif
 
-#define DATABLOCK 0x1000    // 4096 // 4 kbyte
-#define ExMallocBlock(size) (malloc((( ( size ) / DATABLOCK) + 1) * DATABLOCK))
-#define ExMalloc malloc
-#define ExCalloc calloc
-#define ExReAlloc realloc
-#define ExFree(p_pointer) {free(p_pointer);p_pointer = EX_NULL;}
+DEFINE_GUID( GUID_Wceusbsh ,0x25dbce51,0x6c8f,0x4a72,0x8a,0x6d,0xb5,0x4c,0x2b,0x4f,0xc8,0x35);
+DEFINE_GUID( GUID_UsbDevice,0x88BAE032,0x5A81,0x49f0,0xBC,0x3D,0xA4,0xFF,0x13,0x82,0x16,0xD6);
 
-struct datablock{
-    void* pointer;
-    unsigned int size;
-    unsigned int position;
-};
-/**
-    Get Page size
-*/
-extern DECLSPEC int ELTAPIENTRY ExGetPageSize(void);
-
-extern DECLSPEC int ELTAPIENTRY ExAllocBlock(unsigned int size);
-
-
-
-#endif // _ELT_ALLOC_H
+#ifdef __cplusplus
+}
+#endif
+#endif
+#endif

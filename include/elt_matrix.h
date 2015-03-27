@@ -19,9 +19,9 @@
 */
 #ifndef _MATRICES_H_
 #define _MATRICES_H_ 1
-#include"System/elt_gl.h"
+#include"system/elt_gl.h"
 #ifdef EX_WINDOWS
-	#include"System/Win32/win_directX.h"
+	#include"system/Win32/win_directX.h"
 #endif
 
 #ifndef MODELVIEW

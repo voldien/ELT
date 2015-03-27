@@ -1,12 +1,12 @@
-#include"elt_errorhandler.h"
-#include"elt_log.h"
-#include"./../elt_console.h"
+#include"system/elt_errorhandler.h"
+#include"system/elt_log.h"
+#include"elt_console.h"
 #ifdef EX_WINDOWS
 #	include<DbgHelp.h>
 #   pragma comment(lib, "Dbghelp.lib")
 #elif defined(EX_LINUX)
 #   include<syslog.h>
-#   include"Unix/unix_win.h"
+#   include"system/unix/unix_win.h"
 #   include<unistd.h>
 #   include<sys/types.h>
 #   include<sys/stat.h>

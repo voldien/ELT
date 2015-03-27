@@ -1,4 +1,4 @@
-#include"unix_win.h"
+#include"system/unix/unix_win.h"
 #ifdef EX_LINUX
 #include<unistd.h>
 #include<stdio.h>
@@ -11,7 +11,7 @@
 #include<dlfcn.h>
 #include<GL/gl.h>
 #include<GL/glx.h>
-#include"../elt_gl.h"
+#include"system/elt_gl.h"
 Display *display = 0;
 
 extern int choose_fbconfig(GLXFBConfig* p_fbconfig);

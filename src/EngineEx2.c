@@ -4,10 +4,10 @@
 #include<string.h>
 
 #ifdef EX_WINDOWS		// TODO solve
-#   include"System/Win32/wnd_common.h"
+#   include"system/win/wnd_common.h"
 #   include<GL/gl.h>
 #elif defined(EX_LINUX)     /** Linux   */
-#   include"System/Unix/unix_win.h"
+#   include"system/unix/unix_win.h"
 #   include<GL/gl.h>
 #elif defined(EX_ANDROID)   /** Android */
 	#ifdef GL_ES_VERSION_2_0
@@ -21,8 +21,8 @@
 	#endif
 #endif
 
-#include"System/elt_gl.h"
-#include"System/elt_cl.h"
+#include"system/elt_gl.h"
+#include"system/elt_cl.h"
 
 
 

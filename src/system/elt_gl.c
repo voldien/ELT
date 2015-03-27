@@ -1,5 +1,5 @@
-#include"elt_gl.h"
-#include"./../ExPreProcessor.h"
+#include"system/elt_gl.h"
+#include"ExPreProcessor.h"
 #ifdef EX_WINDOWS
     #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.dll")
     #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.dll")

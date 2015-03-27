@@ -19,7 +19,7 @@
 */
 #ifndef CONSOLE_SHELL_H
 #define CONSOLE_SHELL_H
-#include"System/elt_win.h"
+#include"system/elt_win.h"
 
 #ifdef EX_WINDOWS
 	#include <io.h>
