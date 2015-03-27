@@ -51,7 +51,12 @@ $(LINK_TARGET) : $(OBJS)
 
 
 install :
-	sudo cp include/*.h /usr/include/
+	sudo mkdir -p /usr/include/ELT
+	sudo mkdir -p /usr/include/ELT/input
+	sudo mkdir -p /usr/include/ELT/system
+	sudo cp include/*.h /usr/include/ELT/
+	sudo cp include/input/*.h /usr/include/ELT/input/
+	sudo cp include/system/*.h /usr/include/ELT/system/
 	sudo cp build/libEngineEx.so /usr/lib/libEngineEx.so
 
 uninstall : 	
