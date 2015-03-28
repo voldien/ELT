@@ -53,9 +53,11 @@ install :
 	sudo mkdir -p /usr/include/ELT
 	sudo mkdir -p /usr/include/ELT/input
 	sudo mkdir -p /usr/include/ELT/system
+	sudo mkdir -p /usr/include/ELT/system/android/
 	sudo cp include/*.h /usr/include/ELT/
 	sudo cp include/input/*.h /usr/include/ELT/input/
 	sudo cp include/system/*.h /usr/include/ELT/system/
+	sudo cp include/system/android/*.h /usr/include/ELT/system/android/
 	sudo cp build/libEngineEx.so /usr/lib/libEngineEx.so
 
 uninstall : 	
