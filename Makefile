@@ -3,7 +3,6 @@
 CC = gcc
 # archive 
 ARCHIVE=ar
-DYNAMIC_FLAG=-shared
 
 ifdef ComSpec
 	EXE_EXT=.dll
@@ -34,7 +33,7 @@ SRCS += $(wildcard src/System/*.c)
 OBJS = $(subst %.c,%.o,$(SRCS))
 
 
-CFLAGS= -g -Wall -fPIC $(DYNAMIC_FLAG) $(ENVIROMENT_PRE_PROCESSOR) $(INCLUDE_PATH) $(LINK_PATH)
+CFLAGS= -O3 -Wall -fPIC -shared  $(ENVIROMENT_PRE_PROCESSOR) $(INCLUDE_PATH) $(LINK_PATH)
 
 # target 
 LINK_TARGET=libEngineEx$(EXE_EXT)
@@ -63,4 +62,6 @@ uninstall :
 
 clean:
 	rm -f src/*.o
+	rm src/input/*.o
+	rm src/system/*.o	
 	echo EveryThing removed
