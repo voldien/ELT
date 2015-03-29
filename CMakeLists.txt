@@ -1,10 +1,27 @@
-
-
 cmake_minimum_required(VERSION 2.8.11)
 project(ELT)
 
 
-if(WIN32)
-else if(UNIX)
+set (ELT_VERSION_MAJOR 0)
+set (ELT_VERSION_MINOR 6)
+set (ELT_VERSION_REVISION 64)
+set (ELT_VERSION ${ELT_VERSION_MAJOR}.${ELT_VERSION_MINOR}.${ELT_VERSION_REVISION})
 
-endif
+set (PROJECT_VERSION "${ELT_VERSION}")
+
+add_definitions(-D_INTERNAL_ENGINE=11)
+
+if(CMAKE_COMPILER_IS_MINGW)
+	#ADD_DEFINITIONS(
+endif()
+
+if((CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX) AND NOT CMAKE_COMPILER_IS_MINGW)
+	add_definitions(-fPIC)
+
+	add_definitions(-fvisibility=hidden -Wall)
+elseif(MSVC)
+	add_definitions(/MP)
+endif()
+
+
+INCLUDE_DIRECTORIES(include)
