@@ -5,12 +5,12 @@
 #ifdef EX_WINDOWS // TODO FIX
 #   include"system/win/wnd_input.h"
 #   include"system/win/win_net.h"
+#ifdef EX_LINUX
+#	include"system/unix/unix_win.h"
 #elif defined(EX_ANDROID)
 #   include<android/log.h>
 #   include<android/native_activity.h>
 #   include<jni.h>
-
-
 #endif
 #include"system/elt_log.h"
 #include"system/elt_audio.h"

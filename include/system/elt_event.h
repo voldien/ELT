@@ -185,9 +185,7 @@ extern DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
 	\event 
 	@return 
 */
-extern DECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window,ExEvent* event);
-
-//extern DECLSPEC Int32 ELTAPIENTRY ExGetDropFileCount(void* data);
+//extern DECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window,ExEvent* event);
 
 #ifdef __cplusplus	// C++ Environment
 }
