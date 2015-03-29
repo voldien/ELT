@@ -7,8 +7,8 @@
 
 	// library
 	#pragma comment(lib,"opengl32.lib")
-    #pragma comment(lib, "Glu32.lib")
-    #pragma comment(lib, "gdi32.lib")
+	#pragma comment(lib, "Glu32.lib")
+	#pragma comment(lib, "gdi32.lib")
 	#pragma comment(lib,"libEGL.lib")
 	#pragma comment(lib,"libGLESv2.lib")
 
@@ -16,7 +16,7 @@
 	#include<WinUser.h>
 	#include<Windows.h>
 	#include<GL/GL.h>
-    #include<EGL/egl.h>
+	#include<EGL/egl.h>
 	#include<GL/glext.h>
 	#include<GL/wglext.h>
     #include<GL/glu.h>
@@ -34,7 +34,8 @@
     #include<GL/glx.h>
     #include<GL/glxext.h>
     #include<GL/glu.h>
-    #define GL_GET_PROC(x) glXGetProcAddress( ( x ) )           /**  get OpenGL function process address */
+	#include"system/unix/unix_win.h" 
+   #define GL_GET_PROC(x) glXGetProcAddress( ( x ) )           /**  get OpenGL function process address */
 #elif defined(EX_ANDROID)
     #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.so")      /** */
     #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.so")  /** */

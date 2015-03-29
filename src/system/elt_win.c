@@ -7,7 +7,7 @@
 	#include<WindowsX.h>
 	#include<EGL/egl.h>
 #elif defined(EX_LINUX)
-	#include"unix/unix_win.h"
+	#include"system/unix/unix_win.h"
 	#include<X11/Xlib.h>
 	#include<EGL/egl.h>
 	#include<GL/glx.h>

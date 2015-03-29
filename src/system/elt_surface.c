@@ -1,5 +1,8 @@
 #include"system/elt_surface.h"
 #include"system/elt_win.h"
+#ifdef EX_LINUX
+#include"system/unix/unix_win.h"
+#endif
 
 static int surface_bits_per_pixel(unsigned int format){
     switch(format){
