@@ -40,17 +40,26 @@ extern "C" {
 extern DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port,unsigned int protocol);
 
 /**
-    Close socket
+	Close socket
+	\socket
+	@return
 */
 extern DECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(unsigned int socket);
 
 /**
-    Bind socket to ip and port address
+	Bind socket to ip and port address
+	\ip
+	\port
+	\socket
+	@return 
 */
 extern DECLSPEC unsigned int ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port,unsigned int socket);
 
 /**
-    Connect to socket
+	Connect to socket
+	\ip
+	\port
+	@return socket
 */
 extern DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int port);
 
@@ -59,16 +68,24 @@ extern DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigne
 */
 #define ExListen    listen
 /**
-    Read Socket data
+	Read Socket data
+	\socket
+	\buffer 
+	\size
+	@return
 */
-extern DECLSPEC int ELTAPIENTRY ExReadSocket(unsigned int socket, unsigned char* data,unsigned size);
+extern DECLSPEC int ELTAPIENTRY ExReadSocket(unsigned int socket, unsigned char* buffer,unsigned size);
 /**
-    Write Socket data
+	Write Socket data
+	\socket
+	\buffer
+	\size
+	@return
 */
 extern DECLSPEC int ELTAPIENTRY ExWriteSocket(unsigned int socket, unsigned char* data,unsigned size);
 
 /**
-
+	
 */
 extern DECLSPEC int ELTAPIENTRY ExGetHostIp(char ip[16]);
 

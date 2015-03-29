@@ -42,46 +42,46 @@ struct expoint{
 #define EX_EVENT_QUIT 0x100
 
 typedef struct ex_system_event{
-	unsigned int message;
+	unsigned int message;			/**/
 }ExSystemEvent;
 
 typedef struct ex_size_event{
-	int width;
-	int height;
+	int width;				/**/
+	int height;				/**/
 }ExSizeEvent;
 
 typedef struct ex_joy_stick_event{
-	Uint8 button[5];
+	Uint8 button[5];			/**/
 }ExJoyStickEvent;
 
 typedef struct ex_joystick_move_event{
-	Uint32 x[3];
+	Uint32 x[3];				/**/
 }ExJoySticMoveEvent;
 
 typedef struct ex_joystick_button_event{
-	Uint8 button[5];
+	Uint8 button[5];			/**/
 }ExJoySticButtonEvent;
 
 typedef struct ex_mouse_move_event{
-	int x;
-    int y;
+	int x;					/**/
+	int y;					/**/
 }ExMouseMoveEvent;
 
 typedef struct elt_win_button_event{
-	Uint8 button;
+	Uint8 button;				/**/
 }ExWinButtonEvent;
 
 typedef struct ex_mouse_wheel_event{
-	int delta;
-	int x,y;
+	int delta;				/**/
+	int x,y;				/**/
 }ExMouseWheelEvent;
 
 typedef struct ex_key_event{
-	Uint8 code;
-	Uint8 alt;
-	Uint8 shift;
-	Uint8 system;
-	Uint8 ctrl;
+	Uint8 code;				/**/
+	Uint8 alt;				/**/
+	Uint8 shift;				/**/
+	Uint8 system;				/**/
+	Uint8 ctrl;				/**/
 }ExKeyEvent;
 
 struct ex_drop_event{
@@ -137,10 +137,10 @@ typedef struct window_poll_events{
 EX_ALIGN_PREFIX(4)
 typedef struct elt_poll_events{
 	union{
-        Enum eventid;
-        Enum event;
+        	Enum eventid;				/**/
+        	Enum event;				/**/
 	};
-    ExKeyEvent key;                                 /*          */
+	ExKeyEvent key;                                 /*          */
 	ExMouseMoveEvent mouse;                         /*          */
 	ExMouseWheelEvent mouseWheelEvent;              /*          */
 	EX_C_STRUCT elt_win_button_event button;        /*          */
@@ -167,16 +167,25 @@ typedef struct elt_poll_events{
 #elif defined(EX_LINUX)
 	XEvent msg;
 #elif defined(EX_ANDROID)
-    void* source;
+	void* source;
 #elif defined(EX_MAC)
-    long time;
+	long time;
 #endif
 
 }ExEvent;
 /**
 	Poll Event from process.
+	\event
+	@return 
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
+/**
+	Poll event from specifed window.
+	\window
+	\event 
+	@return 
+*/
+extern DECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window,ExEvent* event);
 
 //extern DECLSPEC Int32 ELTAPIENTRY ExGetDropFileCount(void* data);
 

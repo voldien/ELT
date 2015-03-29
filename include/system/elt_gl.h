@@ -35,11 +35,11 @@
 */
 #if defined(EX_WINDOWS)
 	#include<Windows.h>
-	#include"win/win_win32.h"
+	//#include"win/win_win32.h"
 #elif defined(EX_LINUX)
-	#include"unix/unix_win.h"
+	//#include"unix/unix_win.h"
 #elif defined(EX_MAC)
-	#include"mac/macosx_win.h"
+	//#include"mac/macosx_win.h"
 #elif defined(EX_ANDROID)
 
 #endif
@@ -67,6 +67,7 @@ extern "C"{
 extern DECLSPEC ExWin ELTAPIENTRY ExGetOpenGLContextWindow(OpenGLContext glc);
 /**
 	Get device context of current openGL context on current thread
+	@return current device context on current thread.
 */
 extern DECLSPEC WindowContext ELTAPIFASTENTRY ExGetCurrentGLDC(void);
 #define ExGetCurrentGLDrawable ExGetCurrentGLDC
@@ -81,6 +82,8 @@ extern DECLSPEC OpenGLContext ELTAPIENTRY ExGetOpenGLCFromWindow(ExWin window);
 
 /**
 	Make current OpenGL context.
+	\hDC
+	\glc
 */
 extern DECLSPEC void ELTAPIENTRY ExMakeGLCurrent(WindowContext hDC, OpenGLContext glc);
 
@@ -120,6 +123,12 @@ extern DECLSPEC ExBoolean ELTAPIENTRY ExDestroyCurrentContext(void);
 extern DECLSPEC void ELTAPIENTRY ExInitOpenGL(ExWin hwnd, EngineDescription* enginedescription);
 /**
 	Set Window associated with OpenGL context fullScreen.
+	\
+	\
+	\
+	\
+
+	@return if succesfull 
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes);
 
@@ -140,27 +149,33 @@ extern DECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin hWnd,Enum ienum);
 
 /**
 	Get Hardware OpenGL shading Version
+	@return 
 */
 extern DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void);
 /**
 	Get OpenGL Version
+	@return 
 */
 extern DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(void);
 
 /**
 	Check if graphic card is AMD GPU
+	@return 
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExIsVendorAMD(void);
 /**
 	Check if graphic card is Nvidia GPU
+	@return 
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExIsVendorNvidia(void);
 /**
 	Check if graphic card is Intel GPU
+	@return
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExIsVendorIntel(void);
 /**
-    Get graphic vendor enumerator
+	Get graphic vendor enumerator
+	@return 
 */
 extern DECLSPEC Enum ELTAPIENTRY ExGetGLVendorEnum(void);
 
