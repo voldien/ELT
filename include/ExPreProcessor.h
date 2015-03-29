@@ -54,7 +54,7 @@
 	#else
 		#define EX_VC6 _MSC_VER
 	#endif
-    #pragma warning(disable : 4201)
+    	#pragma warning(disable : 4201)
 	#define EX_COMPILER_NAME "Visual Studio C++/C"
 #elif defined(__GNUC__) || defined(__SNC__) || defined( __GNUC_MINOR__)	/*  GNU C Compiler*/
 	#ifdef EX_CPP // G++
@@ -105,10 +105,10 @@
 	#endif
 #elif defined EX_GNUC
 	#ifdef __CELLOS_LV2__   /*  */
-        #define EX_PS3                          /**/
-	#elif defined(__arm__)
-        #define EX_PSP2                         /**/
-        #define EX_RAS_PI                       /**/
+        #define EX_PS3                          /*	playstation 3*/
+	#elif defined(__arm__)	/**/
+        #define EX_PSP2                         /*	playstation portable 2*/
+        #define EX_RAS_PI                       /*	rasberry pi	*/
 	#endif
 	#if defined(_WIN32) /*  Window*/
 		#define EX_WINDOWS                      /**/
@@ -117,7 +117,6 @@
 	#if ( defined(__linux__) || defined(__linux) || defined(linux) ) && (!(__ANDROID__) || !(ANDROID))/* Linux */
 		#define EX_LINUX                        /**/
 		#define EX_UNIX                         /**/
-
 
 
 	#elif defined (ANDROID) || defined(__ANDROID__) || __ANDROID_API__ > 9  /* Android */
@@ -165,21 +164,21 @@
 		#elif defined(MACOSX) || defined(macintosh) || defined(Macintosh)
 			#define EX_MAC 1
 		#endif
-	#elif defined(__CYGWIN) /*  */
+	#elif defined(__CYGWIN) 	/**/
 		#define EX_CYGWIN 1
 		#define EX_LINUX 1
 		#define EX_UNIX 1
 	#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)   /*  BSD*/
 		#define EX_BSD
-    #elif defined(__llvm__) || defined(__clang__)   /*  llvm    */
-        #define EX_LLVM
-    #elif defined(__pnacl__) ||defined(__native_client__)	/*	nacl google	*/
+    	#elif defined(__llvm__) || defined(__clang__)   	/*  llvm    */
+        	#define EX_LLVM 1
+    	#elif defined(__pnacl__) ||defined(__native_client__)	/*	nacl google	*/
 		#define EX_NACL 1
 	#endif
 
-#if defined(__unix__) /*  Unix    */
-    #define EX_UNIX 1
-#endif
+	#if defined(__unix__) 	/*  Unix    */
+    		#define EX_UNIX 1
+	#endif
 
 #else
 	#error  Unsupported architecture!   /*  No architecture support implicitly. remove this line to compile anyway*/
@@ -195,11 +194,6 @@
 #elif defined(__STDC__)
 #   define EX_C90
 #endif
-
-
-
-//#define EX_XBOX
-//#define EX_WEB
 
 // defination of compiler settings
 #define LINKER_BUILD_TARGET
@@ -285,9 +279,9 @@
         Virtual table size
 */
 #ifdef __cplusplus   // C++ feature
-#define EX_VIRTUAL_VTAB_SIZE(x)
+	#define EX_VIRTUAL_VTAB_SIZE(x)
 #else
-#define EX_VIRTUAL_VTAB_SIZE(x) EX_UNUSED(x)
+	#define EX_VIRTUAL_VTAB_SIZE(x) EX_UNUSED(x)
 #endif
 
 /**
@@ -315,12 +309,8 @@
 //#define PROPERTIES(_get, _set,_type) #error "error"
 #endif
 
-//
-#define SCK_VERSION1 0x0101		//WinSocket Version 1
-#define SCK_VERSION2 0x0202		//WinSocket Version 2
 
-
-/*
+/**
 	Internal
 */
 #if defined(_ENGINE_INTERNAL) || (EX_ENGINE_VERSION_MAJOR < 1)	// Macro Definition Only Defined in this solution.
@@ -407,7 +397,7 @@
 #endif
 
 /**
-	Null Pointer
+	Null pointer
  */
 #ifdef EX_WINDOWS
 #   if  (__cplusplus == 201103L)
@@ -426,12 +416,12 @@
 /**
 	#define EXDEPRECATED(x) __declspec(deprecated(x))		// Deprecated deceleration (x = Warning Message)
 */
-#ifdef EX_WINDOWS
+#ifdef EX_VC
 	#define EXDEPRECATED  __declspec(deprecated)		    // Deprecated deceleration (x = Warning Message)
 	#define EXDEPRECATEDMESSAGE(x) __declspec(deprecated(x))
-#else
+#elif defined(EX_GNUC)
 	#define EXDEPRECATED __attribute__(( deprecated ))		    // Deprecated deceleration (x = Warning Message)
-    #define EXDEPRECATEDMESSAGE(msg) __attribute__ (( deprecated ( msg ) ))
+    	#define EXDEPRECATEDMESSAGE(msg) __attribute__ (( deprecated ( msg ) ))
 #endif
 
 /**
@@ -439,14 +429,14 @@
 */
 #ifndef EX_ALIGN
 	#if defined(EX_VC)
-			#define EX_ALIGN(alignment, decl) __declspec(align(alignment)) decl
-			#define EX_ALIGN_PREFIX(alignment) __declspec(align(alignment))
+		#define EX_ALIGN(alignment, decl) __declspec(align(alignment)) decl
+		#define EX_ALIGN_PREFIX(alignment) __declspec(align(alignment))
 	#elif defined(EX_GNUC)
-			#define EX_ALIGN(alignment, decl) decl __attribute__ ((aligned(alignment)))
-			#define EX_ALIGN_PREFIX(alignment) __attribute__ ((aligned(alignment)))
+		#define EX_ALIGN(alignment, decl) decl __attribute__ ((aligned(alignment)))
+		#define EX_ALIGN_PREFIX(alignment) __attribute__ ((aligned(alignment)))
 	#else
-			#define EX_ALIGN(alignment, decl)
-			#define EX_ALIGN_PREFIX(alignment)
+		#define EX_ALIGN(alignment, decl)
+		#define EX_ALIGN_PREFIX(alignment)
 	#endif
 #endif
 
@@ -524,9 +514,9 @@
 /**
 	Assembly instruction identification
 */
-#if defined(EX_WINDOWS) && defined(EX_VC)
+#if defined(EX_VC)
 	#define EX_ASSM __asm
-#else
+#elif defined(EX_GNUC)
 	#define EX_ASSM __asm__
 #endif
 
@@ -569,12 +559,12 @@
 #define EX_ENGINE   "Engine Library Toolkit"
 
 #define EX_ENGINE_VERSION_MAJOR 0x0
-#define EX_ENGINE_VERSION_MINOR 0x5
-#define EX_ENGINE_VERSION_REVISION 0x51
+#define EX_ENGINE_VERSION_MINOR 0x6
+#define EX_ENGINE_VERSION_REVISION 0x4
 
 #define EX_ENGINE_PREALPHA EX_TEXT("pa")	        /* Pre alpha    */
 #define EX_ENGINE_ALPHA EX_TEXT("a")		        /* Alpha        */
-#define EX_ENGINE_BETA EX_TEXT("b")		            /* Beta         */
+#define EX_ENGINE_BETA EX_TEXT("b")		       	/* Beta         */
 #define EX_ENGINE_STABLE EX_TEXT("r")		        /* Stable       */
 #define EX_ENGINE_RELEASE_SOMETHING EX_TEXT("rc")	/*              */
 #define EX_ENGINE_RELEASE_BETTER EX_TEXT("rc5")		/*          */
@@ -584,7 +574,7 @@
 #define EX_ENGINE_VERSION ((EX_ENGINE_VERSION_MAJOR << 24) + (EX_ENGINE_VERSION_MINOR << 16) + (EX_ENGINE_VERSION_REVISION << 8) + 0)
 
 #if defined(EX_VC) && defined(EX_INTERNAL_DEVELOP_ENVIROMENT)
-	#pragma comment(linker,"/VERSION:0[.50]")
+	#pragma comment(linker,"/VERSION:0[.64]")
 #endif
 /**
     ELT status
@@ -622,13 +612,13 @@
 
 
 #ifdef EX_VC
-#define WIN32_LEAN_AND MEAN
+	#define WIN32_LEAN_AND_MEAN	/*	ignoring some tedious useless warnings*/
 #endif
 
 #ifdef INTERNAL_ENGINEX
 	#ifdef EX_WINDOWS
-		#pragma warning(disable : 4996)	// Disable a warning
-		#pragma warning(disable : 4251) // Dll
+		#pragma warning(disable : 4996)		// Disable a warning
+		#pragma warning(disable : 4251) 	// Dll
 	#endif
 #endif
 
