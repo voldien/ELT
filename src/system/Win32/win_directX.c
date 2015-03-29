@@ -1,4 +1,4 @@
-#include"win_directX.h"
+#include"system/win/win_directX.h"
 #if (defined(EX_VC) || defined(EX_WINDOWS)) && defined(EX_INCLUDE_DIRECTX)
 #include"./../elt_win.h"
 #ifdef INTERNAL_ENGINEX
@@ -18,7 +18,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitDirectX(ExWin window){
 	size_t win_size[2];
 	D3DCAPS9 m_d3dDevCaps;
 	D3DPRESENT_PARAMETERS d3StructInfo = {0};
-	// make sure the 
+	// make sure the
 	/**
 		modular needed for directx
 	*/
@@ -51,10 +51,10 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitDirectX(ExWin window){
 	d3StructInfo.hDeviceWindow = window;
 	d3StructInfo.BackBufferWidth = win_size[0];
 	d3StructInfo.BackBufferHeight = win_size[1];
-	//d3StructInfo.BackBufferFormat = ((ExGetEngineDescriptionPointer()->PixelType & ENGINE_RGBA) != 0) ? D3DFMT_X8R8G8B8 : 
+	//d3StructInfo.BackBufferFormat = ((ExGetEngineDescriptionPointer()->PixelType & ENGINE_RGBA) != 0) ? D3DFMT_X8R8G8B8 :
 	//	((ExGetEngineDescriptionPointer()->PixelType &  ENGINE_RGB) != 0) ?  D3DFMT_R8G8B8 : D3DFMT_UNKNOWN;
 
-	/*d3StructInfo.BackBufferCount = (ExGetEngineDescriptionPointer()->EngineFlag & ENGINE_SUPPORT_DOUBLEBUFFER) != 0 ? 2 : 1; 
+	/*d3StructInfo.BackBufferCount = (ExGetEngineDescriptionPointer()->EngineFlag & ENGINE_SUPPORT_DOUBLEBUFFER) != 0 ? 2 : 1;
 	d3StructInfo.MultiSampleQuality = ExGetEngineDescriptionPointer()->SampleQuality;
 	d3StructInfo.FullScreen_RefreshRateInHz = (engineDescription.EngineFlag & ENGINE_FULLSCREEN) ? 0 : 0;*/
 	d3StructInfo.EnableAutoDepthStencil = TRUE;
@@ -65,7 +65,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitDirectX(ExWin window){
 							window,				// Window Handle
 							vp,					// Behavior Flag (Software or Hardware Acceleration)
 							&d3StructInfo,		// D3DirectX struct
-							&directDevice))){	// 
+							&directDevice))){	//
 								ExIsDXError(hresult);
 	}
 	return (hresult == S_OK) ? (ERESULT)d3d : 0;

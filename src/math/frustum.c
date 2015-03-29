@@ -1,4 +1,4 @@
-#include"frustum.h"
-#include"quad.h"
+#include"math/frustum.h"
+#include"math/quad.h"
 
 

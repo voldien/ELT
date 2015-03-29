@@ -34,13 +34,13 @@ extern DECLSPEC void ELTAPIENTRY WIN_EnableAltTab(void);
 extern DECLSPEC ExBoolean ELTAPIENTRY WIN_EnableDeviceNotification(ExWin hWnd);
 /*
 	//	main window procedure
-	//	Remark : 
+	//	Remark :
 */
-extern DECLSPEC LRESULT WINAPI MainWndProc(ExWin hWnd,UINT uMsg, WPARAM wParam, LPARAM lParam);
+extern DECLSPEC ERESULT WINAPI MainWndProc(ExWin hWnd,UINT uMsg, WPARAM wParam, LPARAM lParam);
 /*
-	// native windows. designed for user interface handling  
+	// native windows. designed for user interface handling
 */
-extern DECLSPEC LRESULT WINAPI WndProcNative(ExWin hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+extern DECLSPEC ERESULT WINAPI WndProcNative(ExWin hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 /*
 	//	On Window Context menu
 */

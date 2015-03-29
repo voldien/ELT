@@ -1,4 +1,4 @@
-#include"matrix.h"
+#include"math/matrix.h"
 //__SSE4__ ||
 //#define ENABLE_AVX
 #ifdef ENABLE_AVX

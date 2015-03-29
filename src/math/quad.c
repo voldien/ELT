@@ -1,4 +1,4 @@
-#include"quad.h"
+#include"math/quad.h"
 
 #define QX 0x1
 #define QY 0x2

@@ -1,4 +1,4 @@
-#include"win_wndproc.h"
+#include"system/win/win_wndproc.h"
 #ifdef EX_WINDOWS
 #include<Windows.h>
 #include<CommCtrl.h>
@@ -6,7 +6,7 @@
 #include<Dbt.h>
 
 
-CallBack ExOnFocus = EX_NULL; 
+CallBack ExOnFocus = EX_NULL;
 CallBack ExOnUnFocus = EX_NULL;
 
 DECLSPEC void ELTAPIENTRY WIN_DisableAltTab(void){
@@ -21,7 +21,7 @@ DECLSPEC void ELTAPIENTRY WIN_EnableAltTab(void){
 
 	SystemParametersInfo( SPI_SCREENSAVERRUNNING,0, &old, 0 );
 }
-GUID WceusbshGUID = { 0x25dbce51, 0x6c8f, 0x4a72, 
+GUID WceusbshGUID = { 0x25dbce51, 0x6c8f, 0x4a72,
                       0x8a,0x6d,0xb5,0x4c,0x2b,0x4f,0xc8,0x35 };
 DECLSPEC ExBoolean ELTAPIENTRY WIN_EnableDeviceNotification(ExWin hWnd){
 	HDEVNOTIFY hDevNotify = 0;
@@ -47,7 +47,7 @@ DECLSPEC ExBoolean ELTAPIENTRY WIN_EnableDeviceNotification(ExWin hWnd){
 	return (ExBoolean)((hDevNotify) ? TRUE : FALSE);
 }
 /*
-	// Main Proc designed for OpenGL Window mainly. 
+	// Main Proc designed for OpenGL Window mainly.
 */
 DECLSPEC LRESULT WINAPI MainWndProc(HWND hWnd,UINT uMsg, WPARAM wParam, LPARAM lParam){
 	ExGLWindowHandler* handler;
@@ -153,23 +153,23 @@ DECLSPEC LRESULT WINAPI MainWndProc(HWND hWnd,UINT uMsg, WPARAM wParam, LPARAM l
 			case DBT_DEVICEARRIVAL:
           //  msgCount++;
             StringCchPrintf(
-                strBuff, 256, 
+                strBuff, 256,
                 TEXT("Message %d: DBT_DEVICEARRIVAL\n"), 0);
             break;
         case DBT_DEVICEREMOVECOMPLETE:
             StringCchPrintf(
-                strBuff, 256, 
+                strBuff, 256,
                 TEXT("Message %d: DBT_DEVICEREMOVECOMPLETE\n"), 0);
             break;
         case DBT_DEVNODES_CHANGED:
             StringCchPrintf(
-                strBuff, 256, 
+                strBuff, 256,
                 TEXT("Message %d: DBT_DEVNODES_CHANGED\n"), 0);
             break;
         default:
             StringCchPrintf(
-                strBuff, 256, 
-                TEXT("Message %d: WM_DEVICECHANGE message received, value %d unhandled.\n"), 
+                strBuff, 256,
+                TEXT("Message %d: WM_DEVICECHANGE message received, value %d unhandled.\n"),
                 0, wParam);
             break;
 			}
@@ -231,7 +231,7 @@ DECLSPEC LRESULT WINAPI WndProcNative(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 	case WM_CREATE:
 		return DefWindowProc(hWnd,uMsg,wParam,lParam);
 	case WM_DESTROY:{
-		
+
 	}break;
 	case WM_QUIT:{
 		CloseWindow(hWnd);
@@ -268,7 +268,7 @@ DECLSPEC LRESULT WINAPI WndProcNative(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 		switch(wParam){
 		/*	status bar!	*/
 		case NM_CLICK:{
-			LPNMMOUSE lpnmmouse = (LPNMMOUSE)lParam; 
+			LPNMMOUSE lpnmmouse = (LPNMMOUSE)lParam;
 			}break;
 		case SBN_SIMPLEMODECHANGE:{
 			NMHDR* lpnmh = (NMHDR*) lParam;
@@ -293,7 +293,7 @@ DECLSPEC LRESULT WINAPI WndProcNative(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 
 			}break;
 				// selected change
-			case LBN_SELCHANGE:{ 
+			case LBN_SELCHANGE:{
 				HWND bhwnd =(HWND)(lParam);
 				Int index = SendMessage(bhwnd,LB_GETCURSEL,0,0);
 
@@ -306,7 +306,7 @@ DECLSPEC LRESULT WINAPI WndProcNative(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 				ExStaticControlEvent* event = (ExStaticControlEvent*)GetWindowLongPtr(bhwnd, GWLP_USERDATA);
 				if(event->selected != EX_NULL)event->selected();*/
 			//}break;
-			//case 
+			//case
 			case EN_CHANGE :{
 				ExTextInputEvent* event = (ExTextInputEvent*)GetWindowLongPtr((HWND)lParam,GWLP_USERDATA);
 				if(event){
@@ -397,25 +397,25 @@ DECLSPEC LRESULT WINAPI WndProcNative(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 
           //  msgCount++;
             StringCchPrintf(
-                strBuff, 256, 
+                strBuff, 256,
                 TEXT("Message %d: DBT_DEVICEARRIVAL\n"), 0);
 			}break;
         case DBT_DEVICEREMOVECOMPLETE:{
 			DEV_BROADCAST_HDR*  hdr = (DEV_BROADCAST_HDR*)lParam;
 
             StringCchPrintf(
-                strBuff, 256, 
+                strBuff, 256,
                 TEXT("Message %d: DBT_DEVICEREMOVECOMPLETE\n"), 0);
 			}break;
         case DBT_DEVNODES_CHANGED:
             StringCchPrintf(
-                strBuff, 256, 
+                strBuff, 256,
                 TEXT("Message %d: DBT_DEVNODES_CHANGED\n"), 0);
             break;
         default:
             StringCchPrintf(
-                strBuff, 256, 
-                TEXT("Message %d: WM_DEVICECHANGE message received, value %d unhandled.\n"), 
+                strBuff, 256,
+                TEXT("Message %d: WM_DEVICECHANGE message received, value %d unhandled.\n"),
                 0, wParam);
             break;
 			}
@@ -434,70 +434,70 @@ DECLSPEC LRESULT WINAPI WndProcNative(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 }
 
 DECLSPEC BOOL WINAPI ExOnContextMenu(HWND hWnd,Int x, Int y){
-	RECT rc;                    // client area of window 
-    POINT pt = { x, y };        // location of mouse click 
- 
-    // Get the bounding rectangle of the client area. 
- 
-    GetClientRect(hWnd, &rc); 
- 
-    // Convert the mouse position to client coordinates. 
- 
-    ScreenToClient(hWnd, &pt); 
- 
-    // If the position is in the client area, display a  
-    // shortcut menu. 
- 
-    if (PtInRect(&rc, pt)) { 
-        ClientToScreen(hWnd, &pt); 
-        ExDisplayContextMenu(hWnd, &pt); 
-        return TRUE; 
-    } 
-    // Return FALSE if no menu is displayed. 
-    return FALSE; 
+	RECT rc;                    // client area of window
+    POINT pt = { x, y };        // location of mouse click
+
+    // Get the bounding rectangle of the client area.
+
+    GetClientRect(hWnd, &rc);
+
+    // Convert the mouse position to client coordinates.
+
+    ScreenToClient(hWnd, &pt);
+
+    // If the position is in the client area, display a
+    // shortcut menu.
+
+    if (PtInRect(&rc, pt)) {
+        ClientToScreen(hWnd, &pt);
+        ExDisplayContextMenu(hWnd, &pt);
+        return TRUE;
+    }
+    // Return FALSE if no menu is displayed.
+    return FALSE;
 }
 DECLSPEC BOOL WINAPI ExOnContextMenu2(HWND hWnd,HMENU hmenuTrackPopup,Int x, Int y){
 	if(!hmenuTrackPopup)return FALSE;
-	RECT rc;                    // client area of window 
-    POINT pt = { x, y };        // location of mouse click 
-    // Get the bounding rectangle of the client area. 
-    GetClientRect(hWnd, &rc); 
-    // Convert the mouse position to client coordinates. 
-    ScreenToClient(hWnd, &pt); 
-    // If the position is in the client area, display a  
-    // shortcut menu. 
-    if (PtInRect(&rc, pt)) { 
-        ClientToScreen(hWnd, &pt);  
- 
-		// Display the shortcut menu. Track the right mouse 
-		// button. 
-		TrackPopupMenu(hmenuTrackPopup, 
-				TPM_LEFTALIGN | TPM_RIGHTBUTTON, 
-				pt.x, pt.y, 0, hWnd, NULL); 
+	RECT rc;                    // client area of window
+    POINT pt = { x, y };        // location of mouse click
+    // Get the bounding rectangle of the client area.
+    GetClientRect(hWnd, &rc);
+    // Convert the mouse position to client coordinates.
+    ScreenToClient(hWnd, &pt);
+    // If the position is in the client area, display a
+    // shortcut menu.
+    if (PtInRect(&rc, pt)) {
+        ClientToScreen(hWnd, &pt);
+
+		// Display the shortcut menu. Track the right mouse
+		// button.
+		TrackPopupMenu(hmenuTrackPopup,
+				TPM_LEFTALIGN | TPM_RIGHTBUTTON,
+				pt.x, pt.y, 0, hWnd, NULL);
 		return TRUE;
-    } 
-    // Return FALSE if no menu is displayed. 
-    return FALSE; 
+    }
+    // Return FALSE if no menu is displayed.
+    return FALSE;
 }
 
 DECLSPEC BOOL WINAPI ExDisplayContextMenu(HWND hWnd, POINT* pt){
-	HMENU hmenu;            // top-level menu 
-    HMENU hmenuTrackPopup;  // shortcut menu 
- 
-    // Load the menu resource. 
- 
+	HMENU hmenu;            // top-level menu
+    HMENU hmenuTrackPopup;  // shortcut menu
+
+    // Load the menu resource.
+
 	hmenu = GetMenu(hWnd);
-    // TrackPopupMenu cannot display the menu bar so get 
-    // a handle to the first shortcut menu. 
- 
-    hmenuTrackPopup = GetSubMenu(hmenu, 0); 
- 
-    // Display the shortcut menu. Track the right mouse 
-    // button. 
- 
-    TrackPopupMenu(hmenuTrackPopup, 
-            TPM_LEFTALIGN | TPM_RIGHTBUTTON, 
-            pt->x, pt->y, 0, hWnd, NULL); 
+    // TrackPopupMenu cannot display the menu bar so get
+    // a handle to the first shortcut menu.
+
+    hmenuTrackPopup = GetSubMenu(hmenu, 0);
+
+    // Display the shortcut menu. Track the right mouse
+    // button.
+
+    TrackPopupMenu(hmenuTrackPopup,
+            TPM_LEFTALIGN | TPM_RIGHTBUTTON,
+            pt->x, pt->y, 0, hWnd, NULL);
 	return TRUE;
 }
 

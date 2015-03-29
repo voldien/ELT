@@ -35,11 +35,11 @@
 */
 #if defined(EX_WINDOWS)
 	#include<Windows.h>
-	//#include"win/win_win32.h"
+	#include"system/win/win_win32.h"
 #elif defined(EX_LINUX)
-	//#include"unix/unix_win.h"
+	#include"system/unix/unix_win.h"
 #elif defined(EX_MAC)
-	//#include"mac/macosx_win.h"
+	#include"system/mac/macosx_win.h"
 #elif defined(EX_ANDROID)
 
 #endif
@@ -128,7 +128,7 @@ extern DECLSPEC void ELTAPIENTRY ExInitOpenGL(ExWin hwnd, EngineDescription* eng
 	\
 	\
 
-	@return if succesfull 
+	@return if succesfull
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes);
 
@@ -149,23 +149,23 @@ extern DECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin hWnd,Enum ienum);
 
 /**
 	Get Hardware OpenGL shading Version
-	@return 
+	@return
 */
 extern DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void);
 /**
 	Get OpenGL Version
-	@return 
+	@return
 */
 extern DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(void);
 
 /**
 	Check if graphic card is AMD GPU
-	@return 
+	@return
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExIsVendorAMD(void);
 /**
 	Check if graphic card is Nvidia GPU
-	@return 
+	@return
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExIsVendorNvidia(void);
 /**
@@ -175,7 +175,7 @@ extern DECLSPEC Int32 ELTAPIENTRY ExIsVendorNvidia(void);
 extern DECLSPEC Int32 ELTAPIENTRY ExIsVendorIntel(void);
 /**
 	Get graphic vendor enumerator
-	@return 
+	@return
 */
 extern DECLSPEC Enum ELTAPIENTRY ExGetGLVendorEnum(void);
 

@@ -1,4 +1,4 @@
-#include"win_win32.h"
+#include"system/win/win_win32.h"
 #ifdef EX_WINDOWS
 #include"./../../resource.h"
 #	include<Windows.h>	// Window header
@@ -113,7 +113,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, I
 	ATOM reg;
 	HWND hwnd;
 	ExChar title[260];
-	WNDCLASSEX wc = {0}; 
+	WNDCLASSEX wc = {0};
 	wc.cbSize = sizeof(wc);
 	wc.hInstance = GetModuleHandle(NULL);
 	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC ;

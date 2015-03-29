@@ -5,7 +5,7 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 */
 #ifndef FONT_SYSTEM_H
 #define FONT_SYSTEM_H
-#include"./../../EngineAssembly.h"
+#include"EngineAssembly.h"
 #ifdef INTERNAL_ENGINEX
 	#include<ft2build.h>
 	#include FT_FREETYPE_H
@@ -27,7 +27,7 @@ struct ExFont{
 	Uint size;
 };
 
-inline int next_p2(int n){int res = 1; while(res < n)res <<= 1; return res;} 
+inline int next_p2(int n){int res = 1; while(res < n)res <<= 1; return res;}
 #define FOR(q,n) for(int q=0;q<n;q++)
 
 #ifdef EX_CPP
@@ -48,7 +48,7 @@ DECLSPEC Int ELTAPIENTRY ExCreateFontChar(Uint charIndex,FT_Face mftFace);
 
 
 #ifdef EX_CPP
-} 
+}
 #endif
 
 #endif

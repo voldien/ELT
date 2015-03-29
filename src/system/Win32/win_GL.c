@@ -1,11 +1,11 @@
-#include"win_GL.h"
+#include"system/win/win_GL.h"
 
 /*
 DECLSPEC void ELTAPIENTRY ExInitExtension(ExWin hWnd,WindowContext deviContext,HGLRC hr){
-	// temp variable 
+	// temp variable
 	HGLRC tempHRC = hr;PIXELFORMATDESCRIPTOR pfd;
 	Int majorVer, minorVer;
-	// get information 
+	// get information
 	Int attrib[] = { WGL_NUMBER_PIXEL_FORMATS_ARB };
 	Int nResults[1] = {0};
 	Int pixFmt = 1;
@@ -58,7 +58,7 @@ DECLSPEC void ELTAPIENTRY ExInitExtension(ExWin hWnd,WindowContext deviContext,H
 		ExDevPrintf("Failed to Create OpenGL Context ARB | %s.\n",glewGetErrorString(glGetError()));
 		MessageBoxA(EX_NULL,  (LPCSTR)glewGetErrorString(glGetError()),"Error | OpenGL Context",MB_OK | MB_ICONERROR);
 	}
-	// Create a Shared OpenGL Context out of First Device Context 
+	// Create a Shared OpenGL Context out of First Device Context
 	if(ExIsEngineState(ENGINE_SHARE_RENDERCONTEXT))
 		if(!(hrc2 = wglCreateContextAttribsARB(deviContext, hrc,attribs)))
 			ExDevPrintf("Failed to Create Shared OpenGL Context ARB | %s.\n",glewGetErrorString(glGetError()));

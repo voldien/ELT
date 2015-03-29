@@ -1,4 +1,4 @@
-#include"win_controls.h"
+#include"system/win/win_controls.h"
 #ifdef EX_WINDOWS
 #include<Uxtheme.h>
 #include"./../../resource.h"
@@ -11,7 +11,7 @@
 DECLSPEC void ELTAPIENTRY ExSetControlEvent(ExWin hWnd,const HANDLE eventHandle){
 	if(!SetWindowLongPtr(hWnd,GWLP_USERDATA, (LONG_PTR)eventHandle) && !(eventHandle)){
 		// Ex Control Event assignment failed.
-		ExDevWindowPrintc(EX_TEXT("Failed to Assign Control Event."),EX_CONSOLE_RED); 
+		ExDevWindowPrintc(EX_TEXT("Failed to Assign Control Event."),EX_CONSOLE_RED);
 	}
 }
 DECLSPEC void ELTAPIENTRY ExSetControlEventv(ExWin hWnd,const HANDLE eventHandle, Uint32 size){
@@ -19,7 +19,7 @@ DECLSPEC void ELTAPIENTRY ExSetControlEventv(ExWin hWnd,const HANDLE eventHandle
 	memcpy(datahandle,eventHandle, size);
 	if(!SetWindowLongPtr(hWnd,GWLP_USERDATA, (LONG_PTR)datahandle) && !(datahandle)){
 		// Ex Control Event assignment failed.
-		ExDevWindowPrintc(EX_TEXT("Failed to Assign Control Event."),EX_CONSOLE_RED); 
+		ExDevWindowPrintc(EX_TEXT("Failed to Assign Control Event."),EX_CONSOLE_RED);
 	}
 }
 
@@ -216,17 +216,17 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateButton(ExWin parentHwnd,CallBack callback){
 	ExButtonEvent*  event = (ExButtonEvent*)ExMalloc(sizeof(ExButtonEvent));
 	memset(event, 0, sizeof(ExButtonEvent));
 	event->buttonPushed = callback;
-	hwndButton = CreateWindow( 
-    EX_TEXT("BUTTON"),  // Predefined class; Unicode assumed 
-    EX_TEXT(""),      // Button text 
-    WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON ,  // Styles 
-    20,					// x position 
-    20,					// y position 
+	hwndButton = CreateWindow(
+    EX_TEXT("BUTTON"),  // Predefined class; Unicode assumed
+    EX_TEXT(""),      // Button text
+    WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON ,  // Styles
+    20,					// x position
+    20,					// y position
     100,				// Button width
     100,				// Button height
     parentHwnd,			// Parent window
     EX_NULL,					// No menu.
-    (HINSTANCE)GetWindowLong(parentHwnd, GWL_HINSTANCE), 
+    (HINSTANCE)GetWindowLong(parentHwnd, GWL_HINSTANCE),
     0);			// Pointer not needed.
 	SetWindowLongPtr(hwndButton, GWLP_USERDATA, (LONG_PTR)event);
 	return hwndButton;
@@ -240,7 +240,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateComboBox(ExWin hWnd){
 		100,
 		100,
 		hWnd,
-		EX_NULL, 
+		EX_NULL,
 		GetModuleHandle(EX_NULL),
 		0);
 
@@ -249,41 +249,41 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateComboBox(ExWin hWnd){
 
 DECLSPEC ExWin ELTAPIENTRY ExCreateTrackBar(ExWin parenthWnd,Uint32 imin, Uint32 imax, Uint32 iselected){
 	HWND  hwndTrack;
-	InitCommonControls(); // loads common control's DLL 
-    hwndTrack = CreateWindowEx( 
-        0,                               // no extended styles 
-        TRACKBAR_CLASS,                  // class name 
-        EX_TEXT("Trackbar Control"),              // title (caption) 
-        WS_CHILD | 
-        WS_VISIBLE | 
-        TBS_AUTOTICKS | 
-        TBS_ENABLESELRANGE,              // style 
-        10, 10,                          // position 
-        200, 30,                         // size 
-        parenthWnd,                         // parent window 
-        0,								// control identifier 
-		GetModuleHandle(EX_NULL),                         // instance 
-        NULL                             // no WM_CREATE parameter 
-        ); 
+	InitCommonControls(); // loads common control's DLL
+    hwndTrack = CreateWindowEx(
+        0,                               // no extended styles
+        TRACKBAR_CLASS,                  // class name
+        EX_TEXT("Trackbar Control"),              // title (caption)
+        WS_CHILD |
+        WS_VISIBLE |
+        TBS_AUTOTICKS |
+        TBS_ENABLESELRANGE,              // style
+        10, 10,                          // position
+        200, 30,                         // size
+        parenthWnd,                         // parent window
+        0,								// control identifier
+		GetModuleHandle(EX_NULL),                         // instance
+        NULL                             // no WM_CREATE parameter
+        );
 
-    SendMessage(hwndTrack, TBM_SETRANGE, 
-        (WPARAM) TRUE,                   // redraw flag 
+    SendMessage(hwndTrack, TBM_SETRANGE,
+        (WPARAM) TRUE,                   // redraw flag
         (LPARAM) MAKELONG(imin, imax));  // min. & max. positions
-        
-    SendMessage(hwndTrack, TBM_SETPAGESIZE, 
-        0, (LPARAM) 4);                  // new page size 
 
-/*    SendMessage(hwndTrack, TBM_SETSEL, 
-        (WPARAM) FALSE,                  // redraw flag 
+    SendMessage(hwndTrack, TBM_SETPAGESIZE,
+        0, (LPARAM) 4);                  // new page size
+
+/*    SendMessage(hwndTrack, TBM_SETSEL,
+        (WPARAM) FALSE,                  // redraw flag
         (LPARAM) MAKELONG(iSelMin, iSelMax)); */
-        
-    SendMessage(hwndTrack, TBM_SETPOS, 
-        (WPARAM) TRUE,                   // redraw flag 
-        (LPARAM) iselected); 
 
-    SetFocus(hwndTrack); 
+    SendMessage(hwndTrack, TBM_SETPOS,
+        (WPARAM) TRUE,                   // redraw flag
+        (LPARAM) iselected);
 
-    return hwndTrack; 
+    SetFocus(hwndTrack);
+
+    return hwndTrack;
 }
 
 DECLSPEC ExWin ELTAPIENTRY ExCreateProgressBar(ExWin parentWnd){
@@ -291,11 +291,11 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateProgressBar(ExWin parentWnd){
 	ExWin hwndPB;		// progress bar window handle
 	Int cyVscroll;		// height of scroll bar arrow
 	// initilize common controls
-	InitCommonControls(); 
+	InitCommonControls();
 
 	GetClientRect(parentWnd, &rcClient);
 
-	cyVscroll = GetSystemMetrics(SM_CYVSCROLL); 
+	cyVscroll = GetSystemMetrics(SM_CYVSCROLL);
 
 	hwndPB = CreateWindowEx(0,
 		PROGRESS_CLASS, EX_NULL,
@@ -310,14 +310,14 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateProgressBar(ExWin parentWnd){
 
 DECLSPEC ExWin ELTAPIENTRY ExCreateListView(ExWin parenthWnd){
 	INITCOMMONCONTROLSEX icex;           // Structure for control initialization.
-	RECT rcClient;           // The parent window's client area.            
+	RECT rcClient;           // The parent window's client area.
     icex.dwICC = ICC_LISTVIEW_CLASSES;
     InitCommonControlsEx(&icex);
 
-    GetClientRect (parenthWnd, &rcClient); 
+    GetClientRect (parenthWnd, &rcClient);
 
     // Create the list-view window in report view with label editing enabled.
-    ExWin hWndListView = CreateWindow(WC_LISTVIEW, 
+    ExWin hWndListView = CreateWindow(WC_LISTVIEW,
                                      EX_TEXT(""),
                                      WS_CHILD | LVS_REPORT | LVS_EDITLABELS,
                                      0, 0,
@@ -334,16 +334,16 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateListView(ExWin parenthWnd){
 	HIMAGELIST hLarge;   // Image list for icon view.
 	HIMAGELIST hSmall;   // Image list for other views.
 
-    // Create the full-sized icon image lists. 
-    hLarge = ImageList_Create(GetSystemMetrics(SM_CXICON), 
-                              GetSystemMetrics(SM_CYICON), 
-                              ILC_MASK, 1, 1); 
+    // Create the full-sized icon image lists.
+    hLarge = ImageList_Create(GetSystemMetrics(SM_CXICON),
+                              GetSystemMetrics(SM_CYICON),
+                              ILC_MASK, 1, 1);
 
-    hSmall = ImageList_Create(GetSystemMetrics(SM_CXSMICON), 
-                              GetSystemMetrics(SM_CYSMICON), 
-                              ILC_MASK, 1, 1); 
-    
-    // Add an icon to each image list.  
+    hSmall = ImageList_Create(GetSystemMetrics(SM_CXSMICON),
+                              GetSystemMetrics(SM_CYSMICON),
+                              ILC_MASK, 1, 1);
+
+    // Add an icon to each image list.
 	hiconItem = (HICON)LoadImage(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_ICON1),IMAGE_ICON,GetSystemMetrics(SM_CXICON),
 		GetSystemMetrics(SM_CYICON),LR_DEFAULTCOLOR);
 
@@ -351,17 +351,17 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateListView(ExWin parenthWnd){
     ImageList_AddIcon(hSmall, hiconItem);
 
     DestroyIcon(hiconItem);
- 
-// When you are dealing with multiple icons, you can use the previous four lines of 
-// code inside a loop. The following code shows such a loop. The 
-// icons are defined in the application's header file as resources, which 
-// are numbered consecutively starting with IDS_FIRSTICON. The number of 
+
+// When you are dealing with multiple icons, you can use the previous four lines of
+// code inside a loop. The following code shows such a loop. The
+// icons are defined in the application's header file as resources, which
+// are numbered consecutively starting with IDS_FIRSTICON. The number of
 // icons is defined in the header file as C_ICONS.
-    
-    // Assign the image lists to the list-view control. 
-    ListView_SetImageList(hWndListView, hLarge, LVSIL_NORMAL); 
-    ListView_SetImageList(hWndListView, hSmall, LVSIL_SMALL); 
-            
+
+    // Assign the image lists to the list-view control.
+    ListView_SetImageList(hWndListView, hLarge, LVSIL_NORMAL);
+    ListView_SetImageList(hWndListView, hSmall, LVSIL_SMALL);
+
 	WCHAR szText[256] = {EX_TEXT("what wrong with this")};     // Temporary buffer.
     LVCOLUMN lvc;
     int iCol;
@@ -402,7 +402,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateListView(ExWin parenthWnd){
     {
         lvI.iItem  = index;
         lvI.iImage = index;
-    
+
         // Insert items into the list.
         if (ListView_InsertItem(hWndListView, &lvI) == -1)
             return FALSE;
@@ -425,36 +425,36 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateListView(ExWin parenthWnd){
 }
 
 DECLSPEC ExWin ELTAPIENTRY ExCreateHeader(ExWin hwndParent, Int32 x, Int32 y, Int32 width, Int32 height){
-	HDLAYOUT hdl; 
+	HDLAYOUT hdl;
 	WINDOWPOS wp;
-	RECT rcParent; 
-	// the header control. 
+	RECT rcParent;
+	// the header control.
 	INITCOMMONCONTROLSEX icex;  //declare an INITCOMMONCONTROLSEX Structure
 	icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
-	icex.dwICC = ICC_LISTVIEW_CLASSES;   //set dwICC member to ICC_LISTVIEW_CLASSES    
+	icex.dwICC = ICC_LISTVIEW_CLASSES;   //set dwICC member to ICC_LISTVIEW_CLASSES
 												// this loads list-view and header control classes.
-	InitCommonControlsEx(&icex); 
-	
-	HWND hWndheader = CreateWindowEx(0, WC_HEADER, (LPCTSTR) NULL, 
-				WS_CHILD | WS_BORDER | HDS_BUTTONS | HDS_HORZ, 
-				0, 0, 0, 0, hwndParent, 0, GetModuleHandle(EX_NULL), 
+	InitCommonControlsEx(&icex);
+
+	HWND hWndheader = CreateWindowEx(0, WC_HEADER, (LPCTSTR) NULL,
+				WS_CHILD | WS_BORDER | HDS_BUTTONS | HDS_HORZ,
+				0, 0, 0, 0, hwndParent, 0, GetModuleHandle(EX_NULL),
 				(LPVOID) NULL);
 
 
-	GetClientRect(hwndParent, &rcParent); 
- 
-	hdl.prc = &rcParent; 
-	hdl.pwpos = &wp; 
-	if (!SendMessage(hWndheader, HDM_LAYOUT, 0, (LPARAM) &hdl)) 
-		return (HWND) NULL; 
+	GetClientRect(hwndParent, &rcParent);
 
-	SetWindowPos(hWndheader, wp.hwndInsertAfter, wp.x, wp.y, 
-			wp.cx, wp.cy,wp.flags |  SWP_SHOWWINDOW); 
+	hdl.prc = &rcParent;
+	hdl.pwpos = &wp;
+	if (!SendMessage(hWndheader, HDM_LAYOUT, 0, (LPARAM) &hdl))
+		return (HWND) NULL;
+
+	SetWindowPos(hWndheader, wp.hwndInsertAfter, wp.x, wp.y,
+			wp.cx, wp.cy,wp.flags |  SWP_SHOWWINDOW);
 	return hWndheader;
 }
 
 /*
-	// Toolbar 
+	// Toolbar
 */
 DECLSPEC ExWin ELTAPIENTRY ExCreateToolBar(ExWin parenthWnd){
     const int ImageListID    = 0;
@@ -470,8 +470,8 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateToolBar(ExWin parenthWnd){
 	InitCommonControlsEx(&icex);
 
     // Create the toolbar.
-    if(!(hWndToolbar = CreateWindowEx(0, TOOLBARCLASSNAME, EX_NULL, 
-                                      WS_CHILD | TBSTYLE_WRAPABLE | TBSTYLE_LIST | TBSTYLE_FLAT, 0, 0, 0, 0, 
+    if(!(hWndToolbar = CreateWindowEx(0, TOOLBARCLASSNAME, EX_NULL,
+                                      WS_CHILD | TBSTYLE_WRAPABLE | TBSTYLE_LIST | TBSTYLE_FLAT, 0, 0, 0, 0,
                                       parenthWnd, EX_NULL, GetModuleHandle(EX_NULL), EX_NULL)))
         return NULL;
 
@@ -480,19 +480,19 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateToolBar(ExWin parenthWnd){
                                     ILC_COLOR16 | ILC_MASK,   // Ensures transparent background.
                                     numButtons, 16);
     // Set the image list.
-    SendMessage(hWndToolbar, TB_SETIMAGELIST, 
-                (WPARAM)ImageListID, 
+    SendMessage(hWndToolbar, TB_SETIMAGELIST,
+                (WPARAM)ImageListID,
                 (LPARAM)g_hImageList);
 
     // Load the button images.
-    SendMessage(hWndToolbar, TB_LOADIMAGES, 
-                (WPARAM)IDB_STD_SMALL_COLOR, 
+    SendMessage(hWndToolbar, TB_LOADIMAGES,
+                (WPARAM)IDB_STD_SMALL_COLOR,
                 (LPARAM)HINST_COMMCTRL);
 
     // Initialize button info.
     // IDM_NEW, IDM_OPEN, and IDM_SAVE are application-defined command constants.
-    
-   //TBBUTTON tbButtons[numButtons] = 
+
+   //TBBUTTON tbButtons[numButtons] =
    //{
    //    { MAKELONG(STD_FILENEW,  ImageListID), 0,  TBSTATE_ENABLED, buttonStyles, {0}, 0, (INT_PTR)L"New" },
    //    { MAKELONG(STD_FILEOPEN, ImageListID), 1, TBSTATE_ENABLED, buttonStyles, {0}, 0, (INT_PTR)L"Open"},
@@ -505,9 +505,9 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateToolBar(ExWin parenthWnd){
 
 
     // Resize the toolbar, and then show it.
-    SendMessage(hWndToolbar, TB_AUTOSIZE, 0, 0); 
+    SendMessage(hWndToolbar, TB_AUTOSIZE, 0, 0);
     ShowWindow(hWndToolbar,  TRUE);
-    
+
     return hWndToolbar;
 }
 DECLSPEC ExBoolean ELTAPIENTRY ExAddToolBarTemplate(ExWin hWndToolbar, WCHAR* text, Uint32 templates,ExButtonPushed buttoncallback){
@@ -575,24 +575,24 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateTabControl(ExWin parenthWnd){
 		0,0,rcClient.right, rcClient.bottom,
 		parenthWnd,NULL, GetModuleHandle(EX_NULL),EX_NULL);
 
-// Add tabs for each day of the week. 
-    tie.mask = TCIF_TEXT | TCIF_IMAGE; 
-    tie.iImage = -1; 
-    tie.pszText =  EX_TEXT("random text"); 
- 
-    for (i = 0; i < 7; i++) { 
+// Add tabs for each day of the week.
+    tie.mask = TCIF_TEXT | TCIF_IMAGE;
+    tie.iImage = -1;
+    tie.pszText =  EX_TEXT("random text");
+
+    for (i = 0; i < 7; i++) {
 		achTemp = EX_TEXT("random text");
-        if (TabCtrl_InsertItem(hWndTab, i, &tie) == -1) 
-        { 
-            DestroyWindow(hWndTab); 
-            return NULL; 
-        } 
-    } 
+        if (TabCtrl_InsertItem(hWndTab, i, &tie) == -1)
+        {
+            DestroyWindow(hWndTab);
+            return NULL;
+        }
+    }
 	return hWndTab;
 }
 
 DECLSPEC ExWin ELTAPIENTRY ExCreateTab(ExWin tabhWnd){
-/*    if (TabCtrl_InsertItem(hWndTab, i, &tie) == -1) 
+/*    if (TabCtrl_InsertItem(hWndTab, i, &tie) == -1)
 
 	}*/
 	return 0;
@@ -604,9 +604,9 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateListBox(ExWin parentHwnd){
 	HWND hWndList = CreateWindowEx(WS_EX_CLIENTEDGE,
 		EX_TEXT("listbox"),
 		EX_TEXT(""),
-		WS_CHILD | WS_VISIBLE | WS_VSCROLL | ES_AUTOVSCROLL | LBS_NOTIFY, 
-		240, 
-		40, 
+		WS_CHILD | WS_VISIBLE | WS_VSCROLL | ES_AUTOVSCROLL | LBS_NOTIFY,
+		240,
+		40,
 		150,
 		100,
 		parentHwnd,
@@ -641,9 +641,9 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateStaticControl(ExWin parentHwnd,CallBack callb
 	HWND hWndstatic = CreateWindowEx(WS_EX_CLIENTEDGE,
 		EX_TEXT("STATIC"),
 		EX_TEXT(""),
-		WS_CHILD | WS_VISIBLE | SS_NOTIFY | SS_BITMAP, 
-		0, 
-		0, 
+		WS_CHILD | WS_VISIBLE | SS_NOTIFY | SS_BITMAP,
+		0,
+		0,
 		256,
 		256,
 		parentHwnd,
@@ -660,7 +660,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateStaticControl(ExWin parentHwnd,CallBack callb
 }
 DECLSPEC ExWin ELTAPIENTRY ExSetStaticControlBitMap(ExWin staticControl, HBITMAP hBitMap){
 
-	// assign the texture 
+	// assign the texture
 	SendMessage(staticControl,STM_SETIMAGE,IMAGE_BITMAP,(WPARAM)hBitMap);
 	// set window woth a bitmap
 	ExSetAddiWindowStyle(staticControl,SS_BITMAP | SS_REALSIZEIMAGE | SS_CENTERIMAGE );
