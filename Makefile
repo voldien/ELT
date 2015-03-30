@@ -5,48 +5,70 @@ CC = gcc
 ARCHIVE=ar
 
 ifdef ComSpec
-	EXE_EXT=.dll
-	INCLUDE_PATH = -
-	LINK_PATH = 
-	LIBS=
+	TARGETSUFFIX :=.dll
+	INCLUDE = -
+	LINK_PATH := 
+	CLIBS :=
 	ASSEMBLY_INSTRUCTION = 
-	ENVIROMENT_PRE_PROCESSOR= _ENGINE_INTERNAL GLEW_BUILD
+	DEFINE := -DENGINE_INTERNAL=1
 else
-	EXE_EXT=.so
-	INCLUDE_PATH = -I"include" 
-	CLIBS= -lGL -lGLU -lX11 -lEGL -lXrender -lOpenCL
+	TARGETSUFFIX := .so
+	INCLUDE := -I"include" 
+	CLIBS= -lGL -lX11 -lEGL -lXrender -lOpenCL -lpthread -ldl -lrt -lxcb -lX11-xcb -lXrandr
 	ASSEMBLY_INSTRUCTION =  $(ARCHIVE) -rcs libcmdlib.a -f *.o 	
-	# pre processor
-	ENVIROMENT_PRE_PROCESSOR= -D_ENGINE_INTERNAL=1
+
+	DEFINE := -DENGINE_INTERNAL=1	
 endif
 
-#check if cmdlib exist! otherwise, error! 
+vpath %.c src			#	pattern rule for c source file.
+vpath %.h include		#	pattern rule for header file.
+vpath %.o .			#	pattern rule for machine code file. 
 
-vpath %.c src
-vpath %.h include
-vpath %.o .
 
-SRCS := $(wildcard src/*.c)
-SRCS += $(wildcard src/Input/*.c)
-SRCS += $(wildcard src/System/*.c)
-
+SRCS  = $(wildcard src/*.c)
+SRCS += $(wildcard src/input/*.c)
+SRCS += $(wildcard src/system/*.c)
+SRCS += $(wildcard src/system/unix/*.c)
+SRCS -= src/main.c 
 OBJS = $(subst %.c,%.o,$(SRCS))
 
 
-CFLAGS= -O3 -Wall -fPIC -shared  $(ENVIROMENT_PRE_PROCESSOR) $(INCLUDE_PATH) $(LINK_PATH)
+CFLAGS= -O3 -fPIC  $(DEFINE) $(INCLUDE) $(LINK_PATH)
 
-# target 
-LINK_TARGET=libEngineEx$(EXE_EXT)
+
+TARGET=libEngineEx$(TARGETSUFFIX)			# target
 	
 
-all: $(LINK_TARGET)
-	echo -en "$(LINK_TARGET) has succfully been compiled and linked $(du -h libEngineEx.so)"
+all: $(TARGET)
+	echo -en "$(TARGET) has succfully been compiled and linked $(du -h $(TARGET))"
 
-$(LINK_TARGET) : $(OBJS)
-	$(CC) $(CFLAGS) $^ -o build/$(LINK_TARGET)  $(CLIBS)
+$(TARGET) : $(OBJS)
+	$(CC) $(CFLAGS) -shared $^ -o build/$@  $(CLIBS)
 	
-%.o : %.c
-	$(CC) $(CFLAGS) -c $< $(CLIBS)
+%.o : %.c %.h 
+	$(CC) $(CFLAGS) -c $^ $(CLIBS)
+
+
+
+debug : 
+	$(CC) $(INCLUDE) -fPIC -g -c  $(SRCS) $(CLIBS)
+	$(CC) $(INCLUDE) -fPIC -shared  $(SRCS) -o $(TARGET) $(CLIBS)
+
+
+arm : $(SRCS)
+	
+
+x86 : $(SRCS)
+	$(CC) -fPIC -O3 -c $^ $(CLIBS)
+
+x64 : $(SRCS)
+	$(CC) $(CFLAGS) -fPIC -m64 -O3 -c $^ $(CLIBS) 
+	$(CC) $(CFLAGS) -fPIC -m64 -O3 $(OBJS) -o $(TARGET) $(CLIBS)
+
+static_library : $(SRCS)
+	$(CC) $(CFLAGS) 
+
+
 
 
 install :
@@ -62,8 +84,10 @@ install :
 
 uninstall : 	
 
+
 clean:
+	rm *.o
 	rm -f src/*.o
 	rm src/input/*.o
 	rm src/system/*.o	
-	echo EveryThing removed
+	echo -en "EveryThing removed"
