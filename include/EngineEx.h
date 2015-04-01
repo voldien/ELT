@@ -22,19 +22,9 @@
 #include"EngineAssembly.h"
 
 
-
-#define EX_VENDOR EX_TEXT("BroodCity")
-
-/*resolve position later!!*/
 #ifdef EX_ANDROID
 extern int main(int argc, char** argv);
 #endif
-
-
-
-/*
-	// Developer information
-*/
 
 #ifdef __cplusplus // C++ environment
 extern "C"{
@@ -42,10 +32,14 @@ extern "C"{
 
 /**
 	Initialization of ELT Engine Library ToolKit
+	\engineflag
+	@return
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExInit(Uint32 engineFlag);
 /**
 	Initialize specific subsystems
+	\engineflag
+	@return
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineFlag);
 /**
@@ -55,6 +49,7 @@ extern DECLSPEC void ELTAPIENTRY ExShutDown(void);
 #define ExQuit ExShutDown
 /**
 	Quit Sub System
+	\engineflag
 */
 extern DECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag);
 /**

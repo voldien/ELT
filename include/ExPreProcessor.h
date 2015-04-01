@@ -1,4 +1,4 @@
-/*
+/**
 ========================================================================
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
@@ -80,8 +80,8 @@
 #endif
 
 /**
-	// platform define
-	//	Architecture!
+	//  Platform define
+	//  Architecture!
 */
 #ifdef EX_VC
 	#if defined(_M_IX86) || defined(_WIN32)
@@ -104,7 +104,7 @@
 		#define EX_ARM_NEON                     /**/
 	#endif
 #elif defined EX_GNUC
-	#ifdef __CELLOS_LV2__   /*  */
+	#ifdef __CELLOS_LV2__   /**/
         #define EX_PS3                          /*	playstation 3*/
 	#elif defined(__arm__)	/**/
         #define EX_PSP2                         /*	playstation portable 2*/
@@ -177,7 +177,9 @@
 	#endif
 
 	#if defined(__unix__) 	/*  Unix    */
-    		#define EX_UNIX 1
+        #ifndef EX_UNIX
+        #   define EX_UNIX 1
+        #endif
 	#endif
 
 #else
@@ -194,9 +196,6 @@
 #elif defined(__STDC__)
 #   define EX_C90
 #endif
-
-// defination of compiler settings
-#define LINKER_BUILD_TARGET
 
 /**
     macro definition of Release and Debug  build
@@ -215,30 +214,28 @@
 /**
     Unicode
 */
-#ifdef UNICODE
+#ifdef UNICODE  /*  UTF-16*/
 	#define EX_UNICODE
 	#define _EX_TEXT(quote) L##quote
 	#define EX_TEXT(quote)  _EX_TEXT(quote)
-#else   /*  ASCI / UTF8 */
+#else           /*  ASCI / UTF-8 */
 	#define EX_ANSI
     #define EX_TEXT(quote) quote
 #endif
 
-//end compiler
-// ENGINE EX Declaration Behavior
 
 
 /**
     declaration specification
 */
 #if !defined(ENGINE_EX_STATIC_BUILD)
-	#if defined(EX_WINDOWS) /*&& defined(EX_VC)*/
+	#if defined(EX_WINDOWS)                 /**     Window      */
 		#define EX_IMPORT __declspec(dllimport)
 		#define EX_EXPORT __declspec(dllexport)
-	#elif defined(EX_LINUX)                 /*      Linux       */
+	#elif defined(EX_LINUX)                 /**     Linux       */
 		#define EX_IMPORT	__attribute__ ((__visibility__ ("default")))
 		#define EX_EXPORT	__attribute__ ((__visibility__ ("default")))
-	#elif defined(EX_ANDROID)               /*      Android     */
+	#elif defined(EX_ANDROID)               /**      Android     */
         #ifdef EX_JINI
             #define EX_IMPORT	__attribute__ ((__visibility__ ("default")))
             #define EX_EXPORT	__attribute__ ((__visibility__ ("default")))
@@ -306,7 +303,7 @@
 
 #   endif
 #else
-//#define PROPERTIES(_get, _set,_type) #error "error"
+    #define PROPERTIES(_get, _set,_type)
 #endif
 
 
@@ -330,7 +327,7 @@
 /**
 	Calling Convention
 */
-#ifdef EX_WINDOWS	// Windows Calling Convention.
+#ifdef EX_WINDOWS	        /** Windows Calling Convention.*/
 	#define ELTAPIENTRY     __cdecl
 	#define ELTAPIFASTENTRY __fastcall
 	#define ELTAPITHISENTRY __thiscall
@@ -365,7 +362,7 @@
 /**
     inline
 */
-#ifdef EX_WINDOWS
+#if defined(EX_VC)
 	#define INLINE inline
 	#pragma inline_depth(255)
 #else
@@ -564,7 +561,7 @@
 
 #define EX_ENGINE_PREALPHA EX_TEXT("pa")	        /* Pre alpha    */
 #define EX_ENGINE_ALPHA EX_TEXT("a")		        /* Alpha        */
-#define EX_ENGINE_BETA EX_TEXT("b")		       	/* Beta         */
+#define EX_ENGINE_BETA EX_TEXT("b")		       	    /* Beta         */
 #define EX_ENGINE_STABLE EX_TEXT("r")		        /* Stable       */
 #define EX_ENGINE_RELEASE_SOMETHING EX_TEXT("rc")	/*              */
 #define EX_ENGINE_RELEASE_BETTER EX_TEXT("rc5")		/*          */
@@ -612,7 +609,7 @@
 
 
 #ifdef EX_VC
-	#define WIN32_LEAN_AND_MEAN	/*	ignoring some tedious useless warnings*/
+	#define WIN32_LEAN_AND_MEAN	    /**	ignoring some tedious useless warnings*/
 #endif
 
 #ifdef INTERNAL_ENGINEX

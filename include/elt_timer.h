@@ -1,4 +1,4 @@
-/*
+/**
 ========================================================================
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
@@ -41,14 +41,17 @@ extern "C"{
 
 /**
 	Add timer thread routine
+	@return timer handle
 */
 extern DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback, void* param);
 /**
 	Remove timer thread routine
+	@return if successfully removed
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id);
 /**
 	Delay current thread in milliseconds.
+	\ms milliseconds.
 */
 extern DECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms);
 
@@ -67,10 +70,12 @@ extern DECLSPEC Uint64 ELTAPIENTRY ExGetPerformanceCounter(void);
 extern DECLSPEC Uint64 ELTAPIENTRY ExGetPerformanceFrequency(void);
 /**
 	Get numbers Ticks sense ELT_TIMER was initialize
+	@return
 */
 extern DECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void);
 /**
 	Get numbers Ticks sense ELT_TIMER was initialize
+	@return get number of ticks.
 */
 extern DECLSPEC long int ELTAPIENTRY ExGetHiResTime(void);
 

@@ -56,6 +56,7 @@ extern "C"{
 #endif
 /**
 	Capture mouse
+	@return
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(ExBoolean enabled);
 /**
@@ -64,22 +65,27 @@ extern DECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(ExBoolean enabled);
 extern DECLSPEC Int32 ELTAPIENTRY ExClipCursor(const struct exrect* rect);
 /**
 	Create Cursor
+	@return
 */
 extern DECLSPEC ExCursor ELTAPIENTRY ExCreateCursor(const Uint8* data, const Uint8* mask, Int32 width,Int32 height, Int32 hot_x, Int32 hot_y);
 /**
 	Create System Cursor
+	@return
 */
 extern DECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(Enum system_id);
 /**
 	Free cursor
+	@return
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExFreeCursor(ExCursor cursor);
 /**
 	Set Cursor
+	@return
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExSetCursor(ExCursor cursor);
 /**
 	Get Cursor
+	@return
 */
 extern DECLSPEC ExCursor ELTAPIENTRY ExGetCursor(void);
 
@@ -120,10 +126,14 @@ extern DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButtonUp(Uint32 keyCode);
 
 
 
-/**/
-extern DECLSPEC const int ELTAPIENTRY ExGetTouchDown(unsigned int fingerid);
-
-extern DECLSPEC const int ELTAPIENTRY ExGetTouchPosition(unsigned int fingerid, float* pos);
+/**
+	@return
+*/
+extern DECLSPEC int ELTAPIENTRY ExGetTouchDown(unsigned int fingerid);
+/**
+	@return
+*/
+extern DECLSPEC int ELTAPIENTRY ExGetTouchPosition(unsigned int fingerid, float* pos);
 
 #ifdef __cplusplus	// C++ Environment
 }

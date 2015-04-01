@@ -1,4 +1,4 @@
-/*
+/**
 ========================================================================
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
@@ -32,11 +32,13 @@ extern "C"{
 
 /**
 	create process
+	@return if successfully
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName);
 /**
 	// create process with variable argument list
 	// Remark :last argument should be null to prevent system error.
+	@return
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName,...);
 
@@ -56,8 +58,9 @@ extern DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenRect(struct exrect* rect);
 
 */
 extern DECLSPEC void ELTAPIENTRY ExGetMonitorRect(Uint32 index, struct exrect* rect);
-/*
+/**
 	// Get Monitor by Index Hz
+	@return
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExGetMonitorHz(Uint32 index);
 /*
@@ -65,48 +68,35 @@ extern DECLSPEC Int32 ELTAPIENTRY ExGetMonitorHz(Uint32 index);
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExGetPrimaryMonitorHz(void);
 
-
-#ifdef EX_WINDOWS
-/**
-
-*/
-extern DECLSPEC Boolean ExLoadFileExplorer(char* path,const ExChar* filter);
-/**
-
-*/
-extern DECLSPEC Boolean ExSaveFileExplorer(char* path,const ExChar* filter);
-#endif
-
 /**
 	// Get Platform
+	@return
 */
 extern DECLSPEC const char* ExGetPlatform(void);
 /**
 	// Get Power Info
+	@return
 */
 extern DECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct);
 /**
 	// Get Application Name
+	@return
 */
 extern DECLSPEC void ELTAPIENTRY ExGetApplicationName(ExChar* name,Int32 length);
 /**
-	// Set Current Directory
+	Set Current Directory
 */
 #ifdef EX_WINDOWS
 	#define ExSetCurrentDirectory
+	#define ExGetCurrentDirectory
 #elif defined(EX_LINUX)
 	#define ExSetCurrentDirectory
-#endif
-
-#ifdef EX_WINDOWS
-	#define ExGetCurrentDirectory
-#elif defined(EX_LINUX)
 	#define ExGetCurrentDirectory
 #endif
 
-
-/*
+/**
     // Get Application Execute global Path.
+    @return
 */
 extern DECLSPEC void ELTAPIENTRY ExGetExecutePath(ExChar* wChar, Int32 lengthSize);
 /* Get Application Path where the Exe file is located. */
@@ -114,8 +104,15 @@ extern DECLSPEC void ELTAPIENTRY ExGetAppliationPath(ExChar* wChar, Int32 length
 /* Get Relative Path.*/
 extern DECLSPEC void ELTAPIENTRY ExGetRelativePath(const ExChar* wChar, ExChar* Chas, Int32 lengthSize);
 
+/**
 
+    @return
+*/
 extern DECLSPEC Uint64 ELTAPIENTRY ExGetTotalSystemMemory(void);
+/**
+
+    @return
+*/
 extern DECLSPEC Uint64 ELTAPIENTRY ExGetTotalVirtualMemory(void);
 
 
@@ -127,24 +124,25 @@ extern DECLSPEC const ExChar* ELTAPIENTRY ExGetOSName(void);
 
 
 
-/*
+/**
 	// Get Current User Name
 	// Has to maintain later!!! TODO<>
+    @return
 */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetCurrentUser(void);
-/*
+/**
 	// Get Clipboard Text
 */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetClipboardText(void);
-/*
+/**
 	// Set Clipboard Text
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExSetClipboardText(const ExChar* text);
-/*
+/**
 	// Set Clipboard Data
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExSetClipboardData(void* data,Uint32 csize);
-/*
+/**
 	// Get Clipboard data
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExGetClipboardData(void* pdata);

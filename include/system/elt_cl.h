@@ -32,11 +32,13 @@ extern "C"{
 #endif
 /**
 	Get CL context
+
 */
 extern DECLSPEC void* ELTAPIFASTENTRY ExGetCLContext(void);
 
 /**
 	Get current cl context
+    @return CL context.
 */
 extern DECLSPEC void* ELTAPIFASTENTRY ExGetCurrentCLContext(void);
 
@@ -60,15 +62,14 @@ extern DECLSPEC void ELTAPIENTRY ExReleaseCLContext(void* context);
 
 /**
 	Create shared CL context with OpenGL context
+    @return CL context.
 */
 extern DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowContext window,Enum erenderingFlag);
 
-/*Get the binary (PTX) of the program associated with the device*/
-extern DECLSPEC Int32 ELTAPIENTRY ExGetProgBinary(void*, void* cdDevice,char** binary, size_t* length);
 
-extern DECLSPEC void ELTAPIENTRY ExLogPtx(void* cpProgram, void* cdDevice, const char* cPtxFilename);
 /**
     Get CL platform identification
+    @return current CL context.
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum flag);
 /**

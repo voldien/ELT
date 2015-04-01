@@ -1,4 +1,4 @@
-/*
+/**
 ========================================================================
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
@@ -34,40 +34,46 @@ extern "C"{
 #define ExGetKeyCode(array,keycode) ( ( ( array ) [ ( keycode ) /8] )  & (1 << ( ( keycode )  % 8)))
 /**
 	Get KeyCode name identification index
+	@return
 */
 extern DECLSPEC Keycode ELTAPIENTRY ExGetKeyFromName(const char* name);
 /**
 	Get Key from Scancode
+	@return
 */
 extern DECLSPEC Keycode ELTAPIENTRY ExGetKeyFromScancode(ExScancode scancode);
 /**
 	Get KeyCode name
+	@return
 */
 extern DECLSPEC const char* ELTAPIENTRY ExGetKeyName(Keycode keycode);
 
 /**
 	Get Window that is keyboard is focus to
+	@return
 */
 extern DECLSPEC ExWin ELTAPIENTRY ExGetKeyboardFocus(void);
 /**
 	Get keyboard state.
+	@return
 */
 extern DECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys);
 /**
-
+	@return
 */
 extern DECLSPEC Keycode ELTAPIENTRY ExGetModeState(void);
 
 /**
 	Is any key pressed
+	@return
 */
 extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKey(void);
 /**
-	//
+	@return
 */
 extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void);
 /**
-	//
+	@return
 */
 extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(const Uint32 keyCode);
 extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyPressed(const Uint32 keyCode);

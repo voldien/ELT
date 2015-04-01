@@ -1,4 +1,4 @@
-/*
+/**
 ========================================================================
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
@@ -33,23 +33,12 @@
 		#include<strsafe.h>
 	#endif
 #elif defined(EX_LINUX)
-
 #elif defined(EX_ANDROID)
 #   include<android/api-level.h>
 #elif defined(EX_MAC)
-
 #endif
 
-
-#define ENGINEDESCRIPTIONDEFAULT EngineDefaultDescription
-#define ENGINEDESCRIPTIONDESKTOP EngineDesktopDescription
-#define ENGINEDESCRIPTIONDIRECTX EngineDirectXDescription
-#define ENGINEDESCRIPTIONOPENGL EngineOpenGLDescription
-
-#define ENGINEDESCRIPTIONLOWENDCOMPUTER EngineLowEndComputerDescription
-#define ENGINEDESCRIPTIONHIEGHENDCOMPUTER EngineHighEndComputerDescription
-
-/*
+/**
 	// Type
 */
 #ifdef __cplusplus //	C++	Environment
@@ -116,7 +105,9 @@ enum EngineSupport{
 		ExVideo  = (eDoubleBuffer |  eInput),
 #endif
 };
-
+/**
+    pixel mode
+*/
 #define ENGINE_ALPHA 0x1UL
 #define ENGINE_RGB 0x2UL
 #define ENGINE_RGBA (ENGINE_RGB | ENGINE_ALPHA)
@@ -124,9 +115,6 @@ enum EngineSupport{
 
 // Engine Rendering Flags
 #define ENGINE_UNKNOWN (Uint64)EngineSupport::eUnknown
-//#define ENGINE_NATIVE EngineSupport::eNative	//	Use Native Window of Current OS System
-//#define ENGINE_OPENGL EngineSupport::eOpenGL	//	Use OpenGL Rendering Interface of Current OS System. [Support Most Platform]
-//#define ENGINE_DIRECTX (Uint64)EngineSupport::eDirectX	//	User DirectX Rendering Interface. [Support only Microsoft, As PC-Window]
 
 #define ENGINE_NATIVE (1 << 7)
 #define EX_OPENGL (1 << 8)
@@ -163,7 +151,7 @@ enum EngineSupport{
 #define ENGINE_SUPPORT_INPUT_BACKGROUND (Uint64)eInputBackGround	// Input Accessordability Can be access even off fokus on Application.
 
 
-/*
+/**
 	// high layer flag
 */
 #define ELT_INIT_TIMER			0x00000001
@@ -198,7 +186,9 @@ typedef struct EngineFormatDescription{
 	Uint8 PixelType;		// Pixel Type
 }EngineDescription, *PENGINEDESCRIPTION,ExEngineDescription, ExEngineDesc;
 
-/* Allocation of This Application EngineDescription. Describe the base of the Application. */
+/**
+    Allocation of This Application EngineDescription. Describe the base of the Application.
+*/
 extern DECLSPEC EngineDescription engineDescription;
 /**
     \Set Hint
@@ -206,14 +196,17 @@ extern DECLSPEC EngineDescription engineDescription;
 extern DECLSPEC void ELTAPIENTRY ExSetHint(Enum e_enum, int value);
 /**
     \Get Hint
+    @return
 */
 extern DECLSPEC int ELTAPIENTRY ExGetHint(Enum e_enum);
 /**
     Set parameter
+    @return
 */
 extern DECLSPEC int ELTAPIENTRY ExSetParameteri(Enum eflag, int value);
 /**
     Set parameter
+    @return
 */
 extern DECLSPEC int ELTAPIENTRY ExSetParameterf(Enum eflag, float value);
 

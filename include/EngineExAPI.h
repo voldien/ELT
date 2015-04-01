@@ -1,6 +1,7 @@
-/*
+/**
 ========================================================================
-    ELT (Engine Library Toolkit) is a multi platform engine toolkit designed for OpenGL in mind.
+    ELT (Engine Library Toolkit) is a multi platform engine toolkit
+    designed for OpenGL and OpenCL.
     Copyright (C) 2014  Valdemar Lindberg
 
     This program is free software: you can redistribute it and/or modify
@@ -24,7 +25,8 @@
     Info : The project is called ELT (Engine Library toolkit). however
     the syntax doesn't really live up to it. Because ExInit for initialize
     the project should have actually be named EltInit. That's because
-    it's original names EngineEx because it was a engine extension.
+    it's original names was EngineEx because it was a engine extension
+    onto the current engine I was developing back in the old days.
     I would guess they are a bit synomny. however the Syntax is
     Ex[function name].
 
@@ -38,10 +40,7 @@
 #ifndef _ENGINE_EX_API_
 #define _ENGINE_EX_API_ 1
 
-#ifndef EX_EXTERNAL_DICTIONARY
-	#define EX_INTERNAL_DICTIONARY
-#endif
-#ifdef EX_INTERNAL_DICTIONARY
+
 #include"ExPreProcessor.h"
 // Library Import
 //define EX_AUTO_LINKER
@@ -98,12 +97,5 @@
 	#error "Error! no supporting Devices"   /**/
 #endif
 #include"ExCommon.h"
-/*End*/
-#else
-// External Dictory
-#include<EngineAssembly.h>
-#include<EngineEx.h>
 
-
-#endif
 #endif

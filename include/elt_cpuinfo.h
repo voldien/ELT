@@ -1,4 +1,4 @@
-/*
+/**
 ========================================================================
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
@@ -24,31 +24,33 @@
 #ifdef __cplusplus	// C++ Environment
 extern "C"{
 #endif
-/*
-	// Get CPU Name
+/**
+	Get CPU Name
+	@return
 */
 extern DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void);
 
 
 extern DECLSPEC Int32 ELTAPIENTRY ExGetFrequence(void);
-/*
+/**
 	// Has CPU Support For AVX (Advanced Vector Extension)
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExHasAVX(void);
-/*
+/**
 	// Has CPU Support For AVX2 (Advanced Vector Extension)
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExHasAVX2(void);
-/*
+/**
 	// Has CPU Support For 3DNow (AMD feature)
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExHas3DNow(void);
 /**
-	//
+	// Has CPU Support For MMX (Matrix Math eXtension)
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExHasMMX(void);
 /**
 	Get CPU number of cpu cores
+    @return number of cpu cores.
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void);
 /*

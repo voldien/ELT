@@ -1,4 +1,4 @@
-/*
+/**
 ========================================================================
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
@@ -41,15 +41,20 @@ extern "C"{
 	Create thread.
 	\callback function to invoke
 	\lpParameter
+    @return thread handle.
 */
 extern DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpParamater,Uint32* pid);
+/**
+    Create Thread with affinity mask.
 
+    @return thread handle.
+*/
 extern DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback,void* lpParamater,Uint32* pid,unsigned int core);
 /**
 	Detach thread
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread);
-/*
+/**
 
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExExitThread(ExThread thread);
@@ -61,27 +66,33 @@ extern DECLSPEC void ELTAPIENTRY ExLockThread(ExThread thread);
 
 /**
     UnLock thread
+    @return
 */
 extern DECLSPEC void ELTAPIENTRY ExUnLockThread(ExThread thread);
 
 /**
     Get current thread identification.
+	@return current thread handle.
 */
 extern DECLSPEC ExThread ELTAPIENTRY ExGetCurrentThread(void);
 /**
 	Get Thread ID
+	@return
 */
 extern DECLSPEC Uint32 ELTAPIENTRY ExGetThreadID(ExThread thread);
 /**
-	Get Thread name
+	Get Thread name by the invoked function.
+	@return get function name.
 */
 extern DECLSPEC const char* ELTAPIENTRY ExGetThreadName(ExThread thread);
 /**
 	Set thread priority
+	@return
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread,Enum nPriority);
 /**
 	Wait the thread
+	@return
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExWaitThread(ExThread thread, Int32* status);
 

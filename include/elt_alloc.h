@@ -1,4 +1,4 @@
-/*
+/**
 ========================================================================
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
@@ -35,6 +35,7 @@ struct datablock{
 };
 /**
     Get Page size
+    @return number of bytes per page.
 */
 extern DECLSPEC int ELTAPIENTRY ExGetPageSize(void);
 

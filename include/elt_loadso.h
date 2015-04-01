@@ -1,4 +1,4 @@
-/*
+/**
 ========================================================================
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
@@ -21,11 +21,15 @@
 #define ELT_LOADSO_H_ 1
 #include"EngineAssembly.h"
 #include"system/elt_win.h"
+
 #ifdef  __cplusplus	// C++ Environment
 extern "C"{
 #endif
 /**
-	Load function
+	Load function from handle.
+	\handle handle to library.
+	\pProcName function name.
+	@return function pointer.
 */
 extern DECLSPEC HANDLE ELTAPIENTRY ExLoadFunction(HANDLE handle, const char* pProcName);
 /**
