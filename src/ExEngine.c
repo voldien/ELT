@@ -23,7 +23,6 @@
 
 #if defined(EX_WINDOWS)
 #   if defined(EX_VC)
-
 #   	include<delayimp.h>
 #   	pragma comment(lib,"delayimp.lib")
 #   endif
@@ -84,7 +83,7 @@ _In_  HINSTANCE hinstDLL,
 #endif
 
 
-extern Uint64 elt_time; /*  high accuracy   */
+extern Uint64 elt_time;     /**  high accuracy timer   */
 
 
 /**
@@ -97,6 +96,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	Long lStdHandle;
 
 	/*
+        if all is already initilated return !
 	*/
     if(engineDescription.EngineFlag & ELT_INIT_EVERYTHING)
         return 2;
@@ -237,7 +237,6 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 	if(ELT_INIT_NET & engineflag){
 	    #ifdef EX_LINUX
         ExLoadLibrary("");
-
         #elif defined(EX_ANDROID)
 
         #elif defined(EX_WINDOWS)

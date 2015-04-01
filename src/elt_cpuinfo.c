@@ -5,12 +5,43 @@
 // get CPUID
 #include<immintrin.h>
 #   include<intrin.h>
-#elif defined(EX_LINUX)
-#   include<immintrin.h>
-#   include<unistd.h>
-#elif defined(EX_ANDROID)
+#elif defined(EX_UNIX)
 #   include<unistd.h>
 #endif
+
+#ifdef EX_GNUC
+
+#ifdef __SSE__
+#include <xmmintrin.h>
+#endif
+
+#ifdef __SSE2__
+#include <emmintrin.h>
+#endif
+
+#ifdef __SSE3__
+#include <pmmintrin.h>
+#endif
+
+#ifdef __SSSE3__
+#include <tmmintrin.h>
+#endif
+
+#if defined (__SSE4_2__) || defined (__SSE4_1__)
+#include <smmintrin.h>
+#endif
+
+#if defined (__AES__) || defined (__PCLMUL__)
+#include <wmmintrin.h>
+#endif
+
+#else
+
+#include <wmmintrin.h>
+
+#endif
+
+
 
 //http://stackoverflow.com/questions/1666093/cpuid-implementations-in-c
 #ifdef EX_WINDOWS

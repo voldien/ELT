@@ -1,6 +1,7 @@
 #include"system/elt_net.h"
 #include <stdio.h>
 #include <stdlib.h>
+
 #if defined(EX_UNIX)   /*  Linux network and android*/
 #   include<sys/types.h>
 #   include<sys/socket.h>
@@ -18,11 +19,9 @@
 #	include<WinInet.h>
 #	include<WinSock.h>
 
-//#	include<WS2tcpip.h>
-
 WSADATA wsadata = {0};
 #define EX_WSA_VERSION MAKEWORD(2,2)
-static int init_wsa(void){  /*  initialize was*/
+static int inline init_wsa(void){  /*  initialize was*/
 	if(wsadata.wVersion != EX_WSA_VERSION){
 		if(!WSAStartup(EX_WSA_VERSION, &wsadata))return -1;
 	}
@@ -36,7 +35,7 @@ static int init_wsa(void){  /*  initialize was*/
 /**
 	create ip address on current machine
 */
-static int create_ip_address(const char* ip, unsigned int port){
+static int inline create_ip_address(const char* ip, unsigned int port){
 #ifdef EX_WINDOWS
 
 	return 1;
@@ -74,8 +73,6 @@ static int ip_exists(const char* ip){
 #endif
 	return 0;
 }
-
-
 
 DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port,unsigned int protocol){
     #ifdef EX_WINDOWS
@@ -269,14 +266,13 @@ DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int p
 }
 
 
-DECLSPEC int ELTAPIENTRY ExWriteSocket(unsigned int socket, unsigned char* data, unsigned size){
+DECLSPEC inline int ELTAPIENTRY ExWriteSocket(unsigned int socket, unsigned char* data, unsigned size){
 	int len;
 #ifdef EX_WINDOWS
 	if((len = send(socket,(char*)data,len,MSG_DONTROUTE)) < 0)
         return -1;
     return len;
 #elif defined(EX_UNIX)
-
 	if((len = write(socket,data,size)) < 0){
 		fprintf(stderr,strerror(errno));
 		return -1;
@@ -285,7 +281,7 @@ DECLSPEC int ELTAPIENTRY ExWriteSocket(unsigned int socket, unsigned char* data,
 #endif
 }
 
-DECLSPEC int ELTAPIENTRY ExReadSocket(unsigned int socket,unsigned  char* data, unsigned int size){
+DECLSPEC inline int ELTAPIENTRY ExReadSocket(unsigned int socket,unsigned  char* data, unsigned int size){
     int len;
 #ifdef EX_WINDOWS
 	if(len = recv(socket, (char*)data, size,0))
@@ -299,7 +295,7 @@ DECLSPEC int ELTAPIENTRY ExReadSocket(unsigned int socket,unsigned  char* data, 
 
 }
 
-DECLSPEC int ELTAPIENTRY ExGetHostIp(char ip[16]){
+DECLSPEC inline int ELTAPIENTRY ExGetHostIp(char ip[16]){
 #ifdef EX_WINDOWS
 	SOCKET fd;
 	char name[256];
