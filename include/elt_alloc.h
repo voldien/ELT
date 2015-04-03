@@ -33,6 +33,10 @@ struct datablock{
     unsigned int size;
     unsigned int position;
 };
+#ifdef __cplusplus	// C++ Environment
+extern "C"{
+#endif
+
 /**
     Get Page size
     @return number of bytes per page.
@@ -42,5 +46,8 @@ extern DECLSPEC int ELTAPIENTRY ExGetPageSize(void);
 extern DECLSPEC int ELTAPIENTRY ExAllocBlock(unsigned int size);
 
 
+#ifdef __cplusplus
+}
+#endif
 
-#endif // _ELT_ALLOC_H
+#endif
