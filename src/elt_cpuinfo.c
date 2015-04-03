@@ -49,8 +49,8 @@
 
 
 #elif defined(EX_LINUX)
-	#include <unistd.h>
-	#include<cpuid.h>
+#   include <unistd.h>
+#   include<cpuid.h>
 	// cpuid for linux
 	#define cpuid(regs,i) 	asm volatile \
 			("cpuid" : "=a" (regs[0]), "=b" (regs[1]), "=c" (regs[2]), "=d" (regs[3])\

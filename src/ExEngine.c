@@ -101,12 +101,9 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
     if(engineDescription.EngineFlag & ELT_INIT_EVERYTHING)
         return 2;
 
-#if defined(EX_DEBUG) || (EX_ENGINE_VERSION_MAJOR <= 0)
-    #ifdef EX_WINDOWS
 
-    #elif defined(EX_LINUX)
-
-    #endif
+#ifdef EX_DEBUG || (EX_ENGINE_VERSION_MAJOR <= 0)
+	#if defined(EX_VC) || defined(EX_WINDOWS)
 	// debug shell
 	// redirect unbuffered STDOUT to the console
 	//lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
@@ -122,20 +119,17 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
     /*  cause fork to fail somehow*/
 	//*stdout = *m_file_log;
 	//setvbuf(fopen, NULL, _IONBF, 0 );
-
-
-#endif
-#ifdef EX_DEBUG
-	#if defined(EX_VC) && defined(EX_WINDOWS)
 		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_ALLOC_MEM_DF);
 		_CrtSetReportMode(_CRT_ASSERT , _CRTDBG_MODE_FILE);
 		_CrtSetReportFile(_CRT_ASSERT , _CRTDBG_FILE_STDERR);
+	#elif defined(EX_UNIX)
+        mtrace();
 	#endif
 #endif
 
-// unicode
+/*	unicode		*/
 #ifdef UNICODE
-	printf("Initialize engine version: %d.%d.%d\n",EX_ENGINE_VERSION_MAJOR,EX_ENGINE_VERSION_MINOR,EX_ENGINE_VERSION_REVISION);
+	printf(EX_TEXT("Initialize engine version: %d.%d.%d\n"),EX_ENGINE_VERSION_MAJOR,EX_ENGINE_VERSION_MINOR,EX_ENGINE_VERSION_REVISION);
 	wprintf(EX_TEXT("Operating System : %s\n"),ExGetOSName());
 #endif
 
@@ -143,52 +137,32 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 
 #if defined(EX_WINDOWS)
 
-	// Input Request
-	/*if(engineFlag & ENGINE_SUPPORT_INPUT){
-		if(!FAILED(_h_result = ExInitDirectInput(engineFlag)))
-			ExInitDirectInputDevice(EX_NULL, engineFlag);
-	}*/
+
 #elif defined(EX_LINUX)     // Linux
-
-    #if defined(EX_DEBUG) || (EX_ENGINE_VERSION_MAJOR <= 0)	// Debugging information
-        mtrace();
-        //_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_ALLOC_MEM_DF);
-        //_CrtSetReportMode(_CRT_ASSERT , _CRTDBG_MODE_FILE);
-        //_CrtSetReportFile(_CRT_ASSERT , _CRTDBG_FILE_STDERR);
-    #else
-        if(engineFlag & ENGINE_SUPPORT_DEBUG_SHELL){
-
-        }
-    #endif
     /**
             Create Connection with Display Server.
     */
     display = XOpenDisplay(getenv("DISPLAY"));
     if(!display)
         ExError("couldn't open Display\n");
-#elif defined(EX_APPLE)
+    /**
+        enable X events
+    */
+    XAllowEvents(display , SyncBoth,CurrentTime);#elif defined(EX_APPLE)
+#elif defined(EX_MAC)
 
 #elif defined(EX_ANDROID)
 
-
-
 #endif
-    /**
-        Initialize sub system
-    */
-    ExInitSubSystem(engineFlag);
+	/**
+		Initialize sub system
+	*/
+	ExInitSubSystem(engineFlag);
 
 	if(_h_result = ExInitErrorHandler()){
 	}else ExError(EX_TEXT("Failed to initialize error handler."));
 
-    engineDescription.EngineFlag |= engineFlag;
-
-#ifdef EX_LINUX
-    /**
-        enable X events
-    */
-    XAllowEvents(display , SyncBoth,CurrentTime);
-#endif
+	engineDescription.EngineFlag |= engineFlag;
 
 	return _h_result;
 }
@@ -293,16 +267,21 @@ DECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag){
         #endif
 	}
 }
+/*
 
+*/
 DECLSPEC void ELTAPIENTRY ExShutDown(void){
 #ifdef EX_LINUX
     struct mallinfo mi;
-#endif // EX_LINUX
+#endif 	// EX_LINUX
 	ExQuitSubSytem(0xFFFFFFFF);
 #ifdef EX_WINDOWS
 	DEVMODE d = {0};
 	Int32 display;
 
+	/*
+		delete opencl and opengl context
+	*/
 	ExReleaseCL();
 	ExDestroyContext(ExGetCurrentGLDrawable(), ExGetCurrentOpenGLContext());
 
@@ -310,37 +289,48 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 	if(ExIsModuleLoaded(EX_TEXT("Ws2_32.dll")))
 		WSACleanup();
 
-#if defined(EX_INCLUDE_DIRECTX)
+	#if defined(EX_INCLUDE_DIRECTX)
 	ExReleaseDirectX();
-#endif
+	#endif
 	ExReleaseDirectSound();
-	ExShutDownDirect();
 	ExRelaseNet();
+
 	// restore screen
 	display = ChangeDisplaySettings(&d, EX_NULL);
 	FreeLibrary(GetModuleHandle(EX_NULL));
 
 /**
-    \Linux
+    Linux
 */
 #elif defined(EX_LINUX)
 	ExReleaseCL();
 	ExDestroyContext(ExGetCurrentGLDrawable(), ExGetCurrentOpenGLContext());
 	eglTerminate(eglGetCurrentDisplay());
 	//ExDestroyCurrentContext();
-    XFlush(display);
+    	XFlush(display);
 	XCloseDisplay(display);
 
-#ifdef EX_DEBUG /*  Debug info of memory allocation*/
+#elif defined(EX_APPLE)
+
+#elif defined(EX_MAC)
+
+#endif
+
+
+/*
+	debug information
+*/
+#ifdef EX_DEBUG || (EX_ENGINE_VERSION_MAJOR <= 0)
+	#if defined(EX_VC) || defined(EX_WINDOWS)
+
+	#elif defined(EX_UNIX)
 	mi = mallinfo();
 	printf("%d\n", mi.arena);
 
 	muntrace();
-#endif
+	#endif
 
-#elif defined(EX_APPLE)
-
-#endif
+#endif 
 	fclose(m_file_log);
 }
 
