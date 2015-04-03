@@ -1,5 +1,4 @@
 /**
-========================================================================
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -28,11 +27,6 @@
 #define ExReAlloc realloc
 #define ExFree(p_pointer) {free(p_pointer);p_pointer = EX_NULL;}
 
-struct datablock{
-    void* pointer;
-    unsigned int size;
-    unsigned int position;
-};
 #ifdef __cplusplus	// C++ Environment
 extern "C"{
 #endif
@@ -42,8 +36,6 @@ extern "C"{
     @return number of bytes per page.
 */
 extern DECLSPEC int ELTAPIENTRY ExGetPageSize(void);
-
-extern DECLSPEC int ELTAPIENTRY ExAllocBlock(unsigned int size);
 
 
 #ifdef __cplusplus
