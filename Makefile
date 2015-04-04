@@ -1,8 +1,11 @@
 #!/bin/bash
-# Makefile
+
+RM := rm -rf
+MKDIR :=  mkdir -p
+CP := cp
+ARMCC := gcc-arm-linux-gnueabi-gcc 
 CC := gcc
-# archive 
-ARCHIVE := ar
+AR := ar
 
 ifdef ComSpec
 	TARGETSUFFIX :=.dll
@@ -14,9 +17,9 @@ else
 	TARGETSUFFIX := .so
 	INCLUDE := -I"include" 
 	CLIBS := -lGL -lX11 -lEGL -lXrender -lOpenCL -lpthread -ldl -lrt -lxcb -lX11-xcb -lXrandr
-	ASSEMBLY_INSTRUCTION :=  $(ARCHIVE) -rcs libcmdlib.a -f *.o
+	ASSEMBLY_INSTRUCTION :=  $(AR) -rcs libcmdlib.a -f *.o
 
-	DEFINE := -DENGINE_INTERNAL=1	
+	DEFINE := -DENGINE_INTERNAL=1
 endif
 
 vpath %.c src			#	pattern rule for c source file.
@@ -31,7 +34,7 @@ sources += $(wildcard src/system/unix/*.c)
 objects = $(subst %.c,%.o,$(sources))
 
 
-CFLAGS := -O3 -fPIC  $(DEFINE) $(INCLUDE)
+CFLAGS := -O2 -fPIC  $(DEFINE) $(INCLUDE)
 TARGET := libEngineEx$(TARGETSUFFIX)			# target
 BUILD_DIR := build/					#	
 
@@ -50,12 +53,14 @@ $(TARGET) : $(objects)
 
 
 debug : $(sources)
-	$(CC) $(INCLUDE) -fPIC -g -c  $^ $(CLIBS)
-	$(CC) $(INCLUDE) -fPIC -shared $^ -o $(TARGET) $(CLIBS)
+	$(CC) $(INCLUDE) -fPIC -g -D_DEBUG=1 -c  $^ $(CLIBS)
+	$(CC) $(INCLUDE) -fPIC -shared $(objects) -o $(TARGET) $(CLIBS)
 
 
 arm : $(sources)
-	
+	$(ARMCC) $(CFLAGS) -marm -shared -c $^ $(CLIBS)
+	$(ARMCC) $(CFLAGS) -marm -shared $(objects) $(CLIBS) 
+
 
 x86 : $(sources)
 	$(CC) -fPIC -O3 -c $^ $(CLIBS)
@@ -71,22 +76,22 @@ static_library : $(sources)
 
 
 install :
-	sudo mkdir -p /usr/include/ELT
-	sudo mkdir -p /usr/include/ELT/input
-	sudo mkdir -p /usr/include/ELT/system
-	sudo mkdir -p /usr/include/ELT/system/android/
-	sudo cp include/*.h /usr/include/ELT/
-	sudo cp include/input/*.h /usr/include/ELT/input/
-	sudo cp include/system/*.h /usr/include/ELT/system/
-	sudo cp include/system/androi d/*.h /usr/include/ELT/system/android/
-	sudo cp build/libEngineEx.so /usr/lib/libEngineEx.so
+	sudo $(MKDIR) /usr/include/ELT
+	sudo $(MKDIR) /usr/include/ELT/input
+	sudo $(MKDIR) /usr/include/ELT/system
+	sudo $(MKDIR) /usr/include/ELT/system/android/
+	sudo $(CP) include/*.h /usr/include/ELT/
+	sudo $(CP) include/input/*.h /usr/include/ELT/input/
+	sudo $(CP) include/system/*.h /usr/include/ELT/system/
+	sudo $(CP) include/system/android/*.h /usr/include/ELT/system/android/
+	sudo $(CP) build/libEngineEx.so /usr/lib/libEngineEx.so
 
 uninstall : 	
 
 
 clean:
-	rm *.o
-	rm -f src/*.o
-	rm src/input/*.o
-	rm src/system/*.o	
+	$(RM) *.o
+	$(RM) src/*.o
+	$(RM) src/input/*.o
+	$(RM) src/system/*.o	
 	echo -en "EveryThing removed"
