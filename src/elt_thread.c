@@ -24,14 +24,14 @@
 DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpParamater,Uint32* pid){
 #ifdef EX_WINDOWS
 	DWORD p_id;
-	HANDLE hnd;
-	if(!(hnd = CreateThread(0,128,(LPTHREAD_START_ROUTINE)callback,lpParamater,0,&p_id))){
-		ExIsError(hnd);
+	HANDLE t0;
+	if(!(t0 = CreateThread(0,128,(LPTHREAD_START_ROUTINE)callback,lpParamater,0,&p_id))){
+		ExIsError(t0);
 		return EX_NULL;
 	}
 	if(!pid)
 		*pid = p_id;
-	EX_START_THREAD(hnd);
+	EX_START_THREAD(t0);
 	return hnd;
 #elif defined(EX_UNIX)
 	pthread_t t0;
@@ -52,16 +52,16 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpPar
 DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback,void* lpParamater,Uint32* pid,unsigned int ncore){
 #if defined(EX_WINDOWS)
 	DWORD p_id;
-	HANDLE hnd;
-	if(!(hnd = CreateThread(0,128,(LPTHREAD_START_ROUTINE)callback,lpParamater,0,&p_id))){
-		ExIsError(hnd);
+	HANDLE t0;
+	if(!(t0 = CreateThread(0,128,(LPTHREAD_START_ROUTINE)callback,lpParamater,0,&p_id))){
+		ExIsError(t0);
 		return EX_NULL;
 	}
-    SetThreadAffinityMask(hnd, ncore);
+    SetThreadAffinityMask(t0, ncore);
 	if(!pid)
 		*pid = p_id;
-	EX_START_THREAD(hnd);
-	return hnd;
+	EX_START_THREAD(t0);
+	return t0;
 #elif defined(EX_UNIX)
 	pthread_t t0;
     pthread_attr_t attr;

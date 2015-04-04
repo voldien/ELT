@@ -106,23 +106,29 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	#if defined(EX_VC) || defined(EX_WINDOWS)
 	// debug shell
 	// redirect unbuffered STDOUT to the console
-	//lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
+	lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
 	////
-	//hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
+	hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
 	/**/
-	//m_file_log = fopen("EngineExDevLog.txt", "w+" );
-	//FILE* fopen;
+	m_file_log = fopen("EngineExDevLog.txt", "w+" );
+	FILE* fopen;
 	/**/
-	//if(dup2(1,(fopen = fdopen(4,"w+"))) == -1)
-   //     fprintf(stderr,"error");
+	if(dup2(1,(fopen = fdopen(4,"w+"))) == -1)
+        fprintf(stderr,"error");
     /**/
     /*  cause fork to fail somehow*/
-	//*stdout = *m_file_log;
-	//setvbuf(fopen, NULL, _IONBF, 0 );
-		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_ALLOC_MEM_DF);
-		_CrtSetReportMode(_CRT_ASSERT , _CRTDBG_MODE_FILE);
-		_CrtSetReportFile(_CRT_ASSERT , _CRTDBG_FILE_STDERR);
+	*stdout = *m_file_log;
+	setvbuf(fopen, NULL, _IONBF, 0 );
+	/**
+        visual studio debug
+	*/
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_ALLOC_MEM_DF);
+	_CrtSetReportMode(_CRT_ASSERT , _CRTDBG_MODE_FILE);
+	_CrtSetReportFile(_CRT_ASSERT , _CRTDBG_FILE_STDERR);
 	#elif defined(EX_UNIX)
+        /**
+
+        */
         mtrace();
 	#endif
 #endif
@@ -138,7 +144,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 #if defined(EX_WINDOWS)
 
 
-#elif defined(EX_LINUX)     // Linux
+#elif defined(EX_LINUX)
     /**
             Create Connection with Display Server.
     */
@@ -148,7 +154,9 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
     /**
         enable X events
     */
-    XAllowEvents(display , SyncBoth,CurrentTime);#elif defined(EX_APPLE)
+    XAllowEvents(display , SyncBoth,CurrentTime);
+#elif defined(EX_APPLE)
+
 #elif defined(EX_MAC)
 
 #elif defined(EX_ANDROID)
@@ -160,7 +168,11 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	ExInitSubSystem(engineFlag);
 
 	if(_h_result = ExInitErrorHandler()){
-	}else ExError(EX_TEXT("Failed to initialize error handler."));
+
+	}
+	else{
+	    ExError(EX_TEXT("Failed to initialize error handler."));
+    }
 
 	engineDescription.EngineFlag |= engineFlag;
 
@@ -330,7 +342,7 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 	muntrace();
 	#endif
 
-#endif 
+#endif
 	fclose(m_file_log);
 }
 

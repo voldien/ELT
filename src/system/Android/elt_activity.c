@@ -7,7 +7,10 @@
 #include <android/native_activity.h>
 #include <android/asset_manager.h>
 #include <android/configuration.h>
-#include<EGL/egl.h>
+#include <EGL/egl.h>
+#include <jni.h>
+
+//#include <android_native_app_glue.h>
 
 /**
 	entry point for normal application to be found here.
@@ -50,17 +53,9 @@ void* elt_main(void* states){
 
 	ExDelay(500);
 
-	//if(main)
     return main(0,NULL);
-   // else{
-     //   printf("failed to find main entry point");
-	//	return EXIT_FAILURE;
-	//}
-
-
-	return NULL;
 }
-/*
+/**
     OnStart
 */
 static void onStart(ANativeActivity* activity){
@@ -110,6 +105,7 @@ static void onInputQueueCreated(ANativeActivity* activity, AInputQueue* queue){
 }
 static void onInputQueueDestroyed(ANativeActivity* activity, AInputQueue* queue){
     AInputQueue_detachLooper(queue);
+
 }
 static void onContentRectChanged(ANativeActivity* activity, const ARect* rect){
 
@@ -122,6 +118,14 @@ static void  onLowMemory(ANativeActivity* activity){
 
 
 }
+
+
+void android_main(struct android_app* app) {
+    //ex_app = app;
+    //app_dummy();
+   // ANativeActivity_onCreate(app->activity, app->savedState, app->saveStateSize);
+}
+
 /**
     entry point for Native Android.
 */
@@ -153,6 +157,7 @@ void ANativeActivity_onCreate(ANativeActivity* activity, void* saveState, size_t
     activity->callbacks->onSaveInstanceState = onSaveInstanceState;
     activity->callbacks->onLowMemory = onLowMemory;
 
+    printf("assigned callbacks");
 
 
 	ANativeActivity_setWindowFlags(activity, AWINDOW_FLAG_KEEP_SCREEN_ON,AWINDOW_FLAG_KEEP_SCREEN_ON);

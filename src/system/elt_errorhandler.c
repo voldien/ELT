@@ -173,10 +173,10 @@ DECLSPEC ExBoolean ELTAPIENTRY ExInitErrorHandler(void){
         ExDevPrintf("error");
 #endif
 
-	//interrupt
+	/**interrupt*/
 	ExSetSignal(SIGINT,ExSignalCatch);
 #ifdef EX_WINDOWS
-	// Sudden Abort
+	/**Sudden Abort*/
 	ExSetSignal(SIGABRT_COMPAT,ExSignalCatch);
 #elif defined(EX_LINUX)
 	/* Stack fault.  */
@@ -233,7 +233,7 @@ DECLSPEC void ELTAPIENTRY ExErrorExit(ExChar* lpszFunction) {
 
 DECLSPEC ExChar* ELTAPIENTRY ExGetErrorMessageW(ULong dw){
 #ifdef EX_WINDOWS
-	if(errorText)/*free allocated error message.*/
+	if(errorText)   /*free allocated error message.*/
 		LocalFree(errorText);
     FormatMessage(
         FORMAT_MESSAGE_ALLOCATE_BUFFER |
@@ -325,7 +325,6 @@ static void debug_log_trace(void){
 	unsigned int i,j;
     SYMBOL_INFO* symbol;
 
-
     process = GetCurrentProcess();
 
     SymInitialize(process, NULL,TRUE);
@@ -403,6 +402,7 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 		break;
 #if defined(EX__UNIX)
     	case SIGQUIT:
+
         break;
 #endif
 	default:
@@ -479,7 +479,9 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 	exit(signal);
 	return;
 }
+/**
 
+*/
 DECLSPEC ExBoolean ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcallback signal_callback){
 	Int32 hr;
 	hr = (Int32)signal(isignal,signal_callback);

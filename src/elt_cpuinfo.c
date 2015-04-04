@@ -9,6 +9,8 @@
 #   include<unistd.h>
 #endif
 
+
+
 #ifdef EX_GNUC
 
 #ifdef __SSE__
@@ -50,7 +52,9 @@
 
 #elif defined(EX_LINUX)
 #   include <unistd.h>
+#if defined(EX_X86)
 #   include<cpuid.h>
+#endif
 	// cpuid for linux
 	#define cpuid(regs,i) 	asm volatile \
 			("cpuid" : "=a" (regs[0]), "=b" (regs[1]), "=c" (regs[2]), "=d" (regs[3])\
