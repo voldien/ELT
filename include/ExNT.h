@@ -1,5 +1,4 @@
 /**
-========================================================================
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -21,9 +20,9 @@
 #define _EX_NT_H_ 1
 #include"ExPreProcessor.h"
 #if defined(EX_WINDOWS)
-	#include<Windows.h>
+#   include<Windows.h>
 #elif defined(EX_LINUX)
-	#include<X11/X.h>
+#   include<X11/X.h>
 #elif defined(EX_ANDROID)
 #   include<android/log.h>
 #elif defined(EX_MAC)
@@ -66,9 +65,6 @@
 	typedef signed __int32   Int;
 	typedef signed short	 Short;
 	typedef signed char		 Char;
-
-	typedef float Float;
-	typedef double Double;
 #ifdef EX_WIN64
 	typedef unsigned __int64 uintptr_t;
 #else
@@ -79,7 +75,7 @@
 	typedef unsigned __int128 Uint128;
 #endif
 
-#elif defined(EX_ANDROID) || defined(EX_LINUX)
+#elif defined(EX_UNIX)
 	typedef signed long long Int64;
 	typedef signed int		 Int32;
 	typedef signed short	 Int16;
@@ -96,18 +92,11 @@
 	typedef unsigned int		Uint;
 	typedef unsigned short		Ushort;
 
-	typedef float Float;
-	typedef double Double;
-
 #if EX_INT_MAX_BITS > 64
 	typedef signed __int128 Int128;
 	typedef unsigned __int128 Uint128;
 #endif
-//#ifdef EX_WIN64
-//#else
-//	typedef unsigned int uintptr_t;
-//#endif
-#elif defined EX_APPLE
+#elif defined(EX_APPLE)
 	typedef signed long long Int64;
 	typedef signed int		 Int32;
 	typedef signed short	 Int16;
@@ -132,7 +121,6 @@ typedef unsigned long ULong;
 /* 32 bits [0 to 4,294,967,295] */
 typedef Uint32 Enum;
 /* 32 bits [0 to 4,294,967,295] */
-typedef Uint32 BitFlag;
 typedef Uint8 ColorBitDepth;
 typedef Uint64 ULLong;
 
@@ -141,20 +129,14 @@ typedef Uint32 ClearFlag;
 typedef long Long;
 
 /* 64 bits [0 to 18,446,744,073,709,551,615] */
-typedef Uint8 InputAxis;
 typedef Uint8 Keycode;
-typedef void* DataBuffer;
+typedef void* buffer;
 
 
 #ifdef __cplusplus
 	typedef Uint8 Boolean;
 #endif
-#ifndef CMD_LIB_H
-    //typedef enum {xfalse, xtrue }ExBoolean;
-	typedef  char ExBoolean;
-#else
-    typedef Boolean ExBoolean;
-#endif
+typedef Uint8 ExBoolean;
 #ifndef INTERNAL_ENGINEX
 
 #endif
@@ -185,12 +167,12 @@ typedef long ERESULT;
 */
 
 typedef union floatUnion{
-	Float fv;
+	float fv;
 	Uint32 uv;
 	Uint8 ub[4];
 } FloatUnion,UintUnion;
 typedef union doubleUnion{
-	Double Ddata;
+	double Ddata;
 	Uint64 Uldata;
 	Uint8 ub[8];
 }DoubleUnion,UlongUnion;
@@ -239,7 +221,7 @@ typedef union doubleUnion{
 #define EX_DECLARE_HANDLE(name) struct name##__{int unused;}; typedef struct name##__ *name
 #endif
 
-/*
+/**
 	// platform specific type
 */
 #ifdef EX_WINDOWS

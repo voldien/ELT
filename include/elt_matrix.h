@@ -1,5 +1,4 @@
-/*
-========================================================================
+/**
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -39,18 +38,18 @@
 extern "C"{
 #endif
 // DirectX Matrix Function
-extern DECLSPEC Void ELTAPIENTRY DXLoadIdentity(const Enum MatrixMode);
-extern DECLSPEC Void ELTAPIENTRY DXTranslatef(Float x, Float y, Float z);
-extern DECLSPEC Void ELTAPIENTRY DXScalef(Float x, Float y, Float z);
-extern DECLSPEC Void ELTAPIENTRY DXRotate(Float Angle, Float x, Float y,Float z);
-extern DECLSPEC Void ELTAPIENTRY DXRotateQ(const quat_t rotation);
-extern DECLSPEC Void ELTAPIENTRY DXOrth(Float Left, Float Right,  Float Bottom, Float Top, Float Near,Float Far);
-extern DECLSPEC Void ELTAPIENTRY DXPushMatrix(Void);
-extern DECLSPEC Void ELTAPIENTRY DXPopMatrix(Void);
-extern DECLSPEC Void ELTAPIENTRY DXMatrixMode(Enum MatrixMode);
-extern DECLSPEC Void ELTAPIENTRY DXPerspective(Float Fov, Float Aspect, Float Far, Float Near);
-extern DECLSPEC Void ELTAPIENTRY DXLoadMatrix(const Float* mat);
-extern DECLSPEC Void ELTAPIENTRY DXGetMatrix(const Enum matrixMode, Float* matrixf);
+extern DECLSPEC void ELTAPIENTRY DXLoadIdentity(const Enum MatrixMode);
+extern DECLSPEC void ELTAPIENTRY DXTranslatef(Float x, Float y, Float z);
+extern DECLSPEC void ELTAPIENTRY DXScalef(Float x, Float y, Float z);
+extern DECLSPEC void ELTAPIENTRY DXRotate(Float Angle, Float x, Float y,Float z);
+extern DECLSPEC void ELTAPIENTRY DXRotateQ(const quat_t rotation);
+extern DECLSPEC void ELTAPIENTRY DXOrth(Float Left, Float Right,  Float Bottom, Float Top, Float Near,Float Far);
+extern DECLSPEC void ELTAPIENTRY DXPushMatrix(Void);
+extern DECLSPEC void ELTAPIENTRY DXPopMatrix(Void);
+extern DECLSPEC void ELTAPIENTRY DXMatrixMode(Enum MatrixMode);
+extern DECLSPEC void ELTAPIENTRY DXPerspective(Float Fov, Float Aspect, Float Far, Float Near);
+extern DECLSPEC void ELTAPIENTRY DXLoadMatrix(const Float* mat);
+extern DECLSPEC void ELTAPIENTRY DXGetMatrix(const Enum matrixMode, Float* matrixf);
 //extern DECLSPEC Void ELTAPIENTRY MatrixMode(Enum matrixMode);
 }
 #endif

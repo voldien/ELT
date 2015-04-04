@@ -1,5 +1,4 @@
-/*
-========================================================================
+/**
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -22,9 +21,7 @@
 #include"EngineAssembly.h"
 
 
-#ifdef EX_ANDROID
-extern int main(int argc, char** argv);
-#endif
+
 
 #ifdef __cplusplus // C++ environment
 extern "C"{

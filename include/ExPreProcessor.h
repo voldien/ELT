@@ -1,5 +1,4 @@
 /**
-========================================================================
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -117,7 +116,12 @@
 	#if ( defined(__linux__) || defined(__linux) || defined(linux) ) && (!(__ANDROID__) || !(ANDROID))/* Linux */
 		#define EX_LINUX                        /**/
 		#define EX_UNIX                         /**/
-
+		#if defined(__amd64) || defined(__x86_64__) || defined(__i386__)
+            #define EX_X86 1
+		#endif
+		#if defined(__arm__)
+              #define EX_ARM 1
+        #endif
 
 	#elif defined (ANDROID) || defined(__ANDROID__) || __ANDROID_API__ > 9  /* Android */
         #include<jni.h>
