@@ -192,12 +192,13 @@ DECLSPEC Int32 ELTAPIENTRY ExGetMonitorHz(Uint32 index){
     unsigned int num_sizes;
     Display*dis = XOpenDisplay(NULL);
     Window root = RootWindow(dis,index);
-    XRRScreenSize* xrrs = XRRSizes(dis, 0, &num_sizes);
+    //XRRScreenSize* xrrs = XRRSizes(dis, 0, &num_sizes);
 
-    XRRScreenConfiguration* conf = XRRGetScreenInfo(dis, root);
+   // XRRScreenConfiguration* conf = XRRGetScreenInfo(dis, root);
 
 
-	return XRRConfigCurrentRate(conf);
+	//return XRRConfigCurrentRate(conf);
+	return 1;
 #elif defined(EX_ANDROID)
 
 #endif
