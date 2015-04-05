@@ -40,11 +40,11 @@ struct exrect{int x,y,width,height;};
 
 /**
 	Create Window
-	\x : coordinate 
-	\y : coordinate 
-	\width : width of the window  
+	\x : coordinate
+	\y : coordinate
+	\width : width of the window
 	\height : height of the window
-	\flag : window type 
+	\flag : window type
 	@return window handle
 */
 extern DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height,Enum flag);
@@ -77,7 +77,7 @@ extern DECLSPEC ExBoolean ELTAPIENTRY ExDestroyWindow(ExWin window);
 
 /**
 	Set Window Title
-	\window 
+	\window
 	\title window title
 */
 extern DECLSPEC void ELTAPIENTRY ExSetWindowTitle(ExWin window,const ExChar* title);
@@ -148,21 +148,6 @@ extern DECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window);
 
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExIsScreenSaverEnable(void);
-
-//extern DECLSPEC Int32 ELTAPIENTRY ExVideoQuit(void);
-
-/*
-// Poll Window Event information
-// *[HWND] which window to poll event information.
-//	Remark: message feed will only be apply to given HWND paramter
-//	if HWND is null all window create on this application will be update
-//	read more at MSDN for more specific information regarding PeekMessage with null HWND.
-// *[ExWindowEvent] pointer to event struct. all event will be stored in it.
-//	#return if PeekMessage was success.
-// PeekMessage : http://msdn.microsoft.com/en-us/library/windows/desktop/ms644943(v=vs.85).aspx
-*/
-extern DECLSPEC ExBoolean ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event);
-
 
 
 

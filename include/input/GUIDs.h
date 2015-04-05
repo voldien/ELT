@@ -1,5 +1,4 @@
-/*
-========================================================================
+/**
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -17,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef GUIDS_H
-#define GUIDS_H
+#ifndef _GUIDS_H_
+#define _GUIDS_H_
 #include"./../ExPreProcessor.h"
 #ifdef EX_WINDOWS
 #include<Guiddef.h>

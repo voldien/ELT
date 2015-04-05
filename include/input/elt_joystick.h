@@ -1,5 +1,4 @@
 /**
-========================================================================
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -31,31 +30,38 @@ extern "C"{
 #endif
 /**
 	Number of joystick
+	@return
 */
 extern DECLSPEC Uint32 ELTAPIENTRY ExNumJoysticks(void);
 /**
     Open joystick by device index
+	@return
 */
 extern DECLSPEC void* ELTAPIENTRY ExJoystickOpen(Int32  device_index);
 /**
     Close Joystick by device index
+	@return
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExJoyStickClose(Int32 device_index);
 
 /**
 	Get Joystick Device GUID
+    	@return
 */
 extern DECLSPEC ExGUID ELTAPIENTRY ExJoystickGetDeviceGUID(Int32 device_index);
 /**
 	Get Joystick name
+	@return
 */
 extern DECLSPEC const ExChar* ELTAPIENTRY ExJoyStickName(Uint32 ptr);
 /**
 	Get number of buttons on a joystick
+	@return
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExJoystickNumButtons(Uint32 ptr);
 /**
     \Axis Get number of axis on joystick
+	@return
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExJoystickNumAxis(Int ptr);
 /**

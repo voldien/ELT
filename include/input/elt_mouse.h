@@ -1,5 +1,4 @@
-/*
-========================================================================
+/**
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -23,7 +22,6 @@
 #include"./../system/elt_errorhandler.h"
 #ifdef EX_WINDOWS
 	typedef HCURSOR ExCursor;
-	//extern IDirectInputDevice8* hMouseDevice;
 #elif defined(EX_UNIX)
 	typedef void* ExCursor;
 #endif
@@ -51,7 +49,7 @@
 #define ExMousePoint	m_MouseHandler->MouseState[0]->lX
 #define ExMouseMotion
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
 /**
@@ -88,18 +86,25 @@ extern DECLSPEC ExBoolean ELTAPIENTRY ExSetCursor(ExCursor cursor);
 	@return
 */
 extern DECLSPEC ExCursor ELTAPIENTRY ExGetCursor(void);
+/**
 
+*/
 extern DECLSPEC ExCursor ELTAPIENTRY ExGetDefaultCursor(void);
+/**
 
+*/
 extern DECLSPEC ExWin ELTAPIENTRY ExGetMouseFocus(void);
-/*
-	// Get Global Mouse State
+/**
+	Get Global Mouse State
+    @return button pressed.
 */
 extern DECLSPEC Uint32 ELTAPIENTRY ExGetGlobalMouseState(Int32* x, Int32* y);
+/**
 
+*/
 extern DECLSPEC Uint32 ELTAPIENTRY ExGetMouseState(Int32* x, Int32* y);
-/*
-	// Set cursor in screen space
+/**
+	Set cursor in screen space respect to monitor resolution.
 */
 extern DECLSPEC void ELTAPIENTRY ExWarpMouseGlobal(Int32 x, Int32 y);
 
@@ -109,6 +114,7 @@ extern DECLSPEC void ELTAPIENTRY ExWarpMouseGlobal(Int32 x, Int32 y);
 extern DECLSPEC void ELTAPIENTRY ExWarpMouseInWindow(ExWin win,Int32 x, Int32 y);
 /**
     Show Cursor
+    @return if successfully then return value is equal to input value.
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExShowCursor(ExBoolean enabled);
 
@@ -127,10 +133,12 @@ extern DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButtonUp(Uint32 keyCode);
 
 
 /**
+
 	@return
 */
 extern DECLSPEC int ELTAPIENTRY ExGetTouchDown(unsigned int fingerid);
 /**
+
 	@return
 */
 extern DECLSPEC int ELTAPIENTRY ExGetTouchPosition(unsigned int fingerid, float* pos);

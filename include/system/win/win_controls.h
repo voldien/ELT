@@ -28,7 +28,7 @@ typedef void(ELTAPIENTRY* ExTextInput)(void* wparam);
 
 typedef struct ex_menu_event{
 	ExButtonPushed buttonPushed;
-}ExMenuEvent;	
+}ExMenuEvent;
 typedef struct ex_list_box_Event{
 	ExSelected selected;
 }ExListBoxEvent;
@@ -70,7 +70,7 @@ extern DECLSPEC void* ELTAPIENTRY ExGetMenuEvent(HMENU hMenu);
 extern DECLSPEC void ELTAPIENTRY ExReleaseMenuEvent(HMENU hMenu);
 
 /*
-	// Menu 
+	// Menu
 */
 /*	Set menu Item Event*/
 extern DECLSPEC void ELTAPIENTRY SetMenuItemEvent(HMENU subMenu, Uint32 pos, HANDLE eventHandle);
@@ -86,7 +86,7 @@ extern DECLSPEC HMENU ELTAPIENTRY ExCreateMainMenu(ExWin hwnd);
     HMENU hSubMenu = CreatePopupMenu(); \
     AppendMenu(hmenu, MF_STRING | MF_POPUP, (UINT)hSubMenu, string);
 #define ADDMENUITEM(hsubMenu, ID, string)\
-	AppendMenu(hsubMenu,MF_STRING,ID, string); 
+	AppendMenu(hsubMenu,MF_STRING,ID, string);
 
 
 extern DECLSPEC HMENU ELTAPIENTRY ExCreatePopupMenu(HMENU hMenu,const ExChar* string);
@@ -110,7 +110,7 @@ extern DECLSPEC void ELTAPIENTRY ExSetStatusBarText(ExWin statusHwnd,const ExCha
 /* */
 extern DECLSPEC void ELTAPIENTRY ExSetStatusBarTexti(ExWin statusHwnd,Int32 index,const ExChar* string);
 /*	Set Status Bar Icon	*/
-extern DECLSPEC void ELTAPIENTRY ExSetStatusBarIcon(ExWin statusHwnd,HICON icon); 
+extern DECLSPEC void ELTAPIENTRY ExSetStatusBarIcon(ExWin statusHwnd,HICON icon);
 /**/
 extern DECLSPEC void ELTAPIENTRY ExSetStatusBarParts(ExWin statusHwnd,Int32 count);
 
@@ -138,7 +138,7 @@ extern DECLSPEC ExWin ELTAPIENTRY ExCreateTrackBar(ExWin parenthWnd,Uint32 imin,
 extern DECLSPEC ExWin ELTAPIENTRY ExCreateProgressBar(ExWin parentWnd);
 
 /*
-	List View 
+	List View
 */
 /*	Create List View	*/
 extern DECLSPEC ExWin ELTAPIENTRY ExCreateListView(ExWin parenthWnd);
@@ -177,12 +177,12 @@ extern DECLSPEC ExWin ELTAPIENTRY ExCreateTextInput(ExWin parentHwnd);
 /*
 	// Static Control
 */
-// Create Static Control window 
+// Create Static Control window
 extern DECLSPEC ExWin ELTAPIENTRY ExCreateStaticControl(ExWin parenthWnd,CallBack callback);
 // Set Static control window bitmap texture.
 extern DECLSPEC ExWin ELTAPIENTRY ExSetStaticControlBitMap(ExWin staticControl, HBITMAP hBitMap);
 
-/* 
+/*
 	// Ex Create Property Sheet
 */
 extern DECLSPEC ExWin ELTAPIENTRY ExCreatePropertySheet(ExWin parenthWnd);

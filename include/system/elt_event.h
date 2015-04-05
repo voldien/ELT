@@ -1,5 +1,4 @@
-/*
-========================================================================
+/**
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -176,16 +175,27 @@ typedef struct elt_poll_events{
 /**
 	Poll Event from process.
 	\event
-	@return 
+	@return
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
 /**
 	Poll event from specifed window.
 	\window
-	\event 
-	@return 
+	\event
+	@return
 */
-//extern DECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window,ExEvent* event);
+/*
+// Poll Window Event information
+// *[HWND] which window to poll event information.
+//	Remark: message feed will only be apply to given HWND paramter
+//	if HWND is null all window create on this application will be update
+//	read more at MSDN for more specific information regarding PeekMessage with null HWND.
+// *[ExWindowEvent] pointer to event struct. all event will be stored in it.
+//	#return if PeekMessage was success.
+// PeekMessage : http://msdn.microsoft.com/en-us/library/windows/desktop/ms644943(v=vs.85).aspx
+*/
+extern DECLSPEC ExBoolean ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event);
+
 
 #ifdef __cplusplus	// C++ Environment
 }

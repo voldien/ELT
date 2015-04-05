@@ -1,5 +1,4 @@
-/*
-========================================================================
+/**
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -22,22 +21,27 @@
 #include"./../../EngineAssembly.h"
 
 #ifdef EX_LINUX
-#ifdef __cplusplus // C++ environment
+#ifdef __cplusplus /* C++ environment */
 extern "C"{
 #endif
 
 extern Display *display;
+/**
 
-extern DECLSPEC XID ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height);
+    @return
+*/
+extern DECLSPEC XID ELTAPIENTRY ExCreateNativeWindow(int x, int y, int width, int height);
+/**
 
-extern DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 height, void** glx_window);
-
+    @return
+*/
+extern DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(int x , int y, int width, int height, void** glx_window);
 
 
 extern DECLSPEC int ExSupportOpenGL(void);
 
 
-#ifdef __cplusplus // C++ environment
+#ifdef __cplusplus /* C++ environment */
 };
 #endif
 

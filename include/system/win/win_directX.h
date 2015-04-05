@@ -1,60 +1,71 @@
-/*
-===========================================================================
-Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
+/**
+    ELT (Engine Library Toolkit) is a multi platform engine toolkit
+    Copyright (C) 2014  Valdemar Lindberg
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef WIN_DIRECTX_H
-#define WIN_DIRECTX_H
+#ifndef _WIN_DIRECTX_H_
+#define _WIN_DIRECTX_H_ 1
 #include"./../../EngineAssembly.h"
 #if defined(EX_WINDOWS) && defined(EX_INCLUDE_DIRECTX)
 
-#ifdef __cplusplus // C++ environment
+#ifdef __cplusplus /* C++ environment */
 extern "C"{
 #endif
-/*
-	// Get 3D Context
+/**
+	Get 3D Context
+    @return
 */
 extern DECLSPEC HANDLE ELTAPIFASTENTRY ExGetD3D(void);
-/*
-	// Get Direct3D Context
+/**
+	Get Direct3D Context
+    @return
 */
 extern DECLSPEC HANDLE ELTAPIFASTENTRY ExGetDirect3D(void);
-/*
-	// Get Direct3D Context from window.
-*/
-//extern DECLSPEC HANDLE ELTAPIENTRY ExGetDirect3D(ExWin window);
 
-/*
-	// Initialize Direct X
+/**
+    @return
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExInitDirectX(ExWin hWnd);
 
-/*
-	//
+/**
+
 */
 extern DECLSPEC void ELTAPIFASTENTRY ExDirectXBegin(void);
-/*
+/**
 	//
 */
 extern DECLSPEC void ELTAPIFASTENTRY ExDirectXEnd(void);
-/*
-	//
+/**
+
 */
 extern DECLSPEC void ELTAPIFASTENTRY ExDirectXPresent(void);
-/*
-	//
+/**
+
 */
 extern DECLSPEC void ELTAPIENTRY ExReleaseDirectX(void);
-/*
-	
+/**
+
 */
 extern DECLSPEC void ELTAPIENTRY ExReleaseDirectXContext(void* d3d);
-/*
+/**
 
 */
 extern DECLSPEC void ELTAPIENTRY ExDirectFullScreen(ExBoolean fullscreen);
 
-#ifdef __cplusplus // C++ environment
+#ifdef __cplusplus /* C++ environment */
 }
 #endif
 #endif

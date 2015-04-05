@@ -1,5 +1,4 @@
-/*
-========================================================================
+/**
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -22,7 +21,7 @@
 #include<stdio.h>
 #include"../../EngineAssembly.h"
 
-#ifdef __cplusplus // C++ environment
+#ifdef __cplusplus /* C++ environment */
 extern "C"{
 #endif
 
@@ -33,7 +32,7 @@ extern DECLSPEC void* ELTAPIENTRY ExGetNativeActivity(void);
 extern DECLSPEC void* ELTAPIENTRY ExGetNativeLooper(void);
 
 
-#ifdef __cplusplus // C++ environment
+#ifdef __cplusplus /* C++ environment */
 }
 #endif
 

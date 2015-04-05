@@ -10,38 +10,14 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 
 #include"./../elt_gl.h"
 #include"win_win32.h"
-extern OpenGLContext hrc;
-extern OpenGLContext hrc2;
 #ifdef __cplusplus // C++ environment
 extern "C"{
 #endif
-
-// Get OpenGL Context of This Application 
-DECLSPEC OpenGLContext ELTAPIFASTENTRY ExGetOpenGLContext(void);
-// Get OpenGL Context 2 of This Application 
-DECLSPEC OpenGLContext ELTAPIFASTENTRY ExGetOpenGLContext2(void);
 
 #define EX_VENDOR_AMD 0x1
 #define EX_VENDOR_NVIDIA 0x2
 #define EX_VENDOR_INTEL 0x4
 
-
-
-
-
-/*	Release The OpenGL Context.		*/
-extern DECLSPEC void ELTAPIENTRY ExReleaseGL(void);
-/*	Release OpenGL Context	*/
-extern DECLSPEC void ELTAPIENTRY ExReleaseGLContext(HGLRC hrc);
-
-
-// Initlize OpenGL Extension.
-extern DECLSPEC void ELTAPIENTRY ExInitExtension(ExWin hWnd,HDC deviContext,OpenGLContext hr);
-
-/*		*/
-extern DECLSPEC OpenGLContext ELTAPIENTRY ExCreateSharedGLContext(HDC openglHDC, OpenGLContext sharedHRC, HDC hDC);
-
-//Initlize OpenGL States
 
 
 

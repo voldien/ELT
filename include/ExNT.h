@@ -230,7 +230,7 @@ typedef union doubleUnion{
 	typedef HDC WindowContext;
 	#define THREAD_CALLBACK __stdcall
 #elif defined(EX_LINUX) && defined(GLX_H)
-	typedef XID ExWin;
+	typedef Window ExWin;
 	typedef GLXContext OpenGLContext;
 	typedef XID WindowContext;
 	#define THREAD_CALLBACK //__cdecl

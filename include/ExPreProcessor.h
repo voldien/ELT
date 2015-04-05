@@ -114,8 +114,7 @@
 		#define EX_BITS_ARCHITECTURE 32         /**/
 	#endif
 	#if ( defined(__linux__) || defined(__linux) || defined(linux) ) && (!(__ANDROID__) || !(ANDROID))/* Linux */
-		#define EX_LINUX                        /**/
-		#define EX_UNIX                         /**/
+		#define EX_LINUX 1                       /**/
 		#if defined(__amd64) || defined(__x86_64__) || defined(__i386__)
             #define EX_X86 1
 		#endif

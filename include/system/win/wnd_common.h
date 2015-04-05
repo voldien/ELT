@@ -1,20 +1,33 @@
-/*
-===========================================================================
-Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
+/**
+    ELT (Engine Library Toolkit) is a multi platform engine toolkit
+    Copyright (C) 2014  Valdemar Lindberg
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef WND_COMMON_H
-#define WND_COMMON_H
+#ifndef _WND_COMMON_H_
+#define _WND_COMMON_H_ 1
 #include"./../../EngineAssembly.h"
 #include"./../../elt_console.h"
 
 #ifdef EX_WINDOWS
 	#include<Windows.h>
-#ifdef __cplusplus // C++ environment
+#ifdef __cplusplus /* C++ environment */
 extern "C"{
 #endif
 
-/*	
+/**
 	//Set Monitor Sleep
 */
 //extern DECLSPEC void ELTAPIENTRY ExSleepMonitor(void){SendMessage(HWND_BROADCAST, WM_SYSCOMMAND,SC_SCREENSAVE, (LPARAM)2);}
@@ -49,7 +62,7 @@ extern DECLSPEC void ELTAPIENTRY ExAsciiToUnicode(const char* cchar, WCHAR** wch
 extern DECLSPEC WCHAR* ELTAPIENTRY ExConvertToUnicode(const char* cchar);
 /*
 	// Convert Wide-character Character into Ascii
-	// remark: if char pointer is null. then it will malloc its size. otherwise 
+	// remark: if char pointer is null. then it will malloc its size. otherwise
 	// the function will use char* current size
 */
 extern DECLSPEC void ELTAPIENTRY ExUnicodeToAscii(const WCHAR* wchar, char** cchar);
@@ -93,9 +106,9 @@ extern DECLSPEC ExBoolean ELTAPIENTRY ExRemoveFileExts(const ExChar* filetype);
 #ifdef __cplusplus // C++ environment
 #include<vector>
 #include<string>
-// vector list container of strings 
+// vector list container of strings
 typedef std::vector<std::string> FolderListA;
-// vector list container of wide-strings 
+// vector list container of wide-strings
 typedef std::vector<std::wstring> FolderListW;
 #else
 typedef struct filefolderA{
@@ -132,7 +145,7 @@ typedef struct filefolderW{
 /* Get All possiable File Name in Specified Folder Location as a Relative Path. */
 //extern DECLSPEC FolderListA ELTAPIENTRY ExGetFolderDirectoryPathA(const char* directoryPath);
 
-// UNICODE 
+// UNICODE
 #ifdef EX_UNCIODE
 	#define ExGetFolderFilePath ExGetFolderFilePathW
 	#define ExGetFolderDirectoryPath ExGetFolderDirectoryPathW

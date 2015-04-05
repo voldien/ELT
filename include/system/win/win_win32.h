@@ -1,6 +1,19 @@
-/*
-===========================================================================
-Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
+/**
+    ELT (Engine Library Toolkit) is a multi platform engine toolkit
+    Copyright (C) 2014  Valdemar Lindberg
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 #ifndef _WIN32_WINDOW_H_
@@ -27,7 +40,7 @@ typedef int(ELTAPIENTRY *MouseButton)(Enum action, Enum buttonID);
 #ifdef __cplusplus // C++ environment
 extern "C"{
 #endif
-/*
+/**
 	windows classes
 */
 #define EX_OPENGL_WINDOW_CLASS EX_TEXT("OpenGL_Window")
@@ -76,50 +89,80 @@ typedef struct WindowEvent{
 extern CallBack ExOnFocus;
 extern CallBack ExOnUnFocus;
 
-/* UnRegister all Windows*/
+/**
+    UnRegister all Windows
+
+*/
 extern DECLSPEC void ELTAPIENTRY ExUnRegisterClasses(void);
 
-/* Create Window dedicated for DirectX*/
+/**
+    Create Window dedicated for DirectX
+    @return
+*/
 extern DECLSPEC ExWin ELTAPIENTRY ExCreateDirectXWindow(int x, int y, int width,int height);
-/**/
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateOpenGLWindow(int x, int y, int width,int height);
-/**/
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(int x, int y, int width, int height);
+/**
 
+*/
+extern DECLSPEC ExWin ELTAPIENTRY ExCreateOpenGLWindow(int x, int y, int width,int height);
+/**
+    @return
+*/
+extern DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(int x, int y, int width, int height);
+/**
+    @return
+*/
 extern DECLSPEC ExWin ELTAPIENTRY ExCreateDesktopWindow(int x, int y, int width, int height);
 
-/*	Create MID Window*/
+/**
+	Create MID Window
+    @return
+*/
 extern DECLSPEC ExWin ELTAPIENTRY ExCreateMIDWindow(int x, int y, int width , int height);
-
-
-/* ReCreate the Window For OpenGL purpose */
-extern DECLSPEC ExWin ELTAPIENTRY ExReConstructWindow(ExWin hWnd);
 
 
 /* Set Window Processor [ HWND hwnd, WNDPROC procPointer] */
 extern DECLSPEC DWORD ELTAPIENTRY ExSetWindowProc(ExWin hwnd, WNDPROC procPointer);
 /* Get Window Processsor [HWND hwnd] */
-extern DECLSPEC WNDPROC ELTAPIENTRY ExGetWindowProc(_IN_ ExWin hwnd);
+extern DECLSPEC WNDPROC ELTAPIENTRY ExGetWindowProc(ExWin hwnd);
 
-/*
-	// Window Style
+/**
+	Window Style
 */
 extern DECLSPEC void ELTAPIENTRY ExSetWindowStyle(ExWin hwnd, Long lstyle);
+/**
 
+*/
 extern DECLSPEC void ELTAPIENTRY ExSetAddiWindowStyle(ExWin hWnd, Long lstyle);
+/**
 
+*/
 extern DECLSPEC Long ELTAPIENTRY ExGetWindowStyle(ExWin hwnd);
+/**
 
+*/
 extern DECLSPEC void ELTAPIENTRY ExSetWindowStyleEx(ExWin hwnd, Long ExStyle);
+/**
+
+*/
 extern DECLSPEC Long ELTAPIENTRY ExGetWindowStyleEx(ExWin hwnd);
 
 
-/* Create Sub  Window Basedo the prevously created one. */
+/* Create Sub  Window Based the prevously created one. */
 extern DECLSPEC ExWin ELTAPIENTRY ExCreateSubWindow(Int32 x,Int32 y, Int32 width, Int32 height);
 
-//* behavior of window
-extern DECLSPEC ExBoolean ELTAPIENTRY ExGetWindowMessage(ExWin hwnd);
-extern DECLSPEC ExBoolean ELTAPIENTRY ExGetWindowPeekMessage(ExWin hwnd);
+
+/**
+    Update windows for all given windows on the process.
+    \hwnd if update a particular window.
+    @return
+*/
+extern DECLSPEC int ELTAPIENTRY ExGetWindowMessage(ExWin hwnd);
+/**
+    Update windows for all given windows on the process.
+    \hwnd
+    @return
+*/
+extern DECLSPEC int ELTAPIENTRY ExGetWindowPeekMessage(ExWin hwnd);
 
 /**/
 extern DECLSPEC void ELTAPIENTRY ExRunWinMessageLoop(void);

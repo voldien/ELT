@@ -1,4 +1,4 @@
-/*
+/**
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -55,7 +55,7 @@
 #define EX_GPU_AMD 0x4
 
 
-#ifdef __cplusplus	//	C++ Environment
+#ifdef __cplusplus /* C++ environment */
 extern "C"{
 #endif
 
@@ -164,7 +164,7 @@ extern DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(void);
 extern DECLSPEC Int32 ELTAPIENTRY ExIsVendorAMD(void);
 /**
 	Check if graphic card is Nvidia GPU
-	@return
+	@return if Nvidia vendor
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExIsVendorNvidia(void);
 /**
@@ -179,7 +179,7 @@ extern DECLSPEC Int32 ELTAPIENTRY ExIsVendorIntel(void);
 extern DECLSPEC Enum ELTAPIENTRY ExGetGLVendorEnum(void);
 
 
-#ifdef  __cplusplus	// C++ Environment
+#ifdef __cplusplus /* C++ environment */
 }
 #endif
 #include"elt_win.h"

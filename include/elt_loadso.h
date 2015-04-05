@@ -33,6 +33,7 @@ extern "C"{
 extern DECLSPEC HANDLE ELTAPIENTRY ExLoadFunction(HANDLE handle, const char* pProcName);
 /**
 	Load Module object
+	@return
 */
 extern DECLSPEC HANDLE ELTAPIENTRY ExLoadObject(const ExChar* sofile);
 /**
@@ -41,6 +42,7 @@ extern DECLSPEC HANDLE ELTAPIENTRY ExLoadObject(const ExChar* sofile);
 extern DECLSPEC void ELTAPIENTRY ExUnLoadObject(HANDLE handle);
 /**
 	Is Module Loaded
+	@return
 */
 extern DECLSPEC HANDLE ELTAPIENTRY ExIsModuleLoaded(const ExChar* file);
 /**

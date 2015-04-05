@@ -1,5 +1,4 @@
-/*
-========================================================================
+/**
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -32,7 +31,7 @@ extern "C"{
 #endif
 /**
 	Get CL context
-
+    @return
 */
 extern DECLSPEC void* ELTAPIFASTENTRY ExGetCLContext(void);
 
@@ -44,11 +43,13 @@ extern DECLSPEC void* ELTAPIFASTENTRY ExGetCurrentCLContext(void);
 
 /**
     Create OpenCL Context
+    @return
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContext(Enum eEnumFlag);
 
 /**
     Query Context information
+    @return
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(void* context,void* param_value,Enum param_name);
 /**
@@ -81,7 +82,7 @@ extern DECLSPEC void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, void* p_cl_dev
 extern DECLSPEC Int32 ELTAPIENTRY ExGetClDevCap(void* device);
 
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus	/* C++ Environment  */
 }
 #endif
 #endif
