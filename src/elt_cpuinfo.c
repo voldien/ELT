@@ -56,7 +56,7 @@
 #   include<cpuid.h>
 #endif
 	// cpuid for linux
-	#define cpuid(regs,i) 	asm volatile \
+	#define cpuid(regs,i) 	__asm__ volatile \
 			("cpuid" : "=a" (regs[0]), "=b" (regs[1]), "=c" (regs[2]), "=d" (regs[3])\
 			: "a" (i), "c" (0))
     #define cpuid2(func,a,b,c,d)\
