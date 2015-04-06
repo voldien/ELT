@@ -29,19 +29,7 @@
 #elif defined(EX_ANDROID)
 	#define ExSwapBuffers(surface) eglSwapBuffers(eglGetDisplay(EGL_DEFAULT_DISPLAY),surface)
 #endif
-/**
-	default opengl includer
-*/
-#if defined(EX_WINDOWS)
-	#include<Windows.h>
-	#include"system/win/win_win32.h"
-#elif defined(EX_LINUX)
-	#include"system/unix/unix_win.h"
-#elif defined(EX_MAC)
-	#include"system/mac/macosx_win.h"
-#elif defined(EX_ANDROID)
 
-#endif
 #include"elt_win.h"
 
 
@@ -89,7 +77,7 @@ extern DECLSPEC void ELTAPIENTRY ExMakeGLCurrent(WindowContext hDC, OpenGLContex
 /**
     Create Context Attribute Based on Internal Hardware and engine description.
 */
-extern DECLSPEC void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDC,Int32* attrib,Int32* size,EngineDescription* engineDesc,Enum EnumRI);
+extern DECLSPEC void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDC,Int32* attrib,Int32* size,Enum EnumRI);
 /**
     Create OpenGL context for given window
 */
