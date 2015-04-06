@@ -1,15 +1,28 @@
 #!/bin/bash
 
+MKDIR := mkdir -p
+RM := rm -rf
+
+
+GETOS := python $(NACL_SDK_ROOT)/tools/getos.py
+OSNAME := $(shell $(GETOS))
+
+
+PNACL_TC_PATH := $(abspath $(NACL_SDK_ROOT)/toolchain/$(OSNAME)_pnacl)
+PNACL_CXX := $(PNACL_TC_PATH)/bin/pnacl-clang++
+
 VALID_TOOLCHAINS := pnacl newlib glibc
 
 NACL_SDK_ROOT ?= $(abspath $(CURDIR)/../../)
 
 include $(NACL_SDK_ROOT)/tools/common.mk
 
-TARGET = part2
-LIBS = ppapi_cpp ppapi
+TARGET = libEngineEx.so
 
-CFLAGS = -Wall
+CLIBS = ppapi_cpp ppapi
+
+CFLAGS = -Wall 
+
 vpath =./../../
 SOURCES = $<
 
@@ -27,3 +40,9 @@ $(eval $(call LINK_RULE, $(TARGET), $(SOURCES), $(LIBS), $(DEPS)))
 endif
 
 $(eval $(call NMF_RULE,$(TARGET),))
+
+
+all : 
+
+
+clean :
