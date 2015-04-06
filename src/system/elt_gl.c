@@ -26,7 +26,9 @@
 #elif defined(EX_LINUX)
     #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.so")
     #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.so")
-    #include<X11/extensions/Xrender.h>
+    #ifdef EX_X86
+        #include<X11/extensions/Xrender.h>
+    #endif
     #include<X11/Xatom.h>
     #include<X11/keysym.h>
     #include<EGL/egl.h>
@@ -34,7 +36,7 @@
     #include<GL/glx.h>
     #include<GL/glxext.h>
     #include<GL/glu.h>
-	#include"system/unix/unix_win.h" 
+	#include"system/unix/unix_win.h"
    #define GL_GET_PROC(x) glXGetProcAddress( ( x ) )           /**  get OpenGL function process address */
 #elif defined(EX_ANDROID)
     #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.so")      /** */
@@ -105,8 +107,6 @@ static int isExtensionSupported(const char* extList, const char* extension){
 }
 
 
-
-
 DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window){
     #ifndef EX_ANDROID
 	EGLDisplay eglDisplay;
@@ -126,13 +126,13 @@ DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window){
 
 	//ExCreateContextAttrib(window,attrs,0,0,EX_OPENGLES);
 
-EGLint configAttribList[] =
-{
-EGL_BUFFER_SIZE, 16,
-      EGL_RENDERABLE_TYPE,
-      EGL_OPENGL_ES2_BIT,
-      EGL_NONE
-};
+    EGLint configAttribList[] =
+    {
+    EGL_BUFFER_SIZE, 16,
+          EGL_RENDERABLE_TYPE,
+          EGL_OPENGL_ES2_BIT,
+          EGL_NONE
+    };
 
 
 
@@ -178,11 +178,7 @@ EGL_BUFFER_SIZE, 16,
 	if((hr = eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext)) != EGL_TRUE)
         ExError(EX_TEXT("OpenGL ES Error"));
 
-/*    if(ExGetOpenGLContextWindow(eglContext) == window)
-        return 0;*/
-
 	ExInitOpenGLStates(0);
-
 
 	return eglContext;
 }
@@ -243,13 +239,13 @@ DECLSPEC void ELTAPIENTRY ExMakeGLCurrent(WindowContext drawable, OpenGLContext 
 
 typedef int (APIENTRY * WGLSWAPINTERVALEXT_T) (int);            /** wglSwapIntervalEXT typedef (Win32 buffer-swap interval control)*/
 
-typedef BOOL (WINAPI * WGLCHOOSEPIXELFORMATARB_T) (HDC, const int *, const FLOAT *, UINT, int *, UINT *);   // wglChoosePixelFormatARB typedef
+typedef BOOL (WINAPI * WGLCHOOSEPIXELFORMATARB_T) (HDC, const int *, const FLOAT *, UINT, int *, UINT *);   /** wglChoosePixelFormatARB typedef*/
 
-typedef BOOL (WINAPI * WGLGETPIXELFORMATATTRIBIVARB_T) (HDC, int, int, UINT, const int *, int *);   // wglGetPixelFormatAttribivARB typedef
+typedef BOOL (WINAPI * WGLGETPIXELFORMATATTRIBIVARB_T) (HDC, int, int, UINT, const int *, int *);   /* wglGetPixelFormatAttribivARB typedef */
 
-typedef const char *(APIENTRY * WGLGETEXTENSIONSSTRINGEXT_T)( void );   // wglGetExtensionStringEXT typedef
+typedef const char *(APIENTRY * WGLGETEXTENSIONSSTRINGEXT_T)( void );   /* wglGetExtensionStringEXT typedef */
 
-typedef const char *(APIENTRY * WGLGETEXTENSIONSSTRINGARB_T)( HDC );    // wglGetExtensionStringARB typedef
+typedef const char *(APIENTRY * WGLGETEXTENSIONSSTRINGARB_T)( HDC );    /* wglGetExtensionStringARB typedef */
 
 typedef HGLRC (APIENTRY * WGLCREATECONTEXTATTRIBSARB)(HDC,HGLRC hShareContext,const int *attribList);			/*  */
 
@@ -426,7 +422,7 @@ static int choose_fbconfig(GLXFBConfig* p_fbconfig){
 	XRenderPictFormat *pict_format;
 	int numfbconfigs,i;
 	int att[72] = {0};
-	ExCreateContextAttrib(NULL,&att[0],0,0,EX_OPENGL);
+	ExCreateContextAttrib(NULL,&att[0],0,EX_OPENGL);
 
 	fbconfigs = glXChooseFBConfig(display,DefaultScreen(display), att,&numfbconfigs);
     p_fbconfig[0] = fbconfigs[0];
@@ -447,7 +443,7 @@ static int choose_fbconfig(GLXFBConfig* p_fbconfig){
 }
 #endif
 
-void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* size,EngineDescription* engineDesc,Enum erenderingflag){
+void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* size,Enum erenderingflag){
 	if(!attribs)	// error
 		return;
 #ifdef EX_WINDOWS
@@ -465,37 +461,45 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 	if(wglGetPixelFormatAttribivARB(hDc, pixFmt,0, 1, attrib, &nResults[0])){
 
 	}
-
-	Int32 pixAttribs[] = {
-		WGL_SUPPORT_OPENGL_ARB, GL_TRUE, // Must support OGL rendering
-		WGL_DRAW_TO_WINDOW_ARB, GL_TRUE, // pf that can run a window
-		WGL_DOUBLE_BUFFER_ARB, (engineDescription.EngineFlag & ENGINE_SUPPORT_DOUBLEBUFFER) != 0 ? TRUE : FALSE,
-		WGL_DEPTH_BITS_ARB, engineDescription.DepthBits,
-		WGL_STENCIL_BITS_ARB, engineDescription.StencilBits,
-		WGL_COLOR_BITS_ARB, engineDescription.ColorBits,
-		WGL_ALPHA_BITS_ARB, engineDescription.alphaChannel,
-		WGL_ACCELERATION_ARB,WGL_FULL_ACCELERATION_ARB, // must be HW accelerated
-		WGL_PIXEL_TYPE_ARB,WGL_TYPE_RGBA_ARB, // pf should be RGBA type
-		WGL_TRANSPARENT_ARB, WGL_TRANSPARENT_ALPHA_VALUE_ARB,
-		WGL_SWAP_METHOD_ARB,WGL_SWAP_EXCHANGE_ARB,
-		WGL_SAMPLE_BUFFERS_ARB,engineDescription.sample[0] != 0 ? TRUE : 0 ,// sample buffer
-		WGL_SAMPLES_ARB, engineDescription.sample[0],
-		0}; // NULL termination
-		// create pixel attribute block
-	//copy block
-	memcpy(attribs,pixAttribs,sizeof(pixAttribs));
+    if(erenderingflag & EX_OPENGL){
+        Int32 pixAttribs[] = {
+            WGL_SUPPORT_OPENGL_ARB, GL_TRUE, // Must support OGL rendering
+            WGL_DRAW_TO_WINDOW_ARB, GL_TRUE, // pf that can run a window
+            WGL_DOUBLE_BUFFER_ARB, (engineDescription.EngineFlag & ENGINE_SUPPORT_DOUBLEBUFFER) != 0 ? TRUE : FALSE,
+            WGL_DEPTH_BITS_ARB, engineDescription.DepthBits,
+            WGL_STENCIL_BITS_ARB, engineDescription.StencilBits,
+            WGL_COLOR_BITS_ARB, engineDescription.ColorBits,
+            WGL_ALPHA_BITS_ARB, engineDescription.alphaChannel,
+            WGL_ACCELERATION_ARB,WGL_FULL_ACCELERATION_ARB, // must be HW accelerated
+            WGL_PIXEL_TYPE_ARB,WGL_TYPE_RGBA_ARB, // pf should be RGBA type
+            WGL_TRANSPARENT_ARB, WGL_TRANSPARENT_ALPHA_VALUE_ARB,
+            WGL_SWAP_METHOD_ARB,WGL_SWAP_EXCHANGE_ARB,
+            WGL_SAMPLE_BUFFERS_ARB,engineDescription.sample[0] != 0 ? TRUE : 0 ,// sample buffer
+            WGL_SAMPLES_ARB, engineDescription.sample[0],
+            0}; // NULL termination
+            // create pixel attribute block
+        //copy block
+        memcpy(attribs,pixAttribs,sizeof(pixAttribs));
+    }
+    else if(erenderingflag & EX_OPENGLES){
+		Int32 pixAttribs[] = {
+		     /*EGL_PIXMAP_BIT*/
+		    EGL_BUFFER_SIZE, 16,
+            EGL_DEPTH_SIZE, 16,
+            EGL_SAMPLES, engineDescription.sample[0],
+		    EGL_OPENGL_ES2_BIT,
+		    EGL_NONE
+		     };
+		if(size)size =sizeof(pixAttribs);
+		memcpy(attribs,(int*)pixAttribs,sizeof(pixAttribs));
+    }
 #elif defined(EX_LINUX)
 	if(erenderingflag & EX_OPENGLES){
 		Int32 pixAttribs[] = {
-            //EGL_NATIVE_RENDERABLE, 1,
 		     /*EGL_PIXMAP_BIT*/
 		    EGL_BUFFER_SIZE, 16,
-           // EGL_GREEN_SIZE, 4,
-           // EGL_BLUE_SIZE, 4,
-		   // EGL_ALPHA_SIZE, 4,
             EGL_DEPTH_SIZE, 16,
-            //EGL_SAMPLES, 4,
-		    //EGL_SURFACE_TYPE,
+            EGL_SAMPLES, engineDescription.sample[0],
 		    EGL_OPENGL_ES2_BIT,
 		    EGL_NONE
 		     };
@@ -510,16 +514,19 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
                 GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
                 GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
                 GLX_DOUBLEBUFFER, True,
+                GLX_AUX_BUFFERS, 0,
+                /**/
                 GLX_RED_SIZE, 8,
                 GLX_GREEN_SIZE, 8,
                 GLX_BLUE_SIZE, 8,
                 GLX_ALPHA_SIZE,engineDescription.alphaChannel,
                 GLX_DEPTH_SIZE, 24,
                 GLX_STENCIL_SIZE,engineDescription.StencilBits,
+
                 GLX_STEREO,0,
                 GLX_SAMPLE_BUFFERS_ARB,engineDescription.sample[0] != 0 ? 1 : 0,
                 GLX_SAMPLES_ARB,engineDescription.sample[0],
-                //GLX_TRANSPARENT_TYPE, engineDescription.alphaChannel > 0 ? GLX_TRANSPARENT_RGB : GLX_NONE,
+                GLX_TRANSPARENT_TYPE, GLX_TRANSPARENT_RGB,
                 None,
 				/*
 			//GLX_TRANSPARENT_ARB, WGL_TRANSPARENT_ALPHA_VALUE_ARB,,
@@ -532,8 +539,26 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 
 	if(erenderingflag & EX_OPENGL){  /* as for today 2015 -01 -09 must devices on android don't support OpenGL TODO:solve in future*/
 
+
 	}
 	else if(erenderingflag & EX_OPENGLES){
+        if(erenderingflag & EX_OPENGLES){
+            Int32 pixAttribs[] = {
+                //EGL_NATIVE_RENDERABLE, 1,
+                /*EGL_PIXMAP_BIT*/
+                EGL_BUFFER_SIZE, 16,
+            // EGL_GREEN_SIZE, 4,
+            // EGL_BLUE_SIZE, 4,
+            // EGL_ALPHA_SIZE, 4,
+                EGL_DEPTH_SIZE, 16,
+                //EGL_SAMPLES, 4,
+                //EGL_SURFACE_TYPE,
+                EGL_OPENGL_ES2_BIT,
+                EGL_NONE
+                };
+            if(size)size =sizeof(pixAttribs);
+            memcpy(attribs,(int*)pixAttribs,sizeof(pixAttribs));
+        }
 
 	}
 #elif defined(EX_MAC)
@@ -709,7 +734,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 	}
 	else{   /*      */
 		int att[60] = {0};
-		ExCreateContextAttrib(0,&att[0],0,0,EX_OPENGL);
+		ExCreateContextAttrib(0,&att[0],0,EX_OPENGL);
 		vi = glXChooseVisual(display,DefaultScreen(display),att);
 
 		glc = glXCreateContext(display,vi,0,True);
@@ -926,7 +951,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin win
 		if(!EnumDisplaySettings(dd.DeviceName, ENUM_CURRENT_SETTINGS, &dm))
 			wExDevPrintf(EX_TEXT("EnumDisplay Settings Failed | %s.\n"), ExGetErrorMessage(GetLastError()));
 		dm.dmSize = sizeof(dm);
-		if(screenRes == EX_NULL){
+		if(!screenRes){
 			// resolution from the window.
 			dm.dmPelsWidth = (rect.right - rect.left);
 			dm.dmPelsHeight = (rect.bottom - rect.top);

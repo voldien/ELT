@@ -22,7 +22,7 @@
 #include"elt_event.h"
 #include"elt_cl.h"
 
-#ifdef  __cplusplus	// C++ Environment
+#ifdef  __cplusplus	/** C++ Environment */
 extern "C"{
 #endif
 
@@ -30,6 +30,9 @@ extern "C"{
 	#define ExMessageBox MessageBox
 #else
 	#define ExMessageBox(a,b,c,d) gtk_message_dialog_new()
+#endif
+#ifdef EX_LINUX
+extern Display *display;
 #endif
 
 #define EX_WIN_SCREENSAVER_ENABLE   0x200000
@@ -151,7 +154,7 @@ extern DECLSPEC Int32 ELTAPIENTRY ExIsScreenSaverEnable(void);
 
 
 
-#ifdef __cplusplus	//	C++ Env
+#ifdef  __cplusplus	/** C++ Environment */
 }
 #endif
 #endif

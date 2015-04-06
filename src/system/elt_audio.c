@@ -13,8 +13,8 @@ DECLSPEC ERESULT ELTAPIENTRY ExAudioInit(const char* driver_name){
 
 
         #elif defined(EX_LINUX)
-        ExLoadLibrary("libasound.so");
-        snd_pcm_open(0,0,0,0);
+        //ExLoadLibrary("libasound.so");
+        //snd_pcm_open(0,0,0,0);
 
         #endif // EX_WINDOWS
 	}

@@ -22,15 +22,14 @@
 #   include<android/input.h>
 #endif
 
-#ifdef EX_WINDOWS
-
-IDirectInputDevice8* m_keyboard_device;
-#endif
 unsigned char KeyBoardState[2][0xff];
 
 
 
+/**
+================================
 
+*/
 static inline int ex_get_key_code_internal(Uint32 keyCode){
     int keysym;
 
@@ -262,13 +261,14 @@ DECLSPEC Keycode ELTAPIENTRY ExGetKeyFromName(const char* name){
     return sym;
 #endif
 }
+
 DECLSPEC const char* ELTAPIENTRY ExGetKeyName(Keycode keycode){
 #ifdef EX_WINDOWS
 	char text[20];
 	GetKeyNameTextA((keycode << 16),text,sizeof(text));
 	return text;
 #elif defined(EX_LINUX)
-    return XKeysymToString(keycode);
+    return XKeysymToString(ex_get_key_code_internal(keycode));
 #endif
 
 }
@@ -287,6 +287,7 @@ DECLSPEC ExWin ELTAPIENTRY ExGetKeyboardFocus(void){
     return NULL;
 #endif
 }
+
 DECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys){
 #ifdef EX_WINDOWS
 	if(numkeys)*numkeys=0xff;
@@ -457,6 +458,7 @@ DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(const Uint32 keyCode){
     return 0;
 #endif
 }
+
 DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyUp(const Uint32 keyCode){
 #if defined(EX_WINDOWS)
 	return GetAsyncKeyState(keyCode);

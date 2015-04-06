@@ -71,7 +71,7 @@ static int ip_exists(const char* ip){
 		return FALSE;
 	return TRUE;
 #endif
-	return 0;
+	return FALSE;
 }
 
 DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port,unsigned int protocol){
@@ -117,8 +117,6 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
         socket_protocol = 0;
         sock_domain = PF_INET;
     }
-
-
 
     /**
         create socket

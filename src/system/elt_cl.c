@@ -338,6 +338,7 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum fl
     ciErrNum = clGetPlatformIDs (1, (cl_platform_id*)&clPlatformIDs, &num_platforms);
 
     ciErrNum = clGetPlatformIDs (2, NULL, &num_platforms);
+
     if (ciErrNum != CL_SUCCESS){
         ExDevPrintf(" Error %i in clGetPlatformIDs Call !!!", ciErrNum);
         return -1000;
@@ -354,13 +355,14 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum fl
 			if(ciErrNum == CL_DEVICE_NOT_FOUND)
                 ExDevPrint("Couldn't find");
 
+
+
 			ciErrNum = clGetDeviceIDs(temp_clPlatformIDs,CL_DEVICE_TYPE_GPU, NULL,NULL,&num_gpu);
 
 			ciErrNum = clGetDeviceIDs(temp_clPlatformIDs,CL_DEVICE_TYPE_CPU, NULL,NULL,&num_cpu);
 
 
-
-			if((clPlatformIDs = (cl_platform_id*)malloc(num_platforms * sizeof(cl_platform_id))) == EX_NULL){
+			if((clPlatformIDs = (cl_platform_id*)malloc(num_platforms * sizeof(cl_platform_id))) == NULL){
 				ExDevPrint("Failed to allocate memory for cl_platform ID's!");
 				return -3000;
 			}
@@ -394,7 +396,7 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum fl
                 //clGetDeviceInfo(clPlatformIDs[i], CL_DEVICE_TYPE_GPU,1,&device_id,&num_cpu);
 
 
-                if(/*ciErrNum == CL_SUCCESS*/ TRUE){
+                if(ciErrNum == CL_SUCCESS){
                     if(strstr(chBuffer, "NVIDIA") != NULL){	// nvidia exists
                         *clSelectedPlatformID = (Int)clPlatformIDs[i];
                         break;
@@ -410,7 +412,7 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum fl
 				continue;
             }
 
-			//ExPrintCLDevInfo(0,*clPlatformIDs);
+			ExPrintCLDevInfo(0,*clPlatformIDs);
             // default to zeroeth platform if NVIDIA not found
             if(*clSelectedPlatformID == NULL){
                 ExPrintf("WARNING: NVIDIA OpenCL platform not found - defaulting to first platform!\n\n");
@@ -434,19 +436,19 @@ DECLSPEC void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, void* p_cl_device_id)
     int nv_device_attibute_query = FALSE;
 	cl_device_id device = *(cl_device_id*)p_cl_device_id;
     // CL_DEVICE_NAME
-    clGetDeviceInfo(device, CL_DEVICE_NAME, sizeof(device_string), &device_string, EX_NULL);
+    clGetDeviceInfo(device, CL_DEVICE_NAME, sizeof(device_string), &device_string, NULL);
     ExPrintf("  CL_DEVICE_NAME: \t\t\t%s\n", device_string);
 
     // CL_DEVICE_VENDOR
-    clGetDeviceInfo(device, CL_DEVICE_VENDOR, sizeof(device_string), &device_string, EX_NULL);
+    clGetDeviceInfo(device, CL_DEVICE_VENDOR, sizeof(device_string), &device_string, NULL);
     ExPrintf("  CL_DEVICE_VENDOR: \t\t\t%s\n", device_string);
 
     // CL_DRIVER_VERSION
-    clGetDeviceInfo(device, CL_DRIVER_VERSION, sizeof(device_string), &device_string, EX_NULL);
+    clGetDeviceInfo(device, CL_DRIVER_VERSION, sizeof(device_string), &device_string, NULL);
     ExPrintf("  CL_DRIVER_VERSION: \t\t\t%s\n", device_string);
 
     // CL_DEVICE_VERSION
-    clGetDeviceInfo(device, CL_DEVICE_VERSION, sizeof(device_string), &device_string, EX_NULL);
+    clGetDeviceInfo(device, CL_DEVICE_VERSION, sizeof(device_string), &device_string, NULL);
     ExPrintf("  CL_DEVICE_VERSION: \t\t\t%s\n", device_string);
 
 	#if !defined(__APPLE__) && !defined(__MACOSX)

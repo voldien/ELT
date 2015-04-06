@@ -25,7 +25,7 @@
 extern "C"{
 #endif
 
-extern Display *display;
+
 /**
 
     @return

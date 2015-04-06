@@ -7,8 +7,10 @@
 #   include<intrin.h>
 #elif defined(EX_UNIX)
 #   include<unistd.h>
+#elif defined(EX_MAC)
+#   include<sys/sysctl.h>
 #endif
-
+#include<setjmp.h>
 
 
 #ifdef EX_GNUC
@@ -46,16 +48,16 @@
 
 
 //http://stackoverflow.com/questions/1666093/cpuid-implementations-in-c
-#ifdef EX_WINDOWS
+
+#ifdef EX_WINDOWS       /** WINDOWS */
 	#define cpuid __cpuid
-
-
-#elif defined(EX_LINUX)
+#elif defined(EX_LINUX) /** LINUX   */
 #   include <unistd.h>
-#if defined(EX_X86)
-#   include<cpuid.h>
-#endif
-	// cpuid for linux
+    #if defined(EX_X86)
+    #   include<cpuid.h>
+    #endif
+
+	/** cpuid for linux  */
 	#define cpuid(regs,i) 	__asm__ volatile \
 			("cpuid" : "=a" (regs[0]), "=b" (regs[1]), "=c" (regs[2]), "=d" (regs[3])\
 			: "a" (i), "c" (0))
@@ -65,10 +67,12 @@
 "        cpuid              \n" \
 "        movq %%rbx, %%rsi  \n" \
 "        popq %%rbx         \n" : \
-            "=a" (a), "=S" (b), "=c" (c), "=d" (d) : "a" (func))
+"           =a" (a), "=S" (b), "=c" (c), "=d" (d) : "a" (func))
 #elif defined(EX_ANDROID)
 
 #   define cpuid(regs, i)
+
+
 #endif
 
 DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){

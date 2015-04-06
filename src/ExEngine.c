@@ -370,7 +370,7 @@ DECLSPEC void ELTAPIENTRY ExDisable(Enum disable){
 #endif
 	switch(disable){
 	case EX_CRASH_TERMINATE:
-		signal(SIGTERM,EX_NULL);
+		signal(SIGTERM,NULL);
 		break;
 	case EX_CRASH_ABORT:
 		break;

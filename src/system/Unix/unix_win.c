@@ -102,7 +102,7 @@ DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 
     /**
         create attribute
     */
-    ExCreateContextAttrib(0,&VisData[0],0,0,EX_OPENGL);
+    ExCreateContextAttrib(0,&VisData[0],0,EX_OPENGL);
 
 	screen = DefaultScreen(display);
 	root = RootWindow(display,screen);
