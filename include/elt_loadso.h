@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef ELT_LOADSO_H_
-#define ELT_LOADSO_H_ 1
+#ifndef _ELT_LOADSO_H_
+#define _ELT_LOADSO_H_ 1
 #include"EngineAssembly.h"
 #include"system/elt_win.h"
 

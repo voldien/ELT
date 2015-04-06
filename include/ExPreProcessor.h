@@ -438,9 +438,9 @@
 	#define __EX_FILE__ __FILE__
 	#define __EX_LINE__ __LINE__
 #else
-	#define EX_FUNCNAME  " "
-	#define EX_FUNCSIG   " "
-	#define EX_FUNCDNAME " "
+	#define EX_FUNCNAME  __FUNCTION__
+	#define EX_FUNCSIG   __FUNCSIG__
+	#define EX_FUNCDNAME ""
 	#define __EX_FILE__ __FILE__
 	#define __EX_LINE__ __LINE__
 
@@ -504,8 +504,9 @@
 	#define EX_ASSM __asm__
 #endif
 
-
-// Export & Import of DLL
+/**
+    Export & Import of DLL
+*/
 #ifndef PROCCLASSEXPORT
 	#if defined(INTERNAL_ENGINEX)  && (!defined(ENGINE_EX_STATIC_BUILD))	// Export In DLL Format
 		#define DECLSPEC EX_EXPORT
@@ -520,7 +521,7 @@
 
 
 /**
-    ELT Library file name
+    ELT Library file name.
 */
 #ifdef EX_DEBUG
 #   ifdef EX_WINDOWS
@@ -538,13 +539,13 @@
 
 
 /**
-	ELT Version
+	ELT Version.
 */
 #define EX_ENGINE   "Engine Library Toolkit"
 
 #define EX_ENGINE_VERSION_MAJOR 0x0
 #define EX_ENGINE_VERSION_MINOR 0x6
-#define EX_ENGINE_VERSION_REVISION 0x4
+#define EX_ENGINE_VERSION_REVISION 0x5
 
 #define EX_ENGINE_PREALPHA EX_TEXT("pa")	        /* Pre alpha    */
 #define EX_ENGINE_ALPHA EX_TEXT("a")		        /* Alpha        */
@@ -568,6 +569,7 @@
 #else
 	#define EX_ENGINE_STATUS EX_ENGINE_PREALPHA
 #endif
+
 /**
 	Information
 */
@@ -576,7 +578,9 @@
 #define EX_ENGINE_BUILT_TIME __TIME__
 
 
-// all project don't enable NDEBUG || _DEBUG by default. has be predefined explicitly
+/**
+    all project don't enable NDEBUG || _DEBUG by default. has be predefined explicitly
+*/
 #if (NDEBUG || _DEBUG)
 	#if !(defined NDEBUG ^ defined _DEBUG)
 		#error Exactly one of NDEBUG and _DEBUG needs to be defined by preprocessor

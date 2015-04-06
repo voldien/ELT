@@ -16,7 +16,9 @@
 #endif
 
 
+/**
 
+*/
 DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 
 #ifdef EX_WINDOWS

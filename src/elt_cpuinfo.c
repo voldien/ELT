@@ -85,6 +85,8 @@ DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
     int i = 0;
     int a,b,c,d;
 //https://github.com/soreau/SDL/blob/master/src/cpuinfo/SDL_cpuinfo.c
+
+    #ifndef EX_ARM
     cpuid2(0x80000000,a,b,c,d);
     if(a >= 0x80000004){
         cpuid2(0x80000002, a, b, c, d);
@@ -139,20 +141,8 @@ DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
         cpu_name[i++] = (char)(d & 0xff); d >>= 8;
         cpu_name[i++] = (char)(d & 0xff); d >>= 8;
     }
-
+    #endif
     return cpu_name;
-	/*FILE* file;
-	struct CpuInfo{
-		char vendor_id[50];
-		int family;
-		char model[50];
-		float freq;
-		char cache[20];
-	}info;
-	file = fopen("/proc/cpuinfo","rb");
-	fread((void*)&info.vendor_id[0], 1, sizeof(info),file);
-	fclose(file);
-	return info.model;*/
 #elif defined(EX_ANDROID)
 
 #endif

@@ -178,24 +178,23 @@ typedef union doubleUnion{
 }DoubleUnion,UlongUnion;
 
 
-/*
+/**
 	// 16 bits high and low value
 */
-//
 #define EX_MAKEHIWORD(a,b)   {a = ( ( a ) | (( ( b ) << 8) & 0xff00));}
 #define EX_MAKELOWORD(a,b)	  {a = ( ( a )  | ( ( b ) & 0x00ff));}
-/*
+/**
 	// 32 bits
 */
 #define EX_MAKEHIDWORD(a,b)	{a = ( ( a ) | (( ( b ) << 16) & 0xffff0000));}
 #define EX_MAKELODWORD(a,b)	{a = ( ( a ) | ( ( b ) & 0x0000ffff));}
-/*
+/**
 	// 64 bits
 */
 #define EX_MAKEHIQWORD(a,b)	{a = ( ( a ) | (( ( b ) << 32) & 0xffffffff00000000));}
 #define EX_MAKELOQWORD(a,b) {a = ( ( a ) | ( ( b ) & 0xffffffff00000000));}
 
-/*
+/**
 	// 128 bits high and low value
 */
 #define MAKEHIDQWORD(a,b)

@@ -25,7 +25,7 @@
 #include<limits.h>
 
 
-// Error Message textq
+// Error Message text
 ExChar* errorText = NULL;
 /**
 	ExError

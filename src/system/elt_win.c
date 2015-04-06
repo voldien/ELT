@@ -145,7 +145,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 	/**
         Linux Window Implementation
 	*/
-#elif defined(EX_LINUX)
+#elif defined(EX_LINUX) || defined(EX_MAC)
 	if((flag & ENGINE_NATIVE) || !flag){
         /**
             Create Native Window.
@@ -202,6 +202,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 	}
 	else if(flag & EX_OPENGL){
         ANativeWindow_acquire(&window);
+
         glc = ExCreateGLContext(window);
         /*
         if(flag & EX_OPENCL)
