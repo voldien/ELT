@@ -396,22 +396,6 @@
 	#define EX_NOINLINE
 #endif
 
-/**
-	Null pointer
- */
-#ifdef EX_WINDOWS
-#   if  (__cplusplus == 201103L)
-        #define EX_NULL nullptr
-#   else
-        #define EX_NULL NULL
-#   endif
-#else
-#   if  (__cplusplus == 201103L)
-#       define EX_NULL nullptr
-#   else
-#       define EX_NULL NULL
-#   endif
-#endif
 
 /**
 	#define EXDEPRECATED(x) __declspec(deprecated(x))		// Deprecated deceleration (x = Warning Message)
