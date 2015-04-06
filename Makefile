@@ -29,8 +29,9 @@ vpath %.o .			#	pattern rule for machine code file.
 sources  = $(wildcard src/*.c)
 sources += $(wildcard src/input/*.c)
 sources += $(wildcard src/system/*.c)
-sources += $(wildcard src/system/unix/*.c)
-#sources -= src/main.c 
+sources += $(wildcard src/system/Unix/*.c)	# TODO resolve internal directory
+sources -= src/main.c 
+
 objects = $(subst %.c,%.o,$(sources))
 
 
@@ -53,8 +54,8 @@ $(TARGET) : $(objects)
 
 
 debug : $(sources)
-	$(CC) $(INCLUDE) -fPIC -g -D_DEBUG=1 -c  $^ $(CLIBS)
-	$(CC) $(INCLUDE) -fPIC -shared $(objects) -o $(TARGET) $(CLIBS)
+	$(CC) $(INCLUDE) $(DEFINE) -fPIC -g -D_DEBUG=1 -c  $^ $(CLIBS)
+	$(CC) $(INCLUDE) $(DEFINE) -fPIC -shared $(objects) -o build/$(TARGET) $(CLIBS)
 
 
 arm : $(sources)
