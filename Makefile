@@ -30,7 +30,7 @@ sources  = $(wildcard src/*.c)
 sources += $(wildcard src/input/*.c)
 sources += $(wildcard src/system/*.c)
 sources += $(wildcard src/system/Unix/*.c)	# TODO resolve internal directory
-sources -= src/main.c 
+#sources -= src/main.c 
 
 objects = $(subst %.c,%.o,$(sources))
 
