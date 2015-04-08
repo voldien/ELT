@@ -43,7 +43,7 @@ BUILD_DIR := build/					#
 all: $(TARGET)
 	echo -en "$(TARGET) has succfully been compiled and linked $(du -h $(TARGET))"
 
-$(TARGET) += -O2
+$(TARGET) : CFLAGS += -O2
 $(TARGET) : $(objects)
 	$(CC) $(CFLAGS) -shared $^ -o build/$@  $(CLIBS)
 	
@@ -53,13 +53,13 @@ $(TARGET) : $(objects)
 
 
 
-CFLAGS += -g -D_DEBUG=1
+debug : CFLAGS += -g -D_DEBUG=1
 debug : $(sources)
 	$(CC) $(CFLAGS) -fPIC -c  $^ $(CLIBS)
 	$(CC) $(CFLAGS) -fPIC -shared $(objects) -o build/$(TARGET) $(CLIBS)
 
 
-CFLAGS += -arm 
+arm : CFLAGS += -arm 
 arm : $(sources)
 	$(ARMCC) $(CFLAGS) -marm -shared -c $^ $(CLIBS)
 	$(ARMCC) $(CFLAGS) -marm -shared $(objects) $(CLIBS) 
