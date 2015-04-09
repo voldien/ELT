@@ -58,16 +58,24 @@
     #endif
 
 	/** cpuid for linux  */
-	#define cpuid(regs,i) 	__asm__ volatile \
+#ifdef EX_X86
+	#define cpuid(regs,i) 	__asm__  __volatile__ \
 			("cpuid" : "=a" (regs[0]), "=b" (regs[1]), "=c" (regs[2]), "=d" (regs[3])\
 			: "a" (i), "c" (0))
+
     #define cpuid2(func,a,b,c,d)\
-    __asm__ __volatile__ ( \
+    __asm__ __volatile__ ( 		\
 "        pushq %%rbx        \n" \
 "        cpuid              \n" \
 "        movq %%rbx, %%rsi  \n" \
 "        popq %%rbx         \n" : \
 "           =a" (a), "=S" (b), "=c" (c), "=d" (d) : "a" (func))
+#else
+	#define cpuid(regs,i)
+	#define cpuid2(func,a,b,c,d)
+#endif
+
+
 #elif defined(EX_ANDROID)
 
 #   define cpuid(regs, i)
@@ -153,7 +161,7 @@ DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
 */
 DECLSPEC ExBoolean ELTAPIENTRY ExHasAVX(void){
 	Int32 cpuInfo[4];
-	cpuid(cpuInfo,1);
+	cpuid(cpuInfo,0x1);
 	return (cpuInfo[2] >> 28) &  0x1;
 }
 DECLSPEC ExBoolean ELTAPIENTRY ExHasAVX2(void){

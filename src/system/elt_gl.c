@@ -26,9 +26,10 @@
 #elif defined(EX_LINUX)
     #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.so")
     #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.so")
-    #ifdef EX_X86
+//    #ifdef EX_X86
         #include<X11/extensions/Xrender.h>
-    #endif
+//    #endif
+
     #include<X11/Xatom.h>
     #include<X11/keysym.h>
     #include<EGL/egl.h>

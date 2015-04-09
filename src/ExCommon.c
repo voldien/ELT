@@ -89,8 +89,8 @@ DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName, ...){
 #endif
 	va_end(argptr);
     si.cb = sizeof(si);
-	if( !CreateProcess(applicationName,   // No module name (use command line)
-       argv,       // Command line
+	if( !CreateProcess(applicationName,   	// No module name (use command line)
+       argv,       	// Command line
         NULL,           // Process handle not inheritable
         NULL,           // Thread handle not inheritable
         FALSE,          // Set handle inheritance to FALSE
@@ -121,9 +121,11 @@ DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName, ...){
             kill(pid,9);
         }break;
         case 0:{
-            if(execv(applicationName,argptr) == -1)
+	/*	TODO some error when arm 
+            if(execv(applicationName,(const char*)argptr) == -1)
                 fprintf(stderr,strerror(errno));
-        }break;
+        */
+	}break;
         default:{
             wait(&pid);
         }break;
