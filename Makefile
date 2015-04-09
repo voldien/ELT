@@ -3,21 +3,19 @@
 RM := rm -rf
 MKDIR :=  mkdir -p
 CP := cp
-ARMCC := gcc-arm-linux-gnueabi-gcc 
+ARMCC := arm-linux-gnueabihf-gcc
 CC := gcc
 AR := ar
 
 ifdef ComSpec	#	Windows
 	TARGETSUFFIX :=.dll
 	INCLUDE = 
-	CLIBS :=
-	ASSEMBLY_INSTRUCTION = 
+	CLIBS := 
 	DEFINE := -DENGINE_INTERNAL=1
 else
 	TARGETSUFFIX := .so
 	INCLUDE := -I"include" 
 	CLIBS := -lGL -lX11 -lEGL -lXrender -lOpenCL -lpthread -ldl -lrt -lxcb -lX11-xcb -lXrandr
-	ASSEMBLY_INSTRUCTION :=  $(AR) -rcs libcmdlib.a -f *.o
 
 	DEFINE := -DENGINE_INTERNAL=1
 endif
@@ -35,7 +33,7 @@ sources += $(wildcard src/system/Unix/*.c)	# TODO resolve internal directory
 objects = $(subst %.c,%.o,$(sources))
 
 
-CFLAGS := -O2 -fPIC  $(DEFINE) $(INCLUDE)
+CFLAGS :=  -w -Wall -O2 -fPIC  $(DEFINE) $(INCLUDE)
 TARGET := libEngineEx$(TARGETSUFFIX)			# target
 BUILD_DIR := build/					#	
 
@@ -45,6 +43,7 @@ all: $(TARGET)
 
 $(TARGET) : CFLAGS += -O2
 $(TARGET) : $(objects)
+	$(MKDIR) build
 	$(CC) $(CFLAGS) -shared $^ -o build/$@  $(CLIBS)
 	
 
@@ -59,26 +58,30 @@ debug : $(sources)
 	$(CC) $(CFLAGS) -fPIC -shared $(objects) -o build/$(TARGET) $(CLIBS)
 
 
-arm : CFLAGS += -arm 
+arm : CFLAGS += -marm 
 arm : $(sources)
-	$(ARMCC) $(CFLAGS) -marm -shared -c $^ $(CLIBS)
-	$(ARMCC) $(CFLAGS) -marm -shared $(objects) $(CLIBS) 
+	$(ARMCC) $(CFLAGS) -fPIC -shared -c $^ $(CLIBS)
+	$(ARMCC) $(CFLAGS) -fPIC -shared $(objects) $(CLIBS) 
 
 
+
+x86 : CFLAGS += -m32
 x86 : $(sources)
-	$(CC) -fPIC -O3 -c $^ $(CLIBS)
+	$(CC) -fPIC -O2 -c $^ $(CLIBS)
 
+
+x64 : CFLAGS += -m64
 x64 : $(sources)
 	$(CC) $(CFLAGS) -fPIC -m64 -O3 -c $^ $(CLIBS) 
 	$(CC) $(CFLAGS) -fPIC -m64 -O3 $(objects) -o $(TARGET) $(CLIBS)
 
-static_library : $(sources)
-	$(CC) $(CFLAGS) 
 
-
+static_library : $(objects)
+	$(AR) -rcs $(TARGET) -f $^
 
 
 install :
+	echo -en "installing ELT"
 	sudo $(MKDIR) /usr/include/ELT
 	sudo $(MKDIR) /usr/include/ELT/input
 	sudo $(MKDIR) /usr/include/ELT/system
@@ -88,6 +91,9 @@ install :
 	sudo $(CP) include/system/*.h /usr/include/ELT/system/
 	sudo $(CP) include/system/android/*.h /usr/include/ELT/system/android/
 	sudo $(CP) build/libEngineEx.so /usr/lib/libEngineEx.so
+	
+
+
 
 uninstall : 	
 
