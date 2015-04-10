@@ -4,6 +4,7 @@ RM := rm -rf
 MKDIR :=  mkdir -p
 CP := cp
 ARMCC := arm-linux-gnueabihf-gcc
+WINCC := x86_64-w64-mingw32-c++
 CC := gcc
 AR := ar
 
@@ -59,6 +60,7 @@ debug : $(sources)
 
 
 arm : CFLAGS += -marm 
+arm : CFLAGS += -L"/usr/lib/"
 arm : $(sources)
 	$(ARMCC) $(CFLAGS) -fPIC -shared -c $^ $(CLIBS)
 	$(ARMCC) $(CFLAGS) -fPIC -shared $(objects) $(CLIBS) 
@@ -80,6 +82,19 @@ static_library : $(objects)
 	$(AR) -rcs $(TARGET) -f $^
 
 
+
+win32 : CFLAGS += -mwin32 -municode -mwin32 -mwindows -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1	# improve later
+win32 : TARGET := EngineEx.dll
+win32 : $(sources)
+	$(WINCC) $(CFLAGS) -c  $^ $(CLIBS)
+	$(WINCC) $(CFLAGS)  $(objects) -o $(TARGET) $(CLIBS)
+
+
+
+nacl : CHDIR_SHELL := $(pwd)/port/nacl
+nacl : port/nacl/Makefile
+	make -f $^
+
 install :
 	echo -en "installing ELT"
 	sudo $(MKDIR) /usr/include/ELT
@@ -90,10 +105,8 @@ install :
 	sudo $(CP) include/input/*.h /usr/include/ELT/input/
 	sudo $(CP) include/system/*.h /usr/include/ELT/system/
 	sudo $(CP) include/system/android/*.h /usr/include/ELT/system/android/
-	sudo $(CP) build/libEngineEx.so /usr/lib/libEngineEx.so
+	sudo $(CP) build/$(TARGET) /usr/lib/$(TARGET)
 	
-
-
 
 uninstall : 	
 
