@@ -23,7 +23,6 @@ endif
 
 vpath %.c src			#	pattern rule for c source file.
 vpath %.h include		#	pattern rule for header file.
-vpath %.o .			#	pattern rule for machine code file. 
 
 sources  = $(wildcard src/*.c)
 sources += $(wildcard src/input/*.c)
@@ -34,7 +33,7 @@ sources += $(wildcard src/system/Unix/*.c)	# TODO resolve internal directory
 objects = $(subst %.c,%.o,$(sources))
 
 
-CFLAGS :=  -w -Wall -O2 -fPIC  $(DEFINE) $(INCLUDE)
+CFLAGS :=  -w -Wall -fPIC  $(DEFINE) $(INCLUDE)
 TARGET := libEngineEx$(TARGETSUFFIX)			# target
 BUILD_DIR := build/					#	
 
