@@ -11,8 +11,9 @@ OSNAME := $(shell $(GETOS))
 
 
 PNACL_TC_PATH := $(abspath $(NACL_SDK_ROOT)/toolchain/$(OSNAME)_pnacl)
-PNACL_CXX := $(PNACL_TC_PATH)/bin/pnacl-clang++
+PNACL_CXX := $(PNACL_TC_PATH)/bin/pnacl-gcc
 PNACL_FINALIZE := $(PNACL_TC_PATH)/bin/pnacl-finalize
+PNACL_AR := $(PNACL_TC_PATH)/bin/pnacl-ar
 
 VALID_TOOLCHAINS := pnacl newlib glibc
 
@@ -21,9 +22,9 @@ include $(NACL_SDK_ROOT)/tools/common.mk
 
 TARGET := libEngineEx
 
-CLIBS := ppapi_cpp ppapi
+CLIBS := -lppapi_cpp -lppapi -lm -ldl -lOpenCL
 
-CFLAGS := -w -Wall -I"./../../include"
+CFLAGS := -w -Wall -I"./../../include" -DDONT_SUPPORT_OPENCL=1 -I"$(NACL_SDK_ROOT)/include"	#TODO resolve include dependency 
 
 vpath %.c ./../../src
 vpath %.h ./../../include
@@ -31,15 +32,16 @@ vpath %.h ./../../include
 sources = $(wildcard ./../../src/*.c)
 sources += $(wildcard ./../../src/system/*.c)
 sources += $(wildcard ./../../src/input/*.c)
-objects = $(subst .c,.bc, $(sources))
+objects = $(subst .c,.o, $(sources))
 
-all : $(TARGET).pexe
 
-$(TARGET).pexe : $(objects)
-	$(PNACL_FINALIZE) -o $@ $<
+all : $(TARGET).a
 
-%.bc : $(sources)
-	$(PNACL_CXX) -o $^ -O2 $(CFLAGS) $(LIBS)
+$(TARGET).a : $(objects)
+	$(PNACL_AR) -rcs $(nodir $^) -f $@
+
+%.o : %.c
+	$(PNACL_CXX) -c  $^ -O2 $(CFLAGS) $(CLIBS)
 
 clean :
-	$(RM) *.bc
+	$(RM) *.o
