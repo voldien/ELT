@@ -33,5 +33,5 @@
 
 main
 #
-Proj/android/obj
-Proj/android/libs
+port/android/obj
+port/android/libs
