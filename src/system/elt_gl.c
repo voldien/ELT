@@ -195,7 +195,7 @@ DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window){
 /**
 	Get window associated with the opengl context
 */
-DECLSPEC ExWin ELTAPIENTRY ExGetOpenGLContextWindow(OpenGLContext glc){
+DECLSPEC inline ExWin ELTAPIENTRY ExGetOpenGLContextWindow(OpenGLContext glc){
 #ifdef EX_WINDOWS
 	return WindowFromDC(wglGetCurrentDC());
 #elif defined(EX_LINUX)
@@ -207,7 +207,7 @@ DECLSPEC ExWin ELTAPIENTRY ExGetOpenGLContextWindow(OpenGLContext glc){
 /**
     //Get Drawable
 */
-DECLSPEC WindowContext ELTAPIFASTENTRY ExGetCurrentGLDC(void){
+DECLSPEC inline WindowContext ELTAPIFASTENTRY ExGetCurrentGLDC(void){
 #ifdef EX_WINDOWS
 	return wglGetCurrentDC();
 #elif defined(EX_LINUX)
@@ -217,7 +217,7 @@ DECLSPEC WindowContext ELTAPIFASTENTRY ExGetCurrentGLDC(void){
 #endif
 }
 
-DECLSPEC OpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void){
+DECLSPEC inline OpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void){
 #ifdef EX_WINDOWS
 	return wglGetCurrentContext();
 #elif defined(EX_LINUX)
@@ -229,7 +229,7 @@ DECLSPEC OpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void){
 #endif
 }
 
-DECLSPEC void ELTAPIENTRY ExMakeGLCurrent(WindowContext drawable, OpenGLContext glc){
+DECLSPEC inline void ELTAPIENTRY ExMakeGLCurrent(WindowContext drawable, OpenGLContext glc){
 #ifdef EX_WINDOWS
 	ExIsWinError(wglMakeCurrent(drawable,glc));
 #elif defined(EX_LINUX)
@@ -368,7 +368,7 @@ static OpenGLContext create_temp_gl_context(HWND window){
 /**
     Generate a temporarily window for creating the extension window.
 */
-static HWND  create_temp_gl_win(OpenGLContext* pglc_context){
+static HWND create_temp_gl_win(OpenGLContext* pglc_context){
     HWND hwnd;
     OpenGLContext glc;
     WNDCLASSEX  wc= {0};
@@ -426,6 +426,7 @@ static void describe_fbconfig(GLXFBConfig fbconfig){
 	glXGetFBConfigAttrib(display,fbconfig,GLX_DEPTH_SIZE,&depth_bits);
 }
 #endif
+
 /**choose fb configure  */
 static int choose_fbconfig(GLXFBConfig* p_fbconfig){
 	GLXFBConfig* fbconfigs;
@@ -455,8 +456,8 @@ static int choose_fbconfig(GLXFBConfig* p_fbconfig){
 #endif
 
 void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* size,Enum erenderingflag){
-	if(!attribs)	// error
-		return;
+	if(!attribs)	/* error */
+		ExSetError(EINVAL);
 #ifdef EX_WINDOWS
     WGLCHOOSEPIXELFORMATARB_T wglGetPixelFormatAttribivARB;
 	int attrib[] = { WGL_NUMBER_PIXEL_FORMATS_ARB };
@@ -540,8 +541,8 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
                 //GLX_TRANSPARENT_TYPE, GLX_TRANSPARENT_RGB,
                 None,
 				/*
-			//GLX_TRANSPARENT_ARB, WGL_TRANSPARENT_ALPHA_VALUE_ARB,,
-			0*/ }; // NULL termination
+			//GLX_TRANSPARENT_ARB, WGL_TRANSPARENT_ALPHA_VALUE_ARB,,*/
+			}; // NULL termination
 		if(size)size =sizeof(pixAttribs);
 		memcpy(attribs,(int*)pixAttribs,sizeof(pixAttribs));
 

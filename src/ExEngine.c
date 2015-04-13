@@ -351,7 +351,7 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 	#endif
 
 #endif
-	fclose(m_file_log);
+	//fclose(m_file_log);
 }
 
 DECLSPEC void ELTAPIENTRY ExEnable(Enum enable){

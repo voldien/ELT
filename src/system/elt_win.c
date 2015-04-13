@@ -125,7 +125,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 	}
 	/**
 		//	Create window for directX.
-		//	not recommended. because ELT won't be designed for handling DirectX because of a reason
+		//	not recommended. because ELT won't be designed for handling DirectX because for a reason
 		//	Instead its recommend to create the directX context yourself.
 		//	however ELT support DirectX 9 context initialization
 	*/
@@ -161,6 +161,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 
 		ExSetWindowIcon(window,       /*TODO make it works nice*/
         create_elt_icon(window));
+
 		if(flag & EX_OPENCL)
 			ExCreateCLSharedContext(glXGetCurrentContext(),window,EX_OPENGL);
 		return window;
@@ -188,9 +189,6 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 	else if((flag & ENGINE_OPENGL) || (flag & ENGINE_OPENCL)){
 
 	}
-	else
-		return EX_NULL;
-
 
 #elif defined(EX_ANDROID)
     /**
@@ -228,8 +226,16 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
         return window;
 
 	}
-	else
-		return NULL;
+#elif defined(EX_NACL)
+    if(flag & ENGINE_NATIVE){
+
+
+    }
+    else if(flag & EX_OPENGL){
+		window = ExCreateGLWindow(x,y,width, height,&glx_window);
+        glc = ExCreateGLContext(window);
+    }
+
 #endif
 	return NULL;
 }

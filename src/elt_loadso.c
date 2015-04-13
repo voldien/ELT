@@ -36,8 +36,9 @@ DECLSPEC inline HANDLE ELTAPIENTRY ExLoadObject(const ExChar* sofile){
 DECLSPEC inline void ELTAPIENTRY ExUnLoadObject(HANDLE handle){
 #ifdef EX_WINDOWS
 	ExIsWinError(FreeLibrary((HMODULE)handle));
-#elif defined(EX_LINUX) || defined(EX_ANDROID) || defined(EX_MAC)
-	handle = dlclose(handle);
+#elif defined(EX_UNIX)
+    if(handle)
+        handle = dlclose(handle);
 #ifdef EX_DEBUG
 	if(!handle)
 		fprintf(stderr,dlerror());
@@ -74,6 +75,7 @@ DECLSPEC inline HANDLE ELTAPIENTRY ExIsModuleLoaded(const ExChar* file){
         }
         else continue;
     }
+    dlclose(handle);
     return FALSE;
 #endif
 }

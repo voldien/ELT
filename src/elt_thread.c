@@ -2,7 +2,7 @@
 
 #ifdef EX_WINDOWS           /*  Windows */
 #   define EX_START_THREAD(x)	ResumeThread( ( x ) )
-#elif defined(EX_LINUX) || defined(EX_ANDROID)    /*  Linux & android  */
+#elif defined(EX_UNIX)    /*  Linux & android  */
 #   define _GNU_SOURCE
 #   define __USE_GNU
 #   include<pthread.h>
@@ -71,7 +71,7 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback,voi
     int mpid;
 
     pthread_attr_init(&attr);
-#ifdef EX_LINUX    /*  Android don't seem to support */
+#ifndef EX_ANDROID      /*  Android don't seem to support */
     CPU_ZERO(&cpus);
     CPU_SET(ncore,&cpus);
 

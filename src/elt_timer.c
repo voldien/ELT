@@ -20,7 +20,7 @@ DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback,
 		interval,
 		WT_EXECUTEDEFAULT));
 	return pid;
-#elif defined(EX_LINUX) || defined(EX_ANDROID)
+#elif defined(EX_UNIX)
     timer_t timerid;
 	struct sigevent sev = {0};;
 	struct sigaction sa;
@@ -63,7 +63,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id){
 	ExBoolean error;
 	ExIsWinError(error = DeleteTimerQueueTimer(EX_NULL,(HANDLE)timer_id, EX_NULL));
 	return error;
-#elif defined(EX_LINUX) || defined(EX_ANDROID)
+#elif defined(EX_UNIX)
     if(timer_delete(timer_id) == -1)
         fprintf(stderr,strerror(errno));
 	return 0;
@@ -73,7 +73,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id){
 DECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms){
     #ifdef EX_WINDOWS
     Sleep(ms);
-#elif defined(EX_LINUX) || defined(EX_ANDROID)
+#elif defined(EX_UNIX)
     struct timespec tim, tim2;
     tim.tv_sec = 0;
     tim.tv_nsec = ms * 1000000;
@@ -89,7 +89,7 @@ DECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nano_sec){
     tv.tv_sec = nano_sec / 1000000000;
     tv.tv_usec = nano_sec;
     select(0,0,0,0,&tv);
-    #elif defined(EX_LINUX) || defined(EX_ANDROID)
+    #elif defined(EX_UNIX)
     struct timespec tim, tim2;
     tim.tv_sec = 0;
     tim.tv_nsec = nano_sec;
@@ -103,7 +103,7 @@ DECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nano_sec){
 DECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void){/*TODO fix high res-resolution*/
 #ifdef EX_WINDOWS
 	return (timeGetTime() - elt_time);  /*  return in milliseconds   */
-#elif defined(EX_LINUX) || defined(EX_ANDROID)
+#elif defined(EX_UNIX)
 	return (clock() - elt_time);
 #endif
 }
@@ -111,7 +111,7 @@ DECLSPEC long int ELTAPIENTRY ExGetHiResTime(void){
     #ifdef EX_WINDOWS
 
 	return 0;
-#elif defined(EX_LINUX) || defined(EX_ANDROID)
+#elif defined(EX_UNIX)
     struct timespec t_spec;
     clock_gettime(CLOCK_MONOTONIC, &t_spec);
     return t_spec.tv_nsec;  /*  return time in nano seconds*/

@@ -1,6 +1,6 @@
 #include"system/eltfile.h"
 
-static long ExGetFileStreamSize(FILE* file ){
+static inline long ExGetFileStreamSize(FILE* file ){
     fpos_t pos;
     long size;
 /*    pos = ftell(file);
