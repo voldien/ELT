@@ -1,5 +1,6 @@
 #include"system/elt_gl.h"
 #include"ExPreProcessor.h"
+
 #ifdef EX_WINDOWS
     #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.dll")
     #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.dll")
@@ -62,8 +63,15 @@
 #elif defined(EX_MAC)
 #include<GL/glu.h>
 #endif
+#ifdef EX_NACL
+	#include "ppapi/c/ppb.h"
+	#include "ppapi/c/pp_errors.h"
+#endif
 
 
+/*
+
+*/
 #define ExDevGLPrint(pFormat)	printf(pFormat EX_DEVELOP_ERROR_LOG,glGetError(),glewGetErrorString(glGetError()), __FILE__,__LINE__, EX_FUNCDNAME);
 #define ExDevGLPrintc(pFormat,color)	{Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat EX_DEVELOP_ERROR_LOG,glGetError(),glewGetString(glGetError()),__LINE__, __FILE__,EX_FUNCNAME);ExSetConsoleColor(__colour__);}
 #define ExDevGLPrintf(pFormat,...)	{Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat  EX_DEVELOP_ERROR_LOG,__VA_ARGS__,glGetError(),glewGetString(glGetError()),LINE__, __FILE__,EX_FUNCNAME);ExSetConsoleColor(__colour__);}
@@ -72,10 +80,6 @@
 	OpenGL Error
 */
 #define ExIsGLError(x)  { if( ( x ) <= 0 ){ ExDevGLPrintc("Error",EX_CONSOLE_RED); } }
-
-
-
-
 
 
 
@@ -109,7 +113,7 @@ static int isExtensionSupported(const char* extList, const char* extension){
 
 
 DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window){
-    #ifndef EX_ANDROID
+	#ifndef EX_ANDROID
 	EGLDisplay eglDisplay;
 	#endif
 	int major ,minor ;
@@ -120,6 +124,10 @@ DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window){
 	EGLSurface eglSurface;
 	EGLContext eglContext;
 	ERESULT hr;
+
+	/*
+		load dynamic library dependency.
+	*/
 	if(!ExIsModuleLoaded(EX_EGL_LIB_MOUDLE_NAME))
 		ExLoadLibrary(EX_EGL_LIB_MOUDLE_NAME);
 	if(!ExIsModuleLoaded(EX_GLES_LIB_MOUDLE_NAME))
@@ -216,6 +224,8 @@ DECLSPEC OpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void){
 	return glXGetCurrentContext();
 #elif defined(EX_ANDROID)
 	return eglGetCurrentContext();
+#elif defined(EX_NACL)
+    return glGetCurrentContextPPAPI();
 #endif
 }
 
@@ -527,7 +537,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
                 GLX_STEREO,0,
                 GLX_SAMPLE_BUFFERS_ARB,engineDescription.sample[0] != 0 ? 1 : 0,
                 GLX_SAMPLES_ARB,engineDescription.sample[0],
-                GLX_TRANSPARENT_TYPE, GLX_TRANSPARENT_RGB,
+                //GLX_TRANSPARENT_TYPE, GLX_TRANSPARENT_RGB,
                 None,
 				/*
 			//GLX_TRANSPARENT_ARB, WGL_TRANSPARENT_ALPHA_VALUE_ARB,,
@@ -619,11 +629,11 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     /**
         Create all entry point to create extension openGL context.
     */
-    wglSwapIntervalEXT =            (WGLSWAPINTERVALEXT_T)GL_GET_PROC("wglSwapIntervalEXT");
-    wglChoosePixelFormatARB =       (WGLCHOOSEPIXELFORMATARB_T)GL_GET_PROC("wglChoosePixelFormatARB");
-    wglGetPixelFormatAttribivARB =  (WGLGETPIXELFORMATATTRIBIVARB_T)GL_GET_PROC("wglGetPixelFormatAttribivARB");
-    wglGetExtensionStringEXT =      (WGLGETEXTENSIONSSTRINGEXT_T)GL_GET_PROC("wglGetExtensionStringEXT");
-    wglGetExtensionStringARB =      (WGLGETEXTENSIONSSTRINGARB_T)GL_GET_PROC("wglGetExtensionStringARB");
+	wglSwapIntervalEXT =            (WGLSWAPINTERVALEXT_T)GL_GET_PROC("wglSwapIntervalEXT");
+	wglChoosePixelFormatARB =       (WGLCHOOSEPIXELFORMATARB_T)GL_GET_PROC("wglChoosePixelFormatARB");
+	wglGetPixelFormatAttribivARB =  (WGLGETPIXELFORMATATTRIBIVARB_T)GL_GET_PROC("wglGetPixelFormatAttribivARB");
+	wglGetExtensionStringEXT =      (WGLGETEXTENSIONSSTRINGEXT_T)GL_GET_PROC("wglGetExtensionStringEXT");
+	wglGetExtensionStringARB =      (WGLGETEXTENSIONSSTRINGARB_T)GL_GET_PROC("wglGetExtensionStringARB");
 	wglCreateContextAttribsARB =    (WGLCREATECONTEXTATTRIBSARB)GL_GET_PROC("wglCreateContextAttribsARB");
 
 
@@ -631,8 +641,8 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 		return glc;
 
 
-    if(!wglGetPixelFormatAttribivARB(hDC, pixFmt,0,1, attrib, nResults))
-        ExError(EX_TEXT("Error"));
+	if(!wglGetPixelFormatAttribivARB(hDC, pixFmt,0,1, attrib, nResults))
+		ExError(EX_TEXT("Error"));
 
 
 
@@ -641,7 +651,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
         Context attributes
     */
     int context_attribs[]={
-		WGL_CONTEXT_MAJOR_VERSION_ARB, !major_version ? ((ExGetOpenGLVersion() - (ExGetOpenGLVersion() % 100)) / 100) : major_version,
+	WGL_CONTEXT_MAJOR_VERSION_ARB, !major_version ? ((ExGetOpenGLVersion() - (ExGetOpenGLVersion() % 100)) / 100) : major_version,
         WGL_CONTEXT_MINOR_VERSION_ARB, minor_version ? ExGetOpenGLVersion() % 100 : minor_version,
         WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
         #ifdef EX_DEBUG
@@ -657,13 +667,13 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 	ExCreateContextAttrib(hDC,&pixAttribs[0],(Int32*)&dataSize,&engineDescription, EX_OPENGL);
 
 
-    if(!wglChoosePixelFormatARB(hDC, &pixAttribs[0], NULL, 1, pixelFormat, (unsigned int*)&nResults[0]))
-        ExError(EX_TEXT("function : wglChoosePixelFormatARB Failed"));
+	if(!wglChoosePixelFormatARB(hDC, &pixAttribs[0], NULL, 1, pixelFormat, (unsigned int*)&nResults[0]))
+		ExError(EX_TEXT("function : wglChoosePixelFormatARB Failed"));
 
 
-    if(ExDestroyContext(hDC,glc)){  /*  destroy temp context    */
-            DestroyWindow(temp_gl_hwnd);
-    }else ExDevPrint("Failed to delete Temp OpenGL Context.\n");
+	if(ExDestroyContext(hDC,glc)){  /*  destroy temp context    */
+		DestroyWindow(temp_gl_hwnd);
+	}else ExDevPrint("Failed to delete Temp OpenGL Context.\n");
 
     /*
         Get Device Context from window
@@ -751,9 +761,11 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 	return glc;
 #elif defined(EX_ANDROID)
 
+    return ExCreateOpenGLES(window);
+#elif defined(EX_NACL)
+    PPB_GetInterface inter;
+    glInitializePPAPI(inter);
 
-
-    return glc;
 #endif
 }
 
