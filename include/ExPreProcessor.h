@@ -109,7 +109,7 @@
         #define EX_PSP2                         /*	playstation portable 2*/
         #define EX_RAS_PI                       /*	rasberry pi	*/
 	#endif
-	#if defined(_WIN32) /*  Window*/
+	#if defined(_WIN32) /**  Window*/
 		#define EX_WINDOWS                      /**/
 		#define EX_BITS_ARCHITECTURE 32         /**/
 	#endif
@@ -122,10 +122,9 @@
               #define EX_ARM 1
         #endif
 
-	#elif defined (ANDROID) || defined(__ANDROID__) || __ANDROID_API__ > 9  /* Android */
+	#elif defined (ANDROID) || defined(__ANDROID__) || __ANDROID_API__ > 9  /** Android */
         #include<jni.h>
 		#define EX_ANDROID 1
-		#define EX_UNIX 1
 		/*  android Architecture*/
         #if defined(__arm__)
           #if defined(__ARM_ARCH_7A__)
@@ -161,7 +160,6 @@
 
 	#elif defined (__APPLE__)   /*  Apple product   */
 		#define EX_APPLE 1
-		#define EX_UNIX 1
 		#if defined(__arm__)
 			#define EX_APPLE_IOS    /*  Apple iphone/ipad OS    */
 		#elif defined(MACOSX) || defined(macintosh) || defined(Macintosh)
@@ -170,19 +168,22 @@
 	#elif defined(__CYGWIN) 	/**/
 		#define EX_CYGWIN 1
 		#define EX_LINUX 1
-		#define EX_UNIX 1
 	#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)   /*  BSD*/
 		#define EX_BSD
     	#elif defined(__llvm__) || defined(__clang__)   	/*  llvm    */
         	#define EX_LLVM 1
-    	#elif defined(__pnacl__) ||defined(__native_client__)	/*	nacl google	*/
-		#define EX_NACL 1
 	#endif
 
-	#if defined(__unix__) 	/*  Unix    */
-        #ifndef EX_UNIX
+
+    #if defined(__native_client__)	/*	nacl google	*/
+		#define EX_NACL 1
+	#endif
+	#if defined(__pnacl__)          /* portable nacl google */
+        #define EX_PNACL 1
+	#endif
+
+	#if defined(__unix__) || defined(__unix) || defined(unix)	/*  Unix    */
         #   define EX_UNIX 1
-        #endif
 	#endif
 
 #else

@@ -74,6 +74,7 @@ extern DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigne
 	@return
 */
 extern DECLSPEC int ELTAPIENTRY ExReadSocket(unsigned int socket, unsigned char* buffer,unsigned size);
+//#define ExReadSocket read
 /**
 	Write Socket data
 	\socket
@@ -82,7 +83,7 @@ extern DECLSPEC int ELTAPIENTRY ExReadSocket(unsigned int socket, unsigned char*
 	@return
 */
 extern DECLSPEC int ELTAPIENTRY ExWriteSocket(unsigned int socket, unsigned char* data,unsigned size);
-
+//#define ExWriteSocket write
 /**
 
 */
