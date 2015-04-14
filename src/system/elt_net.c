@@ -263,36 +263,6 @@ DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int p
     #endif
 }
 
-
-DECLSPEC inline int ELTAPIENTRY ExWriteSocket(unsigned int socket, unsigned char* data, unsigned size){
-	int len;
-#ifdef EX_WINDOWS
-	if((len = send(socket,(char*)data,len,MSG_DONTROUTE)) < 0)
-        return -1;
-    return len;
-#elif defined(EX_UNIX)
-	if((len = write(socket,data,size)) < 0){
-		fprintf(stderr,strerror(errno));
-		return -1;
-	}
-	return len;
-#endif
-}
-
-DECLSPEC inline int ELTAPIENTRY ExReadSocket(unsigned int socket,unsigned  char* data, unsigned int size){
-    int len;
-#ifdef EX_WINDOWS
-	if(len = recv(socket, (char*)data, size,0))
-		return 0;
-    return len;
-#elif defined(EX_UNIX)
-	if((len = read(socket, data,size)) <0)
-		return -1;
-    return len;
-#endif
-
-}
-
 DECLSPEC inline int ELTAPIENTRY ExGetHostIp(char ip[16]){
 #ifdef EX_WINDOWS
 	SOCKET fd;
