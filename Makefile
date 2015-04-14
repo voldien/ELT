@@ -36,6 +36,7 @@ objects = $(subst %.c,%.o,$(sources))
 CFLAGS :=  -w -Wall -fPIC  $(DEFINE) $(INCLUDE)
 TARGET := libEngineEx$(TARGETSUFFIX)			# target
 BUILD_DIR := build/					#	
+OUTPUT_DIR := build/
 
 
 all: $(TARGET)
@@ -58,7 +59,7 @@ debug : $(sources)
 	$(CC) $(CFLAGS) -fPIC -shared $(objects) -o build/$(TARGET) $(CLIBS)
 
 
-arm : CFLAGS += -marm 
+arm : CFLAGS += -marm
 arm : CFLAGS += -L"/usr/lib/"
 arm : $(sources)
 	$(ARMCC) $(CFLAGS) -fPIC -shared -c $^ $(CLIBS)
@@ -90,9 +91,15 @@ win32 : $(sources)
 
 
 
-nacl : CHDIR_SHELL := $(pwd)/port/nacl
-nacl : port/nacl/Makefile
-	make -f $^
+nacl : CURDIR := port/nacl
+nacl : Makefile
+	make -f $(basename $^)
+
+
+android : CURDIR := port/android/jni
+android :
+	ndk-build
+
 
 install :
 	echo -en "installing ELT"
@@ -105,8 +112,8 @@ install :
 	sudo $(CP) include/system/*.h /usr/include/ELT/system/
 	sudo $(CP) include/system/android/*.h /usr/include/ELT/system/android/
 	sudo $(CP) build/$(TARGET) /usr/lib/$(TARGET)
-	
 
+	
 uninstall : 	
 
 
