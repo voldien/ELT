@@ -25,8 +25,6 @@
 #include"system/elt_cl.h"
 
 
-
-
 #ifdef EX_WINDOWS
 #	include<GL/glext.h>
 #elif defined(EX_LINUX)
@@ -90,12 +88,13 @@ DECLSPEC int ELTAPIENTRY ExSetParameteri(Enum eflag, int value){
 }
 DECLSPEC int ELTAPIENTRY ExSetParameterf(Enum eflag, float value){
     switch(eflag){
-        case 0:break;
-        default:break;
+        case 0:
+            break;
+        default:
+            break;
     }
     return 1;
 }
-
 static EngineDescription ELTAPIENTRY EngineDefaultDescription(void){
 	EngineDescription defaultDescripton = {0};
 	defaultDescripton.EngineFlag = 0;
@@ -126,6 +125,7 @@ static EngineDescription ELTAPIENTRY EngineDirectXDescription(void){
 	_description.ColorBits = 32;
 	_description.AccumBits = 8;
 	_description.StencilBits = 8;
+
 
 	return _description;
 }

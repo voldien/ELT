@@ -14,7 +14,7 @@
 DECLSPEC inline HANDLE ELTAPIENTRY ExLoadFunction(HANDLE handle,const char* pProcName){
 #ifdef EX_WINDOWS
 	return GetProcAddress((HMODULE)handle,pProcName);
-#elif defined(EX_LINUX) || defined(EX_ANDROID) || defined(EX_MAC)
+#elif defined(EX_UNIX)
 	return dlsym(handle,pProcName);
 #endif
 }
@@ -24,7 +24,7 @@ DECLSPEC inline HANDLE ELTAPIENTRY ExLoadObject(const ExChar* sofile){
 #ifdef EX_WINDOWS
 	ExIsError((handle = LoadLibrary(sofile)));
 	return handle;
-#elif defined(EX_LINUX) || defined(EX_ANDROID) || defined(EX_MAC)
+#elif defined(EX_UNIX)
 	handle = dlopen(sofile,RTLD_LAZY);
     #ifdef EX_DEBUG
 	if(!handle)
@@ -52,7 +52,7 @@ DECLSPEC inline void ELTAPIENTRY ExUnLoadObject(HANDLE handle){
 DECLSPEC inline HANDLE ELTAPIENTRY ExIsModuleLoaded(const ExChar* file){
 #ifdef EX_WINDOWS
 	return GetModuleHandle(file);
-#elif defined(EX_LINUX) //|| defined(EX_UNIX) || defined(EX_ANDROID)
+#elif defined(EX_UNIX)
     char buffer[256];
     void* handle = dlopen(NULL, RTLD_NOW);
     #ifdef EX_DEBUG

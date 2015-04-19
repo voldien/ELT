@@ -4,9 +4,9 @@
 #ifdef EX_WINDOWS
     #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.dll")
     #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.dll")
-    #pragma warning(disable : 4273) // 'function' : inconsistent DLL linkage
+    #pragma warning(disable : 4273)     // 'function' : inconsistent DLL linkage
 
-	// library
+	/* library  */
 	#pragma comment(lib,"opengl32.lib")
 	#pragma comment(lib, "Glu32.lib")
 	#pragma comment(lib, "gdi32.lib")
@@ -21,7 +21,6 @@
 	#include<GL/glext.h>
 	#include<GL/wglext.h>
     #include<GL/glu.h>
-    //#include<GL/glext.h>
     #define GL_GET_PROC(x)   wglGetProcAddress( (LPCSTR)( x ) )         /*  get OpenGL function process address */
 
 #elif defined(EX_LINUX)
@@ -58,12 +57,13 @@
     #include<EGL/eglext.h>
     #include<EGL/eglplatform.h>
     static EGLDisplay eglDisplay;
-#define GL_GET_PROC(x) (x)                                      /* * get OpenGL function process address */
+#define GL_GET_PROC(x)  eglGetProcAddress(x)                                      /* * get OpenGL function process address */
 
 #elif defined(EX_MAC)
-#include<GL/glu.h>
+#   include<GL/glu.h>
 #endif
-#ifdef EX_NACL
+
+#ifdef EX_PNACL
 	#include "ppapi/c/ppb.h"
 	#include "ppapi/c/pp_errors.h"
 #endif

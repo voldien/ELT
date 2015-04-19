@@ -30,6 +30,8 @@
 #elif defined(EX_MAC)
 	#include"system/mac/macosx_win.h"
 	#include<EGL/egl.h>
+#elif defined(EX_NACL)
+
 #endif
 
 #include"system/elt_icon.h"

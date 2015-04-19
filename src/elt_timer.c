@@ -83,16 +83,16 @@ DECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms){
     }
     #endif
 }
-DECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nano_sec){
+DECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nanosec){
     #ifdef EX_WINDOWS
     struct timeval tv;  // TODO Does this nano sleep work ?
-    tv.tv_sec = nano_sec / 1000000000;
-    tv.tv_usec = nano_sec;
+    tv.tv_sec = nanosec / 1000000000;
+    tv.tv_usec = nanosec;
     select(0,0,0,0,&tv);
     #elif defined(EX_UNIX)
     struct timespec tim, tim2;
     tim.tv_sec = 0;
-    tim.tv_nsec = nano_sec;
+    tim.tv_nsec = nanosec;
 
     if(nanosleep(&tim , NULL) < 0 ){
         fprintf(stderr, strerror(errno));

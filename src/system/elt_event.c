@@ -13,6 +13,8 @@
 #   include<android/input.h>
 #   include<android/looper.h>
 #   include<android/sensor.h>
+#elif defined(EX_MAC)
+
 #endif
 
 

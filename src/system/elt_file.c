@@ -1,12 +1,13 @@
 #include"system/eltfile.h"
+#include<stdio.h>
 
 static inline long ExGetFileStreamSize(FILE* file ){
-    fpos_t pos;
+    unsigned int pos;
     long size;
-/*    pos = ftell(file);
+    pos = ftell(file);
     fseek(file, 0,SEEK_END);
     size = ftell(file);
-    fseek(file, pos, SEEK_SET);*/
+    fseek(file, pos, SEEK_SET);
     return size;
 }
 

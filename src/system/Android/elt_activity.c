@@ -10,8 +10,6 @@
 #include <EGL/egl.h>
 #include <jni.h>
 
-//#include <android_native_app_glue.h>
-
 /**
 	entry point for normal application to be found here.
 */

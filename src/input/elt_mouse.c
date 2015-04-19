@@ -1,9 +1,6 @@
 #include"input/elt_mouse.h"
 #ifdef EX_WINDOWS
 #   include<dinput.h>
-    DIMOUSESTATE2 MouseState[2];
-    IDirectInputDevice8* hMouseDevice = EX_NULL;
-    //MouseHandler* m_MouseHandler = EX_NULL;
 #elif defined(EX_LINUX)
 #   include<linux/input.h>
 #   include<X11/Xlib.h>

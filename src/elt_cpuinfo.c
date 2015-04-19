@@ -16,27 +16,27 @@
 #ifdef EX_GNUC
 
 #ifdef __SSE__
-#include <xmmintrin.h>
+#   include <xmmintrin.h>
 #endif
 
 #ifdef __SSE2__
-#include <emmintrin.h>
+#   include <emmintrin.h>
 #endif
 
 #ifdef __SSE3__
-#include <pmmintrin.h>
+#   include <pmmintrin.h>
 #endif
 
 #ifdef __SSSE3__
-#include <tmmintrin.h>
+#   include <tmmintrin.h>
 #endif
 
 #if defined (__SSE4_2__) || defined (__SSE4_1__)
-#include <smmintrin.h>
+#   include <smmintrin.h>
 #endif
 
 #if defined (__AES__) || defined (__PCLMUL__)
-#include <wmmintrin.h>
+#   include <wmmintrin.h>
 #endif
 
 #else

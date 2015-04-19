@@ -9,24 +9,6 @@
 	#include<Xinput.h>
 	//#pragma comment(lib, "dxguid.lib")
 	#pragma comment(lib, "dinput8.lib")
-	//typedef struct JoyStickHandler{
-	//	 IDirectInputDevice8* p_joystick[1];
-	//	 Boolean enabledState[1];
-	//	union {
-	//		DIJOYSTATE* joyState;
-	//		DIJOYSTATE2* joyStateAdv;
-	//	};
-	//}HJoyStick, *HJOYSTICK;
-	struct XINPUT_DEVICE_NODE
-	{
-		DWORD dwVidPid;
-		XINPUT_DEVICE_NODE* pNext;
-	};
-	struct DI_ENUM_CONTEXT
-	{
-		DIJOYCONFIG* pPreferredJoyCfg;
-		Boolean bPreferredJoyCfgValid;
-	};
 #elif defined(EX_LINUX)
 #   include<unistd.h>
 #   include<fcntl.h>
