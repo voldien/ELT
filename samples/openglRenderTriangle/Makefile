@@ -1,10 +1,17 @@
 #!/bin/bash
 
 
+CC := gcc
+RM := rm -rf
+CLFAGS := -Wall -O2
+CLIBS := -lEngineEx -lGL 
 
 
 all : main
-	echo -en "finished"
+	echo -en "finished $(du -h $@) "
 
 main : main.c
-	gcc -g -Wall main.c -o main -lm -lEngineEx -lGL -lGLEW
+	$(CC) $(CFLAGS) $^ -o $@ $(CLIBS) 
+
+clean : 
+	$(RM) *.o
