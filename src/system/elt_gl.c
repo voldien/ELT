@@ -1107,10 +1107,28 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void){
     return 0;
 #endif
 }
-DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(void){
+
+DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor){
     if(!ExGetCurrentOpenGLContext()){
+	/*	create temp*/
+	unsigned int version;
+	OpenGLContext glc;
+	//glc = ExCreateTempGLContext();
+	version = (atof((const char*)glGetString(GL_VERSION)) * 100.0f);
+	if(major)
+		glGetIntegerv(GL_MAJOR_VERSION, major);
+	if(minor)
+		glGetIntegerv(GL_MINOR_VERSION, minor);
+
+	//ExDestroyContext(glc);
+	return version;
     }
     else{
+	if(major)
+		glGetIntegerv(GL_MAJOR_VERSION, major);
+	if(minor)
+		glGetIntegerv(GL_MINOR_VERSION, minor);
+
         return (Uint32)(atof((const char*)glGetString(GL_VERSION)) * 100.0f);
     }
 }
