@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MKDIR := mkdir -p
+MKDIR2 ?= mkdir -p
 RM := rm -rf
 
 #	has to be define manually for now TODO resolve 
@@ -21,14 +21,14 @@ NACL_AR := $(NACL_TC_PATH)/bin/x86_64-nacl-ar
 NACL_RANLIB := $(NACL_TC_PATH)/bin/x86_64-nacl-ranlib
 
 
-VALID_TOOLCHAINS := pnacl newlib glibc dl pthread
-
+VALID_TOOLCHAINS := pnacl newlib glibc dl pthread nacl_io
 
 include $(NACL_SDK_ROOT)/tools/common.mk
 
+
 TARGET :=libEngineEx
 
-CLIBS :=  -lppapi -lm -ldl -lOpenCL -lpthread -lglibc
+CLIBS :=  -lppapi -lm -ldl -lOpenCL -lpthread -lglibc 
 
 CFLAGS :=  -fPIC -w -Wall -I"./../../include" -DDONT_SUPPORT_OPENCL=1 -I"$(NACL_SDK_ROOT)/include"	#TODO resolve include dependency 
 
@@ -49,29 +49,29 @@ all : $(TARGET).a
 	echo -en "finished compiling and link $(du -h $^)"
 
 $(TARGET).a : $(objects)
-	$(PNACL_AR) -rcs $(nodir $^) -f $@
+	$(MKDIR2) build
+	$(PNACL_AR) -rcs  $(notdir $^) -f $@
 	$(NACL_RANLIB) $@
 
+%.o : CFLAGS += -O2
 %.o : %.c
-	$(PNACL_CXX) -c  $^ -O2 $(CFLAGS) $(CLIBS)
+	$(PNACL_CXX) -c  $^  -o $(notdir $@) $(CFLAGS) $(CLIBS)
 
 
 nacl : CLFAGS += -O2
+nacl : CLIBS += -lEGL
 nacl : $(sources)
-	$(NACL_CXX) -c $^ -O2 $(CFLAGS) $(CLIBS)
+	$(NACL_CXX) -c $^ $(CFLAGS) $(CLIBS)
 	$(NACL_AR) -rcs $(subst .c,.o, $(nodir $^)) -f $(TARGET).a
 		
 
 
 .PHONY : pnacl
-pnacl : sources += $(wildcard ./../../src/pnacl/*.cc)
+pnacl : sources = $(wildcard ./../../src/pnacl/*.cc)
 pnacl : $(sources)
-	$(NACL_CXX) -c $^ $(CFLAGS) $(CLIBS)
-	$(NACL_AR) -rcs $(subst .c,.o, $(nodir $^)) -f $(TARGET).a
+	$(PNACL_CXX) -c $^ $(CFLAGS) $(CLIBS)
+	$(PNACL_AR) -rcs $(subst .c,.o, $(nodir $^)) -f $(TARGET).a
 
-
-debug: $(sources)
-	
-
+.PHONY : clean
 clean :
 	$(RM) *.o
