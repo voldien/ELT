@@ -3,8 +3,9 @@
 #include<signal.h>
 #ifdef EX_WINDOWS
 #   include<WinBase.h>
-#elif defined(EX_LINUX) || defined(EX_ANDROID)
+#elif defined(EX_UNIX)
 #   include<errno.h>
+#include<unistd.h>
 #endif // EX_WINDOWS
 
 Uint64 elt_time = 0;
@@ -58,6 +59,7 @@ DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback,
 #endif
 
 }
+
 DECLSPEC ExBoolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id){
 #ifdef EX_WINDOWS
 	ExBoolean error;

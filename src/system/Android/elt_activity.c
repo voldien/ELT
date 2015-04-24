@@ -46,12 +46,12 @@ static void initMain(void){
 */
 void* elt_main(void* states){
 
-    initMain();
+	initMain();
 
 
 	ExDelay(500);
 
-    return main(0,NULL);
+	return main(0,NULL);
 }
 /**
     OnStart

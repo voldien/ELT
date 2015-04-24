@@ -76,7 +76,7 @@ static inline int ExGetKeyCodeInternal(Uint32 keyCode){
         case EXK_Right: keysym = XK_Right;        break;
         case EXK_Up:    keysym = XK_Up;           break;
         case EXK_Down:  keysym = XK_Down;         break;
-
+/*
         case EXK_Escape:     keysym = XK_Escape;       break;
         case EXK_LControl:   keysym = XK_Control_L;    break;
         case EXK_LShift:     keysym = XK_Shift_L;      break;
@@ -121,7 +121,7 @@ static inline int ExGetKeyCodeInternal(Uint32 keyCode){
         case EXK_Numpad6:    keysym = XK_KP_6;         break;
         case EXK_Numpad7:    keysym = XK_KP_7;         break;
         case EXK_Numpad8:    keysym = XK_KP_8;         break;
-        case EXK_Numpad9:    keysym = XK_KP_9;         break;
+        case EXK_Numpad9:    keysym = XK_KP_9;         break;*/
 
         case EXK_F1:         keysym = XK_F1;           break;
         case EXK_F2:         keysym = XK_F2;           break;
@@ -269,7 +269,7 @@ DECLSPEC const char* ELTAPIENTRY ExGetKeyName(Keycode keycode){
 	GetKeyNameTextA((keycode << 16),text,sizeof(text));
 	return text;
 #elif defined(EX_LINUX)
-    return XKeysymToString(ex_get_key_code_internal(keycode));
+    return XKeysymToString(ExGetKeyCodeInternal(keycode));
 #endif
 
 }
@@ -320,7 +320,7 @@ DECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void){
 
 	return FALSE;
 }
-DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(const Uint32 keyCode){
+DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(Uint32 keyCode){
 #if defined(EX_WINDOWS)
 	return (ExBoolean)GetAsyncKeyState(keyCode);
 	ExUpdateKeyboard();
@@ -331,11 +331,11 @@ DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(const Uint32 keyCode){
 }
 
 
-DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(const Uint32 keyCode){
+DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode){
 #if defined(EX_WINDOWS)
 	return (ExBoolean)GetAsyncKeyState(keyCode);
 #elif defined(EX_LINUX)
-	KeySym keysym =ExGetKeyCodeInternal(keycode); 
+	KeySym keysym =ExGetKeyCodeInternal(keyCode);
 
 	xcb_connection_t* connection = XGetXCBConnection(display);
 
@@ -343,11 +343,13 @@ DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(const Uint32 keyCode){
 
 	if(keycode != 0){
 
-        xcb_query_keymap_reply_t* keymap = xcb_query_keymap_reply(connection,xcb_query_keymap(connection), NULL);
+        static xcb_query_keymap_reply_t* keymap = NULL;
+	if(!keymap)
+		keymap = xcb_query_keymap_reply(connection,xcb_query_keymap(connection), NULL);
 
         unsigned char isPressed = (keymap->keys[keycode/8] & (1 << (keycode % 8))) ?  1 : 0;
 
-        free(keymap);   //TODO check how to allocate a buffer, so we don't need to reallocate it every time
+        //free(keymap);   //TODO check how to allocate a buffer, so we don't need to reallocate it every time
         return isPressed;
 	}
 	return 0;

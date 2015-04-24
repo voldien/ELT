@@ -23,7 +23,7 @@
 #include<signal.h>
 #include<limits.h>
 
-#ifdef EX_NACL
+#ifdef EX_PNACL
 	#include "ppapi/c/ppb.h"
 	#include "ppapi/c/pp_errors.h"
 	#include "ppapi/gles2/gl2ext_ppapi.h"

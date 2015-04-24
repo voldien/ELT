@@ -1,8 +1,10 @@
 #include"elt_loadso.h"
-#if defined(EX_LINUX) || defined(EX_ANDROID)
+#if defined(EX_UNIX)
 #   include<stdio.h>
-#   include<link.h>
-#   include<dlfcn.h>
+#	ifndef EX_PNACL 
+#   		include<link.h>
+#   		include<dlfcn.h>
+#	endif 
 #   include<errno.h>
 #   include<libgen.h>
 #elif defined(EX_WINDOWS)

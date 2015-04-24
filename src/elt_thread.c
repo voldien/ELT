@@ -42,8 +42,8 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpPar
 	if((mpid = pthread_create(&t0,&attr, callback,lpParamater)) == -1)
         fprintf(stderr, strerror(errno));
 
-    if(pid)//TODO
-        *pid = mpid;
+	if(pid)//TODO
+		*pid = mpid;
 	return t0;
 #endif
 }
@@ -64,25 +64,25 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback,voi
 	return t0;
 #elif defined(EX_UNIX)
 	pthread_t t0;
-    pthread_attr_t attr;
-    #ifdef EX_LINUX
-    cpu_set_t cpus;
-    #endif
-    int mpid;
-
-    pthread_attr_init(&attr);
+	pthread_attr_t attr;
 #ifndef EX_ANDROID      /*  Android don't seem to support */
-    CPU_ZERO(&cpus);
-    CPU_SET(ncore,&cpus);
+	cpu_set_t cpus;
+#endif
+	int mpid;
 
-    pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t),&cpus);
+	pthread_attr_init(&attr);
+#ifndef EX_ANDROID      /*  Android don't seem to support */
+	CPU_ZERO(&cpus);
+	CPU_SET(ncore,&cpus);
+
+	pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t),&cpus);
 #endif
 
 	if((mpid = pthread_create(&t0,&attr, callback,lpParamater)) == -1)
-        fprintf(stderr, strerror(errno));
+		fprintf(stderr, strerror(errno));
 
-    if(pid)//TODO
-        *pid = mpid;
+	if(pid)//TODO
+		*pid = mpid;
 	return t0;
 #endif
 
@@ -105,7 +105,6 @@ DECLSPEC ERESULT ELTAPIENTRY ExExitThread(ExThread thread){
 #elif defined(EX_UNIX)
    return pthread_kill(thread,0);
     //pthread_exit(thread);
-
 #endif
 }
 

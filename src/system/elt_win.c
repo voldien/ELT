@@ -214,17 +214,15 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 	else if(flag & EX_OPENGLES){
         ANativeWindow_acquire(&window);
         glc = ExCreateOpenGLES(window);
-        /*
-        if(flag & EX_OPENCL)
-            ExCreateCLSharedContext(glc, window, EX_OPENGL);
-        */
+
+        //if(flag & EX_OPENCL)
+        //    ExCreateCLSharedContext(glc, window, EX_OPENGL);
+
         return window;
 	}
 	else if(flag & EX_OPENCL){
         ANativeWindow_acquire(&window);
-        /*
-        ExCreateCLContext(0);
-        */
+        //ExCreateCLContext(0);
         return window;
 
 	}
