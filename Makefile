@@ -1,5 +1,7 @@
 #!/bin/bash
 
+BASE = $(call my-dir)
+
 RM := rm -rf
 MKDIR :=  mkdir -p
 CP := cp
@@ -28,6 +30,7 @@ sources  = $(wildcard src/*.c)
 sources += $(wildcard src/input/*.c)
 sources += $(wildcard src/system/*.c)
 sources += $(wildcard src/system/Unix/*.c)	# TODO resolve internal directory
+sources += $(wildcard src/math/*.c)
 #sources -= src/main.c 
 
 objects = $(subst %.c,%.o,$(sources))
@@ -95,10 +98,13 @@ nacl : CURDIR := port/nacl
 nacl : Makefile
 	make -f $(basename $^)
 
+pnacl : CURDIR := port/nacl
+pnacl : Makefile
+	make -f  $(basename $^) pnacl
 
-android : CURDIR := port/android/jni
+
 android :
-	ndk-build
+	
 
 
 install :
