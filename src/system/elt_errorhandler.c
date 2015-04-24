@@ -1,6 +1,5 @@
 #include"system/elt_errorhandler.h"
 #include"system/elt_log.h"
-#include"elt_console.h"
 #ifdef EX_WINDOWS
 #	include<DbgHelp.h>
 #   pragma comment(lib, "Dbghelp.lib")
@@ -29,6 +28,81 @@
 	#include "ppapi/c/pp_errors.h"
 	#include "ppapi/gles2/gl2ext_ppapi.h"
 #endif 
+
+#define KNRM  "\x1B[0m"
+#define KRED  "\x1B[31m"
+#define KGRN  "\x1B[32m"
+#define KYEL  "\x1B[33m"
+#define KBLU  "\x1B[34m"
+#define KMAG  "\x1B[35m"
+#define KCYN  "\x1B[36m"
+#define KWHT  "\x1B[37m"
+#define RESET "\033[0m"
+
+#define EX_CONSOLE_BLACK 0x0
+#define EX_CONSOLE_BLUE 0x1
+#define EX_CONSOLE_GREEN 0x2
+#define EX_CONSOLE_AQUA 0x3
+#define EX_CONSOLE_RED 0x4
+#define EX_CONSOLE_PURPLE 0x5
+#define EX_CONSOLE_YELLOW  0x6
+#define EX_CONSOLE_WHITE 0x7
+#define EX_CONSOLE_GRAY 0x8
+#define EX_CONSOLE_LIGHT_BLUE 0x9
+#define EX_CONSOLE_LIGHT_GREEN 0xA
+#define EX_CONSOLE_LIGHT_AQUA 0xB
+#define EX_CONSOLE_LIGHT_RED 0xC
+#define EX_CONSOLE_LIGHT_PURPLE 0xD
+#define EX_CONSOLE_LIGHT_YELLOW 0xE
+#define EX_CONSOLE_LIGHT_WHITE 0xF
+#define EX_CONSOLE_COLOR_RESET 0x10
+
+/*	Set Console Color	*/
+extern DECLSPEC void ELTAPIENTRY ExSetConsoleColor(Uint16 colour);
+/*	Get Console Color	*/
+extern DECLSPEC Uint16 ELTAPIENTRY ExGetConsoleColor(void);
+
+
+DECLSPEC void ELTAPIENTRY ExSetConsoleColor(Uint16 colour){
+#if defined(EX_WINDOWS)
+	if(GetStdHandle(STD_OUTPUT_HANDLE) == INVALID_HANDLE_VALUE)return;
+
+	if(!SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),colour))
+		wExDevPrintf(EX_TEXT("failed to Set Console Text Attribute | %s"), ExGetErrorMessage(GetLastError()));
+#elif defined(EX_LINUX)
+	switch(colour){
+	case EX_CONSOLE_BLACK: printf(KNRM);break;
+	case EX_CONSOLE_BLUE : printf(KBLU);break;
+	case EX_CONSOLE_GREEN : printf(KNRM);break;
+	case EX_CONSOLE_AQUA : printf(KNRM);break;
+	case EX_CONSOLE_RED : printf(KNRM);break;
+	case EX_CONSOLE_PURPLE : printf(KNRM);break;
+	case EX_CONSOLE_YELLOW : printf(KNRM);break;
+	case EX_CONSOLE_WHITE : printf(KNRM);break;
+	case EX_CONSOLE_GRAY : printf(KNRM);break;
+	case EX_CONSOLE_LIGHT_BLUE : printf(KNRM);break;
+	case EX_CONSOLE_LIGHT_GREEN : printf(KNRM);break;
+	case EX_CONSOLE_LIGHT_AQUA : printf(KNRM);break;
+	case EX_CONSOLE_LIGHT_RED : printf(KNRM);break;
+	case EX_CONSOLE_LIGHT_PURPLE : printf(KNRM);break;
+	case EX_CONSOLE_LIGHT_YELLOW : printf(KNRM);break;
+	case EX_CONSOLE_LIGHT_WHITE : printf(KNRM);break;
+	case EX_CONSOLE_COLOR_RESET: printf(RESET);break;
+	}
+#endif
+}
+
+DECLSPEC Uint16 ELTAPIENTRY ExGetConsoleColor(void){
+#ifdef EX_WINDOWS
+	CONSOLE_SCREEN_BUFFER_INFO bufferInfo;
+	if(GetStdHandle(STD_OUTPUT_HANDLE) == INVALID_HANDLE_VALUE)return 0;
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),&bufferInfo);
+	return bufferInfo.wAttributes;
+#elif defined(EX_UNIX)
+	return 0;
+#endif
+}
+
 
 
 // Error Message text
