@@ -29,7 +29,7 @@ vpath %.h include		#	pattern rule for header file.
 sources  = $(wildcard src/*.c)
 sources += $(wildcard src/input/*.c)
 sources += $(wildcard src/system/*.c)
-sources += $(wildcard src/system/Unix/*.c)	# TODO resolve internal directory
+sources += $(wildcard src/system/unix/*.c)	# TODO resolve internal directory
 sources += $(wildcard src/math/*.c)
 #sources -= src/main.c 
 
