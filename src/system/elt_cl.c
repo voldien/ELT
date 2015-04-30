@@ -48,6 +48,33 @@
 #define ELT_CL_CPU_INDEX(x) ((x & 0x0000ff00))
 
 
+#define KNRM  "\x1B[0m"
+#define KRED  "\x1B[31m"
+#define KGRN  "\x1B[32m"
+#define KYEL  "\x1B[33m"
+#define KBLU  "\x1B[34m"
+#define KMAG  "\x1B[35m"
+#define KCYN  "\x1B[36m"
+#define KWHT  "\x1B[37m"
+#define RESET "\033[0m"
+
+#define EX_CONSOLE_BLACK 0x0
+#define EX_CONSOLE_BLUE 0x1
+#define EX_CONSOLE_GREEN 0x2
+#define EX_CONSOLE_AQUA 0x3
+#define EX_CONSOLE_RED 0x4
+#define EX_CONSOLE_PURPLE 0x5
+#define EX_CONSOLE_YELLOW  0x6
+#define EX_CONSOLE_WHITE 0x7
+#define EX_CONSOLE_GRAY 0x8
+#define EX_CONSOLE_LIGHT_BLUE 0x9
+#define EX_CONSOLE_LIGHT_GREEN 0xA
+#define EX_CONSOLE_LIGHT_AQUA 0xB
+#define EX_CONSOLE_LIGHT_RED 0xC
+#define EX_CONSOLE_LIGHT_PURPLE 0xD
+#define EX_CONSOLE_LIGHT_YELLOW 0xE
+#define EX_CONSOLE_LIGHT_WHITE 0xF
+#define EX_CONSOLE_COLOR_RESET 0x10
 
 
 #if !(defined(EX_ANDROID) ^ defined(DONT_SUPPORT_OPENCL))  /*  TODO resolve this provisional approach to solve the problem*/
