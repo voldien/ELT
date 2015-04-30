@@ -1,5 +1,4 @@
 /*
-========================================================================
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -20,7 +19,7 @@
 #ifndef _ELT_ERROR_HANDLER_H_
 #define _ELT_ERROR_HANDLER_H_ 1
 #include"./../EngineAssembly.h"
-#include"./../elt_console.h"
+
 
 
 typedef void(ELTAPIENTRY *singalcallback)(Int32);
