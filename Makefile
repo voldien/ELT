@@ -18,7 +18,7 @@ ifdef ComSpec	#	Windows
 else
 	TARGETSUFFIX := .so
 	INCLUDE := -I"include" 
-	CLIBS := -lGL -lX11 -lEGL -lXrender -lOpenCL -lpthread -ldl -lrt -lxcb -lX11-xcb -lXrandr
+	CLIBS := -lGL -lX11 -lEGL -lXrender -lOpenCL -lpthread -ldl -lrt -lxcb -lX11-xcb -lXrandr -lm
 
 	DEFINE := -DENGINE_INTERNAL=1
 endif
@@ -97,6 +97,7 @@ win32 : $(sources)
 nacl : CURDIR := port/nacl
 nacl : Makefile
 	make -f $(basename $^)
+
 
 pnacl : CURDIR := port/nacl
 pnacl : Makefile
