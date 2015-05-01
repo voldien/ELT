@@ -143,7 +143,7 @@ extern DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void);
 	Get OpenGL Version
 	@return
 */
-extern DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(void);
+extern DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int*major,int*minor);
 
 /**
 	Check if graphic card is AMD GPU
