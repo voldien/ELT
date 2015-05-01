@@ -63,10 +63,23 @@
 #   include<GL/glu.h>
 #endif
 
+
 #ifdef EX_PNACL
 	#include "ppapi/c/ppb.h"
 	#include "ppapi/c/pp_errors.h"
 #endif
+#ifdef EX_NACL
+#	include<ppapi/c/ppb.h>
+#ifndef GL_ES_VERSION_2_0
+        #include<GLES2/gl2.h>
+        #include<GLES2/gl2ext.h>
+        #include<GLES2/gl2platform.h>
+#else
+        #include<GLES/gl.h>
+        #include<GLES/glext.h>
+        #include<GLES/glplatform.h>
+#endif 
+#endif 
 
 
 /*
@@ -868,8 +881,8 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
 #elif defined(EX_LINUX)
     typedef void (*glXSwapIntervalEXTProc)(Display*, GLXDrawable drawable, int intervale);
     glXSwapIntervalEXTProc glXSwapIntervalEXT = (glXSwapIntervalEXTProc)GL_GET_PROC((const GLubyte*)"glXSwapIntervalEXT");
-    if(glXSwapIntervalEXT)
-        glXSwapIntervalEXT(display, (GLXDrawable)ExGetCurrentGLDC(), 0);
+   // if(glXSwapIntervalEXT)
+    //    glXSwapIntervalEXT(display, (GLXDrawable)ExGetCurrentGLDC(), 0);
 #elif defined(EX_ANDROID)
 
 #endif
