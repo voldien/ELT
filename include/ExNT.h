@@ -20,7 +20,7 @@
 #define _EX_NT_H_ 1
 #include"ExPreProcessor.h"
 #if defined(EX_WINDOWS)
-#   include<Windows.h>
+#   include<windows.h>
 #elif defined(EX_LINUX)
 #   include<X11/X.h>
 #elif defined(EX_ANDROID)
@@ -141,11 +141,11 @@ typedef Uint8 ExBoolean;
 
 #endif
 
-#if !defined(EX_WIN32)
+#if !defined(EX_WINDOWS)
 typedef void* HANDLE;
 #endif
 #ifdef EX_WINDOWS
-typedef __success(return >= 0) long ERESULT;
+typedef /*__success(return >= 0)*/ long ERESULT;
 
 #else
 typedef long ERESULT;

@@ -13,8 +13,8 @@
 #pragma comment(lib,"libGLESv2.lib")
 
 #include<dwmapi.h>
-#include<WinUser.h>
-#include<Windows.h>
+#include<winUser.h>
+#include<windows.h>
 #include<GL/GL.h>
 #include<EGL/egl.h>
 #include<GL/glext.h>

@@ -87,6 +87,7 @@ static_library : $(objects)
 
 
 win32 : CFLAGS += -mwin32 -municode -mwin32 -mwindows -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1	# improve later
+win32 : CFLAGS += -I"External/OpenCL/Include"
 win32 : TARGET := EngineEx.dll
 win32 : $(sources)
 	$(WINCC) $(CFLAGS) -c  $^ $(CLIBS)
