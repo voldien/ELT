@@ -20,7 +20,7 @@
 	#include<EGL/egl.h>
 	#include<GL/glext.h>
 	#include<GL/wglext.h>
-    #include<GL/glu.h>
+    	#include<GL/glu.h>
     #define GL_GET_PROC(x)   wglGetProcAddress( (LPCSTR)( x ) )         /*  get OpenGL function process address */
 
 #elif defined(EX_LINUX)
@@ -80,7 +80,7 @@
         #include<GLES/glplatform.h>
 #endif 
 #endif 
-
+#include<KHR/khrplatform.h>
 
 /*
 
@@ -93,9 +93,6 @@
 	OpenGL Error
 */
 #define ExIsGLError(x)  { if( ( x ) <= 0 ){ ExDevGLPrintc("Error",EX_CONSOLE_RED); } }
-
-
-
 
 
 /*  check if extension is supported */

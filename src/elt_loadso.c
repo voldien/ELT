@@ -4,7 +4,7 @@
 #	ifndef EX_PNACL 
 #   		include<link.h>
 #   		include<dlfcn.h>
-#	endif 
+#	endif
 #   include<errno.h>
 #   include<libgen.h>
 #elif defined(EX_WINDOWS)

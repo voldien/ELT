@@ -59,7 +59,7 @@ $(TARGET).a : $(objects)
 	$(PNACL_CXX) -c  $^  -o $(notdir $@) $(CFLAGS) $(CLIBS)
 
 
-nacl : CLFAGS += -O2
+nacl : CLFAGS += -O2 -DNACL=1
 nacl : CLIBS += -lEGL
 nacl : $(sources)
 	$(NACL_CXX) -c $^ $(CFLAGS) $(CLIBS)
