@@ -202,9 +202,8 @@ DECLSPEC inline OpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void){
 }
 
 DECLSPEC inline void ELTAPIENTRY ExMakeGLCurrent(WindowContext drawable, OpenGLContext glc){
-#ifdef EX_WINDOWS
-	ExIsWinError(wglMakeCurrent(drawable,glc));
-#elif defined(EX_LINUX)
+
+#if defined(EX_LINUX)
 	/*ExIsGLError*/(glXMakeCurrent(display,(GLXDrawable)drawable,(OpenGLContext)glc));
 #elif defined(EX_ANDROID)
 	eglMakeCurrent(eglDisplay, drawable, drawable, glc);
