@@ -7,8 +7,8 @@
 	#pragma comment(lib, "D3d9.lib")
 #endif
 
-LPDIRECT3D9 d3d = EX_NULL;
-LPDIRECT3DDEVICE9 directDevice = EX_NULL;
+LPDIRECT3D9 d3d = NULL;
+LPDIRECT3DDEVICE9 directDevice = NULL;
 
 DECLSPEC void* ELTAPIFASTENTRY ExGetD3D(void){return d3d;}
 DECLSPEC void* ELTAPIFASTENTRY ExGetDirect3D(void){return directDevice;}

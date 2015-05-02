@@ -1,7 +1,7 @@
 #include"system/elt_net.h"
 #include <stdio.h>
 #include <stdlib.h>
-
+#include<string.h>
 #if defined(EX_UNIX)   /*  Linux network and android*/
 #   include<sys/types.h>
 #   include<sys/socket.h>
@@ -16,8 +16,8 @@
 #elif defined(EX_WINDOWS)   /*  Windows network*/
 #	pragma comment(lib,"Ws2_32.lib")
 #	pragma comment(lib,"wininet")
-#	include<WinInet.h>
-#	include<WinSock.h>
+#	include<wininet.h>
+#	include<winsock.h>
 
 WSADATA wsadata = {0};
 #define EX_WSA_VERSION MAKEWORD(2,2)
@@ -27,7 +27,7 @@ static int inline init_wsa(void){  /*  initialize was*/
 	}
 }
 #endif // EX_WINDOWS
-#include<string.h>
+
 
 // http://www.linuxhowtos.org/data/6/server.c
 

@@ -1,13 +1,13 @@
 #include"system/win/win_wndproc.h"
 #ifdef EX_WINDOWS
-#include<Windows.h>
-#include<CommCtrl.h>
-#include<WindowsX.h>
-#include<Dbt.h>
+#include<windows.h>
+#include<commCtrl.h>
+#include<windowsX.h>
+#include<dbt.h>
 
 
-CallBack ExOnFocus = EX_NULL;
-CallBack ExOnUnFocus = EX_NULL;
+CallBack ExOnFocus = NULL;
+CallBack ExOnUnFocus = NULL;
 
 DECLSPEC void ELTAPIENTRY WIN_DisableAltTab(void){
 	BOOL old;

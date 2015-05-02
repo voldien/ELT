@@ -1,7 +1,7 @@
-#include"wnd_filedialog.h"
+
 #include<control.h>
-#include<Windows.h>
-#ifdef EX_WINDOWS
+#include<windows.h>
+
 DECLSPEC ExBoolean ELTAPIENTRY ExCreateOpenDialog(ExChar* path){
 	// zero memory 
 	OPENFILENAME openfile = {0};
@@ -92,5 +92,3 @@ DECLSPEC ExBoolean ELTAPIENTRY ExCreateColorDialog(ExWin owner,Uint8 colour[4]){
 		return (ExBoolean)TRUE;
 	}else return (ExBoolean)FALSE;
 }
-
-#endif

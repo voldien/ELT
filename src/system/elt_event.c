@@ -3,7 +3,7 @@
 #include"ExAssert.h"
 #include"ExPreProcessor.h"
 #ifdef EX_WINDOWS
-#   include<WindowsX.h>
+#   include<windowsx.h>
 #elif defined(EX_LINUX)
 #   include<X11/X.h>
 #elif defined(EX_ANDROID)

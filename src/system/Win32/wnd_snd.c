@@ -1,15 +1,15 @@
 #include"wnd_snd.h"
 #ifdef EX_WINDOWS
-	#include<BaseTsd.h>
+	#include<BlaseTsd.h>
 	#include<dinput.h>
 	#include<dinputd.h>
-	#include<Xinput.h>
-	#include<Dbt.h>
+	#include<xinput.h>
+	#include<dbt.h>
 	#include<oleauto.h>
 	#include<shellapi.h>
 	#pragma warning( disable : 4996 ) // disable deprecated warning 
 	#pragma comment(lib, "dinput8.lib")
-LPDIRECTSOUND8 pDS = EX_NULL;
+LPDIRECTSOUND8 pDS = NULL;
 	
 DECLSPEC ERESULT ELTAPIENTRY ExInitDirectSound(ExWin hWnd, Uint32 flag){
 	ERESULT hr;

@@ -1,7 +1,7 @@
 #include"system/elt_errorhandler.h"
 #include"system/elt_log.h"
 #ifdef EX_WINDOWS
-#	include<DbgHelp.h>
+#	include<dbgHelp.h>
 #   pragma comment(lib, "Dbghelp.lib")
 #elif defined(EX_LINUX)
 #   include<syslog.h>

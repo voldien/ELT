@@ -1,5 +1,9 @@
 #include"system/elt_gl.h"
 #include"ExPreProcessor.h"
+#ifndef EX_ANDROID
+#include<GL/gl.h>
+#include<GL/glu.h>
+#endif
 
 #if defined(EX_LINUX)
     #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.so")
@@ -14,7 +18,6 @@
     #include<EGL/eglext.h>
     #include<GL/glx.h>
     #include<GL/glxext.h>
-    #include<GL/glu.h>
 	#include"system/unix/unix_win.h"
    #define GL_GET_PROC(x) glXGetProcAddress( ( x ) )           /**  get OpenGL function process address */
 #elif defined(EX_ANDROID)
@@ -543,7 +546,7 @@ DECLSPEC int ELTAPIENTRY ExDestroyContext(WindowContext drawable, OpenGLContext 
 */
 DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes){
 
-#elif defined(EX_LINUX)
+#if defined(EX_LINUX)
     int one = 1;
 	XEvent xev = {0};
     XWindowAttributes xwa;

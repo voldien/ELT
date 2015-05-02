@@ -4,7 +4,7 @@
 #if defined(EX_WINDOWS)
 	#include"system/win/win_win32.h"
 	#include"system/win/wnd_input.h"
-	#include<WindowsX.h>
+	#include<windowsX.h>
 	#include<EGL/egl.h>
 #elif defined(EX_LINUX)
 	#include"system/unix/unix_win.h"
