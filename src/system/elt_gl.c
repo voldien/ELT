@@ -545,9 +545,9 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
                 GLX_DEPTH_SIZE, 24,
                 GLX_STENCIL_SIZE,engineDescription.StencilBits,
 
-                GLX_STEREO,0,
+                //GLX_STEREO,0,
                 GLX_SAMPLE_BUFFERS_ARB,engineDescription.sample[0] != 0 ? 1 : 0,
-                GLX_SAMPLES_ARB,engineDescription.sample[0],
+                //GLX_SAMPLES_ARB,engineDescription.sample[0],
                 //GLX_TRANSPARENT_TYPE, GLX_TRANSPARENT_RGB,
                 None,
 				/*
