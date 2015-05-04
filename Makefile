@@ -118,6 +118,11 @@ android :
 		
 
 
+# make sure that all dependecy are installed. 
+.PHONY : dependency 
+dependency :
+	sudo apt-get install mesa-common-dev libx11-dev libx11-xcb-dev libegl1-mesa-dev
+
 install :
 	echo -en "installing ELT"
 	sudo $(MKDIR) /usr/include/ELT
