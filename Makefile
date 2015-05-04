@@ -45,40 +45,42 @@ OUTPUT_DIR := build/
 all: $(TARGET)
 	echo -en "$(TARGET) has succfully been compiled and linked $(du -h $(TARGET))"
 
+
+
 $(TARGET) : CFLAGS += -O2
 $(TARGET) : $(objects)
 	$(MKDIR) build
 	$(CC) $(CFLAGS) -shared $^ -o build/$@  $(CLIBS)
 	
 
-%.o : %.c %.h 
-	$(CC) $(CFLAGS) -c $^ $(CLIBS)
+%.o : %.c
+	$(CC) $(CFLAGS) -c $< $(CLIBS)
 
 
 
 debug : CFLAGS += -g -D_DEBUG=1
-debug : $(sources)
-	$(CC) $(CFLAGS) -fPIC -c  $^ $(CLIBS)
-	$(CC) $(CFLAGS) -fPIC -shared $(objects) -o build/$(TARGET) $(CLIBS)
+debug : $(objects)
+	$(CC) $(CFLAGS)  -c  $^ $(CLIBS)
+	$(CC) $(CFLAGS) -shared $(objects) -o build/$(TARGET) $(CLIBS)
 
 
-arm : CFLAGS += -marm
+arm : CFLAGS += -marm -O2
 arm : CFLAGS += -L"/usr/lib/"
 arm : $(sources)
-	$(ARMCC) $(CFLAGS) -fPIC -shared -c $^ $(CLIBS)
-	$(ARMCC) $(CFLAGS) -fPIC -shared $(objects) $(CLIBS) 
+	$(ARMCC) $(CFLAGS)  -shared -c $^ $(CLIBS)
+	$(ARMCC) $(CFLAGS)  -shared $(objects) $(CLIBS) 
 
 
 
-x86 : CFLAGS += -m32
+x86 : CFLAGS += -m32 -O2
 x86 : $(sources)
-	$(CC) -fPIC -O2 -c $^ $(CLIBS)
+	$(CC) $(CFLAGS) -c $^ $(CLIBS)
 
 
 x64 : CFLAGS += -m64
 x64 : $(sources)
-	$(CC) $(CFLAGS) -fPIC -m64 -O3 -c $^ $(CLIBS) 
-	$(CC) $(CFLAGS) -fPIC -m64 -O3 $(objects) -o $(TARGET) $(CLIBS)
+	$(CC) $(CFLAGS) -c $^ $(CLIBS) 
+	$(CC) $(CFLAGS)  $(objects) -o $(TARGET) $(CLIBS)
 
 
 static_library : $(objects)
@@ -121,7 +123,8 @@ android :
 # make sure that all dependecy are installed. 
 .PHONY : dependency 
 dependency :
-	sudo apt-get install mesa-common-dev libx11-dev libx11-xcb-dev libegl1-mesa-dev
+	sudo apt-get install mesa-common-dev libx11-dev libx11-xcb-dev libegl1-mesa-dev libxrandr-dev
+
 
 install :
 	echo -en "installing ELT"
