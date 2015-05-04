@@ -1,7 +1,7 @@
 #!/bin/bash
 
 BASE = $(call my-dir)
-
+MAKE := make
 RM := rm -rf
 MKDIR :=  mkdir -p
 CP := cp
@@ -85,27 +85,37 @@ static_library : $(objects)
 	$(AR) -rcs $(TARGET) -f $^
 
 
-
-win32 : CFLAGS += -mwin32 -municode -mwin32 -mwindows -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1	# improve later
+.PHONY : win32
+win32 : CFLAGS += -mwin32 -municode -mwin32 -mwindows -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1 	# improve later
+win32 : sources += $(wildcard /src/system/Win32/*.c)
 win32 : TARGET := EngineEx.dll
 win32 : $(sources)
 	$(WINCC) $(CFLAGS) -c  $^ $(CLIBS)
 	$(WINCC) $(CFLAGS)  $(objects) -o $(TARGET) $(CLIBS)
 
 
-
-nacl : CURDIR := port/nacl
-nacl : Makefile
-	make -f $(basename $^)
-
-
-pnacl : CURDIR := port/nacl
-pnacl : Makefile
-	make -f  $(basename $^) pnacl
+.PHONY : win64
+win64 : CFLAGS += -mwin64 -municode -mwin32 -mwindows -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1	# improve later
+win64 : TARGET := EngineEx.dll
+win64 : $(sources)
+	$(WINCC) $(CFLAGS) -c  $^ $(CLIBS)
+	$(WINCC) $(CFLAGS)  $(objects) -o $(TARGET) $(CLIBS)
 
 
+.PHONY : nacl
+nacl : 
+	$(MAKE) -C ./port/nacl/ $@
+#	make V=1 -f port/nacl/Makefile $@
+
+.PHONY : pnacl
+pnacl : 
+	$(MAKE) -C ./port/nacl/ $@
+
+
+.PHONY : android
 android :
-	
+	$(MAKE) -C ./port/android/jni/
+		
 
 
 install :

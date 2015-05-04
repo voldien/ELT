@@ -4,7 +4,7 @@
 #	ifndef EX_PNACL 
 #   		include<link.h>
 #   		include<dlfcn.h>
-#	endif 
+#	endif
 #   include<errno.h>
 #   include<libgen.h>
 #elif defined(EX_WINDOWS)
@@ -26,7 +26,7 @@ DECLSPEC inline HANDLE ELTAPIENTRY ExLoadObject(const ExChar* sofile){
 #ifdef EX_WINDOWS
 	ExIsError((handle = LoadLibrary(sofile)));
 	return handle;
-#elif defined(EX_UNIX)
+#elif defined(EX_UNIX) && !(EX_PNACL)
 	handle = dlopen(sofile,RTLD_LAZY);
     #ifdef EX_DEBUG
 	if(!handle)
@@ -54,7 +54,7 @@ DECLSPEC inline void ELTAPIENTRY ExUnLoadObject(HANDLE handle){
 DECLSPEC inline HANDLE ELTAPIENTRY ExIsModuleLoaded(const ExChar* file){
 #ifdef EX_WINDOWS
 	return GetModuleHandle(file);
-#elif defined(EX_UNIX)
+#elif defined(EX_UNIX) && !(EX_PNACL)
     char buffer[256];
     void* handle = dlopen(NULL, RTLD_NOW);
     #ifdef EX_DEBUG

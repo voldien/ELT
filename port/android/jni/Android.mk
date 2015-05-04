@@ -10,7 +10,7 @@ FILE_LIST := $(wildcard $(LOCAL_PATH)/../../../src/*.c)
 FILE_LIST += $(wildcard $(LOCAL_PATH)/../../../src/system/*.c)
 FILE_LIST += $(wildcard $(LOCAL_PATH)/../../../src/input/*.c)
 FILE_LIST += $(wildcard $(LOCAL_PATH)/../../../src/math/*.c)
-FILE_LIST += $(wildcard $(LOCAL_PATH)/../../../src/system/android/*.c)
+FILE_LIST += $(wildcard $(LOCAL_PATH)/../../../src/system/Android/*.c)
 FILE_LIST -= $(LOCAL_PATH)/../../../src/system/elt_cl.c
 
 include $(CLEAR_VARS)
