@@ -5,33 +5,8 @@
 #include<GL/glu.h>
 #endif
 
-<<<<<<< HEAD
+
 #if defined(EX_LINUX)
-=======
-#ifdef EX_WINDOWS
-    #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.dll")
-    #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.dll")
-    #pragma warning(disable : 4273)     // 'function' : inconsistent DLL linkage
-
-	/* library  */
-	#pragma comment(lib,"opengl32.lib")
-	#pragma comment(lib, "Glu32.lib")
-	#pragma comment(lib, "gdi32.lib")
-	#pragma comment(lib,"libEGL.lib")
-	#pragma comment(lib,"libGLESv2.lib")
-
-	#include<dwmapi.h>
-	#include<WinUser.h>
-	#include<Windows.h>
-	#include<GL/GL.h>
-	#include<EGL/egl.h>
-	#include<GL/glext.h>
-	#include<GL/wglext.h>
-    	#include<GL/glu.h>
-    #define GL_GET_PROC(x)   wglGetProcAddress( (LPCSTR)( x ) )         /*  get OpenGL function process address */
-
-#elif defined(EX_LINUX)
->>>>>>> 1c1badfb74c651dcd4024abdab947054391d648d
     #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.so")
     #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.so")
 //    #ifdef EX_X86
