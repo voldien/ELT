@@ -1,7 +1,7 @@
 #!/bin/bash
 
 BASE = $(call my-dir)
-
+MAKE := make
 RM := rm -rf
 MKDIR :=  mkdir -p
 CP := cp
@@ -85,7 +85,7 @@ static_library : $(objects)
 	$(AR) -rcs $(TARGET) -f $^
 
 
-
+.PHONY : win32
 win32 : CFLAGS += -mwin32 -municode -mwin32 -mwindows -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1	# improve later
 win32 : CFLAGS += -I"External/OpenCL/Include"
 win32 : TARGET := EngineEx.dll
@@ -95,18 +95,20 @@ win32 : $(sources)
 
 
 
-nacl : CURDIR := port/nacl
-nacl : Makefile
-	make -f $(basename $^)
+.PHONY : nacl
+nacl : 
+	$(MAKE) -C ./port/nacl/ $@
+#	make V=1 -f port/nacl/Makefile $@
+
+.PHONY : pnacl
+pnacl : 
+	$(MAKE) -C ./port/nacl/ $@
 
 
-pnacl : CURDIR := port/nacl
-pnacl : Makefile
-	make -f  $(basename $^) pnacl
-
-
+.PHONY : android
 android :
-	
+	$(MAKE) -C ./port/android/jni/
+		
 
 
 install :

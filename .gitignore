@@ -31,7 +31,8 @@
 #
 *~
 
-main
+main	# sample binary files
 #
+Proj
 port/android/obj
 port/android/libs

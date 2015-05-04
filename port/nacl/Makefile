@@ -21,14 +21,14 @@ NACL_AR := $(NACL_TC_PATH)/bin/x86_64-nacl-ar
 NACL_RANLIB := $(NACL_TC_PATH)/bin/x86_64-nacl-ranlib
 
 
-VALID_TOOLCHAINS := pnacl newlib glibc dl pthread nacl_io
+VALID_TOOLCHAINS := pnacl newlib glibc dl pthread nacl_io rt
 
 include $(NACL_SDK_ROOT)/tools/common.mk
 
 
 TARGET :=libEngineEx
 
-CLIBS :=  -lppapi -lm -ldl -lOpenCL -lpthread -lglibc 
+CLIBS :=  -lppapi -lm -ldl -lOpenCL -lpthread -lglibc -lrt
 
 CFLAGS :=  -fPIC -w -Wall -I"./../../include" -DDONT_SUPPORT_OPENCL=1 -I"$(NACL_SDK_ROOT)/include"	#TODO resolve include dependency 
 
@@ -39,6 +39,7 @@ vpath %.h ./../../include
 sources = $(wildcard ./../../src/*.c)
 sources += $(wildcard ./../../src/system/*.c)
 sources += $(wildcard ./../../src/input/*.c)
+sources += $(wildcard ./../../src/pnacl/*.c)
 
 
 objects = $(subst .c,.o, $(sources))
@@ -58,7 +59,7 @@ $(TARGET).a : $(objects)
 	$(PNACL_CXX) -c  $^  -o $(notdir $@) $(CFLAGS) $(CLIBS)
 
 
-nacl : CLFAGS += -O2
+nacl : CLFAGS += -O2 -DNACL=1
 nacl : CLIBS += -lEGL
 nacl : $(sources)
 	$(NACL_CXX) -c $^ $(CFLAGS) $(CLIBS)

@@ -81,8 +81,6 @@ enum EngineSupport{
 		eExtension = (1 << 12),				// Extension [Designed for OpenGL]
 		eHardwareAcceleration = (1 << 13),		// use HardWare Acceleration
 		eShareRenderContext = (1 << 14),		// Shared rendering context. [Desgined for OpenGL] becuase rendering context is connected by the Thread.
-		eForwardRendering = (1 << 15),			// Forward Rendering buffer System
-		eDefferedRendering = (1 << 16),		// Deffered Rendering buffer System.
 		eVertexLitRendering = (1 << 17),		// Vertex Lit Rendering buffer System.
 		eBuiltInMatrix = (1 << 18),			// Built In Matrix
 		eVSync = (1 << 19),					// V Sync
@@ -91,9 +89,6 @@ enum EngineSupport{
 		eDebugProfile = (1 << 22),			// debug Profile Consol
 		eConsoleWindow = (1 << 23),			//
 		e32Window = (1 << 24),
-
-		eInputForeGround = (1 << 27),
-		eInputBackGround = (1 << 28),
 
 		// eTCP
 		eWindowRender = (1 << 30),			// Create Render Context Onto a Window

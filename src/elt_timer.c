@@ -1,12 +1,14 @@
 #include"elt_timer.h"
+
+#ifdef EX_WINDOWS
+#	include<WinBase.h>
+#elif defined(EX_UNIX)
+#	include<errno.h>
+#	include<unistd.h>
+#endif
 #include<time.h>
 #include<signal.h>
-#ifdef EX_WINDOWS
-#   include<WinBase.h>
-#elif defined(EX_UNIX)
-#   include<errno.h>
-#include<unistd.h>
-#endif // EX_WINDOWS
+
 
 Uint64 elt_time = 0;
 

@@ -1,8 +1,8 @@
 #include"elt_thread.h"
-
+#include"ExPreProcessor.h"
 #ifdef EX_WINDOWS           /*  Windows */
 #   define EX_START_THREAD(x)	ResumeThread( ( x ) )
-#elif defined(EX_UNIX)    /*  Linux & android  */
+#elif defined(EX_UNIX)   /*  Linux & android  */
 #   define _GNU_SOURCE
 #   define __USE_GNU
 #   include<pthread.h>
@@ -65,13 +65,13 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback,voi
 #elif defined(EX_UNIX)
 	pthread_t t0;
 	pthread_attr_t attr;
-#ifndef EX_ANDROID      /*  Android don't seem to support */
+#if !defined(EX_ANDROID) && !defined(EX_PNACL) && !defined(EX_NACL)      /*  Android don't seem to support */
 	cpu_set_t cpus;
 #endif
 	int mpid;
 
 	pthread_attr_init(&attr);
-#ifndef EX_ANDROID      /*  Android don't seem to support */
+#if !defined(EX_ANDROID) && !defined(EX_PNACL) && !defined(EX_NACL)      /*  Android don't seem to support */
 	CPU_ZERO(&cpus);
 	CPU_SET(ncore,&cpus);
 

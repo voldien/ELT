@@ -5,7 +5,33 @@
 #include<GL/glu.h>
 #endif
 
+<<<<<<< HEAD
 #if defined(EX_LINUX)
+=======
+#ifdef EX_WINDOWS
+    #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.dll")
+    #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.dll")
+    #pragma warning(disable : 4273)     // 'function' : inconsistent DLL linkage
+
+	/* library  */
+	#pragma comment(lib,"opengl32.lib")
+	#pragma comment(lib, "Glu32.lib")
+	#pragma comment(lib, "gdi32.lib")
+	#pragma comment(lib,"libEGL.lib")
+	#pragma comment(lib,"libGLESv2.lib")
+
+	#include<dwmapi.h>
+	#include<WinUser.h>
+	#include<Windows.h>
+	#include<GL/GL.h>
+	#include<EGL/egl.h>
+	#include<GL/glext.h>
+	#include<GL/wglext.h>
+    	#include<GL/glu.h>
+    #define GL_GET_PROC(x)   wglGetProcAddress( (LPCSTR)( x ) )         /*  get OpenGL function process address */
+
+#elif defined(EX_LINUX)
+>>>>>>> 1c1badfb74c651dcd4024abdab947054391d648d
     #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.so")
     #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.so")
 //    #ifdef EX_X86
@@ -44,11 +70,24 @@
 #   include<GL/glu.h>
 #endif
 
+
 #ifdef EX_PNACL
 	#include "ppapi/c/ppb.h"
 	#include "ppapi/c/pp_errors.h"
 #endif
-
+#ifdef EX_NACL
+#	include<ppapi/c/ppb.h>
+#ifndef GL_ES_VERSION_2_0
+        #include<GLES2/gl2.h>
+        #include<GLES2/gl2ext.h>
+        #include<GLES2/gl2platform.h>
+#else
+        #include<GLES/gl.h>
+        #include<GLES/glext.h>
+        #include<GLES/glplatform.h>
+#endif 
+#endif 
+#include<KHR/khrplatform.h>
 
 /*
 
@@ -61,9 +100,6 @@
 	OpenGL Error
 */
 #define ExIsGLError(x)  { if( ( x ) <= 0 ){ ExDevGLPrintc("Error",EX_CONSOLE_RED); } }
-
-
-
 
 
 /*  check if extension is supported */
@@ -293,9 +329,9 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
                 GLX_DEPTH_SIZE, 24,
                 GLX_STENCIL_SIZE,engineDescription.StencilBits,
 
-                GLX_STEREO,0,
+                //GLX_STEREO,0,
                 GLX_SAMPLE_BUFFERS_ARB,engineDescription.sample[0] != 0 ? 1 : 0,
-                GLX_SAMPLES_ARB,engineDescription.sample[0],
+                //GLX_SAMPLES_ARB,engineDescription.sample[0],
                 //GLX_TRANSPARENT_TYPE, GLX_TRANSPARENT_RGB,
                 None,
 				/*
@@ -471,8 +507,8 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
 #elif defined(EX_LINUX)
     typedef void (*glXSwapIntervalEXTProc)(Display*, GLXDrawable drawable, int intervale);
     glXSwapIntervalEXTProc glXSwapIntervalEXT = (glXSwapIntervalEXTProc)GL_GET_PROC((const GLubyte*)"glXSwapIntervalEXT");
-    if(glXSwapIntervalEXT)
-        glXSwapIntervalEXT(display, (GLXDrawable)ExGetCurrentGLDC(), 0);
+   // if(glXSwapIntervalEXT)
+    //    glXSwapIntervalEXT(display, (GLXDrawable)ExGetCurrentGLDC(), 0);
 #elif defined(EX_ANDROID)
 
 #endif
