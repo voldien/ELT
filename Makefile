@@ -93,6 +93,13 @@ win32 : $(sources)
 	$(WINCC) $(CFLAGS)  $(objects) -o $(TARGET) $(CLIBS)
 
 
+.PHONY : win64
+win64 : CFLAGS += -mwin64 -municode -mwin32 -mwindows -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1	# improve later
+win64 : TARGET := EngineEx.dll
+win64 : $(sources)
+	$(WINCC) $(CFLAGS) -c  $^ $(CLIBS)
+	$(WINCC) $(CFLAGS)  $(objects) -o $(TARGET) $(CLIBS)
+
 
 .PHONY : nacl
 nacl : 
