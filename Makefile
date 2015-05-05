@@ -29,11 +29,13 @@ vpath %.h include		#	pattern rule for header file.
 sources  = $(wildcard src/*.c)
 sources += $(wildcard src/input/*.c)
 sources += $(wildcard src/system/*.c)
+ifndef ComSpec
 sources += $(wildcard src/system/unix/*.c)	# TODO resolve internal directory
+endif
 sources += $(wildcard src/math/*.c)
 #sources -= src/main.c 
 
-objects = $(subst %.c,%.o,$(sources))
+objects = $(subst .c,.o,$(sources))
 
 
 CFLAGS :=  -w -Wall -fPIC  $(DEFINE) $(INCLUDE)
@@ -50,12 +52,11 @@ all: $(TARGET)
 $(TARGET) : CFLAGS += -O2
 $(TARGET) : $(objects)
 	$(MKDIR) build
-	$(CC) $(CFLAGS) -shared $^ -o build/$@  $(CLIBS)
+	$(CC) $(CFLAGS) -shared $(notdir $^) -o build/$@  $(CLIBS)
 	
 
 %.o : %.c
-	$(CC) $(CFLAGS) -c $< $(CLIBS)
-
+	$(CC) $(CFLAGS) -c $^ -o $(notdir $(subst .c,.o,$^))
 
 
 debug : CFLAGS += -g -D_DEBUG=1
@@ -66,9 +67,9 @@ debug : $(objects)
 
 arm : CFLAGS += -marm -O2
 arm : CFLAGS += -L"/usr/lib/"
-arm : $(sources)
-	$(ARMCC) $(CFLAGS)  -shared -c $^ $(CLIBS)
-	$(ARMCC) $(CFLAGS)  -shared $(objects) $(CLIBS) 
+arm : CC := $(ARMCC)
+arm : $(objects)
+	$(ARMCC) $(CFLAGS)  -shared $(notdir$^) $(CLIBS) 
 
 
 
@@ -123,7 +124,7 @@ android :
 # make sure that all dependecy are installed. 
 .PHONY : dependency 
 dependency :
-	sudo apt-get install mesa-common-dev libx11-dev libx11-xcb-dev libegl1-mesa-dev libxrandr-dev
+	sudo apt-get install mesa-common-dev libx11-dev libx11-xcb-dev libegl1-mesa-dev libxrandr-dev libgles2-mesa-dev
 
 
 install :
