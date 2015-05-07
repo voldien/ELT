@@ -69,7 +69,7 @@ arm : CFLAGS += -marm -O2
 arm : CFLAGS += -L"/usr/lib/"
 arm : CC := $(ARMCC)
 arm : $(objects)
-	$(ARMCC) $(CFLAGS)  -shared $(notdir$^) $(CLIBS) 
+	$(ARMCC) $(CFLAGS)  -shared $(notdir $^ ) -o  build/$(TARGET) # $(CLIBS)
 
 
 
