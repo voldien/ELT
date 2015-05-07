@@ -31,6 +31,7 @@ sources += $(wildcard src/input/*.c)
 sources += $(wildcard src/system/*.c)
 sources += $(wildcard src/system/unix/*.c)	# TODO resolve internal directory
 sources += $(wildcard src/math/*.c)
+sources += $(wildcard src/graphic/*.c)
 #sources -= src/main.c 
 
 objects = $(subst %.c,%.o,$(sources))
@@ -124,10 +125,12 @@ install :
 	sudo $(MKDIR) /usr/include/ELT/input
 	sudo $(MKDIR) /usr/include/ELT/system
 	sudo $(MKDIR) /usr/include/ELT/system/android/
+	sudo $(MKDIR) /usr/include/ELT/graphic
 	sudo $(CP) include/*.h /usr/include/ELT/
 	sudo $(CP) include/input/*.h /usr/include/ELT/input/
 	sudo $(CP) include/system/*.h /usr/include/ELT/system/
 	sudo $(CP) include/system/android/*.h /usr/include/ELT/system/android/
+	sudo $(CP) include/graphic/*.h /usr/include/ELT/graphic
 	sudo $(CP) build/$(TARGET) /usr/lib/$(TARGET)
 
 	
