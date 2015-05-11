@@ -50,7 +50,7 @@ all: $(TARGET)
 
 
 
-$(TARGET) : CFLAGS += -O2
+$(TARGET) : CFLAGS += -O2  -msse3
 $(TARGET) : $(objects)
 	$(MKDIR) build
 	$(CC) $(CFLAGS) -shared $(notdir $^) -o build/$@  $(CLIBS)
@@ -121,6 +121,10 @@ android :
 	$(MAKE) -C ./port/android/jni/
 		
 
+
+.PHONY : avr
+avr : $(objects)
+	
 
 # make sure that all dependecy are installed. 
 .PHONY : dependency 
