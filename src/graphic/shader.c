@@ -95,7 +95,7 @@ int compileShaderSource(const char* strPath,char** source, unsigned int flag){
 		// validate
 		glGetShaderiv(shader, GL_COMPILE_STATUS, &c_message);
 		if(!c_message)
-			Error("Error to compile %s", strPath);
+			ExError("Error to compile %s", strPath);
 
 		if(!source)
 			free(data);
