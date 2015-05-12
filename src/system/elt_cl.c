@@ -468,6 +468,18 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum fl
 	return FALSE;
 }
 
+
+/**/
+DECLSPEC void* ExCreateCommandQueue(void* context, void*device){
+	return NULL;
+}
+/**/
+DECLSPEC void* ExCreateProgram(void* context, void* device, const char* cfilename){
+	return NULL;
+}
+
+
+
 DECLSPEC void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, void* p_cl_device_id){
 #ifdef EX_DEBUG
 
