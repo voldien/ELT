@@ -62,8 +62,7 @@ $(TARGET) : $(objects)
 
 debug : CFLAGS += -g -D_DEBUG=1
 debug : $(objects)
-	$(CC) $(CFLAGS)  -c  $^ $(CLIBS)
-	$(CC) $(CFLAGS) -shared $(objects) -o build/$(TARGET) $(CLIBS)
+	$(CC) $(CFLAGS) -shared $(notdir $^) -o build/$(TARGET)  $(CLIBS)
 
 
 arm : CFLAGS += -marm -O2
@@ -79,10 +78,9 @@ x86 : $(sources)
 	$(CC) $(CFLAGS) -c $^ $(CLIBS)
 
 
-x64 : CFLAGS += -m64
-x64 : $(sources)
-	$(CC) $(CFLAGS) -c $^ $(CLIBS) 
-	$(CC) $(CFLAGS)  $(objects) -o $(TARGET) $(CLIBS)
+x64 : CFLAGS += -m64 -O2
+x64 :$(objects)
+	$(CC) $(CFLAGS)  $(notdir $(objects)) -o $(TARGET) $(CLIBS)
 
 
 static_library : $(objects)
@@ -90,17 +88,17 @@ static_library : $(objects)
 
 
 .PHONY : win32
-win32 : CFLAGS += -mwin32 -municode -mwin32 -mwindows -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1 	# improve later
+win32 : CFLAGS += -mwin32 -municode -mwindows -I"External/OpenCL/Include" -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1 -DEX_INCLUDE_DIRECTX=1
 win32 : sources += $(wildcard /src/system/Win32/*.c)
-win32 : TARGET := EngineEx.dll
+win32 : TARGET := EngineEx32.dll
 win32 : $(sources)
 	$(WINCC) $(CFLAGS) -c  $^ $(CLIBS)
 	$(WINCC) $(CFLAGS)  $(objects) -o $(TARGET) $(CLIBS)
 
 
 .PHONY : win64
-win64 : CFLAGS += -mwin64 -municode -mwin32 -mwindows -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1	# improve later
-win64 : TARGET := EngineEx.dll
+win64 : CFLAGS += -mwin64 -municode -mwindows -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1 -DEX_INCLUDE_DIRECTX=1
+win64 : TARGET := EngineEx64.dll
 win64 : $(sources)
 	$(WINCC) $(CFLAGS) -c  $^ $(CLIBS)
 	$(WINCC) $(CFLAGS)  $(objects) -o $(TARGET) $(CLIBS)
