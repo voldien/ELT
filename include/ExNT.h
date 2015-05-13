@@ -226,26 +226,31 @@ typedef union doubleUnion{
 #ifdef EX_WINDOWS
 	typedef HWND ExWin;
 	typedef HGLRC OpenGLContext;
+	typedef void* OpenCLContext;
 	typedef HDC WindowContext;
 	#define THREAD_CALLBACK __stdcall
 #elif defined(EX_LINUX) && defined(GLX_H)
 	typedef Window ExWin;
 	typedef GLXContext OpenGLContext;
+	typedef void* OpenCLContext;
 	typedef XID WindowContext;
 	#define THREAD_CALLBACK //__cdecl
 #elif defined(EX_ANDROID)
 	typedef void* ExWin;
 	typedef void* OpenGLContext;
+	typedef void* OpenCLContext;
 	typedef void* WindowContext;
 	#define THREAD_CALLBACK //__cdecl
 #elif defined(EX_MAC)
 	typedef XID ExWin;
 	typedef GLXContext OpenGLContext;
+	typedef void* OpenCLContext;
 	typedef XID WindowContext;
 	#define THREAD_CALLBACK __cdecl
 #else
 	typedef void* ExWin;
 	typedef void* OpenGLContext;
+	typedef void* OpenCLContext;
 	typedef void* WindowContext;
 	#define THREAD_CALLBACK __cdecl
 #endif

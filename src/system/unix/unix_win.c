@@ -153,6 +153,7 @@ DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 
         problems was it was a random pointer as a value....
 	*/
     if(major >= 1 && minor >= 3){
+    	/*glXCreateWindow create opengl for window that might not have capability for OpenGL*/
         //glx_window = glXCreateWindow(display, fbConfigs,window,0);
         //pglx_window[0] = glx_window;
         if(pglx_window)

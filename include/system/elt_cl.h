@@ -72,7 +72,7 @@ extern DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, Win
 /**/
 extern DECLSPEC void* ExCreateCommandQueue(void* context, void*device);
 /**/
-extern DECLSPEC void* ExCreateProgram(void* context, void* device, const char* cfilename);
+extern DECLSPEC void* ExCreateProgram(void* context, void* device, const char* cfilename,...);
 /**
 	Get CL platform identification
 	@return current CL context.

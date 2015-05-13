@@ -1,4 +1,6 @@
 #include"system/elt_cl.h"
+#include"ExPreProcessor.h"
+#include"system/eltfile.h"
 #if defined(EX_WINDOWS)
 #   define OPENCL_LIBRARY_NAME EX_TEXT("OpenCL.dll")
 	#include<CL/cl.h>
@@ -87,6 +89,7 @@ cl_context hClContext = NULL;
 /**/
 extern DECLSPEC int ELTAPIENTRY ExGetOpenCLDevice(cl_platform_id platform,cl_device_id* device,unsigned int flag);
 static char* ELTAPIENTRY ExGetCLErrorMessage(cl_int error);
+
 
 static char* get_device_extension(cl_device_id device){
     unsigned int extension_size;
@@ -468,14 +471,70 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum fl
 	return FALSE;
 }
 
-
 /**/
 DECLSPEC void* ExCreateCommandQueue(void* context, void*device){
-	return NULL;
+    cl_int errNum;
+    cl_device_id* devices;
+    cl_command_queue commandQueue = NULL;
+    size_t deviceBufferSize = -1;
+
+    if(!device){
+
+    }
+
+    errNum = clGetContextInfo(context, CL_CONTEXT_DEVICES, 0,NULL, &deviceBufferSize);
+    if(errNum != CL_SUCCESS){
+        fprintf(stderr,"Failed to call clGetContextInfo(...,CL_CONTEXT_DEVICES,...)");
+        return NULL;
+    }
+
+    devices = (cl_device_id*)malloc(deviceBufferSize);
+    errNum = clGetContextInfo(context, CL_CONTEXT_DEVICES, deviceBufferSize, devices, NULL);
+    if(errNum != CL_SUCCESS){
+        fprintf(stderr,"Failed to get device IDs");
+        return NULL;
+    }
+
+    commandQueue = clCreateCommandQueue(context, device, 0, NULL);
+
+    if(!commandQueue){
+        printf("Failed to create commandQueue for device");
+
+    }
+
+    free(devices);
+    return commandQueue;
+
 }
 /**/
-DECLSPEC void* ExCreateProgram(void* context, void* device, const char* cfilename){
-	return NULL;
+DECLSPEC void* ExCreateProgram(void* context, void* device, const char* cfilename, ...){
+	va_list list;
+	cl_int errNum = 0;
+    cl_program program;
+    void* data;
+    size_t length = 0;
+    //va_arg(cfilename,list);
+    //va_start(cfilename,list);
+    //va_end(list);
+
+
+    // read file
+    if(!ExLoadFile(cfilename,&data))
+    	return NULL;
+
+    /*  error was length was wrong size....*/
+    program = clCreateProgramWithSource(context, 1, (const char**)&data, &length,&errNum);
+    errNum = clBuildProgram(program, 1,(const cl_device_id*)&device,NULL,NULL,NULL);
+
+    if(errNum != CL_SUCCESS){
+        char buildLog[1024];
+        clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, sizeof(buildLog), buildLog, NULL);
+        printf(buildLog);
+        clReleaseProgram(program);
+        program = 0;
+    }
+    free(data);
+    return program;
 }
 
 

@@ -41,7 +41,7 @@ struct expoint{
 #define EX_EVENT_QUIT 0x100
 
 typedef struct ex_system_event{
-	unsigned int message;			/**/
+	unsigned int message;		/**/
 }ExSystemEvent;
 
 typedef struct ex_size_event{
@@ -78,8 +78,8 @@ typedef struct ex_mouse_wheel_event{
 typedef struct ex_key_event{
 	Uint8 code;				/**/
 	Uint8 alt;				/**/
-	Uint8 shift;				/**/
-	Uint8 system;				/**/
+	Uint8 shift;			/**/
+	Uint8 system;			/**/
 	Uint8 ctrl;				/**/
 }ExKeyEvent;
 

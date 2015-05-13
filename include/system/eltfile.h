@@ -30,7 +30,7 @@ extern DECLSPEC long ELTAPIENTRY ExGetFileSize(const char* cfilname);
 /**
 	Load data by specified pathname
 */
-extern DECLSPEC int ELTAPIENTRY ExLoadFile(const char* cfilename,void** data);
+extern DECLSPEC int ELTAPIENTRY ExLoadFile(const char* cfilename, void** data);
 /**
 	Save File by specified file name
 */

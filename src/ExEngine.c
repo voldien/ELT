@@ -371,6 +371,7 @@ DECLSPEC void ELTAPIENTRY ExEnable(Enum enable){
 	case EX_OPENCL:
 		ExLoadLibrary(EX_TEXT("OpenCL.dll"));
 		ExLoadLibrary(EX_TEXT("libOpenCL.so"));
+		break;
 	default:return;
 	}
 }
@@ -390,6 +391,7 @@ DECLSPEC void ELTAPIENTRY ExDisable(Enum disable){
 	case EX_OPENCL:
 		ExUnLoadObject(EX_TEXT("OpenCL.dll"));
 		ExUnLoadObject(EX_TEXT("libOpenCL.so"));
+		break;
 	default:return;
 	}
 }
