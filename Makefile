@@ -54,7 +54,7 @@ all: $(TARGET)
 $(TARGET) : CFLAGS += -O2  -msse3
 $(TARGET) : $(objects)
 	$(MKDIR) build
-	$(CC) $(CFLAGS) -shared $(notdir $^) -o build/$@  #$(CLIBS)
+	$(CC) $(CFLAGS) -shared $(notdir $^) -o build/$@  $(CLIBS)
 	
 
 %.o : %.c

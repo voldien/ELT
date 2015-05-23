@@ -161,7 +161,7 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 		}
 
 		return TRUE;
-	}else {XSync(display,0); return FALSE;}
+	}else {/*XSync(display,1);*/ return FALSE;}
 #elif defined(EX_ANDROID)
     int ident;
     int events;
