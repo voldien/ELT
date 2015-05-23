@@ -1,5 +1,6 @@
 #!/bin/bash
 
+SHELL := /bin/bash
 BASE = $(call my-dir)
 MAKE := make
 RM := rm -rf
@@ -12,15 +13,12 @@ AR := ar
 
 ifdef ComSpec	#	Windows
 	TARGETSUFFIX :=.dll
-	INCLUDE = 
+	INCLUDE := -I"include" 
 	CLIBS := 
-	DEFINE := -DENGINE_INTERNAL=1
 else
-	TARGETSUFFIX := .so
+	TARGETSUFFIX :=.so
 	INCLUDE := -I"include" 
 	CLIBS := -lGL -lX11 -lEGL -lXrender -lOpenCL -lpthread -ldl -lrt -lxcb -lX11-xcb -lXrandr -lm
-
-	DEFINE := -DENGINE_INTERNAL=1
 endif
 
 vpath %.c src			#	pattern rule for c source file.
@@ -29,9 +27,11 @@ vpath %.h include		#	pattern rule for header file.
 sources  = $(wildcard src/*.c)
 sources += $(wildcard src/input/*.c)
 sources += $(wildcard src/system/*.c)
+
 ifndef ComSpec
 sources += $(wildcard src/system/unix/*.c)	# TODO resolve internal directory
 endif
+
 sources += $(wildcard src/math/*.c)
 sources += $(wildcard src/graphic/*.c)
 #sources -= src/main.c 
@@ -39,21 +39,22 @@ sources += $(wildcard src/graphic/*.c)
 objects = $(subst .c,.o,$(sources))
 
 
-CFLAGS :=  -w -Wall -fPIC  $(DEFINE) $(INCLUDE)
-TARGET := libEngineEx$(TARGETSUFFIX)			# target
+CFLAGS :=  -w -Wall -fPIC  $(DEFINE) $(INCLUDE) -DENGINE_INTERNAL=1
+TARGET = libEngineEx$(TARGETSUFFIX)
 BUILD_DIR := build/					#	
 OUTPUT_DIR := build/
 
 
 all: $(TARGET)
-	echo -en "$(TARGET) has succfully been compiled and linked $(du -h $(TARGET))"
+	echo -en "$(TARGET) has succfully been compiled and linked.\n" 
+	du -h $(TARGET)
 
 
 
 $(TARGET) : CFLAGS += -O2  -msse3
 $(TARGET) : $(objects)
 	$(MKDIR) build
-	$(CC) $(CFLAGS) -shared $(notdir $^) -o build/$@  $(CLIBS)
+	$(CC) $(CFLAGS) -shared $(notdir $^) -o build/$@  #$(CLIBS)
 	
 
 %.o : %.c
@@ -74,8 +75,8 @@ arm : $(objects)
 
 
 x86 : CFLAGS += -m32 -O2
-x86 : $(sources)
-	$(CC) $(CFLAGS) -c $^ $(CLIBS)
+x86 : $(objects)
+	$(CC) $(CFLAGS)  $(notdir $(objects)) -o $(TARGET) $(CLIBS)
 
 
 x64 : CFLAGS += -m64 -O2
@@ -83,8 +84,10 @@ x64 :$(objects)
 	$(CC) $(CFLAGS)  $(notdir $(objects)) -o $(TARGET) $(CLIBS)
 
 
-static_library : $(objects)
-	$(AR) -rcs $(TARGET) -f $^
+.PHONY : static
+static : TARGETSUFFIX :=.a
+static : $(objects)
+	$(AR) -rcs $(TARGET) -f $(notdir $(objects))
 
 
 .PHONY : win32
@@ -146,7 +149,8 @@ install :
 	sudo $(CP) build/$(TARGET) /usr/lib/$(TARGET)
 
 	
-uninstall : 	
+uninstall : 
+	
 
 
 clean:
@@ -154,4 +158,5 @@ clean:
 	$(RM) src/*.o
 	$(RM) src/input/*.o
 	$(RM) src/system/*.o	
-	echo -en "EveryThing removed"
+	echo -en "every object files removed"
+
