@@ -65,11 +65,7 @@
 	typedef signed __int32   Int;
 	typedef signed short	 Short;
 	typedef signed char		 Char;
-#ifdef EX_WIN64
-	typedef unsigned __int64 uintptr_t;
-#else
-	typedef unsigned int uintptr_t;
-#endif
+
 #if EX_INT_MAX_BITS > 64
 	typedef signed __int128 Int128;
 	typedef unsigned __int128 Uint128;
@@ -145,8 +141,8 @@ typedef Uint8 ExBoolean;
 typedef void* HANDLE;
 #endif
 #ifdef EX_WINDOWS
-typedef __success(return >= 0) long ERESULT;
-
+//typedef __success(return >= 0) long ERESULT;
+typedef long ERESULT;
 #else
 typedef long ERESULT;
 #endif

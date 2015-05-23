@@ -8,7 +8,7 @@
 #   include<errno.h>
 #   include<libgen.h>
 #elif defined(EX_WINDOWS)
-#   include<Winbase.h>
+#   include<winbase.h>
 #endif
 
 /**
