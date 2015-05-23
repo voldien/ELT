@@ -6,7 +6,7 @@ RM := rm -rf
 MKDIR :=  mkdir -p
 CP := cp
 ARMCC := arm-linux-gnueabihf-gcc
-WINCC := x86_64-w64-mingw32-c++
+WINCC := x86_64-w64-mingw32-gcc
 CC := gcc
 AR := ar
 
@@ -88,19 +88,20 @@ static_library : $(objects)
 
 
 .PHONY : win32
-win32 : CFLAGS += -mwin32 -municode -mwindows -I"External/OpenCL/Include" -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1 -DEX_INCLUDE_DIRECTX=1
+win32 : CFLAGS += -mwin32 -municode -mwindows -I"External/OpenCL/Include" -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1 -DEX_INCLUDE_DIRECTX=1 
 win32 : sources += $(wildcard /src/system/Win32/*.c)
 win32 : TARGET := EngineEx32.dll
-win32 : $(sources)
-	$(WINCC) $(CFLAGS) -c  $^ $(CLIBS)
+win32 : CC := $(WINCC)
+win32 : $(objects)
 	$(WINCC) $(CFLAGS)  $(objects) -o $(TARGET) $(CLIBS)
 
 
 .PHONY : win64
-win64 : CFLAGS += -mwin64 -municode -mwindows -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1 -DEX_INCLUDE_DIRECTX=1
+win64 : CFLAGS += -municode -mwindows -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1 -DEX_INCLUDE_DIRECTX=1
+win32 : sources += $(wildcard /src/system/Win32/*.c)
 win64 : TARGET := EngineEx64.dll
-win64 : $(sources)
-	$(WINCC) $(CFLAGS) -c  $^ $(CLIBS)
+win64 : CC ;= $(WINCC)
+win64 : $(objects)
 	$(WINCC) $(CFLAGS)  $(objects) -o $(TARGET) $(CLIBS)
 
 
