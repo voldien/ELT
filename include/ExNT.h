@@ -19,15 +19,7 @@
 #ifndef _EX_NT_H_
 #define _EX_NT_H_ 1
 #include"ExPreProcessor.h"
-#if defined(EX_WINDOWS)
-#   include<Windows.h>
-#elif defined(EX_LINUX)
-#   include<X11/X.h>
-#elif defined(EX_ANDROID)
-#   include<android/log.h>
-#elif defined(EX_MAC)
 
-#endif
 #include <stdlib.h>
 #include <errno.h>
 #include <ctype.h>
@@ -41,13 +33,13 @@
 #endif
 
 // Defination only for simpler understanding of the parameter will do.
-#define _IN_	// Header Comments Value will
-#define _OUT_	// Header Comments Value will return ou
-#define _INOUT_ // Header Will Input a Value as well return.
+#define _IN_		// Header Comments Value will
+#define _OUT_		// Header Comments Value will return ou
+#define _INOUT_ 	// Header Will Input a Value as well return.
 //
 
 /*
-	// type declaration
+	Type declaration
 */
 #if defined(EX_WINDOWS)
 	typedef signed __int64 Int64;
