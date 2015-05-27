@@ -21,13 +21,6 @@
 #include"./../ExNT.h"
 
 
-#ifdef ENGINE_INTERNAL
-	#ifdef EX_LINUX
-		#include<X11/Xlib.h>
-	#elif defined(EX_WINDOWS)
-		#include<windows.h>
-	#endif
-#endif 
 #ifdef  __cplusplus	// C++ Environment
 extern "C"{
 #endif
@@ -113,28 +106,7 @@ typedef struct window_poll_events{
 	ExMouseWheelEvent mouseWheelEvent;              /*      */
 	EX_C_STRUCT elt_win_button_event button;        /*      */
 	EX_C_STRUCT ex_drop_event drop;                 /*      */
-
-#ifdef EX_WINDOWS
-	union{
-#ifdef EX_INTERNAL_DEVELOP_ENVIROMENT
-		MSG msg;
-#endif
-		struct{
-			ExWin       hwnd;		/*      */
-			Uint32      message;	/*      */
-			Uint32		wParam;		/*      */
-			Long		lParam;		/*      */
-			ULong       time;		/*      */
-			EX_C_STRUCT expoint	pt;	/*      */
-		};
-	};
-#elif defined(EX_LINUX)
-	XEvent msg;
-#elif defined(EX_MAC)
-
-#elif defined(EX_ANDROID)
-
-#endif
+	unsigned long int time;							/*			*/
 }ExWindowEvent;
 
 
@@ -153,28 +125,8 @@ typedef struct elt_poll_events{
 	ExSizeEvent size;                               /*          */
 	ExSystemEvent system;                           /*          */
 	ExTouchFingerEvent touch;                       /*          */
-
-#ifdef EX_WINDOWS
-	union{
-#ifdef EX_INTERNAL_DEVELOP_ENVIROMENT
-		MSG msg;
-#endif
-		struct{
-			ExWin       hwnd;
-			Uint32      message;
-			Uint32		wParam;
-			Long		lParam;
-			ULong       time;
-			EX_C_STRUCT expoint     pt;
-		};
-	};
-#elif defined(EX_LINUX)
-	XEvent msg;
-#elif defined(EX_ANDROID)
-	void* source;
-#elif defined(EX_MAC)
-	long time;
-#endif
+	unsigned long int time;							/*			*/
+	void* display;									/**/
 
 }ExEvent;
 /**

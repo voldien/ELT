@@ -6,6 +6,7 @@
 
 #elif defined(EX_LINUX)
 #	include"system/unix/unix_win.h"
+#	include<X11/Xlib.h>
 #elif defined(EX_ANDROID)
 #   include<android/log.h>
 #   include<android/native_activity.h>

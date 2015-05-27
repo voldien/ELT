@@ -30,12 +30,12 @@ extern "C"{
 
     @return
 */
-extern DECLSPEC XID ELTAPIENTRY ExCreateNativeWindow(int x, int y, int width, int height);
+extern DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(int x, int y, int width, int height);
 /**
 
     @return
 */
-extern DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(int x , int y, int width, int height, void** glx_window);
+extern DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(int x , int y, int width, int height, void** glx_window);
 
 
 extern DECLSPEC int ExSupportOpenGL(void);

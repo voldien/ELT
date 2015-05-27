@@ -12,11 +12,11 @@
 #include<GL/gl.h>
 #include<GL/glx.h>
 #include"system/elt_gl.h"
-Display *display = 0;
+void* display = 0;
 
 extern int choose_fbconfig(GLXFBConfig* p_fbconfig);
 
-DECLSPEC XID ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){
+DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){
 	Visual* visual;
 	Int depth, text_x,text_y;
 	XSetWindowAttributes swa = {};
@@ -75,7 +75,7 @@ DECLSPEC XID ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int
 /**
     Create a Window defined for OpenGL X purpose
 */
-DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 height, void** pglx_window){
+DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 height, void** pglx_window){
 	Visual* visual;
 
 	XVisualInfo* vi;

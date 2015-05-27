@@ -5,6 +5,7 @@
 #   pragma comment(lib, "Dbghelp.lib")
 #elif defined(EX_LINUX)
 #   include<syslog.h>
+#	include<X11/Xlib.h>
 #   include"system/unix/unix_win.h"
 #   include<unistd.h>
 #   include<sys/types.h>
