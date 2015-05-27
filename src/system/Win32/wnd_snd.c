@@ -9,14 +9,14 @@
 	#include<shellapi.h>
 	#pragma warning( disable : 4996 ) // disable deprecated warning 
 	#pragma comment(lib, "dinput8.lib")
-LPDIRECTSOUND8 pDS = EX_NULL;
+LPDIRECTSOUND8 pDS = NULL;
 	
 DECLSPEC ERESULT ELTAPIENTRY ExInitDirectSound(ExWin hWnd, Uint32 flag){
 	ERESULT hr;
 
 	CoInitializeEx(NULL,COINIT_MULTITHREADED);
 	/*
-	if(FAILED(hr = DirectSoundCreate8(EX_NULL, &pDS,EX_NULL))){
+	if(FAILED(hr = DirectSoundCreate8(NULL, &pDS,NULL))){
 		ExDevPrintf("Failed to Create DirectSound %s", ExGetHResultErrorMessage(hr));
 	}
 	if(FAILED( hr = pDS->SetCooperativeLevel(hWnd, DSSCL_PRIORITY))){

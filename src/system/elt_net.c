@@ -16,8 +16,8 @@
 #elif defined(EX_WINDOWS)   /*  Windows network*/
 #	pragma comment(lib,"Ws2_32.lib")
 #	pragma comment(lib,"wininet")
-#	include<WinInet.h>
-#	include<WinSock.h>
+#	include<wininet.h>
+#	include<winsock.h>
 
 WSADATA wsadata = {0};
 #define EX_WSA_VERSION MAKEWORD(2,2)

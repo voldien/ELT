@@ -174,11 +174,11 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateStatusBar(ExWin parenthWnd){
 
 	GetClientRect(parenthWnd, &client_rect);
 
-	if(!(hwnd = CreateWindowEx(0, STATUSCLASSNAME, EX_NULL,
+	if(!(hwnd = CreateWindowEx(0, STATUSCLASSNAME, NULL,
         WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP,0,
 		client_rect.bottom-client_rect.top-20,
          client_rect.right-client_rect.left,20,
-        parenthWnd, EX_NULL, GetModuleHandle(EX_NULL), EX_NULL)))
+        parenthWnd, NULL, GetModuleHandle(NULL), NULL)))
 		ExDevWindowPrintc(EX_TEXT("Failed to create Status Window"), EX_CONSOLE_RED);	// error check
 	return hwnd;
 }
@@ -225,7 +225,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateButton(ExWin parentHwnd,CallBack callback){
     100,				// Button width
     100,				// Button height
     parentHwnd,			// Parent window
-    EX_NULL,					// No menu.
+    NULL,					// No menu.
     (HINSTANCE)GetWindowLong(parentHwnd, GWL_HINSTANCE),
     0);			// Pointer not needed.
 	SetWindowLongPtr(hwndButton, GWLP_USERDATA, (LONG_PTR)event);
@@ -240,8 +240,8 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateComboBox(ExWin hWnd){
 		100,
 		100,
 		hWnd,
-		EX_NULL,
-		GetModuleHandle(EX_NULL),
+		NULL,
+		GetModuleHandle(NULL),
 		0);
 
 	return hWndCombo;
@@ -262,7 +262,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateTrackBar(ExWin parenthWnd,Uint32 imin, Uint32
         200, 30,                         // size
         parenthWnd,                         // parent window
         0,								// control identifier
-		GetModuleHandle(EX_NULL),                         // instance
+		GetModuleHandle(NULL),                         // instance
         NULL                             // no WM_CREATE parameter
         );
 
@@ -298,12 +298,12 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateProgressBar(ExWin parentWnd){
 	cyVscroll = GetSystemMetrics(SM_CYVSCROLL);
 
 	hwndPB = CreateWindowEx(0,
-		PROGRESS_CLASS, EX_NULL,
+		PROGRESS_CLASS, NULL,
 		WS_CHILD | WS_VISIBLE,
 		rcClient.left,
 		rcClient.bottom - cyVscroll,
 		rcClient.right,cyVscroll,
-		parentWnd, EX_NULL, GetModuleHandle(EX_NULL),EX_NULL);
+		parentWnd, NULL, GetModuleHandle(NULL),NULL);
 
 	return hwndPB;
 }
@@ -324,10 +324,10 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateListView(ExWin parenthWnd){
                                      rcClient.right - rcClient.left,
                                      rcClient.bottom - rcClient.top,
                                      parenthWnd,
-                                     EX_NULL,
-									 GetModuleHandle(EX_NULL),
+                                     NULL,
+									 GetModuleHandle(NULL),
                                      NULL);
-	HRESULT ok = SetWindowTheme(hWndListView, EX_TEXT("Explorer"), EX_NULL);
+	HRESULT ok = SetWindowTheme(hWndListView, EX_TEXT("Explorer"), NULL);
 
 
 	HICON hiconItem;     // Icon for list-view items.
@@ -437,7 +437,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateHeader(ExWin hwndParent, Int32 x, Int32 y, In
 
 	HWND hWndheader = CreateWindowEx(0, WC_HEADER, (LPCTSTR) NULL,
 				WS_CHILD | WS_BORDER | HDS_BUTTONS | HDS_HORZ,
-				0, 0, 0, 0, hwndParent, 0, GetModuleHandle(EX_NULL),
+				0, 0, 0, 0, hwndParent, 0, GetModuleHandle(NULL),
 				(LPVOID) NULL);
 
 
@@ -470,9 +470,9 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateToolBar(ExWin parenthWnd){
 	InitCommonControlsEx(&icex);
 
     // Create the toolbar.
-    if(!(hWndToolbar = CreateWindowEx(0, TOOLBARCLASSNAME, EX_NULL,
+    if(!(hWndToolbar = CreateWindowEx(0, TOOLBARCLASSNAME, NULL,
                                       WS_CHILD | TBSTYLE_WRAPABLE | TBSTYLE_LIST | TBSTYLE_FLAT, 0, 0, 0, 0,
-                                      parenthWnd, EX_NULL, GetModuleHandle(EX_NULL), EX_NULL)))
+                                      parenthWnd, NULL, GetModuleHandle(NULL), NULL)))
         return NULL;
 
     // Create the image list.
@@ -542,7 +542,7 @@ DECLSPEC void ELTAPIENTRY ExAddToolBarButtonB(HWND hWndToolbar,HBITMAP bitmap){
 
     g_hImageList = (HIMAGELIST)SendMessage(hWndToolbar, TB_GETIMAGELIST,0,0);
 
-	ImageListID = ImageList_Add(g_hImageList,bitmap,EX_NULL);
+	ImageListID = ImageList_Add(g_hImageList,bitmap,NULL);
 
 
 	TBBUTTON button[] = {MAKELONG(STD_PROPERTIES,  ImageListID), 0,  TBSTATE_ENABLED, BTNS_AUTOSIZE, {0}, 0, (INT_PTR)0};
@@ -573,7 +573,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateTabControl(ExWin parenthWnd){
 		WC_TABCONTROL,EX_TEXT(""),
 		WS_CHILD | WS_CLIPSIBLINGS | WS_VISIBLE,
 		0,0,rcClient.right, rcClient.bottom,
-		parenthWnd,NULL, GetModuleHandle(EX_NULL),EX_NULL);
+		parenthWnd,NULL, GetModuleHandle(NULL),NULL);
 
 // Add tabs for each day of the week.
     tie.mask = TCIF_TEXT | TCIF_IMAGE;
@@ -611,7 +611,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateListBox(ExWin parentHwnd){
 		100,
 		parentHwnd,
 		0,
-		GetModuleHandle(EX_NULL),
+		GetModuleHandle(NULL),
 		NULL);
 	ExSetControlEvent(hWndList,listbox);
 	return hWndList;
@@ -624,9 +624,9 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateTextInput(ExWin parentHwnd){
                               WS_CHILD | WS_VISIBLE | WS_TABSTOP | WS_BORDER | ES_LEFT,
                               CW_USEDEFAULT, CW_USEDEFAULT, 200, 24,	// x, y, w, h
                               parentHwnd,
-							  EX_NULL,
-							  GetModuleHandle(EX_NULL),
-							  EX_NULL))){
+							  NULL,
+							  GetModuleHandle(NULL),
+							  NULL))){
 		ExDevWindowPrintc(EX_TEXT("Failed to Create TextInput"), EX_CONSOLE_RED);
 	}
 	 if(TRUE){
@@ -648,7 +648,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateStaticControl(ExWin parentHwnd,CallBack callb
 		256,
 		parentHwnd,
 		0,
-		GetModuleHandle(EX_NULL),
+		GetModuleHandle(NULL),
 		NULL);
 	if(callback){
 		ExStaticControlEvent* staticControl = (ExStaticControlEvent*)ExMalloc(sizeof(ExStaticControlEvent));

@@ -1,7 +1,7 @@
 #include"Font_System.h"
 
 using namespace std;
-FT_Library ft_library = EX_NULL;
+FT_Library ft_library = NULL;
 DECLSPEC Int ELTAPIENTRY ExInitFontSystem(Void){
 	if(!FT_Init_FreeType(&ft_library)){
 		return TRUE;
@@ -21,7 +21,7 @@ DECLSPEC Void ELTAPIENTRY ExShutDownFT(Void){
 }
 
 DECLSPEC Int ELTAPIENTRY ExInitFont(const char* path, Uint size, FT_Face mftFace){
-	if(ft_library == EX_NULL){
+	if(ft_library == NULL){
 		return -1;
 	}
 	Int error = FT_New_Face(ft_library, path,0,&mftFace);

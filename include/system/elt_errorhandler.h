@@ -45,7 +45,7 @@ extern "C"{
 	//dlerror
 	#define ExIsWinError(x) { if( (Long)( x ) <= 0 ){ExDevWindowPrintc(EX_TEXT("Error"),EX_CONSOLE_RED);} }
 	#define ExIsXWinError(x)
-	#define ExIsHError(x) EX_UNUSED(x)
+	#define ExIsHError(x) x
 	#define ExIsDXError(x) EX_UNUSED(x)
 #endif
 #define EX_ERROR_MESSAGEBOX 0x1

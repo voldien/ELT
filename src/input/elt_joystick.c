@@ -160,7 +160,7 @@ DECLSPEC Uint8 ELTAPIENTRY ExJoyStickGetButton(Int32 device_index, int button){
 
 //http://msdn.microsoft.com/en-us/library/windows/desktop/ms645546(v=vs.85).aspx
 
-//HJoyStick* m_joyStickhandler = EX_NULL;
+//HJoyStick* m_joyStickhandler = NULL;
 /*
 DECLSPEC ERESULT ELTAPIENTRY ExInitJoyStick( ExWin hwnd){
 #ifdef EX_WINDOWS

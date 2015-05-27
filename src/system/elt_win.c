@@ -3,8 +3,8 @@
 #include"system/elt_cl.h"
 #if defined(EX_WINDOWS)
 	#include"system/win/win_win32.h"
-	#include"system/win/wnd_input.h"
-	#include<WindowsX.h>
+	#include<winuser.h>
+	#include<windowsx.h>
 	#include<EGL/egl.h>
 #elif defined(EX_LINUX)
 	#include"system/unix/unix_win.h"
@@ -142,7 +142,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 #endif
 	else{
 		ExSetError(E_INVALID_ENUM);
-		return EX_NULL;
+		return NULL;
 	}
 	/**
         Linux Window Implementation
@@ -323,7 +323,7 @@ DECLSPEC void ELTAPIENTRY ExSetWindowPos(ExWin window,Int32 x,Int32 y){
 	RECT winrect;
 	if(!window)return;
 	GetWindowRect(window,&winrect);
-	SetWindowPos(window,EX_NULL,x,y,winrect.right - winrect.left,winrect.bottom - winrect.top,SWP_SHOWWINDOW);
+	SetWindowPos(window,NULL,x,y,winrect.right - winrect.left,winrect.bottom - winrect.top,SWP_SHOWWINDOW);
 #elif defined(EX_LINUX)
 	XMoveWindow(display,(Window*)window,x,y);
 #endif
@@ -333,7 +333,7 @@ DECLSPEC void ELTAPIENTRY ExSetWindowPosv(ExWin window, const Int32* position){
 #if defined(EX_WINDOWS)
 	RECT winrect;
 	GetWindowRect(window,&winrect);
-	SetWindowPos(window, EX_NULL,position[0],position[1], winrect.right - winrect.left,winrect.bottom - winrect.top,SWP_SHOWWINDOW);
+	SetWindowPos(window, NULL,position[0],position[1], winrect.right - winrect.left,winrect.bottom - winrect.top,SWP_SHOWWINDOW);
 #elif defined(EX_LINUX)
 	XMoveWindow(display,(Window*)window,position[0],position[1]);
 #elif defined(EX_ANDROID)
@@ -428,8 +428,8 @@ DECLSPEC Uint32 ELTAPIENTRY ExGetWindowFlag(ExWin window){
 DECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, HANDLE hIcon){
 #ifdef EX_WINDOWS
 	LRESULT result;
-	result = SetClassLong(window,GCL_HICON, (LONG)hIcon);
-	result = SetClassLong(window,GCL_HICONSM,(LONG)hIcon);
+	result = SetClassLong(window,GCLP_HICON, (LONG)hIcon);
+	result = SetClassLong(window,GCLP_HICONSM,(LONG)hIcon);
 	return result;
 #elif defined(EX_LINUX)
      //http://www.sbin.org/doc/Xlib/chapt_03.html

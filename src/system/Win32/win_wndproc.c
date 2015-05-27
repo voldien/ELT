@@ -6,8 +6,8 @@
 #include<Dbt.h>
 
 
-CallBack ExOnFocus = EX_NULL;
-CallBack ExOnUnFocus = EX_NULL;
+CallBack ExOnFocus = NULL;
+CallBack ExOnUnFocus = NULL;
 
 DECLSPEC void ELTAPIENTRY WIN_DisableAltTab(void){
 	BOOL old;
@@ -202,12 +202,12 @@ DECLSPEC LRESULT WINAPI MainWndProc(HWND hWnd,UINT uMsg, WPARAM wParam, LPARAM l
 
 		}break;
 	case WM_KILLFOCUS:{
-		if(ExOnUnFocus != EX_NULL)ExOnUnFocus();
+		if(ExOnUnFocus != NULL)ExOnUnFocus();
 			// inform key state or something
 		}break;
 	case WM_SETFOCUS:{
 		// assign data to input
-		if(ExOnFocus != EX_NULL)ExOnFocus();
+		if(ExOnFocus != NULL)ExOnFocus();
 		/*if(ExIsEngineState(ENGINE_SUPPORT_INPUT)){
 			ExSetKeyBoardCooperative(hWnd, ExGetEngineFlag());
 			ExSetMouseCooperative(hWnd, ExGetEngineFlag());
@@ -247,7 +247,7 @@ DECLSPEC LRESULT WINAPI WndProcNative(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 	}break;
 	case WM_NCCREATE:{
 		CREATESTRUCT* pCreate = CASTP(CREATESTRUCT*, lParam);
-		if(pCreate->lpCreateParams != EX_NULL)
+		if(pCreate->lpCreateParams != NULL)
 			SetWindowLongPtr(hWnd, GWLP_USERDATA,(LONG_PTR)pCreate->lpCreateParams);
 	}break;
 	case WM_PAINT:{
@@ -284,7 +284,7 @@ DECLSPEC LRESULT WINAPI WndProcNative(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 			case BN_CLICKED:{
 				HWND bhwnd =(HWND)(lParam );
 				ExButtonEvent* event = (ExButtonEvent*)GetWindowLongPtr(bhwnd, GWLP_USERDATA);
-				if(event->buttonPushed != EX_NULL)event->buttonPushed();
+				if(event->buttonPushed != NULL)event->buttonPushed();
 			}break;
 			case BN_SETFOCUS:
 			case BN_KILLFOCUS:
@@ -298,13 +298,13 @@ DECLSPEC LRESULT WINAPI WndProcNative(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 				Int index = SendMessage(bhwnd,LB_GETCURSEL,0,0);
 
 				ExListBoxEvent* event = (ExListBoxEvent*)GetWindowLongPtr(bhwnd, GWLP_USERDATA);
-				if(event->selected != EX_NULL)event->selected();
+				if(event->selected != NULL)event->selected();
 			}break;
 				// static clicked
 			/*case STN_CLICKED:{
 				HWND bhwnd =(HWND)(lParam);
 				ExStaticControlEvent* event = (ExStaticControlEvent*)GetWindowLongPtr(bhwnd, GWLP_USERDATA);
-				if(event->selected != EX_NULL)event->selected();*/
+				if(event->selected != NULL)event->selected();*/
 			//}break;
 			//case
 			case EN_CHANGE :{
@@ -503,7 +503,7 @@ DECLSPEC BOOL WINAPI ExDisplayContextMenu(HWND hWnd, POINT* pt){
 
 DECLSPEC HANDLE ELTAPIENTRY ExHookWndProc(Int32  idHook, HOOKPROC lpfn){
 	HHOOK hook;
-	ExIsWinError(hook =SetWindowsHookEx(idHook,lpfn,GetModuleHandle(EX_NULL),0));
+	ExIsWinError(hook =SetWindowsHookEx(idHook,lpfn,GetModuleHandle(NULL),0));
 	return hook;
 }
 

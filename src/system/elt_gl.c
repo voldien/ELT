@@ -2,6 +2,7 @@
 #include"ExPreProcessor.h"
 
 #ifdef EX_WINDOWS
+#include"system/win/win_wndproc.h"
     #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.dll")
     #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.dll")
     #pragma warning(disable : 4273)     // 'function' : inconsistent DLL linkage
@@ -354,7 +355,7 @@ static OpenGLContext create_temp_gl_context(HWND window){
 	*/
 	if(!(gl_context = wglCreateContext(hDC))){
 		wExDevPrintf(EX_TEXT("Failed to Create OpenGL Context : %s\n"), ExGetErrorMessage(GetLastError()));
-		MessageBox(EX_NULL, EX_TEXT("Failed to Create Window OpenGL Context"), EX_TEXT("ERROR"), MB_OK | MB_ICONERROR);
+		MessageBox(NULL, EX_TEXT("Failed to Create Window OpenGL Context"), EX_TEXT("ERROR"), MB_OK | MB_ICONERROR);
 		return NULL;
 	}
 	/**
@@ -394,7 +395,7 @@ static HWND create_temp_gl_win(OpenGLContext* pglc_context){
 	wc.hbrBackground =  (HBRUSH) 0;
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
-	wc.lpszMenuName = EX_NULL;
+	wc.lpszMenuName = NULL;
     wc.lpszClassName = TEMP_WINDOW_CLASS;
 
 	RegisterClassEx(&wc);
@@ -677,8 +678,8 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
         Context attributes
     */
     int context_attribs[]={
-	WGL_CONTEXT_MAJOR_VERSION_ARB, !major_version ? ((ExGetOpenGLVersion() - (ExGetOpenGLVersion() % 100)) / 100) : major_version,
-        WGL_CONTEXT_MINOR_VERSION_ARB, minor_version ? ExGetOpenGLVersion() % 100 : minor_version,
+	WGL_CONTEXT_MAJOR_VERSION_ARB, !major_version ? ((ExGetOpenGLVersion(NULL,NULL) - (ExGetOpenGLVersion(NULL,NULL) % 100)) / 100) : major_version,
+        WGL_CONTEXT_MINOR_VERSION_ARB, minor_version ? ExGetOpenGLVersion(NULL,NULL) % 100 : minor_version,
         WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
         #ifdef EX_DEBUG
         WGL_CONTEXT_FLAGS_ARB,WGL_CONTEXT_DEBUG_BIT_ARB,
@@ -690,7 +691,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     /*TODO: Naming between context attributes and for choosing a pixel-format
         Create pixel format attributes
     */
-	ExCreateContextAttrib(hDC,&pixAttribs[0],(Int32*)&dataSize,&engineDescription, EX_OPENGL);
+	ExCreateContextAttrib(hDC,&pixAttribs[0],(Int32*)&dataSize, EX_OPENGL);
 
 
 	if(!wglChoosePixelFormatARB(hDC, &pixAttribs[0], NULL, 1, pixelFormat, (unsigned int*)&nResults[0]))
@@ -714,10 +715,10 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     /**
         Create OpenGL Context.
     */
-    if(!(glc = wglCreateContextAttribsARB(hDC, EX_NULL,pixAttribs))){
+    if(!(glc = wglCreateContextAttribsARB(hDC, NULL,pixAttribs))){
         //ExDevPrintf(EX_TEXT("Failed to Create OpenGL Context ARB | %s.\n"),glewGetErrorString(glGetError()));
-        //MessageBoxA(EX_NULL,  (LPCSTR)glewGetErrorString(glGetError()),"Error | OpenGL Context",MB_OK | MB_ICONERROR);
-		ExMessageBox(EX_NULL, EX_TEXT(""), EX_TEXT(""), MB_OK |MB_ICONERROR);
+        //MessageBoxA(NULL,  (LPCSTR)glewGetErrorString(glGetError()),"Error | OpenGL Context",MB_OK | MB_ICONERROR);
+		ExMessageBox(NULL, EX_TEXT(""), EX_TEXT(""), MB_OK |MB_ICONERROR);
     }
 
 
@@ -1017,8 +1018,8 @@ DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin win
 		//SetWindowLongPtr(hWnd,GWL_EXSTYLE, WS_EX_APPWINDOW);							//Change Extened Window Class Style.
 		ShowWindow(window, SW_MAXIMIZE);
 
-		if((cdsRet = ChangeDisplaySettingsEx(dd.DeviceName,&dm,EX_NULL,(CDS_TEST),0)) == DISP_CHANGE_SUCCESSFUL){
-			cdsRet = ChangeDisplaySettingsEx(dd.DeviceName,&dm,EX_NULL,(CDS_FULLSCREEN),0);
+		if((cdsRet = ChangeDisplaySettingsEx(dd.DeviceName,&dm,NULL,(CDS_TEST),0)) == DISP_CHANGE_SUCCESSFUL){
+			cdsRet = ChangeDisplaySettingsEx(dd.DeviceName,&dm,NULL,(CDS_FULLSCREEN),0);
 			ExPrintf("displayed changed to fullscreen Mode\n");
 			//engineDescription.EngineFlag |= ENGINE_FULLSCREEN;
 			return cdsfullscreen;
@@ -1104,7 +1105,7 @@ DECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window,Enum ienum){
 		bb.fEnable = TRUE;
 	else
 		bb.fEnable = FALSE;
-	ExIsHError(hr = DwmEnableBlurBehindWindow(window, &bb));
+	hr = DwmEnableBlurBehindWindow(window, &bb);
 #elif defined(EX_LINUX)
 	XTextProperty textprop = {0};
 	XWMHints *startup_state;
