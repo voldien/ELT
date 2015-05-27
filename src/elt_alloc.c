@@ -1,6 +1,6 @@
 #include"elt_alloc.h"
 #ifdef EX_WINDOWS
-#   include<psapi.h>
+#   include<windows.h>
 #elif defined(EX_UNIX)
 #   include<unistd.h>
 #endif
