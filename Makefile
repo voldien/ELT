@@ -94,18 +94,20 @@ static : $(objects)
 win32 : CFLAGS += -mwin32 -municode -mwindows -I"External/OpenCL/Include" -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1 
 win32 : sources += $(wildcard /src/system/Win32/*.c)
 win32 : TARGET := EngineEx32.dll
+win32 : CLIBS := -lopengl32 -lwimm -lwinmm -lwininet -lws2_32 -lkernel32 -luser32
 win32 : CC := $(WINCC)
 win32 : $(objects)
-	$(WINCC) $(CFLAGS)  $(objects) -o $(TARGET) $(CLIBS)
+	$(WINCC) $(CFLAGS)  $(notdir $^) -o $(TARGET) $(CLIBS)
 
 
 .PHONY : win64
 win64 : CFLAGS += -municode -mwindows -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1 
 win32 : sources += $(wildcard /src/system/Win32/*.c)
 win64 : TARGET := EngineEx64.dll
+win32 : CLIBS := 
 win64 : CC ;= $(WINCC)
 win64 : $(objects)
-	$(WINCC) $(CFLAGS)  $(objects) -o $(TARGET) $(CLIBS)
+	$(WINCC) $(CFLAGS)   $(notdir $^) -o $(TARGET) $(CLIBS)
 
 
 .PHONY : nacl
