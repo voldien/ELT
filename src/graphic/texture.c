@@ -1,7 +1,8 @@
 #include"graphic/texture.h"
 #ifndef _EX_ANDROID
-#include<GL/gl.h>
-#include<GL/glu.h>
+	#include<GL/gl.h>
+	#include<GL/glu.h>
+	#include<GL/glext.h>
 #else
 
 #endif
