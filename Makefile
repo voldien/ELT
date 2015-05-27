@@ -102,9 +102,9 @@ win32 : $(objects)
 
 .PHONY : win64
 win64 : CFLAGS += -municode -mwindows -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1 
-win32 : sources += $(wildcard /src/system/Win32/*.c)
+win64 : sources += $(wildcard /src/system/Win32/*.c)
 win64 : TARGET := EngineEx64.dll
-win32 : CLIBS := 
+win64 : CLIBS := 
 win64 : CC ;= $(WINCC)
 win64 : $(objects)
 	$(WINCC) $(CFLAGS)   $(notdir $^) -o $(TARGET) $(CLIBS)
