@@ -156,8 +156,7 @@ DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 
     	/*glXCreateWindow create opengl for window that might not have capability for OpenGL*/
         //glx_window = glXCreateWindow(display, fbConfigs,window,0);
         //pglx_window[0] = glx_window;
-        if(pglx_window)
-            pglx_window[0] = 0;
+		pglx_window[0] = 0;
     }
 
 	XStoreName(display,window, ExGetDefaultWindowTitle(title,sizeof(title)));
@@ -173,12 +172,12 @@ DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 
 //XGrabPointer(display, root, False, ButtonPressMask, GrabModeAsync,
 //         GrabModeAsync, None, None, CurrentTime);
 
-
+/*s
 	fontinfo = XLoadQueryFont(display, EX_TEXT("10x20"));
 	gr_values.font = fontinfo->fid;
 	gr_values.foreground = XBlackPixel(display,0);
 	graphical_context = XCreateGC(display,window, GCFont + GCForeground, &gr_values);
-
+*/
    //XIfEvent(display, &event, WaitFormMap)
 
     //if((del_atom = XInternAtom(display, "WM_DELETE_WINDOW", 0)) != None){

@@ -456,9 +456,9 @@ static int choose_fbconfig(GLXFBConfig* p_fbconfig){
 		if(!pict_format)continue;
 
 		p_fbconfig[0] = fbconfigs[i];
-        if(engineDescription.alphaChannel > 0){
-            if(pict_format->direct.alphaMask > 0)break;
-        }else break;
+		if(engineDescription.alphaChannel > 0){
+		    if(pict_format->direct.alphaMask > 0)break;
+		}else break;
 
 	}
 	return 1;
@@ -540,7 +540,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
                           GLX_RED_SIZE,    8,
                           GLX_GREEN_SIZE,  8,
                           GLX_BLUE_SIZE,   8,
-                          GLX_ALPHA_SIZE,  0,
+                          GLX_ALPHA_SIZE,  8,
              			GLX_DOUBLEBUFFER, True,
                           GLX_DEPTH_SIZE,  24,
                           None};
@@ -739,14 +739,15 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     glGetIntegerv(GL_MINOR_VERSION, &minor_version);
 
 
+	/*if windows doesn't support the opengl, than try to use */
 
     int context_attribs[]={
         GLX_CONTEXT_MAJOR_VERSION_ARB,/* major_version*/3, //TODO obtain latest major version
         GLX_CONTEXT_MINOR_VERSION_ARB,/* minor_version*/3, //TODO obtain latest minor version
         #ifdef EX_DEBUG
-       // GLX_CONTEXT_FLAGS_ARB,GLX_CONTEXT_DEBUG_BIT_ARB | GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,   /*  Debug TODO add hint*/
+        GLX_CONTEXT_FLAGS_ARB,GLX_CONTEXT_DEBUG_BIT_ARB | GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,   /*  Debug TODO add hint*/
         #else
-       // GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
+        GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
         #endif
         None
     };
@@ -763,8 +764,8 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 
 		if(glXCreateContextAttribsARB){
 			choose_fbconfig(&fbconfig);
-
-			glc = glXCreateContextAttribsARB(display, fbconfig,0, True,context_attribs);
+			//TODO resolve 
+			//glc = glXCreateContextAttribsARB(display, fbconfig,0, True,context_attribs);
 			XSync(display, False );
 		}
 	}
