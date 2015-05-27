@@ -1,6 +1,8 @@
 #include"graphic/shader.h"
 #include"system/eltfile.h"
 #include<GL/gl.h>
+#include<GL/glu.h>
+#include<GL/glext.h>
 
 
 int ExGetShaderProgramSize(unsigned int program){
