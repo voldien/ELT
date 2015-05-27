@@ -33,31 +33,31 @@ extern "C"{
 #endif 
 /*
  */
-extern int getShaderProgramSize(unsigned int program);
+extern int ExGetShaderProgramSize(unsigned int program);
 /*
  */
-extern int getShaderSourceSize(unsigned int shader);
+extern int ExGetShaderSourceSize(unsigned int shader);
 /*
  */
-extern int loadShader(struct shader_header* shad,const char* cvertexfilename, const char* cfragmentfilename, const char* cgeometryfilename, const char* ctesscfilename, const char* ctessefilename);
+extern int ExLoadShader(struct shader_header* shad,const char* cvertexfilename, const char* cfragmentfilename, const char* cgeometryfilename, const char* ctesscfilename, const char* ctessefilename);
 /*
  */
-extern int loadShaderv(struct shader_header* shad, const char* cvertex_source,const char* cfragment_source,const char* cgeometry_source,const char* ctess_c_source, const char* ctess_e_source);
+extern int ExLoadShaderv(struct shader_header* shad, const char* cvertex_source,const char* cfragment_source,const char* cgeometry_source,const char* ctess_c_source, const char* ctess_e_source);
 
-extern int compileShaderSource(const char* strPath,char** source, unsigned int flag);
+extern int ExCompileShaderSource(const char* strPath,char** source, unsigned int flag);
 /*
  */
-extern int compileShaderSourcev(const char** source, unsigned int flag);
+extern int ExCompileShaderSourcev(const char** source, unsigned int flag);
 
-extern int ShaderCompileLog(unsigned int program,unsigned int shaderflag);
+extern int ExShaderCompileLog(unsigned int program,unsigned int shaderflag);
 
-extern int getShaderSource(unsigned int program, unsigned int shader_flag, char** source);
+extern int ExGetShaderSource(unsigned int program, unsigned int shader_flag, char** source);
 /*
  */
-extern int getShaderSourcev(unsigned int program, unsigned int shader_flag, char* source);
+extern int ExGetShaderSourcev(unsigned int program, unsigned int shader_flag, char* source);
 /*
  */
-extern unsigned int getShaderNumComponent(unsigned int program);
+extern unsigned int ExGetShaderNumComponent(unsigned int program);
 #ifdef __cplusplus
 }
 #endif 
