@@ -1,7 +1,9 @@
 #!/bin/bash
 
+SHELL := bash
 MKDIR2 ?= mkdir -p
 RM := rm -rf
+
 
 #	has to be define manually for now TODO resolve 
 NACL_SDK_ROOT ?= $(abspath $(dir $(THIS_MAKEFILE))../..)
@@ -49,29 +51,40 @@ objects = $(subst .c,.o, $(sources))
 all : $(TARGET).a
 	echo -en "finished compiling and link $(du -h $^)"
 
+%.o : CFLAGS += -O2
 $(TARGET).a : $(objects)
 	$(MKDIR2) build
 	$(PNACL_AR) -rcs  $(notdir $^) -f $@
 	$(NACL_RANLIB) $@
 
-%.o : CFLAGS += -O2
+
+
 %.o : %.c
+	echo -en $^ "\n"
 	$(PNACL_CXX) -c  $^  -o $(notdir $@) $(CFLAGS) $(CLIBS)
+
+
+debug : CFlAGS += -g
+debug : $(objects)
+	$(NACL_AR) -rcs $(subst .c,.o, $(nodir $^)) -f $(TARGET).a
 
 
 nacl : CLFAGS += -O2 -DNACL=1
 nacl : CLIBS += -lEGL
-nacl : $(sources)
-	$(NACL_CXX) -c $^ $(CFLAGS) $(CLIBS)
+nacl : PNACL_CXX := $(NACL_CXX)
+nacl : $(objects)
+	$(MKDIR2) build
 	$(NACL_AR) -rcs $(subst .c,.o, $(nodir $^)) -f $(TARGET).a
 		
 
 
 .PHONY : pnacl
-pnacl : sources = $(wildcard ./../../src/pnacl/*.cc)
-pnacl : $(sources)
-	$(PNACL_CXX) -c $^ $(CFLAGS) $(CLIBS)
+pnacl : sources = $(wildcard ./../../src/pnacl/*.c)
+pnacl : $(objects)
+	$(MKDIR2) build
 	$(PNACL_AR) -rcs $(subst .c,.o, $(nodir $^)) -f $(TARGET).a
+
+
 
 .PHONY : clean
 clean :

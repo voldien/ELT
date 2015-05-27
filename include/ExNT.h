@@ -19,6 +19,7 @@
 #ifndef _EX_NT_H_
 #define _EX_NT_H_ 1
 #include"ExPreProcessor.h"
+<<<<<<< HEAD
 #if defined(EX_WINDOWS)
 #   include<windows.h>
 #elif defined(EX_LINUX)
@@ -28,6 +29,9 @@
 #elif defined(EX_MAC)
 
 #endif
+=======
+
+>>>>>>> 9194e2ad4c40f8c02d01cf5b6ddcfa89b67d138f
 #include <stdlib.h>
 #include <errno.h>
 #include <ctype.h>
@@ -41,6 +45,7 @@
 #endif
 
 // Defination only for simpler understanding of the parameter will do.
+<<<<<<< HEAD
 #define _IN_	// Header Comments Value will
 #define _OUT_	// Header Comments Value will return ou
 #define _INOUT_ // Header Will Input a Value as well return.
@@ -48,6 +53,15 @@
 
 /*
 	// type declaration
+=======
+#define _IN_		// Header Comments Value will
+#define _OUT_		// Header Comments Value will return ou
+#define _INOUT_ 	// Header Will Input a Value as well return.
+//
+
+/*
+	Type declaration
+>>>>>>> 9194e2ad4c40f8c02d01cf5b6ddcfa89b67d138f
 */
 #if defined(EX_WINDOWS)
 	typedef signed __int64 Int64;
@@ -65,11 +79,15 @@
 	typedef signed __int32   Int;
 	typedef signed short	 Short;
 	typedef signed char		 Char;
+<<<<<<< HEAD
 #ifdef EX_WIN64
 	typedef unsigned __int64 uintptr_t;
 #else
 	typedef unsigned int uintptr_t;
 #endif
+=======
+
+>>>>>>> 9194e2ad4c40f8c02d01cf5b6ddcfa89b67d138f
 #if EX_INT_MAX_BITS > 64
 	typedef signed __int128 Int128;
 	typedef unsigned __int128 Uint128;
@@ -141,12 +159,21 @@ typedef Uint8 ExBoolean;
 
 #endif
 
+<<<<<<< HEAD
 #if !defined(EX_WINDOWS)
 typedef void* HANDLE;
 #endif
 #ifdef EX_WINDOWS
 typedef /*__success(return >= 0)*/ long ERESULT;
 
+=======
+#if !defined(EX_WIN32)
+typedef void* HANDLE;
+#endif
+#ifdef EX_WINDOWS
+//typedef __success(return >= 0) long ERESULT;
+typedef long ERESULT;
+>>>>>>> 9194e2ad4c40f8c02d01cf5b6ddcfa89b67d138f
 #else
 typedef long ERESULT;
 #endif
@@ -226,26 +253,46 @@ typedef union doubleUnion{
 #ifdef EX_WINDOWS
 	typedef HWND ExWin;
 	typedef HGLRC OpenGLContext;
+<<<<<<< HEAD
+=======
+	typedef void* OpenCLContext;
+>>>>>>> 9194e2ad4c40f8c02d01cf5b6ddcfa89b67d138f
 	typedef HDC WindowContext;
 	#define THREAD_CALLBACK __stdcall
 #elif defined(EX_LINUX) && defined(GLX_H)
 	typedef Window ExWin;
 	typedef GLXContext OpenGLContext;
+<<<<<<< HEAD
+=======
+	typedef void* OpenCLContext;
+>>>>>>> 9194e2ad4c40f8c02d01cf5b6ddcfa89b67d138f
 	typedef XID WindowContext;
 	#define THREAD_CALLBACK //__cdecl
 #elif defined(EX_ANDROID)
 	typedef void* ExWin;
 	typedef void* OpenGLContext;
+<<<<<<< HEAD
+=======
+	typedef void* OpenCLContext;
+>>>>>>> 9194e2ad4c40f8c02d01cf5b6ddcfa89b67d138f
 	typedef void* WindowContext;
 	#define THREAD_CALLBACK //__cdecl
 #elif defined(EX_MAC)
 	typedef XID ExWin;
 	typedef GLXContext OpenGLContext;
+<<<<<<< HEAD
+=======
+	typedef void* OpenCLContext;
+>>>>>>> 9194e2ad4c40f8c02d01cf5b6ddcfa89b67d138f
 	typedef XID WindowContext;
 	#define THREAD_CALLBACK __cdecl
 #else
 	typedef void* ExWin;
 	typedef void* OpenGLContext;
+<<<<<<< HEAD
+=======
+	typedef void* OpenCLContext;
+>>>>>>> 9194e2ad4c40f8c02d01cf5b6ddcfa89b67d138f
 	typedef void* WindowContext;
 	#define THREAD_CALLBACK __cdecl
 #endif

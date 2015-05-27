@@ -262,9 +262,9 @@ static int choose_fbconfig(GLXFBConfig* p_fbconfig){
 		if(!pict_format)continue;
 
 		p_fbconfig[0] = fbconfigs[i];
-        if(engineDescription.alphaChannel > 0){
-            if(pict_format->direct.alphaMask > 0)break;
-        }else break;
+		if(engineDescription.alphaChannel > 0){
+		    if(pict_format->direct.alphaMask > 0)break;
+		}else break;
 
 	}
 	return 1;
@@ -289,29 +289,44 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 
 	}
 	else if(erenderingflag & EX_OPENGL){
-		Int32 pixAttribs[] = {
-                GLX_RENDER_TYPE, GLX_RGBA_BIT,
-                GLX_X_RENDERABLE, True,
-                GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
-                GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
-                GLX_DOUBLEBUFFER, True,
-                GLX_AUX_BUFFERS, 0,
+
+
+         int pixAttribs[] = {
+				GLX_RENDER_TYPE, GLX_RGBA_BIT,
+              			GLX_X_RENDERABLE, True,
+              	GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
+            	GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
+                          GLX_RED_SIZE,    8,
+                          GLX_GREEN_SIZE,  8,
+                          GLX_BLUE_SIZE,   8,
+                          GLX_ALPHA_SIZE,  8,
+             			GLX_DOUBLEBUFFER, True,
+                          GLX_DEPTH_SIZE,  24,
+                          None};
+	
+	//	Int32 pixAttribs[] = {
+            //    GLX_RENDER_TYPE, GLX_RGBA_BIT,
+              //  GLX_X_RENDERABLE, True,
+              //  GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
+            //    GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
+             //   GLX_DOUBLEBUFFER, True,
+             //   GLX_AUX_BUFFERS, 0,
                 /**/
-                GLX_RED_SIZE, 8,
-                GLX_GREEN_SIZE, 8,
-                GLX_BLUE_SIZE, 8,
-                GLX_ALPHA_SIZE,engineDescription.alphaChannel,
-                GLX_DEPTH_SIZE, 24,
-                GLX_STENCIL_SIZE,engineDescription.StencilBits,
+             //   GLX_RED_SIZE, 1,
+             //   GLX_GREEN_SIZE, 1,
+              //  GLX_BLUE_SIZE, 1,
+             //   GLX_ALPHA_SIZE,engineDescription.alphaChannel,
+              //  GLX_DEPTH_SIZE, 1,
+               // GLX_STENCIL_SIZE,engineDescription.StencilBits,
 
                 //GLX_STEREO,0,
-                GLX_SAMPLE_BUFFERS_ARB,engineDescription.sample[0] != 0 ? 1 : 0,
+                //GLX_SAMPLE_BUFFERS_ARB,engineDescription.sample[0] != 0 ? 1 : 0,
                 //GLX_SAMPLES_ARB,engineDescription.sample[0],
                 //GLX_TRANSPARENT_TYPE, GLX_TRANSPARENT_RGB,
-                None,
+                //None,
 				/*
 			//GLX_TRANSPARENT_ARB, WGL_TRANSPARENT_ALPHA_VALUE_ARB,,*/
-			}; // NULL termination
+		//}; // NULL termination
 		if(size)size =sizeof(pixAttribs);
 		memcpy(attribs,(int*)pixAttribs,sizeof(pixAttribs));
 
@@ -349,7 +364,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 }
 
  DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
-	OpenGLContext glc = 0;
+	OpenGLContext glc = NULL;
 	unsigned int render_vendor;
 #if defined(EX_LINUX)
 	XVisualInfo* vi;		//	Visual Info
@@ -364,6 +379,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     glGetIntegerv(GL_MINOR_VERSION, &minor_version);
 
 
+	/*if windows doesn't support the opengl, than try to use */
 
     int context_attribs[]={
         GLX_CONTEXT_MAJOR_VERSION_ARB,/* major_version*/3, //TODO obtain latest major version
@@ -388,27 +404,32 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 
 		if(glXCreateContextAttribsARB){
 			choose_fbconfig(&fbconfig);
-
-			glc = glXCreateContextAttribsARB(display, fbconfig,0, True,context_attribs);
-            glXMakeCurrent(display, window,glc);
-			XSync(display,False);
+			//TODO resolve 
+			//glc = glXCreateContextAttribsARB(display, fbconfig,0, True,context_attribs);
+			XSync(display, False );
 		}
 	}
-	else{   /*      */
+	/*else{ 
 		int att[60] = {0};
 		ExCreateContextAttrib(0,&att[0],0,EX_OPENGL);
 		vi = glXChooseVisual(display,DefaultScreen(display),att);
 
 		glc = glXCreateContext(display,vi,0,True);
-	}
+	}*/
 	/*
 
 	*/
 	if(!glc){
-        glc = glXCreateNewContext(display, fbconfig, GLX_RGBA_TYPE,0,True);
+		glc = glXCreateNewContext(display, fbconfig, GLX_RGBA_TYPE,0,True);
 	}
 	if(!glXIsDirect(display, glc))
         fprintf(stderr,"Indirect GLX rendering context obtained\n");    /*a lose of performance.*/
+
+/*
+	if (!glXMakeContextCurrent(Xdisplay, glX_window_handle, glX_window_handle, render_context)) {
+        fatalError("glXMakeCurrent failed for window\n");
+    	}
+*/
 	return glc;
 #elif defined(EX_ANDROID)
 
@@ -519,7 +540,7 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
 	//glDrawBuffer(GL_BACK);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
-	//glDepthRange(0.0, 1.0);
+	glDepthRange(0.0, 1.0);
 	glDepthMask(GL_TRUE);
 	glPolygonOffset(0.0f, 0.0f);
 

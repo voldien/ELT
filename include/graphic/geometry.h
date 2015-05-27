@@ -16,26 +16,17 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _ELT_AUDIO_H_
-#define _ELT_AUDIO_H_ 1
-#include"./../EngineAssembly.h"
-#ifdef __cplusplus	// C++ Environment
+#ifndef _ELT_GEOMETRY_H_ 
+#define _ELT_GEOMETRY_H_ 1
+
+#ifdef __cplusplus	/* C++ environment	*/
 extern "C"{
-#endif
-
-extern DECLSPEC ERESULT ELTAPIENTRY ExAudioInit(const char* driver_name);
-
-extern DECLSPEC ERESULT ELTAPIENTRY ExAudioQuit(void);
-
-extern DECLSPEC const char* ELTAPIENTRY ExGetAudioDriver(Int32 index);
-
-extern DECLSPEC void ELTAPIENTRY ExGetAudioStatus(void);
-extern DECLSPEC const char* ELTAPIENTRY ExGetCurrentAudioDriver(void);
-extern DECLSPEC void ELTAPIENTRY EXGetNumAudioDevices(void);
-extern DECLSPEC void ELTAPIENTRY EXGetNumAudioDriver(void);
+#endif 
 
 
-#ifdef __cplusplus	// C++ Environment
+
+#ifdef __cplusplus	/* C++ environment	*/
 }
-#endif
+#endif 
+
 #endif
