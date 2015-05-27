@@ -56,7 +56,7 @@
 
 	typedef signed __int32   Int;
 	typedef signed short	 Short;
-	typedef signed char		 Char;
+	typedef signed char	 Char;
 
 #if EX_INT_MAX_BITS > 64
 	typedef signed __int128 Int128;
@@ -212,16 +212,16 @@ typedef union doubleUnion{
 	// platform specific type
 */
 #ifdef EX_WINDOWS
-	typedef HWND ExWin;
-	typedef HGLRC OpenGLContext;
+	typedef void* ExWin;
+	typedef void* OpenGLContext;
 	typedef void* OpenCLContext;
-	typedef HDC WindowContext;
+	typedef void* WindowContext;
 	#define THREAD_CALLBACK __stdcall
 #elif defined(EX_LINUX) && defined(GLX_H)
-	typedef Window ExWin;
-	typedef GLXContext OpenGLContext;
+	typedef void* ExWin;
+	typedef void* OpenGLContext;
 	typedef void* OpenCLContext;
-	typedef XID WindowContext;
+	typedef void* WindowContext;
 	#define THREAD_CALLBACK //__cdecl
 #elif defined(EX_ANDROID)
 	typedef void* ExWin;
@@ -230,10 +230,10 @@ typedef union doubleUnion{
 	typedef void* WindowContext;
 	#define THREAD_CALLBACK //__cdecl
 #elif defined(EX_MAC)
-	typedef XID ExWin;
-	typedef GLXContext OpenGLContext;
+	typedef void* ExWin;
+	typedef void* OpenGLContext;
 	typedef void* OpenCLContext;
-	typedef XID WindowContext;
+	typedef void* WindowContext;
 	#define THREAD_CALLBACK __cdecl
 #else
 	typedef void* ExWin;
