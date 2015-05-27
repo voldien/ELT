@@ -14,14 +14,14 @@
 	#pragma comment(lib,"libGLESv2.lib")
 
 	#include<dwmapi.h>
-	#include<WinUser.h>
-	#include<Windows.h>
-	#include<GL/GL.h>
+	#include<winuser.h>
+	#include<windows.h>
+	#include<GL/gl.h>
 	#include<EGL/egl.h>
 	#include<GL/glext.h>
 	#include<GL/wglext.h>
     	#include<GL/glu.h>
-    #define GL_GET_PROC(x)   wglGetProcAddress( (LPCSTR)( x ) )         /*  get OpenGL function process address */
+	#define GL_GET_PROC(x)   wglGetProcAddress( (LPCSTR)( x ) )         /*  get OpenGL function process address */
 
 #elif defined(EX_LINUX)
     #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.so")

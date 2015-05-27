@@ -3,8 +3,7 @@
 #include"system/elt_gl.h"
 #include"system/elt_errorhandler.h"
 #ifdef EX_WINDOWS // TODO FIX
-#   include"system/win/wnd_input.h"
-#   include"system/win/win_net.h"
+
 #elif defined(EX_LINUX)
 #	include"system/unix/unix_win.h"
 #elif defined(EX_ANDROID)
@@ -307,8 +306,8 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 	ExRelaseNet();
 
 	// restore screen
-	display = ChangeDisplaySettings(&d, EX_NULL);
-	FreeLibrary(GetModuleHandle(EX_NULL));
+	display = ChangeDisplaySettings(&d, NULL);
+	FreeLibrary(GetModuleHandle(NULL));
 
 /**
     Linux

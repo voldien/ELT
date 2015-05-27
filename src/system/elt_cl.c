@@ -4,11 +4,12 @@
 #if defined(EX_WINDOWS)
 #   define OPENCL_LIBRARY_NAME EX_TEXT("OpenCL.dll")
 	#include<CL/cl.h>
-	#include<CL/cl.h>
-	#include<CL/opencl.h>
+	#include<CL/cl_gl.h>
 	#include<CL/cl_gl_ext.h>
 	#include<CL/cl_platform.h>
-	#include<CL/cl_dx9_media_sharing.h>
+	#include<CL/cl_ext.h>
+
+	//#include<CL/cl_dx9_media_sharing.h>
 	#pragma comment(lib,"OpenCL.lib")
 
 #elif defined(EX_LINUX)
@@ -260,7 +261,9 @@ DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowCont
     };
 #ifdef EX_WINDOWS
     if(flag & EX_OPENGL){props[2] = CL_WGL_HDC_KHR;}
+#	ifdef EX_INCLUDE_DIRECTX
     else if(flag & EX_DIRECTX){props[0] = CL_CONTEXT_ADAPTER_D3D9_KHR;}
+#	endif 
 #elif defined(EX_LINUX)
     if(flag & EX_OPENGL){props[2] = CL_GLX_DISPLAY_KHR;}
 #elif defined(EX_ANDROID)
@@ -305,7 +308,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(void* context,void* param_value,En
             ciErrNum = clGetContextInfo((cl_context)context, CL_CONTEXT_REFERENCE_COUNT,sizeof(cl_uint),param_value,&size);
 
             }break;
-        #ifdef EX_WINDOWS
+        #if defined(EX_WINDOWS) && defined(EX_INCLUDE_DIRECTX)
         case CL_CONTEXT_D3D10_PREFER_SHARED_RESOURCES_KHR:
             ciErrNum = clGetContextInfo((cl_context)context, CL_CONTEXT_REFERENCE_COUNT,sizeof(cl_reference),param_value,&size);
             break;

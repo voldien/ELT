@@ -15,7 +15,7 @@
 
 DECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(ExBoolean enabled){
 #ifdef EX_WINDOWS
-	return (Int32)SetCapture(enabled ? GetFocus() : EX_NULL);
+	return (Int32)SetCapture(enabled ? GetFocus() : NULL);
 #elif defined(EX_LINUX)
 	return XGrabPointer(display, 0,False,0,GrabModeSync, GrabModeSync, None, None, CurrentTime);
 #endif
@@ -35,7 +35,7 @@ DECLSPEC Int32 ELTAPIENTRY ExClipCursor(const struct exrect* rect){
 DECLSPEC ExCursor ELTAPIENTRY ExCreateCursor(const Uint8* data, const Uint8* mask, Int32 width,Int32 height, Int32 hot_x, Int32 hot_y){
 #ifdef EX_WINDOWS
 	ExCursor cursor;
-	ExIsWinError(!(cursor = CreateCursor(GetModuleHandle(EX_NULL),hot_x, hot_y,width, height, data, mask)));
+	ExIsWinError(!(cursor = CreateCursor(GetModuleHandle(NULL),hot_x, hot_y,width, height, data, mask)));
 	return cursor;
 #elif defined(EX_LINUX)
     return XCreatePixmap(display, 0, width,height,8);
@@ -65,7 +65,7 @@ DECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(Enum system_id){
 	case EXC_APPSTART: arrow = IDC_ARROW;
 	case EXC_HELP: arrow = IDC_ARROW;
 	}
-	return LoadCursor(GetModuleHandle(EX_NULL), arrow);
+	return LoadCursor(GetModuleHandle(NULL), arrow);
 #elif defined(EX_LINUX)
     switch(system_id){
         case EXC_ARROW:arrow = XC_arrow;break;
@@ -146,20 +146,20 @@ DECLSPEC void ELTAPIENTRY ExWarpMouseGlobal(int x, int y){
 
 DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButton(Uint32 keyCode){
 #ifdef EX_WINDOWS
-	return (MouseState[0].rgbButtons[keyCode] & 0x80) ? TRUE : FALSE;
+	//return (MouseState[0].rgbButtons[keyCode] & 0x80) ? TRUE : FALSE;
 #endif
 	return 0;
 }
 DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButtonDown(Uint32 keyCode){
 #ifdef EX_WINDOWS
-	return (MouseState[0].rgbButtons[keyCode] & 0x80) ? TRUE : FALSE;
+	//return (MouseState[0].rgbButtons[keyCode] & 0x80) ? TRUE : FALSE;
 #endif
 	return 0;
 }
 DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButtonUp(Uint32 keyCode){
 #ifdef EX_WINDOWS
-	return !(MouseState[0].rgbButtons[keyCode]  & 0x80) &&
-		(MouseState[1].rgbButtons[keyCode]  & 0x80) != FALSE ? TRUE : FALSE;
+	//return !(MouseState[0].rgbButtons[keyCode]  & 0x80) &&
+	//	(MouseState[1].rgbButtons[keyCode]  & 0x80) != FALSE ? TRUE : FALSE;
 #endif
 	return 0;
 }

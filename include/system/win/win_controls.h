@@ -22,7 +22,7 @@ extern "C"{
 typedef void(ELTAPIENTRY* ExButtonPushed)(void);
 typedef void(ELTAPIENTRY* ExSelected)(void);
 typedef void(ELTAPIENTRY* ExBoxItemSelected)(LONG_PTR handle);
-typedef void(ELTAPIENTRY* ExProgressBar)(Float value);
+typedef void(ELTAPIENTRY* ExProgressBar)(float value);
 typedef void(ELTAPIENTRY* ExTextInput)(void* wparam);
 
 

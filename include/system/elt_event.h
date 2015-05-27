@@ -20,9 +20,14 @@
 #define _ELT_EVENT_H_ 1
 #include"./../ExNT.h"
 
-#ifdef EX_LINUX
-	#include<X11/Xlib.h>
-#endif
+
+#ifdef ENGINE_INTERNAL
+	#ifdef EX_LINUX
+		#include<X11/Xlib.h>
+	#elif defined(EX_WINDOWS)
+		#include<windows.h>
+	#endif
+#endif 
 #ifdef  __cplusplus	// C++ Environment
 extern "C"{
 #endif

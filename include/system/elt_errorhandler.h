@@ -29,18 +29,18 @@ extern "C"{
 /**
 	ExInternalError
 */
-#define ExIsError(x) { if( ( x ) <= 0 ){ ExDevPrintc("Error",EX_CONSOLE_RED);} }
+#define ExIsError(x) { if( ( x ) <= 0 ){ ExDevPrint("Error");} }
 /**
 	C error
 */
-#define ExIsCError(x) { if( ( x ) <= 0){ ExDevPrintfc("Error | %s",EX_CONSOLE_RED,strerror(errno));}}
+#define ExIsCError(x) { if( ( x ) <= 0){ ExDevPrintf("Error | %s",strerror(errno));}}
 
 
 
 #if defined(EX_WINDOWS)
-	#define ExIsWinError(x) { if( (Long)( x ) <= 0 ){ExDevWindowPrintc(EX_TEXT("Error"),EX_CONSOLE_RED);} }
-	#define ExIsHError(x) {ERESULT temp; if((temp = ( x ) ) != S_OK ){ExDevWindowHPrintc(EX_TEXT("Error"),temp,EX_CONSOLE_RED);}}
-	#define ExIsDXError(x) {ERESULT temp; if((temp = ( x ) ) != S_OK ){ExDevWindowHPrintc(EX_TEXT("Error"),temp,EX_CONSOLE_RED);}}
+	#define ExIsWinError(x) { if( (Long)( x ) <= 0 ){ExDevWindowPrint(EX_TEXT("Error"));} }
+	#define ExIsHError(x) {ERESULT temp; if((temp = ( x ) ) != S_OK ){ExDevWindowHPrint(EX_TEXT("Error"),temp);}}
+	#define ExIsDXError(x) {ERESULT temp; if((temp = ( x ) ) != S_OK ){ExDevWindowHPrint(EX_TEXT("Error"),temp);}}
 #elif defined(EX_UNIX)
 	//dlerror
 	#define ExIsWinError(x) { if( (Long)( x ) <= 0 ){ExDevWindowPrintc(EX_TEXT("Error"),EX_CONSOLE_RED);} }

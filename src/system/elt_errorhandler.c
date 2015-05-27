@@ -1,7 +1,7 @@
 #include"system/elt_errorhandler.h"
 #include"system/elt_log.h"
 #ifdef EX_WINDOWS
-#	include<DbgHelp.h>
+#	include<dbghelp.h>
 #   pragma comment(lib, "Dbghelp.lib")
 #elif defined(EX_LINUX)
 #   include<syslog.h>
@@ -170,7 +170,7 @@ DECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...){
         /**
             Display MessageBox
         */
-		ExMessageBox(EX_NULL,text,EX_TEXT("Error"),MB_OK | MB_SYSTEMMODAL);
+		ExMessageBox(NULL,text,EX_TEXT("Error"),MB_OK | MB_SYSTEMMODAL);
         #endif
 
     }
@@ -287,11 +287,11 @@ DECLSPEC void ELTAPIENTRY ExErrorExit(ExChar* lpszFunction) {
         FORMAT_MESSAGE_ALLOCATE_BUFFER |
         FORMAT_MESSAGE_FROM_SYSTEM |
         FORMAT_MESSAGE_IGNORE_INSERTS,
-        EX_NULL,
+        NULL,
         dw,
 		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
         (LPTSTR) &lpMsgBuf,
-        0, EX_NULL );
+        0, NULL );
     // Display the error message and exit the process
     lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT,
         (lstrlen((LPCTSTR)lpMsgBuf) + lstrlen((LPCTSTR)lpszFunction) + 40) * sizeof(TCHAR));
@@ -299,7 +299,7 @@ DECLSPEC void ELTAPIENTRY ExErrorExit(ExChar* lpszFunction) {
         LocalSize(lpDisplayBuf) / sizeof(TCHAR),
         EX_TEXT("%s failed with error %d: %s"),
         lpszFunction, dw, lpMsgBuf);
-    MessageBox(EX_NULL, (LPCTSTR)lpDisplayBuf, EX_TEXT("Error"), MB_OK);
+    MessageBox(NULL, (LPCTSTR)lpDisplayBuf, EX_TEXT("Error"), MB_OK);
 
     LocalFree(lpMsgBuf);
     LocalFree(lpDisplayBuf);
@@ -319,11 +319,11 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetErrorMessageW(ULong dw){
         FORMAT_MESSAGE_ALLOCATE_BUFFER |
         FORMAT_MESSAGE_FROM_SYSTEM |
         FORMAT_MESSAGE_IGNORE_INSERTS,
-        EX_NULL,
+        NULL,
         dw,
 		MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US),
         (ExChar*) &errorText,
-        0, EX_NULL );
+        0, NULL );
 	return (ExChar*)errorText;
 #elif defined(EX_LINUX)
 	if(!errorText)
@@ -346,12 +346,12 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetHResultErrorMessageW(ERESULT hresult){
 	   // Important! will fail otherwise, since we're not
 	   // (and CANNOT) pass insertion parameters
 	   |FORMAT_MESSAGE_IGNORE_INSERTS,
-	   EX_NULL,    // unused with FORMAT_MESSAGE_FROM_SYSTEM
+	   NULL,    // unused with FORMAT_MESSAGE_FROM_SYSTEM
 	   hresult,
 	   MAKELANGID(LANG_ENGLISH, SUBLANG_DEFAULT),
 	   (ExChar*)&errorText,  // output
 	   0, // minimum size for output buffer
-	   EX_NULL);   // arguments - see note
+	   NULL);   // arguments - see note
 	return (ExChar*)errorText;
 #elif defined(EX_LINUX)
 	if(!errorText)
@@ -374,12 +374,12 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetHModuleErrorMessageW(ERESULT dw){
 	   // Important! will fail otherwise, since we're not
 	   // (and CANNOT) pass insertion parameters
 	   |FORMAT_MESSAGE_IGNORE_INSERTS,
-	   EX_NULL,    // unused with FORMAT_MESSAGE_FROM_SYSTEM
+	   NULL,    // unused with FORMAT_MESSAGE_FROM_SYSTEM
 	   dw,
 	   MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_UK),
 	   (ExChar*)&errorText,  // output
 	   0, // minimum size for output buffer
-	   EX_NULL));   // arguments - see note
+	   NULL));   // arguments - see note
 	return (ExChar*)errorText;
 #elif defined(EX_LINUX)
 	if(!errorText)
@@ -491,7 +491,7 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 	}
 	ExPrint(wchar);
 #ifdef EX_WINDOWS
-	istosend = ExMessageBox(EX_NULL, wchar, EX_TEXT("Crash Report"), MB_YESNO);
+	istosend = ExMessageBox(NULL, wchar, EX_TEXT("Crash Report"), MB_YESNO);
 
 	GetSystemTime(&time);
 	sprintf(cfilename, ("ErrorLog_%d_%d_%d_%d_%d_%d.txt"), time.wYear,time.wMonth,time.wDay,time.wHour,time.wMinute,time.wSecond);

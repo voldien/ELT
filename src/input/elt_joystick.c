@@ -3,10 +3,9 @@
 
 
 #ifdef EX_WINDOWS
-	#include<Windows.h>
+	#include<windows.h>
 	#include<dinput.h>
-	#include<dinputd.h>
-	#include<Xinput.h>
+	#include<xinput.h>
 	//#pragma comment(lib, "dxguid.lib")
 	#pragma comment(lib, "dinput8.lib")
 #elif defined(EX_LINUX)

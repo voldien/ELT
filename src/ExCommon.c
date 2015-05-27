@@ -15,8 +15,8 @@
 #   include<errno.h>
 #   include<libgen.h>
 #elif defined(EX_WINDOWS)
-#	include<Windows.h>
-#	include<WinInet.h>
+#	include<windows.h>
+#	include<wininet.h>
 #endif
 
 DECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName){
@@ -36,7 +36,7 @@ DECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName){
         &si,                // Pointer to STARTUPINFO structure
         &pi )               // Pointer to PROCESS_INFORMATION structure
     ) {
-		ExDevWindowPrintc(EX_TEXT("CreateProcess failed (%d).\n"),EX_CONSOLE_RED);
+		ExDevWindowPrint(EX_TEXT("CreateProcess failed (%d).\n"));
 		return FALSE;
     }
 	return TRUE;
@@ -100,7 +100,7 @@ DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName, ...){
         &si,            // Pointer to STARTUPINFO structure
         &pi )           // Pointer to PROCESS_INFORMATION structure
     ) {
-		ExDevWindowPrintc(EX_TEXT("CreateProcess failed"),EX_CONSOLE_RED);
+		ExDevWindowPrint(EX_TEXT("CreateProcess failed"));
 		return FALSE;
     }
 
@@ -187,7 +187,7 @@ DECLSPEC Int32 ELTAPIENTRY ExGetMonitorHz(Uint32 index){
 #ifdef EX_WINDOWS
 	DEVMODE mod;
 	DISPLAY_DEVICE dev;
-	dev = ExGetMonitor(index);
+	//memcpy(&dev,&ExGetMonitor(index),sizeof(dev));
 	EnumDisplaySettings(dev.DeviceName,ENUM_CURRENT_SETTINGS, &mod);
 	return mod.dmDisplayFrequency;
 #elif defined(EX_LINUX)
@@ -230,7 +230,7 @@ DECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct){
 
 DECLSPEC void ELTAPIENTRY ExGetExecutePath(ExChar* wChar, Int32 length){
 #ifdef EX_WINDOWS
-	ExIsError(GetModuleFileName(EX_NULL,wChar,length));
+	ExIsError(GetModuleFileName(NULL,wChar,length));
 #elif defined(EX_LINUX) || defined(EX_ANDROID)
     extern char* __progname;
     memcpy(wChar,/*program_invocation_name*/__progname,length);
@@ -250,7 +250,7 @@ DECLSPEC void ELTAPIENTRY ExGetAppliationPath(ExChar* wChar, Int32 length){
 DECLSPEC void ELTAPIENTRY ExGetApplicationName(ExChar* name,Int32 length){
 #ifdef EX_WINDOWS
 	ExChar path[MAX_PATH];
-	ExIsError(GetModuleFileName(EX_NULL,path,sizeof(path)));
+	ExIsError(GetModuleFileName(NULL,path,sizeof(path)));
 	_wsplitpath(path,0,0,name,0);
 #elif defined(EX_LINUX)
 #   if defined(EX_GNUC) || defined(EX_GNUC)
@@ -381,7 +381,7 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetClipboardText(void){
 #ifdef EX_WINDOWS
 	HANDLE hData;
 	ExChar* pszText;
-	OpenClipboard(EX_NULL);
+	OpenClipboard(NULL);
 #ifdef EX_UNICODE
 	hData = GetClipboardData(CF_UNICODETEXT);
 	pszText = (ExChar*)GlobalLock(hData);
@@ -402,7 +402,7 @@ DECLSPEC Int32 ELTAPIENTRY ExSetClipboardText(const ExChar* text){
 #ifdef EX_WINDOWS
 	HANDLE handle;
 	void* data;
-	OpenClipboard(EX_NULL);
+	OpenClipboard(NULL);
 	// create a buffer of data
 	handle = GlobalAlloc(GMEM_MOVEABLE,
 		sizeof(ExChar) * EX_STR_LEN(text) + sizeof(ExChar));
@@ -415,7 +415,7 @@ DECLSPEC Int32 ELTAPIENTRY ExSetClipboardText(const ExChar* text){
 	SetClipboardData(CF_TEXT,handle);
 #endif
 	CloseClipboard();
-	return (data != EX_NULL);
+	return (data != NULL);
 #elif defined(EX_LINUX)
 	return 0;
 #endif
@@ -428,7 +428,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExPutFTPFile(const ExChar* ftp, const ExChar* user,
 #ifdef EX_WINDOWS
 	HINTERNET hInternet;
 	HINTERNET hFtpSession;
-	hInternet = InternetOpen(EX_NULL,INTERNET_OPEN_TYPE_PRECONFIG,EX_NULL,EX_NULL,0);
+	hInternet = InternetOpen(NULL,INTERNET_OPEN_TYPE_PRECONFIG,NULL,NULL,0);
 	if(!hInternet)
 		return E_FAILURE;
 	hFtpSession = InternetConnect(hInternet,(LPTSTR)ftp , INTERNET_DEFAULT_FTP_PORT, (LPTSTR)user, (LPTSTR)password, INTERNET_SERVICE_FTP, 0, 0);

@@ -1,7 +1,7 @@
 #include"input/elt_gamecontroller.h"
 #include"input/elt_joystick.h"
 #if defined(EX_WINDOWS)
-	#include<Xinput.h>
+	#include<xinput.h>
 	#pragma comment(lib, "xinput.lib")
 #elif defined(EX_LINUX)
 

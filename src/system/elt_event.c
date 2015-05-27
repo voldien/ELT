@@ -1,11 +1,13 @@
 #include"system/elt_event.h"
-#include"system/unix/unix_win.h"
 #include"ExAssert.h"
 #include"ExPreProcessor.h"
 #ifdef EX_WINDOWS
-#   include<WindowsX.h>
+#	include"system/win/win_wndproc.h"
+#	define WIN32_LEAN_AND_MEAN
+#	include <winuser.h>
 #elif defined(EX_LINUX)
-#   include<X11/X.h>
+#	include"system/unix/unix_win.h"
+#	include<X11/X.h>
 #elif defined(EX_ANDROID)
 #   include<errno.h>
 #   include<android/window.h>
@@ -18,11 +20,7 @@
 #endif
 
 
-/**
-
-*/
 DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
-
 #ifdef EX_WINDOWS
 	assert(event);
 	PeekMessage(&event->msg,NULL,NULL,NULL,PM_REMOVE);
@@ -33,6 +31,7 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 		case WM_INPUT:{
 
 		}break;
+/*
 		case WM_INPUT_DEVICE_CHANGE:{
 			RID_DEVICE_INFO info;
 			info.cbSize = sizeof(info);
@@ -43,10 +42,10 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 			case GIDC_REMOVAL:
 				break;
 			}
-		}break;
+		}break;*/
 		case WM_KEYDOWN:
 		case WM_SYSKEYDOWN:
-			// keycode
+
 			event->key.code = (Uint8)event->msg.wParam;
 			event->eventid |= EX_EVENT_KEY;
 			event->key.alt = !(event->msg.wParam ^ VK_MENU);
@@ -77,24 +76,23 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 			event->button.button = (Uint8)event->msg.wParam;
 			event->eventid |= EX_EVENT_MOUSE;
 		}
-		case WM_MOUSEHWHEEL:
-		case WM_MOUSEWHEEL :{
+/*		case WM_MOUSEWHEEL:{
 			event->mouseWheelEvent.x = GET_X_LPARAM(event->msg.lParam);
 			event->mouseWheelEvent.y = GET_X_LPARAM(event->msg.lParam);
 			event->mouseWheelEvent.delta = GET_WHEEL_DELTA_WPARAM(event->msg.wParam);
 			GET_KEYSTATE_WPARAM(event->msg.wParam);
 			event->eventid |= EX_EVENT_MOUSEWHEEL;
-		}break;
+		}break;*/
 		case WM_DROPFILES:{
 			event->drop.number = DragQueryFile((HDROP)event->wParam,0xFFFFFFFF,0,0);
 			event->eventid |= EX_EVENT_DROP;
 			break;
 		}
-		switch(lParam){ /*  network */
-            case FD_ACCEPT:break;
-            case FD_CONNECT:break;
-            case FD_READ:break;
-            case FD_CLOSE:break;
+		switch(event->msg.lParam){ /*  network */
+		    case FD_ACCEPT:break;
+		    case FD_CONNECT:break;
+		    case FD_READ:break;
+		    case FD_CLOSE:break;
 		}
 		default:break;
 	}
@@ -192,7 +190,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExPollWindowEvent(ExWin hWnd, ExWindowEvent* even
 #ifdef EX_WINDOWS
 	//event->event = 0;
 	// peek Message for given window handle.
-	if(PeekMessage(&event->msg,hWnd,EX_NULL, EX_NULL, PM_REMOVE)){
+	if(PeekMessage(&event->msg,hWnd,NULL, NULL, PM_REMOVE)){
 		DispatchMessage(&event->msg);
 		TranslateMessage(&event->msg);
 
@@ -204,11 +202,13 @@ DECLSPEC ExBoolean ELTAPIENTRY ExPollWindowEvent(ExWin hWnd, ExWindowEvent* even
 				event->size.height = EX_HIWORD(event->msg.lParam);
 				event->event = EX_EVENT_SIZE;
 			}break;
-			case WM_DEVICECHANGE:
+			/*case WM_DEVICECHANGE:
 				break;
+			*/
 			case WM_INPUT:{
 
 			}break;
+/*
 			case WM_INPUT_DEVICE_CHANGE:{
 				RID_DEVICE_INFO info;
 				info.cbSize = sizeof(info);
@@ -219,7 +219,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExPollWindowEvent(ExWin hWnd, ExWindowEvent* even
 				case GIDC_REMOVAL:
 					break;
 				}
-			}break;
+			}break;*/
 			case WM_KEYDOWN:
 			case WM_SYSKEYDOWN:
 				// keycode
@@ -252,6 +252,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExPollWindowEvent(ExWin hWnd, ExWindowEvent* even
 				event->event = EX_EVENT_MOUSE;
 				event->button.button = event->msg.wParam;
 				event->event |= EX_EVENT_MOUSE;
+			/*
 			case WM_MOUSEHWHEEL:
 			case WM_MOUSEWHEEL :
 				event->mouseWheelEvent.x = GET_X_LPARAM(event->msg.lParam);
@@ -260,6 +261,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExPollWindowEvent(ExWin hWnd, ExWindowEvent* even
 				GET_KEYSTATE_WPARAM(event->msg.wParam);
 				event->event |= EX_EVENT_MOUSEWHEEL;
 				break;
+			*/
 			}break;
 			case WM_DROPFILES:{
 				event->drop.number = DragQueryFile((HDROP)event->msg.wParam,0xFFFFFFFF,0,0);

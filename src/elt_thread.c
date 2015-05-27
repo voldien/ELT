@@ -27,12 +27,12 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpPar
 	HANDLE t0;
 	if(!(t0 = CreateThread(0,128,(LPTHREAD_START_ROUTINE)callback,lpParamater,0,&p_id))){
 		ExIsError(t0);
-		return EX_NULL;
+		return NULL;
 	}
 	if(!pid)
 		*pid = p_id;
 	EX_START_THREAD(t0);
-	return hnd;
+	return t0;
 #elif defined(EX_UNIX)
 	pthread_t t0;
     pthread_attr_t attr;
@@ -55,7 +55,7 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback,voi
 	HANDLE t0;
 	if(!(t0 = CreateThread(0,128,(LPTHREAD_START_ROUTINE)callback,lpParamater,0,&p_id))){
 		ExIsError(t0);
-		return EX_NULL;
+		return NULL;
 	}
     SetThreadAffinityMask(t0, ncore);
 	if(!pid)
