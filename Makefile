@@ -39,7 +39,7 @@ sources += $(wildcard src/graphic/*.c)
 objects = $(subst .c,.o,$(sources))
 
 
-CFLAGS :=  -w -Wall -fPIC  $(DEFINE) $(INCLUDE) -DENGINE_INTERNAL=1
+CFLAGS := -w -Wall -fPIC  $(DEFINE) $(INCLUDE) -DENGINE_INTERNAL=1
 TARGET = libEngineEx$(TARGETSUFFIX)
 BUILD_DIR := build/					#	
 OUTPUT_DIR := build/
@@ -51,7 +51,7 @@ all: $(TARGET)
 
 
 
-$(TARGET) : CFLAGS += -O2  -msse3
+$(TARGET) : CFLAGS += -O3 
 $(TARGET) : $(objects)
 	$(MKDIR) build
 	$(CC) $(CFLAGS) -shared $(notdir $^) -o build/$@  $(CLIBS)
@@ -66,7 +66,7 @@ debug : $(objects)
 	$(CC) $(CFLAGS) -shared $(notdir $^) -o build/$(TARGET)  $(CLIBS)
 
 
-arm : CFLAGS += -marm -O2
+arm : CFLAGS += -marm -O3
 arm : CFLAGS += -L"/usr/lib/"
 arm : CC := $(ARMCC)
 arm : $(objects)
@@ -74,12 +74,12 @@ arm : $(objects)
 
 
 
-x86 : CFLAGS += -m32 -O2
+x86 : CFLAGS += -m32 -O3
 x86 : $(objects)
 	$(CC) $(CFLAGS)  $(notdir $(objects)) -o $(TARGET) $(CLIBS)
 
 
-x64 : CFLAGS += -m64 -O2
+x64 : CFLAGS += -m64 -O3
 x64 :$(objects)
 	$(CC) $(CFLAGS)  $(notdir $(objects)) -o $(TARGET) $(CLIBS)
 
