@@ -4,6 +4,7 @@
 #ifdef EX_WINDOWS
 #	include"system/win/win_wndproc.h"
 #	define WIN32_LEAN_AND_MEAN
+#	include<windows.h>
 #	include <winuser.h>
 #elif defined(EX_LINUX)
 #	include"system/unix/unix_win.h"
@@ -86,7 +87,7 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 			event->eventid |= EX_EVENT_MOUSEWHEEL;
 		}break;*/
 		case WM_DROPFILES:{
-			event->drop.number = DragQueryFile((HDROP)event->wParam,0xFFFFFFFF,0,0);
+			event->drop.number = DragQueryFile((HDROP)msg.wParam,0xFFFFFFFF,0,0);
 			event->eventid |= EX_EVENT_DROP;
 			break;
 		}
@@ -191,6 +192,7 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 
 DECLSPEC ExBoolean ELTAPIENTRY ExPollWindowEvent(ExWin hWnd, ExWindowEvent* event){
 #ifdef EX_WINDOWS
+	MSG msg;
 	//event->event = 0;
 	// peek Message for given window handle.
 	if(PeekMessage(&msg,hWnd,NULL, NULL, PM_REMOVE)){

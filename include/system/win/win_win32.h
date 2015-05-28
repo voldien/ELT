@@ -20,7 +20,7 @@
 #define _WIN32_WINDOW_H_ 1
 #include"./../../ExPreProcessor.h"
 #ifdef EX_WINDOWS
-#include<Windows.h>
+#include<windows.h>
 #include"./../../EngineAssembly.h"
 #include"win_wndproc.h"
 #include"win_directX.h"

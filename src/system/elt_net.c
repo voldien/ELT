@@ -16,6 +16,7 @@
 #elif defined(EX_WINDOWS)   /*  Windows network*/
 #	pragma comment(lib,"Ws2_32.lib")
 #	pragma comment(lib,"wininet")
+#	include<windows.h>
 #	include<wininet.h>
 #	include<winsock.h>
 

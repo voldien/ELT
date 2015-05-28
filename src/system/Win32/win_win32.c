@@ -1,18 +1,17 @@
 #include"system/win/win_win32.h"
 #ifdef EX_WINDOWS
-#include"./../../resource.h"
-#	include<Windows.h>	// Window header
-#	include<WindowsX.h>
+#	include<windows.h>	// Window header
+#	include<windowsx.h>
 #	include <commctrl.h>
-#	include<WinUser.h>
-#	include<Uxtheme.h>
-#	include<WinInet.h>
-#	include<Dwmapi.h>	// DW
-#	pragma comment(lib,"Dwmapi.lib")
+#	include<winuser.h>
+#	include<uxtheme.h>
+#	include<wininet.h>
+#	include<dwmapi.h>	// DW
 #	include<time.h>
 #	include<signal.h>
 #	include <io.h>
 #	include <fcntl.h>
+#	pragma comment(lib,"Dwmapi.lib")
 #	pragma comment(lib, "winmm.lib")
 #	pragma comment(lib,"User32.lib")
 #	pragma comment(lib,"comctl32.lib")
@@ -41,10 +40,12 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateDirectXWindow(int x, int y, int width, int he
 	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
 	wc.lpfnWndProc = MainWndProc;
 	wc.hInstance = GetModuleHandle(NULL);
+	/*
 	wc.hIcon = (HICON)LoadImage(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_ICON1),IMAGE_ICON,GetSystemMetrics(SM_CXICON),
 		GetSystemMetrics(SM_CYICON),LR_DEFAULTCOLOR);
 	wc.hIconSm = (HICON)LoadImage(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_ICON1),IMAGE_ICON,GetSystemMetrics(SM_CXSMICON),
 		GetSystemMetrics(SM_CYSMICON),LR_DEFAULTCOLOR);
+	*/
 	wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
 	wc.lpszClassName = EX_DIRECTX_WINDOW_CLASS;
 	if(!FindWindowEx(NULL, NULL, EX_DIRECTX_WINDOW_CLASS, NULL)){
@@ -73,10 +74,12 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateOpenGLWindow(Int32 x, Int32 y, Int32 width, I
 	wc.hInstance = GetModuleHandle(NULL);
 	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	/*
 	wc.hIcon = (HICON)LoadImage(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_ICON1),IMAGE_ICON,GetSystemMetrics(SM_CXICON),
 		GetSystemMetrics(SM_CYICON),LR_DEFAULTCOLOR);
 	wc.hIconSm = (HICON)LoadImage(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_ICON1),IMAGE_ICON,GetSystemMetrics(SM_CXSMICON),
 		GetSystemMetrics(SM_CYSMICON),LR_DEFAULTCOLOR);
+	*/
 	wc.lpfnWndProc = MainWndProc;
 	wc.hbrBackground =  (HBRUSH) 0;
 	wc.cbClsExtra = 0;
@@ -118,10 +121,12 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, I
 	wc.hInstance = GetModuleHandle(NULL);
 	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC ;
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	/*
 	wc.hIcon = (HICON)LoadImage(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_ICON1),IMAGE_ICON,GetSystemMetrics(SM_CXICON),
 		GetSystemMetrics(SM_CYICON),LR_DEFAULTCOLOR);
 	wc.hIconSm = (HICON)LoadImage(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_ICON1),IMAGE_ICON,GetSystemMetrics(SM_CXSMICON),
 		GetSystemMetrics(SM_CYSMICON),LR_DEFAULTCOLOR);
+	*/
 	wc.lpfnWndProc = WndProcNative;
 	wc.hbrBackground = (HBRUSH)COLOR_WINDOWFRAME;
 	wc.cbClsExtra = 0;
@@ -187,12 +192,12 @@ DECLSPEC ExWin ELTAPIENTRY ExReConstructWindow(ExWin hWnd){
 DECLSPEC DWORD ELTAPIENTRY ExSetWindowProc(ExWin hwnd, WNDPROC procPointer){
 	if(!hwnd)
 		return -1;
-	unsigned long _result = SetWindowLongPtr(hwnd, GWL_WNDPROC, (LONG)procPointer);
+	unsigned long _result = SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG)procPointer);
 	return _result;
 }
 DECLSPEC WNDPROC ELTAPIENTRY ExGetWindowProc(_IN_ ExWin hwnd){
 	if(!hwnd)return 0;
-	else return (WNDPROC)GetWindowLongPtr(hwnd, GWL_WNDPROC);
+	else return (WNDPROC)GetWindowLongPtr(hwnd, GWLP_WNDPROC);
 }
 
 DECLSPEC void ELTAPIENTRY ExSetWindowStyle(ExWin hwnd, Long style){
@@ -213,7 +218,7 @@ DECLSPEC Long ELTAPIENTRY ExGetWindowStyleEx(ExWin hwnd){
 }
 
 
-DECLSPEC ExBoolean ELTAPIENTRY ExGetWindowMessage(ExWin hWnd){
+DECLSPEC int ELTAPIENTRY ExGetWindowMessage(ExWin hWnd){
 	MSG messageHandler;
 	if(GetMessage(&messageHandler, hWnd, NULL, NULL)){
 		TranslateMessage(&messageHandler);
@@ -223,7 +228,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExGetWindowMessage(ExWin hWnd){
 	else
 		return FALSE;
 }
-DECLSPEC ExBoolean ELTAPIENTRY ExGetWindowPeekMessage(ExWin hwnd){
+DECLSPEC int ELTAPIENTRY ExGetWindowPeekMessage(ExWin hwnd){
 	MSG messageHandler;
 	if(PeekMessage(&messageHandler,hwnd, 0,0,PM_REMOVE)){
 		TranslateMessage(&messageHandler);

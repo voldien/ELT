@@ -3,7 +3,7 @@
 #include"system/elt_gl.h"
 #include"system/elt_errorhandler.h"
 #ifdef EX_WINDOWS // TODO FIX
-
+#include<windows.h>
 #elif defined(EX_LINUX)
 #	include"system/unix/unix_win.h"
 #	include<X11/Xlib.h>

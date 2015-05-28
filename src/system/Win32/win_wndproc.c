@@ -1,9 +1,16 @@
 #include"system/win/win_wndproc.h"
 #ifdef EX_WINDOWS
-#include<Windows.h>
-#include<CommCtrl.h>
-#include<WindowsX.h>
-#include<Dbt.h>
+#include"system/win/win_win32.h"
+#include<windows.h>
+#include<winuser.h>
+#include<commctrl.h>
+#include<windowsx.h>
+#include<dbt.h>
+
+#ifdef EX_SCREENSAVER
+	#include<scrnsave.h>
+	#pragma comment(lib,"Scrnsave.lib")
+#endif
 
 
 CallBack ExOnFocus = NULL;
@@ -49,7 +56,7 @@ DECLSPEC ExBoolean ELTAPIENTRY WIN_EnableDeviceNotification(ExWin hWnd){
 /*
 	// Main Proc designed for OpenGL Window mainly.
 */
-DECLSPEC LRESULT WINAPI MainWndProc(HWND hWnd,UINT uMsg, WPARAM wParam, LPARAM lParam){
+DECLSPEC LRESULT WINAPI MainWndProc(ExWin hWnd,UINT uMsg, WPARAM wParam, LPARAM lParam){
 	ExGLWindowHandler* handler;
 	switch(uMsg){
 	case WM_CREATE:{
@@ -64,7 +71,7 @@ DECLSPEC LRESULT WINAPI MainWndProc(HWND hWnd,UINT uMsg, WPARAM wParam, LPARAM l
 		}break;
 	case WM_SIZE:{
 			// get handler
-			handler = (ExGLWindowHandler*)GetWindowLongPtr(hWnd,GWLP_USERDATA);
+			handler = (struct DesktopWindow*)GetWindowLongPtr(hWnd,GWLP_USERDATA);
 			if(handler){
 				if(handler->events.reshapeEvent)
 					handler->events.reshapeEvent(EX_LOWORD(lParam), EX_HIWORD(lParam));
@@ -226,7 +233,7 @@ DECLSPEC LRESULT WINAPI MainWndProc(HWND hWnd,UINT uMsg, WPARAM wParam, LPARAM l
 }
 
 
-DECLSPEC LRESULT WINAPI WndProcNative(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
+DECLSPEC LRESULT WINAPI WndProcNative(ExWin hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
 	switch(uMsg){
 	case WM_CREATE:
 		return DefWindowProc(hWnd,uMsg,wParam,lParam);
@@ -433,7 +440,7 @@ DECLSPEC LRESULT WINAPI WndProcNative(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 	//return CallWindowProc ((WNDPROC)GetWindowLong(hWnd,GWL_WNDPROC),hWnd, uMsg, wParam, lParam);
 }
 
-DECLSPEC BOOL WINAPI ExOnContextMenu(HWND hWnd,Int x, Int y){
+DECLSPEC BOOL WINAPI ExOnContextMenu(ExWin hWnd,Int x, Int y){
 	RECT rc;                    // client area of window
     POINT pt = { x, y };        // location of mouse click
 
@@ -456,7 +463,7 @@ DECLSPEC BOOL WINAPI ExOnContextMenu(HWND hWnd,Int x, Int y){
     // Return FALSE if no menu is displayed.
     return FALSE;
 }
-DECLSPEC BOOL WINAPI ExOnContextMenu2(HWND hWnd,HMENU hmenuTrackPopup,Int x, Int y){
+DECLSPEC BOOL WINAPI ExOnContextMenu2(ExWin hWnd,HMENU hmenuTrackPopup,Int x, Int y){
 	if(!hmenuTrackPopup)return FALSE;
 	RECT rc;                    // client area of window
     POINT pt = { x, y };        // location of mouse click
@@ -480,7 +487,7 @@ DECLSPEC BOOL WINAPI ExOnContextMenu2(HWND hWnd,HMENU hmenuTrackPopup,Int x, Int
     return FALSE;
 }
 
-DECLSPEC BOOL WINAPI ExDisplayContextMenu(HWND hWnd, POINT* pt){
+DECLSPEC BOOL WINAPI ExDisplayContextMenu(ExWin hWnd, POINT* pt){
 	HMENU hmenu;            // top-level menu
     HMENU hmenuTrackPopup;  // shortcut menu
 

@@ -21,7 +21,7 @@
 #include"./../EngineAssembly.h"
 #include"./../system/elt_errorhandler.h"
 #ifdef EX_WINDOWS
-	typedef HCURSOR ExCursor;
+	typedef void* ExCursor;
 #elif defined(EX_UNIX)
 	typedef void* ExCursor;
 #endif

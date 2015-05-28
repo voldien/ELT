@@ -1,6 +1,8 @@
 #include"elt_thread.h"
 #include"ExPreProcessor.h"
 #ifdef EX_WINDOWS           /*  Windows */
+#include<windef.h>
+#include<windows.h>
 #   define EX_START_THREAD(x)	ResumeThread( ( x ) )
 #elif defined(EX_UNIX)   /*  Linux & android  */
 #   define _GNU_SOURCE

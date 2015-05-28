@@ -1,7 +1,8 @@
 #include"elt_timer.h"
 
 #ifdef EX_WINDOWS
-#	include<winbase.h>
+#include<windef.h>
+#include<windows.h>
 #elif defined(EX_UNIX)
 #	include<errno.h>
 #	include<unistd.h>

@@ -104,7 +104,7 @@ extern DECLSPEC void ELTAPIENTRY ExMenuItemID(HMENU item, Uint32 id);
 	// Status Bar
 */
 /*	Create Status bar*/
-extern DECLSPEC HWND ELTAPIENTRY ExCreateStatusBar(ExWin parenthWnd);
+extern DECLSPEC ExWin ELTAPIENTRY ExCreateStatusBar(ExWin parenthWnd);
 /*	Set Status Bar Text	*/
 extern DECLSPEC void ELTAPIENTRY ExSetStatusBarText(ExWin statusHwnd,const ExChar* string);
 /* */

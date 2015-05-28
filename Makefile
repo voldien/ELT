@@ -11,7 +11,7 @@ WINCC := x86_64-w64-mingw32-gcc
 CC := gcc
 AR := ar
 
-ifdef ComSpec	#	Windows
+ifdef ComSpec
 	TARGETSUFFIX :=.dll
 	INCLUDE := -I"include" 
 	CLIBS := 
@@ -27,14 +27,16 @@ vpath %.h include		#	pattern rule for header file.
 sources  = $(wildcard src/*.c)
 sources += $(wildcard src/input/*.c)
 sources += $(wildcard src/system/*.c)
+sources += $(wildcard src/math/*.c)
+sources += $(wildcard src/graphic/*.c)
 
 ifndef ComSpec
 sources += $(wildcard src/system/unix/*.c)	# TODO resolve internal directory
 endif
 
-sources += $(wildcard src/math/*.c)
-sources += $(wildcard src/graphic/*.c)
-#sources -= src/main.c 
+#ifdef win32
+sources += $(wildcard src/system/Win32/*.c)	# TODO resolve internal directory
+#endif 
 
 objects = $(subst .c,.o,$(sources))
 
@@ -91,10 +93,11 @@ static : $(objects)
 
 
 .PHONY : win32
+win32 : ComSpec := t
 win32 : CFLAGS += -mwin32 -municode -mwindows -I"External/OpenCL/Include" -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1 
-win32 : sources += $(wildcard /src/system/Win32/*.c)
+win32 : objects += $(subst .c,.o,$(wildcard src/system/Win32/*.c))
 win32 : TARGET := EngineEx32.dll
-win32 : CLIBS := -lopengl32 -lwimm -lwinmm -lwininet -lws2_32 -lkernel32 -luser32
+win32 : CLIBS := -lopengl32  -lwinmm -lwininet -lws2_32 -lkernel32 -luser32
 win32 : CC := $(WINCC)
 win32 : $(objects)
 	$(WINCC) $(CFLAGS)  $(notdir $^) -o $(TARGET) $(CLIBS)
@@ -102,10 +105,10 @@ win32 : $(objects)
 
 .PHONY : win64
 win64 : CFLAGS += -municode -mwindows -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1 
-win64 : sources += $(wildcard /src/system/Win32/*.c)
+win64 : sources += $(wildcard src/system/Win32/*.c)
 win64 : TARGET := EngineEx64.dll
-win64 : CLIBS := 
-win64 : CC ;= $(WINCC)
+win64 : CLIBS := -lopengl32 -lwinm -lwinmm -lwininet -lws2_32 -lkernel32 -luser32
+win64 : CC := $(WINCC)
 win64 : $(objects)
 	$(WINCC) $(CFLAGS)   $(notdir $^) -o $(TARGET) $(CLIBS)
 
