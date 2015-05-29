@@ -105,9 +105,9 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 	XEvent msg;
 	if(XPending(display)){
 		XNextEvent(display,&msg);
-
+		event->event = 0;
 		switch(msg.type){
-    case KeymapNotify:
+		case KeymapNotify:
             XRefreshKeyboardMapping(&msg.xmapping);
         break;
 		case KeyPress:{
