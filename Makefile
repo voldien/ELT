@@ -49,7 +49,7 @@ OUTPUT_DIR := build/
 
 all: $(TARGET)
 	echo -en "$(TARGET) has succfully been compiled and linked.\n" 
-	du -h $(TARGET)
+	du -h build/$(TARGET)
 
 
 
