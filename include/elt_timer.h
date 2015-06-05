@@ -78,6 +78,8 @@ extern DECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void);
 */
 extern DECLSPEC long int ELTAPIENTRY ExGetHiResTime(void);
 
+//extern DECLSPEC long int ELTAPIENTRY ExGetTimeMil
+
 /**
     Get in seconds in float. where 1.0 is a second.
 */

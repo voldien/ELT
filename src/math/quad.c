@@ -16,10 +16,11 @@ void quad_multi_quad(const float lf_quad[4],const float rf_quad[4], float out_qu
     out_quad[QZ] = (lf_quad[QZ] * rf_quad[QW]) + (lf_quad[QW] * rf_quad[QZ]) + (lf_quad[QX] * rf_quad[QY]) - (lf_quad[QY] * rf_quad[QX]);
 }
 void quad_multi_vec3(float lf_quat[4], vec3_t rf_vec,float out_quat[4]){
-	out_quat[QX] =  (lf_quat[QW] * rf_vec[0]) + (lf_quat[QY] * rf_vec[2]) - (lf_quat[QZ] * rf_vec[1]);
-	out_quat[QY] =  (lf_quat[QW] * rf_vec[1]) + (lf_quat[QZ] * rf_vec[0]) - (lf_quat[QX] * rf_vec[2]);
-	out_quat[QZ] =  (lf_quat[QW] * rf_vec[2]) + (lf_quat[QX] * rf_vec[1]) - (lf_quat[QY] * rf_vec[0]);
-	out_quat[QW] = -(lf_quat[QX] * rf_vec[0]) - (lf_quat[QY] * rf_vec[1]) - (lf_quat[QZ] * rf_vec[2]);
+	out_quat[QW] = -(lf_quat[QX] * rf_vec[QX]) - (lf_quat[QY] * rf_vec[QY]) - (lf_quat[QZ] * rf_vec[QZ]);
+	out_quat[QX] =  (lf_quat[QW] * rf_vec[QX]) + (lf_quat[QY] * rf_vec[QZ]) - (lf_quat[QZ] * rf_vec[QY]);
+	out_quat[QY] =  (lf_quat[QW] * rf_vec[QY]) + (lf_quat[QZ] * rf_vec[QX]) - (lf_quat[QX] * rf_vec[QZ]);
+	out_quat[QZ] =  (lf_quat[QW] * rf_vec[QZ]) + (lf_quat[QX] * rf_vec[QY]) - (lf_quat[QY] * rf_vec[QX]);
+
 }
 
 void quad_add_quad(const float lf_quad[4],const float rf_quad[4], float out_quad[4]){
@@ -74,17 +75,17 @@ void quad_axis(float lf_quad[4], float pitch_rad,float yaw_rad,float roll_rad){
 void quad_direction(float lf_quad[4], vec3_t dir){
 	float quad[4];
 	float quad_t[4];
-	float quad_t2[4];
-	vec3_t forward = NVEC3_UNIT_Z;
-	//mulit_quat_vec3(lf_quad,forward,quad_t2);
-	QuaternionCopy(lf_quad,quad);
-	//quat_multiplyVec3(lf_quad,forward,dir);
-	//return;
-	QuaternionInverse(quad);
-	//multi_quad(quad_t2,quad,quad_t);
-	dir[0] = quad_t[QX];
-	dir[1] = quad_t[QY];
-	dir[2] = quad_t[QZ];
+	vec3_t targetup;
+	vec3_t targetforward;
+	vec3_t forward = VEC3_UNIT_Z;
+	vec3_t up = VEC3_UNIT_Y;
+
+	quad_multi_vec3(lf_quad,forward,targetforward);
+	quad_multi_vec3(lf_quad,up,targetup);
+
+
+	CrossProduct(targetforward,targetup,dir);
+	VectorNormalize(dir);
 }
 void quad_directionv(float lf_quad[4], vec3_t dir,const vec3_t _dir){
 	float quad[4];
@@ -108,19 +109,19 @@ void quad_directionv(float lf_quad[4], vec3_t dir,const vec3_t _dir){
 /**
 	quaternion x rotation in radian
 */
-float quad_pitch(const float lf_quad[4]){
+inline float quad_pitch(const float lf_quad[4]){
     	return (float)asinf(-2.0f * (lf_quad[QZ] * lf_quad[QY] + lf_quad[QW] * lf_quad[QX]));
 }
 /**
 	quaternion y rotation in radian
 */
-float quad_yaw(const float lf_quad[4]){
+inline float quad_yaw(const float lf_quad[4]){
     return (float)atan2f(2.0f * (lf_quad[QW] * lf_quad[QX] + lf_quad[QY] * lf_quad[QW]),( 1.0f - ( 2.0f * (lf_quad[QX] * lf_quad[QX] + lf_quad[QY] * lf_quad[QY]))));
 }
 /**
 	quaternion z rotation in radian
 */
-float quad_roll(const float lf_quad[4]){
+inline float quad_roll(const float lf_quad[4]){
 	return (float)atan2f(2.0f * (lf_quad[QW] * lf_quad[QZ] + lf_quad[QX] * lf_quad[QY]), 1.0f - (2.0f * (lf_quad[QY] * lf_quad[QY] + lf_quad[QZ] * lf_quad[QZ])));
 }
 

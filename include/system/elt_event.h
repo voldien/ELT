@@ -30,6 +30,7 @@ struct expoint{
 
 #define EX_EVENT_MOUSE 0x1
 #define EX_EVENT_KEY 0x2
+#define EX_EVENT_KEY_RELEASE 0x200
 #define EX_EVENT_SIZE 0x4
 #define EX_EVENT_SYSTEM 0x8
 #define EX_EVENT_MOUSEWHEEL 0x10
@@ -37,14 +38,15 @@ struct expoint{
 #define EX_EVENT_TOUCH 0x40
 #define EX_EVENT_DROP 0x80
 #define EX_EVENT_QUIT 0x100
+#define EX_EVENT_MOUSE_MOTION 0x400
 
 typedef struct ex_system_event{
 	unsigned int message;		/**/
 }ExSystemEvent;
 
 typedef struct ex_size_event{
-	int width;				/**/
-	int height;				/**/
+	int width;					/**/
+	int height;					/**/
 }ExSizeEvent;
 
 typedef struct ex_joy_stick_event{
@@ -60,31 +62,38 @@ typedef struct ex_joystick_button_event{
 }ExJoySticButtonEvent;
 
 typedef struct ex_mouse_move_event{
-	int x;					/**/
-	int y;					/**/
+	int x;						/**/
+	int y;						/**/
 }ExMouseMoveEvent;
+
+typedef struct ex_mouse_motion_event{
+	int x;						/**/
+	int y;						/**/
+	int xdelta;					/**/
+	int ydelta;					/**/
+}MouseMotionEvent;
 
 typedef struct elt_win_button_event{
 	Uint8 button;				/**/
 }ExWinButtonEvent;
 
 typedef struct ex_mouse_wheel_event{
-	int delta;				/**/
-	int x,y;				/**/
+	int delta;					/**/
+	int x,y;					/**/
 }ExMouseWheelEvent;
 
 typedef struct ex_key_event{
-	Uint8 code;				/**/
-	Uint8 alt;				/**/
-	Uint8 shift;			/**/
-	Uint8 system;			/**/
-	Uint8 ctrl;				/**/
+	Uint8 code;					/**/
+	Uint8 alt;					/**/
+	Uint8 shift;				/**/
+	Uint8 system;				/**/
+	Uint8 ctrl;					/**/
 }ExKeyEvent;
 
-struct ex_drop_event{
+typedef struct ex_drop_event{
 	int number;
 	int cize;
-};
+}ExDropEvent;
 
 typedef struct ex_touch_finger_event{
     unsigned int type;          /*              */
@@ -112,22 +121,20 @@ typedef struct window_poll_events{
 
 EX_ALIGN_PREFIX(4)
 typedef struct elt_poll_events{
-	union{
-        	Enum eventid;				/**/
-        	Enum event;				/**/
-	};
-	ExKeyEvent key;                                 /*          */
-	ExMouseMoveEvent mouse;                         /*          */
-	ExMouseWheelEvent mouseWheelEvent;              /*          */
-	EX_C_STRUCT elt_win_button_event button;        /*          */
-	ExSystemEvent sys;                              /*          */
-	EX_C_STRUCT ex_drop_event drop;                 /*          */
-	ExSizeEvent size;                               /*          */
-	ExSystemEvent system;                           /*          */
-	ExTouchFingerEvent touch;                       /*          */
-	unsigned long int time;							/*			*/
-	void* display;									/**/
-
+	Enum event;									/*			*/
+	 ExKeyEvent key;                            /*          */
+	 ExMouseMoveEvent mouse;                    /*          */
+	 ExMouseWheelEvent mouseWheelEvent;         /*          */
+	EX_C_STRUCT elt_win_button_event button;    /*          */
+	 ExSystemEvent sys;                         /*          */
+	ExDropEvent drop;             /*          */
+	 ExSizeEvent size;                          /*          */
+	 ExSystemEvent system;                      /*          */
+	 ExTouchFingerEvent touch;                  /*          */
+	 MouseMotionEvent motion;					/*			*/
+	unsigned long int time;						/*			*/
+	void* display;								/*			*/
+	ExWin window;
 }ExEvent;
 /**
 	Poll Event from process.
@@ -135,6 +142,7 @@ typedef struct elt_poll_events{
 	@return
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
+
 /**
 	Poll event from specifed window.
 	\window

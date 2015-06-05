@@ -99,7 +99,7 @@ extern DECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode);
 /**
     Initialize Error Handler
 */
-extern DECLSPEC ExBoolean ELTAPIENTRY ExInitErrorHandler(void);
+extern DECLSPEC int ELTAPIENTRY ExInitErrorHandler(void);
 
 
 /*	Get Error Code In Character out of Error.*/
@@ -129,7 +129,7 @@ extern DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal);
 /**
 	Set Signal callback.
 */
-extern DECLSPEC ExBoolean ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcallback signal_callback);
+extern DECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcallback signal_callback);
 
 
 

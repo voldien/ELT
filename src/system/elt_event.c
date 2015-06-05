@@ -111,7 +111,7 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
             XRefreshKeyboardMapping(&msg.xmapping);
         break;
 		case KeyPress:{
-		    event->eventid |= EX_EVENT_KEY;
+		    event->event |= EX_EVENT_KEY;
 		    event->key.code = XLookupKeysym(&msg.xkey,0);//.keycode;
 		    event->mouse.x = msg.xkey.x;
 		    event->mouse.y = msg.xkey.y;
@@ -119,56 +119,67 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 		    event->key.ctrl = msg.xkey.state & ControlMask;
 		    event->key.shift = msg.xkey.state & ShiftMask;
 		    event->key.system = msg.xkey.state & Mod1Mask;
+
         }break;
 		case KeyRelease:{
-		    event->eventid |= EX_EVENT_KEY;
+		    event->event |= EX_EVENT_KEY_RELEASE;
 		    event->key.code = XLookupKeysym(&msg.xkey,0);//.keycode;
 		    event->mouse.x = msg.xkey.x;
 		    event->mouse.y = msg.xkey.y;
 		}break;
 		case ButtonPress:{
-		    event->eventid |= EX_EVENT_MOUSE;
+		    event->event |= EX_EVENT_MOUSE;
 		    event->button.button = msg.xbutton.button;
 		    event->mouse.x = msg.xkey.x;
 		    event->mouse.y = msg.xkey.y;
         }break;
 		case ButtonRelease:{
-		    event->eventid |= EX_EVENT_MOUSE;
+		    event->event |= EX_EVENT_MOUSE;
 		    event->button.button = msg.xbutton.button;
 		    event->mouse.x = msg.xkey.x;
 		    event->mouse.y = msg.xkey.y;
 		}break;
+		case MotionNotify:{
+			event->event |= EX_EVENT_MOUSE_MOTION;
+			event->motion.xdelta =  msg.xmotion.x - msg.xkey.x;
+			event->motion.ydelta =  msg.xmotion.y - msg.xkey.y;
+			event->motion.x = msg.xmotion.x;
+			event->motion.y = msg.xmotion.y;
+
+		}break;
 		case ResizeRequest:{
-            event->eventid |= EX_EVENT_SIZE;
-            event->size.width = msg.xresizerequest.width;
-            event->size.height = msg.xresizerequest.height;
+            //event->event |= EX_EVENT_SIZE;
+            //event->size.width = msg.xresizerequest.width;
+            //event->size.height = msg.xresizerequest.height;
 		}break;
 		case Expose:{
-            event->eventid |= EX_EVENT_SIZE;
-            event->size.width = msg.xexpose.width;
-            event->size.height = msg.xexpose.height;
-		}break;
-		case MotionNotify:{
-            event->mouse.x = msg.xmotion.x;
-            event->mouse.y = msg.xmotion.y;
+
 		}break;
 		case ClientMessage:{
-
+            event->event |= EX_EVENT_SIZE;
 
 		}break;
 		case ConfigureNotify:{
-
+            event->event |= EX_EVENT_SIZE;
+            event->size.width =  msg.xconfigure.width;
+            event->size.height = msg.xconfigure.height;
 		}break;
-		default:event->eventid = 0;break;
+		case FocusIn:break;
+		case FocusOut:break;
+		default:event->event = 0;break;
 		}
-		event->time = msg.xbutton.time;
+		event->time = clock();
+		event->window = msg.xany.window;
 		return TRUE;
-	}else {/*XSync(display,1);*/ return FALSE;}
+	}else {XSync(display,TRUE); return FALSE;}
 #elif defined(EX_ANDROID)
     int ident;
     int events;
 
     switch(ident = ALooper_pollAll(0, NULL,&events,&event->source)){
+    	if(event->source){
+    		event->source->process(state,event->source);
+    	}
 
 
         default:break;
@@ -177,13 +188,18 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
     return TRUE;
 #elif defined(EX_MAC)
 
+
 #elif defined(EX_PNACL)
+
 
 #elif defined(EX_IPHONE)
 
+
 #elif defined(EX_WEB)
 
+
 #elif defined(EX_PS3)
+
 
 #endif
 }

@@ -248,7 +248,7 @@ static int ctxErrorHandler(Display* dpy, XErrorEvent* error){
 }
 #endif
 
-DECLSPEC ExBoolean ELTAPIENTRY ExInitErrorHandler(void){
+DECLSPEC int ELTAPIENTRY ExInitErrorHandler(void){
 #if defined(EX_LINUX)
     /**
         enable X window error message handler.
@@ -401,6 +401,7 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetHModuleErrorMessageW(ERESULT dw){
     back trace
     http://stackoverflow.com/questions/5693192/win32-backtrace-from-c-code
 */
+#define TRACE_SIZE 100
 static void debug_log_trace(void){
 #ifdef EX_WINDOWS
     HANDLE process;
@@ -425,14 +426,22 @@ static void debug_log_trace(void){
     free(symbol);
 
 #elif defined(EX_LINUX)
-    void* trace[100];
+
+
+    void* trace[TRACE_SIZE];
     char** strings;
     unsigned int i,j;
-    j = backtrace(&trace,sizeof(trace) / sizeof(trace[0]));
-
+    /**/
+    j = backtrace(trace,TRACE_SIZE);
+    /**/
     strings = backtrace_symbols(trace,j);
+
+    if(!strings)
+    	ExSetError(-1);
+
     for(i = 0; i < j; i++){
-        fprintf(stderr,"%s\n",strings[i]);
+		fprintf(stderr,"%s\n",strings[i]);
+    	continue;
     }
     free(strings);
 
@@ -448,9 +457,10 @@ static void debug_log_trace(void){
 #define EX_ERROR_MESSAGE EX_TEXT("%s has just crashed %s Do you want to send a bug report to the developers team?")
 DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 	ExChar wchar[512];
-	ExChar app_name[128];
+	ExChar app_name[256];
 	char cfilename[260];
 	Uint32 istosend;
+	FILE* file;
 
 #ifdef EX_WINDOWS
 	SYSTEMTIME time;
@@ -458,9 +468,7 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
     time_t t;
 	struct tm tm;
 #endif
-    /**
-        log trace information.
-    */
+    /*	log trace information.	*/
     debug_log_trace();
 
 	ExGetApplicationName(&app_name[0],sizeof(app_name));        /*  Get application name   */
@@ -498,46 +506,14 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 	istosend = ExMessageBox(NULL, wchar, EX_TEXT("Crash Report"), MB_YESNO);
 
 	GetSystemTime(&time);
-	sprintf(cfilename, ("ErrorLog_%d_%d_%d_%d_%d_%d.txt"), time.wYear,time.wMonth,time.wDay,time.wHour,time.wMinute,time.wSecond);
+	sprintf(cfilename, ("error_log_%d_%d_%d_%d_%d_%d.txt"), time.wYear,time.wMonth,time.wDay,time.wHour,time.wMinute,time.wSecond);
 
 #elif defined(EX_LINUX)
 	t = time(NULL);
 	tm = *localtime(&t);
-	ExSPrintf(cfilename, EX_TEXT("ErrorLog_%d_%d_%d_%d_%d_%d"), tm.tm_year,tm.tm_mon,tm.tm_wday,tm.tm_hour,tm.tm_min,tm.tm_sec);
-
-    /**
-        save error to
-    */
-    int pos;
-    int dup;
-	//m_file_log = fopen("EngineExDevLog.txt", "w+" );
-	//FILE* fopen;
-	//dup = open(cfilename,O_CREAT);
-	/**/
-	if(dup2(2,dup) == -1)
-        fprintf(stderr,"error");
-
-
-    int size = ftell(dup);
+	ExSPrintf(cfilename, EX_TEXT("error_log_%i_%i_%i_%i_%i_%i"), tm.tm_year,tm.tm_mon,tm.tm_wday,tm.tm_hour,tm.tm_min,tm.tm_sec);
 #endif
-	/**stdout = *m_file_log;
-	setvbuf(fopen, NULL, _IONBF, 0 );
 
-	//char* buffer = (char*)malloc(fileLenght(stdout) + fileLenght(stderr));
-	char* buffer = (char*)malloc(255);
-	fseek(stdout,0,SEEK_SET);
-	fseek(stderr,0,SEEK_SET);
-	fread(buffer, 1, 255,stdout);
-	buffer += fileLenght(stdout);
-	//fgetpos(stderr,&pos);
-
-	//read(stderr,buffer,100);
-	fread(buffer, 1, fileLenght(stderr),stderr);
-	buffer -= fileLenght(stdout);
-	SaveFile(cfilename,buffer,fileLenght(stdout) + fileLenght(stderr));
-
-
-    fclose(m_file_log);*/
 
 
 	// deal with the information
@@ -545,12 +521,10 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
     /**  Set callback    */
 	switch(istosend){
 	case IDYES:
-		ExPutFTPFile(EX_TEXT("broodcity.hostoi.com"),EX_TEXT("a9178654"),EX_TEXT("smilla1"),(const ExChar*)cfilename,EX_TEXT("public_html"));
+
 		break;
 	case IDNO:
-
 		// allocate on computer somewhere!
-
 		break;
 	default:break;
 	}
@@ -561,14 +535,15 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
     }
 #endif
 	exit(signal);
+	fclose(m_file_log);	/*	TODO make more genertic*/
 	return;
 }
 /**
 
 */
-DECLSPEC ExBoolean ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcallback signal_callback){
-	Int32 hr;
-	hr = (Int32)signal(isignal,signal_callback);
-	ExIsError(hr != (Int32)SIG_ERR);
-	return (hr != (Int32)SIG_ERR);
+DECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcallback signal_callback){
+	int hr;
+	hr = (int)signal(isignal,signal_callback);
+	ExIsError(hr != (int)SIG_ERR);
+	return (hr != (int)SIG_ERR);
 }

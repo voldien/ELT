@@ -73,7 +73,7 @@ typedef vec_t vec2_t[2];
 // vector2 = {x,y,z}
 typedef vec_t vec3_t[3];
 // vector2 = {x,y,z,w}
-typedef vec_t vec4_t[4] __attribute__((vector_size(16), aligned(4)));
+typedef vec_t vec4_t[4]; //__attribute__((vector_size(16), aligned(4)));
 #else
 // vector2 = {x,y}
 typedef vec_t vec2_t[2];

@@ -75,6 +75,7 @@ extern void mat4x4_rotation(vec4x4_t f_mat4,float angle,const vec3_t axis);
 extern void mat4x4_rotationX(vec4x4_t f_mat4, float x_radi);
 extern void mat4x4_rotationY(vec4x4_t f_mat4, float y_radi);
 extern void mat4x4_rotationZ(vec4x4_t f_mat4, float z_radi);
+extern void mat4x4_rotationQ(vec4x4_t f_mat4, vec4_t quad);
 
 /*
 

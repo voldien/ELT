@@ -20,7 +20,6 @@
     Linux flags Link
     -lGL -lX11 -lGLEW -lXrender -ldl -lOpenCL -lEGL
 */
-
 #if defined(EX_WINDOWS)
 #   if defined(EX_VC)
 #   	include<delayimp.h>
@@ -86,22 +85,19 @@ _In_  HINSTANCE hinstDLL,
 extern Uint64 elt_time;     /**  high accuracy timer   */
 
 
-/**
-    \Initialize Engine Library Toolkit
-*/
+/*	Initialize Engine Library Toolkit	*/
 DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	ERESULT _h_result = E_OK;
 	HANDLE hmodule;
 	Int32 hConHandle;
 	Long lStdHandle;
 
-	/*
-        if all is already initilated return !
-	*/
+	/*	if all is already initilated return !	*/
     if(engineDescription.EngineFlag & ELT_INIT_EVERYTHING)
         return 2;
 
 
+    /**/
 #ifdef EX_DEBUG || (EX_ENGINE_VERSION_MAJOR <= 0)
 	#if defined(EX_VC) || defined(EX_WINDOWS)
 	// debug shell
@@ -126,12 +122,18 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	_CrtSetReportMode(_CRT_ASSERT , _CRTDBG_MODE_FILE);
 	_CrtSetReportFile(_CRT_ASSERT , _CRTDBG_FILE_STDERR);
 	#elif defined(EX_UNIX)
-        /**
 
-        */
-        mtrace();
+
+        mtrace();		/**/
+
+
 	#endif
 #endif
+	/*	enable loggint */
+	m_file_log = fopen("EngineExDevLog.txt", "w+" );
+	if(dup2(stdout,m_file_log) == -1)
+        fprintf(stderr,"error");
+    dup2(stdout,stderr);  //redirects stderr to stdout below this line.
 
 /*	unicode		*/
 #ifdef UNICODE
@@ -145,16 +147,14 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 
 
 #elif defined(EX_LINUX)
-    /**
-            Create Connection with Display Server.
-    */
+    /*	Create Connection with Display Server.	*/
     display = XOpenDisplay(getenv("DISPLAY"));
     if(!display)
         ExError("couldn't open Display\n");
-    /**
-        enable X events
-    */
+    /*		enable X events	*/
     XAllowEvents(display , SyncBoth,CurrentTime);
+
+
 #elif defined(EX_APPLE)
 
 #elif defined(EX_MAC)
@@ -162,17 +162,14 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 #elif defined(EX_ANDROID)
 
 #endif
-	/**
-		Initialize sub system
-	*/
+
+	/*	Initialize sub system	*/
 	ExInitSubSystem(engineFlag);
 
-	if(_h_result = ExInitErrorHandler()){
 
-	}
-	else{
+	if(!(_h_result = ExInitErrorHandler())){
 	    ExError(EX_TEXT("Failed to initialize error handler."));
-    }
+	}
 
 	engineDescription.EngineFlag |= engineFlag;
 

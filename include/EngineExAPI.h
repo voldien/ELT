@@ -97,6 +97,7 @@
 #else
 	#error "Error! no supporting Devices"   /**/
 #endif
+
 #include"ExCommon.h"
 
 #endif
