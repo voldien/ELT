@@ -39,6 +39,11 @@ struct expoint{
 #define EX_EVENT_DROP 0x80
 #define EX_EVENT_QUIT 0x100
 #define EX_EVENT_MOUSE_MOTION 0x400
+#define EX_EVENT_EXPOSE	0x800
+#define EX_EVENT_ON_FOCUSE	0x1000
+#define EX_EVENT_ON_UNFOCUSE 0x2000
+#define EX_EVENT_WINDOW_MOVE 0x4000
+
 
 typedef struct ex_system_event{
 	unsigned int message;		/**/

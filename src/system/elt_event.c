@@ -147,13 +147,16 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 			event->motion.y = msg.xmotion.y;
 
 		}break;
+		case GravityNotify:
+			event->event |= EX_EVENT_WINDOW_MOVE;
+			break;
 		case ResizeRequest:{
             //event->event |= EX_EVENT_SIZE;
             //event->size.width = msg.xresizerequest.width;
             //event->size.height = msg.xresizerequest.height;
 		}break;
 		case Expose:{
-
+			event->event |= EX_EVENT_EXPOSE;
 		}break;
 		case ClientMessage:{
             event->event |= EX_EVENT_SIZE;
@@ -164,14 +167,18 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
             event->size.width =  msg.xconfigure.width;
             event->size.height = msg.xconfigure.height;
 		}break;
-		case FocusIn:break;
-		case FocusOut:break;
-		default:event->event = 0;break;
+		case FocusIn:
+			break;
+		case FocusOut:
+			break;
+		case LASTEvent:
+			event->event = 0;break;
 		}
+
 		event->time = clock();
 		event->window = msg.xany.window;
 		return TRUE;
-	}else {XSync(display,TRUE); return FALSE;}
+	}else {/*XSync(display,TRUE);*/ return FALSE;}
 #elif defined(EX_ANDROID)
     int ident;
     int events;

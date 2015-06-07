@@ -83,7 +83,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int3
 	Int depth, text_x,text_y;
 	int screen;
 	int major,minor;
-	Int32 winmask;
+	Int32 winmask = 0;
 	XSetWindowAttributes winAttribs = {0};
 	Window window;
 	Window* root;
@@ -106,9 +106,8 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int3
 
 	screen = DefaultScreen(display);
 	root = RootWindow(display,screen);
-    /*
 
-    */
+	/*	*/
 	if(!glXQueryVersion(display,&major,&minor))
         fprintf(stderr,"could not");
 
@@ -131,8 +130,6 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int3
         }else break;
 
 	}
-    //vi = (XVisualInfo*)glXGetVisualFromFBConfig(display, fbconfigs[0]);
-
 
 	winAttribs.event_mask = ExposureMask | VisibilityChangeMask | KeyPressMask | PointerMotionMask | StructureNotifyMask | ResizeRedirectMask;
 	winAttribs.border_pixel = 0;
@@ -149,9 +146,8 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int3
                               InputOutput,
                               vi->visual,
                                 winmask,&winAttribs);
-	/**
-        problems was it was a random pointer as a value....
-	*/
+
+	/*	problems was it was a random pointer as a value....	*/
     if(major >= 1 && minor >= 3){
     	/*glXCreateWindow create opengl for window that might not have capability for OpenGL*/
         //glx_window = glXCreateWindow(display, fbConfigs,window,0);
@@ -160,9 +156,8 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int3
     }
 
 	XStoreName(display,window, ExGetDefaultWindowTitle(title,sizeof(title)));
-    /*
-        event feed masking
-    */
+
+    /*	event feed masking	*/
 	XSelectInput(display,window,ExposureMask | KeyPressMask | ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask | ButtonMotionMask | PointerMotionMask);
 
 /*
@@ -172,18 +167,19 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int3
 //XGrabPointer(display, root, False, ButtonPressMask, GrabModeAsync,
 //         GrabModeAsync, None, None, CurrentTime);
 
-/*s
+
 	fontinfo = XLoadQueryFont(display, EX_TEXT("10x20"));
 	gr_values.font = fontinfo->fid;
 	gr_values.foreground = XBlackPixel(display,0);
 	graphical_context = XCreateGC(display,window, GCFont + GCForeground, &gr_values);
-*/
+
+
    //XIfEvent(display, &event, WaitFormMap)
 
     //if((del_atom = XInternAtom(display, "WM_DELETE_WINDOW", 0)) != None){
     //    XSetWMProtocols(display, window, &del_atom, 1);
     //}
-    XFlush(display);
+    //XFlush(display);
 	return window;
 }
 
