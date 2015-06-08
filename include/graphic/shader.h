@@ -45,21 +45,33 @@ extern int ExLoadShader(struct shader_header* shad,const char* cvertexfilename, 
 extern int ExLoadShaderv(struct shader_header* shad, const char* cvertex_source,const char* cfragment_source,const char* cgeometry_source,const char* ctess_c_source, const char* ctess_e_source);
 
 extern int ExCompileShaderSource(const char* strPath,char** source, unsigned int flag);
-/*
- */
+
+/*	*/
 extern int ExCompileShaderSourcev(const char** source, unsigned int flag);
 
 extern int ExShaderCompileLog(unsigned int program,unsigned int shaderflag);
 
 extern int ExGetShaderSource(unsigned int program, unsigned int shader_flag, char** source);
-/*
- */
+
+/* */
 extern int ExGetShaderSourcev(unsigned int program, unsigned int shader_flag, char* source);
-/*
- */
+
+/*	*/
 extern unsigned int ExGetShaderNumComponent(unsigned int program);
 #ifdef __cplusplus
 }
 #endif 
+
+
+#define EX_VERTEX_UNLIT	""		\
+
+#define EX_FRAGMENT_UNLIT ""	\
+
+#define EX_VERTEX_DIFFUSE	""
+#define EX_FRAGMENT_DIFFUSE	""
+
+#define EX_VERTEX_TRANSPARENT ""
+#define EX_FRAGMENT_TRANSPARENT ""
+
 
 #endif 

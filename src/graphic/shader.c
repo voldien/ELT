@@ -1,8 +1,19 @@
 #include"graphic/shader.h"
 #include"system/eltfile.h"
-#include<GL/gl.h>
-#include<GL/glu.h>
-#include<GL/glext.h>
+
+#ifdef GL_ES_VERSION_2_0
+	#include<GLES/gl2.h>
+	#include<GLES/gl2ext.h>
+	#include<GLES/gl2platform.h>
+#elif defined(GL_ES_VERSION_1_0)
+	#include<GLES/gl.h>
+	#include<GLES/glext.h>
+	#include<GLES/glplatform.h>
+#else
+	#include<GL/gl.h>
+	#include<GL/glu.h>
+	#include<GL/glext.h>
+#endif
 
 
 int ExGetShaderProgramSize(unsigned int program){
