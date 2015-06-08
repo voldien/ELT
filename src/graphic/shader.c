@@ -1,8 +1,19 @@
 #include"graphic/shader.h"
 #include"system/eltfile.h"
-#include<GL/gl.h>
-#include<GL/glu.h>
-#include<GL/glext.h>
+
+#ifdef GL_ES_VERSION_2_0
+	#include<GLES/gl2.h>
+	#include<GLES/gl2ext.h>
+	#include<GLES/gl2platform.h>
+#elif defined(GL_ES_VERSION_1_0)
+	#include<GLES/gl.h>
+	#include<GLES/glext.h>
+	#include<GLES/glplatform.h>
+#else
+	#include<GL/gl.h>
+	#include<GL/glu.h>
+	#include<GL/glext.h>
+#endif
 
 
 int ExGetShaderProgramSize(unsigned int program){
@@ -11,7 +22,9 @@ int ExGetShaderProgramSize(unsigned int program){
 	int shad_num;
 	unsigned int mshad[10];
 	fsize = 0;
+
 	glGetAttachedShaders(program,5,&shad_num,mshad);
+
 	for(i=0;i<shad_num;i++){
 		glGetShaderiv(mshad[i], GL_SHADER_SOURCE_LENGTH,&size);
 		fsize+=size;
@@ -27,7 +40,7 @@ int ExLoadShader(struct shader_header* shad,const char* cvertexfilename, const c
 	if(cvertexfilename){
 		shad->ver = ExCompileShaderSource(cvertexfilename,&v_source,GL_VERTEX_SHADER);
 		glAttachShader(shad->program,shad->ver);
-		//InitShader(shad, v_source, GL_VERTEX_SHADER);
+
 	}
 	if(cfragmentfilename){
 		shad->fra = ExCompileShaderSource(cfragmentfilename,&f_source,GL_FRAGMENT_SHADER);
@@ -91,23 +104,21 @@ int ExCompileShaderSource(const char* strPath,char** source, unsigned int flag){
 
 	if(ExLoadFile(strPath,(void**)&data) != -1){
 
-		shader = glCreateShader(flag);
-		glShaderSource(shader, 1,(const char**)&data,0);
-		glCompileShader(shader);
-		// validate
-		glGetShaderiv(shader, GL_COMPILE_STATUS, &c_message);
-		if(!c_message)
-			ExError("Error to compile %s", strPath);
+		/**/
+		if(ExCompileShaderSourcev(&data,flag) < 0)
+			printf("failed to compile %s\n",strPath);
 
+		/**/
 		if(!source)
 			free(data);
 		else
 			*source = data;
-	}else{ExError("Invalid Path %s",strPath); return -1;}
+	}else{printf("Invalid Path %s",strPath); return -1;}
 	return shader;
 }
 int ExCompileShaderSourcev(const char** source, unsigned int flag){
 	int shader;
+	int status;
 	if(!source)
 		return -1;
 	if(!strlen(source[0]))return -1;
@@ -116,35 +127,49 @@ int ExCompileShaderSourcev(const char** source, unsigned int flag){
 	glShaderSource(shader,1,source, 0);
 	glCompileShader(shader);
 	ExShaderCompileLog(shader,flag);
+
+	/*	validate shader	*/
+	glGetShaderiv(shader,GL_COMPILE_STATUS,&status);
+	if(!status){
+		glDeleteShader(shader);
+		return -1;
+	}
 	return shader;
 }
 
 
 extern int ExShaderCompileLog(unsigned int program,unsigned int shaderflag){
 	int status,validate;
-	char message[256];
+	char log[256];
 	switch(shaderflag){
 	case GL_VERTEX_SHADER:
+		glGetShaderInfoLog(program, sizeof(log),NULL,log);
+		printf("[Failed to Compile Vertex Shader]\n %s \n",log);
+		break;
 	case GL_FRAGMENT_SHADER:
+		glGetShaderInfoLog(program, sizeof(log),NULL,log);
+		printf("[Failed to Compile Fragment Shader]\n%s \n", log);
+		break;
 	case GL_GEOMETRY_SHADER:
+		glGetShaderInfoLog(program, sizeof(log),NULL,log);
+		printf("[Failed to Compile GEOMETRY Shader]\n%s \n", log);
+		break;
 	case GL_TESS_CONTROL_SHADER:
+
+		glGetShaderInfoLog(program, sizeof(log),NULL,log);
+		printf("[Failed to Compile tessellation control  Shader]\n%s \n", log);
+		break;
 	case GL_TESS_EVALUATION_SHADER:
-		glGetShaderiv(program, GL_COMPILE_STATUS, &status);
+		glGetShaderInfoLog(program, sizeof(log),NULL,log);
+		printf("[Failed to Compile tessellation evolutation Shader]\n%s \n", log);
 		break;
 	case GL_LINK_STATUS:
 	case GL_PROGRAM:
-	glGetProgramiv(program, GL_LINK_STATUS,&status);
-	glGetProgramiv(program, GL_VALIDATE_STATUS, &validate);
+		glGetProgramiv(program, GL_LINK_STATUS,&status);
+		glGetProgramiv(program, GL_VALIDATE_STATUS, &validate);
+		printf("Error message when compiling glsl Shader\n%s", log);
 		break;
-	default:return 0;
-	}
-	if(!status && program != GL_PROGRAM)
-		glGetShaderInfoLog(program,sizeof(message),NULL, message);
-	else if(!status)
-		glGetProgramInfoLog(program,sizeof(message),NULL, message);
-	if(!status){
-		printf("Error message when compiling glsl Shader\n%s", message);
-		return 0;
+		default:return 0;
 	}
 	return 1;
 }

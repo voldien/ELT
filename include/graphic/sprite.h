@@ -18,11 +18,27 @@
 */
 #ifndef _ELT_SPRITE_H_ 
 #define _ELT_SPRITE_H_ 1
-
+#include"../EngineAssembly.h"
+#include"texture.h"
+#include"shader.h"
 #ifdef __cplusplus	/* C++ environment	*/
 extern "C"{
-#endif 
+#endif
 
+typedef struct ex_srpite{
+	float vertices[4][3];
+	float rect[4];
+}Sprite;
+
+typedef struct sprite_batch{
+	unsigned int num;
+
+
+}ExSpriteBatch;
+
+extern DECLSPEC ExSpriteBatch* ELTAPIENTRY ExCreateSpriteBatch(void);
+extern DECLSPEC int	ELTAPIENTRY ExReleaseSpriteBatch(ExSpriteBatch* spritebatch);
+extern DECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* sprite, Sprite*,float* position );
 
 
 #ifdef __cplusplus	/* C++ environment	*/
