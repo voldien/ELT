@@ -10,8 +10,9 @@
 #include<time.h>
 #include<signal.h>
 
-
 Uint64 elt_time = 0;
+
+
 
 DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback, void* param){
 	Uint32 pid;

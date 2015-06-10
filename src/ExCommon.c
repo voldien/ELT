@@ -369,13 +369,15 @@ DECLSPEC const ExChar* ELTAPIENTRY ExGetOSName(void){
 	struct utsname _name;
 	if(uname(&_name) != EFAULT)
 		return _name.sysname;
-	else return EX_TEXT("");
+	else return EX_TEXT("linux");
 #elif defined(EX_ANDROID)
 	return EX_TEXT("Android");
 #elif defined(EX_MAC)
 	return EX_TEXT("Mac OS X")
 #elif defined(EX_APPLE)
 	return EX_TEXT("Iphone");
+#elif defined(EX_UNIX)
+	return EX_TEXT("unix");
 #endif
 }
 

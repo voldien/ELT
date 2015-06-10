@@ -87,7 +87,7 @@ extern Uint64 elt_time;     /**  high accuracy timer   */
 
 /*	Initialize Engine Library Toolkit	*/
 DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
-	ERESULT _h_result = E_OK;
+	ERESULT result = E_OK;
 	HANDLE hmodule;
 	Int32 hConHandle;
 	Long lStdHandle;
@@ -151,6 +151,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
     display = XOpenDisplay(getenv("DISPLAY"));
     if(!display)
         ExError("couldn't open Display\n");
+
     /*		enable X events	*/
     XAllowEvents(display , SyncBoth,CurrentTime);
 
@@ -167,7 +168,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	ExInitSubSystem(engineFlag);
 
 
-	if(!(_h_result = ExInitErrorHandler())){
+	if(!(result = ExInitErrorHandler())){
 	    ExError(EX_TEXT("Failed to initialize error handler."));
 	}
 
@@ -176,7 +177,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	/*TODO add atexit*/
 	atexit(ExShutDown);
 
-	return _h_result;
+	return result;
 }
 /*
 
@@ -226,7 +227,8 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
         #elif defined(EX_ANDROID)
 
         #elif defined(EX_WINDOWS)
-        ExLoadLibrary(EX_TEXT("WS2_32.dll"));
+        if(!ExIsModuleLoaded(EX_TEXT("WS2_32.dll")))
+        	ExLoadLibrary(EX_TEXT("WS2_32.dll"));
         #endif
 	}
 	return hr;
@@ -317,7 +319,8 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 	ExReleaseCL();
 	ExDestroyContext(ExGetCurrentGLDrawable(), ExGetCurrentOpenGLContext());
 	eglTerminate(eglGetCurrentDisplay());
-	//ExDestroyCurrentContext();
+	if(ExGetCurrentOpenGLContext())
+		ExDestroyContext(0,ExGetCurrentOpenGLContext());
     XFlush(display);
 	XCloseDisplay(display);
 
@@ -351,8 +354,10 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 	#endif
 
 #endif
+
 	//fclose(m_file_log);
 }
+
 
 
 DECLSPEC void ELTAPIENTRY ExEnable(Enum enable){
