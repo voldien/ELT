@@ -56,15 +56,16 @@ int ExLoadShader(struct shader_header* shad,const char* cvertexfilename, const c
 		shad->tese = ExCompileShaderSource(ctessefilename,&te_source,GL_TESS_EVALUATION_SHADER);
 	}
 
-	glLinkProgram(shad->program);
-	ExShaderCompileLog(shad->program,GL_PROGRAM);
-
+	/**/
 	free(v_source);
 	free(f_source);
 	free(g_source);
 	free(tc_source);
 	free(te_source);
-	return 1;
+
+
+	glLinkProgram(shad->program);
+	return ExShaderCompileLog(shad->program,GL_PROGRAM);;
 }
 int ExLoadShaderv(struct shader_header* shad, const char* cvertex_source,const char* cfragment_source,const char* cgeometry_source,const char* ctess_c_source, const char* ctess_e_source){
 	if(!shad)
@@ -92,8 +93,8 @@ int ExLoadShaderv(struct shader_header* shad, const char* cvertex_source,const c
 	}
 
 	glLinkProgram(shad->program);
-	ExShaderCompileLog(shad->program,GL_PROGRAM);
-	return 1;
+	return ExShaderCompileLog(shad->program,GL_PROGRAM);
+
 }
 
 
@@ -105,7 +106,7 @@ int ExCompileShaderSource(const char* strPath,char** source, unsigned int flag){
 	if(ExLoadFile(strPath,(void**)&data) != -1){
 
 		/**/
-		if(ExCompileShaderSourcev(&data,flag) < 0)
+		if((shader = ExCompileShaderSourcev(&data,flag)) < 0)
 			printf("failed to compile %s\n",strPath);
 
 		/**/
@@ -132,7 +133,7 @@ int ExCompileShaderSourcev(const char** source, unsigned int flag){
 	glGetShaderiv(shader,GL_COMPILE_STATUS,&status);
 	if(!status){
 		glDeleteShader(shader);
-		return -1;
+		return -1 ;
 	}
 	return shader;
 }
@@ -168,6 +169,7 @@ extern int ExShaderCompileLog(unsigned int program,unsigned int shaderflag){
 		glGetProgramiv(program, GL_LINK_STATUS,&status);
 		glGetProgramiv(program, GL_VALIDATE_STATUS, &validate);
 		printf("Error message when compiling glsl Shader\n%s", log);
+		return status;
 		break;
 		default:return 0;
 	}
