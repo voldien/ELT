@@ -31,6 +31,7 @@ DECLSPEC int ELTAPIENTRY ExLoadFile(const char* cfilename, void** data){
     size = ExGetFileStreamSize(file);
 
     data[0] = malloc(size);
+    memset(data[0],0,size);
     if(fread(data[0], 1, size,file) != size)
         return 0;
 

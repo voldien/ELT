@@ -515,18 +515,33 @@ DECLSPEC void* ExCreateProgram(void* context, void* device, const char* cfilenam
     cl_program program;
     void* data;
     size_t length = 0;
-    //va_arg(cfilename,list);
-    //va_start(cfilename,list);
-    //va_end(list);
+    char buffer[1024*4] = {'\0'};
+    char* pbuffer = &buffer[0];
+    char* p;
 
 
-    // read file
+    /*	read argument */
+    va_start(list,cfilename);
+    while(( p = va_arg(list,char*)) !=  NULL){
+    	memcpy(pbuffer,p,strlen(p)+1);
+    	pbuffer++;
+    	pbuffer += strlen(p);
+    	*pbuffer++ = ' ';
+    	continue;
+    }
+
+    va_end(list);
+
+
+    /*	read file*/
     if(!ExLoadFile(cfilename,&data))
     	return NULL;
 
     /*  error was length was wrong size....*/
     program = clCreateProgramWithSource(context, 1, (const char**)&data, &length,&errNum);
-    errNum = clBuildProgram(program, 1,(const cl_device_id*)&device,NULL,NULL,NULL);
+    errNum = clBuildProgram(program, 1,(const cl_device_id*)&device,
+    		(buffer[0] == '\0') ? NULL : buffer,
+    				NULL,NULL);
 
     if(errNum != CL_SUCCESS){
         char buildLog[1024];
