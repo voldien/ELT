@@ -240,6 +240,10 @@ DECLSPEC inline OpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void){
 #endif
 }
 
+
+
+
+
 DECLSPEC inline void ELTAPIENTRY ExMakeGLCurrent(WindowContext drawable, OpenGLContext glc){
 #ifdef EX_WINDOWS
 	ExIsWinError(wglMakeCurrent(drawable,glc));
@@ -803,7 +807,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 }
 
 /**
-    \Create Shared OpenGL Context from a already existing context.
+    Create Shared OpenGL Context from a already existing context.
 */
 DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLContext glc){
     int major_version,minor_version;
@@ -1109,7 +1113,7 @@ DECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window,Enum ienum){
 #elif defined(EX_LINUX)
 	XTextProperty textprop = {0};
 	XWMHints *startup_state;
-	EX_C_STRUCT exsize size ;
+	EX_C_STRUCT exsize size;
 	XSizeHints hints;
 
 	ExGetWindowSizev(window,&size);
@@ -1146,13 +1150,13 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor){
 	unsigned int version;
 	OpenGLContext glc;
 	//glc = ExCreateTempGLContext();
-	version = (atof((const char*)glGetString(GL_VERSION)) * 100.0f);
+	version = ExGetOpenGLShadingVersion();
 	if(major)
 		glGetIntegerv(GL_MAJOR_VERSION, major);
 	if(minor)
 		glGetIntegerv(GL_MINOR_VERSION, minor);
 
-	//ExDestroyContext(glc);
+	//ExDestroyContext(NULL,glc);
 	return version;
     }
     else{
@@ -1161,7 +1165,7 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor){
 	if(minor)
 		glGetIntegerv(GL_MINOR_VERSION, minor);
 
-        return (Uint32)(atof((const char*)glGetString(GL_VERSION)) * 100.0f);
+        return ExGetOpenGLShadingVersion();
     }
 }
 //TODO see if it can be obtain before creating the context.

@@ -47,13 +47,13 @@ extern DECLSPEC void* ELTAPIFASTENTRY ExGetCurrentCLContext(void);
 	Create OpenCL Context
 	@return
 */
-extern DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContext(Enum eEnumFlag);
+extern DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLContext(Enum eEnumFlag);
 
 /**
 	Query Context information
 	@return
 */
-extern DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(void* context,void* param_value,Enum param_name);
+extern DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(OpenCLContext context,void* param_value,Enum param_name);
 /**
 	Release Current CL Context
 */
@@ -61,18 +61,18 @@ extern DECLSPEC void ELTAPIENTRY ExReleaseCL(void);
 /**
 	Release CL Context
 */
-extern DECLSPEC void ELTAPIENTRY ExReleaseCLContext(void* context);
+extern DECLSPEC void ELTAPIENTRY ExReleaseCLContext(OpenCLContext context);
 
 /**
 	Create shared CL context with OpenGL context
 	@return CL context.
 */
-extern DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowContext window,Enum erenderingFlag);
+extern DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowContext window,Enum erenderingFlag);
 
 /**/
-extern DECLSPEC void* ExCreateCommandQueue(void* context, void*device);
+extern DECLSPEC void* ExCreateCommandQueue(OpenCLContext context, void*device);
 /**/
-extern DECLSPEC void* ExCreateProgram(void* context, void* device, const char* cfilename,...);
+extern DECLSPEC void* ExCreateProgram(OpenCLContext context, void* device, const char* cfilename,...);
 /**
 	Get CL platform identification
 	@return current CL context.

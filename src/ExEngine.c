@@ -97,7 +97,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
         return 2;
 
 
-    /**/
+    /*	*/
 #ifdef EX_DEBUG || (EX_ENGINE_VERSION_MAJOR <= 0)
 	#if defined(EX_VC) || defined(EX_WINDOWS)
 	// debug shell
@@ -172,6 +172,9 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	}
 
 	engineDescription.EngineFlag |= engineFlag;
+
+	/*TODO add atexit*/
+	atexit(ExShutDown);
 
 	return _h_result;
 }

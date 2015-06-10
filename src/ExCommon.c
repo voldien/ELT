@@ -63,6 +63,7 @@ DECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName){
     return 1;
 #endif
 }
+
 DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName, ...){
 	va_list argptr;
 	ExChar argv[1024]= {0};
@@ -113,24 +114,24 @@ DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName, ...){
 		wcscat(argv,EX_TEXT(" "));
 		continue;
 	}*/
-
+	va_end(argptr);
     pid = fork();
     switch(pid){
         case -1:{
             fprintf(stderr,strerror(errno));
             kill(pid,9);
+            return 0;
         }break;
         case 0:{
-	/*	TODO some error when arm 
+	/*	TODO some error when arm */
             if(execv(applicationName,(const char*)argptr) == -1)
                 fprintf(stderr,strerror(errno));
-        */
 	}break;
         default:{
             wait(&pid);
         }break;
     }
-	va_end(argptr);
+    return 1;
 #endif
 }
 
@@ -207,6 +208,18 @@ DECLSPEC Int32 ELTAPIENTRY ExGetMonitorHz(Uint32 index){
 }
 
 
+DECLSPEC const char* ExGetPlatform(void){
+#ifdef EX_LINUX
+	struct utsname name;
+
+	int result = uname(&name);
+	if (result == 0)
+	    printf("OS: %s\n", name.sysname);
+	return NULL;
+#endif
+}
+
+
 DECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct){
 #if defined(EX_WINDOWS)
 	SYSTEM_POWER_STATUS spsPwr;
@@ -237,12 +250,12 @@ DECLSPEC void ELTAPIENTRY ExGetExecutePath(ExChar* wChar, Int32 length){
 #endif
 	return;
 }
-DECLSPEC void ELTAPIENTRY ExGetAppliationPath(ExChar* wChar, Int32 length){
+DECLSPEC void ELTAPIENTRY ExGetAppliationPath(ExChar* path, Int32 length){
 #ifdef EX_WINDOWS
-	ExIsError(GetCurrentDirectory(length,wChar));
+	ExIsError(GetCurrentDirectory(length,path));
 #elif defined(EX_LINUX) || defined(EX_ANDROID)
     //readlink()
-	getcwd(wChar,length);
+	getcwd(path,length);
 #endif
 	return;
 }

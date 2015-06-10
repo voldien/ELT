@@ -38,6 +38,8 @@ extern "C"{
 extern DECLSPEC int ELTAPIENTRY ExGetPageSize(void);
 
 
+/*	poll allocator	*/
+
 #ifdef __cplusplus
 }
 #endif

@@ -33,8 +33,8 @@
 #elif defined(EX_NACL)
 
 #endif
-
 #include"system/elt_icon.h"
+
 // Ex Create OpenGL ES declaration
 extern DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window);
 
@@ -47,11 +47,14 @@ extern DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window);
 DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length){
 	if(!text)return NULL;
 	ExChar wchar[260] = {};
-	int major_version, minor_version;
+	int major;
+	int minor;
+
 #ifdef EX_LINUX
     //glGetIntegerv(GL_MAJOR_VERSION, &major_version);
     //glGetIntegerv(GL_MINOR_VERSION, &minor_version);
-    glXQueryVersion(XOpenDisplay(NULL),&major_version,&minor_version);
+	//ExGetOpenGLVersion(&major,&minor);
+    glXQueryVersion(XOpenDisplay(NULL),&major,&minor);
 #elif defined(EX_WINDOWS)
 	major_version = minor_version = 0;
 #endif
@@ -65,8 +68,8 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length){
 		EX_ENGINE_VERSION_REVISION,
 		EX_ENGINE_STATUS,
 		ExGetOSName(),
-		major_version,
-		minor_version);
+		major,
+		minor);
 	memcpy(text, wchar, MAX(sizeof(ExChar) * length + sizeof(ExChar),sizeof(wchar) / sizeof(ExChar)));
 	return text;
 }

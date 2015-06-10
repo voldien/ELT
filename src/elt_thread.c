@@ -23,6 +23,7 @@
 
 //http://pubs.opengroup.org/onlinepubs/7908799/xsh/pthread.h.html
 
+
 DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpParamater,Uint32* pid){
 #ifdef EX_WINDOWS
 	DWORD p_id;
@@ -153,9 +154,12 @@ DECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread,Enum nPriority)
 #elif defined(EX_UNIX)
 	struct sched_param param;
 	switch(nPriority){
-		case EX_THREAD_PRIORITY_LOW:break;
-		case EX_THREAD_PRIORITY_MEDIUM:break;
-		case EX_THREAD_PRIORITY_HIGH:break;
+		case EX_THREAD_PRIORITY_LOW:
+			break;
+		case EX_THREAD_PRIORITY_MEDIUM:
+			break;
+		case EX_THREAD_PRIORITY_HIGH:
+			break;
 	}
 	return pthread_setschedparam(thread,0,&param);
 #endif

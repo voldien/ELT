@@ -33,7 +33,7 @@ static int inline init_wsa(void){  /*  initialize was*/
 // http://www.linuxhowtos.org/data/6/server.c
 
 
-/**
+/*
 	create ip address on current machine
 */
 static int inline create_ip_address(const char* ip, unsigned int port){
@@ -74,6 +74,7 @@ static int ip_exists(const char* ip){
 #endif
 	return FALSE;
 }
+
 
 DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port,unsigned int protocol){
     #ifdef EX_WINDOWS

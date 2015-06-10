@@ -122,7 +122,7 @@ DECLSPEC void* ELTAPIFASTENTRY ExGetCurrentCLContext(void){return hClContext;}
 
 
 
-DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContext(Enum flag){
+DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLContext(Enum flag){
 	cl_int cpPlatform;
 	cl_int ciErrNum;
 	Uint32 uiDevCount = 0;
@@ -137,9 +137,8 @@ DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContext(Enum flag){
         TODO check if needed or logic is accepted
     */
     loadOpenClLibrary();
-	/**
-        Get platform id
-	*/
+
+    /*	Get platform id	*/
 	if(!ExGetCLPlatformID(&cpPlatform,flag))
 		ExDevPrint("Failed to Get CL Platform ID");
 
@@ -184,7 +183,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContext(Enum flag){
 	return (ERESULT)hClContext;
 }
 
-DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowContext window,Enum flag){
+DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowContext window,Enum flag){
     Int32 cpPlatform,ciErrNum;Uint32 uiDevCount = 0;
     // device ids
     cl_device_id *cdDevices;
