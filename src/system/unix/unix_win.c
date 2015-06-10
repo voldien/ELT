@@ -55,16 +55,14 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, I
                               x,y,width,height,0,
                               depth,InputOutput,visual, winmask,&swa);
 
-	XStoreName(display,window, ExGetDefaultWindowTitle(title,sizeof(title)));
+	XStoreName(display,window, "default");
 
     xattr.override_redirect = False;
     XChangeWindowAttributes (display, window, CWOverrideRedirect, &xattr );
 	//XSelectInput(display,window,ExposureMask | StructureNotifyMask);
 
 
-    /**
-
-    */
+    /*	*/
 	fontinfo = XLoadQueryFont(display, EX_TEXT("10x20"));
 	gr_values.font = fontinfo->fid;
 	gr_values.foreground = XBlackPixel(display,0);
@@ -152,10 +150,11 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int3
     	/*glXCreateWindow create opengl for window that might not have capability for OpenGL*/
         //glx_window = glXCreateWindow(display, fbConfigs,window,0);
         //pglx_window[0] = glx_window;
+    	if(pglx_window)
 		pglx_window[0] = 0;
     }
 
-	XStoreName(display,window, ExGetDefaultWindowTitle(title,sizeof(title)));
+	XStoreName(display,window, "default");
 
     /*	event feed masking	*/
 	XSelectInput(display,window,ExposureMask | KeyPressMask | ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask | ButtonMotionMask | PointerMotionMask);

@@ -737,18 +737,16 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 	GLXFBConfig fbconfig;
     glXQueryVersion(display,&maj,&min);
 
-    /**
-        Get Current Supported Version of OpenGL
-    */
-    glGetIntegerv(GL_MAJOR_VERSION, &major_version);
-    glGetIntegerv(GL_MINOR_VERSION, &minor_version);
+
+    /*	Get Current Supported Version of OpenGL	*/
+    ExGetOpenGLVersion(&major_version, &minor_version);
 
 
 	/*if windows doesn't support the opengl, than try to use */
 
     int context_attribs[]={
-        GLX_CONTEXT_MAJOR_VERSION_ARB,/* major_version*/3, //TODO obtain latest major version
-        GLX_CONTEXT_MINOR_VERSION_ARB,/* minor_version*/3, //TODO obtain latest minor version
+        GLX_CONTEXT_MAJOR_VERSION_ARB,/* major_version*/major_version, //TODO obtain latest major version
+        GLX_CONTEXT_MINOR_VERSION_ARB,/* minor_version*/minor_version, //TODO obtain latest minor version
         #ifdef EX_DEBUG
         GLX_CONTEXT_FLAGS_ARB,GLX_CONTEXT_DEBUG_BIT_ARB | GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,   /*  Debug TODO add hint*/
         #else
@@ -804,6 +802,13 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     glInitializePPAPI(inter);
 
 #endif
+}
+
+DECLSPEC OpenGLContext ELTAPIENTRY ExCreateTempGLContext(void){
+	GLXFBConfig fbconfig;
+	choose_fbconfig(&fbconfig);
+	OpenGLContext glc = glXCreateNewContext(display, fbconfig, GLX_RGBA_TYPE,0,1);
+	return glc;
 }
 
 /**
@@ -1147,16 +1152,21 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void){
 DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor){
     if(!ExGetCurrentOpenGLContext()){
 	/*	create temp*/
+    ExWin win;
 	unsigned int version;
 	OpenGLContext glc;
-	//glc = ExCreateTempGLContext();
+	win = ExCreateGLWindow(0,0,1,1,0);
+	glc = ExCreateTempGLContext();
+	ExMakeGLCurrent(win, glc);
 	version = ExGetOpenGLShadingVersion();
 	if(major)
 		glGetIntegerv(GL_MAJOR_VERSION, major);
 	if(minor)
 		glGetIntegerv(GL_MINOR_VERSION, minor);
 
-	//ExDestroyContext(NULL,glc);
+	ExMakeGLCurrent(0,0);
+	ExDestroyContext(NULL,glc);
+	ExDestroyWindow(win);
 	return version;
     }
     else{
