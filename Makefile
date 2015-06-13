@@ -151,6 +151,7 @@ install :
 	sudo $(CP) include/system/*.h /usr/include/ELT/system/
 	sudo $(CP) include/system/android/*.h /usr/include/ELT/system/android/
 	sudo $(CP) include/graphic/*.h /usr/include/ELT/graphic
+	sudo $(CP) include/math/ usr/include/ELT/math
 	sudo $(CP) build/$(TARGET) /usr/lib/$(TARGET)
 
 	
