@@ -21,8 +21,9 @@
 #   include<sys/types.h>
 #   include<sys/stat.h>
 #   include<fcntl.h>
-#   define LOGI(...)    __android_log_print(ANDROID_LOG_INFO, "",__VA_ARGS__)
-#   define LOGE(...)    __android_log_print(ANDROID_LOG_ERROR, "", __VA_ARGS__)
+#	define LOG_TAG "ELT (Engine Library ToolKit)"
+#   define LOGI(...)   __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
+#   define LOGE(...)   __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
 #endif
 #include<signal.h>
 #include<limits.h>

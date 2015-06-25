@@ -24,9 +24,13 @@
 #endif 
 
 DECLSPEC OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
+	/*	TODO resolve later!!*/
 	#ifndef EX_ANDROID
-	EGLDisplay eglDisplay;
 	#endif
+
+
+	EGLDisplay eglDisplay;
+
 	int major ,minor ;
 	EGLint attrs[60];
 	EGLint numConfig = 0;

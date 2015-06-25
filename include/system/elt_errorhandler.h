@@ -136,8 +136,8 @@ extern DECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcallback 
 
 #ifdef EX_ANDROID
 
-#define fprintf(x,...)   __android_log_print(ANDROID_LOG_INFO,"EngineEx", x ,##__VA_ARGS__ )
-#define printf(x,...)    __android_log_print(ANDROID_LOG_INFO,"EngineEx", x ,##__VA_ARGS__ )
+#define fprintf(x,...)   //__android_log_print(ANDROID_LOG_INFO,"EngineEx", x ,##__VA_ARGS__ )
+#define printf(x,...)    //__android_log_print(ANDROID_LOG_INFO,"EngineEx", x ,##__VA_ARGS__ )
 
 #endif
 

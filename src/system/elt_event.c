@@ -182,10 +182,11 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 #elif defined(EX_ANDROID)
     int ident;
     int events;
+    void* source;
 
-    switch(ident = ALooper_pollAll(0, NULL,&events,&event->source)){
-    	if(event->source){
-    		event->source->process(state,event->source);
+    switch(ident = ALooper_pollAll(0, NULL,&events,&source)){
+    	if(source){
+    		//source->process(state,source);
     	}
 
 
