@@ -39,10 +39,10 @@ extern int ExGetShaderProgramSize(unsigned int program);
 extern int ExGetShaderSourceSize(unsigned int shader);
 /*
  */
-extern int ExLoadShader(struct shader_header* shad,const char* cvertexfilename, const char* cfragmentfilename, const char* cgeometryfilename, const char* ctesscfilename, const char* ctessefilename);
+extern int ExLoadShader(ShaderHeader* shad,const char* cvertexfilename, const char* cfragmentfilename, const char* cgeometryfilename, const char* ctesscfilename, const char* ctessefilename);
 /*
  */
-extern int ExLoadShaderv(struct shader_header* shad, const char* cvertex_source,const char* cfragment_source,const char* cgeometry_source,const char* ctess_c_source, const char* ctess_e_source);
+extern int ExLoadShaderv(ShaderHeader* shad, const char* cvertexSource,const char* cfragmentSource,const char* cgeometry_source,const char* ctess_c_source, const char* ctess_e_source);
 
 extern int ExCompileShaderSource(const char* strPath,char** source, unsigned int flag);
 
@@ -63,15 +63,120 @@ extern unsigned int ExGetShaderNumComponent(unsigned int program);
 #endif 
 
 
+/*	opengl shader	*/
+
 #define EX_VERTEX_UNLIT	""		\
+
+
+/*
+
+
+
+ */
 
 #define EX_FRAGMENT_UNLIT ""	\
 
+/*
+
+
+
+ */
+
 #define EX_VERTEX_DIFFUSE	""
+/*
+#version 330
+
+#ifdef GL_ES
+precision mediump float;
+#endif
+layout(location = 0) in vec3 vertex;
+layout(location = 1) in vec2 uv;
+layout(location = 2) in vec3 normal;
+
+uniform mat4 ModelViewProjection;
+
+
+out vec2 UV;
+
+
+void main(void){
+	glPosition = ModelViewProjection * vec4(vertex);
+	UV = uv;
+}
+
+ */
+
 #define EX_FRAGMENT_DIFFUSE	""
+/*
+#version 330
+
+#ifdef GL_ES
+precision mediump float;
+#endif
+layout(location = 0) out vec4 fragColor;
+
+uniform vec4 color;
+uniform sampler diffuseTexture;
+
+int vec2 UV;
+void main(void){
+	fragColor = texture(diffuseTexture, UV) * color;
+
+}
+
+ */
+
 
 #define EX_VERTEX_TRANSPARENT ""
-#define EX_FRAGMENT_TRANSPARENT ""
 
+/*
+
+ */
+#define EX_FRAGMENT_TRANSPARENT ""
+/*
+
+ */
+
+#define EX_VERTEX_SPRITE	""
+/*
+
+#version 330
+
+#ifdef GL_ES
+precision mediump float;
+#endif
+layout(location = 0) in vec3 vertex;
+layout(location = 1) in float angle;
+layout(location = 2) in vec4 rect;
+
+
+uniform sampler2D texture[8];
+
+void main(void){
+
+	glPosition = vec4(vertex,1.0);
+
+	return;
+}
+
+ */
+#define EX_FRAGMENT_SPRITE ""
+
+/*
+
+#version 330
+
+#ifdef GL_ES
+precision mediump float;
+#endif
+layout(location = 0) out vec4 fragColor;
+uniform sampler2D texture[8];
+
+void main(void){
+
+
+	return;
+}
+ */
 
 #endif 

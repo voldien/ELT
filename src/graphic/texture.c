@@ -1,10 +1,16 @@
 #include"graphic/texture.h"
-#ifndef _EX_ANDROID
+#ifdef GL_ES_VERSION_2_0
+	#include<GLES/gl2.h>
+	#include<GLES/gl2ext.h>
+	#include<GLES/gl2platform.h>
+#elif defined(GL_ES_VERSION_1_0)
+	#include<GLES/gl.h>
+	#include<GLES/glext.h>
+	#include<GLES/glplatform.h>
+#else
 	#include<GL/gl.h>
 	#include<GL/glu.h>
 	#include<GL/glext.h>
-#else
-
 #endif
 
 unsigned int is_texture_compressed(unsigned int textureid){
@@ -15,7 +21,7 @@ unsigned int is_texture_compressed(unsigned int textureid){
 
 
 
-unsigned int get_texture_type_size(unsigned int internalformat){
+unsigned int getTextureTypeSize(unsigned int internalformat){
 	switch(internalformat){
 	case GL_LUMINANCE:
 	case GL_LUMINANCE_ALPHA:
@@ -37,7 +43,7 @@ unsigned int get_texture_type_size(unsigned int internalformat){
 
 	}
 }
-unsigned int get_texture_level_datai(unsigned int textureid,unsigned int level, unsigned char** pixeldata){
+unsigned int getTextureLevelDatai(unsigned int textureid,unsigned int level, unsigned char** pixeldata){
 	int width,height,bpp,internal;
 	if(!pixeldata)
 		return 0;
@@ -45,7 +51,7 @@ unsigned int get_texture_level_datai(unsigned int textureid,unsigned int level, 
 	glGetTexLevelParameteriv(GL_TEXTURE_2D,level,GL_TEXTURE_WIDTH, &width);
 	glGetTexLevelParameteriv(GL_TEXTURE_2D,level,GL_TEXTURE_HEIGHT, &height);
 	glGetTexLevelParameteriv(GL_TEXTURE_2D,level,GL_TEXTURE_INTERNAL_FORMAT, &internal);
-	bpp = get_texture_type_size(internal);
+	bpp = getTextureTypeSize(internal);
 
 	pixeldata[0] = (unsigned char*)malloc(width * height * bpp);
 
@@ -56,7 +62,7 @@ unsigned int get_texture_level_datai(unsigned int textureid,unsigned int level, 
 
 
 
-unsigned int get_internal_srgb_type(unsigned int internal_format){
+unsigned int getInternalSrgbType(unsigned int internal_format){
 	switch(internal_format){
 	case GL_RGB:return GL_SRGB;
 	case GL_RGBA: return GL_SRGB8_ALPHA8;
@@ -69,14 +75,14 @@ unsigned int get_internal_srgb_type(unsigned int internal_format){
 	}
 }
 
-unsigned int get_texture_data_size(unsigned int textureid){
+unsigned int getTextureDataSize(unsigned int textureid){
 	int width, height,internalformat;
 	glBindTexture(GL_TEXTURE_2D,textureid);
 	if(!is_texture_compressed(textureid)){
 		glGetTexLevelParameteriv(GL_TEXTURE_2D,0,GL_TEXTURE_WIDTH, &width);
 		glGetTexLevelParameteriv(GL_TEXTURE_2D,0,GL_TEXTURE_HEIGHT, &height);
 		glGetTexLevelParameteriv(GL_TEXTURE_2D,0,GL_TEXTURE_INTERNAL_FORMAT, &internalformat);
-		return width* height * get_texture_type_size(internalformat);
+		return width* height * getTextureTypeSize(internalformat);
 	}
 	else{
 		glGetTexLevelParameteriv(GL_TEXTURE_2D,0, GL_TEXTURE_COMPRESSED_IMAGE_SIZE_ARB,&internalformat);
@@ -87,7 +93,7 @@ unsigned int get_texture_data_size(unsigned int textureid){
 
 
 
-float get_max_texture_anisotropy(void){
+float getMaxTextureAnisotropy(void){
 	GLfloat fLargest;
 	glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &fLargest);
 	return fLargest;

@@ -16,24 +16,30 @@
 #endif
 
 
+
+
 int ExGetShaderProgramSize(unsigned int program){
 	unsigned int i,fsize;
 	int size;
-	int shad_num;
-	unsigned int mshad[10];
+	int numShader;
+	unsigned int shad[16];
 	fsize = 0;
 
-	glGetAttachedShaders(program,5,&shad_num,mshad);
+	glGetAttachedShaders(program,sizeof(shad) / sizeof(shad[0]),&numShader,shad);
 
-	for(i=0;i<shad_num;i++){
-		glGetShaderiv(mshad[i], GL_SHADER_SOURCE_LENGTH,&size);
+	for(i = 0; i < numShader; i++){
+		glGetShaderiv(shad[i], GL_SHADER_SOURCE_LENGTH,&size);
 		fsize+=size;
 	}
 	return fsize;
 }
 
-int ExLoadShader(struct shader_header* shad,const char* cvertexfilename, const char* cfragmentfilename, const char* cgeometryfilename, const char* ctesscfilename, const char* ctessefilename){
-	char* v_source,*f_source,*g_source,*tc_source,*te_source;
+int ExLoadShader(ShaderHeader* shad,const char* cvertexfilename, const char* cfragmentfilename, const char* cgeometryfilename, const char* ctesscfilename, const char* ctessefilename){
+	char* v_source;
+	char* f_source;
+	char* g_source;
+	char* tc_source;
+	char* te_source;
 	v_source = f_source = g_source = tc_source = te_source = NULL;
 
 	shad->program = glCreateProgram();
@@ -67,28 +73,28 @@ int ExLoadShader(struct shader_header* shad,const char* cvertexfilename, const c
 	glLinkProgram(shad->program);
 	return ExShaderCompileLog(shad->program,GL_PROGRAM);;
 }
-int ExLoadShaderv(struct shader_header* shad, const char* cvertex_source,const char* cfragment_source,const char* cgeometry_source,const char* ctess_c_source, const char* ctess_e_source){
+int ExLoadShaderv(ShaderHeader* shad, const char* cvertexSource,const char* cfragmentSource,const char* cgeometrySource,const char* ctessCSource, const char* ctessESource){
 	if(!shad)
 		return 0;
 	shad->program = glCreateProgram();
-	if(cvertex_source){
-		shad->ver = ExCompileShaderSourcev(&cvertex_source,GL_VERTEX_SHADER);
+	if(cvertexSource){
+		shad->ver = ExCompileShaderSourcev(&cvertexSource,GL_VERTEX_SHADER);
 		glAttachShader(shad->program,shad->ver);
 	}
-	if(cfragment_source){
-		shad->fra = ExCompileShaderSourcev(&cfragment_source,GL_FRAGMENT_SHADER);
+	if(cfragmentSource){
+		shad->fra = ExCompileShaderSourcev(&cfragmentSource,GL_FRAGMENT_SHADER);
 		glAttachShader(shad->program,shad->fra);
 	}
-	if(cgeometry_source){
-		shad->geo = ExCompileShaderSourcev(&cgeometry_source,GL_GEOMETRY_SHADER);
+	if(cgeometrySource){
+		shad->geo = ExCompileShaderSourcev(&cgeometrySource,GL_GEOMETRY_SHADER);
 		glAttachShader(shad->program,shad->geo);
 	}
-	if(ctess_c_source){
-		shad->tesc = ExCompileShaderSourcev(&ctess_c_source,GL_TESS_CONTROL_SHADER);
+	if(ctessCSource){
+		shad->tesc = ExCompileShaderSourcev(&ctessCSource,GL_TESS_CONTROL_SHADER);
 		glAttachShader(shad->program,shad->tesc);
 	}
-	if(ctess_e_source){
-		shad->tese = ExCompileShaderSourcev(&ctess_e_source,GL_TESS_EVALUATION_SHADER);
+	if(ctessESource){
+		shad->tese = ExCompileShaderSourcev(&ctessESource,GL_TESS_EVALUATION_SHADER);
 		glAttachShader(shad->program,shad->tese);
 	}
 
@@ -183,6 +189,7 @@ int ExGetShaderSource(unsigned int program, unsigned int shader_flag, char** sou
 	glGetShaderiv(program, GL_SHADER_SOURCE_LENGTH,&len);
 	if(!len)
 		return 0;
+
 	source[0] = (char*)malloc(len);
 	glGetShaderSource(program, len, NULL, source[0]);
 	//glGetProgramiv(program,
@@ -194,6 +201,7 @@ char* getShaderSourcefast(unsigned int program, unsigned int shader_flag){
 	glGetShaderiv(program, GL_SHADER_SOURCE_LENGTH,&len);
 	if(!len)
 		return 0;
+
 	source = (char*)malloc(len);
 	glGetShaderSource(program, len, NULL, source);
 	return source;

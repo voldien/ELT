@@ -18,14 +18,14 @@
 */
 #ifndef _ELT_RENDER_TEXTURE_H_
 #define _ELT_RENDER_TEXTURE_H_ 1
+#include"texture.h"
 
 #ifdef __cplusplus	/* C++ environment	*/
 extern "C"{
 #endif
 
 
-
-
+extern ExTexture* ExCreateRenderTexture(unsigned int width, unsigned int height,unsigned int attachment);
 
 
 

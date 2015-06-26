@@ -19,6 +19,17 @@
 #ifndef _ELT_TEXTURE_H_ 
 #define _ELT_TEXTURE_H_ 1
 
+typedef struct ex_texture{
+	unsigned int target;
+	unsigned int texture;
+	unsigned int width;
+	unsigned int height;
+	unsigned int type;
+	unsigned int internalformat;
+
+
+}ExTexture;
+
 #ifdef __cplusplus	/* C++ environment	*/
 extern "C"{
 #endif 
@@ -26,35 +37,35 @@ extern "C"{
 /**
 	// return texture internal type in size in bytes
 */
-extern unsigned int get_texture_type_size(unsigned int internalformat);
+extern unsigned int getTextureTypeSize(unsigned int internalformat);
 /**
 	// Get texture Internal format by number of bits
 */
-extern unsigned int get_texture_size_type(unsigned int bitsperPixel);
+extern unsigned int getTextureSizeType(unsigned int bitsperPixel);
 /**
 
 */
-extern unsigned int get_internal_srgb_type(unsigned int internal_format);
+extern unsigned int getInternalSrgbType(unsigned int internal_format);
 
 /*
 	// get texture size in bytes
 */
-extern unsigned int get_texture_data_size(unsigned int textureid);
+extern unsigned int getTextureDataSize(unsigned int textureid);
 /**
     Get texture data by level in unsigned int
 */
-extern unsigned int get_texture_level_datai(unsigned int textureid,unsigned int level,unsigned char** pixeldata);
+extern unsigned int getTextureLevelDatai(unsigned int textureid,unsigned int level,unsigned char** pixeldata);
 /**
     Get texture data by level in floating number
 */
 
-extern unsigned int get_texture_level_dataf(unsigned int textureid,unsigned int level,float** pixeldata);
+extern unsigned int getTextureLevelDataf(unsigned int textureid,unsigned int level,float** pixeldata);
 
-extern unsigned int create_texture(unsigned char* pixeldata,unsigned int width, unsigned int height);
+extern unsigned int ExCreateTexture(unsigned char* pixeldata,unsigned int width, unsigned int height);
 
 
-extern float get_max_texture_anisotropy(void);
-extern void  set_texture_anisotropy(float anisotropy);
+extern float getMaxTextureAnisotropy(void);
+extern void  setTextureAnisotropy(float anisotropy);
 
 
 //GL_NUM_COMPRESSED_TEXTURE_FORMATS

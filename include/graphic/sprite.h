@@ -26,19 +26,26 @@ extern "C"{
 #endif
 
 typedef struct ex_srpite{
-	float vertices[4][3];
+	float pos[3];
+	float angle;
 	float rect[4];
-}Sprite;
+}ExSprite;
 
 typedef struct sprite_batch{
 	unsigned int num;
-
+	unsigned int numDraw;
+	unsigned int vbo;
+	ShaderHeader shader;
 
 }ExSpriteBatch;
 
-extern DECLSPEC ExSpriteBatch* ELTAPIENTRY ExCreateSpriteBatch(void);
+extern DECLSPEC ExSpriteBatch* ELTAPIENTRY ExCreateSpriteBatch(ExSpriteBatch* spriteBatch);
 extern DECLSPEC int	ELTAPIENTRY ExReleaseSpriteBatch(ExSpriteBatch* spritebatch);
-extern DECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* sprite, Sprite*,float* position );
+
+extern DECLSPEC int ELTAPIENTRY ExBeginSpriteBatch(ExSpriteBatch* spriteBatch);
+extern DECLSPEC int ELTAPIENTRY ExEndSpriteBatch(ExSpriteBatch* spriteBatch);
+extern DECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* spritebatch,ExTexture* texture,float* position,float depth);
+
 
 
 #ifdef __cplusplus	/* C++ environment	*/
