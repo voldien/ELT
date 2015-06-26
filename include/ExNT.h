@@ -248,6 +248,7 @@ typedef union doubleUnion{
 /**
 	Thread
 */
+typedef void*(*interrupt_routine)(void*);
 typedef void*(THREAD_CALLBACK *thread_routine)(void*);
 typedef void* ExThread;
 

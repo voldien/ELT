@@ -58,6 +58,12 @@ extern DECLSPEC void ELTAPIENTRY ExEnable(Enum enable);
 */
 extern DECLSPEC void ELTAPIENTRY ExDisable(Enum disable);
 
+
+
+
+
+extern DECLSPEC int ELTAPIENTRY ExCreateInterrupt(interrupt_routine callback,unsigned int etype);
+
 /**
 	Get ELT Version
 */
@@ -66,6 +72,8 @@ extern DECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void);
     Get Compiler compiled with ELT.
 */
 extern DECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void);
+
+
 
 extern char* Developer;
 #ifdef __cplusplus // C++ environment

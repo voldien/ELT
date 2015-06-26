@@ -20,7 +20,7 @@
 #define _EX_COMMON_H_ 1
 #include"EngineAssembly.h"
 #include"ExAssert.h"
-#include<malloc.h>
+
 
 #ifdef EX_WINDOWS
 #endif
@@ -82,16 +82,12 @@ extern DECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct);
 	@return
 */
 extern DECLSPEC void ELTAPIENTRY ExGetApplicationName(ExChar* name,Int32 length);
-/**
-	Set Current Directory
-*/
-#ifdef EX_WINDOWS
-	#define ExSetCurrentDirectory
-	#define ExGetCurrentDirectory
-#elif defined(EX_LINUX)
-	#define ExSetCurrentDirectory
-	#define ExGetCurrentDirectory
-#endif
+
+
+
+extern DECLSPEC char* ELTAPIENTRY ExGetCurrentDirectory(void);
+
+extern DECLSPEC int ELTAPIENTRY ExSetCurrentDirectory (const char* cdirectory);
 
 /**
     // Get Application Execute global Path.
@@ -102,6 +98,8 @@ extern DECLSPEC void ELTAPIENTRY ExGetExecutePath(ExChar* wChar, Int32 lengthSiz
 extern DECLSPEC void ELTAPIENTRY ExGetAppliationPath(ExChar* wChar, Int32 lengthSize);
 /* Get Relative Path.*/
 extern DECLSPEC void ELTAPIENTRY ExGetRelativePath(const ExChar* wChar, ExChar* Chas, Int32 lengthSize);
+
+
 
 /**
 
@@ -118,31 +116,33 @@ extern DECLSPEC Uint64 ELTAPIENTRY ExGetTotalVirtualMemory(void);
 //InternetOpenUrl
 extern DECLSPEC void* ELTAPIENTRY ExDownloadURL(const ExChar* url);
 
-/*		Get System OperatingSystem Os Name		*/
+/*
+	Get System OperatingSystem Os Name
+*/
 extern DECLSPEC const ExChar* ELTAPIENTRY ExGetOSName(void);
 
 
 
 /**
-	// Get Current User Name
-	// Has to maintain later!!! TODO<>
+	Get Current User Name
+	Has to maintain later!!! TODO<>
     @return
 */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetCurrentUser(void);
 /**
-	// Get Clipboard Text
+	Get Clipboard Text
 */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetClipboardText(void);
 /**
-	// Set Clipboard Text
+	Set Clipboard Text
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExSetClipboardText(const ExChar* text);
 /**
-	// Set Clipboard Data
+	Set Clipboard Data
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExSetClipboardData(void* data,Uint32 csize);
 /**
-	// Get Clipboard data
+	Get Clipboard data
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExGetClipboardData(void* pdata);
 

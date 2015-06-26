@@ -1,7 +1,10 @@
 #include"ExCommon.h"
+#ifdef EX_UNIX
+#include <unistd.h>
+#endif
+
 #ifdef EX_LINUX
 #   include"system/unix/unix_win.h"
-#   include<unistd.h>
 #   include<sys/utsname.h>
 #   include<sys/sysinfo.h>
 #   include<errno.h>
@@ -18,6 +21,9 @@
 #	include<windows.h>
 #	include<wininet.h>
 #endif
+
+
+#include<malloc.h>
 
 DECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName){
 #ifdef EX_WINDOWS
@@ -277,6 +283,29 @@ DECLSPEC void ELTAPIENTRY ExGetApplicationName(ExChar* name,Int32 length){
 #   endif
 #endif
 }
+
+DECLSPEC char* ELTAPIENTRY ExGetCurrentDirectory(void){
+#ifdef EX_UNIX
+		char cwd[1024];
+	   if (getcwd(cwd, sizeof(cwd)) != NULL)
+	       fprintf(stdout, "Current working dir: %s\n", cwd);
+	   else
+	       perror("getcwd() error");
+	   return cwd;
+#elif defined(EX_WINDOWS)
+	   ExChar path[1024];
+	   DWORD a = GetCurrentDirectory(MAX_PATH,path);
+#endif
+}
+
+DECLSPEC int ELTAPIENTRY ExSetCurrentDirectory (const char* cdirectory){
+#ifdef EX_UNIX
+	return chdir(cdirectory);
+#elif defined(EX_WINDOWS)
+
+#endif
+}
+
 
 
 DECLSPEC Uint64 ELTAPIENTRY ExGetTotalSystemMemory(void){

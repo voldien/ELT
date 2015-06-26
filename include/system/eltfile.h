@@ -36,6 +36,10 @@ extern DECLSPEC int ELTAPIENTRY ExLoadFile(const char* cfilename, void** data);
 */
 extern DECLSPEC int ELTAPIENTRY ExSaveFile(const char* cfilename, void* data, unsigned int csize);
 
+/*
+
+ */
+extern DECLSPEC int ELTAPIENTRY ExCreateDirectory(const char* directory);
 
 #ifdef __cplusplus
 }

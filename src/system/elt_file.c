@@ -52,3 +52,11 @@ DECLSPEC int ELTAPIENTRY ExSaveFile(const char* cfilename, void* data, unsigned 
     fclose(file);
     return TRUE;
 }
+
+DECLSPEC int ELTAPIENTRY ExCreateDirectory(const char* directory){
+#ifdef EX_UNIX
+	return mkdir(directory,644);
+#elif defined(EX_WINDOWS)
+	return CreateDirectory(directory,NULL);
+#endif
+}

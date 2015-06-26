@@ -7,6 +7,7 @@
 #elif defined(EX_LINUX)
 #	include"system/unix/unix_win.h"
 #	include<X11/Xlib.h>
+#	include<malloc.h>
 #elif defined(EX_ANDROID)
 #   include<android/log.h>
 #   include<android/native_activity.h>
@@ -380,6 +381,7 @@ DECLSPEC void ELTAPIENTRY ExEnable(Enum enable){
 	default:return;
 	}
 }
+
 DECLSPEC void ELTAPIENTRY ExDisable(Enum disable){
 #ifdef EX_WINDOWS
 #endif
