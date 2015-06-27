@@ -66,6 +66,7 @@ $(TARGET) : $(objects)
 debug : CFLAGS += -g -D_DEBUG=1
 debug : $(objects)
 	$(CC) $(CFLAGS) -shared $(notdir $^) -o build/$(TARGET)  $(CLIBS)
+	du -h build/$(TARGET)
 
 
 arm : CFLAGS += -marm -O3
