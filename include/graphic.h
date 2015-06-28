@@ -23,6 +23,7 @@
 #include"graphic/texture.h"
 #include"graphic/rendertexture.h"
 #include"graphic/sprite.h"
+#include"graphic/geometry.h"
 
 
 #endif

@@ -17,43 +17,114 @@
 #endif
 
 DECLSPEC ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* batch){
-	batch->vbo = ExCreateVBO(GL_ARRAY_BUFFER, ExGetPageSize() * sizeof(float), GL_DYNAMIC_DRAW);
-	batch->num = ExGetPageSize();
+	int texture[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+
+	batch->vbo = ExCreateVBO(GL_ARRAY_BUFFER, ExGetPageSize() * sizeof(ExSprite) * 10, GL_DYNAMIC_DRAW);
+	batch->num = ExGetPageSize() * 10;
+	batch->sprite = malloc(batch->num * sizeof(ExSprite));
+	glGetIntegerv(GL_MAX_COMPUTE_TEXTURE_IMAGE_UNITS,&batch->numMaxTextures);
+	batch->numMaxTextures = 16;
+
 
 	if(!ExLoadShaderv(&batch->shader,EX_VERTEX_SPRITE, EX_FRAGMENT_SPRITE,NULL, NULL, NULL)){
-
+		/*	failure	*/
 	}
+	glUniform1iv(glGetUniformLocation(batch->shader.program,"texture"),sizeof(texture) / sizeof(texture[0]),texture);
+
+	/*	enable sprite feature	*/
+	glEnable(GL_PROGRAM_POINT_SIZE);
+	glEnable(GL_POINT_SPRITE);
 
 	return batch;
 }
 DECLSPEC int ELTAPIENTRY ExReleaseSpriteBatch(ExSpriteBatch* spritebatch){
 	glDeleteBuffers(1,&spritebatch->vbo);
 
-	return 	glIsBuffer(spritebatch->vbo);
+	free(spritebatch->sprite);
+	return 	!glIsBuffer(spritebatch->vbo);
 }
 
 DECLSPEC int ELTAPIENTRY ExBeginSpriteBatch(ExSpriteBatch* spriteBatch){
-
+	spriteBatch->numDraw = 0;
+	spriteBatch->numTexture = 0;
+	return TRUE;
 }
 DECLSPEC int ELTAPIENTRY ExEndSpriteBatch(ExSpriteBatch* spriteBatch){
+	int i;
+
+	/*	send buffer	*/
+	glBindBuffer(GL_ARRAY_BUFFER,spriteBatch->vbo);
+	glBufferSubData(GL_ARRAY_BUFFER,0, spriteBatch->numDraw * sizeof(ExSprite), spriteBatch->sprite);
+
+
+	for(i = 0; i < spriteBatch->numTexture; i++){
+		glActiveTexture(GL_TEXTURE0 + i);
+		glBindTexture(spriteBatch->texture[i]->target, spriteBatch->texture[i]->texture);
+	}
 
 	glUseProgram(spriteBatch->shader.program);
 
-	glBindBuffer(GL_ARRAY_BUFFER, spriteBatch->vbo);
+
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(0,3,GL_FLOAT, GL_FALSE, sizeof(ExSprite),NULL);
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(0,3,GL_FLOAT, GL_FALSE, sizeof(ExSprite), NULL);
 	glVertexAttribPointer(1,1,GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * 3);
-	glVertexAttribPointer(2,3,GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * 4);
+	glVertexAttribPointer(2,4,GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * 4);
+	glVertexAttribPointer(3,1,GL_INT ,  GL_FALSE, sizeof(ExSprite), sizeof(float) * 8);
 
 	glDrawArrays(GL_POINTS,0,spriteBatch->numDraw);
 
 }
+/*
+static inline long int hashInt(unsigned int x){
+	x = ((x >> 16) ^ x) * 0x45d9f3b;
+	x = ((x >> 16) ^ x) * 0x45d9f3b;
+	x = ((x >> 16) ^ x);
+	return x;
+}
+*/
+
+DECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* batch, ExTexture* texture,float* position,float* rect, float angle, float depth){
+	ExTexture* tex;
+	int i;
+	int index;
 
 
-DECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* sprite, ExTexture* texture,float* position,float depth){
+	batch->sprite[batch->numDraw].pos[0] = position[0];
+	batch->sprite[batch->numDraw].pos[1] = position[1];
+	batch->sprite[batch->numDraw].pos[2] = depth;
+	if(rect){
+		batch->sprite[batch->numDraw].rect[0] = rect[0];
+		batch->sprite[batch->numDraw].rect[1] = rect[1];
+		batch->sprite[batch->numDraw].rect[2] = rect[2];
+		batch->sprite[batch->numDraw].rect[3] = rect[3];
+	}
+	batch->sprite[batch->numDraw].angle = angle;
 
+
+
+	for(i = 0; i < batch->numMaxTextures; i ++){
+		if(batch->texture[i] == texture)
+			break;
+		else{
+			if(batch->texture[i] == NULL){
+				batch->texture[i] = texture;
+				batch->numTexture++;
+				break;
+			}
+		}
+		continue;
+	}
+	batch->sprite[batch->numDraw].texture = i;//texture;
+
+
+	batch->numDraw++;
+	if(batch->numDraw >= batch->num){
+		ExEndSpriteBatch(batch);
+		ExBeginSpriteBatch(batch);
+	}
 
 	return TRUE;
 }
