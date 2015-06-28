@@ -154,7 +154,7 @@ void main(void){
 "void main(void){\n"								\
 "	gl_PointSize = max(textureSize(texture[0],0).x,"	\
 "textureSize(texture[0],0).y);\n"						\
-"	gl_Position = vec4(vertex,1.0);\n"				\
+"	gl_Position = vec4( vertex.x,  vertex.y, vertex.z,1.0);\n"				\
 "	fangle = angle;\n"								\
 "	frect = rect;\n"								\
 "	ftexture = tex;\n"								\

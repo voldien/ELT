@@ -22,7 +22,7 @@ DECLSPEC ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* batch){
 	batch->vbo = ExCreateVBO(GL_ARRAY_BUFFER, ExGetPageSize() * sizeof(ExSprite) * 10, GL_DYNAMIC_DRAW);
 	batch->num = ExGetPageSize() * 10;
 	batch->sprite = malloc(batch->num * sizeof(ExSprite));
-	glGetIntegerv(GL_MAX_COMPUTE_TEXTURE_IMAGE_UNITS,&batch->numMaxTextures);
+	glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS,&batch->numMaxTextures);
 	batch->numMaxTextures = 16;
 
 
@@ -44,13 +44,18 @@ DECLSPEC int ELTAPIENTRY ExReleaseSpriteBatch(ExSpriteBatch* spritebatch){
 	return 	!glIsBuffer(spritebatch->vbo);
 }
 
-DECLSPEC int ELTAPIENTRY ExBeginSpriteBatch(ExSpriteBatch* spriteBatch){
+DECLSPEC int ELTAPIENTRY ExBeginSpriteBatch(ExSpriteBatch* spriteBatch,float* camerapos, float scale){
+	int rect[4];
 	spriteBatch->numDraw = 0;
 	spriteBatch->numTexture = 0;
+	glGetIntegerv(GL_VIEWPORT,rect);
+	spriteBatch->width = rect[2];
+	spriteBatch->height = rect[3];
+
 	return TRUE;
 }
 DECLSPEC int ELTAPIENTRY ExEndSpriteBatch(ExSpriteBatch* spriteBatch){
-	int i;
+	unsigned int i;
 
 	/*	send buffer	*/
 	glBindBuffer(GL_ARRAY_BUFFER,spriteBatch->vbo);
@@ -76,15 +81,10 @@ DECLSPEC int ELTAPIENTRY ExEndSpriteBatch(ExSpriteBatch* spriteBatch){
 
 	glDrawArrays(GL_POINTS,0,spriteBatch->numDraw);
 
+
+
+	return 1;
 }
-/*
-static inline long int hashInt(unsigned int x){
-	x = ((x >> 16) ^ x) * 0x45d9f3b;
-	x = ((x >> 16) ^ x) * 0x45d9f3b;
-	x = ((x >> 16) ^ x);
-	return x;
-}
-*/
 
 DECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* batch, ExTexture* texture,float* position,float* rect, float angle, float depth){
 	ExTexture* tex;
@@ -92,8 +92,8 @@ DECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* batch, ExTexture* texture,f
 	int index;
 
 
-	batch->sprite[batch->numDraw].pos[0] = position[0];
-	batch->sprite[batch->numDraw].pos[1] = position[1];
+	batch->sprite[batch->numDraw].pos[0] = 2.0f * ( (position[0] ) / (float)batch->width) - 1.0f;
+	batch->sprite[batch->numDraw].pos[1] = 2.0f * ( (-position[1] ) / (float)batch->height) + 1.0f;
 	batch->sprite[batch->numDraw].pos[2] = depth;
 	if(rect){
 		batch->sprite[batch->numDraw].rect[0] = rect[0];
@@ -123,7 +123,7 @@ DECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* batch, ExTexture* texture,f
 	batch->numDraw++;
 	if(batch->numDraw >= batch->num){
 		ExEndSpriteBatch(batch);
-		ExBeginSpriteBatch(batch);
+		ExBeginSpriteBatch(batch,0,0);
 	}
 
 	return TRUE;
