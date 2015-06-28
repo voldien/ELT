@@ -137,46 +137,49 @@ void main(void){
 
  */
 
-#define EX_VERTEX_SPRITE	""
-/*
-
-#version 330
-
-#ifdef GL_ES
-precision mediump float;
-#endif
-layout(location = 0) in vec3 vertex;
-layout(location = 1) in float angle;
-layout(location = 2) in vec4 rect;
-
-
-uniform sampler2D texture[8];
-
-void main(void){
-
-	glPosition = vec4(vertex,1.0);
-
-	return;
-}
-
- */
-#define EX_FRAGMENT_SPRITE ""
-
-/*
-
-#version 330
-
-#ifdef GL_ES
-precision mediump float;
-#endif
-layout(location = 0) out vec4 fragColor;
-uniform sampler2D texture[8];
-
-void main(void){
+#define EX_VERTEX_SPRITE	""						\
+"#version 330\n"									\
+"#ifdef GL_ES\n"									\
+"precision mediump float;\n"						\
+"#endif\n"											\
+"layout(location = 0) in vec3 vertex;\n"			\
+"layout(location = 1) in float angle;\n"			\
+"layout(location = 2) in vec4 rect;\n"				\
+"layout(location = 3) in int tex;\n"				\
+"uniform sampler2D texture[16];\n"					\
+"out float fangle;\n"								\
+"out vec4 frect;\n"									\
+"out mat2 coord;\n"									\
+"out int ftexture;\n"								\
+"void main(void){\n"								\
+"	gl_PointSize = max(textureSize(texture[0],0).x,"	\
+"textureSize(texture[0],0).y);\n"						\
+"	gl_Position = vec4( vertex.x,  vertex.y, vertex.z,1.0);\n"				\
+"	fangle = angle;\n"								\
+"	frect = rect;\n"								\
+"	ftexture = tex;\n"								\
+"}\n"
 
 
-	return;
-}
- */
+
+
+#define EX_FRAGMENT_SPRITE ""								\
+"#version 330\n"											\
+"#ifdef GL_ES\n"											\
+"precision mediump float;\n"								\
+"#endif\n"													\
+"layout(location = 0) out vec4 fragColor;\n"				\
+"uniform sampler2D texture[16];\n"							\
+"in vec4 frect;\n"											\
+"in float fangle;\n"										\
+"in int ftexture;\n"										\
+"void main(void){\n"										\
+"	float sin_theta = sin(fangle + 3.14);\n"						\
+"	float cos_theta = cos(fangle + 3.14);\n"						\
+"	mat2 rotation_matrix = mat2(cos_theta, sin_theta,\n"			\
+"-sin_theta, cos_theta);\n"											\
+"	fragColor = texture2D(texture[0],(rotation_matrix * ((gl_PointCoord - vec2(0.5) - frect.xy) + vec2(0.5))) * frect.zw);\n"		\
+"}\n"														\
+
 
 #endif 
