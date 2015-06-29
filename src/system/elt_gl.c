@@ -39,13 +39,30 @@
     #include<GL/glxext.h>
     #include<GL/glu.h>
 	#include"system/unix/unix_win.h"
+
+/*
+	#ifdef GL_ES_VERSION_2_0
+        #include<GLES/gl2.h>
+        #include<GLES/gl2ext.h>
+        #include<GLES/gl2platform.h>
+    #else
+        #include<GLES/gl.h>
+        #include<GLES/glext.h>
+        #include<GLES/glplatform.h>
+	#endif
+
+*/
    #define GL_GET_PROC(x) glXGetProcAddress( ( x ) )           /**  get OpenGL function process address */
 #elif defined(EX_ANDROID)
     #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.so")      /** */
     #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.so")  /** */
     #include<jni.h>
     #include<android/native_activity.h>
-	#ifdef GL_ES_VERSION_2_0
+	#ifdef GL_ES_VERSION_3_0
+        #include<GLES/gl3.h>
+        #include<GLES/gl3ext.h>
+        #include<GLES/gl3platform.h>
+	#elif defined(GL_ES_VERSION_2_0)
         #include<GLES/gl2.h>
         #include<GLES/gl2ext.h>
         #include<GLES/gl2platform.h>
@@ -807,9 +824,12 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 }
 
 DECLSPEC OpenGLContext ELTAPIENTRY ExCreateTempGLContext(void){
+	OpenGLContext glc;
+#ifdef EX_LINUX
 	GLXFBConfig fbconfig;
 	choose_fbconfig(&fbconfig);
-	OpenGLContext glc = glXCreateNewContext(display, fbconfig, GLX_RGBA_TYPE,0,1);
+	glc = glXCreateNewContext(display, fbconfig, GLX_RGBA_TYPE,0,1);
+#endif;
 	return glc;
 }
 
@@ -948,7 +968,9 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
 	//glDrawBuffer(GL_BACK);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
+#ifndef EX_ANDROID
 	glDepthRange(0.0, 1.0);
+#endif
 	glDepthMask(GL_TRUE);
 	glPolygonOffset(0.0f, 0.0f);
 
@@ -1153,30 +1175,34 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void){
 
 DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor){
     if(!ExGetCurrentOpenGLContext()){
-	/*	create temp*/
-    ExWin win;
-	unsigned int version;
-	OpenGLContext glc;
-	win = ExCreateGLWindow(0,0,1,1,0);
-	glc = ExCreateTempGLContext();
-	ExMakeGLCurrent(win, glc);
-	version = ExGetOpenGLShadingVersion();
-	if(major)
-		glGetIntegerv(GL_MAJOR_VERSION, major);
-	if(minor)
-		glGetIntegerv(GL_MINOR_VERSION, minor);
+		/*	create temp*/
+		ExWin win;
+		unsigned int version;
+		OpenGLContext glc;
+#ifndef EX_ANDROID
+		win = ExCreateGLWindow(0,0,1,1,0);
+		glc = ExCreateTempGLContext();
+		ExMakeGLCurrent(win, glc);
+		version = ExGetOpenGLShadingVersion();
+		/*TODO resolve later*/
 
-	ExMakeGLCurrent(0,0);
-	ExDestroyContext(NULL,glc);
-	ExDestroyWindow(win);
-	return version;
+		if(major)
+			glGetIntegerv(GL_MAJOR_VERSION, major);
+		if(minor)
+			glGetIntegerv(GL_MINOR_VERSION, minor);
+#endif
+		ExMakeGLCurrent(0,0);
+		ExDestroyContext(NULL,glc);
+		ExDestroyWindow(win);
+		return version;
     }
     else{
-	if(major)
-		glGetIntegerv(GL_MAJOR_VERSION, major);
-	if(minor)
-		glGetIntegerv(GL_MINOR_VERSION, minor);
-
+#ifndef EX_ANDROID
+		if(major)
+			glGetIntegerv(GL_MAJOR_VERSION, major);
+		if(minor)
+			glGetIntegerv(GL_MINOR_VERSION, minor);
+#endif
         return ExGetOpenGLShadingVersion();
     }
 }

@@ -1,5 +1,5 @@
 #include"elt_loadso.h"
-#if defined(EX_UNIX)
+#if defined(EX_UNIX) || defined(EX_ANDROID)
 #   include<stdio.h>
 #	ifndef EX_PNACL 
 #   		include<link.h>
@@ -56,7 +56,7 @@ DECLSPEC inline void ELTAPIENTRY ExUnLoadObject(HANDLE handle){
 DECLSPEC inline HANDLE ELTAPIENTRY ExIsModuleLoaded(const ExChar* file){
 #ifdef EX_WINDOWS
 	return GetModuleHandle(file);
-#elif defined(EX_UNIX) && !(EX_PNACL)
+#elif defined(EX_UNIX) && !(EX_PNACL) && !(EX_ANDROID)	/*	TODO resolve link_map problem with android*/
     char buffer[256];
     void* handle = dlopen(NULL, RTLD_NOW);
     #ifdef EX_DEBUG

@@ -1,5 +1,6 @@
 #include"system/android/elt_activity.h"
 #include"elt_timer.h"
+#include"system/elt_egl.h"
 
 
 #ifdef EX_ANDROID
