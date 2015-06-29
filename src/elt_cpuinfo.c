@@ -2,6 +2,8 @@
 // get AVX
 
 #ifdef EX_WINDOWS
+#include<windows.h>
+#include<winbase.h>
 // get CPUID
 #include<immintrin.h>
 #   include<intrin.h>

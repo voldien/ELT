@@ -67,7 +67,7 @@ extern DECLSPEC OpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void);
 */
 extern DECLSPEC OpenGLContext ELTAPIENTRY ExGetOpenGLCFromWindow(ExWin window);
 
-/**
+/*
 	Make current OpenGL context.
 	\hDC
 	\glc
@@ -78,17 +78,21 @@ extern DECLSPEC void ELTAPIENTRY ExMakeGLCurrent(WindowContext hDC, OpenGLContex
     Create Context Attribute Based on Internal Hardware and engine description.
 */
 extern DECLSPEC void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDC,Int32* attrib,Int32* size,Enum EnumRI);
-/**
+/*
     Create OpenGL context for given window
 */
 extern DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window);
-/**
+
+/**/
+extern DECLSPEC OpenGLContext ELTAPIENTRY ExCreateTempGLContext(void);
+
+/*
     Create Shared OpenGL Context from a already existing context.
 */
 extern DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLContext context);
 
 /*
-	// Initialize OpenGL States
+	Initialize OpenGL States
 */
 extern DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescription);
 
@@ -105,7 +109,7 @@ extern DECLSPEC ExBoolean ELTAPIENTRY ExDestroyCurrentContext(void);
 
 
 /*
-	// Initlize OpenGL
+	Initlize OpenGL
 */
 extern DECLSPEC void ELTAPIENTRY ExInitOpenGL(ExWin hwnd, EngineDescription* enginedescription);
 /**

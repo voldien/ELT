@@ -21,10 +21,7 @@
 
 #include"win_win32.h"
 #include"win_GL.h"
-#ifdef EX_SCREENSAVER
-	#include<ScrnSave.h>
-	#pragma comment(lib,"Scrnsave.lib")
-#endif
+
 /*
 	## user defied window message
 */

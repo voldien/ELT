@@ -3,10 +3,9 @@
 
 
 #ifdef EX_WINDOWS
-	#include<Windows.h>
+	#include<windows.h>
 	#include<dinput.h>
-	#include<dinputd.h>
-	#include<Xinput.h>
+	#include<xinput.h>
 	//#pragma comment(lib, "dxguid.lib")
 	#pragma comment(lib, "dinput8.lib")
 #elif defined(EX_LINUX)
@@ -161,7 +160,7 @@ DECLSPEC Uint8 ELTAPIENTRY ExJoyStickGetButton(Int32 device_index, int button){
 
 //http://msdn.microsoft.com/en-us/library/windows/desktop/ms645546(v=vs.85).aspx
 
-//HJoyStick* m_joyStickhandler = EX_NULL;
+//HJoyStick* m_joyStickhandler = NULL;
 /*
 DECLSPEC ERESULT ELTAPIENTRY ExInitJoyStick( ExWin hwnd){
 #ifdef EX_WINDOWS

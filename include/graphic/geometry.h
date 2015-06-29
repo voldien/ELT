@@ -16,34 +16,22 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _UNIX_WIN_H_
-#define _UNIX_WIN_H_ 1
-#include"./../../EngineAssembly.h"
+#ifndef _ELT_GEOMETRY_H_ 
+#define _ELT_GEOMETRY_H_ 1
 
-#ifdef EX_LINUX
-#ifdef __cplusplus /* C++ environment */
+#ifdef __cplusplus	/* C++ environment	*/
 extern "C"{
-#endif
+#endif 
 
 
-/**
-
-    @return
-*/
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(int x, int y, int width, int height);
-/**
-
-    @return
-*/
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(int x , int y, int width, int height, void** glx_window);
+extern int ExCreateVBO(unsigned int target, unsigned int size, unsigned int mode);
+extern int ExCreateVAO(void);
+extern int ExCreateUniformBuffer(unsigned int size);
 
 
-extern DECLSPEC int ExSupportOpenGL(void);
 
+#ifdef __cplusplus	/* C++ environment	*/
+}
+#endif 
 
-#ifdef __cplusplus /* C++ environment */
-};
-#endif
-
-#endif
 #endif

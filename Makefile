@@ -1,26 +1,24 @@
 #!/bin/bash
 
+SHELL := /bin/bash
 BASE = $(call my-dir)
 MAKE := make
 RM := rm -rf
 MKDIR :=  mkdir -p
 CP := cp
 ARMCC := arm-linux-gnueabihf-gcc
-WINCC := x86_64-w64-mingw32-c++
+WINCC := x86_64-w64-mingw32-gcc
 CC := gcc
 AR := ar
 
-ifdef ComSpec	#	Windows
+ifdef ComSpec
 	TARGETSUFFIX :=.dll
-	INCLUDE = 
+	INCLUDE := -I"include" 
 	CLIBS := 
-	DEFINE := -DENGINE_INTERNAL=1
 else
-	TARGETSUFFIX := .so
+	TARGETSUFFIX :=.so
 	INCLUDE := -I"include" 
 	CLIBS := -lGL -lX11 -lEGL -lXrender -lOpenCL -lpthread -ldl -lrt -lxcb -lX11-xcb -lXrandr -lm
-
-	DEFINE := -DENGINE_INTERNAL=1
 endif
 
 vpath %.c src			#	pattern rule for c source file.
@@ -29,77 +27,97 @@ vpath %.h include		#	pattern rule for header file.
 sources  = $(wildcard src/*.c)
 sources += $(wildcard src/input/*.c)
 sources += $(wildcard src/system/*.c)
-sources += $(wildcard src/system/unix/*.c)	# TODO resolve internal directory
 sources += $(wildcard src/math/*.c)
-#sources -= src/main.c 
+sources += $(wildcard src/graphic/*.c)
 
-objects = $(subst %.c,%.o,$(sources))
+ifndef ComSpec
+sources += $(wildcard src/system/unix/*.c)	# TODO resolve internal directory
+endif
+
+#ifdef win32
+#sources += $(wildcard src/system/Win32/*.c)	# TODO resolve internal directory
+#endif 
+
+objects = $(subst .c,.o,$(sources))
 
 
-CFLAGS :=  -w -Wall -fPIC  $(DEFINE) $(INCLUDE)
-TARGET := libEngineEx$(TARGETSUFFIX)			# target
-BUILD_DIR := build/					#	
+CFLAGS := -w -Wall -fPIC  $(DEFINE) $(INCLUDE) -DENGINE_INTERNAL=1
+TARGET = libEngineEx$(TARGETSUFFIX)
+
+# debian packaging todo resolve later!
+BUILD_DIR := build/
 OUTPUT_DIR := build/
 
 
 all: $(TARGET)
-	echo -en "$(TARGET) has succfully been compiled and linked $(du -h $(TARGET))"
+	echo -en "$(TARGET) has succfully been compiled and linked.\n" 
+	du -h build/$(TARGET)
 
-$(TARGET) : CFLAGS += -O2
+
+
+$(TARGET) : CFLAGS += -O3 
 $(TARGET) : $(objects)
 	$(MKDIR) build
-	$(CC) $(CFLAGS) -shared $^ -o build/$@  $(CLIBS)
+	$(CC) $(CFLAGS) -shared $(notdir $^) -o build/$@  $(CLIBS)
 	
 
-%.o : %.c %.h 
-	$(CC) $(CFLAGS) -c $^ $(CLIBS)
-
+%.o : %.c
+	$(CC) $(CFLAGS) -c $^ -o $(notdir $(subst .c,.o,$^))
 
 
 debug : CFLAGS += -g -D_DEBUG=1
-debug : $(sources)
-	$(CC) $(CFLAGS) -fPIC -c  $^ $(CLIBS)
-	$(CC) $(CFLAGS) -fPIC -shared $(objects) -o build/$(TARGET) $(CLIBS)
+debug : $(objects)
+	$(CC) $(CFLAGS) -shared $(notdir $^) -o build/$(TARGET)  $(CLIBS)
+	du -h build/$(TARGET)
 
 
-arm : CFLAGS += -marm
+arm : CFLAGS += -marm -O3
 arm : CFLAGS += -L"/usr/lib/"
-arm : $(sources)
-	$(ARMCC) $(CFLAGS) -fPIC -shared -c $^ $(CLIBS)
-	$(ARMCC) $(CFLAGS) -fPIC -shared $(objects) $(CLIBS) 
+arm : CC := $(ARMCC)
+arm : $(objects)
+	$(ARMCC) $(CFLAGS)  -shared $(notdir $^ ) -o  build/$(TARGET) # $(CLIBS)
 
 
 
-x86 : CFLAGS += -m32
-x86 : $(sources)
-	$(CC) -fPIC -O2 -c $^ $(CLIBS)
+x86 : CFLAGS += -m32 -O3
+x86 : $(objects)
+	$(CC) $(CFLAGS)  $(notdir $(objects)) -o $(TARGET) $(CLIBS)
 
 
-x64 : CFLAGS += -m64
-x64 : $(sources)
-	$(CC) $(CFLAGS) -fPIC -m64 -O3 -c $^ $(CLIBS) 
-	$(CC) $(CFLAGS) -fPIC -m64 -O3 $(objects) -o $(TARGET) $(CLIBS)
+x64 : CFLAGS += -m64 -O3
+x64 :$(objects)
+	$(CC) $(CFLAGS)  $(notdir $(objects)) -o $(TARGET) $(CLIBS)
 
 
-static_library : $(objects)
-	$(AR) -rcs $(TARGET) -f $^
+.PHONY : static
+static : TARGETSUFFIX :=.a
+static : $(objects)
+	$(AR) -rcs $(TARGET) -f $(notdir $(objects))
+
+
+.PHONY : linux32
+.PHONY : linux64
 
 
 .PHONY : win32
-win32 : CFLAGS += -mwin32 -municode -mwin32 -mwindows -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1 	# improve later
-win32 : sources += $(wildcard /src/system/Win32/*.c)
-win32 : TARGET := EngineEx.dll
-win32 : $(sources)
-	$(WINCC) $(CFLAGS) -c  $^ $(CLIBS)
-	$(WINCC) $(CFLAGS)  $(objects) -o $(TARGET) $(CLIBS)
+win32 : ComSpec := t
+win32 : CFLAGS += -mwin32 -municode -mwindows -I"External/OpenCL/Include" -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1 
+win32 : objects += $(subst .c,.o,$(wildcard src/system/Win32/*.c))
+win32 : TARGET := EngineEx32.dll
+win32 : CLIBS := -lopengl32  -lwinmm -lwininet -lws2_32 -lkernel32 -luser32
+win32 : CC := $(WINCC)
+win32 : $(objects)
+	$(WINCC) $(CFLAGS)  $(notdir $^) -o $(TARGET) $(CLIBS)
 
 
 .PHONY : win64
-win64 : CFLAGS += -mwin64 -municode -mwin32 -mwindows -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1	# improve later
-win64 : TARGET := EngineEx.dll
-win64 : $(sources)
-	$(WINCC) $(CFLAGS) -c  $^ $(CLIBS)
-	$(WINCC) $(CFLAGS)  $(objects) -o $(TARGET) $(CLIBS)
+win64 : CFLAGS += -municode -mwindows -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1 
+win64 : sources += $(wildcard src/system/Win32/*.c)
+win64 : TARGET := EngineEx64.dll
+win64 : CLIBS := -lopengl32 -lwinm -lwinmm -lwininet -lws2_32 -lkernel32 -luser32
+win64 : CC := $(WINCC)
+win64 : $(objects)
+	$(WINCC) $(CFLAGS)   $(notdir $^) -o $(TARGET) $(CLIBS)
 
 
 .PHONY : nacl
@@ -118,20 +136,35 @@ android :
 		
 
 
-install :
-	echo -en "installing ELT"
+.PHONY : avr
+avr : $(objects)
+	
+
+# make sure that all dependecy are installed. 
+.PHONY : dependency
+dependency :
+	sudo apt-get install mesa-common-dev libx11-dev libx11-xcb-dev libegl1-mesa-dev libxrandr-dev libgles2-mesa-dev
+
+
+install : build/$(TARGET)
+	echo -en "installing ELT!\n"
 	sudo $(MKDIR) /usr/include/ELT
 	sudo $(MKDIR) /usr/include/ELT/input
 	sudo $(MKDIR) /usr/include/ELT/system
 	sudo $(MKDIR) /usr/include/ELT/system/android/
+	sudo $(MKDIR) /usr/include/ELT/graphic
+	sudo $(MKDIR) /usr/include/ELT/math
 	sudo $(CP) include/*.h /usr/include/ELT/
 	sudo $(CP) include/input/*.h /usr/include/ELT/input/
 	sudo $(CP) include/system/*.h /usr/include/ELT/system/
 	sudo $(CP) include/system/android/*.h /usr/include/ELT/system/android/
+	sudo $(CP) include/graphic/*.h /usr/include/ELT/graphic/
+	sudo $(CP) include/math/*.h /usr/include/ELT/math/
 	sudo $(CP) build/$(TARGET) /usr/lib/$(TARGET)
 
 	
-uninstall : 	
+uninstall : 
+	
 
 
 clean:
@@ -139,4 +172,5 @@ clean:
 	$(RM) src/*.o
 	$(RM) src/input/*.o
 	$(RM) src/system/*.o	
-	echo -en "EveryThing removed"
+	echo -en "every object files removed"
+

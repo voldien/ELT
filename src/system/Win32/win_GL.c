@@ -31,7 +31,7 @@ DECLSPEC void ELTAPIENTRY ExInitExtension(ExWin hWnd,WindowContext deviContext,H
 
 
 	Int dataSize;
-	Int* pixAttribs = EX_NULL;
+	Int* pixAttribs = NULL;
 	// Create Context Attrib
 	ExCreateContextAttrib(deviContext,&pixAttribs,&dataSize,&engineDescription);
 
@@ -54,9 +54,9 @@ DECLSPEC void ELTAPIENTRY ExInitExtension(ExWin hWnd,WindowContext deviContext,H
 		wExDevPrintf(EX_TEXT("Failed to Set PixelFormat : %s \n"),ExGetErrorMessage(GetLastError()));
 
 	// Create OpenGL Context ARB
-	if(!(hrc = wglCreateContextAttribsARB(deviContext, EX_NULL,attribs))){
+	if(!(hrc = wglCreateContextAttribsARB(deviContext, NULL,attribs))){
 		ExDevPrintf("Failed to Create OpenGL Context ARB | %s.\n",glewGetErrorString(glGetError()));
-		MessageBoxA(EX_NULL,  (LPCSTR)glewGetErrorString(glGetError()),"Error | OpenGL Context",MB_OK | MB_ICONERROR);
+		MessageBoxA(NULL,  (LPCSTR)glewGetErrorString(glGetError()),"Error | OpenGL Context",MB_OK | MB_ICONERROR);
 	}
 	// Create a Shared OpenGL Context out of First Device Context
 	if(ExIsEngineState(ENGINE_SHARE_RENDERCONTEXT))
@@ -76,7 +76,7 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateSharedGLContext(HDC openglHDC, OpenGL
 	Int majorVer, minorVer;
 	Int dataSize;
 	Int nResults[1];
-	Int* pixAttribs = EX_NULL;
+	Int* pixAttribs = NULL;
 	PIXELFORMATDESCRIPTOR pfd;
 
 	// Create Context Attrib

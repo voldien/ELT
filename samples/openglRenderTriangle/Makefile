@@ -4,7 +4,7 @@
 CC := gcc
 RM := rm -rf
 CLFAGS := -Wall -O2
-CLIBS := -lEngineEx -lGL 
+CLIBS := -lEngineEx -lGL -lGLEW
 
 
 all : main

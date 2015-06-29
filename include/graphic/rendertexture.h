@@ -16,34 +16,26 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _UNIX_WIN_H_
-#define _UNIX_WIN_H_ 1
-#include"./../../EngineAssembly.h"
+#ifndef _ELT_RENDER_TEXTURE_H_
+#define _ELT_RENDER_TEXTURE_H_ 1
+#include"texture.h"
 
-#ifdef EX_LINUX
-#ifdef __cplusplus /* C++ environment */
+#ifdef __cplusplus	/* C++ environment	*/
 extern "C"{
 #endif
 
 
-/**
-
-    @return
-*/
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(int x, int y, int width, int height);
-/**
-
-    @return
-*/
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(int x , int y, int width, int height, void** glx_window);
+extern ExTexture* ExCreateRenderTexture(unsigned int width, unsigned int height,unsigned int attachment);
 
 
-extern DECLSPEC int ExSupportOpenGL(void);
 
 
-#ifdef __cplusplus /* C++ environment */
-};
+
+
+#ifdef __cplusplus	/* C++ environment	*/
+}
 #endif
 
-#endif
+
+
 #endif

@@ -1,7 +1,8 @@
 #include"elt_timer.h"
 
 #ifdef EX_WINDOWS
-#	include<WinBase.h>
+#include<windef.h>
+#include<windows.h>
 #elif defined(EX_UNIX)
 #	include<errno.h>
 #	include<unistd.h>
@@ -9,8 +10,9 @@
 #include<time.h>
 #include<signal.h>
 
-
 Uint64 elt_time = 0;
+
+
 
 DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback, void* param){
 	Uint32 pid;
@@ -65,7 +67,7 @@ DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback,
 DECLSPEC ExBoolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id){
 #ifdef EX_WINDOWS
 	ExBoolean error;
-	ExIsWinError(error = DeleteTimerQueueTimer(EX_NULL,(HANDLE)timer_id, EX_NULL));
+	ExIsWinError(error = DeleteTimerQueueTimer(NULL,(HANDLE)timer_id, NULL));
 	return error;
 #elif defined(EX_UNIX)
     if(timer_delete(timer_id) == -1)

@@ -2,6 +2,7 @@
 #include"ExPreProcessor.h"
 
 #ifdef EX_WINDOWS
+#include"system/win/win_wndproc.h"
     #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.dll")
     #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.dll")
     #pragma warning(disable : 4273)     // 'function' : inconsistent DLL linkage
@@ -14,14 +15,14 @@
 	#pragma comment(lib,"libGLESv2.lib")
 
 	#include<dwmapi.h>
-	#include<WinUser.h>
-	#include<Windows.h>
-	#include<GL/GL.h>
+	#include<winuser.h>
+	#include<windows.h>
+	#include<GL/gl.h>
 	#include<EGL/egl.h>
 	#include<GL/glext.h>
 	#include<GL/wglext.h>
     	#include<GL/glu.h>
-    #define GL_GET_PROC(x)   wglGetProcAddress( (LPCSTR)( x ) )         /*  get OpenGL function process address */
+	#define GL_GET_PROC(x)   wglGetProcAddress( (LPCSTR)( x ) )         /*  get OpenGL function process address */
 
 #elif defined(EX_LINUX)
     #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.so")
@@ -38,13 +39,30 @@
     #include<GL/glxext.h>
     #include<GL/glu.h>
 	#include"system/unix/unix_win.h"
+
+/*
+	#ifdef GL_ES_VERSION_2_0
+        #include<GLES/gl2.h>
+        #include<GLES/gl2ext.h>
+        #include<GLES/gl2platform.h>
+    #else
+        #include<GLES/gl.h>
+        #include<GLES/glext.h>
+        #include<GLES/glplatform.h>
+	#endif
+
+*/
    #define GL_GET_PROC(x) glXGetProcAddress( ( x ) )           /**  get OpenGL function process address */
 #elif defined(EX_ANDROID)
     #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.so")      /** */
     #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.so")  /** */
     #include<jni.h>
     #include<android/native_activity.h>
-	#ifdef GL_ES_VERSION_2_0
+	#ifdef GL_ES_VERSION_3_0
+        #include<GLES/gl3.h>
+        #include<GLES/gl3ext.h>
+        #include<GLES/gl3platform.h>
+	#elif defined(GL_ES_VERSION_2_0)
         #include<GLES/gl2.h>
         #include<GLES/gl2ext.h>
         #include<GLES/gl2platform.h>
@@ -81,6 +99,8 @@
 #endif 
 #endif 
 #include<KHR/khrplatform.h>
+
+
 
 /*
 
@@ -239,6 +259,10 @@ DECLSPEC inline OpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void){
 #endif
 }
 
+
+
+
+
 DECLSPEC inline void ELTAPIENTRY ExMakeGLCurrent(WindowContext drawable, OpenGLContext glc){
 #ifdef EX_WINDOWS
 	ExIsWinError(wglMakeCurrent(drawable,glc));
@@ -354,7 +378,7 @@ static OpenGLContext create_temp_gl_context(HWND window){
 	*/
 	if(!(gl_context = wglCreateContext(hDC))){
 		wExDevPrintf(EX_TEXT("Failed to Create OpenGL Context : %s\n"), ExGetErrorMessage(GetLastError()));
-		MessageBox(EX_NULL, EX_TEXT("Failed to Create Window OpenGL Context"), EX_TEXT("ERROR"), MB_OK | MB_ICONERROR);
+		MessageBox(NULL, EX_TEXT("Failed to Create Window OpenGL Context"), EX_TEXT("ERROR"), MB_OK | MB_ICONERROR);
 		return NULL;
 	}
 	/**
@@ -394,7 +418,7 @@ static HWND create_temp_gl_win(OpenGLContext* pglc_context){
 	wc.hbrBackground =  (HBRUSH) 0;
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
-	wc.lpszMenuName = EX_NULL;
+	wc.lpszMenuName = NULL;
     wc.lpszClassName = TEMP_WINDOW_CLASS;
 
 	RegisterClassEx(&wc);
@@ -456,9 +480,9 @@ static int choose_fbconfig(GLXFBConfig* p_fbconfig){
 		if(!pict_format)continue;
 
 		p_fbconfig[0] = fbconfigs[i];
-        if(engineDescription.alphaChannel > 0){
-            if(pict_format->direct.alphaMask > 0)break;
-        }else break;
+		if(engineDescription.alphaChannel > 0){
+		    if(pict_format->direct.alphaMask > 0)break;
+		}else break;
 
 	}
 	return 1;
@@ -530,29 +554,44 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 
 	}
 	else if(erenderingflag & EX_OPENGL){
-		Int32 pixAttribs[] = {
-                GLX_RENDER_TYPE, GLX_RGBA_BIT,
-                GLX_X_RENDERABLE, True,
-                GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
-                GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
-                GLX_DOUBLEBUFFER, True,
-                GLX_AUX_BUFFERS, 0,
+
+
+         int pixAttribs[] = {
+				GLX_RENDER_TYPE, GLX_RGBA_BIT,
+              			GLX_X_RENDERABLE, True,
+              	GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
+            	GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
+                          GLX_RED_SIZE,    8,
+                          GLX_GREEN_SIZE,  8,
+                          GLX_BLUE_SIZE,   8,
+                          GLX_ALPHA_SIZE,  8,
+             			GLX_DOUBLEBUFFER, True,
+                          GLX_DEPTH_SIZE,  24,
+                          None};
+	
+	//	Int32 pixAttribs[] = {
+            //    GLX_RENDER_TYPE, GLX_RGBA_BIT,
+              //  GLX_X_RENDERABLE, True,
+              //  GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
+            //    GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
+             //   GLX_DOUBLEBUFFER, True,
+             //   GLX_AUX_BUFFERS, 0,
                 /**/
-                GLX_RED_SIZE, 8,
-                GLX_GREEN_SIZE, 8,
-                GLX_BLUE_SIZE, 8,
-                GLX_ALPHA_SIZE,engineDescription.alphaChannel,
-                GLX_DEPTH_SIZE, 24,
-                GLX_STENCIL_SIZE,engineDescription.StencilBits,
+             //   GLX_RED_SIZE, 1,
+             //   GLX_GREEN_SIZE, 1,
+              //  GLX_BLUE_SIZE, 1,
+             //   GLX_ALPHA_SIZE,engineDescription.alphaChannel,
+              //  GLX_DEPTH_SIZE, 1,
+               // GLX_STENCIL_SIZE,engineDescription.StencilBits,
 
                 //GLX_STEREO,0,
-                GLX_SAMPLE_BUFFERS_ARB,engineDescription.sample[0] != 0 ? 1 : 0,
+                //GLX_SAMPLE_BUFFERS_ARB,engineDescription.sample[0] != 0 ? 1 : 0,
                 //GLX_SAMPLES_ARB,engineDescription.sample[0],
                 //GLX_TRANSPARENT_TYPE, GLX_TRANSPARENT_RGB,
-                None,
+                //None,
 				/*
 			//GLX_TRANSPARENT_ARB, WGL_TRANSPARENT_ALPHA_VALUE_ARB,,*/
-			}; // NULL termination
+		//}; // NULL termination
 		if(size)size =sizeof(pixAttribs);
 		memcpy(attribs,(int*)pixAttribs,sizeof(pixAttribs));
 
@@ -590,7 +629,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 }
 
  DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
-	OpenGLContext glc = 0;
+	OpenGLContext glc = NULL;
 	unsigned int render_vendor;
 #ifdef EX_WINDOWS
 
@@ -662,8 +701,8 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
         Context attributes
     */
     int context_attribs[]={
-	WGL_CONTEXT_MAJOR_VERSION_ARB, !major_version ? ((ExGetOpenGLVersion() - (ExGetOpenGLVersion() % 100)) / 100) : major_version,
-        WGL_CONTEXT_MINOR_VERSION_ARB, minor_version ? ExGetOpenGLVersion() % 100 : minor_version,
+	WGL_CONTEXT_MAJOR_VERSION_ARB, !major_version ? ((ExGetOpenGLVersion(NULL,NULL) - (ExGetOpenGLVersion(NULL,NULL) % 100)) / 100) : major_version,
+        WGL_CONTEXT_MINOR_VERSION_ARB, minor_version ? ExGetOpenGLVersion(NULL,NULL) % 100 : minor_version,
         WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
         #ifdef EX_DEBUG
         WGL_CONTEXT_FLAGS_ARB,WGL_CONTEXT_DEBUG_BIT_ARB,
@@ -675,7 +714,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     /*TODO: Naming between context attributes and for choosing a pixel-format
         Create pixel format attributes
     */
-	ExCreateContextAttrib(hDC,&pixAttribs[0],(Int32*)&dataSize,&engineDescription, EX_OPENGL);
+	ExCreateContextAttrib(hDC,&pixAttribs[0],(Int32*)&dataSize, EX_OPENGL);
 
 
 	if(!wglChoosePixelFormatARB(hDC, &pixAttribs[0], NULL, 1, pixelFormat, (unsigned int*)&nResults[0]))
@@ -699,10 +738,10 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     /**
         Create OpenGL Context.
     */
-    if(!(glc = wglCreateContextAttribsARB(hDC, EX_NULL,pixAttribs))){
+    if(!(glc = wglCreateContextAttribsARB(hDC, NULL,pixAttribs))){
         //ExDevPrintf(EX_TEXT("Failed to Create OpenGL Context ARB | %s.\n"),glewGetErrorString(glGetError()));
-        //MessageBoxA(EX_NULL,  (LPCSTR)glewGetErrorString(glGetError()),"Error | OpenGL Context",MB_OK | MB_ICONERROR);
-		ExMessageBox(EX_NULL, EX_TEXT(""), EX_TEXT(""), MB_OK |MB_ICONERROR);
+        //MessageBoxA(NULL,  (LPCSTR)glewGetErrorString(glGetError()),"Error | OpenGL Context",MB_OK | MB_ICONERROR);
+		ExMessageBox(NULL, EX_TEXT(""), EX_TEXT(""), MB_OK |MB_ICONERROR);
     }
 
 
@@ -717,17 +756,16 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 	GLXFBConfig fbconfig;
     glXQueryVersion(display,&maj,&min);
 
-    /**
-        Get Current Supported Version of OpenGL
-    */
-    glGetIntegerv(GL_MAJOR_VERSION, &major_version);
-    glGetIntegerv(GL_MINOR_VERSION, &minor_version);
+
+    /*	Get Current Supported Version of OpenGL	*/
+    ExGetOpenGLVersion(&major_version, &minor_version);
 
 
+	/*if windows doesn't support the opengl, than try to use */
 
     int context_attribs[]={
-        GLX_CONTEXT_MAJOR_VERSION_ARB,/* major_version*/3, //TODO obtain latest major version
-        GLX_CONTEXT_MINOR_VERSION_ARB,/* minor_version*/3, //TODO obtain latest minor version
+        GLX_CONTEXT_MAJOR_VERSION_ARB,/* major_version*/major_version, //TODO obtain latest major version
+        GLX_CONTEXT_MINOR_VERSION_ARB,/* minor_version*/minor_version, //TODO obtain latest minor version
         #ifdef EX_DEBUG
         GLX_CONTEXT_FLAGS_ARB,GLX_CONTEXT_DEBUG_BIT_ARB | GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,   /*  Debug TODO add hint*/
         #else
@@ -748,27 +786,32 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 
 		if(glXCreateContextAttribsARB){
 			choose_fbconfig(&fbconfig);
-
-			glc = glXCreateContextAttribsARB(display, fbconfig,0, True,context_attribs);
-            glXMakeCurrent(display, window,glc);
-			XSync(display,False);
+			//TODO resolve 
+			//glc = glXCreateContextAttribsARB(display, fbconfig,0, True,context_attribs);
+			XSync(display, False );
 		}
 	}
-	else{   /*      */
+	/*else{ 
 		int att[60] = {0};
 		ExCreateContextAttrib(0,&att[0],0,EX_OPENGL);
 		vi = glXChooseVisual(display,DefaultScreen(display),att);
 
 		glc = glXCreateContext(display,vi,0,True);
-	}
+	}*/
 	/*
 
 	*/
 	if(!glc){
-        glc = glXCreateNewContext(display, fbconfig, GLX_RGBA_TYPE,0,True);
+		glc = glXCreateNewContext(display, fbconfig, GLX_RGBA_TYPE,0,True);
 	}
 	if(!glXIsDirect(display, glc))
         fprintf(stderr,"Indirect GLX rendering context obtained\n");    /*a lose of performance.*/
+
+/*
+	if (!glXMakeContextCurrent(Xdisplay, glX_window_handle, glX_window_handle, render_context)) {
+        fatalError("glXMakeCurrent failed for window\n");
+    	}
+*/
 	return glc;
 #elif defined(EX_ANDROID)
 
@@ -780,8 +823,18 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 #endif
 }
 
+DECLSPEC OpenGLContext ELTAPIENTRY ExCreateTempGLContext(void){
+	OpenGLContext glc;
+#ifdef EX_LINUX
+	GLXFBConfig fbconfig;
+	choose_fbconfig(&fbconfig);
+	glc = glXCreateNewContext(display, fbconfig, GLX_RGBA_TYPE,0,1);
+#endif;
+	return glc;
+}
+
 /**
-    \Create Shared OpenGL Context from a already existing context.
+    Create Shared OpenGL Context from a already existing context.
 */
 DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLContext glc){
     int major_version,minor_version;
@@ -915,7 +968,9 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
 	//glDrawBuffer(GL_BACK);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
-	//glDepthRange(0.0, 1.0);
+#ifndef EX_ANDROID
+	glDepthRange(0.0, 1.0);
+#endif
 	glDepthMask(GL_TRUE);
 	glPolygonOffset(0.0f, 0.0f);
 
@@ -996,8 +1051,8 @@ DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin win
 		//SetWindowLongPtr(hWnd,GWL_EXSTYLE, WS_EX_APPWINDOW);							//Change Extened Window Class Style.
 		ShowWindow(window, SW_MAXIMIZE);
 
-		if((cdsRet = ChangeDisplaySettingsEx(dd.DeviceName,&dm,EX_NULL,(CDS_TEST),0)) == DISP_CHANGE_SUCCESSFUL){
-			cdsRet = ChangeDisplaySettingsEx(dd.DeviceName,&dm,EX_NULL,(CDS_FULLSCREEN),0);
+		if((cdsRet = ChangeDisplaySettingsEx(dd.DeviceName,&dm,NULL,(CDS_TEST),0)) == DISP_CHANGE_SUCCESSFUL){
+			cdsRet = ChangeDisplaySettingsEx(dd.DeviceName,&dm,NULL,(CDS_FULLSCREEN),0);
 			ExPrintf("displayed changed to fullscreen Mode\n");
 			//engineDescription.EngineFlag |= ENGINE_FULLSCREEN;
 			return cdsfullscreen;
@@ -1083,11 +1138,11 @@ DECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window,Enum ienum){
 		bb.fEnable = TRUE;
 	else
 		bb.fEnable = FALSE;
-	ExIsHError(hr = DwmEnableBlurBehindWindow(window, &bb));
+	hr = DwmEnableBlurBehindWindow(window, &bb);
 #elif defined(EX_LINUX)
 	XTextProperty textprop = {0};
 	XWMHints *startup_state;
-	EX_C_STRUCT exsize size ;
+	EX_C_STRUCT exsize size;
 	XSizeHints hints;
 
 	ExGetWindowSizev(window,&size);
@@ -1120,26 +1175,35 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void){
 
 DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor){
     if(!ExGetCurrentOpenGLContext()){
-	/*	create temp*/
-	unsigned int version;
-	OpenGLContext glc;
-	//glc = ExCreateTempGLContext();
-	version = (atof((const char*)glGetString(GL_VERSION)) * 100.0f);
-	if(major)
-		glGetIntegerv(GL_MAJOR_VERSION, major);
-	if(minor)
-		glGetIntegerv(GL_MINOR_VERSION, minor);
+		/*	create temp*/
+		ExWin win;
+		unsigned int version;
+		OpenGLContext glc;
+#ifndef EX_ANDROID
+		win = ExCreateGLWindow(0,0,1,1,0);
+		glc = ExCreateTempGLContext();
+		ExMakeGLCurrent(win, glc);
+		version = ExGetOpenGLShadingVersion();
+		/*TODO resolve later*/
 
-	//ExDestroyContext(glc);
-	return version;
+		if(major)
+			glGetIntegerv(GL_MAJOR_VERSION, major);
+		if(minor)
+			glGetIntegerv(GL_MINOR_VERSION, minor);
+#endif
+		ExMakeGLCurrent(0,0);
+		ExDestroyContext(NULL,glc);
+		ExDestroyWindow(win);
+		return version;
     }
     else{
-	if(major)
-		glGetIntegerv(GL_MAJOR_VERSION, major);
-	if(minor)
-		glGetIntegerv(GL_MINOR_VERSION, minor);
-
-        return (Uint32)(atof((const char*)glGetString(GL_VERSION)) * 100.0f);
+#ifndef EX_ANDROID
+		if(major)
+			glGetIntegerv(GL_MAJOR_VERSION, major);
+		if(minor)
+			glGetIntegerv(GL_MINOR_VERSION, minor);
+#endif
+        return ExGetOpenGLShadingVersion();
     }
 }
 //TODO see if it can be obtain before creating the context.

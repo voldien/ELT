@@ -25,7 +25,7 @@
 #define ExMalloc malloc
 #define ExCalloc calloc
 #define ExReAlloc realloc
-#define ExFree(p_pointer) {free(p_pointer);p_pointer = EX_NULL;}
+#define ExFree(p_pointer) {free(p_pointer);p_pointer = NULL;}
 
 #ifdef __cplusplus	// C++ Environment
 extern "C"{
@@ -36,6 +36,21 @@ extern "C"{
     @return number of bytes per page.
 */
 extern DECLSPEC int ELTAPIENTRY ExGetPageSize(void);
+
+
+typedef struct ex_pool_allactor{
+	void* next;
+	//void* data[0];
+}ExPoolAllactor;
+/*	poll allocator	*/
+extern DECLSPEC ExPoolAllactor* ELTAPIENTRY ExPoolCreate(unsigned int num, unsigned int itemsize);
+extern DECLSPEC void* ELTAPIENTRY ExPoolObtain(ExPoolAllactor* allactor);
+extern DECLSPEC void* ELTAPIENTRY ExPoolReturn(ExPoolAllactor* allactor, void* data, unsigned int len);
+extern DECLSPEC void* ELTAPIENTRY ExPoolResize(ExPoolAllactor* allcotor, unsigned num, unsigned int itemsize);
+extern DECLSPEC void  ELTAPIENTRY ExPoolFree(ExPoolAllactor* allactor);
+
+#define ExPoolIndex(alloc,index,len)	( ( alloc ) + (( index ) * ( len )  + ( index )) )
+#define ExPoolDataIndex(alloc,data,len)	((data - alloc)
 
 
 #ifdef __cplusplus

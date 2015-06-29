@@ -16,8 +16,9 @@
 #elif defined(EX_WINDOWS)   /*  Windows network*/
 #	pragma comment(lib,"Ws2_32.lib")
 #	pragma comment(lib,"wininet")
-#	include<WinInet.h>
-#	include<WinSock.h>
+#	include<windows.h>
+#	include<wininet.h>
+#	include<winsock.h>
 
 WSADATA wsadata = {0};
 #define EX_WSA_VERSION MAKEWORD(2,2)
@@ -32,7 +33,7 @@ static int inline init_wsa(void){  /*  initialize was*/
 // http://www.linuxhowtos.org/data/6/server.c
 
 
-/**
+/*
 	create ip address on current machine
 */
 static int inline create_ip_address(const char* ip, unsigned int port){
@@ -73,6 +74,7 @@ static int ip_exists(const char* ip){
 #endif
 	return FALSE;
 }
+
 
 DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port,unsigned int protocol){
     #ifdef EX_WINDOWS

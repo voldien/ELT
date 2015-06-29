@@ -20,7 +20,7 @@
 #define _WIN32_WINDOW_H_ 1
 #include"./../../ExPreProcessor.h"
 #ifdef EX_WINDOWS
-#include<Windows.h>
+#include<windows.h>
 #include"./../../EngineAssembly.h"
 #include"win_wndproc.h"
 #include"win_directX.h"
@@ -56,29 +56,20 @@ typedef struct DesktopWindow{	// Use of When Application InterFace is Hooked up 
 	WNDPROC originalListViewProc;// pointer to origional
 }DESKTOP, *LDESKTOP;
 
+struct EventHandler{
+	SystemKeyDown systemkeyevent;
+	KeyBoardCallBack keyboardevent;
+	ReShapeCallBack reshapeEvent;
+	MouseButton mousebutton;
+	MotionCallBack motionevent;
+	HMENU contexthmenu;
+};
 
 typedef struct ExNativWindowHandler{
-	struct EventHandler{
-		SystemKeyDown systemkeyevent;
-		KeyBoardCallBack keyboardevent;
-		ReShapeCallBack reshapeEvent;
-		MouseButton mousebutton;
-		MotionCallBack motionevent;
-		HMENU contexthmenu;
-	};
 	Enum windowFlag;
-	EX_C_STRUCT ExNativWindowHandler::EventHandler events;
-
+	EX_C_STRUCT EventHandler events;
 }ExNativWindow;
 typedef struct ExGLWindowHandler{
-	struct EventHandler{
-		SystemKeyDown systemkeyevent;
-		KeyBoardCallBack keyboardevent;
-		ReShapeCallBack reshapeEvent;
-		MouseButton mousebutton;
-		MotionCallBack motionevent;
-		HMENU contexthmenu;
-	};
 	Enum windowFlag;
 	EX_C_STRUCT EventHandler events;
 }HExGLWindow;
@@ -175,7 +166,5 @@ extern DECLSPEC void ELTAPIENTRY ExRunWinPeekMessage(void);
 
 
 #include"win_controls.h"
-#include"wnd_filedialog.h"
-#include"wnd_input.h"
 #endif
 #endif

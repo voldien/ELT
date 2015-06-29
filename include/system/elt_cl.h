@@ -26,32 +26,34 @@
 #define ELT_CL_FLOPS_HIGHEST 0x400          /* Device with most FLOPS */
 #define ELT_CL_AVAILABLE_PLATFORM 0x1000    /* Get available device */
 //#define EX_CL_GL_SYNC   0x2000    //TODO check if it's needed
-#ifdef __cplusplus	// C++ Environment
+
+#ifdef __cplusplus	/* C++ Environment	*/
 extern "C"{
 #endif
+
 /**
 	Get CL context
-    @return
+	@return
 */
 extern DECLSPEC void* ELTAPIFASTENTRY ExGetCLContext(void);
 
 /**
 	Get current cl context
-    @return CL context.
+	@return CL context.
 */
 extern DECLSPEC void* ELTAPIFASTENTRY ExGetCurrentCLContext(void);
 
 /**
-    Create OpenCL Context
-    @return
+	Create OpenCL Context
+	@return
 */
-extern DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContext(Enum eEnumFlag);
+extern DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLContext(Enum eEnumFlag);
 
 /**
-    Query Context information
-    @return
+	Query Context information
+	@return
 */
-extern DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(void* context,void* param_value,Enum param_name);
+extern DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(OpenCLContext context,void* param_value,Enum param_name);
 /**
 	Release Current CL Context
 */
@@ -59,18 +61,21 @@ extern DECLSPEC void ELTAPIENTRY ExReleaseCL(void);
 /**
 	Release CL Context
 */
-extern DECLSPEC void ELTAPIENTRY ExReleaseCLContext(void* context);
+extern DECLSPEC void ELTAPIENTRY ExReleaseCLContext(OpenCLContext context);
 
 /**
 	Create shared CL context with OpenGL context
-    @return CL context.
+	@return CL context.
 */
-extern DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowContext window,Enum erenderingFlag);
+extern DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowContext window,Enum erenderingFlag);
 
-
+/**/
+extern DECLSPEC void* ExCreateCommandQueue(OpenCLContext context, void*device);
+/**/
+extern DECLSPEC void* ExCreateProgram(OpenCLContext context, void* device, const char* cfilename,...);
 /**
-    Get CL platform identification
-    @return current CL context.
+	Get CL platform identification
+	@return current CL context.
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum flag);
 /**
@@ -85,4 +90,5 @@ extern DECLSPEC Int32 ELTAPIENTRY ExGetClDevCap(void* device);
 #ifdef __cplusplus	/* C++ Environment  */
 }
 #endif
+
 #endif

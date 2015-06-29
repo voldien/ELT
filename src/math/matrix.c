@@ -269,6 +269,45 @@ void mat4x4_rotationZ(vec4x4_t f_mat4, float z_radi){
 	f_mat4[2][0] = 0.0f;		 f_mat4[2][1] = 0.0f;		  f_mat4[2][2] = 1.0f; f_mat4[2][3] = 0.0f;
 	f_mat4[3][0] = 0.0f;		 f_mat4[3][1] = 0.0f;		  f_mat4[3][2] = 0.0f; f_mat4[3][3] = 1.0f;
 }
+void mat4x4_rotationQ(vec4x4_t f_mat4, vec4_t quad){
+
+	float w = quad[0], x = quad[1], y = quad[2], z = quad[3],
+	x2 = x + x,
+	y2 = y + y,
+	z2 = z + z,
+
+	xx = x * x2,
+	xy = x * y2,
+	xz = x * z2,
+	yy = y * y2,
+	yz = y * z2,
+	zz = z * z2,
+	wx = w * x2,
+	wy = w * y2,
+	wz = w * z2;
+
+
+	f_mat4[0][0] = 1 - (yy + zz);
+	f_mat4[0][1] = xy + wz;
+	f_mat4[0][2] = xz - wy;
+	f_mat4[0][3] = 0;
+
+	f_mat4[1][0] = xy - wz;
+	f_mat4[1][1] =  1 - (xx + zz);
+	f_mat4[1][2] = yz + wx;
+	f_mat4[1][3] = 0;
+
+	f_mat4[2][0] =xz + wy;
+	f_mat4[2][1] =yz - wx;
+	f_mat4[2][2] = 1 - (xx + yy);
+	f_mat4[2][3] = 0.0;
+
+	f_mat4[3][0] =0.0;
+	f_mat4[3][1] =0.0;
+	f_mat4[3][2] =0.0;
+	f_mat4[3][3] =1.0;
+
+}
 
 
 void mat4x4_multi_translation(vec4x4_t f_mat4,const vec3_t translate){
@@ -307,7 +346,7 @@ void mat4x4_multi_rotationz(vec4x4_t f_mat4, float f_z_radi){
 void mat4x4_multi_rotationQ(vec4x4_t f_mat4,const float f_quad[4]){
 	vec4x4 f_rot_q;
 	vec4x4 f_rot_q2;
-	//rotationQ_mat4(f_rot_q, f_quad);
+	mat4x4_rotationQ(f_rot_q, f_quad);
 	mat4x4_multi_mat4x4(f_mat4,f_rot_q,f_rot_q2);
 	memcpy(f_mat4,f_rot_q2,sizeof(vec4x4));
 }

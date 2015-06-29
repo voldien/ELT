@@ -74,6 +74,7 @@
 #elif defined(clang)            /*  LLVM    */
     #define EX_LLVM 1
 	#define ENGINE_EX_COMPILER 5
+	#define EX_COMPILER_NAME "LLVM"
 #else
 	#error UnSupported Compiler.
 #endif

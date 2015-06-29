@@ -17,7 +17,7 @@
 
 */
 #ifndef _ELT_AUDIO_H_
-#define _ELT_AUDIO_H_
+#define _ELT_AUDIO_H_ 1
 #include"./../EngineAssembly.h"
 #ifdef __cplusplus	// C++ Environment
 extern "C"{

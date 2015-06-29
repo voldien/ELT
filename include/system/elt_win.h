@@ -32,7 +32,7 @@ extern "C"{
 	#define ExMessageBox(a,b,c,d) gtk_message_dialog_new()
 #endif
 #ifdef EX_LINUX
-extern Display *display;
+extern void* display;
 #endif
 
 #define EX_WIN_SCREENSAVER_ENABLE   0x200000

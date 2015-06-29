@@ -20,7 +20,7 @@
 #ifndef _ELT_MOUSE_H_
 #define _ELT_MOUSE_H_ 1
 #include"./../EngineAssembly.h"
-#include"./../System/elt_errorhandler.h"
+#include"./../system/elt_errorhandler.h"
 #ifdef EX_WINDOWS
 	typedef HCURSOR ExCursor;
 	//extern IDirectInputDevice8* hMouseDevice;
@@ -54,6 +54,7 @@
 #ifdef __cplusplus	// C++ Environment
 extern "C"{
 #endif
+
 /**
 	Capture mouse
 */

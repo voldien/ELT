@@ -12,11 +12,11 @@
 #include<GL/gl.h>
 #include<GL/glx.h>
 #include"system/elt_gl.h"
-Display *display = 0;
+void* display = 0;
 
 extern int choose_fbconfig(GLXFBConfig* p_fbconfig);
 
-DECLSPEC XID ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){
+DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){
 	Visual* visual;
 	Int depth, text_x,text_y;
 	XSetWindowAttributes swa = {};
@@ -55,16 +55,14 @@ DECLSPEC XID ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int
                               x,y,width,height,0,
                               depth,InputOutput,visual, winmask,&swa);
 
-	XStoreName(display,window, ExGetDefaultWindowTitle(title,sizeof(title)));
+	XStoreName(display,window, "default");
 
     xattr.override_redirect = False;
     XChangeWindowAttributes (display, window, CWOverrideRedirect, &xattr );
 	//XSelectInput(display,window,ExposureMask | StructureNotifyMask);
 
 
-    /**
-
-    */
+    /*	*/
 	fontinfo = XLoadQueryFont(display, EX_TEXT("10x20"));
 	gr_values.font = fontinfo->fid;
 	gr_values.foreground = XBlackPixel(display,0);
@@ -75,7 +73,7 @@ DECLSPEC XID ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int
 /**
     Create a Window defined for OpenGL X purpose
 */
-DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 height, void** pglx_window){
+DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 height, void** pglx_window){
 	Visual* visual;
 
 	XVisualInfo* vi;
@@ -83,7 +81,7 @@ DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 
 	Int depth, text_x,text_y;
 	int screen;
 	int major,minor;
-	Int32 winmask;
+	Int32 winmask = 0;
 	XSetWindowAttributes winAttribs = {0};
 	Window window;
 	Window* root;
@@ -106,9 +104,8 @@ DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 
 
 	screen = DefaultScreen(display);
 	root = RootWindow(display,screen);
-    /*
 
-    */
+	/*	*/
 	if(!glXQueryVersion(display,&major,&minor))
         fprintf(stderr,"could not");
 
@@ -131,8 +128,6 @@ DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 
         }else break;
 
 	}
-    //vi = (XVisualInfo*)glXGetVisualFromFBConfig(display, fbconfigs[0]);
-
 
 	winAttribs.event_mask = ExposureMask | VisibilityChangeMask | KeyPressMask | PointerMotionMask | StructureNotifyMask | ResizeRedirectMask;
 	winAttribs.border_pixel = 0;
@@ -149,20 +144,19 @@ DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 
                               InputOutput,
                               vi->visual,
                                 winmask,&winAttribs);
-	/**
-        problems was it was a random pointer as a value....
-	*/
+
+	/*	problems was it was a random pointer as a value....	*/
     if(major >= 1 && minor >= 3){
+    	/*glXCreateWindow create opengl for window that might not have capability for OpenGL*/
         //glx_window = glXCreateWindow(display, fbConfigs,window,0);
         //pglx_window[0] = glx_window;
-        if(pglx_window)
-            pglx_window[0] = 0;
+    	if(pglx_window)
+		pglx_window[0] = 0;
     }
 
-	XStoreName(display,window, ExGetDefaultWindowTitle(title,sizeof(title)));
-    /*
-        event feed masking
-    */
+	XStoreName(display,window, "default");
+
+    /*	event feed masking	*/
 	XSelectInput(display,window,ExposureMask | KeyPressMask | ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask | ButtonMotionMask | PointerMotionMask);
 
 /*
@@ -178,12 +172,13 @@ DECLSPEC XID ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 
 	gr_values.foreground = XBlackPixel(display,0);
 	graphical_context = XCreateGC(display,window, GCFont + GCForeground, &gr_values);
 
+
    //XIfEvent(display, &event, WaitFormMap)
 
     //if((del_atom = XInternAtom(display, "WM_DELETE_WINDOW", 0)) != None){
     //    XSetWMProtocols(display, window, &del_atom, 1);
     //}
-    XFlush(display);
+    //XFlush(display);
 	return window;
 }
 

@@ -2,6 +2,9 @@
 #include"system/elt_win.h"
 #ifdef EX_LINUX
 #include"system/unix/unix_win.h"
+#	include<X11/Xlib.h>
+#elif defined(EX_WINDOWS)
+#	include<windows.h>
 #endif
 
 static int surface_bits_per_pixel(unsigned int format){

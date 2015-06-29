@@ -1,6 +1,8 @@
 #include"elt_thread.h"
 #include"ExPreProcessor.h"
 #ifdef EX_WINDOWS           /*  Windows */
+#include<windef.h>
+#include<windows.h>
 #   define EX_START_THREAD(x)	ResumeThread( ( x ) )
 #elif defined(EX_UNIX)   /*  Linux & android  */
 #   define _GNU_SOURCE
@@ -21,18 +23,19 @@
 
 //http://pubs.opengroup.org/onlinepubs/7908799/xsh/pthread.h.html
 
+
 DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpParamater,Uint32* pid){
 #ifdef EX_WINDOWS
 	DWORD p_id;
 	HANDLE t0;
 	if(!(t0 = CreateThread(0,128,(LPTHREAD_START_ROUTINE)callback,lpParamater,0,&p_id))){
 		ExIsError(t0);
-		return EX_NULL;
+		return NULL;
 	}
 	if(!pid)
 		*pid = p_id;
 	EX_START_THREAD(t0);
-	return hnd;
+	return t0;
 #elif defined(EX_UNIX)
 	pthread_t t0;
     pthread_attr_t attr;
@@ -55,7 +58,7 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback,voi
 	HANDLE t0;
 	if(!(t0 = CreateThread(0,128,(LPTHREAD_START_ROUTINE)callback,lpParamater,0,&p_id))){
 		ExIsError(t0);
-		return EX_NULL;
+		return NULL;
 	}
     SetThreadAffinityMask(t0, ncore);
 	if(!pid)
@@ -151,9 +154,12 @@ DECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread,Enum nPriority)
 #elif defined(EX_UNIX)
 	struct sched_param param;
 	switch(nPriority){
-		case EX_THREAD_PRIORITY_LOW:break;
-		case EX_THREAD_PRIORITY_MEDIUM:break;
-		case EX_THREAD_PRIORITY_HIGH:break;
+		case EX_THREAD_PRIORITY_LOW:
+			break;
+		case EX_THREAD_PRIORITY_MEDIUM:
+			break;
+		case EX_THREAD_PRIORITY_HIGH:
+			break;
 	}
 	return pthread_setschedparam(thread,0,&param);
 #endif

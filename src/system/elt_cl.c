@@ -1,12 +1,15 @@
 #include"system/elt_cl.h"
+#include"ExPreProcessor.h"
+#include"system/eltfile.h"
 #if defined(EX_WINDOWS)
 #   define OPENCL_LIBRARY_NAME EX_TEXT("OpenCL.dll")
 	#include<CL/cl.h>
-	#include<CL/cl.h>
-	#include<CL/opencl.h>
+	#include<CL/cl_gl.h>
 	#include<CL/cl_gl_ext.h>
 	#include<CL/cl_platform.h>
-	#include<CL/cl_dx9_media_sharing.h>
+	#include<CL/cl_ext.h>
+
+	//#include<CL/cl_dx9_media_sharing.h>
 	#pragma comment(lib,"OpenCL.lib")
 
 #elif defined(EX_LINUX)
@@ -88,6 +91,7 @@ cl_context hClContext = NULL;
 extern DECLSPEC int ELTAPIENTRY ExGetOpenCLDevice(cl_platform_id platform,cl_device_id* device,unsigned int flag);
 static char* ELTAPIENTRY ExGetCLErrorMessage(cl_int error);
 
+
 static char* get_device_extension(cl_device_id device){
     unsigned int extension_size;
     char* extension;
@@ -118,7 +122,7 @@ DECLSPEC void* ELTAPIFASTENTRY ExGetCurrentCLContext(void){return hClContext;}
 
 
 
-DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContext(Enum flag){
+DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLContext(Enum flag){
 	cl_int cpPlatform;
 	cl_int ciErrNum;
 	Uint32 uiDevCount = 0;
@@ -133,9 +137,8 @@ DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContext(Enum flag){
         TODO check if needed or logic is accepted
     */
     loadOpenClLibrary();
-	/**
-        Get platform id
-	*/
+
+    /*	Get platform id	*/
 	if(!ExGetCLPlatformID(&cpPlatform,flag))
 		ExDevPrint("Failed to Get CL Platform ID");
 
@@ -180,7 +183,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExCreateCLContext(Enum flag){
 	return (ERESULT)hClContext;
 }
 
-DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowContext window,Enum flag){
+DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowContext window,Enum flag){
     Int32 cpPlatform,ciErrNum;Uint32 uiDevCount = 0;
     // device ids
     cl_device_id *cdDevices;
@@ -257,7 +260,9 @@ DECLSPEC void* ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowCont
     };
 #ifdef EX_WINDOWS
     if(flag & EX_OPENGL){props[2] = CL_WGL_HDC_KHR;}
+#	ifdef EX_INCLUDE_DIRECTX
     else if(flag & EX_DIRECTX){props[0] = CL_CONTEXT_ADAPTER_D3D9_KHR;}
+#	endif 
 #elif defined(EX_LINUX)
     if(flag & EX_OPENGL){props[2] = CL_GLX_DISPLAY_KHR;}
 #elif defined(EX_ANDROID)
@@ -302,7 +307,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(void* context,void* param_value,En
             ciErrNum = clGetContextInfo((cl_context)context, CL_CONTEXT_REFERENCE_COUNT,sizeof(cl_uint),param_value,&size);
 
             }break;
-        #ifdef EX_WINDOWS
+        #if defined(EX_WINDOWS) && defined(EX_INCLUDE_DIRECTX)
         case CL_CONTEXT_D3D10_PREFER_SHARED_RESOURCES_KHR:
             ciErrNum = clGetContextInfo((cl_context)context, CL_CONTEXT_REFERENCE_COUNT,sizeof(cl_reference),param_value,&size);
             break;
@@ -467,6 +472,89 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum fl
 	}
 	return FALSE;
 }
+
+/**/
+DECLSPEC void* ExCreateCommandQueue(void* context, void*device){
+    cl_int errNum;
+    cl_device_id* devices;
+    cl_command_queue commandQueue = NULL;
+    size_t deviceBufferSize = -1;
+
+    if(!device){
+
+    }
+
+    errNum = clGetContextInfo(context, CL_CONTEXT_DEVICES, 0,NULL, &deviceBufferSize);
+    if(errNum != CL_SUCCESS){
+        fprintf(stderr,"Failed to call clGetContextInfo(...,CL_CONTEXT_DEVICES,...)");
+        return NULL;
+    }
+
+    devices = (cl_device_id*)malloc(deviceBufferSize);
+    errNum = clGetContextInfo(context, CL_CONTEXT_DEVICES, deviceBufferSize, devices, NULL);
+    if(errNum != CL_SUCCESS){
+        fprintf(stderr,"Failed to get device IDs");
+        return NULL;
+    }
+
+    commandQueue = clCreateCommandQueue(context, device, 0, NULL);
+
+    if(!commandQueue){
+        printf("Failed to create commandQueue for device");
+
+    }
+
+    free(devices);
+    return commandQueue;
+
+}
+/**/
+DECLSPEC void* ExCreateProgram(void* context, void* device, const char* cfilename, ...){
+	va_list list;
+	cl_int errNum = 0;
+    cl_program program;
+    void* data;
+    size_t length = 0;
+    char buffer[1024*4] = {'\0'};
+    char* pbuffer = &buffer[0];
+    char* p;
+
+
+    /*	read argument */
+    va_start(list,cfilename);
+    while(( p = va_arg(list,char*)) !=  NULL){
+    	memcpy(pbuffer,p,strlen(p)+1);
+    	pbuffer++;
+    	pbuffer += strlen(p);
+    	*pbuffer++ = ' ';
+    	continue;
+    }
+
+    va_end(list);
+
+
+    /*	read file*/
+    if(!ExLoadFile(cfilename,&data))
+    	return NULL;
+
+    /*  error was length was wrong size....*/
+    program = clCreateProgramWithSource(context, 1, (const char**)&data, &length,&errNum);
+    errNum = clBuildProgram(program, 1,(const cl_device_id*)&device,
+    		(buffer[0] == '\0') ? NULL : buffer,
+    				NULL,NULL);
+
+    if(errNum != CL_SUCCESS){
+        char buildLog[1024];
+        clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, sizeof(buildLog), buildLog, NULL);
+        printf(buildLog);
+        clReleaseProgram(program);
+        program = 0;
+    }
+    free(data);
+    return program;
+}
+
+
 
 DECLSPEC void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, void* p_cl_device_id){
 #ifdef EX_DEBUG

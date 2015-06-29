@@ -73,9 +73,11 @@
 	#pragma comment(lib, "EngineEx.lib")
 #endif
 #endif
+
 #include"EngineAssembly.h"
 #include"EngineEx.h"
 #include"elt_thread.h"
+
 #if defined(EX_WINDOWS)
 
 #elif defined(EX_LINUX)
@@ -95,6 +97,7 @@
 #else
 	#error "Error! no supporting Devices"   /**/
 #endif
+
 #include"ExCommon.h"
 
 #endif

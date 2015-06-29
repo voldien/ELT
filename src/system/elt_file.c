@@ -1,7 +1,7 @@
 #include"system/eltfile.h"
 #include<stdio.h>
 
-static inline long ExGetFileStreamSize(FILE* file ){
+static inline long ExGetFileStreamSize(FILE* file){
     unsigned int pos;
     long size;
     pos = ftell(file);
@@ -22,7 +22,7 @@ DECLSPEC long ELTAPIENTRY ExGetFileSize(const char* cfilname){
     return size;
 }
 
-DECLSPEC int ELTAPIENTRY ExLoadFile(const char* cfilename,void** data){
+DECLSPEC int ELTAPIENTRY ExLoadFile(const char* cfilename, void** data){
     FILE* file;
     unsigned long size;
     file = fopen(cfilename,"rb");
@@ -31,6 +31,7 @@ DECLSPEC int ELTAPIENTRY ExLoadFile(const char* cfilename,void** data){
     size = ExGetFileStreamSize(file);
 
     data[0] = malloc(size);
+    memset(data[0],0,size);
     if(fread(data[0], 1, size,file) != size)
         return 0;
 
@@ -50,4 +51,12 @@ DECLSPEC int ELTAPIENTRY ExSaveFile(const char* cfilename, void* data, unsigned 
         return 0;
     fclose(file);
     return TRUE;
+}
+
+DECLSPEC int ELTAPIENTRY ExCreateDirectory(const char* directory){
+#ifdef EX_UNIX
+	return mkdir(directory,644);
+#elif defined(EX_WINDOWS)
+	return CreateDirectory(directory,NULL);
+#endif
 }

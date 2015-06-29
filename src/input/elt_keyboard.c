@@ -2,8 +2,7 @@
 
 #ifdef EX_WINDOWS
     #include<dinput.h>
-    #include<dinputd.h>
-    #include<Dbt.h>
+    #include<dbt.h>
     #include<oleauto.h>
     #include<shellapi.h>
 #elif defined(EX_LINUX)
@@ -323,8 +322,6 @@ DECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void){
 DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(Uint32 keyCode){
 #if defined(EX_WINDOWS)
 	return (ExBoolean)GetAsyncKeyState(keyCode);
-	ExUpdateKeyboard();
-	return (KeyBoardState[_index][keyCode] & 0x80);
 #elif defined(EX_LINUX)
 	return 0;
 #endif
@@ -359,9 +356,6 @@ DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode){
 DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyUp(const Uint32 keyCode){
 #if defined(EX_WINDOWS)
 	return GetAsyncKeyState(keyCode);
-	if(!((KeyBoardState[_index][keyCode]) & 0x80))
-		if(((KeyBoardState[_index1][keyCode]) & 0x80))
-			return TRUE;
 #elif defined(EX_LINUX)
 	return FALSE;
 #endif

@@ -3,8 +3,8 @@
 #include"system/elt_cl.h"
 #if defined(EX_WINDOWS)
 	#include"system/win/win_win32.h"
-	#include"system/win/wnd_input.h"
-	#include<WindowsX.h>
+	#include<winuser.h>
+	#include<windowsx.h>
 	#include<EGL/egl.h>
 #elif defined(EX_LINUX)
 	#include"system/unix/unix_win.h"
@@ -33,8 +33,8 @@
 #elif defined(EX_NACL)
 
 #endif
-
 #include"system/elt_icon.h"
+
 // Ex Create OpenGL ES declaration
 extern DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window);
 
@@ -47,11 +47,12 @@ extern DECLSPEC void* ELTAPIENTRY ExCreateOpenGLES(ExWin window);
 DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length){
 	if(!text)return NULL;
 	ExChar wchar[260] = {};
-	int major_version, minor_version;
+	int major;
+	int minor;
+
 #ifdef EX_LINUX
-    //glGetIntegerv(GL_MAJOR_VERSION, &major_version);
-    //glGetIntegerv(GL_MINOR_VERSION, &minor_version);
-    glXQueryVersion(XOpenDisplay(NULL),&major_version,&minor_version);
+	ExGetOpenGLVersion(&major,&minor);
+    //glXQueryVersion(XOpenDisplay(NULL),&major,&minor);
 #elif defined(EX_WINDOWS)
 	major_version = minor_version = 0;
 #endif
@@ -65,8 +66,8 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length){
 		EX_ENGINE_VERSION_REVISION,
 		EX_ENGINE_STATUS,
 		ExGetOSName(),
-		major_version,
-		minor_version);
+		major,
+		minor);
 	memcpy(text, wchar, MAX(sizeof(ExChar) * length + sizeof(ExChar),sizeof(wchar) / sizeof(ExChar)));
 	return text;
 }
@@ -94,8 +95,9 @@ static void* create_elt_icon(ExWin window){
     \height height of the window.
 */
 DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 height, Enum flag){
-	ExWin window = 0;
-	OpenGLContext glc = 0;
+	ExWin window = NULL;
+	OpenGLContext glc = NULL;
+	char title[256];
 #ifdef EX_WINDOWS
     void* directx;
 	if((flag & ENGINE_NATIVE) || flag == 0){
@@ -137,36 +139,32 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 		directx = (void*)ExInitDirectX(window);
 		if(flag & EX_OPENCL)
             ExCreateCLSharedContext((OpenGLContext)directx,GetDC(window),EX_DIRECTX);
-		return window;
 	}
 #endif
 	else{
 		ExSetError(E_INVALID_ENUM);
-		return EX_NULL;
 	}
 	/**
         Linux Window Implementation
 	*/
 #elif defined(EX_LINUX) || defined(EX_MAC)
 	if((flag & ENGINE_NATIVE) || !flag){
-        /**
-            Create Native Window.
-        */
-		return ExCreateNativeWindow(x,y,width, height);
+        /*Create Native Window.*/
+		window = ExCreateNativeWindow(x,y,width, height);
 	}
 	else if((flag & EX_OPENGL)){
         void* glx_window; //GLXWindow
 		window = ExCreateGLWindow(x,y,width, height,&glx_window);
-        glc = ExCreateGLContext(glx_window == NULL ? glx_window : window);
+        glc = ExCreateGLContext(glx_window != NULL ? glx_window : window);
 		ExMakeGLCurrent(glx_window != NULL ? glx_window : window,glc);
 		ExInitOpenGLStates(NULL);
 
-		ExSetWindowIcon(window,       /*TODO make it works nice*/
-        create_elt_icon(window));
+
+		//ExSetWindowIcon(window,       /*TODO make it works nice*/
+        	//create_elt_icon(window));
 
 		if(flag & EX_OPENCL)
 			ExCreateCLSharedContext(glXGetCurrentContext(),window,EX_OPENGL);
-		return window;
 	}
 	else if(flag & EX_OPENGLES){
 		window = ExCreateNativeWindow(x,y,width,height);
@@ -174,12 +172,12 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 
 		if(flag & EX_OPENCL)
 			ExCreateCLSharedContext(glc,eglGetCurrentDisplay(),EX_OPENGLES);
-        return window;
+
 	}
 	else if(flag & EX_OPENCL){
 		window = ExCreateNativeWindow(x,y,width,height);
 		glc = ExCreateCLContext(0);
-		return window;
+
 	}
 #elif defined(EX_MAC)
     /**
@@ -208,7 +206,6 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
         if(flag & EX_OPENCL)
             ExCreateCLSharedContext(glc, window, EX_OPENGL);
         */
-        return window;
 
 	}
 	else if(flag & EX_OPENGLES){
@@ -223,7 +220,6 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 	else if(flag & EX_OPENCL){
         ANativeWindow_acquire(&window);
         //ExCreateCLContext(0);
-        return window;
 
 	}
 #elif defined(EX_NACL)
@@ -237,7 +233,10 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
     }
 
 #endif
-	return NULL;
+    ExGetDefaultWindowTitle(title,sizeof(title) / sizeof(title[0]));
+	ExSetWindowTitle(window,title);
+
+	return window;
 }
 
 /*
@@ -323,7 +322,7 @@ DECLSPEC void ELTAPIENTRY ExSetWindowPos(ExWin window,Int32 x,Int32 y){
 	RECT winrect;
 	if(!window)return;
 	GetWindowRect(window,&winrect);
-	SetWindowPos(window,EX_NULL,x,y,winrect.right - winrect.left,winrect.bottom - winrect.top,SWP_SHOWWINDOW);
+	SetWindowPos(window,NULL,x,y,winrect.right - winrect.left,winrect.bottom - winrect.top,SWP_SHOWWINDOW);
 #elif defined(EX_LINUX)
 	XMoveWindow(display,(Window*)window,x,y);
 #endif
@@ -333,7 +332,7 @@ DECLSPEC void ELTAPIENTRY ExSetWindowPosv(ExWin window, const Int32* position){
 #if defined(EX_WINDOWS)
 	RECT winrect;
 	GetWindowRect(window,&winrect);
-	SetWindowPos(window, EX_NULL,position[0],position[1], winrect.right - winrect.left,winrect.bottom - winrect.top,SWP_SHOWWINDOW);
+	SetWindowPos(window, NULL,position[0],position[1], winrect.right - winrect.left,winrect.bottom - winrect.top,SWP_SHOWWINDOW);
 #elif defined(EX_LINUX)
 	XMoveWindow(display,(Window*)window,position[0],position[1]);
 #elif defined(EX_ANDROID)
@@ -428,8 +427,8 @@ DECLSPEC Uint32 ELTAPIENTRY ExGetWindowFlag(ExWin window){
 DECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, HANDLE hIcon){
 #ifdef EX_WINDOWS
 	LRESULT result;
-	result = SetClassLong(window,GCL_HICON, (LONG)hIcon);
-	result = SetClassLong(window,GCL_HICONSM,(LONG)hIcon);
+	result = SetClassLong(window,GCLP_HICON, (LONG)hIcon);
+	result = SetClassLong(window,GCLP_HICONSM,(LONG)hIcon);
 	return result;
 #elif defined(EX_LINUX)
      //http://www.sbin.org/doc/Xlib/chapt_03.html

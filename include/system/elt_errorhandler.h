@@ -29,23 +29,23 @@ extern "C"{
 /**
 	ExInternalError
 */
-#define ExIsError(x) { if( ( x ) <= 0 ){ ExDevPrintc("Error",EX_CONSOLE_RED);} }
+#define ExIsError(x) { if( ( x ) <= 0 ){ ExDevPrint("Error");} }
 /**
 	C error
 */
-#define ExIsCError(x) { if( ( x ) <= 0){ ExDevPrintfc("Error | %s",EX_CONSOLE_RED,strerror(errno));}}
+#define ExIsCError(x) { if( ( x ) <= 0){ ExDevPrintf("Error | %s",strerror(errno));}}
 
 
 
 #if defined(EX_WINDOWS)
-	#define ExIsWinError(x) { if( (Long)( x ) <= 0 ){ExDevWindowPrintc(EX_TEXT("Error"),EX_CONSOLE_RED);} }
-	#define ExIsHError(x) {ERESULT temp; if((temp = ( x ) ) != S_OK ){ExDevWindowHPrintc(EX_TEXT("Error"),temp,EX_CONSOLE_RED);}}
-	#define ExIsDXError(x) {ERESULT temp; if((temp = ( x ) ) != S_OK ){ExDevWindowHPrintc(EX_TEXT("Error"),temp,EX_CONSOLE_RED);}}
+	#define ExIsWinError(x) { if( (Long)( x ) <= 0 ){ExDevWindowPrint(EX_TEXT("Error"));} }
+	#define ExIsHError(x) {ERESULT temp; if((temp = ( x ) ) != S_OK ){ExDevWindowHPrint(EX_TEXT("Error"),temp);}}
+	#define ExIsDXError(x) {ERESULT temp; if((temp = ( x ) ) != S_OK ){ExDevWindowHPrint(EX_TEXT("Error"),temp);}}
 #elif defined(EX_UNIX)
 	//dlerror
 	#define ExIsWinError(x) { if( (Long)( x ) <= 0 ){ExDevWindowPrintc(EX_TEXT("Error"),EX_CONSOLE_RED);} }
 	#define ExIsXWinError(x)
-	#define ExIsHError(x) EX_UNUSED(x)
+	#define ExIsHError(x) x
 	#define ExIsDXError(x) EX_UNUSED(x)
 #endif
 #define EX_ERROR_MESSAGEBOX 0x1
@@ -99,7 +99,7 @@ extern DECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode);
 /**
     Initialize Error Handler
 */
-extern DECLSPEC ExBoolean ELTAPIENTRY ExInitErrorHandler(void);
+extern DECLSPEC int ELTAPIENTRY ExInitErrorHandler(void);
 
 
 /*	Get Error Code In Character out of Error.*/
@@ -129,15 +129,15 @@ extern DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal);
 /**
 	Set Signal callback.
 */
-extern DECLSPEC ExBoolean ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcallback signal_callback);
+extern DECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcallback signal_callback);
 
 
 
 
 #ifdef EX_ANDROID
 
-#define fprintf(x,...)   __android_log_print(ANDROID_LOG_INFO,"EngineEx", x ,##__VA_ARGS__ )
-#define printf(x,...)    __android_log_print(ANDROID_LOG_INFO,"EngineEx", x ,##__VA_ARGS__ )
+#define fprintf(x,...)   //__android_log_print(ANDROID_LOG_INFO,"EngineEx", x ,##__VA_ARGS__ )
+#define printf(x,...)    //__android_log_print(ANDROID_LOG_INFO,"EngineEx", x ,##__VA_ARGS__ )
 
 #endif
 
