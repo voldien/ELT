@@ -43,7 +43,9 @@ objects = $(subst .c,.o,$(sources))
 
 CFLAGS := -w -Wall -fPIC  $(DEFINE) $(INCLUDE) -DENGINE_INTERNAL=1
 TARGET = libEngineEx$(TARGETSUFFIX)
-BUILD_DIR := build/					#	
+
+# debian packaging todo resolve later!
+BUILD_DIR := build/
 OUTPUT_DIR := build/
 
 
@@ -93,6 +95,10 @@ static : $(objects)
 	$(AR) -rcs $(TARGET) -f $(notdir $(objects))
 
 
+.PHONY : linux32
+.PHONY : linux64
+
+
 .PHONY : win32
 win32 : ComSpec := t
 win32 : CFLAGS += -mwin32 -municode -mwindows -I"External/OpenCL/Include" -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1 
@@ -135,13 +141,13 @@ avr : $(objects)
 	
 
 # make sure that all dependecy are installed. 
-.PHONY : dependency 
+.PHONY : dependency
 dependency :
 	sudo apt-get install mesa-common-dev libx11-dev libx11-xcb-dev libegl1-mesa-dev libxrandr-dev libgles2-mesa-dev
 
 
-install :
-	echo -en "installing ELT"
+install : build/$(TARGET)
+	echo -en "installing ELT!\n"
 	sudo $(MKDIR) /usr/include/ELT
 	sudo $(MKDIR) /usr/include/ELT/input
 	sudo $(MKDIR) /usr/include/ELT/system
