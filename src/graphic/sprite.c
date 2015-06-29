@@ -45,6 +45,7 @@ DECLSPEC int ELTAPIENTRY ExReleaseSpriteBatch(ExSpriteBatch* spritebatch){
 }
 
 DECLSPEC int ELTAPIENTRY ExBeginSpriteBatch(ExSpriteBatch* spriteBatch,float* camerapos, float scale){
+	int i;
 	int rect[4];
 	spriteBatch->numDraw = 0;
 	spriteBatch->numTexture = 0;
@@ -52,10 +53,15 @@ DECLSPEC int ELTAPIENTRY ExBeginSpriteBatch(ExSpriteBatch* spriteBatch,float* ca
 	spriteBatch->width = rect[2];
 	spriteBatch->height = rect[3];
 
+	/*	clean texture*/
+	memset(spriteBatch->texture,0, sizeof(spriteBatch->texture));
+
 	return TRUE;
 }
 DECLSPEC int ELTAPIENTRY ExEndSpriteBatch(ExSpriteBatch* spriteBatch){
 	unsigned int i;
+
+
 
 	/*	send buffer	*/
 	glBindBuffer(GL_ARRAY_BUFFER,spriteBatch->vbo);
@@ -100,6 +106,12 @@ DECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* batch, ExTexture* texture,f
 		batch->sprite[batch->numDraw].rect[1] = rect[1];
 		batch->sprite[batch->numDraw].rect[2] = rect[2];
 		batch->sprite[batch->numDraw].rect[3] = rect[3];
+	}
+	else{
+		batch->sprite[batch->numDraw].rect[0] = 0.0f;
+		batch->sprite[batch->numDraw].rect[1] = 0.0f;
+		batch->sprite[batch->numDraw].rect[2] = 1.0f;
+		batch->sprite[batch->numDraw].rect[3] = 1.0f;
 	}
 	batch->sprite[batch->numDraw].angle = angle;
 

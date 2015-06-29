@@ -137,8 +137,12 @@ void main(void){
 
  */
 
+
+//#extension GL_EXT_gpu_shader4 : enable
+
 #define EX_VERTEX_SPRITE	""						\
 "#version 330\n"									\
+"#extension GL_EXT_gpu_shader4 : enable\n"			\
 "#ifdef GL_ES\n"									\
 "precision mediump float;\n"						\
 "#endif\n"											\
@@ -152,9 +156,9 @@ void main(void){
 "out mat2 coord;\n"									\
 "out int ftexture;\n"								\
 "void main(void){\n"								\
-"	gl_PointSize = max(textureSize(texture[0],0).x,"	\
-"textureSize(texture[0],0).y);\n"						\
-"	gl_Position = vec4( vertex.x,  vertex.y, vertex.z,1.0);\n"				\
+"	gl_PointSize = float(max(textureSize(texture[0],0).x,"	\
+"textureSize2D(texture[0],0).y));\n"						\
+"	gl_Position = vec4( vertex,1.0);\n"				\
 "	fangle = angle;\n"								\
 "	frect = rect;\n"								\
 "	ftexture = tex;\n"								\
@@ -174,11 +178,11 @@ void main(void){
 "in float fangle;\n"										\
 "in int ftexture;\n"										\
 "void main(void){\n"										\
-"	float sin_theta = sin(fangle + 3.14);\n"						\
-"	float cos_theta = cos(fangle + 3.14);\n"						\
+"	float sin_theta = sin(fangle);\n"						\
+"	float cos_theta = cos(fangle);\n"						\
 "	mat2 rotation_matrix = mat2(cos_theta, sin_theta,\n"			\
 "-sin_theta, cos_theta);\n"											\
-"	fragColor = texture2D(texture[0],(rotation_matrix * ((gl_PointCoord - vec2(0.5) - frect.xy) + vec2(0.5))) * frect.zw);\n"		\
+"	fragColor = texture2D(texture[0],frect.xy + ((gl_PointCoord * vec2(1,-1.0)) * frect.zw) * rotation_matrix);\n"		\
 "}\n"														\
 
 
