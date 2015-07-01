@@ -1,4 +1,6 @@
 #include"system/elt_egl.h"
+#if !defined(EX_PNACL)
+
 #include<EGL/egl.h>
 
 
@@ -22,6 +24,7 @@
         #include<GLES/glext.h>
         #include<GLES/glplatform.h>
 #endif 
+static EGLDisplay eglDisplay;
 
 DECLSPEC OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
 	/*	TODO resolve later!!*/
@@ -106,3 +109,6 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
 
 	return eglContext;
 }
+
+
+#endif

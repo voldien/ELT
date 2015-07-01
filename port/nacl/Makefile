@@ -35,16 +35,19 @@ CLIBS :=  -lppapi -lm -ldl -lOpenCL -lpthread -lglibc -lrt
 CFLAGS :=  -fPIC -w -Wall -I"./../../include" -DDONT_SUPPORT_OPENCL=1 -I"$(NACL_SDK_ROOT)/include"	#TODO resolve include dependency 
 
 vpath %.c ./../../src
+vpath %.c ./../../src/system
+vpath %.c ./../../src/input
+vpath %.c ./../../src/pnacl
 vpath %.h ./../../include
 
 
 sources = $(wildcard ./../../src/*.c)
 sources += $(wildcard ./../../src/system/*.c)
 sources += $(wildcard ./../../src/input/*.c)
-sources += $(wildcard ./../../src/pnacl/*.c)
+#sources += $(wildcard ./../../src/pnacl/*.c)
 
 
-objects = $(subst .c,.o, $(sources))
+objects = $(notdir $(subst .c,.o, $(sources)))
 
 
 
@@ -54,14 +57,14 @@ all : $(TARGET).a
 %.o : CFLAGS += -O2
 $(TARGET).a : $(objects)
 	$(MKDIR2) build
-	$(PNACL_AR) -rcs  $(notdir $^) -f $@
+	$(PNACL_AR) -rcs  $^ -f $@
 	$(NACL_RANLIB) $@
 
 
 
 %.o : %.c
-	echo -en $^ "\n"
-	$(PNACL_CXX) -c  $^  -o $(notdir $@) $(CFLAGS) $(CLIBS)
+	echo -en "CC " $^ "\n"
+	$(PNACL_CXX) $(CFLAGS) -c  $^  -o $@ 
 
 
 debug : CFlAGS += -g
@@ -82,10 +85,10 @@ nacl : $(objects)
 pnacl : sources = $(wildcard ./../../src/pnacl/*.c)
 pnacl : $(objects)
 	$(MKDIR2) build
-	$(PNACL_AR) -rcs $(subst .c,.o, $(nodir $^)) -f $(TARGET).a
+	$(PNACL_AR) -rcs $^ -f $(TARGET).a
 
 
 
-.PHONY : clean
-clean :
-	$(RM) *.o
+#.PHONY : clean
+#clean :
+#	$(RM) *.o

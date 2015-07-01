@@ -25,7 +25,7 @@ DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback,
 		interval,
 		WT_EXECUTEDEFAULT));
 	return pid;
-#elif defined(EX_UNIX)
+#elif defined(EX_UNIX) && !defined(EX_PNACL)
     timer_t timerid;
 	struct sigevent sev = {0};;
 	struct sigaction sa;
