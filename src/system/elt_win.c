@@ -54,8 +54,9 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length){
 	ExGetOpenGLVersion(&major,&minor);
     //glXQueryVersion(XOpenDisplay(NULL),&major,&minor);
 #elif defined(EX_WINDOWS)
-	major_version = minor_version = 0;
+
 #endif
+
 #ifdef EX_UNICODE
 	wsprintf(wchar,EX_ENGINE_VERSION_STRING,
 #else

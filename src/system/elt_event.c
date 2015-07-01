@@ -50,7 +50,7 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 		case WM_SYSKEYDOWN:
 
 			event->key.code = (Uint8)msg.wParam;
-			event->eventid |= EX_EVENT_KEY;
+			event->event |= EX_EVENT_KEY;
 			event->key.alt = !(msg.wParam ^ VK_MENU);
 			event->key.shift = !(msg.wParam ^ VK_SHIFT);
 			event->key.system = !(msg.wParam ^ VK_LWIN );
@@ -58,7 +58,7 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 			break;
 		case WM_KEYUP:
 		case WM_SYSKEYUP:
-			event->eventid = (~EX_EVENT_KEY & event->eventid);
+			event->event = (~EX_EVENT_KEY & event->event);
 			break;
 		case WM_HOTKEY:
 			event->key.alt = !(msg.lParam ^ MOD_ALT);
@@ -75,9 +75,9 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 		case WM_MOUSEMOVE:{
 			event->mouse.x = GET_X_LPARAM(msg.lParam);
 			event->mouse.y = GET_Y_LPARAM(msg.lParam);
-			event->eventid = EX_EVENT_MOUSE;
+			event->event = EX_EVENT_MOUSE;
 			event->button.button = (Uint8)msg.wParam;
-			event->eventid |= EX_EVENT_MOUSE;
+			event->event |= EX_EVENT_MOUSE;
 		}
 /*		case WM_MOUSEWHEEL:{
 			event->mouseWheelEvent.x = GET_X_LPARAM(msg.lParam);
@@ -88,7 +88,7 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 		}break;*/
 		case WM_DROPFILES:{
 			event->drop.number = DragQueryFile((HDROP)msg.wParam,0xFFFFFFFF,0,0);
-			event->eventid |= EX_EVENT_DROP;
+			event->event |= EX_EVENT_DROP;
 			break;
 		}
 		switch(msg.lParam){ /*  network */
