@@ -18,7 +18,6 @@
 */
 #ifndef _WIN_WNDPROC_H_
 #define _WIN_WNDPROC_H_ 1
-
 #include"win_win32.h"
 #include"win_GL.h"
 

@@ -63,11 +63,12 @@ sources += $(wildcard src/math/*.c)
 sources += $(wildcard src/graphic/*.c)
 
 ifndef ComSpec
-sources += $(wildcard src/system/unix/*.c)	# TODO resolve internal directory
+#sources += $(wildcard src/system/unix/*.c)	# TODO resolve internal directory
+sources += $(wildcard src/system/Win32/*.c)	# TODO resolve internal directory
 endif
 
 #ifdef win32
-#sources += $(wildcard src/system/Win32/*.c)	# TODO resolve internal directory
+
 #endif 
 
 objects = $(subst .c,.o,$(sources))

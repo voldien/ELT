@@ -17,6 +17,8 @@
 #	pragma comment(lib,"comctl32.lib")
 #	pragma comment(lib,"UxTheme.lib")
 
+
+
 DECLSPEC void ELTAPIENTRY ExUnRegisterClasses(void){
 	ExChar text[MAX_PATH];
 	if(!FindWindowEx(0,0,EX_OPENGL_WINDOW_CLASS,0))

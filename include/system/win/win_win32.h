@@ -82,7 +82,6 @@ extern CallBack ExOnUnFocus;
 
 /**
     UnRegister all Windows
-
 */
 extern DECLSPEC void ELTAPIENTRY ExUnRegisterClasses(void);
 

@@ -53,9 +53,7 @@ DECLSPEC ExBoolean ELTAPIENTRY WIN_EnableDeviceNotification(ExWin hWnd){
 
 	return (ExBoolean)((hDevNotify) ? TRUE : FALSE);
 }
-/*
-	// Main Proc designed for OpenGL Window mainly.
-*/
+/*	Main Proc designed for OpenGL Window mainly.	*/
 DECLSPEC LRESULT WINAPI MainWndProc(ExWin hWnd,UINT uMsg, WPARAM wParam, LPARAM lParam){
 	ExGLWindowHandler* handler;
 	switch(uMsg){
