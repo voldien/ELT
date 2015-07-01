@@ -9,7 +9,9 @@
 
 DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
 	OpenGLContext glc;
-	if(!glInitializePPAPI(NULL)){
+   PPB_GetInterface inter;
+
+	if(!glInitializePPAPI(inter)){
 		return NULL;
 	}
 

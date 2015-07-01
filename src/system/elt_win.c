@@ -228,14 +228,14 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
         //ExCreateCLContext(0);
 
 	}
-#elif defined(EX_NACL)
+#elif defined(EX_PNACL)
     if(flag & ENGINE_NATIVE){
 
 
     }
     else if(flag & EX_OPENGL){
-		window = ExCreateGLWindow(x,y,width, height,&glx_window);
-        glc = ExCreateGLContext(window);
+		//window = ExCreateGLWindow(x,y,width, height,&glx_window);
+        //glc = ExCreateGLContext(window);
     }
 
 #endif

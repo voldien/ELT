@@ -1,7 +1,7 @@
 #include"elt_loadso.h"
 #if defined(EX_UNIX) || defined(EX_ANDROID)
 #   include<stdio.h>
-#	ifndef EX_PNACL 
+#	ifndef EX_PNACL
 #   		include<link.h>
 #   		include<dlfcn.h>
 #	endif

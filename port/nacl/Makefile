@@ -1,9 +1,10 @@
 #!/bin/bash
 
+LOCAL_SRC_DIR := ./../..
 SHELL := bash
 MKDIR2 ?= mkdir -p
 RM := rm -rf
-
+CC := gcc
 
 #	has to be define manually for now TODO resolve 
 NACL_SDK_ROOT ?= $(abspath $(dir $(THIS_MAKEFILE))../..)
@@ -11,39 +12,52 @@ NACL_SDK_ROOT ?= $(abspath $(dir $(THIS_MAKEFILE))../..)
 GETOS := python $(NACL_SDK_ROOT)/tools/getos.py
 OSNAME := $(shell $(GETOS))
 
-
+#
 PNACL_TC_PATH := $(abspath $(NACL_SDK_ROOT)/toolchain/$(OSNAME)_pnacl)
-PNACL_CXX := $(PNACL_TC_PATH)/bin/pnacl-gcc
+PNACL_CXX := $(PNACL_TC_PATH)/bin/pnacl-clang
 PNACL_FINALIZE := $(PNACL_TC_PATH)/bin/pnacl-finalize
 PNACL_AR := $(PNACL_TC_PATH)/bin/pnacl-ar
+PNACL_RANLIB := $(PNACL_TC_PATH)/bin/pnacl-ranlib
+PNACL_TRANSLATE = $(PNACL_BIN)/bin/pnacl-translate
 
+#
 NACL_TC_PATH := $(abspath $(NACL_SDK_ROOT)/toolchain/$(OSNAME)_x86_glibc)
 NACL_CXX := $(NACL_TC_PATH)/bin/x86_64-nacl-gcc
 NACL_AR := $(NACL_TC_PATH)/bin/x86_64-nacl-ar
 NACL_RANLIB := $(NACL_TC_PATH)/bin/x86_64-nacl-ranlib
 
 
-VALID_TOOLCHAINS := pnacl newlib glibc dl pthread nacl_io rt
+
+VALID_TOOLCHAINS := pnacl newlib glibc dl pthread nacl_io rt clang-newlib
 
 include $(NACL_SDK_ROOT)/tools/common.mk
-
+CHROME_ARGS += --allow-nacl-socket-api=localhost
 
 TARGET :=libEngineEx
 
-CLIBS :=  -lppapi -lm -ldl -lOpenCL -lpthread -lglibc -lrt
+CLIBS :=  -lppapi -lm -ldl -lOpenCL -lpthread -lglibc -lrt -lnacl_io
 
-CFLAGS :=  -fPIC -w -Wall -I"./../../include" -DDONT_SUPPORT_OPENCL=1 -I"$(NACL_SDK_ROOT)/include"	#TODO resolve include dependency 
+CFLAGS := -w -fPIC -Wall -I"./../../include" -DDONT_SUPPORT_OPENCL=1 -I"$(NACL_SDK_ROOT)/include" -DGL_ES_VERSION_2_0=1
 
-vpath %.c ./../../src
-vpath %.c ./../../src/system
-vpath %.c ./../../src/input
-vpath %.c ./../../src/pnacl
+VPATH = $(LOCAL_SRC_DIR)/src 			\
+	$(LOCAL_SRC_DIR)/src/math		\
+	$(LOCAL_SRC_DIR)/src/input		\
+	$(LOCAL_SRC_DIR)/src/system		\
+	$(LOCAL_SRC_DIR)/src/pnacl		\
+	$(LOCAL_SRC_DIR)/src/graphic
+
+
+
+
+vpath %.c $(LOCAL_SRC_DIR)/src
 vpath %.h ./../../include
 
 
 sources = $(wildcard ./../../src/*.c)
 sources += $(wildcard ./../../src/system/*.c)
 sources += $(wildcard ./../../src/input/*.c)
+sources += $(wildcard ./../../src/math/*.c)
+sources += $(wildcard ./../../src/graphic/*.c)
 #sources += $(wildcard ./../../src/pnacl/*.c)
 
 
@@ -52,7 +66,8 @@ objects = $(notdir $(subst .c,.o, $(sources)))
 
 
 all : $(TARGET).a
-	echo -en "finished compiling and link $(du -h $^)"
+	$echo -en "finished compiling and link $(du -h $^)"
+	
 
 %.o : CFLAGS += -O2
 $(TARGET).a : $(objects)
@@ -63,18 +78,18 @@ $(TARGET).a : $(objects)
 
 
 %.o : %.c
-	echo -en "CC " $^ "\n"
-	$(PNACL_CXX) $(CFLAGS) -c  $^  -o $@ 
+	@echo -en $(notdir $(CC) ) $^ "\n"
+	$(CC) $(CFLAGS) -c  $^ -o $@ 
 
 
 debug : CFlAGS += -g
 debug : $(objects)
-	$(NACL_AR) -rcs $(subst .c,.o, $(nodir $^)) -f $(TARGET).a
+	$(NACL_AR) -rcs $(subst .c,.o, $^ ) -f $(TARGET).a
 
 
 nacl : CLFAGS += -O2 -DNACL=1
-nacl : CLIBS += -lEGL
-nacl : PNACL_CXX := $(NACL_CXX)
+nacl : CLIBS += 
+nacl : CC := $(NACL_CXX)
 nacl : $(objects)
 	$(MKDIR2) build
 	$(NACL_AR) -rcs $(subst .c,.o, $(nodir $^)) -f $(TARGET).a
@@ -82,13 +97,16 @@ nacl : $(objects)
 
 
 .PHONY : pnacl
-pnacl : sources = $(wildcard ./../../src/pnacl/*.c)
-pnacl : $(objects)
+pnacl : CFLAGS += -O -DPNACL=1 -DEX_PNACL=1
+pnacl : CC := $(PNACL_CXX)
+pnacl : CFLAGS += -I"$(NACL_SDK_ROOT)/include/newlib"
+pnacl : pnaclsource = $(subst .c,.c $(wildcard ./../../src/pnacl/*.c))
+pnacl : $(objects) $(pnaclsource)
 	$(MKDIR2) build
 	$(PNACL_AR) -rcs $^ -f $(TARGET).a
+	$(PNACL_RANLIB) $(TARGET).a
 
 
+clean : 
+	$(RM) *.o
 
-#.PHONY : clean
-#clean :
-#	$(RM) *.o

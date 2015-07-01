@@ -354,8 +354,7 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
 */
 	return glc;
     //TODO
-   // PPB_GetInterface inter;
-   // glInitializePPAPI(inter);
+
 
 }
 #endif
@@ -445,9 +444,11 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
 	// color mask
 	glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
 
+#ifndef EX_PNACL
 	if(engineDescription.alphaChannel > 0)
 		glEnable(GL_ALPHA_TEST);
 	else glDisable(GL_ALPHA_TEST);
+#endif
 
 #ifndef EX_ANDROID
 //    if(engineDescription.sample[0]){
@@ -480,7 +481,7 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
 	glCullFace(GL_FRONT);
 	glFrontFace(GL_CW);
 	glClearColor(0.0f,0.0f,0.0f,1.0f);
-#ifndef EX_ANDROID
+#if !(defined(GL_ES_VERSION_3_0) || defined(GL_ES_VERSION_2_0) || defined(GL_ES_VERSION_1_0) || defined(EX_ANDROID))
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 #endif
 	glEnable(GL_BLEND);
@@ -611,11 +612,12 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor){
 		ExMakeGLCurrent(win, glc);
 		version = ExGetOpenGLShadingVersion();
 		/*TODO resolve later*/
-
+#if !(defined(GL_ES_VERSION_3_0) || defined(GL_ES_VERSION_2_0) || defined(GL_ES_VERSION_1_0))
 		if(major)
 			glGetIntegerv(GL_MAJOR_VERSION, major);
 		if(minor)
 			glGetIntegerv(GL_MINOR_VERSION, minor);
+#endif
 #endif
 		ExMakeGLCurrent(0,0);
 		ExDestroyContext(NULL,glc);
@@ -623,12 +625,13 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor){
 		return version;
     }
     else{
-#ifndef EX_ANDROID
+#if !(defined(GL_ES_VERSION_3_0) || defined(GL_ES_VERSION_2_0) || defined(GL_ES_VERSION_1_0))
 		if(major)
 			glGetIntegerv(GL_MAJOR_VERSION, major);
 		if(minor)
 			glGetIntegerv(GL_MINOR_VERSION, minor);
 #endif
+
         return ExGetOpenGLShadingVersion();
     }
 }

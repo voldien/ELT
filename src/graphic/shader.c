@@ -52,6 +52,7 @@ int ExLoadShader(ShaderHeader* shad,const char* cvertexfilename, const char* cfr
 		glAttachShader(shad->program,shad->ver);
 
 	}
+#if !defined(GL_ES_VERSION_2_0)
 	if(cfragmentfilename){
 		shad->fra = ExCompileShaderSource(cfragmentfilename,&f_source,GL_FRAGMENT_SHADER);
 		glAttachShader(shad->program,shad->fra);
@@ -65,7 +66,7 @@ int ExLoadShader(ShaderHeader* shad,const char* cvertexfilename, const char* cfr
 	if(ctessefilename){
 		shad->tese = ExCompileShaderSource(ctessefilename,&te_source,GL_TESS_EVALUATION_SHADER);
 	}
-
+#endif
 	/**/
 	free(v_source);
 	free(f_source);
@@ -75,7 +76,10 @@ int ExLoadShader(ShaderHeader* shad,const char* cvertexfilename, const char* cfr
 
 
 	glLinkProgram(shad->program);
-	return ExShaderCompileLog(shad->program,GL_PROGRAM);;
+#if !defined(GL_ES_VERSION_2_0)
+	return ExShaderCompileLog(shad->program,GL_PROGRAM);
+#endif
+	return 1;
 }
 int ExLoadShaderv(ShaderHeader* shad, const char* cvertexSource,const char* cfragmentSource,const char* cgeometrySource,const char* ctessCSource, const char* ctessESource){
 	if(!shad)
@@ -89,6 +93,7 @@ int ExLoadShaderv(ShaderHeader* shad, const char* cvertexSource,const char* cfra
 		shad->fra = ExCompileShaderSourcev(&cfragmentSource,GL_FRAGMENT_SHADER);
 		glAttachShader(shad->program,shad->fra);
 	}
+#if !defined(GL_ES_VERSION_2_0)
 	if(cgeometrySource){
 		shad->geo = ExCompileShaderSourcev(&cgeometrySource,GL_GEOMETRY_SHADER);
 		glAttachShader(shad->program,shad->geo);
@@ -101,10 +106,13 @@ int ExLoadShaderv(ShaderHeader* shad, const char* cvertexSource,const char* cfra
 		shad->tese = ExCompileShaderSourcev(&ctessESource,GL_TESS_EVALUATION_SHADER);
 		glAttachShader(shad->program,shad->tese);
 	}
+#endif
 
 	glLinkProgram(shad->program);
+#if !defined(GL_ES_VERSION_2_0)
 	return ExShaderCompileLog(shad->program,GL_PROGRAM);
-
+#endif
+	return 1;
 }
 
 
@@ -161,6 +169,7 @@ extern int ExShaderCompileLog(unsigned int program,unsigned int shaderflag){
 		glGetShaderInfoLog(program, sizeof(log),NULL,log);
 		printf("[Failed to Compile Fragment Shader]\n%s \n", log);
 		break;
+#if !defined(GL_ES_VERSION_2_0)
 	case GL_GEOMETRY_SHADER:
 		glGetShaderInfoLog(program, sizeof(log),NULL,log);
 		printf("[Failed to Compile GEOMETRY Shader]\n%s \n", log);
@@ -174,6 +183,7 @@ extern int ExShaderCompileLog(unsigned int program,unsigned int shaderflag){
 		glGetShaderInfoLog(program, sizeof(log),NULL,log);
 		printf("[Failed to Compile tessellation evolutation Shader]\n%s \n", log);
 		break;
+
 	case GL_LINK_STATUS:
 	case GL_PROGRAM:
 		glGetProgramiv(program, GL_LINK_STATUS,&status);
@@ -181,8 +191,10 @@ extern int ExShaderCompileLog(unsigned int program,unsigned int shaderflag){
 		printf("Error message when compiling glsl Shader\n%s", log);
 		return status;
 		break;
+#endif
 		default:return 0;
 	}
+
 	return 1;
 }
 

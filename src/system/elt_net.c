@@ -2,7 +2,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#if defined(EX_UNIX)   /*  Linux network and android*/
+#if defined(EX_PNACL)
+#   include<sys/types.h>
+#   include<sys/socket.h>
+#   include<netinet/in.h>
+//#   include<sys/un.h>       /*  sockaddr_un   */
+#   include<arpa/inet.h>
+#   include<sys/ioctl.h>
+#   include<errno.h>
+#   include<netdb.h>
+#   include<unistd.h>
+#elif defined(EX_UNIX)   /*  Linux network and android*/
 #   include<sys/types.h>
 #   include<sys/socket.h>
 #   include<netinet/in.h>
@@ -27,8 +37,19 @@ static int inline init_wsa(void){  /*  initialize was*/
 		if(!WSAStartup(EX_WSA_VERSION, &wsadata))return -1;
 	}
 }
+
+
 #endif // EX_WINDOWS
+
+#if defined(EX_UNIX)   /*  Linux network and android*/
+#   include<errno.h>
+#   include<unistd.h>
+#endif
+
 #include<string.h>
+
+
+
 
 // http://www.linuxhowtos.org/data/6/server.c
 
@@ -41,8 +62,11 @@ static int inline create_ip_address(const char* ip, unsigned int port){
 
 	return 1;
 #elif defined(EX_UNIX)
-    struct ifreq ifr = {0};
-   /* strncpy(ifr.ifr_name, "eth1", IFNAMSIZ);
+	/*	todo resolver later!*/
+    //struct ifreq ifr = {0};
+
+	/*
+	strncpy(ifr.ifr_name, "eth1", IFNAMSIZ);
     ifr.ifr_addr.sa_family = AF_INET;
     inet_pton(AF_INET, ip, ifr.ifr_addr.sa_data + 2);
     ioctl(sockfd, SIOCSIFADDR, &ifr);
@@ -108,7 +132,6 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
     unsigned int sockfd;
     unsigned int sock_domain,socket_protocol;
     struct sockaddr_in serv_addr, cli_addr;
-    struct sockaddr_un serv_addr_un;
     //struct sockaddr_un name;
 
     if(protocol & ELT_LOCAL){
@@ -194,7 +217,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port
 #elif defined(EX_UNIX)
     unsigned int sock_domain,socket_protocol;
     struct sockaddr_in serv_addr, cli_addr;
-    struct sockaddr_un serv_addr_un;
+
 	struct hostent* host;
 	host = gethostbyname(ip);
 
@@ -291,7 +314,7 @@ DECLSPEC inline int ELTAPIENTRY ExGetHostIp(char ip[16]){
 	ExCloseSocket(fd);
 
 	return TRUE;
-#elif defined(EX_UNIX)
+#elif defined(EX_LINUX)
     int fd;
     struct ifreq ifr;
 

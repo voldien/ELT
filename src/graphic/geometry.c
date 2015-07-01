@@ -1,4 +1,5 @@
 #include"graphic/geometry.h"
+#include<stdio.h>
 #ifdef GL_ES_VERSION_3_0
 	#include<GLES3/gl3.h>
 	#include<GLES3/gl3ext.h>

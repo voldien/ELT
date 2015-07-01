@@ -32,6 +32,8 @@
 		#include<strsafe.h>
 	#endif
 #elif defined(EX_LINUX)
+#elif defined(EX_PNACL)
+#	include<ppapi/c/ppb.h>
 #elif defined(EX_ANDROID)
 #   include<android/api-level.h>
 #elif defined(EX_MAC)

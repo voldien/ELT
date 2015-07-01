@@ -35,12 +35,13 @@ DECLSPEC ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* batch){
 	glUniform1iv(glGetUniformLocation(batch->shader.program,"texture"),sizeof(texture) / sizeof(texture[0]),texture);
 
 	/*	enable sprite feature	*/
+#if !defined(GL_ES_VERSION_2_0)
 	glEnable(GL_POINT_SPRITE);
 	glPointParameteri(GL_POINT_SPRITE_COORD_ORIGIN, GL_UPPER_LEFT);
 	glPointParameterf(GL_POINT_SIZE_MIN, 0.0f);
 	glPointParameterf(GL_POINT_SIZE_MAX, 2048.0f);
 	glPointParameterf(GL_POINT_FADE_THRESHOLD_SIZE, 1.0f);
-
+#endif
 	return batch;
 }
 DECLSPEC int ELTAPIENTRY ExReleaseSpriteBatch(ExSpriteBatch* spritebatch){

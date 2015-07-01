@@ -29,6 +29,8 @@
 	#include<limits.h>
 	#define EX_C	// C environment
 #endif
+/*	khr group	*/
+#include<KHR/khrplatform.h>
 
 /**
     Compiler
