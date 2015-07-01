@@ -4,13 +4,18 @@
 
 
 #ifdef EX_ANDROID
+//#include <android/android_native_app_glue.h>
 #include <android/window.h>
 #include <android/native_activity.h>
 #include <android/asset_manager.h>
 #include <android/configuration.h>
+#include <android/sensor.h>
+#include <android/log.h>
+
 #include <EGL/egl.h>
 #include <jni.h>
 
+//#include <cpu-features.h>
 /**
 	entry point for normal application to be found here.
 */
@@ -122,7 +127,10 @@ static void  onLowMemory(ANativeActivity* activity){
 void android_main(struct android_app* app) {
     //ex_app = app;
     //app_dummy();
-   // ANativeActivity_onCreate(app->activity, app->savedState, app->saveStateSize);
+
+    //ANativeActivity_onCreate(app->activity, app->savedState, app->saveStateSize);
+
+
 }
 
 /**
@@ -171,6 +179,7 @@ void ANativeActivity_onCreate(ANativeActivity* activity, void* saveState, size_t
     ExDelay(1000);
 
     /*save the references to the pointer*/
+
 
 }
 
