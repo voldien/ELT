@@ -47,32 +47,33 @@ extern "C"{
 #define EX_NATIVE_WINDOW_CLASS EX_TEXT("Native_Window")
 #define EX_DIRECTX_WINDOW_CLASS EX_TEXT("DirectX_Window")
 
-typedef struct DesktopWindow{	// Use of When Application InterFace is Hooked up With Desktop Handles.
+typedef struct desktop_window{	// Use of When Application InterFace is Hooked up With Desktop Handles.
 	HWND hookDesktop;
 	HHOOK hHookCallWndProc;
 	HHOOK hHookCallGetMessage;
 	HHOOK hHookCallWndProcRet;
 	WNDPROC originalDefWindowProc;// pointer to origional
 	WNDPROC originalListViewProc;// pointer to origional
-}DESKTOP, *LDESKTOP;
+}DESKTOP, *LDESKTOP,DesktopWindow;
 
-struct EventHandler{
+typedef struct event_handler{
 	SystemKeyDown systemkeyevent;
 	KeyBoardCallBack keyboardevent;
 	ReShapeCallBack reshapeEvent;
 	MouseButton mousebutton;
 	MotionCallBack motionevent;
 	HMENU contexthmenu;
-};
+}EventHandler;
 
-typedef struct ExNativWindowHandler{
+typedef struct ex_nativ_window_handler{
 	Enum windowFlag;
-	EX_C_STRUCT EventHandler events;
-}ExNativWindow;
-typedef struct ExGLWindowHandler{
+	EventHandler events;
+}ExNativWindowHandler;
+
+typedef struct ex_gl_window_handler{
 	Enum windowFlag;
-	EX_C_STRUCT EventHandler events;
-}HExGLWindow;
+	EventHandler events;
+}ExGLWindowHandler;
 
 typedef struct WindowEvent{
 	MSG msg;

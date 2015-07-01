@@ -280,6 +280,12 @@ DECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag){
         ExLoadLibrary(EX_TEXT(""));
         #endif
 	}
+
+#ifndef DONT_SUPPORT_OPENCL
+	ExReleaseCL();
+#endif
+
+
 }
 /*
 
@@ -289,6 +295,7 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
     struct mallinfo mi;
 #endif 	// EX_LINUX
 	ExQuitSubSytem(0xFFFFFFFF);
+
 #ifdef EX_WINDOWS
 	DEVMODE d = {0};
 	Int32 display;
@@ -296,7 +303,7 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 	/*
 		delete opencl and opengl context
 	*/
-	ExReleaseCL();
+
 	ExDestroyContext(ExGetCurrentGLDrawable(), ExGetCurrentOpenGLContext());
 
 	ExUnRegisterClasses();
@@ -307,7 +314,6 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 	ExReleaseDirectX();
 	#endif
 	ExReleaseDirectSound();
-	ExRelaseNet();
 
 	// restore screen
 	display = ChangeDisplaySettings(&d, NULL);

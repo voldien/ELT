@@ -1,10 +1,10 @@
-#include"wnd_snd.h"
+#include"system/win/wnd_snd.h"
 #ifdef EX_WINDOWS
-	#include<BaseTsd.h>
+	#include<basetsd.h>
 	#include<dinput.h>
-	#include<dinputd.h>
-	#include<Xinput.h>
-	#include<Dbt.h>
+	//#include<dinputd.h>
+	#include<xinput.h>
+	#include<dbt.h>
 	#include<oleauto.h>
 	#include<shellapi.h>
 	#pragma warning( disable : 4996 ) // disable deprecated warning 

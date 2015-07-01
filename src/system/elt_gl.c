@@ -215,10 +215,12 @@ static int choose_fbconfig(GLXFBConfig* p_fbconfig){
 }
 #endif
 
+#if defined(EX_LINUX)
+
 void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* size,Enum erenderingflag){
 	if(!attribs)	/* error */
 		ExSetError(EINVAL);
-#if defined(EX_LINUX)
+
 	if(erenderingflag & EX_OPENGLES){
 		Int32 pixAttribs[] = {
 		     /*EGL_PIXMAP_BIT*/
@@ -275,44 +277,17 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 		memcpy(attribs,(int*)pixAttribs,sizeof(pixAttribs));
 
 	}
-#elif defined(EX_ANDROID)
-
-	if(erenderingflag & EX_OPENGL){  /* as for today 2015 -01 -09 must devices on android don't support OpenGL TODO:solve in future*/
-
-
-	}
-	else if(erenderingflag & EX_OPENGLES){
-        if(erenderingflag & EX_OPENGLES){
-            Int32 pixAttribs[] = {
-                //EGL_NATIVE_RENDERABLE, 1,
-                /*EGL_PIXMAP_BIT*/
-                EGL_BUFFER_SIZE, 16,
-            // EGL_GREEN_SIZE, 4,
-            // EGL_BLUE_SIZE, 4,
-            // EGL_ALPHA_SIZE, 4,
-                EGL_DEPTH_SIZE, 16,
-                //EGL_SAMPLES, 4,
-                //EGL_SURFACE_TYPE,
-                EGL_OPENGL_ES2_BIT,
-                EGL_NONE
-                };
-            if(size)size =sizeof(pixAttribs);
-            memcpy(attribs,(int*)pixAttribs,sizeof(pixAttribs));
-        }
-
-	}
-#elif defined(EX_MAC)
-
-#endif
-	return;
 }
+#endif
 
- DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
+
+#if defined(EX_LINUX)
+DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
 	OpenGLContext glc = NULL;
 	unsigned int render_vendor;
 
 
-#if defined(EX_LINUX)
+
 	XVisualInfo* vi;		//	Visual Info
 	int dummy, min,maj, major_version, minor_version;
 	GLXFBConfig fbconfig;
@@ -378,15 +353,13 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     	}
 */
 	return glc;
-#elif defined(EX_ANDROID)
+    //TODO
+   // PPB_GetInterface inter;
+   // glInitializePPAPI(inter);
 
-    return ExCreateOpenGLES(window);
-#elif defined(EX_NACL)
-    PPB_GetInterface inter;
-    glInitializePPAPI(inter);
-
-#endif
 }
+#endif
+
 
 DECLSPEC OpenGLContext ELTAPIENTRY ExCreateTempGLContext(void){
 	OpenGLContext glc;
@@ -401,10 +374,11 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateTempGLContext(void){
 /**
     Create Shared OpenGL Context from a already existing context.
 */
+#if defined(EX_LINUX)
 DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLContext glc){
     int major_version,minor_version;
     OpenGLContext shared_glc;
-#   if defined(EX_LINUX)
+
     typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
     GLXFBConfig fbconfig;
     glXCreateContextAttribsARBProc glXCreateContextAttribsARB;
@@ -436,11 +410,8 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
     }
 
     return shared_glc;
-    #elif defined(EX_ANDROID)
-
-    #endif
 }
-
+#endif
 
 
 DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescription){
@@ -517,29 +488,33 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
 
 }
 
+
+#if defined(EX_LINUX)
 DECLSPEC ExBoolean ELTAPIENTRY ExDestroyContext(WindowContext drawable, OpenGLContext glc){
 	ExBoolean hr;
 	// if hDC is null
 	if(!drawable)
 		drawable = ExGetCurrentGLDC();
-#if defined(EX_LINUX)
+
     if(!glXMakeCurrent(display, None, NULL)){
         fprintf(stderr,"error");
         return E_ERROR;
     }
 	glXDestroyContext(display,glc);
 	return hr;
-#elif defined(EX_ANDROID)
-    return eglDestroyContext(eglDisplay,glc);
-#endif
+
+    //return eglDestroyContext(eglDisplay,glc);
+
 }
+#endif
 
 /**
     Opengl Fullscreen
 */
+#if defined(EX_LINUX)
 DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes){
 
-#if defined(EX_LINUX)
+
     int one = 1;
 	XEvent xev = {0};
     XWindowAttributes xwa;
@@ -586,15 +561,13 @@ DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin win
 
 
 	return TRUE;
-#elif defined(EX_ANDROID)
 
-
-	return TRUE;
-#endif
 }
+#endif
 
-DECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window,Enum ienum){
 #if defined(EX_LINUX)
+DECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window,Enum ienum){
+
 	XTextProperty textprop = {0};
 	XWMHints *startup_state;
 	EX_C_STRUCT exsize size;
@@ -614,11 +587,9 @@ DECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window,Enum ienum){
 
     XSetWMProperties(display,window, &textprop, &textprop, NULL, 0, &hints,  startup_state, NULL );
     XFree(startup_state);
-#elif defined(EX_ANDROID)
 
-#endif
 }
-
+#endif
 
 DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void){
 #ifndef EX_ANDROID
@@ -634,7 +605,7 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor){
 		ExWin win;
 		unsigned int version;
 		OpenGLContext glc;
-#ifndef EX_ANDROID
+#if !(defined(EX_ANDROID) || defined(EX_WINDOWS))
 		win = ExCreateGLWindow(0,0,1,1,0);
 		glc = ExCreateTempGLContext();
 		ExMakeGLCurrent(win, glc);

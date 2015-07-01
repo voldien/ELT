@@ -80,7 +80,7 @@
 #define EX_CONSOLE_COLOR_RESET 0x10
 
 
-#if !(defined(EX_ANDROID) ^ defined(DONT_SUPPORT_OPENCL))  /*  TODO resolve this provisional approach to solve the problem*/
+#if !(defined(EX_ANDROID) || defined(DONT_SUPPORT_OPENCL))  /*  TODO resolve this provisional approach to solve the problem*/
 /**handle to OpenCL Library */
 HANDLE cl_libhandle=NULL;
 /** opencl context of current */

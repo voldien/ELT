@@ -3,7 +3,10 @@
 #ifdef EX_WINDOWS
 #	include<windows.h>
 #	include <winuser.h>
+/*	TODO resolve it's annoying error later*/
+//#	include<strsafe.h>
 
+#	include<string.h>
 #	include<dbghelp.h>
 #   pragma comment(lib, "Dbghelp.lib")
 #elif defined(EX_LINUX)
@@ -141,11 +144,11 @@ DECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...){
 	va_list argptr;
 
 	va_start(argptr,error);
-    #ifdef EX_UNICODE
-	StringCbVPrintf(text,sizeof(text) / sizeof(text[0]),error,argptr);
-    #else
+    //#ifdef EX_UNICODE
+	//StringCbVPrintf(text,sizeof(text) / sizeof(text[0]),error,argptr);
+    //#else
 	vsprintf(text,error,argptr);
-    #endif
+    //#endif
 	if(flag & EX_ERROR_MESSAGEBOX){
 	    #ifdef EX_LINUX
         typedef int(*message_dialog)(void*, unsigned int, unsigned int, unsigned int, char*);
@@ -300,7 +303,7 @@ DECLSPEC void ELTAPIENTRY ExErrorExit(ExChar* lpszFunction) {
     // Display the error message and exit the process
     lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT,
         (lstrlen((LPCTSTR)lpMsgBuf) + lstrlen((LPCTSTR)lpszFunction) + 40) * sizeof(TCHAR));
-    StringCchPrintf((LPTSTR)lpDisplayBuf,
+    sprintf((LPTSTR)lpDisplayBuf,
         LocalSize(lpDisplayBuf) / sizeof(TCHAR),
         EX_TEXT("%s failed with error %d: %s"),
         lpszFunction, dw, lpMsgBuf);

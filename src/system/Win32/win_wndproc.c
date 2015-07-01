@@ -1,6 +1,7 @@
 #include"system/win/win_wndproc.h"
 #ifdef EX_WINDOWS
 #include"system/win/win_win32.h"
+
 #include<windows.h>
 #include<winuser.h>
 #include<commctrl.h>
@@ -54,7 +55,7 @@ DECLSPEC ExBoolean ELTAPIENTRY WIN_EnableDeviceNotification(ExWin hWnd){
 	return (ExBoolean)((hDevNotify) ? TRUE : FALSE);
 }
 /*	Main Proc designed for OpenGL Window mainly.	*/
-DECLSPEC LRESULT WINAPI MainWndProc(ExWin hWnd,UINT uMsg, WPARAM wParam, LPARAM lParam){
+DECLSPEC ERESULT WINAPI MainWndProc(ExWin hWnd,UINT uMsg, WPARAM wParam, LPARAM lParam){
 	ExGLWindowHandler* handler;
 	switch(uMsg){
 	case WM_CREATE:{
@@ -157,22 +158,22 @@ DECLSPEC LRESULT WINAPI MainWndProc(ExWin hWnd,UINT uMsg, WPARAM wParam, LPARAM 
 			switch(wParam){
 			case DBT_DEVICEARRIVAL:
           //  msgCount++;
-            StringCchPrintf(
+            sprintf(
                 strBuff, 256,
                 TEXT("Message %d: DBT_DEVICEARRIVAL\n"), 0);
             break;
         case DBT_DEVICEREMOVECOMPLETE:
-            StringCchPrintf(
+        	sprintf(
                 strBuff, 256,
                 TEXT("Message %d: DBT_DEVICEREMOVECOMPLETE\n"), 0);
             break;
         case DBT_DEVNODES_CHANGED:
-            StringCchPrintf(
+        	sprintf(
                 strBuff, 256,
                 TEXT("Message %d: DBT_DEVNODES_CHANGED\n"), 0);
             break;
         default:
-            StringCchPrintf(
+        	sprintf(
                 strBuff, 256,
                 TEXT("Message %d: WM_DEVICECHANGE message received, value %d unhandled.\n"),
                 0, wParam);
@@ -231,7 +232,7 @@ DECLSPEC LRESULT WINAPI MainWndProc(ExWin hWnd,UINT uMsg, WPARAM wParam, LPARAM 
 }
 
 
-DECLSPEC LRESULT WINAPI WndProcNative(ExWin hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
+DECLSPEC ERESULT WINAPI WndProcNative(ExWin hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
 	switch(uMsg){
 	case WM_CREATE:
 		return DefWindowProc(hWnd,uMsg,wParam,lParam);
@@ -246,7 +247,7 @@ DECLSPEC LRESULT WINAPI WndProcNative(ExWin hWnd, UINT uMsg, WPARAM wParam, LPAR
 		HWND hWndChild;
 		PostMessage(hWnd, WM_USER_SIZE, wParam,lParam);
 		// send message to all the children of resizing!
-		for(hWndChild = GetTopWindow(hWnd); hWndChild != NULL; hWndChild = ::GetNextWindow(hWndChild, GW_HWNDNEXT)){
+		for(hWndChild = GetTopWindow(hWnd); hWndChild != NULL; hWndChild = GetNextWindow(hWndChild, GW_HWNDNEXT)){
 			SendMessage(hWndChild, uMsg, wParam, lParam);
 		}
 	}break;
@@ -336,7 +337,7 @@ DECLSPEC LRESULT WINAPI WndProcNative(ExWin hWnd, UINT uMsg, WPARAM wParam, LPAR
 
 	}break;
 	case WM_CONTEXTMENU:{
-		ExNativWindow* handler = (ExNativWindow*)GetWindowLongPtr(hWnd,GWLP_USERDATA);
+		ExNativWindowHandler* handler = (ExNativWindowHandler*)GetWindowLongPtr(hWnd,GWLP_USERDATA);
 		if(handler){
 			if(!ExOnContextMenu2(hWnd,handler->events.contexthmenu,GET_X_LPARAM(lParam),GET_Y_LPARAM(lParam))){
 
@@ -376,6 +377,7 @@ DECLSPEC LRESULT WINAPI WndProcNative(ExWin hWnd, UINT uMsg, WPARAM wParam, LPAR
 					winhandler->events.mousebutton(wParam,lParam);
 			}
 	}break;
+	/*
 	case WM_INPUT_DEVICE_CHANGE:{
 		RID_DEVICE_INFO info;
 		info.cbSize = sizeof(info);
@@ -387,6 +389,7 @@ DECLSPEC LRESULT WINAPI WndProcNative(ExWin hWnd, UINT uMsg, WPARAM wParam, LPAR
 			break;
 		}
 	}break;
+	*/
 	case WM_DEVICECHANGE:{
 		WCHAR strBuff[256];
 			//temp
@@ -401,24 +404,24 @@ DECLSPEC LRESULT WINAPI WndProcNative(ExWin hWnd, UINT uMsg, WPARAM wParam, LPAR
 				//}
 
           //  msgCount++;
-            StringCchPrintf(
+				sprintf(
                 strBuff, 256,
                 TEXT("Message %d: DBT_DEVICEARRIVAL\n"), 0);
 			}break;
         case DBT_DEVICEREMOVECOMPLETE:{
 			DEV_BROADCAST_HDR*  hdr = (DEV_BROADCAST_HDR*)lParam;
 
-            StringCchPrintf(
+			sprintf(
                 strBuff, 256,
                 TEXT("Message %d: DBT_DEVICEREMOVECOMPLETE\n"), 0);
 			}break;
         case DBT_DEVNODES_CHANGED:
-            StringCchPrintf(
+        	sprintf(
                 strBuff, 256,
                 TEXT("Message %d: DBT_DEVNODES_CHANGED\n"), 0);
             break;
         default:
-            StringCchPrintf(
+        	sprintf(
                 strBuff, 256,
                 TEXT("Message %d: WM_DEVICECHANGE message received, value %d unhandled.\n"),
                 0, wParam);

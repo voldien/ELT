@@ -22,5 +22,8 @@ int ExCreateVBO(unsigned int target, unsigned int size, unsigned int mode){
 	glGenBuffers(1,&vbo);
 	glBindBuffer(GL_ARRAY_BUFFER,vbo);
 	glBufferData(GL_ARRAY_BUFFER,size,NULL, GL_STATIC_DRAW);
+
+
+
 	return vbo;
 }

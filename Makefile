@@ -137,24 +137,27 @@ static : $(objects)
 .PHONY : linux64
 
 
+CWINCLIBS := -lopengl32 -lgdi32 -lglu32  -lwininet -lws2_32 -lkernel32 -luser32 -lwinmm  -lpsapi -legl -ldbghelp #-lopencl
+
 .PHONY : win32
-win32 : CFLAGS += -mwin32 -municode -mwindows -I"External/OpenCL/Include" -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1 
+win32 : CFLAGS += -mwin32 -municode -mwindows -I"External/OpenCL/Include" -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1  -DDONT_SUPPORT_OPENCL=1
 win32 : sources += $(wildcard src/system/Win32/*.c)
 win32 : TARGET := EngineEx32.dll
-win32 : CLIBS := -lopengl32  -lwininet -lws2_32 -lkernel32 -luser32
+win32 : CLIBS := $(CWINCLIBS)
+win32 : winobjects = 
 win32 : CC := $(WINCC)
-win32 : $(objects)
-	$(WINCC) $(CFLAGS)  $(notdir $^) -o $(TARGET) $(CLIBS)
+win32 : $(objects) $(notdir $^)  $(notdir $(subst .c,.o, $(wildcard src/system/Win32/*.c) ))
+	$(WINCC) $(CFLAGS) -shared $^ -o $(TARGET) $(CLIBS)
 
 
 .PHONY : win64
-win64 : CFLAGS += -municode -mwindows -I"External/OpenCL/Include" -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1  
+win64 : CFLAGS += -municode -mwindows -I"External/OpenCL/Include" -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1   
 win64 : sources += $(wildcard src/system/Win32/*.c)
 win64 : TARGET := EngineEx64.dll
-win64 : CLIBS := -lopengl32  -lwininet -lws2_32 -lkernel32 -luser32
+win64 : CLIBS := $(CWINCLIBS)
 win64 : CC := $(WINCC)
 win64 : $(objects)
-	$(WINCC) $(CFLAGS)   $(notdir $^) -o $(TARGET) $(CLIBS)
+	$(WINCC) $(CFLAGS)   $^ -o $(TARGET) $(CLIBS)
 
 
 .PHONY : nacl

@@ -142,8 +142,8 @@ extern DECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcallback 
 #endif
 
 #ifdef EX_UNICODE
-	#define ExPrint wprintf
-	#define ExSPrintf wsprintf
+	#define ExPrint printf
+	#define ExSPrintf sprintf
 #else
 	#define ExPrint printf
 	#define ExSPrintf sprintf

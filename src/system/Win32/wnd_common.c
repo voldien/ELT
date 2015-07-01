@@ -1,4 +1,4 @@
-#include"wnd_common.h"
+#include"system/win/wnd_common.h"
 #ifdef EX_WINDOWS
 
 #include<string.h>
