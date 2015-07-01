@@ -1,29 +1,36 @@
 #include"system/elt_egl.h"
-#if !defined(EX_PNACL)
+
+/*	some platform just can't handle EGL	*/
+#if !defined(EX_PNACL) || !defined(EX_NACL)
 
 #include<EGL/egl.h>
 
 
 #ifdef EX_WINDOWS
-    #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.dll")	/**/
+    #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.dll")		/**/
     #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.dll")	/**/
 #elif defined(EX_LINUX)
-    #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.so")		/**/
-    #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.so")	/**/
+    #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.so")			/**/
+    #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.so")		/**/
 #elif defined(EX_ANDROID)
     #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.so")      	/* */
     #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.so")  	/* */
 #endif 
 
-#ifndef GL_ES_VERSION_2_0
-        #include<GLES2/gl2.h>
-        #include<GLES2/gl2ext.h>
-        #include<GLES2/gl2platform.h>
-#else
-        #include<GLES/gl.h>
-        #include<GLES/glext.h>
-        #include<GLES/glplatform.h>
-#endif 
+#ifdef GL_ES_VERSION_3_0
+	#include<GLES3/gl3.h>
+	#include<GLES3/gl3ext.h>
+	#include<GLES3/gl3platform.h>
+#elif defined(GL_ES_VERSION_2_0)
+	#include<GLES2/gl2.h>
+	#include<GLES2/gl2ext.h>
+	#include<GLES2/gl2platform.h>
+#elif defined(GL_ES_VERSION_1_0)
+	#include<GLES/gl.h>
+	#include<GLES/glext.h>
+	#include<GLES/glplatform.h>
+#endif
+
 static EGLDisplay eglDisplay;
 
 DECLSPEC OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
@@ -31,8 +38,6 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
 	#ifndef EX_ANDROID
 	#endif
 
-
-	EGLDisplay eglDisplay;
 
 	int major ,minor ;
 	EGLint attrs[60];
@@ -51,7 +56,11 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
 	if(!ExIsModuleLoaded(EX_GLES_LIB_MOUDLE_NAME))
 		ExLoadLibrary(EX_GLES_LIB_MOUDLE_NAME);
 
-	//ExCreateContextAttrib(window,attrs,0,0,EX_OPENGLES);
+
+
+	if(!ExCreateEGLContextAttrib(window,attrs,NULL)){
+
+	}
 
     EGLint configAttribList[] =
     {

@@ -3,8 +3,7 @@
 
 #ifdef EX_WINDOWS
 #include"system/win/win_wndproc.h"
-    #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.dll")
-    #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.dll")
+
     #pragma warning(disable : 4273)     // 'function' : inconsistent DLL linkage
 
 	/* library  */
@@ -55,8 +54,7 @@
 
    #define GL_GET_PROC(x) glXGetProcAddress( ( x ) )           /**  get OpenGL function process address */
 #elif defined(EX_ANDROID)
-    #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.so")      /** */
-    #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.so")  /** */
+
     #include<jni.h>
     #include<android/native_activity.h>
 	#ifdef GL_ES_VERSION_3_0
