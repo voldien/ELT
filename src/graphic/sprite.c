@@ -1,11 +1,14 @@
 #include"graphic/sprite.h"
 #include"graphic/geometry.h"
 #include"math/vect.h"
-
-#ifdef GL_ES_VERSION_2_0
-	#include<GLES/gl2.h>
-	#include<GLES/gl2ext.h>
-	#include<GLES/gl2platform.h>
+#ifdef GL_ES_VERSION_3_0
+	#include<GLES3/gl3.h>
+	#include<GLES3/gl3ext.h>
+	#include<GLES3/gl3platform.h>
+#elif defined(GL_ES_VERSION_2_0)
+	#include<GLES2/gl2.h>
+	#include<GLES2/gl2ext.h>
+	#include<GLES2/gl2platform.h>
 #elif defined(GL_ES_VERSION_1_0)
 	#include<GLES/gl.h>
 	#include<GLES/glext.h>
@@ -15,25 +18,28 @@
 	#include<GL/glu.h>
 	#include<GL/glext.h>
 #endif
-
 DECLSPEC ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* batch){
-	int texture[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+	int x;
+	int texture[64] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+
 
 	batch->vbo = ExCreateVBO(GL_ARRAY_BUFFER, ExGetPageSize() * sizeof(ExSprite) * 10, GL_DYNAMIC_DRAW);
 	batch->num = ExGetPageSize() * 10;
 	batch->sprite = malloc(batch->num * sizeof(ExSprite));
 	glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS,&batch->numMaxTextures);
-	batch->numMaxTextures = 16;
-
 
 	if(!ExLoadShaderv(&batch->shader,EX_VERTEX_SPRITE, EX_FRAGMENT_SPRITE,NULL, NULL, NULL)){
 		/*	failure	*/
 	}
+
 	glUniform1iv(glGetUniformLocation(batch->shader.program,"texture"),sizeof(texture) / sizeof(texture[0]),texture);
 
 	/*	enable sprite feature	*/
-	glEnable(GL_PROGRAM_POINT_SIZE);
 	glEnable(GL_POINT_SPRITE);
+	glPointParameteri(GL_POINT_SPRITE_COORD_ORIGIN, GL_UPPER_LEFT);
+	glPointParameterf(GL_POINT_SIZE_MIN, 0.0f);
+	glPointParameterf(GL_POINT_SIZE_MAX, 2048.0f);
+	glPointParameterf(GL_POINT_FADE_THRESHOLD_SIZE, 1.0f);
 
 	return batch;
 }
@@ -41,6 +47,7 @@ DECLSPEC int ELTAPIENTRY ExReleaseSpriteBatch(ExSpriteBatch* spritebatch){
 	glDeleteBuffers(1,&spritebatch->vbo);
 
 	free(spritebatch->sprite);
+
 	return 	!glIsBuffer(spritebatch->vbo);
 }
 
@@ -80,14 +87,16 @@ DECLSPEC int ELTAPIENTRY ExEndSpriteBatch(ExSpriteBatch* spriteBatch){
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
 	glEnableVertexAttribArray(3);
+	glEnableVertexAttribArray(4);
+	glEnableVertexAttribArray(5);
 	glVertexAttribPointer(0,3,GL_FLOAT, GL_FALSE, sizeof(ExSprite), NULL);
 	glVertexAttribPointer(1,1,GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * 3);
 	glVertexAttribPointer(2,4,GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * 4);
-	glVertexAttribPointer(3,1,GL_INT ,  GL_FALSE, sizeof(ExSprite), sizeof(float) * 8);
+	glVertexAttribPointer(3,1,GL_INT ,  GL_FALSE, sizeof(ExSprite), sizeof(float) * (3 + 4 + 1));
+	glVertexAttribPointer(4,1,GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * (3 + 4 + 1 + 1));
+	glVertexAttribPointer(5,4,GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * (3 + 4 + 1 + 1 + 1));
 
 	glDrawArrays(GL_POINTS,0,spriteBatch->numDraw);
-
-
 
 	return 1;
 }
@@ -133,7 +142,7 @@ DECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* batch, ExTexture* texture,f
 
 
 	batch->numDraw++;
-	if(batch->numDraw >= batch->num){
+	if(batch->numDraw >= batch->num || batch->numTexture >= batch->numMaxTextures){
 		ExEndSpriteBatch(batch);
 		ExBeginSpriteBatch(batch,0,0);
 	}

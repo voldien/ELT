@@ -26,10 +26,12 @@ extern "C"{
 #endif
 
 typedef struct ex_srpite{
-	float pos[3];
-	float angle;
-	float rect[4];
+	float pos[3];				/**/
+	float angle;				/**/
+	float rect[4];				/**/
 	int texture;
+	float scale;
+	float color[4];
 }ExSprite;
 
 typedef struct sprite_batch{
@@ -55,11 +57,12 @@ extern DECLSPEC int ELTAPIENTRY ExBeginSpriteBatch(ExSpriteBatch* spriteBatch,fl
 extern DECLSPEC int ELTAPIENTRY ExEndSpriteBatch(ExSpriteBatch* spriteBatch);
 extern DECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* spritebatch,ExTexture* texture,float* position,float* rect, float angle, float depth);
 
-extern DECLSPEC int ELTAPIENTRY ExDrawSpriteNormalize(ExSpriteBatch* spritebatch,ExTexture* texture,float* position,float* rect, float angle, float depth);
+extern DECLSPEC int ELTAPIENTRY ExDrawSpriteNormalize(ExSpriteBatch* spritebatch,ExTexture* texture,float* position,float* rect,float* color, float scale, float angle, float depth);
 
 
-extern DECLSPEC int ELTAPIENTRY ExAddSprite(void);
-extern DECLSPEC int ELTAPIENTRY ExRemoveSprite(void);
+extern DECLSPEC int ELTAPIENTRY ExAddSprite(ExSpriteBatch* spritebatch,ExTexture* texture,float* position,float* rect,float* color, float scale, float angle, float depth);
+extern DECLSPEC int ELTAPIENTRY ExRemoveSprite(ExSpriteBatch* spritebatch,int index);
+extern DECLSPEC int ELTAPIENTRY ExDisplaySprite(ExSpriteBatch* spritebatch);
 
 
 #ifdef __cplusplus	/* C++ environment	*/

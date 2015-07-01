@@ -320,19 +320,22 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 
 
     /*	Get Current Supported Version of OpenGL	*/
-    ExGetOpenGLVersion(&major_version, &minor_version);
+    if(!ExGetOpenGLVersion(&major_version, &minor_version)){
+    	/*	bad	*/
+    }
 
 
 	/*if windows doesn't support the opengl, than try to use */
 
     int context_attribs[]={
-        GLX_CONTEXT_MAJOR_VERSION_ARB,/* major_version*/major_version, //TODO obtain latest major version
-        GLX_CONTEXT_MINOR_VERSION_ARB,/* minor_version*/minor_version, //TODO obtain latest minor version
+        GLX_CONTEXT_MAJOR_VERSION_ARB,major_version,
+        GLX_CONTEXT_MINOR_VERSION_ARB,minor_version,
         #ifdef EX_DEBUG
         GLX_CONTEXT_FLAGS_ARB,GLX_CONTEXT_DEBUG_BIT_ARB | GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,   /*  Debug TODO add hint*/
         #else
         GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
         #endif
+		//GLX_CONTEXT_PROFILE_MASK_ARB,GLX_CONTEXT_CORE_PROFILE_BIT_ARB,
         None
     };
 

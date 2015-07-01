@@ -24,11 +24,11 @@ typedef struct ex_texture{
 	unsigned int texture;
 	unsigned int width;
 	unsigned int height;
+	unsigned int layer;
 	unsigned int type;
 	unsigned int internalformat;
-
-
 }ExTexture;
+
 
 #ifdef __cplusplus	/* C++ environment	*/
 extern "C"{
@@ -69,7 +69,7 @@ extern void  setTextureAnisotropy(float anisotropy);
 
 
 //GL_NUM_COMPRESSED_TEXTURE_FORMATS
-extern int get_num_texture_compress_format(void);
+extern int getNumTextureCompressFormat(void);
 
 
 

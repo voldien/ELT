@@ -156,8 +156,8 @@ void main(void){
 "out mat2 coord;\n"									\
 "out int ftexture;\n"								\
 "void main(void){\n"								\
-"	gl_PointSize = float(max(textureSize(texture[0],0).x,"	\
-"textureSize2D(texture[0],0).y));\n"						\
+"	gl_PointSize = float(max(textureSize(texture[0],0).x * rect.z,"	\
+"textureSize2D(texture[0],0).y * rect.w));\n"						\
 "	gl_Position = vec4( vertex,1.0);\n"				\
 "	fangle = angle;\n"								\
 "	frect = rect;\n"								\

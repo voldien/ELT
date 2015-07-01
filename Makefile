@@ -70,7 +70,7 @@ sources += $(wildcard src/graphic/*.c)
 ifdef ComSpec
 sources += $(wildcard src/system/Win32/*.c)	# TODO resolve internal directory
 else
-	# TODO resolve internal directory
+sources += $(wildcard src/system/unix/*.c)
 endif
 
 
@@ -92,7 +92,7 @@ all: $(TARGET)
 
 
 $(TARGET) : CFLAGS += -O3 
-$(TARGET) : sources += $(wildcard src/system/unix/*.c)
+
 $(TARGET) : $(objects)
 	$(MKDIR) build
 	$(CC) $(CFLAGS) -shared $(notdir $^) -o build/$@  $(CLIBS)

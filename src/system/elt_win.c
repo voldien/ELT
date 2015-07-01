@@ -169,7 +169,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 	}
 	else if(flag & EX_OPENGLES){
 		window = ExCreateNativeWindow(x,y,width,height);
-		glc = ExCreateOpenGLES(window);
+		glc = ExCreateEGLContext(window);
 
 		if(flag & EX_OPENCL)
 			ExCreateCLSharedContext(glc,eglGetCurrentDisplay(),EX_OPENGLES);

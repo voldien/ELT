@@ -25,8 +25,8 @@ extern "C"{
 #endif
 
 
-extern ExTexture* ExCreateRenderTexture(unsigned int width, unsigned int height,unsigned int attachment);
-
+extern ExTexture* ExCreateRenderTexture2D(ExTexture* texture,unsigned int width, unsigned int height,unsigned int attachment);
+extern ExTexture* ExCreateRenderTexture3D(ExTexture* texture,unsigned int width, unsigned int height,unsigned int attachment);
 
 
 
