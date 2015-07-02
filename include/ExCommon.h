@@ -20,6 +20,7 @@
 #define _EX_COMMON_H_ 1
 #include"EngineAssembly.h"
 #include"ExAssert.h"
+#include"system/elt_win.h"
 
 
 #ifdef EX_WINDOWS

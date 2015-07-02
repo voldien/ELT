@@ -8,7 +8,8 @@ MKDIR :=  mkdir -p
 CP := cp
 ARMCC := arm-linux-gnueabihf-gcc
 WINCC := x86_64-w64-mingw32-gcc
-CC := gcc
+CLANGCC := clang
+CC ?= gcc
 AR := ar
 
 ifdef ComSpec

@@ -94,6 +94,10 @@
 
 #elif defined(EX_WEB)
 
+#elif defined(EX_PNACL)
+
+#elif defined(EX_NACL)
+
 #else
 	#error "Error! no supporting Devices"   /**/
 #endif

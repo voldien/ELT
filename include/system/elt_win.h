@@ -38,8 +38,8 @@ extern void* display;
 #define EX_WIN_SCREENSAVER_ENABLE   0x200000
 #define EX_WIN_SCREENSAVER_DISABLE  0x400000
 
-struct exsize{unsigned int width,height;};
-struct exrect{int x,y,width,height;};
+typedef struct exsize{unsigned int width,height;}ExSize;
+typedef struct exrect{int x,y,width,height;}ExRect;
 
 /**
 	Create Window

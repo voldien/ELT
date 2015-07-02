@@ -246,7 +246,7 @@ extern DECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcallback 
 			/* Print Developer Information Without Arguments*/
 			#define ExDevPrint(pFormat) printf(pFormat EXDEVFILEINFO,__LINE__, __FILE__)
 			/* Print Developer Information With Arguments Unicode*/
-			#define wExDevPrint(pFormat) wprintf(pFormat EX_TEXT(EXDEVFILEINFO),__LINE__, __FILE__)
+			//#define wExDevPrint(pFormat) wprintf(pFormat EX_TEXT(EXDEVFILEINFO),__LINE__, __FILE__)
 		#else
 			/* Print Developer Information With Arguments*/
 			#define ExDevPrintf(pFormat,...) printf(pFormat EXDEVFILEINFO, ##__VA_ARGS__,__LINE__, __FILE__)
