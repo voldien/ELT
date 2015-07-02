@@ -187,7 +187,7 @@ dependency :
 
 
 install : $(TARGET)
-	echo -en "installing ELT!\n"
+	@echo -en "installing ELT!\n"
 	sudo $(MKDIR) /usr/include/ELT
 	sudo $(MKDIR) /usr/include/ELT/input
 	sudo $(MKDIR) /usr/include/ELT/system

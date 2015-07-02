@@ -16,7 +16,7 @@
 	#include<GL/glu.h>
 	#include<GL/glext.h>
 #endif
-#include<GL/gl.h>
+
 
 unsigned int is_texture_compressed(unsigned int textureid){
 	int compress;
