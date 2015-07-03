@@ -58,7 +58,7 @@ sources += $(wildcard ./../../src/system/*.c)
 sources += $(wildcard ./../../src/input/*.c)
 sources += $(wildcard ./../../src/math/*.c)
 #sources += $(wildcard ./../../src/graphic/*.c)
-#sources += $(wildcard ./../../src/pnacl/*.c)
+sources += $(wildcard ./../../src/pnacl/*.c)
 
 
 objects = $(notdir $(subst .c,.o, $(sources)))
@@ -103,7 +103,7 @@ nacl : $(objects)
 pnacl : CFLAGS += -O -DPNACL=1 -DEX_PNACL=1
 pnacl : CC := $(PNACL_CXX)
 pnacl : CFLAGS += -I"$(NACL_SDK_ROOT)/include/newlib"
-pnacl : pnaclsource = $(subst .c,.c $(wildcard ./../../src/pnacl/*.c))
+pnacl : pnaclsource = $(subst .c, .o $(wildcard $(LOCAL_SRC_DIR)/src/pnacl/*.c) )
 pnacl : $(objects) $(pnaclsource)
 	$(MKDIR2) build
 	$(PNACL_AR) cr $(TARGET).a $^ 
