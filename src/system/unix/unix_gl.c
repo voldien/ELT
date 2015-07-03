@@ -139,33 +139,13 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 					GLX_DOUBLEBUFFER, True,
 					  GLX_DEPTH_SIZE,  24,
 					  None};
-
-//	Int32 pixAttribs[] = {
-		//    GLX_RENDER_TYPE, GLX_RGBA_BIT,
-		  //  GLX_X_RENDERABLE, True,
-		  //  GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
-		//    GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
-		 //   GLX_DOUBLEBUFFER, True,
-		 //   GLX_AUX_BUFFERS, 0,
-			/**/
-		 //   GLX_RED_SIZE, 1,
-		 //   GLX_GREEN_SIZE, 1,
-		  //  GLX_BLUE_SIZE, 1,
-		 //   GLX_ALPHA_SIZE,engineDescription.alphaChannel,
-		  //  GLX_DEPTH_SIZE, 1,
-		   // GLX_STENCIL_SIZE,engineDescription.StencilBits,
-
-			//GLX_STEREO,0,
-			//GLX_SAMPLE_BUFFERS_ARB,engineDescription.sample[0] != 0 ? 1 : 0,
-			//GLX_SAMPLES_ARB,engineDescription.sample[0],
 			//GLX_TRANSPARENT_TYPE, GLX_TRANSPARENT_RGB,
-			//None,
-			/*
-		//GLX_TRANSPARENT_ARB, WGL_TRANSPARENT_ALPHA_VALUE_ARB,,*/
-	//}; // NULL termination
+
+		//GLX_TRANSPARENT_ARB, WGL_TRANSPARENT_ALPHA_VALUE_ARB,
 	if(size)size =sizeof(pixAttribs);
 	memcpy(attribs,(int*)pixAttribs,sizeof(pixAttribs));
 }
+
 
 
 DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
@@ -210,20 +190,24 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
 
     switch(vendor){
 		case EX_AMD:{
-	        glXGetProcAddress("glXCreateAssociatedContextAMD"); /*  AMD */
-	        isExtensionSupported(glXQueryExtensionsString(display,DefaultScreen(display)), "GLX_ARB_create_context");
+			typedef GLXContext  (*glXCreateAssociatedContextAMDProc)(unsigned int id, GLXContext share_context,	const int *attribList);
+			unsigned int gpuids[32];
+			glXCreateAssociatedContextAMDProc glXCreateAssociatedContextAttribsAMD;
 
+			glXCreateAssociatedContextAttribsAMD = glXGetProcAddress("glXCreateAssociatedContextAttribsAMD"); /*  AMD */
+	        if(isExtensionSupported(glXQueryExtensionsString(display,DefaultScreen(display)), "GLX_AMD_gpu_association")){
+	        	glXGetGPUIDsAMD(sizeof(gpuids) / sizeof(gpuids[0]), gpuids);
+	        	glc = glXCreateAssociatedContextAttribsAMD(gpuids[0],NULL,pixAtt);
 
+	        }
 		}break;
 		case EX_NVIDIA:
 		case EX_INTEL:
 		default:{
 
-
 			if(isExtensionSupported(glXQueryExtensionsString(display,DefaultScreen(display)), "GLX_ARB_create_context")){
 				typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
 				glXCreateContextAttribsARBProc glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc)glXGetProcAddress((const GLubyte*)"glXCreateContextAttribsARB");
-
 
 
 				if(glXCreateContextAttribsARB){
@@ -242,11 +226,14 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
 			/*
 
 			*/
-			if(!glc){
-				glc = glXCreateNewContext(display, fbconfig, GLX_RGBA_TYPE,0,True);
-			}
+
 		}break;
     }
+
+    glcdefault:	/*	default opengl context	*/
+	if(!glc){
+		glc = glXCreateNewContext(display, fbconfig, GLX_RGBA_TYPE,NULL,True);
+	}
 
 
 	if(!glXIsDirect(display, glc))
