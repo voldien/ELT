@@ -17,15 +17,6 @@
 #   include<android/rect.h>
 #   include<android/window.h>
 #   include<EGL/egl.h>
-#   ifdef GL_ES_VERSION_2_0
-        #include<GLES/gl2.h>
-        #include<GLES/gl2ext.h>
-        #include<GLES/gl2platform.h>
-#   else
-        #include<GLES/gl.h>
-        #include<GLES/glext.h>
-        #include<GLES/glplatform.h>
-#   endif
 
 #elif defined(EX_MAC)
 	#include"system/mac/macosx_win.h"
@@ -33,26 +24,38 @@
 #elif defined(EX_NACL)
 
 #endif
+
+/**/
+#ifdef GL_ES_VERSION_3_0
+	#include<GLES3/gl3.h>
+	#include<GLES3/gl3ext.h>
+	#include<GLES3/gl3platform.h>
+#elif defined(GL_ES_VERSION_2_0)
+	#include<GLES2/gl2.h>
+	#include<GLES2/gl2ext.h>
+	#include<GLES2/gl2platform.h>
+#elif defined(GL_ES_VERSION_1_0)
+	#include<GLES/gl.h>
+	#include<GLES/glext.h>
+	#include<GLES/glplatform.h>
+#else
+	#include<GL/gl.h>
+	#include<GL/glu.h>
+	#include<GL/glext.h>
+#endif
+
 #include"system/elt_icon.h"
 
 
-#ifdef EX_DEBUG
 #define EX_ENGINE_VERSION_STRING EX_TEXT("ELT Version | %d.%d%d%s | OS : %s : OpenGL %d.%d")
-#else
-#define EX_ENGINE_VERSION_STRING EX_TEXT("ELT Version | %d.%d%d%s | OS : %s : OpenGL %d.%d")
-#endif
+
 DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length){
 	if(!text)return NULL;
 	ExChar wchar[260] = {};
 	int major;
 	int minor;
 
-#ifdef EX_LINUX
 	ExGetOpenGLVersion(&major,&minor);
-    //glXQueryVersion(XOpenDisplay(NULL),&major,&minor);
-#elif defined(EX_WINDOWS)
-
-#endif
 
 #ifdef EX_UNICODE
 	wsprintf(wchar,EX_ENGINE_VERSION_STRING,
@@ -70,18 +73,21 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length){
 	return text;
 }
 
-static void* create_elt_icon(ExWin window){
+static void* createELTIcon(ExWin window){
+	if(!window)return NULL;
+
     #ifdef EX_WINDOWS
     HANDLE icon;
     icon = CreateIcon(GetModuleHandle(NULL), GetSystemMetrics(SM_CXICON),GetSystemMetrics(SM_CYICON),1,1,0,0);
     ExSetWindowIcon(window,icon);
     #elif defined(EX_LINUX)
     //http://www.sbin.org/doc/Xlib/chapt_03.html
-    Pixmap icon_pixmap;
-    //XCreatePixmap(display, window, 128,128,8);
+    Pixmap icon;
+
 	//icon_pixmap = XCreateBitmapFromData(display, window, ELT_ICON,128,128);
-    icon_pixmap = XCreatePixmapFromBitmapData(display, window, ELT_ICON, 128,128,0x0,0x001,1);
-    return icon_pixmap;
+    icon = XCreateBitmapFromData(display,window, ELT_ICON, 128,128);
+    //icon_pixmap = XCreatePixmapFromBitmapData(display, window, ELT_ICON, 128,128,0x1,0x0,1);
+    return icon;
     #endif
 }
 
@@ -95,6 +101,7 @@ static void* create_elt_icon(ExWin window){
 DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 height, Enum flag){
 	ExWin window = NULL;
 	OpenGLContext glc = NULL;
+	OpenCLContext clc = NULL;
 	char title[256];
 #ifdef EX_WINDOWS
     void* directx;
@@ -150,7 +157,6 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 	/*	Linux Window Implementation	*/
 #elif defined(EX_LINUX) || defined(EX_MAC)
 	if((flag & ENGINE_NATIVE) || !flag){
-        /*Create Native Window.*/
 		window = ExCreateNativeWindow(x,y,width, height);
 	}
 	else if((flag & EX_OPENGL)){
@@ -159,10 +165,6 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
         glc = ExCreateGLContext(glx_window != NULL ? glx_window : window);
 		ExMakeGLCurrent(glx_window != NULL ? glx_window : window,glc);
 		ExInitOpenGLStates(NULL);
-
-
-		//ExSetWindowIcon(window,       /*TODO make it works nice*/
-        	//create_elt_icon(window));
 
 #ifndef DONT_SUPPORT_OPENCL
 		if(flag & EX_OPENCL)
@@ -239,6 +241,9 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
     }
 
 #endif
+    /*	icon	*/
+    ExSetWindowIcon(window,createELTIcon(window));
+    /*	title*/
     ExGetDefaultWindowTitle(title,sizeof(title) / sizeof(title[0]));
 	ExSetWindowTitle(window,title);
 	return window;
@@ -416,7 +421,6 @@ DECLSPEC void ELTAPIENTRY ExGetWindowRect(ExWin window, struct exrect* rect){
 }
 
 
-// Get Windows flag
 DECLSPEC Uint32 ELTAPIENTRY ExGetWindowFlag(ExWin window){
 #ifdef EX_WINDOWS
 	return GetWindowLong(window,GWL_STYLE);
@@ -437,27 +441,25 @@ DECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, HANDLE hIcon){
 	return result;
 #elif defined(EX_LINUX)
      //http://www.sbin.org/doc/Xlib/chapt_03.html
-    XWMHints *wm_hints;
-    Pixmap  icon_pixmap;
-    unsigned int count;
-    XIconSize *size_list;
+    XWMHints wm_hints = {0};
 /*    if (!(wm_hints = XAllocWMHints())) {
       fprintf(stderr, "%s: failure allocating memory", "ELT");
       return FALSE;
     }*/
     Atom net_wm_icon = XInternAtom(display, "_NET_WM_ICON", False);
     Atom cardinal = XInternAtom(display, "CARDINAL", False);
-    wm_hints->initial_state = NormalState;
-    /* Does application need keyboard input? */
-    wm_hints->input = True;
-    wm_hints->icon_pixmap = icon_pixmap;
-    wm_hints->flags = IconPixmapHint;
 
-    //XFlush(display);
-    //XSetWMHints(display, window, wm_hints);
+    wm_hints.initial_state = AllHints;
+    wm_hints.input = True;
+    wm_hints.icon_pixmap = hIcon;
+    wm_hints.icon_mask = hIcon;
+    wm_hints.flags = IconPixmapHint;
+    wm_hints.icon_x = 0x0;
+    wm_hints.icon_y = 0x0;
+    wm_hints.icon_window = window;
 
-    XChangeProperty(display, window, net_wm_icon, cardinal, 24, PropModeReplace, (const unsigned char*) ELT_ICON, sizeof(ELT_ICON) / 24);
-
+    XFlush(display);
+    XSetWMHints(display, window, &wm_hints);
 
 	return TRUE;
 #endif

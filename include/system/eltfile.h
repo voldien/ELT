@@ -26,7 +26,7 @@ extern "C"{
 /**
 	Get file size in bytes
 */
-extern DECLSPEC long ELTAPIENTRY ExGetFileSize(const char* cfilname);
+extern DECLSPEC long unsigned int ELTAPIENTRY ExGetFileSize(const char* cfilname);
 /**
 	Load data by specified pathname
 */

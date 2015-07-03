@@ -37,35 +37,6 @@ DECLSPEC ExBoolean ELTAPIENTRY ExIsEngineState(const ULLong engineBitState){ ret
 DECLSPEC EngineDescription ELTAPIENTRY ExGetEngineDescription(void){return engineDescription;}
 DECLSPEC EngineDescription* ELTAPIENTRY ExGetEngineDescriptionPointer(void){return ((EngineDescription*)&engineDescription);}
 
-/**
-    \Hint on how stuff will be implemented.
-*/
-extern DECLSPEC void ELTAPIENTRY ExSetHint(Enum e_enum, int value){
-    switch(e_enum){
-#ifdef __gl_h_
-        case GL_DEPTH_BITS: engineDescription.DepthBits = value;break;
-        case GL_STENCIL_BITS:engineDescription.StencilBits = value;break;
-        case GL_ALPHA:engineDescription.alphaChannel = value;break;
-        case GL_SAMPLES:engineDescription.sample[0] = CLAMP(value,0,UCHAR_MAX);break;
-#endif
-
-        default:break;
-    }
-}
-/**
-    \Hint
-*/
-extern DECLSPEC int ELTAPIENTRY ExGetHint(Enum e_enum){
-    switch(e_enum){
-#ifdef __gl_h_
-        case GL_DEPTH_BITS: return engineDescription.DepthBits;
-        case GL_STENCIL_BITS: return engineDescription.StencilBits;
-        case GL_ALPHA:return engineDescription.alphaChannel;
-        //case GL_SAMPLES:return engineDescription.sample[0];
-#endif
-        default:return 0;
-    }
-}
 
 #define ELT_DISPLAY 0x1
 #define ELT_DISPLAY1 0x1

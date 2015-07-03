@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _ENGINE_ASSEMBLY_DEFINITION_
-#define _ENGINE_ASSEMBLY_DEFINITION_ 1
+#ifndef _ENGINE_ASSEMBLY_H_
+#define _ENGINE_ASSEMBLY_H_ 1
 
 #include"ExPreProcessor.h"
 #include"ExNT.h"
@@ -40,7 +40,7 @@
 #endif
 
 /**
-	// Type
+		Type
 */
 #ifdef __cplusplus //	C++	Environment
 	#define TYPE(x) typeid(x)
@@ -70,37 +70,6 @@
 	#define CASTD(type,y) (type)( ( y ) )
 #endif
 
-enum EngineSupport{
-		eUnknown = (0 << 0),
-		eFullScreen = (1 << 4),					// FullScreen
-		eSingleBuffer = (1 << 5),				// Single Buffer On OpenGL || DirectX
-		eDoubleBuffer = (1 << 6),				// double buffer On OpenGL || DirectX
-		eSteroVision = (1 << 7),				// Stero Vision Buffer On either single or double buffer
-		eOpenCL = (1 << 8),
-		eNative = (1 << 9),					// Native Window
-		eOpenGL =  (1 << 10),					// OpenGL Rendering software Interface
-		eDirectX = (1 << 11),					// DirectX rendering software Interface
-		eExtension = (1 << 12),				// Extension [Designed for OpenGL]
-		eHardwareAcceleration = (1 << 13),		// use HardWare Acceleration
-		eShareRenderContext = (1 << 14),		// Shared rendering context. [Desgined for OpenGL] becuase rendering context is connected by the Thread.
-		eVertexLitRendering = (1 << 17),		// Vertex Lit Rendering buffer System.
-		eBuiltInMatrix = (1 << 18),			// Built In Matrix
-		eVSync = (1 << 19),					// V Sync
-		eInput = (1 << 20),					// Input system. depending on OS system.
-		eDebugShell = (1 << 21),				// Debug Shell. will be written to default stream buffer. UNIX
-		eDebugProfile = (1 << 22),			// debug Profile Consol
-		eConsoleWindow = (1 << 23),			//
-		e32Window = (1 << 24),
-
-		// eTCP
-		eWindowRender = (1 << 30),			// Create Render Context Onto a Window
-#ifdef EX_DEBUG
-		ExVideo = (eDoubleBuffer | eInput | eDebugShell | eExtension | e32Window),
-		ExDesktop = (0),
-#else
-		ExVideo  = (eDoubleBuffer |  eInput),
-#endif
-};
 /**
     pixel mode
 */
@@ -109,9 +78,9 @@ enum EngineSupport{
 #define ENGINE_RGBA (ENGINE_RGB | ENGINE_ALPHA)
 #define ENGINE_INDEX 0x8UL
 
-// Engine Rendering Flags
-#define ENGINE_UNKNOWN (Uint64)EngineSupport::eUnknown
 
+
+// Engine Rendering Flags
 #define ENGINE_NATIVE (1 << 7)
 #define EX_OPENGL (1 << 8)
 #define EX_OPENGLES (1 << 9)
@@ -125,26 +94,6 @@ enum EngineSupport{
 #define ELT_OPENGL_ES ENGINE_OPENGL_ES
 #define ELT_DIRECTX ENGINE_DIRECTX
 #define ELT_OPENGL_AND_OPENGL (ENGINE_OPENGL | ENGINE_OPENCL)
-
-
-
-#define ENGINE_SUPPORT_SINGLEBUFFER (Uint64)eSingleBuffer		//	Use Single Buffer As OutPut Color On Monitor
-#define ENGINE_SUPPORT_DOUBLEBUFFER (Uint64)eDoubleBuffer		//	Use Double Buffer AS OutPut Color On Monitor
-#define ENGINE_SUPPORT_STEROVISION (Uint64)eSteroVision			//	Use SteroVision. Uses Of 3D Vision Glasses
-#define ENGINE_SUPPORT_EXTENSION (Uint64)eExtension				//	Use Rendering Context Extension.
-#define ENGINE_SUPPORT_COREFUNCTIONALITY (Uint64)eExtension				//	Use Rendering Context Extension.
-#define ENGINE_HARDWARE_ACCELERATION (Uint64)eHardwareAcceleration	//	Use HardWare Acceraltaion for 3D Rendering
-#define ENGINE_SHARE_RENDERCONTEXT (Uint64)eShareRenderContext			//	Use Multiable RenderingThread[OPENGL]
-#define ENGINE_SUPPORT_EXT_MATRIX (Uint64)eBuiltInMatrix				//	Build In Matrix.
-#define ENGINE_SUPPORT_VSYNC (Uint64)eVSync				//	Use VSync [Sync Rendering to Monitor Hz]
-//#define ENGINE_SUPPORT_INPUT (Uint64)EngineSupport::eInput				//	Support Input By User on this Application.
-
-#define ENGINE_SUPPORT_DEBUG_SHELL (Uint64)eDebugShell		// Support Debug View Shell.
-
-
-
-#define ENGINE_SUPPORT_INPUT_FOREGROUND (Uint64)eInputForeGround	// Input Accessordability. Can be only access on application In Focous.
-#define ENGINE_SUPPORT_INPUT_BACKGROUND (Uint64)eInputBackGround	// Input Accessordability Can be access even off fokus on Application.
 
 
 /**

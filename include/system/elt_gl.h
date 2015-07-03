@@ -19,6 +19,7 @@
 #ifndef _ELT_GL_H_
 #define _ELT_GL_H_ 1
 #include"./../ExPreProcessor.h"
+#include"elt_egl.h"
 
 #ifdef EX_WINDOWS
 	#define ExSwapBuffers SwapBuffers
@@ -32,15 +33,34 @@
 
 #include"elt_win.h"
 
+/*	GPU Vendors constant of.	*/
+#define EX_UNKNOWN 0x0
+#define EX_NVIDIA 0x1
+#define EX_INTEL 0x2
+#define EX_AMD 0x4
 
 
-/**
-    GPU Vendors constant of.
-*/
-#define EX_GPU_UNKNOWN 0x0
-#define EX_GPU_NVIDIA 0x1
-#define EX_GPU_INTEL 0x2
-#define EX_GPU_AMD 0x4
+#define EX_OPENGL_RED_SIZE				0
+#define EX_OPENGL_GREEN_SIZE			1
+#define EX_OPENGL_BLUE_SIZE				2
+#define EX_OPENGL_DEPTH_SIZE			3
+#define EX_OPENGL_ALPHA_SIZE			4
+#define EX_OPENGL_DOUBLEBUFFER			5
+#define EX_OPENGL_STENCIL_SIZE			6
+#define EX_OPENGL_ACCUM_RED_SIZE		7
+#define EX_OPENGL_ACCUM_GREEN_SIZE		8
+#define EX_OPENGL_ACCUM_BLUE_SIZE		9
+#define EX_OPENGL_ACCUM_ALPHA_SIZE		9
+#define EX_OPENGL_ACCELERATED_VISUAL	10
+#define EX_OPENGL_STEREO				11
+#define EX_OPENGL_MULTISAMPLEBUFFERS	12
+#define EX_OPENGL_MULTISAMPLESAMPLES	13
+#define EX_OPENGL_FRAMEBUFFER_SRGB_CAPABLE	14
+#define EX_OPENGL_MAJOR_VERSION			15
+#define EX_OPENGL_MINOR_VERSION			16
+#define EX_OPENGL_CONTEXT_FLAGS			17
+#define EX_OPENGL_CONTEXT_PROFILE_MASK	18
+
 
 
 #ifdef __cplusplus /* C++ environment */
@@ -77,7 +97,7 @@ extern DECLSPEC void ELTAPIENTRY ExMakeGLCurrent(WindowContext hDC, OpenGLContex
 /**
     Create Context Attribute Based on Internal Hardware and engine description.
 */
-extern DECLSPEC void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDC,Int32* attrib,Int32* size,Enum EnumRI);
+extern DECLSPEC void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDC,Int32* attrib,Int32* size);
 /*
     Create OpenGL context for given window
 */
@@ -90,6 +110,11 @@ extern DECLSPEC OpenGLContext ELTAPIENTRY ExCreateTempGLContext(void);
     Create Shared OpenGL Context from a already existing context.
 */
 extern DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLContext context);
+
+/*	*/
+extern DECLSPEC void ELTAPIENTRY ExOpenGLSetAttribute(unsigned int attr, int value);
+extern DECLSPEC int ELTAPIENTRY ExOpenGLGetAttribute(unsigned int attr, int* value);
+extern DECLSPEC void ELTAPIENTRY ExOpenGLResetAttributes(void);
 
 /*
 	Initialize OpenGL States
@@ -169,7 +194,7 @@ extern DECLSPEC Int32 ELTAPIENTRY ExIsVendorIntel(void);
 	Get graphic vendor enumerator
 	@return
 */
-extern DECLSPEC Enum ELTAPIENTRY ExGetGLVendorEnum(void);
+extern DECLSPEC Enum ELTAPIENTRY ExGetOpenGLVendor(void);
 
 
 #ifdef __cplusplus /* C++ environment */

@@ -1,7 +1,7 @@
 #include"system/eltfile.h"
 #include<stdio.h>
 
-static inline long ExGetFileStreamSize(FILE* file){
+static inline long unsigned int  ExGetFileStreamSize(FILE* file){
     unsigned int pos;
     long size;
     pos = ftell(file);
@@ -11,13 +11,12 @@ static inline long ExGetFileStreamSize(FILE* file){
     return size;
 }
 
-DECLSPEC long ELTAPIENTRY ExGetFileSize(const char* cfilname){
+DECLSPEC long unsigned int  ELTAPIENTRY ExGetFileSize(const char* cfilname){
     FILE* file;
     fpos_t pos;
     long size;
     file = fopen(cfilname,"rb");
-    fseek(file, 0,SEEK_END);
-    size = ftell(file);
+    size = ExGetFileStreamSize(file);
     fclose(file);
     return size;
 }

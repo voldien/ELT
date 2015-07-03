@@ -14,7 +14,11 @@
 #include"system/elt_gl.h"
 void* display = 0;
 
-extern int choose_fbconfig(GLXFBConfig* p_fbconfig);
+
+extern int* pixAtt;
+extern int ExChooseFBconfig(GLXFBConfig* p_fbconfig);
+
+
 
 DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){
 	Visual* visual;
@@ -70,15 +74,14 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, I
 
 	return window;
 }
+
 /**
     Create a Window defined for OpenGL X purpose
 */
 DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 height, void** pglx_window){
 	Visual* visual;
-
 	XVisualInfo* vi;
-	GLXFBConfig fbConfigs;
-	Int depth, text_x,text_y;
+	int depth, text_x,text_y;
 	int screen;
 	int major,minor;
 	Int32 winmask = 0;
@@ -92,15 +95,12 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int3
 	Colormap cmap;
     Atom del_atom;
 	ExChar title[260];
+	GLXFBConfig fbconfigs;
 	int VisData[60];
     XRenderPictFormat *pict_format;
 	int numfbconfigs,i;
     int num;
 
-    /**
-        create attribute
-    */
-    ExCreateContextAttrib(0,&VisData[0],0,EX_OPENGL);
 
 	screen = DefaultScreen(display);
 	root = RootWindow(display,screen);
@@ -110,32 +110,23 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int3
         fprintf(stderr,"could not");
 
 
+	ExChooseFBconfig(&fbconfigs);
+	vi = (XVisualInfo*)glXGetVisualFromFBConfig(display, fbconfigs);
 
-	GLXFBConfig* fbconfigs = glXChooseFBConfig(display,screen, &VisData[0],&numfbconfigs);
-    fbConfigs = 0;
-	for(i = 0; i < numfbconfigs; i++){
-		vi = (XVisualInfo*)glXGetVisualFromFBConfig(display, fbconfigs[i]);
-
-		if(!vi)continue;
-
-		pict_format = XRenderFindVisualFormat(display, vi->visual);
-		if(!pict_format)continue;
-
-        fbConfigs = fbconfigs[i];
-
-        if(engineDescription.alphaChannel > 0){
-            if(pict_format->direct.alphaMask > 0)break;
-        }else break;
-
-	}
-
-	winAttribs.event_mask = ExposureMask | VisibilityChangeMask | KeyPressMask | PointerMotionMask | StructureNotifyMask | ResizeRedirectMask;
-	winAttribs.border_pixel = 0;
-	winAttribs.bit_gravity = StaticGravity;
 
 	winAttribs.colormap = XCreateColormap(display, RootWindow(display,vi->screen), vi->visual, AllocNone);
 
-	winmask  = CWBorderPixel | CWBitGravity | CWEventMask| CWColormap;
+	winAttribs.event_mask = ExposureMask | VisibilityChangeMask | KeyPressMask | PointerMotionMask | StructureNotifyMask | ResizeRedirectMask;
+	winAttribs.border_pixmap = None;
+	winAttribs.border_pixel = 0;
+	winAttribs.bit_gravity = StaticGravity;
+
+
+	winmask  =CWBackPixmap|
+	        CWColormap|
+	        CWBorderPixel|
+	        CWEventMask;
+
 	window = XCreateWindow(display,
                               root,
                               x,y,width,height,
@@ -146,12 +137,9 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int3
                                 winmask,&winAttribs);
 
 	/*	problems was it was a random pointer as a value....	*/
-    if(major >= 1 && minor >= 3){
+    if(major >= 1 && minor >= 3 && pglx_window){
     	/*glXCreateWindow create opengl for window that might not have capability for OpenGL*/
-        //glx_window = glXCreateWindow(display, fbConfigs,window,0);
-        //pglx_window[0] = glx_window;
-    	if(pglx_window)
-		pglx_window[0] = 0;
+    	pglx_window[0]= glXCreateWindow(display, fbconfigs,window,0);
     }
 
 	XStoreName(display,window, "default");

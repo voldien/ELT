@@ -18,7 +18,7 @@
 */
 #ifndef _ELT_EGL_H_ 
 #define _ELT_EGL_H_ 1
-#include"EngineAssembly.h"
+#include"./../EngineAssembly.h"
 #include"elt_gl.h"
 
 #ifdef  __cplusplus	/** C++ Environment */

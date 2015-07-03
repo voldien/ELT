@@ -19,6 +19,7 @@
 #ifndef _ELT_AUDIO_H_
 #define _ELT_AUDIO_H_ 1
 #include"./../EngineAssembly.h"
+
 #ifdef __cplusplus	// C++ Environment
 extern "C"{
 #endif
@@ -35,7 +36,8 @@ extern DECLSPEC void ELTAPIENTRY EXGetNumAudioDevices(void);
 extern DECLSPEC void ELTAPIENTRY EXGetNumAudioDriver(void);
 
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
+
 #endif

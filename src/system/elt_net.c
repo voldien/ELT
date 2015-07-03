@@ -1,6 +1,7 @@
 #include"system/elt_net.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include<string.h>
 
 #if defined(EX_PNACL)
 #   include<sys/types.h>
@@ -41,12 +42,13 @@ static int inline init_wsa(void){  /*  initialize was*/
 
 #endif // EX_WINDOWS
 
+
+
 #if defined(EX_UNIX)   /*  Linux network and android*/
 #   include<errno.h>
 #   include<unistd.h>
 #endif
 
-#include<string.h>
 
 
 
@@ -86,17 +88,11 @@ static int inline create_ip_address(const char* ip, unsigned int port){
 }
 
 static int ip_exists(const char* ip){
-
-#if defined(EX_WINDOWS)
-
-#elif defined(EX_UNIX)
 	struct hostent* host;
 	host = gethostbyname(ip);
 	if(!host)
 		return FALSE;
 	return TRUE;
-#endif
-	return FALSE;
 }
 
 

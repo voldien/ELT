@@ -159,7 +159,10 @@ DECLSPEC void ELTAPIENTRY ExGetMonitorSize(Uint32 index, struct exsize* size){
 #ifdef EX_WINDOWS
 	//EnumDisplaySettings(
 #elif defined(EX_LINUX)
+	XWindowAttributes attr;
 	Screen* scrn = XScreenOfDisplay(display,index);
+	XGetWindowAttributes(display,scrn->root,&attr);
+
 	size->width = scrn->width;
 	size->height = scrn->height;
 #elif defined(EX_ANDROID)

@@ -20,7 +20,7 @@
 #define _ELT_KEYCODE_H_ 1
 
 enum KeyCodes {
-    EX_UNKNOWN = 0,
+    EXK_UNKNOWN = 0,
 
     EXK_RETURN = '\r',
     EXK_ESCAPE = '\033',
