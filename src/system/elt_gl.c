@@ -12,48 +12,19 @@
 
     #include<X11/Xatom.h>
     #include<X11/keysym.h>
-    #include<EGL/egl.h>
-    #include<EGL/eglext.h>
     #include<GL/glx.h>
     #include<GL/glxext.h>
     #include<GL/glu.h>
 	#include"system/unix/unix_win.h"
 
-	#ifdef GL_ES_VERSION_3_0
-        #include<GLES3/gl3.h>
-        #include<GLES3/gl3ext.h>
-        #include<GLES3/gl3platform.h>
-	#elif defined(GL_ES_VERSION_2_0)
-        #include<GLES2/gl2.h>
-        #include<GLES2/gl2ext.h>
-        #include<GLES2/gl2platform.h>
-    #elif defined(GL_ES_VERSION_1_0)
-        #include<GLES/gl.h>
-        #include<GLES/glext.h>
-        #include<GLES/glplatform.h>
-	#endif
+
 
    #define GL_GET_PROC(x) glXGetProcAddress( ( x ) )           /**  get OpenGL function process address */
 #elif defined(EX_ANDROID)
 
     #include<jni.h>
     #include<android/native_activity.h>
-	#ifdef GL_ES_VERSION_3_0
-        #include<GLES3/gl3.h>
-        #include<GLES3/gl3ext.h>
-        #include<GLES3/gl3platform.h>
-	#elif defined(GL_ES_VERSION_2_0)
-        #include<GLES2/gl2.h>
-        #include<GLES2/gl2ext.h>
-        #include<GLES2/gl2platform.h>
-    #else
-        #include<GLES/gl.h>
-        #include<GLES/glext.h>
-        #include<GLES/glplatform.h>
-	#endif
-    #include<EGL/egl.h>
-    #include<EGL/eglext.h>
-    #include<EGL/eglplatform.h>
+
 
 #define GL_GET_PROC(x)  eglGetProcAddress(x)                                      /* * get OpenGL function process address */
 
@@ -68,12 +39,24 @@
 
 #ifdef EX_NACL
 #	include<ppapi/c/ppb.h>
-#ifdef GL_ES_VERSION_2_0
+
+#endif
+
+
+
+	#ifdef GL_ES_VERSION_3_0
+        #include<GLES3/gl3.h>
+        #include<GLES3/gl3ext.h>
+        #include<GLES3/gl3platform.h>
+	#elif defined(GL_ES_VERSION_2_0)
         #include<GLES2/gl2.h>
         #include<GLES2/gl2ext.h>
         #include<GLES2/gl2platform.h>
-#endif 
-#endif
+    #elif defined(GL_ES_VERSION_1_0)
+        #include<GLES/gl.h>
+        #include<GLES/glext.h>
+        #include<GLES/glplatform.h>
+	#endif
 
 
 /*
@@ -235,6 +218,7 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 
 }
+
 
 
 

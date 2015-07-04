@@ -57,14 +57,17 @@
 	#endif
     	#pragma warning(disable : 4201)
 	#define EX_COMPILER_NAME "Visual Studio C++/C"
+#elif defined(__clang__)  || defined(__llvm__)           /*  LLVM    */
+    #define EX_LLVM 1
+	#define EX_CLANG 1
+	#define ENGINE_EX_COMPILER 5
+	#define EX_COMPILER_NAME "LLVM"
 #elif defined(__GNUC__) || defined(__SNC__) || defined( __GNUC_MINOR__)	/*  GNU C Compiler*/
-	#ifdef EX_CPP // G++
-	#endif
 	#define EX_GNUC
 	#define ENGINE_EX_COMPILER 2
 	#define EX_COMPILER_NAME "GNU C"
 #elif defined(__GNUG__) /*  GNU C++ Compiler*/
-	#define EX_GNUC
+	#define EX_GNUC 1
 
 #elif defined(__ghs__)		// GHS
 	#define EX_GHS
@@ -73,10 +76,6 @@
 	#define EX_INTEL
 	#define ENGINE_EX_COMPILER 4
 	#define EX_COMPILER_NAME "Intel C++"
-#elif defined(clang)            /*  LLVM    */
-    #define EX_LLVM 1
-	#define ENGINE_EX_COMPILER 5
-	#define EX_COMPILER_NAME "LLVM"
 #else
 	#error UnSupported Compiler.
 #endif
@@ -105,7 +104,7 @@
 		#define EX_ARM                          /**/
 		#define EX_ARM_NEON                     /**/
 	#endif
-#elif defined EX_GNUC
+#elif defined(EX_GNUC) || defined(EX_CLANG)
 	#ifdef __CELLOS_LV2__   /**/
         #define EX_PS3                          /*	playstation 3*/
 	#elif defined(__arm__)	/**/
@@ -236,7 +235,7 @@
     declaration specification
 */
 #if !defined(ENGINE_EX_STATIC_BUILD)
-	#if defined(EX_WINDOWS)                 /**     Window      */
+	#if defined(EX_WINDOWS) || defined(EX_VC)                 /**     Window      */
 		#define EX_IMPORT __declspec(dllimport)
 		#define EX_EXPORT __declspec(dllexport)
 	#elif defined(EX_LINUX)                 /**     Linux       */
@@ -506,6 +505,8 @@
 	#define EX_ASSM __asm
 #elif defined(EX_GNUC)
 	#define EX_ASSM __asm__
+#elif defined(EX_CLANG)
+	#define EX_ASSM asm
 #endif
 
 /**

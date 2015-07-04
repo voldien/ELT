@@ -43,7 +43,7 @@
 
 #else
 
-#include <wmmintrin.h>
+//#include <wmmintrin.h>
 
 #endif
 
@@ -53,20 +53,19 @@
 
 #ifdef EX_WINDOWS       /** WINDOWS */
 	#define cpuid __cpuid
-#elif defined(EX_LINUX) /** LINUX   */
-#   include <unistd.h>
+#elif defined(EX_LINUX)	/** LINUX   */
     #if defined(EX_X86)
     #   include<cpuid.h>
     #endif
 
 	/** cpuid for linux  */
-#ifdef EX_X86
-	#define cpuid(regs,i) 	__asm__  __volatile__ \
+#ifdef EX_X86 && !defined(EX_CLANG)
+	#define cpuid(regs,i) 	EX_ASSM  __volatile__ \
 			("cpuid" : "=a" (regs[0]), "=b" (regs[1]), "=c" (regs[2]), "=d" (regs[3])\
 			: "a" (i), "c" (0))
 
     #define cpuid2(func,a,b,c,d)\
-    __asm__ __volatile__ ( 		\
+    EX_ASSM __volatile__ ( 		\
 "        pushq %%rbx        \n" \
 "        cpuid              \n" \
 "        movq %%rbx, %%rsi  \n" \
@@ -82,8 +81,12 @@
 
 #   define cpuid(regs, i)
 
-
+#else
+	#define cpuid(regs,i)	regs
+	#define cpuid2(func,a,b,c,d)	func
 #endif
+
+
 
 DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
 #ifdef EX_WINDOWS
@@ -96,7 +99,7 @@ DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
     int a,b,c,d;
 //https://github.com/soreau/SDL/blob/master/src/cpuinfo/SDL_cpuinfo.c
 
-    #ifndef EX_ARM
+    #if  !defined(EX_ARM)
     cpuid2(0x80000000,a,b,c,d);
     if(a >= 0x80000004){
         cpuid2(0x80000002, a, b, c, d);

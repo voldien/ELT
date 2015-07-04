@@ -1,24 +1,53 @@
 #include"system/win/win_GL.h"
 #include"system/win/win_wndproc.h"
 
-    #pragma warning(disable : 4273)     // 'function' : inconsistent DLL linkage
+#pragma warning(disable : 4273)     // 'function' : inconsistent DLL linkage
 
-	/* library  */
-	#pragma comment(lib,"opengl32.lib")
-	#pragma comment(lib, "Glu32.lib")
-	#pragma comment(lib, "gdi32.lib")
-	#pragma comment(lib,"libEGL.lib")
-	#pragma comment(lib,"libGLESv2.lib")
+/* library  */
+#pragma comment(lib,"opengl32.lib")
+#pragma comment(lib, "Glu32.lib")
+#pragma comment(lib, "gdi32.lib")
+#pragma comment(lib,"libEGL.lib")
+#pragma comment(lib,"libGLESv2.lib")
 
-	#include<dwmapi.h>
-	#include<winuser.h>
-	#include<windows.h>
-	#include<GL/gl.h>
-	#include<EGL/egl.h>
-	#include<GL/glext.h>
-	#include<GL/wglext.h>
-	#include<GL/glu.h>
-	#define GL_GET_PROC(x)   wglGetProcAddress( (LPCSTR)( x ) )         /*  get OpenGL function process address */
+#include<dwmapi.h>
+#include<winuser.h>
+#include<windows.h>
+#include<GL/gl.h>
+#include<EGL/egl.h>
+#include<GL/glext.h>
+#include<GL/wglext.h>
+#include<GL/glu.h>
+#define GL_GET_PROC(x)   wglGetProcAddress( (LPCSTR)( x ) )         /*  get OpenGL function process address */
+
+
+#define PIXATTOFFSET 8
+int pixAtt[] = {
+	/*
+	GLX_RENDER_TYPE, GLX_RGBA_BIT,
+	GLX_X_RENDERABLE, True,
+	GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
+	GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
+	*/
+	/**/
+	WGL_RED_SIZE,8,
+	WGL_GREEN_SIZE,8,
+	WGL_BLUE_SIZE,8,
+	WGL_DEPTH_SIZE,16,
+	WGL_ALPHA_SIZE,0,
+	WGL_DOUBLEBUFFER,1,
+	WGL_STENCIL_SIZE,0,
+	WGL_ACCUM_RED_SIZE,0,
+	WGL_ACCUM_GREEN_SIZE,0,
+	WGL_ACCUM_BLUE_SIZE,0,
+	WGL_ACCUM_ALPHA_SIZE,0,
+	//GLX_
+	WGL_STEREO,0,
+	WGL_SAMPLE_BUFFERS_ARB,0,
+	WGL_SAMPLES_ARB,0,
+	//WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB,True,
+	NULL
+};
 
 
 
@@ -191,21 +220,21 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
 	unsigned int render_vendor;
 
 
-   WGLSWAPINTERVALEXT_T wglSwapIntervalEXT;
-   WGLCHOOSEPIXELFORMATARB_T wglChoosePixelFormatARB;
-   WGLGETPIXELFORMATATTRIBIVARB_T wglGetPixelFormatAttribivARB;
-   WGLGETEXTENSIONSSTRINGEXT_T wglGetExtensionStringEXT;
-   WGLGETEXTENSIONSSTRINGARB_T wglGetExtensionStringARB;
-   WGLCREATECONTEXTATTRIBSARB wglCreateContextAttribsARB;
-   HWND temp_gl_hwnd;
+	WGLSWAPINTERVALEXT_T wglSwapIntervalEXT;
+	WGLCHOOSEPIXELFORMATARB_T wglChoosePixelFormatARB;
+	WGLGETPIXELFORMATATTRIBIVARB_T wglGetPixelFormatAttribivARB;
+	WGLGETEXTENSIONSSTRINGEXT_T wglGetExtensionStringEXT;
+	WGLGETEXTENSIONSSTRINGARB_T wglGetExtensionStringARB;
+	WGLCREATECONTEXTATTRIBSARB wglCreateContextAttribsARB;
+	HWND temp_gl_hwnd;
 	PIXELFORMATDESCRIPTOR pfd;
 	HDC hDC;
-   int pixAttribs[60] = {0};
+	int pixAttribs[60] = {0};
 	int pixelFormat[1];
-   int major_version = 0, minor_version = 0;
-   int attrib[] = {WGL_NUMBER_PIXEL_FORMATS_ARB};
-   int nResults[1] ={0};
-   int pixFmt = 1;
+	int major_version = 0, minor_version = 0;
+	int attrib[] = {WGL_NUMBER_PIXEL_FORMATS_ARB};
+	int nResults[1] ={0};
+	int pixFmt = 1;
 	unsigned int dataSize;
 
    /**
@@ -272,7 +301,7 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
    /*TODO: Naming between context attributes and for choosing a pixel-format
        Create pixel format attributes
    */
-	ExCreateContextAttrib(hDC,&pixAttribs[0],(Int32*)&dataSize, EX_OPENGL);
+	ExCreateContextAttrib(hDC,&pixAttribs[0],(Int32*)&dataSize);
 
 
 	if(!wglChoosePixelFormatARB(hDC, &pixAttribs[0], NULL, 1, pixelFormat, (unsigned int*)&nResults[0]))
@@ -328,38 +357,6 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 	if(wglGetPixelFormatAttribivARB(hDc, pixFmt,0, 1, attrib, &nResults[0])){
 
 	}
-    if(erenderingflag & EX_OPENGL){
-        Int32 pixAttribs[] = {
-            WGL_SUPPORT_OPENGL_ARB, GL_TRUE, // Must support OGL rendering
-            WGL_DRAW_TO_WINDOW_ARB, GL_TRUE, // pf that can run a window
-            WGL_DOUBLE_BUFFER_ARB, (engineDescription.EngineFlag & ENGINE_SUPPORT_DOUBLEBUFFER) != 0 ? TRUE : FALSE,
-            WGL_DEPTH_BITS_ARB, engineDescription.DepthBits,
-            WGL_STENCIL_BITS_ARB, engineDescription.StencilBits,
-            WGL_COLOR_BITS_ARB, engineDescription.ColorBits,
-            WGL_ALPHA_BITS_ARB, engineDescription.alphaChannel,
-            WGL_ACCELERATION_ARB,WGL_FULL_ACCELERATION_ARB, // must be HW accelerated
-            WGL_PIXEL_TYPE_ARB,WGL_TYPE_RGBA_ARB, // pf should be RGBA type
-            WGL_TRANSPARENT_ARB, WGL_TRANSPARENT_ALPHA_VALUE_ARB,
-            WGL_SWAP_METHOD_ARB,WGL_SWAP_EXCHANGE_ARB,
-            WGL_SAMPLE_BUFFERS_ARB,engineDescription.sample[0] != 0 ? TRUE : 0 ,// sample buffer
-            WGL_SAMPLES_ARB, engineDescription.sample[0],
-            0}; // NULL termination
-            // create pixel attribute block
-        //copy block
-        memcpy(attribs,pixAttribs,sizeof(pixAttribs));
-    }
-    else if(erenderingflag & EX_OPENGLES){
-		Int32 pixAttribs[] = {
-		     /*EGL_PIXMAP_BIT*/
-		    EGL_BUFFER_SIZE, 16,
-            EGL_DEPTH_SIZE, 16,
-            EGL_SAMPLES, engineDescription.sample[0],
-		    EGL_OPENGL_ES2_BIT,
-		    EGL_NONE
-		     };
-		if(size)size =sizeof(pixAttribs);
-		memcpy(attribs,(int*)pixAttribs,sizeof(pixAttribs));
-    }
 }
 
 

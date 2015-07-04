@@ -68,11 +68,6 @@ sources += $(wildcard src/system/*.c)
 sources += $(wildcard src/math/*.c)
 sources += $(wildcard src/graphic/*.c)
 
-ifdef ComSpec
-sources += $(wildcard src/system/Win32/*.c)	# TODO resolve internal directory
-else
-sources += $(wildcard src/system/unix/*.c)
-endif
 
 
 objects = $(notdir $(subst .c,.o,$(sources)) )
@@ -93,8 +88,8 @@ all: $(TARGET)
 
 
 $(TARGET) : CFLAGS += -O3 
-
-$(TARGET) : $(objects)
+$(TARGET) : unixsource += $(notdir $(subst .c,.o, $(wildcard src/system/unix/*.c) ) ) 
+$(TARGET) : $(objects) $(unixsource)
 	$(MKDIR) build
 	$(CC) $(CFLAGS) -shared $(notdir $^) -o build/$@  $(CLIBS)
 	

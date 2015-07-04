@@ -190,11 +190,14 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
 
     switch(vendor){
 		case EX_AMD:{
+			typedef int  (*glXGetGPUIDsAMDProc)(unsigned int maxCount, unsigned int *ids);
 			typedef GLXContext  (*glXCreateAssociatedContextAMDProc)(unsigned int id, GLXContext share_context,	const int *attribList);
 			unsigned int gpuids[32];
 			glXCreateAssociatedContextAMDProc glXCreateAssociatedContextAttribsAMD;
+			glXGetGPUIDsAMDProc	glXGetGPUIDsAMD;
 
 			glXCreateAssociatedContextAttribsAMD = glXGetProcAddress("glXCreateAssociatedContextAttribsAMD"); /*  AMD */
+			glXGetGPUIDsAMD = glXGetProcAddress("glXGetGPUIDsAMD");
 	        if(isExtensionSupported(glXQueryExtensionsString(display,DefaultScreen(display)), "GLX_AMD_gpu_association")){
 	        	glXGetGPUIDsAMD(sizeof(gpuids) / sizeof(gpuids[0]), gpuids);
 	        	glc = glXCreateAssociatedContextAttribsAMD(gpuids[0],NULL,pixAtt);
@@ -243,27 +246,29 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
 
 
 DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLContext glc){
-    int major_version,minor_version;
-    OpenGLContext shared_glc;
-
     typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
+    int major;
+    int minor;
+    OpenGLContext shared_glc;
     GLXFBConfig fbconfig;
     glXCreateContextAttribsARBProc glXCreateContextAttribsARB;
-    glGetIntegerv(GL_MAJOR_VERSION, &major_version);
-	glGetIntegerv(GL_MINOR_VERSION, &minor_version);
+
+    glGetIntegerv(GL_MAJOR_VERSION, &major);
+	glGetIntegerv(GL_MINOR_VERSION, &minor);
 
     /*  query OpenGL context fbconfig id*/
     glXQueryContext(display, glc, GLX_FBCONFIG_ID, &fbconfig);
 
 
-    int context_attribs[]={
-        GLX_CONTEXT_MAJOR_VERSION_ARB,major_version,
-        GLX_CONTEXT_MINOR_VERSION_ARB,minor_version,
+    int contextAttribs[]={
+        GLX_CONTEXT_MAJOR_VERSION_ARB,major,
+        GLX_CONTEXT_MINOR_VERSION_ARB,minor,
         #ifdef EX_DEBUG
-        GLX_CONTEXT_FLAGS_ARB,GLX_CONTEXT_DEBUG_BIT_ARB | GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,   /*  Debug TODO add hint*/
+        GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_DEBUG_BIT_ARB | GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,   /*  Debug TODO add hint*/
         #else
         GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
         #endif
+		GLX_CONTEXT_PROFILE_MASK_ARB, GLX_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
         None
     };
 
@@ -271,9 +276,9 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
     glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc)glXGetProcAddress((const GLubyte*)"glXCreateContextAttribsARB");
 
     if(glXCreateContextAttribsARB)
-        shared_glc = glXCreateContextAttribsARB(display, fbconfig,glc, True,context_attribs);
+        shared_glc = glXCreateContextAttribsARB(display, fbconfig,glc, True,contextAttribs);
     else{
-
+    	shared_glc = glXCreateNewContext(display,fbconfig,GLX_RGBA_TYPE,glc,TRUE);
     }
 
     return shared_glc;
@@ -282,14 +287,14 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
 
 DECLSPEC void ELTAPIENTRY ExOpenGLSetAttribute(unsigned int attr, int value){
 	pixAtt[PIXATTOFFSET + (2 * attr) + 1] = value;
-
 }
 DECLSPEC int ELTAPIENTRY ExOpenGLGetAttribute(unsigned int attr, int* value){
 	if(value)
-		value = pixAtt[PIXATTOFFSET + (2 * attr) + 1];
+		value = (unsigned int)pixAtt[PIXATTOFFSET + (2 * attr) + 1];
 	return pixAtt[PIXATTOFFSET + (2 * attr) + 1];
 }
 DECLSPEC void ELTAPIENTRY ExOpenGLResetAttributes(void){
+
 
 }
 
