@@ -29,6 +29,8 @@
 	#define ExSwapBuffers glSwapBuffers
 #elif defined(EX_ANDROID)
 	#define ExSwapBuffers(surface) eglSwapBuffers(eglGetDisplay(EGL_DEFAULT_DISPLAY),surface)
+#else
+	extern DECLSPEC void ExSwapBuffers(void* surface);
 #endif
 
 #include"elt_win.h"

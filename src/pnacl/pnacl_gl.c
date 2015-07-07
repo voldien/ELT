@@ -1,60 +1,88 @@
 #include"system/elt_gl.h"
 
-#include <GLES2/gl2.h>
-#include <math.h>
-#include <stddef.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <string.h>
-
-
-
-#include"ppapi/gles2/gl2ext_ppapi.h"
-#include "ppapi/lib/gl/gles2/gl2ext_ppapi.h"
-
-#include "ppapi/c/ppb.h"
 #include "ppapi/c/pp_errors.h"
+#include "ppapi/c/pp_module.h"
+#include "ppapi/c/pp_var.h"
+#include "ppapi/c/ppb.h"
+#include "ppapi/c/ppb_instance.h"
+#include "ppapi/c/ppb_messaging.h"
+#include "ppapi/c/ppb_var.h"
+#include "ppapi/c/ppp.h"
+#include "ppapi/c/ppp_instance.h"
+#include "ppapi/c/ppp_messaging.h"
+#include "ppapi/c/pp_completion_callback.h"
+#include "ppapi/c/ppb_graphics_3d.h"
+#include "ppapi/gles2/gl2ext_ppapi.h"
+#include "GLES2/gl2.h"
+
+extern PPB_Instance* ppb_instance_interface;
+extern PPB_GetInterface browser;
 
 
+PP_Module module_id = 0;
+PPB_Messaging* messaging_interface = NULL;
+PPB_Var* var_interface = NULL;
+PPB_Graphics3D* graphics3d_interface = NULL;
+PP_Resource glContext = NULL;
 
+void swap_callback(void* user_data, int32_t result){
+  printf("swap result: %d\n", result);
+}
 
 
 DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
 	unsigned int width;
 	unsigned int height;
-	OpenGLContext glc;
-	PPB_GetInterface inter;
+	PP_Instance instance = ppb_instance_interface;
 
-	ExGetWindowSizev(window,&width);
-	/*TEMP*/
-	width = 800;
-	height = 600;
+	printf("create opengl\n");
 
-	if(!glInitializePPAPI(inter)){
-		fprintf(stderr,"failed to initalize PAPI");
-		return NULL;
+	if(!browser){
+		printf("browser null\n");
+		//ExDelay(1000);
 	}
 
-	/*
-    const int32_t attrib_list[] = {
-      PP_GRAPHICS3DATTRIB_ALPHA_SIZE, 8,
-      PP_GRAPHICS3DATTRIB_DEPTH_SIZE, 24,
-      PP_GRAPHICS3DATTRIB_WIDTH, width,
-      PP_GRAPHICS3DATTRIB_HEIGHT, height,
-      PP_GRAPHICS3DATTRIB_NONE
-    };*/
-
-	glc = glGetInterfacePPAPI();
-
-    if (!BindGraphics(glc)) {
-
-    }
-
-    glSetCurrentContextPPAPI(glc);
+	if (!glInitializePPAPI(browser)) {
+	    printf("glInitializePPAPI failed\n");
+	    return PP_ERROR_FAILED;
+	}
 
 
 
-	return glc;
+	int32_t attribs[] = {PP_GRAPHICS3DATTRIB_WIDTH, 800,
+					   PP_GRAPHICS3DATTRIB_HEIGHT, 600,
+					   PP_GRAPHICS3DATTRIB_NONE};
+	glContext = graphics3d_interface->Create(instance, 0, attribs);
+	if (glContext == 0) {
+		printf("failed to create graphics3d context\n");
+		return PP_FALSE;
+	}
+
+	glSetCurrentContextPPAPI(glContext);
+
+	if (!ppb_instance_interface->BindGraphics(instance, glContext)) {
+		printf("failed to bind graphics3d context\n");
+		return PP_FALSE;
+	}
+
+	glClearColor(0.1f, 0.9f, 0.4f, 0.9f);
+	glClear(GL_COLOR_BUFFER_BIT);
+
+
+	ExSwapBuffers(0);
+	return glContext;
 }
 
+DECLSPEC ExBoolean ELTAPIENTRY ExDestroyContext(WindowContext drawable, OpenGLContext glc){
+
+}
+
+DECLSPEC void ExSwapBuffers(void* surface){
+	struct PP_CompletionCallback callback = { swap_callback, NULL, PP_COMPLETIONCALLBACK_FLAG_NONE };
+	int32_t ret = graphics3d_interface->SwapBuffers(glContext, callback);
+	if (ret != PP_OK && ret != PP_OK_COMPLETIONPENDING) {
+		printf("SwapBuffers failed with code %d\n", ret);
+		return ;
+	}
+}
 

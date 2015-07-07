@@ -177,12 +177,7 @@
 	#endif
 
 
-    #if defined(__native_client__)	/*	nacl google	*/
-		#define EX_NACL 1
-	#endif
-	#if defined(__pnacl__)          /* portable nacl google */
-        #define EX_PNACL 1
-	#endif
+
 
 	#if defined(__unix__) || defined(__unix) || defined(unix)	/*  Unix    */
         #   define EX_UNIX 1
@@ -191,6 +186,15 @@
 #else
 	#error  Unsupported architecture!   /*  No architecture support implicitly. remove this line to compile anyway*/
 #endif
+
+#if defined(__native_client__)	/*	nacl google	*/
+	#define EX_NACL 1
+#endif
+#if defined(__pnacl__)          /* portable nacl google */
+	#define EX_PNACL 1
+#endif
+
+
 
 /**
     C Compiler Version
@@ -245,6 +249,9 @@
         #ifdef EX_JINI
             #define EX_IMPORT	__attribute__ ((__visibility__ ("default")))
             #define EX_EXPORT	__attribute__ ((__visibility__ ("default")))
+		#elif defined(EX_NACL) || defined(EX_PNACL)
+            #define EX_IMPORT
+			#define EX_EXPORT PP_EXPORT
 		#else
             #define EX_IMPORT
             #define EX_EXPORT	JNIEXPORT
@@ -421,6 +428,9 @@
 	#elif defined(EX_GNUC)
 		#define EX_ALIGN(alignment, decl) decl __attribute__ ((aligned(alignment)))
 		#define EX_ALIGN_PREFIX(alignment) __attribute__ ((aligned(alignment)))
+	#elif defined(EX_CLANG)
+		#define EX_ALIGN(alignment, decl) decl __attribute__ ((aligned(alignment)))
+		#define EX_ALIGN_PREFIX(alignment) __attribute__ ((aligned(alignment)))
 	#else
 		#define EX_ALIGN(alignment, decl)
 		#define EX_ALIGN_PREFIX(alignment)
@@ -550,7 +560,7 @@
 
 #define EX_ENGINE_VERSION_MAJOR 0x0
 #define EX_ENGINE_VERSION_MINOR 0x6
-#define EX_ENGINE_VERSION_REVISION 0x5
+#define EX_ENGINE_VERSION_REVISION 0x8
 
 #define EX_ENGINE_PREALPHA EX_TEXT("pa")	        /* Pre alpha    */
 #define EX_ENGINE_ALPHA EX_TEXT("a")		        /* Alpha        */

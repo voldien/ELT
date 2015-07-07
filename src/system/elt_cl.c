@@ -115,9 +115,9 @@ static inline void loadOpenClLibrary(void){
 }
 
 
-DECLSPEC void* ELTAPIFASTENTRY ExGetCLContext(void){return hClContext;}
+DECLSPEC OpenCLContext ELTAPIFASTENTRY ExGetCLContext(void){return hClContext;}
 
-DECLSPEC void* ELTAPIFASTENTRY ExGetCurrentCLContext(void){return hClContext;}
+DECLSPEC OpenCLContext ELTAPIFASTENTRY ExGetCurrentCLContext(void){return hClContext;}
 
 
 

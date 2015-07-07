@@ -172,6 +172,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 #endif
 	}
 	else if(flag & EX_OPENGLES){
+
 		window = ExCreateNativeWindow(x,y,width,height);
 		glc = ExCreateEGLContext(window);
 
@@ -230,17 +231,20 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
         //ExCreateCLContext(0);
 
 	}
-#elif defined(EX_PNACL)
+#elif defined(EX_PNACL) || defined(EX_NACL)
     if(flag & ENGINE_NATIVE){
 
 
     }
     else if(flag & EX_OPENGL){
+    	printf("pnacl create window");
 		//window = ExCreateGLWindow(x,y,width, height,&glx_window);
+    	window = NULL;
         glc = ExCreateGLContext(window);
     }
 
 #endif
+    printf("desu desu\n");
     /*	icon	*/
     ExSetWindowIcon(window,createELTIcon(window));
     /*	title*/
@@ -468,12 +472,19 @@ DECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, HANDLE hIcon){
 DECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window){
 #ifdef EX_WINDOWS
 
+
+
     return NULL;
 #elif defined(EX_LINUX)
+
+
+
 
     return NULL;
 #endif // EX_WINDOWS
 }
+
+
 
 DECLSPEC Int32 ELTAPIENTRY ExIsScreenSaverEnable(void){
 #ifdef EX_WINDOWS
@@ -488,4 +499,49 @@ DECLSPEC Int32 ELTAPIENTRY ExIsScreenSaverEnable(void){
     //}
     return 0;
 #endif
+}
+
+
+DECLSPEC ExWin ELTAPIENTRY ExGetDesktopWindow(void){
+#ifdef EX_LINUX
+	int i;
+	unsigned int n;
+	int screen = DefaultScreen(display);
+	ExWin win = RootWindow(display,screen);
+	ExWin root = RootWindow(display,screen);
+	ExWin troot, parent, *children;
+	char *name;
+	int status;
+	int width  = DisplayWidth (display, screen);
+	int height = DisplayHeight (display, screen);
+	ExWin desktop;
+	XWindowAttributes attrs;
+
+	#define DEFAULT_DESKTOP_WINDOW_NAME "Desktop"
+	XQueryTree(display, root, &troot, &parent, &children, &n);
+	for (i = 0; i < (int) n; i++)
+	{
+		status = XFetchName(display, children[i], &name);
+		status |= XGetWindowAttributes(display, children[i], &attrs);
+		if ((status != 0) && (NULL != name))
+		{
+			if( (attrs.map_state != 0) && (attrs.width == width) &&
+					(attrs.height == height) && (!strcmp(name, DEFAULT_DESKTOP_WINDOW_NAME)) )
+			{
+				//DEBUG_MSG("Found Window:%s\n", name);
+				win = children[i];
+				XFree(children);
+				XFree(name);
+				desktop = win;
+				return win;
+			}
+			if(name)
+			{
+				XFree(name);
+			}
+		}
+	}
+#endif
+
+
 }

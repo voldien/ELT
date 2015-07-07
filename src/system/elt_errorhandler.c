@@ -254,9 +254,7 @@ static int ctxErrorHandler(Display* dpy, XErrorEvent* error){
 
 DECLSPEC int ELTAPIENTRY ExInitErrorHandler(void){
 #if defined(EX_LINUX)
-    /**
-        enable X window error message handler.
-    */
+    /*	enable X window error message handler.	*/
 	if(!XSetErrorHandler(ctxErrorHandler))
         ExDevPrintf("error");
 #endif
@@ -406,7 +404,7 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetHModuleErrorMessageW(ERESULT dw){
     http://stackoverflow.com/questions/5693192/win32-backtrace-from-c-code
 */
 #define TRACE_SIZE 100
-static void debug_log_trace(void){
+static void debugLogTrace(void){
 #ifdef EX_WINDOWS
     HANDLE process;
     void* stack[100];
@@ -473,7 +471,7 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 	struct tm tm;
 #endif
     /*	log trace information.	*/
-    debug_log_trace();
+    debugLogTrace();
 
 	ExGetApplicationName(&app_name[0],sizeof(app_name));        /*  Get application name   */
 
@@ -483,6 +481,7 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 		break;
 	case SIGINT:
 		ExSPrintf(wchar,EX_ERROR_MESSAGE,app_name,EX_TEXT("Error : interrupt.\n"));
+		exit(1);
 		break;
 	case SIGILL:
 		ExSPrintf(wchar,EX_ERROR_MESSAGE,app_name,EX_TEXT("Error : illegal instruction - invalid function image.\n"));

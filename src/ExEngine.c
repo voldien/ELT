@@ -175,7 +175,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 
 	engineDescription.EngineFlag |= engineFlag;
 
-	/*TODO add atexit*/
+	/* release resouces even if exit unexcpeted */
 	atexit(ExShutDown);
 
 	return result;
@@ -300,10 +300,8 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 	DEVMODE d = {0};
 	Int32 display;
 
-	/*
-		delete opencl and opengl context
-	*/
 
+	/*	delete opencl and opengl context*/
 	ExDestroyContext(ExGetCurrentGLDrawable(), ExGetCurrentOpenGLContext());
 
 	ExUnRegisterClasses();

@@ -167,7 +167,7 @@ extern DECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcallback 
 #endif
 
 #if !defined(EX_DISABLE_DEV_PRINT)
-		#ifdef EX_RELEASE
+		#ifdef EX_DEBUG
 			/*		*/
 			#define ExPrintf(pFormat,...) printf(pFormat,##__VA_ARGS__)
 			#define ExPrintfc(pFormat, color,...) {Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat,__VA_ARGS__);ExSetConsoleColor(__colour__);}
@@ -203,49 +203,48 @@ extern DECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcallback 
 			#define ExDevGLPrintc(pFormat,color)	{Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat EXDEVWINDOWINFO EXDEVFILEINFO,glGetError(),glewGetString(glGetError()),__LINE__, __FILE__);ExSetConsoleColor(__colour__);}
 			#define ExDevGLPrintf(pFormat,...)	{Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat EXDEVWINDOWINFO EXDEVFILEINFO,__VA_ARGS__,glewGetString(glGetError()),LINE__, __FILE__,);ExSetConsoleColor(__colour__);}
 			#define ExDevGLPrintfc(pFormat,color,...){Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat EX_DEV_OPENGL_INFO EXDEVFILEINFO,__VA_ARGS__,glGetError(), glewGetString(glGetError()), __LINE__, __FILE__);ExSetConsoleColor(__colour__);}
-
 		#else
 			/*		*/
-			#define ExPrintf(pFormat,...) printf(pFormat , ##__VA_ARGS__)
-			#define ExPrintfc(pFormat, color, ... ) {Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat,##__VA_ARGS__);ExSetConsoleColor(__colour__);}
+			#define ExPrintf(pFormat,...)
+			#define ExPrintfc(pFormat, color,...)
 
 			/* Print Developer Information With Arguments*/
-			#define ExDevPrintfc(pFormat, color,...) {Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat EX_DEVELOP_ERROR_LOG,__VA_ARGS__,0,"",__FILE__,__LINE__ ,EX_FUNCDNAME);ExSetConsoleColor(__colour__);}
-			#define ExDevPrintf(pFormat,...) printf(pFormat EX_DEVELOP_ERROR_LOG, __VA_ARGS__,0,"",__FILE__,__LINE__ ,EX_FUNCDNAME)
+			#define ExDevPrintfc(pFormat, color,...)
+			#define ExDevPrintf(pFormat,...)
 
 			/* Print Developer Information Without Arguments*/
-			#define ExDevPrint(pFormat) printf(pFormat EX_DEVELOP_ERROR_LOG,0,"",__FILE__,__LINE__ ,EX_FUNCDNAME)
-			#define ExDevPrintc(pFormat,color) {Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat EX_DEVELOP_ERROR_LOG,0,"",__FILE__,__LINE__ ,EX_FUNCDNAME);ExSetConsoleColor(__colour__);}
+			#define ExDevPrint(pFormat)
+			#define ExDevPrintc(pFormat,color)
 
 			/*Print Dever information without arguments Unicode*/
-			#define wExDevPrint(pFormat) wprintf(pFormat EX_TEXT(EX_DEVELOP_ERROR_LOG),0,EX_TEXT(""),EX_TEXT(__FILE__),__LINE__ ,EX_TEXT(EX_FUNCDNAME))
-			#define wExDevPrintc(pFormat,color) {Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);ExPrint(pFormat EX_TEXT(EXDEVFILEINFO),__LINE__, EX_TEXT(__FILE__));ExSetConsoleColor(__colour__);}
+			#define wExDevPrint(pFormat)
+			#define wExDevPrintc(pFormat,color)
 
 			/* Print Developer Information With Arguments Unicode*/
-			#define wExDevPrintfc(pFormat,color,...) {Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);ExPrint(pFormat EX_TEXT(EX_DEVELOP_ERROR_LOG),__VA_ARGS__,0,"",EX_TEXT(__FILE__),__LINE__, EX_TEXT(EX_FUNCDNAME));ExSetConsoleColor(__colour__);}
-			#define wExDevPrintf(pFormat,...) wprintf(pFormat  EX_TEXT(EX_DEVELOP_ERROR_LOG),__VA_ARGS__,0,EX_TEXT(""),EX_TEXT(__FILE__),__LINE__, EX_TEXT(EX_FUNCDNAME))
+			#define wExDevPrintfc(pFormat,color,...)
+			#define wExDevPrintf(pFormat,...)
 
 			/*Print Developer information Window Error Message */
-			#define ExDevWindowPrint(pFormat)	{ExPrint(pFormat,EX_TEXT(EX_DEVELOP_ERROR_LOG),GetLastError(),ExGetErrorMessage(GetLastError()),EX_TEXT(__FILE__),__LINE__,EX_TEXT(EX_FUNCNAME) );}
-			#define ExDevWindowPrintc(pFormat,color)	{Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);ExPrint(pFormat EX_TEXT(EX_DEVELOP_ERROR_LOG),GetLastError(),ExGetErrorMessage(GetLastError()),EX_TEXT(__FILE__),__LINE__,EX_TEXT(EX_FUNCNAME) );ExSetConsoleColor(__colour__);}
-			#define ExDevWindowPrintf(pFormat,...)	{ExPrint(pFormat EX_TEXT(EX_DEVELOP_ERROR_LOG),__VA_ARGS__,GetLastError(),ExGetErrorMessage(GetLastError()),EX_TEXT(__FILE__),__LINE__,EX_TEXT(EX_FUNCNAME));}
-			#define ExDevWindowPrintfc(pFormat,color,...)	{Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);ExPrint(pFormat EX_TEXT(EX_DEVELOP_ERROR_LOG),__VA_ARGS__,GetLastError(),ExGetErrorMessage(GetLastError()), EX_TEXT(__FILE__),__LINE__,EX_TEXT(EX_FUNCDNAME));ExSetConsoleColor(__colour__);}
+			#define ExDevWindowPrint(pFormat)
+			#define ExDevWindowPrintc(pFormat,color)
+			#define ExDevWindowPrintf(pFormat,...)
+			#define ExDevWindowPrintfc(pFormat,color,...)
 
-			#define ExDevWindowHPrint(pFormat)	{ExPrint(pFormat,EX_TEXT(EXDEVWINDOWINFO),GetLastError(),ExGetErrorMessage(GetLastError()));}
-			#define ExDevWindowHPrintc(pFormat,hresult,color)	{Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);ExPrint(pFormat EX_TEXT(EX_DEVELOP_ERROR_LOG),hresult,ExGetHResultErrorMessage(hresult),EX_TEXT(__FILE__),__LINE__,EX_TEXT(EX_FUNCNAME)); ExSetConsoleColor(__colour__); }
-			#define ExDevWindowHPrintf(pFormat,hresult,...)	{}
-			#define ExDevWindowHPrintfc(pFormat,hresult,color,...)	{}
+			#define ExDevWindowHPrint(pFormat)
+			#define ExDevWindowHPrintc(pFormat,color)
+			#define ExDevWindowHPrintf(pFormat,...)
+			#define ExDevWindowHPrintfc(pFormat,color,...)
 
-
+			#define ExDevGLPrint(pFormat)
+			#define ExDevGLPrintc(pFormat,color)
+			#define ExDevGLPrintf(pFormat,...)
+			#define ExDevGLPrintfc(pFormat,color,...)
 		#endif
 
 
 		#ifdef EX_RELEASE
-			/* Print Developer Information With Arguments*/
-			#define ExDevPrintf(pFormat,...) printf(pFormat EXDEVFILEINFO, ##__VA_ARGS__,__LINE__, __FILE__)
-			/* Print Developer Information Without Arguments*/
-			#define ExDevPrint(pFormat) printf(pFormat EXDEVFILEINFO,__LINE__, __FILE__)
-			/* Print Developer Information With Arguments Unicode*/
+			#define ExDevPrintf(pFormat,...)// printf(pFormat EXDEVFILEINFO, ##__VA_ARGS__,__LINE__, __FILE__)
+			#define ExDevPrint(pFormat) //printf(pFormat EXDEVFILEINFO,__LINE__, __FILE__)
 			//#define wExDevPrint(pFormat) wprintf(pFormat EX_TEXT(EXDEVFILEINFO),__LINE__, __FILE__)
 		#else
 			/* Print Developer Information With Arguments*/

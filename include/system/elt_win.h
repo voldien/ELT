@@ -138,6 +138,8 @@ extern DECLSPEC Uint32 ELTAPIENTRY ExGetWindowFlag(ExWin window);
 */
 extern DECLSPEC void ELTAPIENTRY ExSetWindowFlag(ExWin window, Enum flag);
 
+extern DECLSPEC void ELTAPIENTRY ExSetWindowFlagv(ExWin window, Enum flag, int value);
+
 /**
  *	Assign Icon Handle onto window
  */
@@ -151,6 +153,12 @@ extern DECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window);
 
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExIsScreenSaverEnable(void);
+
+/**/
+extern DECLSPEC ExWin ELTAPIENTRY ExGetDesktopWindow(void);
+
+extern DECLSPEC int ELTAPIENTRY ExSetWindowParent(ExWin parent,ExWin window);
+//extern DECLSPEC int ELTAPIENTRY ExSetChildren()
 
 
 

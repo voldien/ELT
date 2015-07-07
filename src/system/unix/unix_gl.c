@@ -272,6 +272,12 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
         None
     };
 
+    switch(ExGetOpenGLVendor()){
+    case EX_AMD:break;
+    default:
+    	break;
+    }
+
     /*  Get context ARB */
     glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc)glXGetProcAddress((const GLubyte*)"glXCreateContextAttribsARB");
 
@@ -280,7 +286,6 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
     else{
     	shared_glc = glXCreateNewContext(display,fbconfig,GLX_RGBA_TYPE,glc,TRUE);
     }
-
     return shared_glc;
 }
 
@@ -346,7 +351,6 @@ DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin win
 	xev.xclient.data.l[0] = 1;
 	xev.xclient.data.l[1] = fullscreen;
 
-
 	//XGetWindowAttributes(display, DefaultRootWindow(display),&xwa);
     //ExSetWindowSize(window,xwa.width,xwa.height);
 	//XMapWindow(display,window);
@@ -386,16 +390,8 @@ DECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window,Enum ienum){
     		NULL, 0,
 			&hints,
 			startup_state,
-			NULL );
+			NULL);
     XFree(startup_state);
-
-    /*
-
-	if ((del_atom = XInternAtom(Xdisplay, "WM_DELETE_WINDOW", 0)) != None) {
-		XSetWMProtocols(Xdisplay, window_handle, &del_atom, 1);
-	}
-    */
-
 }
 
 

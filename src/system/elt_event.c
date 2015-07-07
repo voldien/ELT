@@ -1,6 +1,7 @@
 #include"system/elt_event.h"
 #include"ExAssert.h"
 #include"ExPreProcessor.h"
+
 #ifdef EX_WINDOWS
 #	include"system/win/win_wndproc.h"
 #	define WIN32_LEAN_AND_MEAN
@@ -107,13 +108,14 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 	if(XPending(display)){
 		XNextEvent(display,&msg);
 		event->event = 0;
+
 		switch(msg.type){
 		case KeymapNotify:
             XRefreshKeyboardMapping(&msg.xmapping);
         break;
 		case KeyPress:{
 		    event->event |= EX_EVENT_KEY;
-		    event->key.code = XLookupKeysym(&msg.xkey,0);//.keycode;
+		    event->key.code = XLookupKeysym(&msg.xkey,0);
 		    event->mouse.x = msg.xkey.x;
 		    event->mouse.y = msg.xkey.y;
 		    event->key.alt = msg.xkey.state & Mod1Mask;
@@ -124,7 +126,7 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
         }break;
 		case KeyRelease:{
 		    event->event |= EX_EVENT_KEY_RELEASE;
-		    event->key.code = XLookupKeysym(&msg.xkey,0);//.keycode;
+		    event->key.code = XLookupKeysym(&msg.xkey,0);
 		    event->mouse.x = msg.xkey.x;
 		    event->mouse.y = msg.xkey.y;
 		}break;
@@ -161,6 +163,11 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 		}break;
 		case ClientMessage:{
             event->event |= EX_EVENT_SIZE;
+            /*
+            if((Atom)msg.xclient.data.l[0] == wm_delete_window){
+
+            }
+            */
 
 		}break;
 		case ConfigureNotify:{
@@ -173,9 +180,9 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 		case FocusOut:
 			break;
 		case LASTEvent:
-			event->event = 0;break;
+			event->event = 0;
+			return FALSE;
 		}
-
 		event->time = clock();
 		event->window = msg.xany.window;
 		return TRUE;
@@ -215,12 +222,12 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 
 
 
-DECLSPEC ExBoolean ELTAPIENTRY ExPollWindowEvent(ExWin hWnd, ExWindowEvent* event){
+DECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event){
 #ifdef EX_WINDOWS
 	MSG msg;
 	//event->event = 0;
 	// peek Message for given window handle.
-	if(PeekMessage(&msg,hWnd,NULL, NULL, PM_REMOVE)){
+	if(PeekMessage(&msg,window,NULL, NULL, PM_REMOVE)){
 		DispatchMessage(&msg);
 		TranslateMessage(&msg);
 
@@ -309,7 +316,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExPollWindowEvent(ExWin hWnd, ExWindowEvent* even
 #elif defined(EX_LINUX)
 	XEvent msg;
     if(XPending(display))
-        XNextEvent(display,&msg);
+    	XWindowEvent(display,window,0,&msg);
 	return TRUE;
 #elif defined(EX_ANDROID)
 #endif

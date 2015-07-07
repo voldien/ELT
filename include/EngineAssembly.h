@@ -135,15 +135,7 @@ typedef struct EngineFormatDescription{
     Allocation of This Application EngineDescription. Describe the base of the Application.
 */
 extern DECLSPEC EngineDescription engineDescription;
-/**
-    \Set Hint
-*/
-extern DECLSPEC void ELTAPIENTRY ExSetHint(Enum e_enum, int value);
-/**
-    \Get Hint
-    @return
-*/
-extern DECLSPEC int ELTAPIENTRY ExGetHint(Enum e_enum);
+
 /**
     Set parameter
     @return

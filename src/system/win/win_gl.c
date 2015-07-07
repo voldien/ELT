@@ -23,6 +23,10 @@
 
 #define PIXATTOFFSET 8
 int pixAtt[] = {
+	WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
+	WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
+	WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
+	WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
 	/*
 	GLX_RENDER_TYPE, GLX_RGBA_BIT,
 	GLX_X_RENDERABLE, True,
@@ -30,19 +34,19 @@ int pixAtt[] = {
 	GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
 	*/
 	/**/
-	WGL_RED_SIZE,8,
-	WGL_GREEN_SIZE,8,
-	WGL_BLUE_SIZE,8,
-	WGL_DEPTH_SIZE,16,
-	WGL_ALPHA_SIZE,0,
-	WGL_DOUBLEBUFFER,1,
-	WGL_STENCIL_SIZE,0,
-	WGL_ACCUM_RED_SIZE,0,
-	WGL_ACCUM_GREEN_SIZE,0,
-	WGL_ACCUM_BLUE_SIZE,0,
-	WGL_ACCUM_ALPHA_SIZE,0,
+	WGL_RED_BITS_ARB,8,
+	WGL_GREEN_BITS_ARB,8,
+	WGL_BLUE_BITS_ARB,8,
+	WGL_DEPTH_BITS_ARB,16,
+	WGL_ALPHA_BITS_ARB,0,
+	WGL_DOUBLE_BUFFER_ARB,1,
+	WGL_STENCIL_BITS_ARB,0,
+	WGL_ACCUM_RED_BITS_ARB,0,
+	WGL_ACCUM_GREEN_BITS_ARB,0,
+	WGL_ACCUM_BLUE_BITS_ARB,0,
+	WGL_ACCUM_ALPHA_BITS_ARB,0,
 	//GLX_
-	WGL_STEREO,0,
+	WGL_STEREO_ARB,0,
 	WGL_SAMPLE_BUFFERS_ARB,0,
 	WGL_SAMPLES_ARB,0,
 	//WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB,True,
@@ -84,38 +88,20 @@ static void ELTAPIENTRY ExCreatePFD( void* pPFD, Int32 colorbits, Int32 depthbit
 static void ELTAPIENTRY ExCreatePFD2( void *pPFD, EngineDescription* desc){
 
 	PIXELFORMATDESCRIPTOR pfd = {0};
-	if(desc){
-		pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
-		pfd.nVersion = 1;
-		pfd.dwFlags  =  PFD_SUPPORT_OPENGL
-		| PFD_DRAW_TO_WINDOW
-		| ((desc->EngineFlag & ENGINE_SUPPORT_DOUBLEBUFFER) != 0 ? PFD_DOUBLEBUFFER : 0)
-		| ((desc->EngineFlag & ENGINE_SUPPORT_STEROVISION) != 0 ? PFD_STEREO : 0);
-		pfd.iPixelType = ((desc->PixelType & ENGINE_RGB) != 0 || (desc->PixelType & ENGINE_RGBA) != 0) != 0 ? PFD_TYPE_RGBA : PFD_TYPE_COLORINDEX;
-		pfd.iLayerType = PFD_MAIN_PLANE;
-		pfd.cColorBits = desc->ColorBits;
-		pfd.cDepthBits = desc->DepthBits;
-		pfd.cAccumBits = desc->AccumBits;
-		pfd.cStencilBits = desc->StencilBits;
-		pfd.cAlphaBits = desc->alphaChannel;
-	}
-	else{
-		// default engine Description allocated on the heap.
-		pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
-		pfd.nVersion = 1;
-		pfd.dwFlags  =  PFD_SUPPORT_OPENGL
-		| PFD_DRAW_TO_WINDOW
-		| ((engineDescription.EngineFlag & ENGINE_SUPPORT_DOUBLEBUFFER) != 0 ? PFD_DOUBLEBUFFER : 0)
-		| ((engineDescription.EngineFlag & ENGINE_SUPPORT_STEROVISION) != 0 ? PFD_STEREO : 0);
-		pfd.iPixelType = ((engineDescription.PixelType & ENGINE_RGB) != 0 || (engineDescription.PixelType & ENGINE_RGBA) != 0) != 0 ? PFD_TYPE_RGBA : PFD_TYPE_COLORINDEX;
-		pfd.iLayerType = PFD_MAIN_PLANE;
-		pfd.cColorBits = engineDescription.ColorBits;
-		pfd.cDepthBits = engineDescription.DepthBits;
-		pfd.cAccumBits = engineDescription.AccumBits;
-		pfd.cStencilBits = engineDescription.StencilBits;
-		pfd.cAlphaBits = engineDescription.alphaChannel;
 
-	}		//assign the data of the pixelformat description.
+	// default engine Description allocated on the heap.
+	pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
+	pfd.nVersion = 1;
+	pfd.dwFlags  =  PFD_SUPPORT_OPENGL
+	| PFD_DRAW_TO_WINDOW
+	| PFD_DOUBLEBUFFER;
+	pfd.iPixelType = PFD_TYPE_RGBA;
+	pfd.iLayerType = PFD_MAIN_PLANE;
+	pfd.cColorBits = 24;
+	pfd.cDepthBits = 16;
+	pfd.cAccumBits = 0;
+	pfd.cStencilBits = 0;
+	pfd.cAlphaBits = 0;
 	memcpy(pPFD,&pfd, sizeof(PIXELFORMATDESCRIPTOR));
 }
 
@@ -172,11 +158,11 @@ static OpenGLContext create_temp_gl_context(HWND window){
 	}*/
 	return gl_context;
 }
-/**
+/*
     Generate a temporarily window for creating the extension window.
 */
 static HWND create_temp_gl_win(OpenGLContext* pglc_context){
-    HWND hwnd;
+    ExWin hwnd;
     OpenGLContext glc;
     WNDCLASSEX  wc= {0};
     #define TEMP_WINDOW_CLASS EX_TEXT("temp")
@@ -340,15 +326,15 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
 
 
 
-void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* size,Enum erenderingflag){
+void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* size){
 	if(!attribs)	/* error */
 		ExSetError(EINVAL);
+
     WGLCHOOSEPIXELFORMATARB_T wglGetPixelFormatAttribivARB;
 	int attrib[] = { WGL_NUMBER_PIXEL_FORMATS_ARB };
 	unsigned int nResults[1] = {0};
 	int pixFmt[1] = {0};
 	unsigned int attrSize = 0;
-
     /**
         Get Pixel Format attribute
     */
@@ -364,7 +350,8 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
     Create Shared OpenGL Context from a already existing context.
 */
 DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLContext glc){
-    int major_version,minor_version;
+    int major;
+    int minor;
     OpenGLContext shared_glc;
 
     HDC hdc;
@@ -380,13 +367,13 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
 	/**
 		Get major and minor version of opengl
 	*/
-    glGetIntegerv(GL_MAJOR_VERSION, &major_version);
-	glGetIntegerv(GL_MINOR_VERSION, &minor_version);
+    glGetIntegerv(GL_MAJOR_VERSION, &major);
+	glGetIntegerv(GL_MINOR_VERSION, &minor);
 
 
 	int attribs[] ={
-			WGL_CONTEXT_MAJOR_VERSION_ARB, major_version,
-			WGL_CONTEXT_MINOR_VERSION_ARB, minor_version,
+			WGL_CONTEXT_MAJOR_VERSION_ARB, major,
+			WGL_CONTEXT_MINOR_VERSION_ARB, minor,
 			WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
 #ifdef EX_DEBUG
 			WGL_CONTEXT_FLAGS_ARB,WGL_CONTEXT_DEBUG_BIT_ARB,

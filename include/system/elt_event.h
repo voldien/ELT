@@ -118,7 +118,7 @@ typedef struct window_poll_events{
 	ExSizeEvent size;                               /*      */
 	ExMouseMoveEvent mouse;                         /*      */
 	ExMouseWheelEvent mouseWheelEvent;              /*      */
-	EX_C_STRUCT elt_win_button_event button;        /*      */
+	ExWinButtonEvent button;        /*      */
 	EX_C_STRUCT ex_drop_event drop;                 /*      */
 	unsigned long int time;							/*			*/
 }ExWindowEvent;
@@ -127,16 +127,16 @@ typedef struct window_poll_events{
 EX_ALIGN_PREFIX(4)
 typedef struct elt_poll_events{
 	Enum event;									/*			*/
-	 ExKeyEvent key;                            /*          */
-	 ExMouseMoveEvent mouse;                    /*          */
-	 ExMouseWheelEvent mouseWheelEvent;         /*          */
-	EX_C_STRUCT elt_win_button_event button;    /*          */
-	 ExSystemEvent sys;                         /*          */
-	ExDropEvent drop;             /*          */
-	 ExSizeEvent size;                          /*          */
-	 ExSystemEvent system;                      /*          */
-	 ExTouchFingerEvent touch;                  /*          */
-	 MouseMotionEvent motion;					/*			*/
+	ExKeyEvent key;                            	/*          */
+	ExMouseMoveEvent mouse;                    	/*          */
+	ExMouseWheelEvent mouseWheelEvent;         	/*          */
+	ExWinButtonEvent button;    				/*          */
+	ExSystemEvent sys;                         	/*          */
+	ExDropEvent drop;            				/*          */
+	ExSizeEvent size;                          	/*          */
+	ExSystemEvent system;                      	/*          */
+	ExTouchFingerEvent touch;                  	/*          */
+	MouseMotionEvent motion;					/*			*/
 	unsigned long int time;						/*			*/
 	void* display;								/*			*/
 	ExWin window;
@@ -164,7 +164,7 @@ extern DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
 //	#return if PeekMessage was success.
 // PeekMessage : http://msdn.microsoft.com/en-us/library/windows/desktop/ms644943(v=vs.85).aspx
 */
-extern DECLSPEC ExBoolean ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event);
+extern DECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event);
 
 
 #ifdef __cplusplus	// C++ Environment

@@ -35,13 +35,13 @@ extern "C"{
 	Get CL context
 	@return
 */
-extern DECLSPEC void* ELTAPIFASTENTRY ExGetCLContext(void);
+extern DECLSPEC OpenCLContext ELTAPIFASTENTRY ExGetCLContext(void);
 
 /**
 	Get current cl context
 	@return CL context.
 */
-extern DECLSPEC void* ELTAPIFASTENTRY ExGetCurrentCLContext(void);
+extern DECLSPEC OpenCLContext ELTAPIFASTENTRY ExGetCurrentCLContext(void);
 
 /**
 	Create OpenCL Context

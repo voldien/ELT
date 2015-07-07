@@ -191,7 +191,7 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
 	else glDisable(GL_ALPHA_TEST);
 #endif
 
-#ifndef EX_ANDROID
+#if  !defined(EX_ANDROID) && !defined(EX_PNACL)
 	if(ExOpenGLGetAttribute(EX_OPENGL_MULTISAMPLEBUFFERS,&value) > 0){
         glEnable(GL_MULTISAMPLE_ARB);
 //        glGetIntegerv(GL_SAMPLE_BUFFERS,&sampleSupport);
@@ -201,7 +201,7 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
-#ifndef EX_ANDROID
+#if !(defined(EX_ANDROID) ^ defined(EX_PNACL))
 	glDepthRange(0.0, 1.0);
 #endif
 	glDepthMask(GL_TRUE);
@@ -236,7 +236,7 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor){
 		ExWin win;
 		unsigned int version;
 		OpenGLContext glc;
-#if !(defined(EX_ANDROID) || defined(EX_WINDOWS))
+#if !(defined(EX_ANDROID) ^ defined(EX_WINDOWS)  ^ defined(EX_PNACL))
 		win = ExCreateGLWindow(0,0,1,1,0);
 		glc = ExCreateTempGLContext();
 		ExMakeGLCurrent(win, glc);
@@ -271,7 +271,7 @@ DECLSPEC Int32 ELTAPIENTRY ExIsVendorAMD(void){
 	return strstr((const char*)glGetString(GL_VENDOR), "AMD") ? TRUE : FALSE;
 }
 DECLSPEC Int32 ELTAPIENTRY ExIsVendorNvidia(void){
-	return (strstr((const char*)glGetString(GL_VENDOR), "NVIDIA")) ? TRUE : FALSE;
+	return strstr((const char*)glGetString(GL_VENDOR), "NVIDIA") ? TRUE : FALSE;
 }
 DECLSPEC Int32 ELTAPIENTRY ExIsVendorIntel(void){
 	return strstr((const char*)glGetString(GL_VENDOR), "INTEL") ? TRUE : FALSE;

@@ -57,7 +57,7 @@ endif
 
 
 
-VPATH = src src/system src/input src/system/unix src/audio src/math src/graphic src/system/Win32 src/system/android
+VPATH = src src/system src/input src/system/unix src/audio src/math src/graphic src/system/win src/system/android
 
 vpath %.c src
 vpath %.h include
@@ -67,6 +67,7 @@ sources += $(wildcard src/input/*.c)
 sources += $(wildcard src/system/*.c)
 sources += $(wildcard src/math/*.c)
 sources += $(wildcard src/graphic/*.c)
+
 
 
 
@@ -88,10 +89,9 @@ all: $(TARGET)
 
 
 $(TARGET) : CFLAGS += -O3 
-$(TARGET) : unixsource += $(notdir $(subst .c,.o, $(wildcard src/system/unix/*.c) ) ) 
-$(TARGET) : $(objects) $(unixsource)
+$(TARGET) : $(objects)  $(notdir $(subst .c,.o, $(wildcard src/system/unix/*.c) ) ) 
 	$(MKDIR) build
-	$(CC) $(CFLAGS) -shared $(notdir $^) -o build/$@  $(CLIBS)
+	$(CC) $(CFLAGS) -shared $^ -o build/$@  $(CLIBS)
 	
 
 %.o : %.c
@@ -132,23 +132,25 @@ static : $(objects)
 .PHONY : linux32
 .PHONY : linux64
 
+linux32 : $(objects)
+	$(CC) $(CFLAGS) -shared $^ -o $@ $(TARGET) $(CLIBS)
+
 
 CWINCLIBS := -lopengl32 -lgdi32 -lglu32  -lwininet -lws2_32 -lkernel32 -luser32 -lwinmm  -lpsapi -legl -ldbghelp #-lopencl
 
 .PHONY : win32
 win32 : CFLAGS += -mwin32 -municode -mwindows -I"External/OpenCL/Include" -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1  -DDONT_SUPPORT_OPENCL=1
-win32 : sources += $(wildcard src/system/Win32/*.c)
 win32 : TARGET := EngineEx32.dll
 win32 : CLIBS := $(CWINCLIBS)
 win32 : winobjects = 
 win32 : CC := $(WINCC)
-win32 : $(objects) $(notdir $^)  $(notdir $(subst .c,.o, $(wildcard src/system/Win32/*.c) ))
+win32 : $(objects) $(notdir $(subst .c,.o, $(wildcard src/system/win/*.c) ))
 	$(WINCC) $(CFLAGS) -shared $^ -o $(TARGET) $(CLIBS)
 
 
 .PHONY : win64
 win64 : CFLAGS += -municode -mwindows -I"External/OpenCL/Include" -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1   
-win64 : sources += $(wildcard src/system/Win32/*.c)
+win64 : sources += $(wildcard src/system/win/*.c)
 win64 : TARGET := EngineEx64.dll
 win64 : CLIBS := $(CWINCLIBS)
 win64 : CC := $(WINCC)
