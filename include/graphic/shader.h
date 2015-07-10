@@ -178,12 +178,15 @@ void main(void){
 "in float fangle;\n"										\
 "in int ftexture;\n"										\
 "void main(void){\n"										\
+"	float texwidth = float(textureSize(texture[0],0).x);\n"			\
+"	float texheight = float(textureSize(texture[0],0).y);\n"			\
+"	vec2 fragscale = vec2(clamp( texheight / texwidth ,1.0,10.0 ) , clamp( texwidth / texheight ,1.0,10.0) );\n"														\
 "	float sin_theta = sin(fangle);\n"						\
 "	float cos_theta = cos(fangle);\n"						\
 "	mat2 rotation_matrix = mat2(cos_theta, sin_theta,\n"			\
 "-sin_theta, cos_theta);\n"											\
-"	fragColor = texture2D(texture[0],frect.xy + ((gl_PointCoord * vec2(1,-1.0)) * frect.zw) * rotation_matrix);\n"		\
+"	fragColor = texture2D(texture[0],-fragscale + frect.xy + ((gl_PointCoord * vec2(1.0,-1.0)) * frect.zw * fragscale.xy) * rotation_matrix);\n"		\
 "}\n"														\
 
-
+//fragscale - vec2(1,1) -vec2(-0.5,-0.5) +
 #endif 
