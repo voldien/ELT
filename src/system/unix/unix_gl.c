@@ -348,7 +348,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin win
 	xev.xclient.window = window;
 	xev.xclient.message_type = wmState;
 	xev.xclient.format = 32;
-	xev.xclient.data.l[0] = 1;
+	xev.xclient.data.l[0] = cdsfullscreen ? 1 : 0;
 	xev.xclient.data.l[1] = fullscreen;
 
 	//XGetWindowAttributes(display, DefaultRootWindow(display),&xwa);
