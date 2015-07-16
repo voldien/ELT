@@ -69,6 +69,11 @@ extern DECLSPEC void ELTAPIENTRY ExLockThread(ExThread thread);
 */
 extern DECLSPEC void ELTAPIENTRY ExUnLockThread(ExThread thread);
 
+
+extern DECLSPEC void ELTAPIENTRY ExSuspendThread(ExThread thread);
+extern DECLSPEC void ELTAPIENTRY ExResumeThread(ExThread thread);
+
+
 /**
     Get current thread identification.
 	@return current thread handle.

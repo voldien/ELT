@@ -24,8 +24,9 @@
 
     #include<jni.h>
     #include<android/native_activity.h>
+	#include<EGL/egl.h>
 
-
+	extern EGLDisplay eglDisplay;
 #define GL_GET_PROC(x)  eglGetProcAddress(x)                                      /* * get OpenGL function process address */
 
 #elif defined(EX_MAC)
@@ -44,32 +45,26 @@
 
 
 
-	#ifdef GL_ES_VERSION_3_0
-        #include<GLES3/gl3.h>
-        #include<GLES3/gl3ext.h>
-        #include<GLES3/gl3platform.h>
-	#elif defined(GL_ES_VERSION_2_0)
-        #include<GLES2/gl2.h>
-        #include<GLES2/gl2ext.h>
-        #include<GLES2/gl2platform.h>
-    #elif defined(GL_ES_VERSION_1_0)
-        #include<GLES/gl.h>
-        #include<GLES/glext.h>
-        #include<GLES/glplatform.h>
-	#endif
+#ifdef GL_ES_VERSION_3_0
+	#include<GLES3/gl3.h>
+	#include<GLES3/gl3ext.h>
+	#include<GLES3/gl3platform.h>
+#elif defined(GL_ES_VERSION_2_0)
+	#include<GLES2/gl2.h>
+	#include<GLES2/gl2ext.h>
+	#include<GLES2/gl2platform.h>
+#elif defined(GL_ES_VERSION_1_0)
+	#include<GLES/gl.h>
+	#include<GLES/glext.h>
+	#include<GLES/glplatform.h>
+#else
 
+#endif
 
-/*
+#include<GLES2/gl2.h>
+#include<GLES2/gl2ext.h>
+#include<GLES2/gl2platform.h>
 
-*/
-#define ExDevGLPrint(pFormat)	printf(pFormat EX_DEVELOP_ERROR_LOG,glGetError(),glewGetErrorString(glGetError()), __FILE__,__LINE__, EX_FUNCDNAME);
-#define ExDevGLPrintc(pFormat,color)	{Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat EX_DEVELOP_ERROR_LOG,glGetError(),glewGetString(glGetError()),__LINE__, __FILE__,EX_FUNCNAME);ExSetConsoleColor(__colour__);}
-#define ExDevGLPrintf(pFormat,...)	{Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat  EX_DEVELOP_ERROR_LOG,__VA_ARGS__,glGetError(),glewGetString(glGetError()),LINE__, __FILE__,EX_FUNCNAME);ExSetConsoleColor(__colour__);}
-#define ExDevGLPrintfc(pFormat,color,...){Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat EX_DEVELOP_ERROR_LOG,__VA_ARGS__,glGetError(), glewGetString(glGetError()), __LINE__, __FILE__,EX_FUNCNAME	);ExSetConsoleColor(__colour__);}
-/**
-	OpenGL Error
-*/
-#define ExIsGLError(x)  { if( ( x ) <= 0 ){ ExDevGLPrintc("Error",EX_CONSOLE_RED); } }
 
 
 /*  check if extension is supported */
@@ -153,27 +148,27 @@ DECLSPEC inline void ELTAPIENTRY ExMakeGLCurrent(WindowContext drawable, OpenGLC
 */
 
 
-DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescription){
+DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 	int value;
 #if (EX_ENGINE_VERSION_MAJOR < 1 )
 #ifdef EX_WINDOWS
 
 	/*
-	WGLSWAPINTERVALEXT_T wglSwapIntervalEXT = (WGLSWAPINTERVALEXT_T)GL_GET_PROC("wglSwapIntervalEXT");
+		WGLSWAPINTERVALEXT_T wglSwapIntervalEXT = (WGLSWAPINTERVALEXT_T)GL_GET_PROC("wglSwapIntervalEXT");
 
-	ExWin hWnd;	// Window
-	RECT rect;	// client Rect
-	hWnd = WindowFromDC(wglGetCurrentDC());
-	GetClientRect(hWnd,&rect);
-	// v-sync
-	wglSwapIntervalEXT((engineDescription.EngineFlag & ENGINE_SUPPORT_VSYNC));
-	// gl Viewport
-	glViewport(0,0,rect.right - rect.left,rect.bottom - rect.top);
+		ExWin hWnd;	// Window
+		RECT rect;	// client Rect
+		hWnd = WindowFromDC(wglGetCurrentDC());
+		GetClientRect(hWnd,&rect);
+		// v-sync
+		wglSwapIntervalEXT((engineDescription.EngineFlag & ENGINE_SUPPORT_VSYNC));
+		// gl Viewport
+		glViewport(0,0,rect.right - rect.left,rect.bottom - rect.top);
 	*/
 #elif defined(EX_LINUX)
     typedef void (*glXSwapIntervalEXTProc)(Display*, GLXDrawable drawable, int intervale);
     glXSwapIntervalEXTProc glXSwapIntervalEXT = (glXSwapIntervalEXTProc)GL_GET_PROC((const GLubyte*)"glXSwapIntervalEXT");
-   // if(glXSwapIntervalEXT)
+    //if(glXSwapIntervalEXT)
     //    glXSwapIntervalEXT(display, (GLXDrawable)ExGetCurrentGLDC(), 0);
 #elif defined(EX_ANDROID)
 
@@ -185,17 +180,17 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
 	// color mask
 	glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
 
-#ifndef EX_PNACL
+#if !( defined(EX_PNACL) ^ defined(EX_ANDROID) )
 	if(ExOpenGLGetAttribute(EX_OPENGL_ALPHA_SIZE,&value) > 0)
 		glEnable(GL_ALPHA_TEST);
 	else glDisable(GL_ALPHA_TEST);
 #endif
 
-#if  !defined(EX_ANDROID) && !defined(EX_PNACL)
+#if  !( defined(EX_ANDROID) ^ defined(EX_PNACL) )
 	if(ExOpenGLGetAttribute(EX_OPENGL_MULTISAMPLEBUFFERS,&value) > 0){
         glEnable(GL_MULTISAMPLE_ARB);
-//        glGetIntegerv(GL_SAMPLE_BUFFERS,&sampleSupport);
-//        if(sampleSupport){}
+//        	glGetIntegerv(GL_SAMPLE_BUFFERS,&sampleSupport);
+//			if(sampleSupport){}
 	}
 #endif
 
@@ -211,12 +206,14 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescriptio
 	glCullFace(GL_FRONT);
 	glFrontFace(GL_CW);
 	glClearColor(0.0f,0.0f,0.0f,1.0f);
-#if !(defined(GL_ES_VERSION_3_0) || defined(GL_ES_VERSION_2_0) || defined(GL_ES_VERSION_1_0) || defined(EX_ANDROID))
+#if !( defined(EX_ANDROID))
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-#endif
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 
+
+#endif
 }
 
 
@@ -241,21 +238,22 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor){
 		glc = ExCreateTempGLContext();
 		ExMakeGLCurrent(win, glc);
 		version = ExGetOpenGLShadingVersion();
+#endif
 		/*TODO resolve later*/
-#if !(defined(GL_ES_VERSION_3_0) || defined(GL_ES_VERSION_2_0) || defined(GL_ES_VERSION_1_0))
+#if !( defined(EX_ANDROID) )
 		if(major)
 			glGetIntegerv(GL_MAJOR_VERSION, major);
 		if(minor)
 			glGetIntegerv(GL_MINOR_VERSION, minor);
-#endif
-#endif
+
 		ExMakeGLCurrent(0,0);
 		ExDestroyContext(NULL,glc);
 		ExDestroyWindow(win);
+#endif
 		return version;
     }
     else{
-#if !(defined(GL_ES_VERSION_3_0) || defined(GL_ES_VERSION_2_0) || defined(GL_ES_VERSION_1_0))
+#if !(defined(EX_ANDROID) )
 		if(major)
 			glGetIntegerv(GL_MAJOR_VERSION, major);
 		if(minor)
@@ -268,13 +266,19 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor){
 
 #ifndef EX_LINUX
 DECLSPEC Int32 ELTAPIENTRY ExIsVendorAMD(void){
+#ifndef EX_ANDROID
 	return strstr((const char*)glGetString(GL_VENDOR), "AMD") ? TRUE : FALSE;
+#endif
 }
 DECLSPEC Int32 ELTAPIENTRY ExIsVendorNvidia(void){
+#ifndef EX_ANDROID
 	return strstr((const char*)glGetString(GL_VENDOR), "NVIDIA") ? TRUE : FALSE;
+#endif
 }
 DECLSPEC Int32 ELTAPIENTRY ExIsVendorIntel(void){
+#ifndef EX_ANDROID
 	return strstr((const char*)glGetString(GL_VENDOR), "INTEL") ? TRUE : FALSE;
+#endif
 }
 #endif
 

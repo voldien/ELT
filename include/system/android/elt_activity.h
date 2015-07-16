@@ -25,6 +25,7 @@
 extern "C"{
 #endif
 
+
 /**
     Get native Activity pointer
 */

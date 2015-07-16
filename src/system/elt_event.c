@@ -160,6 +160,8 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 		}break;
 		case Expose:{
 			event->event |= EX_EVENT_EXPOSE;
+			event->size.width = msg.xexpose.width;
+			event->size.height = msg.xexpose.height;
 		}break;
 		case ClientMessage:{
             event->event |= EX_EVENT_SIZE;
@@ -168,6 +170,11 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 
             }
             */
+
+		}break;
+		case  VisibilityNotify:{
+
+
 
 		}break;
 		case ConfigureNotify:{

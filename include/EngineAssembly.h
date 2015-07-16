@@ -114,27 +114,7 @@
 #ifdef __cplusplus	 // C++ environment
 extern "C"{
 #endif
-//---- End Engine Description flag.
-typedef struct EngineFormatDescription{
-	Uint64 EngineFlag;		// Engine Flag Stats
-	Uint32 SampleQuality;	// Sample Quallity Flag Stats
-	Uint8 sample[4];        //
-	Uint32 BufferCount;		// Number of Buffer Drawn To Window
-	Uint32 BufferFlag;		// Buffer Flag Statment
-	Uint32 AffinityCount;	// Number Core To Drive The Engine
-	Uint32 nVersion;		// Specified Version. for furture release for compadiable
-	Uint8 DepthBits;		// Bits Count In Depth Buffer	[if 0 == disable depth test]
-	Uint8 ColorBits;		// Bits Count In Color Buffer
-	Uint8 StencilBits;		// Bits Count In Stencil Buffer [if 0 == disable stencil Test]
-	Uint8 AccumBits;		// Bits Count In Accum Buffer [if 0  == disable accum test]
-	Uint8 alphaChannel;		// Bits Count on Alpha Buffer [if 0 == disable Alpha]
-	Uint8 PixelType;		// Pixel Type
-}EngineDescription, *PENGINEDESCRIPTION,ExEngineDescription, ExEngineDesc;
 
-/**
-    Allocation of This Application EngineDescription. Describe the base of the Application.
-*/
-extern DECLSPEC EngineDescription engineDescription;
 
 /**
     Set parameter
@@ -147,13 +127,9 @@ extern DECLSPEC int ELTAPIENTRY ExSetParameteri(Enum eflag, int value);
 */
 extern DECLSPEC int ELTAPIENTRY ExSetParameterf(Enum eflag, float value);
 
-#define EX_OPENGL_
-extern DECLSPEC int ExGeti(Enum Flag);
 
-//extern DECLSPEC int ELTAPIENTRY ExSetCallback(Enum callbackflag, void (*s) (unsigned int) callback);
-
-
-extern DECLSPEC void ELTAPIENTRY AssignDescription(const EngineDescription* p_engineDescription);
+extern DECLSPEC int ExGeti(Enum Enum);
+extern DECLSPEC int ExGetf(Enum Enum);
 
 /**
     Get ELT Window default Title!

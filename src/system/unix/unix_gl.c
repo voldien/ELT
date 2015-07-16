@@ -55,7 +55,16 @@ int pixAtt[] = {
 	GLX_SAMPLE_BUFFERS_ARB,0,
 	GLX_SAMPLES_ARB,0,
 	GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB,True,
-	None
+	None,None,
+    GLX_CONTEXT_MAJOR_VERSION_ARB,3,
+    GLX_CONTEXT_MINOR_VERSION_ARB,3,
+    #ifdef EX_DEBUG
+    GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_DEBUG_BIT_ARB | GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,   /*  Debug TODO add hint*/
+    #else
+    GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
+    #endif
+	GLX_CONTEXT_PROFILE_MASK_ARB, GLX_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
+    None
 };
 
 
@@ -82,17 +91,18 @@ static void ExDescribeFBbconfig(GLXFBConfig* fbconfig){
 }
 #endif
 
-/**choose fb configure  */
+
 int ExChooseFBconfig(GLXFBConfig* pfbconfig){
 	GLXFBConfig* fbconfigs;
 	XVisualInfo* visual;
 	XRenderPictFormat *pict_format;
 	int numfbconfigs,i;
+	unsigned int attr;
 
 	fbconfigs = glXChooseFBConfig(display,DefaultScreen(display), pixAtt,&numfbconfigs);
     pfbconfig[0] = fbconfigs[0];
 
-
+    /*	choose */
 	for(i = 0; i < numfbconfigs; i++){
 		visual = (XVisualInfo*)glXGetVisualFromFBConfig(display, fbconfigs[i]);
 		if(!visual)continue;
@@ -101,7 +111,8 @@ int ExChooseFBconfig(GLXFBConfig* pfbconfig){
 		if(!pict_format)continue;
 
 		pfbconfig[0] = fbconfigs[i];
-		if(engineDescription.alphaChannel > 0){
+
+		if(ExOpenGLGetAttribute(EX_OPENGL_ALPHA_SIZE,&attr) > 0){
 		    if(pict_format->direct.alphaMask > 0)break;
 		}else break;
 
@@ -121,30 +132,6 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateTempGLContext(void){
 }
 
 
-
-
-void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* size){
-	if(!attribs)	/* error */
-		ExSetError(EINVAL);
-
-	 int pixAttribs[] = {
-			GLX_RENDER_TYPE, GLX_RGBA_BIT,
-			GLX_X_RENDERABLE, True,
-			GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
-			GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
-					  GLX_RED_SIZE,    8,
-					  GLX_GREEN_SIZE,  8,
-					  GLX_BLUE_SIZE,   8,
-					  GLX_ALPHA_SIZE,  8,
-					GLX_DOUBLEBUFFER, True,
-					  GLX_DEPTH_SIZE,  24,
-					  None};
-			//GLX_TRANSPARENT_TYPE, GLX_TRANSPARENT_RGB,
-
-		//GLX_TRANSPARENT_ARB, WGL_TRANSPARENT_ALPHA_VALUE_ARB,
-	if(size)size =sizeof(pixAttribs);
-	memcpy(attribs,(int*)pixAttribs,sizeof(pixAttribs));
-}
 
 
 
@@ -300,7 +287,6 @@ DECLSPEC int ELTAPIENTRY ExOpenGLGetAttribute(unsigned int attr, int* value){
 }
 DECLSPEC void ELTAPIENTRY ExOpenGLResetAttributes(void){
 
-
 }
 
 
@@ -328,6 +314,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin win
     xattr.override_redirect = False;
     XChangeWindowAttributes(display, window, CWOverrideRedirect, &xattr);
 
+    /**/
 	wmState = XInternAtom(display, "_NET_WM_STATE", FALSE);
     fullscreen = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", FALSE);
 
@@ -350,16 +337,16 @@ DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin win
 	xev.xclient.format = 32;
 	xev.xclient.data.l[0] = cdsfullscreen ? 1 : 0;
 	xev.xclient.data.l[1] = fullscreen;
+	xev.xclient.data.l[2] = screenIndex;
+	xev.xclient.data.l[3] = screenIndex;
+	xev.xclient.data.l[4] = screenIndex;
 
-	//XGetWindowAttributes(display, DefaultRootWindow(display),&xwa);
-    //ExSetWindowSize(window,xwa.width,xwa.height);
-	//XMapWindow(display,window);
-
-    //XChangeProperty(display, window,XInternAtom(display, "_NET_WM_STATE", False), 4, 32, PropModeReplace, atoms,1);
 	XSendEvent(display,
             DefaultRootWindow(display),
             FALSE,
-            SubstructureNotifyMask,&xev);
+            SubstructureNotifyMask
+			|SubstructureRedirectMask
+			,&xev);
 	//XSendEvent(display,DefaultRootWindow(window,False,
 	//	SubstructureRedirectMask | SubstructureNotifyMask, &xev);
 

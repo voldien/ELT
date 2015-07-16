@@ -22,9 +22,6 @@
 #include"ExAssert.h"
 #include"system/elt_win.h"
 
-
-#ifdef EX_WINDOWS
-#endif
 #ifdef __cplusplus	// C++ Environment
 extern "C"{
 #endif
@@ -68,6 +65,9 @@ extern DECLSPEC Int32 ELTAPIENTRY ExGetMonitorHz(Uint32 index);
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExGetPrimaryMonitorHz(void);
 
+
+extern DECLSPEC int ELTAPIENTRY ExSetScreenSize(int index, int width, int height);
+
 /**
 	// Get Platform
 	@return
@@ -90,8 +90,8 @@ extern DECLSPEC char* ELTAPIENTRY ExGetCurrentDirectory(void);
 
 extern DECLSPEC int ELTAPIENTRY ExSetCurrentDirectory (const char* cdirectory);
 
-/**
-    // Get Application Execute global Path.
+/*
+    Get Application Execute global Path.
     @return
 */
 extern DECLSPEC void ELTAPIENTRY ExGetExecutePath(ExChar* wChar, Int32 lengthSize);
@@ -153,7 +153,9 @@ extern DECLSPEC Int32 ELTAPIENTRY ExGetClipboardData(void* pdata);
 extern DECLSPEC ERESULT ELTAPIENTRY ExPutFTPFile(const ExChar* ftp, const ExChar* user, const ExChar* password,const ExChar* fileconst, const ExChar* directory);
 
 
+
 /*
+	TODO remote or something later!
 	// Copy Virtual Table for C++ classes
 */
 #define ExCopyVPTR(destination,source) {memcpy((void*)( destination ),(const void*) ( source ), sizeof(unsigned int));}

@@ -19,7 +19,7 @@
 	#include<GL/glext.h>
 #endif
 
-
+#include<glslex/glslex.h>
 
 
 int ExGetShaderProgramSize(unsigned int program){

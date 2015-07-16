@@ -16,7 +16,7 @@ void* display = 0;
 
 
 extern int* pixAtt;
-extern int ExChooseFBconfig(GLXFBConfig* p_fbconfig);
+extern int ExChooseFBconfig(GLXFBConfig* pfbconfig);
 
 
 

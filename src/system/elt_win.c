@@ -17,31 +17,25 @@
 #   include<android/rect.h>
 #   include<android/window.h>
 #   include<EGL/egl.h>
+	#ifdef GL_ES_VERSION_3_0
+		#include<GLES3/gl3.h>
+		#include<GLES3/gl3ext.h>
+		#include<GLES3/gl3platform.h>
+	#elif defined(GL_ES_VERSION_2_0)
+		#include<GLES2/gl2.h>
+		//#include<GLES2/gl2ext.h>
+		//#include<GLES2/gl2platform.h>
+	#elif defined(GL_ES_VERSION_1_0)
+		#include<GLES/gl.h>
+		#include<GLES/glext.h>
+		#include<GLES/glplatform.h>
+	#endif
 
 #elif defined(EX_MAC)
 	#include"system/mac/macosx_win.h"
 	#include<EGL/egl.h>
 #elif defined(EX_NACL)
 
-#endif
-
-/**/
-#ifdef GL_ES_VERSION_3_0
-	#include<GLES3/gl3.h>
-	#include<GLES3/gl3ext.h>
-	#include<GLES3/gl3platform.h>
-#elif defined(GL_ES_VERSION_2_0)
-	#include<GLES2/gl2.h>
-	#include<GLES2/gl2ext.h>
-	#include<GLES2/gl2platform.h>
-#elif defined(GL_ES_VERSION_1_0)
-	#include<GLES/gl.h>
-	#include<GLES/glext.h>
-	#include<GLES/glplatform.h>
-#else
-	#include<GL/gl.h>
-	#include<GL/glu.h>
-	#include<GL/glext.h>
 #endif
 
 #include"system/elt_icon.h"
@@ -164,7 +158,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 		window = ExCreateGLWindow(x,y,width, height,&glx_window);
         glc = ExCreateGLContext(glx_window != NULL ? glx_window : window);
 		ExMakeGLCurrent(glx_window != NULL ? glx_window : window,glc);
-		ExInitOpenGLStates(NULL);
+		ExInitOpenGLStates();
 
 #ifndef DONT_SUPPORT_OPENCL
 		if(flag & EX_OPENCL)
@@ -210,8 +204,9 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 	else if(flag & EX_OPENGL){
         ANativeWindow_acquire(&window);
 
-        glc = ExCreateGLContext(window);
 #ifndef DONT_SUPPORT_OPENCL
+        glc = ExCreateGLContext(window);
+
         if(flag & EX_OPENCL)
             ExCreateCLSharedContext(glc, window, EX_OPENGL);
 #endif

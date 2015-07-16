@@ -23,6 +23,7 @@ enum KeyCodes {
     EXK_UNKNOWN = 0,
 
     EXK_RETURN = '\r',
+	EXK_ENTER = '\r',
     EXK_ESCAPE = '\033',
     EXK_BACKSPACE = '\b',
     EXK_TAB = '\t',

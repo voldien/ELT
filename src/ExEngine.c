@@ -84,7 +84,7 @@ _In_  HINSTANCE hinstDLL,
 
 
 extern Uint64 elt_time;     /**  high accuracy timer   */
-
+unsigned long int engineflag = 0;
 
 /*	Initialize Engine Library Toolkit	*/
 DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
@@ -94,7 +94,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	Long lStdHandle;
 
 	/*	if all is already initilated return !	*/
-    if(engineDescription.EngineFlag & ELT_INIT_EVERYTHING)
+    if(engineflag & ELT_INIT_EVERYTHING)
         return 2;
 
 
@@ -173,7 +173,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	    ExError(EX_TEXT("Failed to initialize error handler."));
 	}
 
-	engineDescription.EngineFlag |= engineFlag;
+	engineflag |= engineFlag;
 
 	/* release resouces even if exit unexcpeted */
 	atexit(ExShutDown);

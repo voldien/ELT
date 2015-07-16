@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef ELT_LOG_H_
-#define ELT_LOG_H_
+#ifndef _ELT_LOG_H_
+#define _ELT_LOG_H_ 1
 #include"./../EngineAssembly.h"
 extern FILE* m_file_log;
 

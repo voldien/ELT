@@ -36,12 +36,12 @@
 #include"elt_win.h"
 
 /*	GPU Vendors constant of.	*/
-#define EX_UNKNOWN 0x0
-#define EX_NVIDIA 0x1
-#define EX_INTEL 0x2
-#define EX_AMD 0x4
+#define EX_UNKNOWN 0x0				/**/
+#define EX_NVIDIA 0x1				/**/
+#define EX_INTEL 0x2				/**/
+#define EX_AMD 0x4					/**/
 
-
+/*	*/
 #define EX_OPENGL_RED_SIZE				0
 #define EX_OPENGL_GREEN_SIZE			1
 #define EX_OPENGL_BLUE_SIZE				2
@@ -58,10 +58,11 @@
 #define EX_OPENGL_MULTISAMPLEBUFFERS	12
 #define EX_OPENGL_MULTISAMPLESAMPLES	13
 #define EX_OPENGL_FRAMEBUFFER_SRGB_CAPABLE	14
-#define EX_OPENGL_MAJOR_VERSION			15
-#define EX_OPENGL_MINOR_VERSION			16
-#define EX_OPENGL_CONTEXT_FLAGS			17
-#define EX_OPENGL_CONTEXT_PROFILE_MASK	18
+/*	context attributes	*/
+#define EX_OPENGL_MAJOR_VERSION			16
+#define EX_OPENGL_MINOR_VERSION			17
+#define EX_OPENGL_CONTEXT_FLAGS			18
+#define EX_OPENGL_CONTEXT_PROFILE_MASK	19
 
 
 
@@ -70,21 +71,21 @@ extern "C"{
 #endif
 
 
-/**
+/*
 	Get Window associated with OpenGL Context
 */
 extern DECLSPEC ExWin ELTAPIENTRY ExGetOpenGLContextWindow(OpenGLContext glc);
-/**
+/*
 	Get device context of current openGL context on current thread
 	@return current device context on current thread.
 */
 extern DECLSPEC WindowContext ELTAPIFASTENTRY ExGetCurrentGLDC(void);
 #define ExGetCurrentGLDrawable ExGetCurrentGLDC
-/**
+/*
 	Get OpenGL context on the current thread
 */
 extern DECLSPEC OpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void);
-/**
+/*
 	Get OpenGL context from given window.
 */
 extern DECLSPEC OpenGLContext ELTAPIENTRY ExGetOpenGLCFromWindow(ExWin window);
@@ -115,13 +116,17 @@ extern DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, 
 
 /*	*/
 extern DECLSPEC void ELTAPIENTRY ExOpenGLSetAttribute(unsigned int attr, int value);
+/*	*/
 extern DECLSPEC int ELTAPIENTRY ExOpenGLGetAttribute(unsigned int attr, int* value);
+/*	*/
 extern DECLSPEC void ELTAPIENTRY ExOpenGLResetAttributes(void);
+/*	*/
+
 
 /*
 	Initialize OpenGL States
 */
-extern DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(EngineDescription* enginedescription);
+extern DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void);
 
 /**
 	Destroy OpenGL Context
@@ -138,7 +143,7 @@ extern DECLSPEC ExBoolean ELTAPIENTRY ExDestroyCurrentContext(void);
 /*
 	Initlize OpenGL
 */
-extern DECLSPEC void ELTAPIENTRY ExInitOpenGL(ExWin hwnd, EngineDescription* enginedescription);
+extern DECLSPEC void ELTAPIENTRY ExInitOpenGL(ExWin hwnd);
 /**
 	Set Window associated with OpenGL context fullScreen.
 	\

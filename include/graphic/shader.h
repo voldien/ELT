@@ -148,17 +148,24 @@ void main(void){
 "#endif\n"											\
 "layout(location = 0) in vec3 vertex;\n"			\
 "layout(location = 1) in float angle;\n"			\
-"layout(location = 2) in vec4 rect;\n"				\
-"layout(location = 3) in int tex;\n"				\
-"uniform sampler2D texture[16];\n"					\
-"out float fangle;\n"								\
-"out vec4 frect;\n"									\
-"out mat2 coord;\n"									\
-"out int ftexture;\n"								\
-"void main(void){\n"								\
-"	gl_PointSize = float(max(textureSize(texture[0],0).x * rect.z,"	\
-"textureSize2D(texture[0],0).y * rect.w));\n"						\
-"	gl_Position = vec4( vertex,1.0);\n"				\
+"layout(location = 2) in vec4 rect;\n"								\
+"layout(location = 3) in int tex;\n"								\
+"layout(location = 4) in float scale;\n"								\
+"layout(location = 5) in vec4 color;\n"								\
+"uniform sampler2D texture[16];\n"									\
+"out float fangle;\n"												\
+"out vec4 frect;\n"													\
+"out mat2 coord;\n"													\
+"out int ftexture;\n"												\
+"void main(void){\n"												\
+"	float sin_theta = sin(angle);\n"								\
+"	float cos_theta = cos(angle);\n"								\
+"	coord = mat2(cos_theta, sin_theta,\n"							\
+"-sin_theta, cos_theta);\n"											\
+"	vec2 uv = coord * vec2(float(textureSize(texture[0],0).x) * rect.z,float(textureSize2D(texture[0],0).y) * rect.w);\n"					\
+"	gl_PointSize = float(max(abs(uv.x * sin(angle)) + abs(uv.y * cos(angle) ),"	\
+"abs(uv.x * cos(angle)) + abs(uv.y * sin(angle)) ));// *  sqrt( ( cos(angle) * cos(angle) ) + ( sin(angle) * sin(angle) ) ) ;\n"						\
+"	gl_Position = vec4(vertex.x , vertex.y , vertex.z ,1.0f);\n"							\
 "	fangle = angle;\n"								\
 "	frect = rect;\n"								\
 "	ftexture = tex;\n"								\
@@ -177,16 +184,17 @@ void main(void){
 "in vec4 frect;\n"											\
 "in float fangle;\n"										\
 "in int ftexture;\n"										\
+"in mat2 coord;\n"											\
 "void main(void){\n"										\
 "	float texwidth = float(textureSize(texture[0],0).x);\n"			\
 "	float texheight = float(textureSize(texture[0],0).y);\n"			\
 "	vec2 fragscale = vec2(clamp( texheight / texwidth ,1.0,10.0 ) , clamp( texwidth / texheight ,1.0,10.0) );\n"														\
-"	float sin_theta = sin(fangle);\n"						\
-"	float cos_theta = cos(fangle);\n"						\
-"	mat2 rotation_matrix = mat2(cos_theta, sin_theta,\n"			\
-"-sin_theta, cos_theta);\n"											\
-"	fragColor = texture2D(texture[0],-fragscale + frect.xy + ((gl_PointCoord * vec2(1.0,-1.0)) * frect.zw * fragscale.xy) * rotation_matrix);\n"		\
+"	fragColor = texture2D(texture[0],frect.xy  + ((vec2(1.0) - frect.zw) / 2) * vec2(-1,1)  + vec2(0.5) + coord * ((gl_PointCoord - vec2(0.5) ) * frect.zw * fragscale.xy));\n"		\
+"	//fragColor.rg += (frect.xy  + vec2(0.5) + coord * ((gl_PointCoord - vec2(0.5) ) * frect.zw * fragscale.xy)).xy;\n"		\
+"	//fragColor.a = 1.0;\n"									\
 "}\n"														\
 
 //fragscale - vec2(1,1) -vec2(-0.5,-0.5) +
+
+
 #endif 

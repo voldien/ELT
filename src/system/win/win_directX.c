@@ -56,7 +56,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitDirectX(ExWin window){
 
 	/*d3StructInfo.BackBufferCount = (ExGetEngineDescriptionPointer()->EngineFlag & ENGINE_SUPPORT_DOUBLEBUFFER) != 0 ? 2 : 1;
 	d3StructInfo.MultiSampleQuality = ExGetEngineDescriptionPointer()->SampleQuality;
-	d3StructInfo.FullScreen_RefreshRateInHz = (engineDescription.EngineFlag & ENGINE_FULLSCREEN) ? 0 : 0;*/
+	//d3StructInfo.FullScreen_RefreshRateInHz = (engineDescription.EngineFlag & ENGINE_FULLSCREEN) ? 0 : 0;*/
 	d3StructInfo.EnableAutoDepthStencil = TRUE;
 	d3StructInfo.AutoDepthStencilFormat = D3DFMT_D24S8;
 	d3StructInfo.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;

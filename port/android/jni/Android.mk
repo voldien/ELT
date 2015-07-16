@@ -1,4 +1,6 @@
 #!/bin/bash
+
+
 LOCAL_PATH := $(call my-dir)
 
 
@@ -27,7 +29,7 @@ LOCAL_SRC_FILES := $(FILE_LIST:$(LOCAL_PATH)/%=%)
 LOCAL_SRC_FILES -= main.c
 
 #pre compiler flag
-LOCAL_CFLAGS := -w -O3 -DANDROID=1 -D__ANDROID__=1 -DINTERNAL_ENGINE=1 -Wall -I"./../../../include" -I"./../../../External/OpenCL/Include" -DEX_ANDROID=1 #-I"$(INTELOCLSDKROOT)/include" -L"/opt/intel/opencl-1.2-4.5.0.8/lib64" 
+LOCAL_CFLAGS := -w -O3 -DANDROID=1 -D__ANDROID__=1 -DINTERNAL_ENGINE=1 -Wall -I"./../../../include" -I"./../../../External/OpenCL/Include" -DEX_ANDROID=1  -DDONT_SUPPORT_OPENCL=1  -shared  #-I"$(INTELOCLSDKROOT)/include" -L"/opt/intel/opencl-1.2-4.5.0.8/lib64" 
 
 LOCAL_CFLAGS += -Wno-error=format-security
 

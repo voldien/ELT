@@ -31,7 +31,7 @@
 	#include<GLES/glplatform.h>
 #endif
 
-static EGLDisplay eglDisplay;
+EGLDisplay eglDisplay;
 
 DECLSPEC OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
 	/*	TODO resolve later!!*/
@@ -114,7 +114,7 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
 	if((hr = eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext)) != EGL_TRUE)
         ExError(EX_TEXT("OpenGL ES Error"));
 
-	ExInitOpenGLStates(0);
+	ExInitOpenGLStates();
 
 	return eglContext;
 }

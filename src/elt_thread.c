@@ -111,6 +111,23 @@ DECLSPEC ERESULT ELTAPIENTRY ExExitThread(ExThread thread){
 #endif
 }
 
+
+DECLSPEC void ELTAPIENTRY ExSuspendThread(ExThread thread){
+#ifdef EX_UNIX
+	//pthread_mutex_lock(&thread);
+	//pthread_mutex_unlock(&thread);
+#endif
+
+}
+DECLSPEC void ELTAPIENTRY ExResumeThread(ExThread thread){
+
+#ifdef EX_UNIX
+	//pthread_mutex_lock(&thread);
+	//pthread_mutex_unlock(&thread);
+#endif
+}
+
+
 DECLSPEC ExThread ELTAPIENTRY ExGetCurrentThread(void){
 #ifdef EX_WINDOWS
     return GetCurrentThread();

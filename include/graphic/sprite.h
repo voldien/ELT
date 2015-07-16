@@ -29,16 +29,16 @@ typedef struct ex_srpite{
 	float pos[3];				/**/
 	float angle;				/**/
 	float rect[4];				/**/
-	int texture;
-	float scale;
-	float color[4];
+	int texture;				/**/
+	float scale;				/**/
+	float color[4];				/**/
 }ExSprite;
 
 typedef struct sprite_batch{
-	unsigned int num;				/**/
-	unsigned int numDraw;
-	unsigned int vbo;
-	ShaderHeader shader;
+	unsigned int num;					/**/
+	unsigned int numDraw;				/**/
+	unsigned int vbo;					/**/
+	ShaderHeader shader;				/**/
 	int numTexture;
 	int numMaxTextures;
 	ExTexture* texture[32];
@@ -61,6 +61,7 @@ extern DECLSPEC int ELTAPIENTRY ExDrawSpriteNormalize(ExSpriteBatch* spritebatch
 
 
 extern DECLSPEC int ELTAPIENTRY ExAddSprite(ExSpriteBatch* spritebatch,ExTexture* texture,float* position,float* rect,float* color, float scale, float angle, float depth);
+extern DECLSPEC int ELTAPIENTRY ExAddSpriteNormalized(ExSpriteBatch* spritebatch,ExTexture* texture,float* position,float* rect,float* color, float scale, float angle, float depth);
 extern DECLSPEC int ELTAPIENTRY ExRemoveSprite(ExSpriteBatch* spritebatch,int index);
 extern DECLSPEC int ELTAPIENTRY ExDisplaySprite(ExSpriteBatch* spritebatch);
 

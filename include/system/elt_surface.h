@@ -27,29 +27,31 @@
 #define EX_RGB 0x20
 #define EX_RGBA 0x40
 
+typedef void* Surface;
+
 #ifdef __cplusplus // C++ environment
 extern "C"{
 #endif
 /**
     Create Surface
 */
-extern DECLSPEC void* ExCreatSurface(unsigned int width, unsigned height, unsigned int format);
+extern DECLSPEC Surface ExCreatSurface(unsigned int width, unsigned height, unsigned int format);
 /**
     release surface.
 */
-extern DECLSPEC int ExDestroySurface(void* handle);
+extern DECLSPEC int ExDestroySurface(Surface handle);
 /**
     resize surface handle
 */
-extern DECLSPEC int ExResizeSurface(void* handle, unsigned int width, unsigned height);
+extern DECLSPEC int ExResizeSurface(Surface handle, unsigned int width, unsigned height);
 /**
     set surface window
 */
-extern DECLSPEC int ExSetSurfacePixel(void* handle, unsigned int x, unsigned int y, long pixel);
+extern DECLSPEC int ExSetSurfacePixel(Surface handle, unsigned int x, unsigned int y, long pixel);
 /**
     set fill color..
 */
-extern DECLSPEC int ExFillRect(void* handle,struct exrect* rect, Uint32 color);
+extern DECLSPEC int ExFillRect(Surface handle,struct exrect* rect, Uint32 color);
 
 
 #ifdef __cplusplus // C++ environment

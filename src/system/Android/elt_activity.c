@@ -16,12 +16,14 @@
 */
 extern struct android_app* ex_app;
 extern ANativeActivity* activity;
-extern int main(int argc,char** argv);
+
 
 struct android_app* elt_app = NULL;
 ANativeActivity* elt_activity = NULL;
 AConfiguration* config = NULL;
 #endif
+
+
 
 DECLSPEC void* ELTAPIENTRY ExGetNativeActivity(void){
 #ifdef EX_ANDROID
@@ -30,8 +32,6 @@ DECLSPEC void* ELTAPIENTRY ExGetNativeActivity(void){
     return NULL;
 #endif
 }
-
-
 
 
 #ifdef EX_ANDROID
@@ -45,6 +45,9 @@ static void initMain(void){
 /**
     Initialization of Android Native
 */
+DECLSPEC int ELTAPIENTRY main(int argc,char** argv);
+
+
 void* elt_main(void* states){
 
 	initMain();
@@ -156,9 +159,6 @@ void ANativeActivity_onCreate(ANativeActivity* activity, void* saveState, size_t
     activity->callbacks->onSaveInstanceState = onSaveInstanceState;
     activity->callbacks->onLowMemory = onLowMemory;
 
-    printf("assigned callbacks");
-
-
 	ANativeActivity_setWindowFlags(activity, AWINDOW_FLAG_KEEP_SCREEN_ON,AWINDOW_FLAG_KEEP_SCREEN_ON);
 
 
@@ -171,7 +171,6 @@ void ANativeActivity_onCreate(ANativeActivity* activity, void* saveState, size_t
     ExDelay(1000);
 
     /*save the references to the pointer*/
-
 }
 
 
