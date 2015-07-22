@@ -27,13 +27,15 @@ DECLSPEC ExPoolAllactor* ELTAPIENTRY ExPoolCreate(unsigned int num, unsigned int
 	if(!alloc)
 		return 0;
 
-	/**/
+	/*	create pool chain.*/
 	tmp = alloc;
 	for(i = 0; i < num; i++){
 		tmp->next = tmp + sizeof(ExPoolAllactor) + itemsize;
 		tmp += sizeof(ExPoolAllactor) + itemsize;
 		continue;
 	}
+
+	/*	terminator of the pool*/
 	tmp -= itemsize + sizeof(ExPoolAllactor);
 	tmp->next = NULL;
 

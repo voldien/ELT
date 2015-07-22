@@ -89,7 +89,7 @@ extern DECLSPEC void ELTAPIENTRY ExSetWindowTitle(ExWin window,const ExChar* tit
 	\window
 	\title
 */
-extern DECLSPEC void ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title);
+extern DECLSPEC ExChar* ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title);
 
 /**
 	Set Windows Position

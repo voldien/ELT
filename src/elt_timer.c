@@ -1,8 +1,8 @@
 #include"elt_timer.h"
 
 #ifdef EX_WINDOWS
-#include<windef.h>
-#include<windows.h>
+	#include<windef.h>
+	#include<windows.h>
 #elif defined(EX_UNIX)
 #	include<errno.h>
 #	include<unistd.h>
@@ -84,9 +84,13 @@ DECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms){
     tim.tv_sec = 0;
     tim.tv_nsec = ms * 1000000;
 
+#ifdef EX_DEBUG
     if(nanosleep(&tim , NULL) < 0 ){
         fprintf(stderr, strerror(errno));
     }
+#else
+    nanosleep(&tim , NULL);
+#endif
     #endif
 }
 DECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nanosec){
@@ -100,13 +104,17 @@ DECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nanosec){
     tim.tv_sec = 0;
     tim.tv_nsec = nanosec;
 
+#ifdef EX_DEBUG
     if(nanosleep(&tim , NULL) < 0 ){
         fprintf(stderr, strerror(errno));
     }
+#else
+    nanosleep(&tim , NULL);
+#endif
     #endif
 }
 
-DECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void){/*TODO fix high res-resolution*/
+DECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void){
 #ifdef EX_WINDOWS
 	return (timeGetTime() - elt_time);  /*  return in milliseconds   */
 #elif defined(EX_UNIX)
@@ -119,7 +127,8 @@ DECLSPEC long int ELTAPIENTRY ExGetHiResTime(void){
 	return 0;
 #elif defined(EX_UNIX)
     struct timespec t_spec;
-    clock_gettime(CLOCK_MONOTONIC, &t_spec);
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID,&t_spec);
+    //clock_gettime(CLOCK_MONOTONIC, &t_spec);
     return t_spec.tv_nsec;  /*  return time in nano seconds*/
-    #endif // EX_WINDOWS
+    #endif
 }

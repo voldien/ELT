@@ -15,6 +15,7 @@
 #include "ppapi/c/ppb_graphics_3d.h"
 #include "ppapi/gles2/gl2ext_ppapi.h"
 #include "GLES2/gl2.h"
+#include"ppapi/c/dev/ppb_truetype_font_dev.h"
 
 
 
@@ -37,6 +38,7 @@ static PP_Bool Instance_DidCreate(PP_Instance instance,
                                   uint32_t argc,
                                   const char* argn[],
                                   const char* argv[]) {
+	printf("entered Instance_DidCreate\n");
 
 
 	return (main(argc, argv) == EXIT_SUCCESS) ? PP_TRUE : PP_FALSE;
@@ -62,6 +64,8 @@ static PP_Bool Instance_HandleDocumentLoad(PP_Instance instance,
 
 void Messaging_HandleMessage(PP_Instance instance, struct PP_Var var_message) {
 }
+
+
 // Define PPP_InitializeModule, the entry point of your module.
 // Retrieve the API for the browser-side (PPB) interfaces you will use.
 PP_EXPORT int32_t PPP_InitializeModule(PP_Module a_module_id, PPB_GetInterface get_browser) {
@@ -115,5 +119,7 @@ PP_EXPORT const void* PPP_GetInterface(const char* interface_name) {
 
 
 PP_EXPORT void PPP_ShutdownModule() {
+
+
 
 }

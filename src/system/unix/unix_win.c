@@ -12,17 +12,20 @@
 #include<GL/gl.h>
 #include<GL/glx.h>
 #include"system/elt_gl.h"
+
+
+
 void* display = 0;
-
-
+void* m_connection = 0;		/*	todo take a loot*/
 extern int* pixAtt;
 extern int ExChooseFBconfig(GLXFBConfig* pfbconfig);
 
 
-
 DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){
 	Visual* visual;
-	Int depth, text_x,text_y;
+	Int depth;
+	Int textX;
+	Int textY;
 	XSetWindowAttributes swa = {};
     XSetWindowAttributes  xattr;
     Atom  atom;
@@ -43,6 +46,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, I
 
     if(!XMatchVisualInfo(display, screen , depth, TrueColor,&vis_info)){
 
+
     }
     visual = vis_info.visual;
 
@@ -58,11 +62,12 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, I
                               x,y,width,height,0,
                               depth,InputOutput,visual, winmask,&swa);
 
-	XStoreName(display,window, "default");
 
-    xattr.override_redirect = False;
-    XChangeWindowAttributes (display, window, CWOverrideRedirect, &xattr );
-	//XSelectInput(display,window,ExposureMask | StructureNotifyMask);
+    /*	event feed masking	*/
+	XSelectInput(display,window, ExposureMask | VisibilityChangeMask | KeyPressMask |
+			PointerMotionMask | StructureNotifyMask | ExposureMask | KeyPressMask |
+			ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask |
+			ButtonMotionMask | PointerMotionMask);
 
 
     /*	*/
@@ -71,6 +76,11 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, I
 	gr_values.foreground = XBlackPixel(display,0);
 	graphical_context = XCreateGC(display,window, GCFont + GCForeground, &gr_values);
 
+	/**/
+    xattr.override_redirect = False;
+    XChangeWindowAttributes (display, window, CWOverrideRedirect, &xattr );
+
+	XFlush(display);
 	return window;
 }
 
@@ -92,7 +102,6 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int3
 	Colormap cmap;
     Atom del_atom;
 	GLXFBConfig fbconfigs;
-    XRenderPictFormat *pict_format;
 
 
 	screen = DefaultScreen(display);
@@ -133,12 +142,15 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int3
 
 	/*	problems was it was a random pointer as a value....	*/
     if(major >= 1 && minor >= 3 && pglx_window){
-    	/*glXCreateWindow create opengl for window that might not have capability for OpenGL*/
+    	/*glXCreateWindow create opengl for window that might not have capability for OpenGL	*/
     	pglx_window[0]= glXCreateWindow(display, fbconfigs,window,0);
     }
 
     /*	event feed masking	*/
-	XSelectInput(display,window,ExposureMask | KeyPressMask | ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask | ButtonMotionMask | PointerMotionMask);
+	XSelectInput(display,window, ExposureMask | VisibilityChangeMask | KeyPressMask |
+			PointerMotionMask | StructureNotifyMask | ExposureMask | KeyPressMask |
+			ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask |
+			ButtonMotionMask | PointerMotionMask);
 
 /*
     TODO
@@ -162,6 +174,8 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int3
 
    //XIfEvent(display, &event, WaitFormMap)
 
+
+	/*	on destruction of window*/
     if((del_atom = XInternAtom(display, "WM_DELETE_WINDOW", 0)) != None){
         XSetWMProtocols(display, window, &del_atom, 1);
     }

@@ -28,81 +28,83 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 #ifdef EX_WINDOWS
 	assert(event);
 	MSG msg;
-	PeekMessage(&msg,NULL,NULL,NULL,PM_REMOVE);
+	if(PeekMessage(&msg,NULL,NULL,NULL,PM_REMOVE)){
 
-	switch(msg.message){
-		case WM_DEVICECHANGE:{
-		}break;
-		case WM_INPUT:{
+		switch(msg.message){
+			case WM_DEVICECHANGE:{
+			}break;
+			case WM_INPUT:{
 
-		}break;
-/*
-		case WM_INPUT_DEVICE_CHANGE:{
-			RID_DEVICE_INFO info;
-			info.cbSize = sizeof(info);
-			switch(msg.wParam){
-			case GIDC_ARRIVAL:
-				GetRawInputDeviceInfo((HANDLE)msg.lParam,RIDI_DEVICEINFO,&info,0);
+			}break;
+	/*
+			case WM_INPUT_DEVICE_CHANGE:{
+				RID_DEVICE_INFO info;
+				info.cbSize = sizeof(info);
+				switch(msg.wParam){
+				case GIDC_ARRIVAL:
+					GetRawInputDeviceInfo((HANDLE)msg.lParam,RIDI_DEVICEINFO,&info,0);
+					break;
+				case GIDC_REMOVAL:
+					break;
+				}
+			}break;*/
+			case WM_KEYDOWN:
+			case WM_SYSKEYDOWN:
+				event->event |= EX_EVENT_KEY;
+				event->key.code = (Uint8)msg.wParam;
+				event->key.alt = !(msg.wParam ^ VK_MENU);
+				event->key.shift = !(msg.wParam ^ VK_SHIFT);
+				event->key.system = !(msg.wParam ^ VK_LWIN );
+				event->key.ctrl  = !(msg.wParam ^ VK_CONTROL);
 				break;
-			case GIDC_REMOVAL:
+			case WM_KEYUP:
+			case WM_SYSKEYUP:
+				event->event = (~EX_EVENT_KEY & event->event);
+				break;
+			case WM_HOTKEY:
+				event->key.alt = !(msg.lParam ^ MOD_ALT);
+				event->key.shift = !(msg.lParam ^ MOD_SHIFT);
+				event->key.system = !(msg.lParam ^ MOD_WIN );
+				event->key.ctrl  = !(msg.lParam ^ MOD_CONTROL);
+				break;
+			case WM_LBUTTONDOWN:
+			case WM_RBUTTONDOWN:
+			case WM_MBUTTONDOWN:
+			case WM_LBUTTONUP:
+			case WM_RBUTTONUP:
+			case WM_MBUTTONUP:
+			case WM_MOUSEMOVE:{
+				event->mouse.x = GET_X_LPARAM(msg.lParam);
+				event->mouse.y = GET_Y_LPARAM(msg.lParam);
+				event->event = EX_EVENT_MOUSE;
+				event->button.button = (Uint8)msg.wParam;
+				event->event |= EX_EVENT_MOUSE;
+			}
+	/*		case WM_MOUSEWHEEL:{
+				event->mouseWheelEvent.x = GET_X_LPARAM(msg.lParam);
+				event->mouseWheelEvent.y = GET_X_LPARAM(msg.lParam);
+				event->mouseWheelEvent.delta = GET_WHEEL_DELTA_WPARAM(msg.wParam);
+				GET_KEYSTATE_WPARAM(msg.wParam);
+				event->eventid |= EX_EVENT_MOUSEWHEEL;
+			}break;*/
+			case WM_DROPFILES:{
+				event->drop.number = DragQueryFile((HDROP)msg.wParam,0xFFFFFFFF,0,0);
+				event->event |= EX_EVENT_DROP;
 				break;
 			}
-		}break;*/
-		case WM_KEYDOWN:
-		case WM_SYSKEYDOWN:
+			switch(msg.lParam){ /*  network */
+				case FD_ACCEPT:break;
+				case FD_CONNECT:break;
+				case FD_READ:break;
+				case FD_CLOSE:break;
+			}
+			default:break;
+		}
 
-			event->key.code = (Uint8)msg.wParam;
-			event->event |= EX_EVENT_KEY;
-			event->key.alt = !(msg.wParam ^ VK_MENU);
-			event->key.shift = !(msg.wParam ^ VK_SHIFT);
-			event->key.system = !(msg.wParam ^ VK_LWIN );
-			event->key.ctrl  = !(msg.wParam ^ VK_CONTROL);
-			break;
-		case WM_KEYUP:
-		case WM_SYSKEYUP:
-			event->event = (~EX_EVENT_KEY & event->event);
-			break;
-		case WM_HOTKEY:
-			event->key.alt = !(msg.lParam ^ MOD_ALT);
-			event->key.shift = !(msg.lParam ^ MOD_SHIFT);
-			event->key.system = !(msg.lParam ^ MOD_WIN );
-			event->key.ctrl  = !(msg.lParam ^ MOD_CONTROL);
-			break;
-		case WM_LBUTTONDOWN:
-		case WM_RBUTTONDOWN:
-		case WM_MBUTTONDOWN:
-		case WM_LBUTTONUP:
-		case WM_RBUTTONUP:
-		case WM_MBUTTONUP:
-		case WM_MOUSEMOVE:{
-			event->mouse.x = GET_X_LPARAM(msg.lParam);
-			event->mouse.y = GET_Y_LPARAM(msg.lParam);
-			event->event = EX_EVENT_MOUSE;
-			event->button.button = (Uint8)msg.wParam;
-			event->event |= EX_EVENT_MOUSE;
+		return TRUE;
 		}
-/*		case WM_MOUSEWHEEL:{
-			event->mouseWheelEvent.x = GET_X_LPARAM(msg.lParam);
-			event->mouseWheelEvent.y = GET_X_LPARAM(msg.lParam);
-			event->mouseWheelEvent.delta = GET_WHEEL_DELTA_WPARAM(msg.wParam);
-			GET_KEYSTATE_WPARAM(msg.wParam);
-			event->eventid |= EX_EVENT_MOUSEWHEEL;
-		}break;*/
-		case WM_DROPFILES:{
-			event->drop.number = DragQueryFile((HDROP)msg.wParam,0xFFFFFFFF,0,0);
-			event->event |= EX_EVENT_DROP;
-			break;
-		}
-		switch(msg.lParam){ /*  network */
-		    case FD_ACCEPT:break;
-		    case FD_CONNECT:break;
-		    case FD_READ:break;
-		    case FD_CLOSE:break;
-		}
-		default:break;
-	}
-
-	return TRUE;
+	else
+		return FALSE;
 #elif defined(EX_LINUX)
 	XEvent msg;
 	if(XPending(display)){
@@ -129,6 +131,11 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 		    event->key.code = XLookupKeysym(&msg.xkey,0);
 		    event->mouse.x = msg.xkey.x;
 		    event->mouse.y = msg.xkey.y;
+		    event->key.alt = msg.xkey.state & Mod1Mask;
+		    event->key.ctrl = msg.xkey.state & ControlMask;
+		    event->key.shift = msg.xkey.state & ShiftMask;
+		    event->key.system = msg.xkey.state & Mod1Mask;
+
 		}break;
 		case ButtonPress:{
 		    event->event |= EX_EVENT_MOUSE;
@@ -154,9 +161,10 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 			event->event |= EX_EVENT_WINDOW_MOVE;
 			break;
 		case ResizeRequest:{
-            //event->event |= EX_EVENT_SIZE;
-            //event->size.width = msg.xresizerequest.width;
-            //event->size.height = msg.xresizerequest.height;
+            event->event |= EX_EVENT_SIZE;
+            event->size.width = msg.xresizerequest.width;
+            event->size.height = msg.xresizerequest.height;
+
 		}break;
 		case Expose:{
 			event->event |= EX_EVENT_EXPOSE;
@@ -164,7 +172,7 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 			event->size.height = msg.xexpose.height;
 		}break;
 		case ClientMessage:{
-            event->event |= EX_EVENT_SIZE;
+            //event->event |= EX_EVENT_SIZE;
             /*
             if((Atom)msg.xclient.data.l[0] == wm_delete_window){
 
@@ -178,9 +186,9 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 
 		}break;
 		case ConfigureNotify:{
-            event->event |= EX_EVENT_SIZE;
-            event->size.width =  msg.xconfigure.width;
-            event->size.height = msg.xconfigure.height;
+            //event->event |= EX_EVENT_SIZE;
+            //event->size.width =  msg.xconfigure.width;
+            //event->size.height = msg.xconfigure.height;
 		}break;
 		case FocusIn:
 			break;
@@ -324,6 +332,11 @@ DECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event)
 	XEvent msg;
     if(XPending(display))
     	XWindowEvent(display,window,0,&msg);
+
+
+
+
+
 	return TRUE;
 #elif defined(EX_ANDROID)
 #endif

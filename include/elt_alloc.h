@@ -42,6 +42,7 @@ typedef struct ex_pool_allactor{
 	void* next;
 	//void* data[0];
 }ExPoolAllactor;
+
 /*	poll allocator	*/
 extern DECLSPEC ExPoolAllactor* ELTAPIENTRY ExPoolCreate(unsigned int num, unsigned int itemsize);
 extern DECLSPEC void* ELTAPIENTRY ExPoolObtain(ExPoolAllactor* allactor);

@@ -206,7 +206,7 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 	glCullFace(GL_FRONT);
 	glFrontFace(GL_CW);
 	glClearColor(0.0f,0.0f,0.0f,1.0f);
-#if !( defined(EX_ANDROID))
+#if !( defined(EX_ANDROID) ^ defined(EX_PNACL) )
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	glEnable(GL_BLEND);
@@ -240,7 +240,7 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor){
 		version = ExGetOpenGLShadingVersion();
 #endif
 		/*TODO resolve later*/
-#if !( defined(EX_ANDROID) )
+#if !( defined(EX_ANDROID)  ^ defined(EX_PNACL))
 		if(major)
 			glGetIntegerv(GL_MAJOR_VERSION, major);
 		if(minor)
@@ -253,7 +253,7 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor){
 		return version;
     }
     else{
-#if !(defined(EX_ANDROID) )
+#if !(defined(EX_ANDROID) ^ defined(EX_PNACL))
 		if(major)
 			glGetIntegerv(GL_MAJOR_VERSION, major);
 		if(minor)

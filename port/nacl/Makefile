@@ -104,8 +104,8 @@ nacl : $(objects)
 		
 
 
-
-pnacl : CFLAGS += -O -DPNACL=1 -DEX_PNACL=1
+pnacl : CFLAGS += -g
+pnacl : CFLAGS +=  -DPNACL=1 -DEX_PNACL=1 
 pnacl : CC := $(PNACL_CXX)
 pnacl : CFLAGS += -I"$(NACL_SDK_ROOT)/include/newlib"
 pnacl : pnaclsource = $(notdir $(subst .c, .o $(wildcard $(LOCAL_SRC_DIR)/src/pnacl/*.c) ) )

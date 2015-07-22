@@ -207,15 +207,15 @@
 #   define EX_C90
 #endif
 
-/**
+/*
     macro definition of Release and Debug  build
 */
 #if defined(_DEBUG) || defined(DEBUG)
-	#define EX_DEBUG
-	#define DEBUGMODE
-#elif NDEBUG
-	#define EX_RELEASE
-	#define RELEASEMODE
+	#define EX_DEBUG	1
+	#define DEBUGMODE	1
+#elif defined(NDEBUG)
+	#define EX_RELEASE	1
+	#define RELEASEMODE	1
 #else
 	#define EX_RELEASE
 	#define RELEASEMODE
@@ -235,7 +235,7 @@
 
 
 
-/**
+/*
     declaration specification
 */
 #if !defined(ENGINE_EX_STATIC_BUILD)
@@ -303,21 +303,6 @@
 	#define NOTHROW
 #endif
 
-/**
-	Properties
-*/
-#ifdef __cplusplus  // C++ feature
-#   ifdef EX_WINDOWS
-#      define PROPERTIES(_get, _set,_type) __declspec(property(get = _get, put = _set)) _type
-#      define READONLY_PROPERTY(t,n) __declspec(property(get = property__get_##x)) t x;\typedef t property__tmp_type_##n
-#      define GET(x) property__tmp_type_##x property__get_##n()
-#      define SET(n) void property__set_##x(const property__tmp_type_##x& value)
-#   elif defined(EX_LINUX)
-
-#   endif
-#else
-    #define PROPERTIES(_get, _set,_type)
-#endif
 
 
 /**

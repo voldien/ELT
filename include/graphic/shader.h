@@ -152,7 +152,7 @@ void main(void){
 "layout(location = 3) in int tex;\n"								\
 "layout(location = 4) in float scale;\n"								\
 "layout(location = 5) in vec4 color;\n"								\
-"uniform sampler2D texture[16];\n"									\
+"uniform sampler2D texture[32];\n"									\
 "out float fangle;\n"												\
 "out vec4 frect;\n"													\
 "out mat2 coord;\n"													\
@@ -162,10 +162,10 @@ void main(void){
 "	float cos_theta = cos(angle);\n"								\
 "	coord = mat2(cos_theta, sin_theta,\n"							\
 "-sin_theta, cos_theta);\n"											\
-"	vec2 uv = coord * vec2(float(textureSize(texture[0],0).x) * rect.z,float(textureSize2D(texture[0],0).y) * rect.w);\n"					\
+"	vec2 uv = coord * vec2(float(textureSize(texture[0],0).x) * rect.z * scale,float(textureSize2D(texture[0],0).y) * rect.w * scale);\n"					\
 "	gl_PointSize = float(max(abs(uv.x * sin(angle)) + abs(uv.y * cos(angle) ),"	\
 "abs(uv.x * cos(angle)) + abs(uv.y * sin(angle)) ));// *  sqrt( ( cos(angle) * cos(angle) ) + ( sin(angle) * sin(angle) ) ) ;\n"						\
-"	gl_Position = vec4(vertex.x , vertex.y , vertex.z ,1.0f);\n"							\
+"	gl_Position = vec4( vertex.x , vertex.y , vertex.z ,1.0f);\n"							\
 "	fangle = angle;\n"								\
 "	frect = rect;\n"								\
 "	ftexture = tex;\n"								\
@@ -180,7 +180,7 @@ void main(void){
 "precision mediump float;\n"								\
 "#endif\n"													\
 "layout(location = 0) out vec4 fragColor;\n"				\
-"uniform sampler2D texture[16];\n"							\
+"uniform sampler2D texture[32];\n"							\
 "in vec4 frect;\n"											\
 "in float fangle;\n"										\
 "in int ftexture;\n"										\

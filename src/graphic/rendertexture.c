@@ -17,10 +17,32 @@
 	#include<GL/glext.h>
 #endif
 
-ExTexture* ExCreateRenderTexture2D(ExTexture* texture,unsigned int width, unsigned int height,unsigned int attachment){
+ExFrameBuffer* ExCreateRenderTexture2D(ExFrameBuffer* framebuffer,unsigned int width, unsigned int height,unsigned int attachment){
+	if(!framebuffer)
+		return NULL;
+
+	glGenFramebuffers(1,&framebuffer->framebuffer);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER,framebuffer->framebuffer);
 
 
+
+
+	glGenTextures(1,&framebuffer->texture.texture);
+	glBindTexture(GL_TEXTURE_2D, framebuffer->texture.texture);
+
+
+	return framebuffer;
 }
-ExTexture* ExCreateRenderTexture3D(ExTexture* texture,unsigned int width, unsigned int height,unsigned int attachment){
+ExFrameBuffer* ExCreateRenderTexture3D(ExFrameBuffer* framebuffer,unsigned int width, unsigned int height,unsigned int attachment){
+	if(!framebuffer)
+		return NULL;
+
+	glGenFramebuffers(1,&framebuffer->framebuffer);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER,framebuffer->framebuffer);
+
+
+
+	glGenTextures(1,&framebuffer->texture.texture);
+	glBindTexture(GL_TEXTURE_3D, framebuffer->texture.texture);
 
 }

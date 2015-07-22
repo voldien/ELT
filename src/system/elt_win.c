@@ -316,12 +316,14 @@ DECLSPEC void ELTAPIENTRY ExSetWindowTitle(ExWin window,const ExChar* title){
 
 #endif
 }
-DECLSPEC void ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title){
+DECLSPEC ExChar* ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title){
 	if(!window || !title)return;
 #if defined(EX_WINDOWS)
 	ExIsWinError(GetWindowText(window,title,EX_STR_LEN(title)));
+	return title;
 #elif defined(EX_LINUX)
 	XFetchName(display,(Window*)window,&title);
+	return title;
 #elif defined(EX_ANDROID)
 #endif
 }
@@ -392,9 +394,7 @@ DECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, struct exsize* size){
 #endif
 }
 
-/**
-	// Set Window Rect
-*/
+
 DECLSPEC void ELTAPIENTRY ExSetWindowRect(ExWin window, const struct exrect* rect){
 #if defined(EX_WINDOWS)
 	SetWindowPos(window,HWND_TOP,rect->x,rect->y,rect->width - rect->x,rect->height - rect->y,SWP_SHOWWINDOW);
@@ -403,9 +403,7 @@ DECLSPEC void ELTAPIENTRY ExSetWindowRect(ExWin window, const struct exrect* rec
 	XResizeWindow(display,(Window)window,rect->width - rect->x,rect->height - rect->y);
 #endif
 }
-/**
-	// Get Window Rect
-*/
+
 DECLSPEC void ELTAPIENTRY ExGetWindowRect(ExWin window, struct exrect* rect){
 #if defined(EX_WINDOWS)
 	GetWindowRect(window, (RECT*)rect);

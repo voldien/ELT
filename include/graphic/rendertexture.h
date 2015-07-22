@@ -24,9 +24,15 @@
 extern "C"{
 #endif
 
+typedef struct ex_frame_buffer{
+	ExTexture texture;
+	unsigned int framebuffer;
+	unsigned int attachment;
+}ExFrameBuffer;
 
-extern ExTexture* ExCreateRenderTexture2D(ExTexture* texture,unsigned int width, unsigned int height,unsigned int attachment);
-extern ExTexture* ExCreateRenderTexture3D(ExTexture* texture,unsigned int width, unsigned int height,unsigned int attachment);
+
+extern ExFrameBuffer* ExCreateRenderTexture2D(ExFrameBuffer* texture,unsigned int width, unsigned int height,unsigned int attachment);
+extern ExFrameBuffer* ExCreateRenderTexture3D(ExFrameBuffer* texture,unsigned int width, unsigned int height,unsigned int attachment);
 
 
 
