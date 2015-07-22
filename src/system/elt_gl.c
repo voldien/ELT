@@ -12,10 +12,11 @@
 
     #include<X11/Xatom.h>
     #include<X11/keysym.h>
+
     #include<GL/glx.h>
     #include<GL/glxext.h>
     #include<GL/glu.h>
-	#include"system/unix/unix_win.h"
+#include"system/unix/unix_win.h"
 
 
 

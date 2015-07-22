@@ -130,7 +130,7 @@ DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName, ...){
         }break;
         case 0:{
 	/*	TODO some error when arm */
-            if(execv(applicationName,(const char*)argptr) == -1)
+            if(execv(applicationName,(const char*)applicationName + sizeof(void*) ) == -1)
                 fprintf(stderr,strerror(errno));
 	}break;
         default:{
