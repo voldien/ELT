@@ -1,7 +1,11 @@
 #include"EngineEx.h"
+#include"ExPreProcessor.h"
 #include"system/elt_cl.h"
 #include"system/elt_gl.h"
 #include"system/elt_errorhandler.h"
+#include"system/elt_log.h"
+#include"system/elt_audio.h"
+
 #ifdef EX_WINDOWS // TODO FIX
 #include<windows.h>
 #elif defined(EX_LINUX)
@@ -13,8 +17,8 @@
 #   include<android/native_activity.h>
 #   include<jni.h>
 #endif
-#include"system/elt_log.h"
-#include"system/elt_audio.h"
+
+
 #include<signal.h>
 
 /**
@@ -83,7 +87,7 @@ _In_  HINSTANCE hinstDLL,
 #endif
 
 
-extern Uint64 elt_time;     /**  high accuracy timer   */
+extern Uint64 eltTickTime;     /*	high accuracy timer   */
 unsigned long int engineflag = 0;
 
 /*	Initialize Engine Library Toolkit	*/
@@ -130,6 +134,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 
 	#endif
 #endif
+
 	/*	enable loggint */
 	m_file_log = fopen("EngineExDevLog.txt", "w+" );
 	if(dup2(stdout,m_file_log) == -1)
@@ -138,7 +143,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 
 /*	unicode		*/
 #ifdef UNICODE
-	printf(EX_TEXT("Initialize engine version: %d.%d.%d\n"),EX_ENGINE_VERSION_MAJOR,EX_ENGINE_VERSION_MINOR,EX_ENGINE_VERSION_REVISION);
+	printf(EX_TEXT("Initialize engine version: %d.%d.%d\n"),EX_VERSION_MAJOR,EX_VERSION_MINOR,EX_VERSION_REVISION);
 	wprintf(EX_TEXT("Operating System : %s\n"),ExGetOSName());
 #endif
 
@@ -220,7 +225,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 #endif
 	}
 	if(ELT_INIT_TIMER & engineflag){
-		elt_time = clock();
+		eltTickTime = clock();
 	}
 	if(ELT_INIT_NET & engineflag){
 	    #ifdef EX_LINUX
@@ -293,7 +298,8 @@ DECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag){
 DECLSPEC void ELTAPIENTRY ExShutDown(void){
 #ifdef EX_LINUX
     struct mallinfo mi;
-#endif 	// EX_LINUX
+#endif
+
 	ExQuitSubSytem(0xFFFFFFFF);
 
 #ifdef EX_WINDOWS
@@ -365,6 +371,11 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 
 
 
+
+
+
+
+
 DECLSPEC void ELTAPIENTRY ExEnable(Enum enable){
 #ifdef EX_WINDOWS
 #endif
@@ -408,10 +419,19 @@ DECLSPEC void ELTAPIENTRY ExDisable(Enum disable){
 }
 
 
-#define EX_TO_TEXT(x) "x"
-#define EX_COMPILER_VERSION(major, minor, revision) EX_TEXT("ELT-")EX_TO_TEXT(major)EX_TEXT(".")EX_TO_TEXT(minor)EX_TEXT(".")EX_TO_TEXT(revision)
+
+
+
+/*
+#define _EX_TEXT(quote) L##quote
+#define EX_TEXT(quote)  _EX_TEXT(quote)
+*/
+
+
+
+#define EX_COMPILER_VERSION(major, minor, revision) EX_TEXT("ELT-")STR(major)EX_TEXT(".")STR(minor)EX_TEXT(".")STR(revision)
 DECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void){
-	return EX_COMPILER_VERSION(EX_MAJOR_VERSION, EX_MINOR_VERSION, EX_REVISION);
+	return EX_COMPILER_VERSION(EX_VERSION_MAJOR, EX_VERSION_MINOR, EX_VERSION_REVISION);
 }
 
 DECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void){

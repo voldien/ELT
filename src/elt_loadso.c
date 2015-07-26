@@ -1,4 +1,5 @@
 #include"elt_loadso.h"
+
 #if defined(EX_UNIX) || defined(EX_ANDROID)
 #   include<stdio.h>
 #	ifndef EX_PNACL
@@ -10,11 +11,10 @@
 #elif defined(EX_WINDOWS)
 #	include<windef.h>
 #   include<winbase.h>
-
 #endif
 
-/**
-*/
+
+
 DECLSPEC inline HANDLE ELTAPIENTRY ExLoadFunction(HANDLE handle,const char* pProcName){
 #ifdef EX_WINDOWS
 	return GetProcAddress((HMODULE)handle,pProcName);
@@ -50,9 +50,7 @@ DECLSPEC inline void ELTAPIENTRY ExUnLoadObject(HANDLE handle){
 
 #endif
 }
-/**
-    Check if file module is loaded.
-*/
+
 DECLSPEC inline HANDLE ELTAPIENTRY ExIsModuleLoaded(const ExChar* file){
 #ifdef EX_WINDOWS
 	return GetModuleHandle(file);

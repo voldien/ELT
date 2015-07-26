@@ -116,6 +116,18 @@ int ExLoadShaderv(ShaderHeader* shad, const char* cvertexSource,const char* cfra
 }
 
 
+int ExDeleteShaderProgram(ShaderHeader* header){
+	glDeleteProgram(header->program);
+	glDeleteShader(header->ver);
+	glDeleteShader(header->fra);
+	glDeleteShader(header->geo);
+	glDeleteShader(header->tesc);
+	glDeleteShader(header->tese);
+
+	return !glIsProgram(header->program);
+}
+
+
 int ExCompileShaderSource(const char* strPath,char** source, unsigned int flag){
 	char* data;
 	int shader, c_message;

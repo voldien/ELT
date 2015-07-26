@@ -3,16 +3,19 @@
 /*	some platform just can't handle EGL	*/
 #if !defined(EX_PNACL) || !defined(EX_NACL)
 
-#include<EGL/egl.h>
+
 
 
 #ifdef EX_WINDOWS
+	#include<EGL/egl.h>
     #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.dll")		/**/
     #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.dll")	/**/
 #elif defined(EX_LINUX)
+	#include<EGL/egl.h>
     #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.so")			/**/
     #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.so")		/**/
 #elif defined(EX_ANDROID)
+	#include<EGL/egl.h>
     #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.so")      	/* */
     #define EX_GLES_LIB_MOUDLE_NAME EX_TEXT("libGLESv2.so")  	/* */
 #endif 
@@ -35,9 +38,6 @@ EGLDisplay eglDisplay;
 
 DECLSPEC OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
 	/*	TODO resolve later!!*/
-	#ifndef EX_ANDROID
-	#endif
-
 
 	int major ,minor ;
 	EGLint attrs[60];
@@ -48,9 +48,7 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
 	EGLContext eglContext;
 	ERESULT hr;
 
-	/*
-		load dynamic library dependency.
-	*/
+	/*	load dynamic library dependency.	*/
 	if(!ExIsModuleLoaded(EX_EGL_LIB_MOUDLE_NAME))
 		ExLoadLibrary(EX_EGL_LIB_MOUDLE_NAME);
 	if(!ExIsModuleLoaded(EX_GLES_LIB_MOUDLE_NAME))
@@ -95,15 +93,15 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
       EGL_NONE
     };
 #endif
-	/**
-        Initialize OpenGL ES
-	*/
 
+
+    /*	Initialize OpenGL ES	*/
 	if((hr = eglInitialize(eglDisplay, &major, &minor)) != EGL_TRUE)
         ExError(EX_TEXT("Failed to Initialize OpenGL ES"));
-	//	Choose Config
+
+	/*	Choose Config	*/
 	if((hr = eglChooseConfig(eglDisplay, configAttribList, &eglConfig, 1, &numConfig)) != EGL_TRUE)
-        ExError(EX_TEXT(""));
+        ExError(EX_TEXT("failed to Choose Config for EGL.\n"));
 
 	if(!(eglSurface = eglCreateWindowSurface(eglDisplay,eglConfig,(EGLNativeWindowType)window,NULL)))
         ExError(EX_TEXT("error"));

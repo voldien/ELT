@@ -7,10 +7,11 @@
 #	include<errno.h>
 #	include<unistd.h>
 #endif
+
 #include<time.h>
 #include<signal.h>
 
-Uint64 elt_time = 0;
+Uint64 eltTickTime = 0;
 
 
 
@@ -80,7 +81,7 @@ DECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms){
     #ifdef EX_WINDOWS
     Sleep(ms);
 #elif defined(EX_UNIX)
-    struct timespec tim, tim2;
+    struct timespec tim;
     tim.tv_sec = 0;
     tim.tv_nsec = ms * 1000000;
 
@@ -116,9 +117,9 @@ DECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nanosec){
 
 DECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void){
 #ifdef EX_WINDOWS
-	return (timeGetTime() - elt_time);  /*  return in milliseconds   */
+	return (timeGetTime() - eltTickTime);  /*  return in milliseconds   */
 #elif defined(EX_UNIX)
-	return (clock() - elt_time);
+	return (clock() - eltTickTime);
 #endif
 }
 DECLSPEC long int ELTAPIENTRY ExGetHiResTime(void){
@@ -126,9 +127,9 @@ DECLSPEC long int ELTAPIENTRY ExGetHiResTime(void){
 
 	return 0;
 #elif defined(EX_UNIX)
-    struct timespec t_spec;
-    clock_gettime(CLOCK_PROCESS_CPUTIME_ID,&t_spec);
+    struct timespec tSpec;
+    clock_gettime(CLOCK_MONOTONIC,&tSpec);
     //clock_gettime(CLOCK_MONOTONIC, &t_spec);
-    return t_spec.tv_nsec;  /*  return time in nano seconds*/
+    return tSpec.tv_nsec;  /*  return time in nano seconds*/
     #endif
 }

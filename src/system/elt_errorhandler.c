@@ -151,29 +151,7 @@ DECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...){
     //#endif
 	if(flag & EX_ERROR_MESSAGEBOX){
 	    #ifdef EX_LINUX
-        typedef int(*message_dialog)(void*, unsigned int, unsigned int, unsigned int, char*);
-        typedef int(*gtk_window_set_title)(void*, char*);
-        typedef int(*gtk_dialog_run)(void*);
-	    HANDLE handle;
-	    message_dialog h_message;
-	    gtk_window_set_title h_win_title;
-	    gtk_dialog_run h_dialog;
-	    HANDLE *h_widget;
-        handle = ExLoadObject("libgobject-2.0.so");
-        handle = ExLoadObject("libglib-2.0.so");
-        handle = ExLoadObject("libgtk-x11-2.0.so");
-        h_message = ExLoadFunction(handle, "gtk_message_dialog_new");
-        h_win_title = ExLoadFunction(handle, "gtk_window_set_title");
-        h_dialog = ExLoadFunction(handle, "gtk_dialog_run");
-        h_widget = (HANDLE)h_message(NULL,
-                                    (1 << 0) | (1 << 1),
-                                    2, 3,
-                                    "Do you wish to save ");
-        //h_win_title(h_widget,"Save");
-        h_dialog(h_widget);
-        //if(h_dialog(h_widget))
-        //    exit(1);
-        ExUnLoadObject("libgtk-x11-2.0.so");
+
         #elif defined(EX_WINDOWS)
         /**
             Display MessageBox
@@ -220,6 +198,7 @@ DECLSPEC void ELTAPIFASTENTRY ExClearError(void){
 
 */
 DECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode){
+#ifdef EX_DEBUG
 	switch(errorcode){
 	case E_OK:return EX_TEXT("Sucess");
 	case E_FAILURE:return EX_TEXT("failure");
@@ -229,6 +208,8 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode){
 	case E_INVALID_ENUM:return EX_TEXT("Invalid enum");
 	default:return EX_TEXT("Unknown");
 	}
+#endif
+	return NULL;
 }
 #if defined(EX_LINUX)
 /**

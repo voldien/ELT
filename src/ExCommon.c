@@ -423,6 +423,7 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetCurrentUser(void){
 	return getenv("USER");
 #endif
 }
+
 // get clipboard text
 DECLSPEC ExChar* ELTAPIENTRY ExGetClipboardText(void){
 #ifdef EX_WINDOWS

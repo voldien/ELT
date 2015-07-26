@@ -25,9 +25,10 @@
 extern "C"{
 #endif
 
-struct frustum{
+typedef struct frustum{
 
-};
+}ExFrustum;
+
 //struct frustum_sphere
 extern int frustum_create(struct frustum* f);
 

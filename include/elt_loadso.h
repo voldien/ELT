@@ -21,35 +21,36 @@
 #include"EngineAssembly.h"
 #include"system/elt_win.h"
 
-#ifdef  __cplusplus	// C++ Environment
+#ifdef  __cplusplus	/* C++ Environment	*/
 extern "C"{
 #endif
-/**
+
+/*
 	Load function from handle.
 	\handle handle to library.
 	\pProcName function name.
 	@return function pointer.
 */
 extern DECLSPEC HANDLE ELTAPIENTRY ExLoadFunction(HANDLE handle, const char* pProcName);
-/**
+/*
 	Load Module object
 	@return
 */
 extern DECLSPEC HANDLE ELTAPIENTRY ExLoadObject(const ExChar* sofile);
-/**
+/*
 	UnLoad Module object
 */
 extern DECLSPEC void ELTAPIENTRY ExUnLoadObject(HANDLE handle);
-/**
+/*
 	Is Module Loaded
 	@return
 */
 extern DECLSPEC HANDLE ELTAPIENTRY ExIsModuleLoaded(const ExChar* file);
-/**
+/*
     Is Module Loaded
 */
 #define ExGetFileModule ExIsModuleLoaded
-/**
+/*
     Load Object
 */
 #define ExLoadLibrary ExLoadObject

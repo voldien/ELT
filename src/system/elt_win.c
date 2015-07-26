@@ -41,10 +41,14 @@
 #include"system/elt_icon.h"
 
 
+
 #define EX_ENGINE_VERSION_STRING EX_TEXT("ELT Version | %d.%d%d%s | OS : %s : OpenGL %d.%d")
 
+
+
 DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length){
-	if(!text)return NULL;
+	if(!text)
+		return NULL;
 	ExChar wchar[260] = {};
 	int major;
 	int minor;
@@ -56,9 +60,9 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length){
 #else
 	sprintf(wchar,EX_ENGINE_VERSION_STRING,
 #endif
-		EX_ENGINE_VERSION_MAJOR,
-		EX_ENGINE_VERSION_MINOR,
-		EX_ENGINE_VERSION_REVISION,
+		EX_VERSION_MAJOR,
+		EX_VERSION_MINOR,
+		EX_VERSION_REVISION,
 		EX_ENGINE_STATUS,
 		ExGetOSName(),
 		major,
@@ -239,9 +243,9 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
     }
 
 #endif
-    printf("desu desu\n");
     /*	icon	*/
     ExSetWindowIcon(window,createELTIcon(window));
+
     /*	title*/
     ExGetDefaultWindowTitle(title,sizeof(title) / sizeof(title[0]));
 	ExSetWindowTitle(window,title);
@@ -317,7 +321,8 @@ DECLSPEC void ELTAPIENTRY ExSetWindowTitle(ExWin window,const ExChar* title){
 #endif
 }
 DECLSPEC ExChar* ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title){
-	if(!window || !title)return;
+	if(!window || !title)
+		return NULL;
 #if defined(EX_WINDOWS)
 	ExIsWinError(GetWindowText(window,title,EX_STR_LEN(title)));
 	return title;
@@ -512,15 +517,12 @@ DECLSPEC ExWin ELTAPIENTRY ExGetDesktopWindow(void){
 
 	#define DEFAULT_DESKTOP_WINDOW_NAME "Desktop"
 	XQueryTree(display, root, &troot, &parent, &children, &n);
-	for (i = 0; i < (int) n; i++)
-	{
+	for (i = 0; i < (int) n; i++){
 		status = XFetchName(display, children[i], &name);
 		status |= XGetWindowAttributes(display, children[i], &attrs);
-		if ((status != 0) && (NULL != name))
-		{
+		if ((status != 0) && (NULL != name)){
 			if( (attrs.map_state != 0) && (attrs.width == width) &&
-					(attrs.height == height) && (!strcmp(name, DEFAULT_DESKTOP_WINDOW_NAME)) )
-			{
+					(attrs.height == height) && (!strcmp(name, DEFAULT_DESKTOP_WINDOW_NAME)) ){
 				//DEBUG_MSG("Found Window:%s\n", name);
 				win = children[i];
 				XFree(children);
@@ -528,13 +530,11 @@ DECLSPEC ExWin ELTAPIENTRY ExGetDesktopWindow(void){
 				desktop = win;
 				return win;
 			}
-			if(name)
-			{
+			if(name){
 				XFree(name);
 			}
 		}
 	}
+	return NULL;
 #endif
-
-
 }

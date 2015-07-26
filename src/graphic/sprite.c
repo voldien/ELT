@@ -18,6 +18,8 @@
 	#include<GL/glu.h>
 	#include<GL/glext.h>
 #endif
+
+
 DECLSPEC ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* batch){
 	int x;
 	int texture[64] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
@@ -46,12 +48,15 @@ DECLSPEC ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* batch){
 	glPointParameterf(GL_POINT_SIZE_MAX, 2048.0f);
 	glPointParameterf(GL_POINT_FADE_THRESHOLD_SIZE, 1.0f);
 #endif
+	/*	initialize the batch	*/
+	ExBeginSpriteBatch(batch,NULL,1.0f);
 
 	return batch;
 }
 
 DECLSPEC int ELTAPIENTRY ExReleaseSpriteBatch(ExSpriteBatch* spritebatch){
 	glDeleteBuffers(1,&spritebatch->vbo);
+	ExDeleteShaderProgram(&spritebatch->shader);
 	free(spritebatch->sprite);
 	return 	!glIsBuffer(spritebatch->vbo);
 }
@@ -209,6 +214,71 @@ DECLSPEC int ELTAPIENTRY ExAddSprite(ExSpriteBatch* batch,ExTexture* texture,flo
 
 	return TRUE;
 }
+
+
+DECLSPEC int ELTAPIENTRY ExAddSpriteNormalized(ExSpriteBatch* batch,ExTexture* texture,float* position,float* rect,float* color, float scale, float angle, float depth){
+	ExTexture* tex;
+	int i;
+	int index;
+	unsigned int numDraw = batch->numDraw;
+
+	batch->sprite[numDraw].pos[0] = 2.0f * ( (position[0] )  ) - 1.0f;
+	batch->sprite[numDraw].pos[1] = 2.0f * ( (-position[1] ) ) + 1.0f;
+
+	//batch->sprite[numDraw].pos[0] = 2.0f * ( (position[0] ) / (float)batch->width) - 1.0f;
+	//batch->sprite[numDraw].pos[1] = 2.0f * ( (-position[1] ) / (float)batch->height) + 1.0f;
+
+
+	batch->sprite[numDraw].pos[2] = depth;
+	if(rect){
+		batch->sprite[numDraw].rect[0] = rect[0];
+		batch->sprite[numDraw].rect[1] = rect[1];
+		batch->sprite[numDraw].rect[2] = rect[2];
+		batch->sprite[numDraw].rect[3] = rect[3];
+	}
+	else{
+		batch->sprite[numDraw].rect[0] = 0.0f;
+		batch->sprite[numDraw].rect[1] = 0.0f;
+		batch->sprite[numDraw].rect[2] = 1.0f;
+		batch->sprite[numDraw].rect[3] = 1.0f;
+	}
+	if(color){
+		batch->sprite[numDraw].color[0] = color[0];
+		batch->sprite[numDraw].color[1] = color[1];
+		batch->sprite[numDraw].color[2] = color[2];
+		batch->sprite[numDraw].color[3] = color[3];
+	}else{
+		batch->sprite[numDraw].color[0] = 1.0f;
+		batch->sprite[numDraw].color[1] = 1.0f;
+		batch->sprite[numDraw].color[2] = 1.0f;
+		batch->sprite[numDraw].color[3] = 1.0f;
+	}
+	batch->sprite[numDraw].angle = angle;
+	batch->sprite[numDraw].scale = scale;
+
+	for(i = 0; i < batch->numMaxTextures; i ++){
+		if(batch->texture[i] == texture)
+			break;
+		else{
+			if(batch->texture[i] == NULL){
+				batch->texture[i] = texture;
+				batch->numTexture++;
+				break;
+			}
+		}
+		continue;
+	}
+	batch->sprite[numDraw].texture = i;//texture;
+
+
+	glBindBuffer(GL_ARRAY_BUFFER,batch->vbo);
+	glBufferSubData(GL_ARRAY_BUFFER,numDraw * sizeof(ExSprite),sizeof(ExSprite) , &batch->sprite[numDraw]);
+	batch->numDraw++;
+
+	return TRUE;
+}
+
+
 
 DECLSPEC int ELTAPIENTRY ExRemoveSprite(ExSpriteBatch* spritebatch,int index){
 	memcpy(&spritebatch->sprite[index],&spritebatch->sprite[spritebatch->numDraw],sizeof(ExSprite));

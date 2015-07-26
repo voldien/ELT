@@ -207,8 +207,5 @@ uninstall :
 
 clean:
 	$(RM) *.o
-	$(RM) src/*.o
-	$(RM) src/input/*.o
-	$(RM) src/system/*.o	
 	@echo -en "every object files removed"
 

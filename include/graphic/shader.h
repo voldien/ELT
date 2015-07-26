@@ -44,6 +44,8 @@ extern int ExLoadShader(ShaderHeader* shad,const char* cvertexfilename, const ch
  */
 extern int ExLoadShaderv(ShaderHeader* shad, const char* cvertexSource,const char* cfragmentSource,const char* cgeometry_source,const char* ctess_c_source, const char* ctess_e_source);
 
+extern int ExDeleteShaderProgram(ShaderHeader* header);
+
 extern int ExCompileShaderSource(const char* strPath,char** source, unsigned int flag);
 
 /*	*/

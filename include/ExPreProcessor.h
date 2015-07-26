@@ -32,10 +32,11 @@
 /*	khr group	*/
 #include<KHR/khrplatform.h>
 
-/**
+
+/*
     Compiler
 */
-#ifdef _MSC_VER //	Visual Studio C++ Compiler.
+#ifdef _MSC_VER 	/*	Visual Studio C++ Compiler.	*/
 	#define EX_VC
 	#define ENGINE_EX_COMPILER 1
 	#if _MSC_VER >= 1900
@@ -57,28 +58,41 @@
 	#endif
     	#pragma warning(disable : 4201)
 	#define EX_COMPILER_NAME "Visual Studio C++/C"
+
 #elif defined(__clang__)  || defined(__llvm__)           /*  LLVM    */
     #define EX_LLVM 1
 	#define EX_CLANG 1
 	#define ENGINE_EX_COMPILER 5
 	#define EX_COMPILER_NAME "LLVM"
+
 #elif defined(__GNUC__) || defined(__SNC__) || defined( __GNUC_MINOR__)	/*  GNU C Compiler*/
 	#define EX_GNUC
 	#define ENGINE_EX_COMPILER 2
 	#define EX_COMPILER_NAME "GNU C"
+
 #elif defined(__GNUG__) /*  GNU C++ Compiler*/
 	#define EX_GNUC 1
 
 #elif defined(__ghs__)		// GHS
 	#define EX_GHS
 	#define ENGINE_EX_COMPILER 3
-#elif defined(__INTEL_COMPILER) /*  Intel Compiler  */
+
+#elif defined(__HP_cc) || defined(__HP_aCC)
+
+#elif defined(__PGI)
+
+#elif defined(__ICC) || defined(__INTEL_COMPILER) /*  Intel Compiler  */
 	#define EX_INTEL
 	#define ENGINE_EX_COMPILER 4
 	#define EX_COMPILER_NAME "Intel C++"
+
+#elif defined(__SUNPRO_C) || defined(__SUNPRO_CC)
+
 #else
 	#error UnSupported Compiler.
 #endif
+
+
 
 /**
 	//  Platform define
@@ -178,10 +192,11 @@
 
 
 
-
 	#if defined(__unix__) || defined(__unix) || defined(unix)	/*  Unix    */
         #   define EX_UNIX 1
 	#endif
+
+#elif defined(__ICC) || defined(__INTEL_COMPILER)
 
 #else
 	#error  Unsupported architecture!   /*  No architecture support implicitly. remove this line to compile anyway*/
@@ -196,7 +211,7 @@
 
 
 
-/**
+/*
     C Compiler Version
 */
 #if (__STDC_VERSION__ == 201112L)
@@ -221,7 +236,11 @@
 	#define RELEASEMODE
 #endif
 
-/**
+/*	convert to string in preprocessing */
+#define STR_HELPER(x) #x
+#define STR(x) STR_HELPER(x)
+
+/*
     Unicode
 */
 #ifdef UNICODE  /*  UTF-16*/
@@ -246,12 +265,9 @@
 		#define EX_IMPORT	__attribute__ ((__visibility__ ("default")))
 		#define EX_EXPORT	__attribute__ ((__visibility__ ("default")))
 	#elif defined(EX_ANDROID)               /**      Android     */
-        #ifdef EX_JINI
+        #ifndef EX_JINI
             #define EX_IMPORT	__attribute__ ((__visibility__ ("default")))
             #define EX_EXPORT	__attribute__ ((__visibility__ ("default")))
-		#elif defined(EX_NACL) || defined(EX_PNACL)
-            #define EX_IMPORT
-			#define EX_EXPORT PP_EXPORT
 		#else
             #define EX_IMPORT
             #define EX_EXPORT	JNIEXPORT
@@ -259,13 +275,17 @@
 	#elif defined(EX_MAC)
 		#define EX_IMPORT	__attribute__ ((__visibility__ ("default")))
 		#define EX_EXPORT	__attribute__ ((__visibility__ ("default")))
+	#elif defined(EX_NACL) || defined(EX_PNACL)
+		#include "ppapi/c/ppp.h"
+		#define EX_IMPORT
+		#define EX_EXPORT PP_EXPORT
 	#else
 		#define EX_IMPORT
 		#define EX_EXPORT
 	#endif
 #endif
 
-/**
+/*
     Reserved keyword
 */
 #define EX_EXTERN extern
@@ -285,7 +305,7 @@
 #endif
 
 
-/**
+/*
         Virtual table size
 */
 #ifdef __cplusplus   // C++ feature
@@ -294,10 +314,10 @@
 	#define EX_VIRTUAL_VTAB_SIZE(x) EX_UNUSED(x)
 #endif
 
-/**
+/*
 	No Throw
 */
-#ifdef EX_WINDOWS
+#ifdef EX_VC
 	#define NOTHROW __declspec(nothrow)						// No Throw
 #else
 	#define NOTHROW
@@ -305,7 +325,7 @@
 
 
 
-/**
+/*
 	Internal
 */
 #if defined(_ENGINE_INTERNAL) || (EX_ENGINE_VERSION_MAJOR < 1)	// Macro Definition Only Defined in this solution.
@@ -543,9 +563,15 @@
 */
 #define EX_ENGINE   "Engine Library Toolkit"
 
-#define EX_ENGINE_VERSION_MAJOR 0x0
-#define EX_ENGINE_VERSION_MINOR 0x6
-#define EX_ENGINE_VERSION_REVISION 0x8
+#ifndef EX_VERSION_MAJOR
+	#define EX_VERSION_MAJOR 0
+#endif
+#ifndef EX_VERSION_MINOR
+	#define EX_VERSION_MINOR 6
+#endif
+#ifndef EX_VERSION_REVISION
+	#define EX_VERSION_REVISION 10
+#endif
 
 #define EX_ENGINE_PREALPHA EX_TEXT("pa")	        /* Pre alpha    */
 #define EX_ENGINE_ALPHA EX_TEXT("a")		        /* Alpha        */
@@ -553,15 +579,17 @@
 #define EX_ENGINE_STABLE EX_TEXT("r")		        /* Stable       */
 #define EX_ENGINE_RELEASE_SOMETHING EX_TEXT("rc")	/*              */
 #define EX_ENGINE_RELEASE_BETTER EX_TEXT("rc5")		/*          */
-/**
+
+/*
 	ELT Version [8 bit major | 8 bit minor | 8 bit bugfix | 8 bit reserved ]
 */
-#define EX_ENGINE_VERSION ((EX_ENGINE_VERSION_MAJOR << 24) + (EX_ENGINE_VERSION_MINOR << 16) + (EX_ENGINE_VERSION_REVISION << 8) + 0)
+#define EX_ENGINE_VERSION ((EX_VERSION_MAJOR << 24) + (EX_VERSION_MINOR << 16) + (EX_VERSION_REVISION << 8) + 0)
 
 #if defined(EX_VC) && defined(EX_INTERNAL_DEVELOP_ENVIROMENT)
-	#pragma comment(linker,"/VERSION:0[.64]")
+	#pragma comment(linker,"/VERSION:"STR(EX_VERSION_MAJOR)"[."STR(EX_VERSION_MINOR)STR(EX_VERSION_REVISION)"]")
 #endif
-/**
+
+/*
     ELT status
 */
 #ifdef EX_DEBUG
@@ -570,7 +598,7 @@
 	#define EX_ENGINE_STATUS EX_ENGINE_PREALPHA
 #endif
 
-/**
+/*
 	Information
 */
 #define EX_ENGINE_COMPILER_ARCHITECTURE
@@ -578,8 +606,8 @@
 #define EX_ENGINE_BUILT_TIME __TIME__
 
 
-/**
-    all project don't enable NDEBUG || _DEBUG by default. has be predefined explicitly
+/*
+    all IDE don't enable NDEBUG || _DEBUG by default. Has be predefined explicitly if not defined.
 */
 #if (NDEBUG || _DEBUG)
 	#if !(defined NDEBUG ^ defined _DEBUG)
@@ -587,7 +615,7 @@
 	#endif
 #endif
 
-/**
+/*
 	Argumentental function
 */
 #ifdef EX_VC
@@ -600,11 +628,14 @@
 
 
 #ifdef EX_VC
-	#define WIN32_LEAN_AND_MEAN	    /**	ignoring some tedious useless warnings*/
+	#define WIN32_LEAN_AND_MEAN	    /**	ignoring some tedious useless warnings from window.*/
 #endif
 
+
+
+
 #ifdef INTERNAL_ENGINEX
-	#ifdef EX_WINDOWS
+	#ifdef EX_VC
 		#pragma warning(disable : 4996)		// Disable a warning
 		#pragma warning(disable : 4251) 	// Dll
 	#endif

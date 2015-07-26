@@ -45,6 +45,7 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpPar
 	if((mpid = pthread_create(&t0,&attr, callback,lpParamater)) == -1)
         fprintf(stderr, strerror(errno));
 
+	//pthread_attr_destroy(attr);
 	if(pid)//TODO
 		*pid = mpid;
 	return t0;

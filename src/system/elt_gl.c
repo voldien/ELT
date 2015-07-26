@@ -12,13 +12,8 @@
 
     #include<X11/Xatom.h>
     #include<X11/keysym.h>
-
-    #include<GL/glx.h>
-    #include<GL/glxext.h>
-    #include<GL/glu.h>
-#include"system/unix/unix_win.h"
-
-
+	#include<GL/glx.h>
+	#include"system/unix/unix_win.h"
 
    #define GL_GET_PROC(x) glXGetProcAddress( ( x ) )           /**  get OpenGL function process address */
 #elif defined(EX_ANDROID)
@@ -59,12 +54,10 @@
 	#include<GLES/glext.h>
 	#include<GLES/glplatform.h>
 #else
-
+	#include<GL/gl.h>
+	#include<GL/glu.h>
+	#include<GL/glext.h>
 #endif
-
-#include<GLES2/gl2.h>
-#include<GLES2/gl2ext.h>
-#include<GLES2/gl2platform.h>
 
 
 
@@ -104,7 +97,7 @@ DECLSPEC inline ExWin ELTAPIENTRY ExGetOpenGLContextWindow(OpenGLContext glc){
 #endif
 }
 /**
-    //Get Drawable
+    Get Drawable
 */
 DECLSPEC inline WindowContext ELTAPIFASTENTRY ExGetCurrentGLDC(void){
 #ifdef EX_WINDOWS
@@ -169,8 +162,8 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 #elif defined(EX_LINUX)
     typedef void (*glXSwapIntervalEXTProc)(Display*, GLXDrawable drawable, int intervale);
     glXSwapIntervalEXTProc glXSwapIntervalEXT = (glXSwapIntervalEXTProc)GL_GET_PROC((const GLubyte*)"glXSwapIntervalEXT");
-    //if(glXSwapIntervalEXT)
-    //    glXSwapIntervalEXT(display, (GLXDrawable)ExGetCurrentGLDC(), 0);
+    if(glXSwapIntervalEXT)
+        glXSwapIntervalEXT(display, (GLXDrawable)ExGetCurrentGLDC(), 0);
 #elif defined(EX_ANDROID)
 
 #endif
@@ -181,25 +174,28 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 	// color mask
 	glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
 
-#if !( defined(EX_PNACL) ^ defined(EX_ANDROID) )
+
+#if  !( defined(EX_ANDROID) ^ defined(EX_PNACL) )
 	if(ExOpenGLGetAttribute(EX_OPENGL_ALPHA_SIZE,&value) > 0)
 		glEnable(GL_ALPHA_TEST);
 	else glDisable(GL_ALPHA_TEST);
-#endif
 
-#if  !( defined(EX_ANDROID) ^ defined(EX_PNACL) )
 	if(ExOpenGLGetAttribute(EX_OPENGL_MULTISAMPLEBUFFERS,&value) > 0){
         glEnable(GL_MULTISAMPLE_ARB);
 //        	glGetIntegerv(GL_SAMPLE_BUFFERS,&sampleSupport);
 //			if(sampleSupport){}
 	}
+	glDepthRange(0.0, 1.0);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 #endif
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
-#if !(defined(EX_ANDROID) ^ defined(EX_PNACL))
-	glDepthRange(0.0, 1.0);
-#endif
+
 	glDepthMask(GL_TRUE);
 	glPolygonOffset(0.0f, 0.0f);
 
@@ -207,14 +203,6 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 	glCullFace(GL_FRONT);
 	glFrontFace(GL_CW);
 	glClearColor(0.0f,0.0f,0.0f,1.0f);
-#if !( defined(EX_ANDROID) ^ defined(EX_PNACL) )
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-
-
-#endif
 }
 
 

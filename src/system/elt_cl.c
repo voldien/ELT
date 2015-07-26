@@ -133,9 +133,8 @@ DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLContext(Enum flag){
     size_t size=0;
     Uint32 uiDeviceUsed = 0,uiEndDev = 0;
 
-    /**
-        TODO check if needed or logic is accepted
-    */
+
+    /*TODO check if needed or logic is accepted	*/
     loadOpenClLibrary();
 
     /*	Get platform id	*/
@@ -183,6 +182,7 @@ DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLContext(Enum flag){
 	return (ERESULT)hClContext;
 }
 
+
 DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowContext window,Enum flag){
     Int32 cpPlatform,ciErrNum;Uint32 uiDevCount = 0;
     // device ids
@@ -195,12 +195,11 @@ DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, Wi
     /**
     TODO check if needed or logic is accepted*/
     loadOpenClLibrary();
-	/**
-        Get platform id
-	*/
-	if(!ExGetCLPlatformID(&cpPlatform,flag))
-		ExDevPrint("Failed to Get CL Platform ID");
 
+    /*Get platform id	*/
+	if(ExGetCLPlatformID(&cpPlatform,flag) != TRUE){
+		return NULL;
+	}
     // Get Device ID
     if(!(ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_GPU, 0, NULL, &uiDevCount))){
         // create OpenCL Devices on the GPU
@@ -377,9 +376,8 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum fl
     cl_int ciErrNum;
     *clSelectedPlatformID = NULL;
 
-    /**
-        Get number of platform identification
-    */
+
+    /*	Get number of platform identification	*/
     ciErrNum = clGetPlatformIDs (NULL, NULL, &num_platforms);
 
     if (ciErrNum != CL_SUCCESS){

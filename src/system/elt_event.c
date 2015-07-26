@@ -198,7 +198,7 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 			event->event = 0;
 			return FALSE;
 		}
-		event->time = clock();
+		event->time = ExGetHiResTime();
 		event->window = msg.xany.window;
 		return TRUE;
 	}else {/*XSync(display,TRUE);*/ return FALSE;}
