@@ -96,7 +96,7 @@ static int ip_exists(const char* ip){
 }
 
 
-DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port,unsigned int protocol){
+DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(unsigned int protocol){
     #ifdef EX_WINDOWS
     unsigned int sockfd,newsockdf;
     unsigned int sock_domain,socket_protocol;
@@ -118,9 +118,6 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
 	if(protocol & ELT_CLIENT)
 		return sockfd;
 
-	if(bind(sockfd,(SOCKADDR *)&serv_addr, sizeof(serv_addr)) == SOCKET_ERROR){
-		wprintf(EX_TEXT("connect function failed with error: %ld\n"), WSAGetLastError());
-	}
 	return sockfd;
 
 #elif defined(EX_UNIX)
@@ -128,7 +125,6 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
     unsigned int sockfd;
     unsigned int sock_domain,socket_protocol;
     struct sockaddr_in serv_addr, cli_addr;
-    //struct sockaddr_un name;
 
     if(protocol & ELT_LOCAL){
         sock_domain = PF_LOCAL;
@@ -139,9 +135,8 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
         sock_domain = PF_INET;
     }
 
-    /**
-        create socket
-    */
+
+    /*	create socket	*/
     if(protocol & ELT_LOCAL){
         if((sockfd = socket(sock_domain, SOCK_STREAM, socket_protocol)) == -1)
             fprintf(stderr,strerror(errno));
@@ -169,27 +164,6 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port
             fprintf(stderr,strerror(errno));
     }
 
-	if(!ip_exists(ip)){
-		create_ip_address(ip,port);
-	}
-
-
-    bzero((char*)&serv_addr,sizeof(serv_addr));
-
-    serv_addr.sin_family = sock_domain;
-    //serv_addr.sin_addr.s_addr = inet_addr(ip);
-    //serv_addr.sin_addr.s_addr = INADDR_ANY;
-	inet_pton(sock_domain,ip, &serv_addr.sin_addr);
-    serv_addr.sin_port = htons(port);
-
-    /**
-        TODO solve how to create a ip address
-    */
-    if(bind(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0){
-        fprintf(stderr,strerror(errno));
-        return -1;
-    }
-
     return sockfd;
     #endif
 }
@@ -210,6 +184,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port
 	if(bind(socket,(SOCKADDR *)&serv_addr, sizeof(serv_addr)) == SOCKET_ERROR){
 		wprintf(EX_TEXT("connect function failed with error: %ld\n"), WSAGetLastError());
 	}
+
 #elif defined(EX_UNIX)
     unsigned int sock_domain,socket_protocol;
     struct sockaddr_in serv_addr, cli_addr;
@@ -264,7 +239,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int p
     struct hostent *server;
     int sockfd;/**TODO check if sockdf should be input parameter*/
     /**/
-    sockfd = ExOpenSocket(ip,port,ELT_CLIENT);
+    sockfd = ExOpenSocket(ELT_CLIENT);
 
 
     bzero((char*)&serv_addr, sizeof(serv_addr));

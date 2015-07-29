@@ -20,11 +20,12 @@
 #define _ELT_NET_H_ 1
 #include"./../EngineAssembly.h"
 
-#define ELT_CLIENT 0x1  /*  Client socket*/
-#define ELT_TCP 0x2     /*  reliable,  two-way  */
-#define ELT_UDP 0x4     /*  UDP protocol */
-#define ELT_LOCAL 0x8   /*  Local internal communication */
-
+#define ELT_CLIENT 0x1  	/*  Client socket*/
+#define ELT_TCP 0x2     	/*  reliable,  two-way  */
+#define ELT_UDP 0x4     	/*  UDP protocol */
+#define ELT_LOCAL 0x8   	/*  Local internal communication */
+#define ELT_STREAM 0x10
+#define ELT_S 0x20
 
 #ifdef __cplusplus  //  C++ Environment
 extern "C" {
@@ -37,7 +38,7 @@ extern "C" {
     \port
     \protocol
 */
-extern DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port,unsigned int protocol);
+extern DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(unsigned int protocol);
 
 /**
 	Close socket
@@ -86,7 +87,7 @@ extern DECLSPEC int ELTAPIENTRY ExReadSocket(unsigned int socket, unsigned char*
 extern DECLSPEC int ELTAPIENTRY ExWriteSocket(unsigned int socket, unsigned char* data,unsigned size);
 //#define ExWriteSocket write
 
-/**
+/*
 	Get host ip adress.
 */
 extern DECLSPEC int ELTAPIENTRY ExGetHostIp(char ip[16]);
