@@ -10,7 +10,7 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 
 #include"./../elt_gl.h"
 #include"win_win32.h"
-#ifdef __cplusplus // C++ environment
+#ifdef  __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
 
@@ -35,8 +35,8 @@ extern DECLSPEC Int32 ELTAPIFASTENTRY ExMaxCombinedTexture(void);
 extern DECLSPEC Int32 ELTAPIFASTENTRY ExMaxTextureUints(void);
 
 
-#ifdef __cplusplus // C++ environment
-};
+#ifdef  __cplusplus	/* C++ Environment */
+}
 #endif
 
 #endif

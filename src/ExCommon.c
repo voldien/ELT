@@ -141,7 +141,7 @@ DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName, ...){
 #endif
 }
 
-DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(struct exsize* size){
+DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(struct ex_size* size){
 #ifdef EX_WINDOWS
 	RECT rect;
 	GetWindowRect(GetDesktopWindow(), &rect);
@@ -155,7 +155,7 @@ DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(struct exsize* size){
 
 #endif
 }
-DECLSPEC void ELTAPIENTRY ExGetMonitorSize(Uint32 index, struct exsize* size){
+DECLSPEC void ELTAPIENTRY ExGetMonitorSize(Uint32 index, struct ex_size* size){
 #ifdef EX_WINDOWS
 	//EnumDisplaySettings(
 #elif defined(EX_LINUX)
@@ -170,7 +170,7 @@ DECLSPEC void ELTAPIENTRY ExGetMonitorSize(Uint32 index, struct exsize* size){
 #endif
 }
 
-DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenRect(struct exrect* rect){
+DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenRect(struct ex_rect* rect){
 #ifdef EX_WINDOWS
 	GetWindowRect(GetDesktopWindow(), (LPRECT)rect);
 #elif defined(EX_LINUX)
@@ -183,7 +183,7 @@ DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenRect(struct exrect* rect){
 
 #endif
 }
-DECLSPEC void ELTAPIENTRY ExGetMonitorRect(Uint32 index, struct exrect* rect){
+DECLSPEC void ELTAPIENTRY ExGetMonitorRect(Uint32 index, struct ex_rect* rect){
 #ifdef EX_WINDOWS
 
 #elif defined(EX_LINUX)
@@ -269,11 +269,12 @@ DECLSPEC void ELTAPIENTRY ExGetAppliationPath(ExChar* path, Int32 length){
 	return;
 }
 //function manually
-DECLSPEC void ELTAPIENTRY ExGetApplicationName(ExChar* name,Int32 length){
+DECLSPEC ExChar* ELTAPIENTRY ExGetApplicationName(ExChar* name,Int32 length){
 #ifdef EX_WINDOWS
 	ExChar path[MAX_PATH];
 	ExIsError(GetModuleFileName(NULL,path,sizeof(path)));
 	_wsplitpath(path,0,0,name,0);
+	return name;
 #elif defined(EX_LINUX)
 #   if defined(EX_GNUC) || defined(EX_GNUC)
     extern char* __progname;

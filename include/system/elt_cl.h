@@ -87,6 +87,7 @@ extern DECLSPEC void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, void* p_cl_dev
 extern DECLSPEC Int32 ELTAPIENTRY ExGetClDevCap(void* device);
 
 
+
 #ifdef __cplusplus	/* C++ Environment  */
 }
 #endif

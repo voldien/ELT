@@ -21,6 +21,7 @@
 #include"./../ExPreProcessor.h"
 #include"elt_egl.h"
 
+
 #ifdef EX_WINDOWS
 	#define ExSwapBuffers SwapBuffers
 #elif defined(EX_LINUX)
@@ -33,7 +34,6 @@
 	extern DECLSPEC void ExSwapBuffers(void* surface);
 #endif
 
-#include"elt_win.h"
 
 /*	GPU Vendors constant of.	*/
 #define EX_UNKNOWN 0x0				/**/
@@ -66,6 +66,8 @@
 
 
 
+
+
 #ifdef __cplusplus /* C++ environment */
 extern "C"{
 #endif
@@ -95,7 +97,7 @@ extern DECLSPEC OpenGLContext ELTAPIENTRY ExGetOpenGLCFromWindow(ExWin window);
 	\hDC
 	\glc
 */
-extern DECLSPEC void ELTAPIENTRY ExMakeGLCurrent(WindowContext hDC, OpenGLContext glc);
+extern DECLSPEC int ELTAPIENTRY ExMakeGLCurrent(WindowContext hDC, OpenGLContext glc);
 
 /**
     Create Context Attribute Based on Internal Hardware and engine description.
@@ -128,12 +130,12 @@ extern DECLSPEC void ELTAPIENTRY ExOpenGLResetAttributes(void);
 */
 extern DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void);
 
-/**
+/*
 	Destroy OpenGL Context
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExDestroyContext(WindowContext drawable, OpenGLContext glc);
 
-/**
+/*
 	Destroy and release current OpenGL Context attached to current thread
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExDestroyCurrentContext(void);
@@ -204,8 +206,13 @@ extern DECLSPEC Int32 ELTAPIENTRY ExIsVendorIntel(void);
 extern DECLSPEC Enum ELTAPIENTRY ExGetOpenGLVendor(void);
 
 
+/*	set vsync*/
+extern DECLSPEC ERESULT ELTAPIENTRY ExOpenGLSetVSync(ExBoolean enabled, ExWin window);
+
+
 #ifdef __cplusplus /* C++ environment */
 }
 #endif
+
 #include"elt_win.h"
 #endif

@@ -54,9 +54,6 @@ extern DECLSPEC void ELTAPIENTRY DXGetMatrix(const Enum matrixMode, Float* matri
 }
 #endif
 
-#ifdef EX_CPP
-
-#endif
 
 #ifndef NOFIXEPIPELINEMATRIX
 	#if(GRAPHICDEVICE == OPENGL)

@@ -19,7 +19,7 @@
 #ifndef _ELT_AUDIO_H_ 
 #define _ELT_AUDIO_H_ 1
 #include"ExPreProcessor.h"
-
+#include"system/elt_audio.h"
 
 
 #endif 

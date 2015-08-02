@@ -26,7 +26,7 @@ struct ray{
 	vec3_t dir;
 };
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus /* C++ environment */
 extern "C"{
 #endif
 

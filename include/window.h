@@ -20,6 +20,9 @@
 #define _ELT_WINDOW_H_ 1
 #include"ExPreProcessor.h"
 
+#include"system/elt_win.h"
+#include"system/elt_event.h"
+
 
 
 

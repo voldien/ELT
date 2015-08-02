@@ -27,7 +27,7 @@
 #define ELT_STREAM 0x10
 #define ELT_S 0x20
 
-#ifdef __cplusplus  //  C++ Environment
+#ifdef  __cplusplus	/* C++ Environment */
 extern "C" {
 #endif
 
@@ -93,7 +93,7 @@ extern DECLSPEC int ELTAPIENTRY ExWriteSocket(unsigned int socket, unsigned char
 extern DECLSPEC int ELTAPIENTRY ExGetHostIp(char ip[16]);
 
 
-#ifdef __cplusplus
+#ifdef  __cplusplus	/* C++ Environment */
 }
 #endif
 

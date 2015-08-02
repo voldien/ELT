@@ -25,7 +25,7 @@ typedef struct ex_GUID{
 	Uint8 data[16];
 }ExGUID;
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus /* C++ environment */
 extern "C"{
 #endif
 /**
@@ -86,7 +86,7 @@ DECLSPEC void ELTAPIENTRY ExJoyStickShutDown(void);
 DECLSPEC void ELTAPIENTRY ExJoyStickDisConnected(void);		// check which index the disconneted XBox has, to applyed to it later, if it gets connected again.
 DECLSPEC void ELTAPIENTRY ExUpdateJoyStickController(void);
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus /* C++ environment */
 };
 #endif
 #include"elt_gamecontroller.h"

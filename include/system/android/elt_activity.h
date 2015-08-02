@@ -26,10 +26,13 @@ extern "C"{
 #endif
 
 
-/**
+/*
     Get native Activity pointer
 */
 extern DECLSPEC void* ELTAPIENTRY ExGetNativeActivity(void);
+/*
+
+*/
 extern DECLSPEC void* ELTAPIENTRY ExGetNativeLooper(void);
 
 

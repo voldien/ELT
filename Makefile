@@ -13,11 +13,9 @@ CC ?= gcc
 AR := ar
 
 ifdef ComSpec
-	TARGETSUFFIX :=.dll
 	INCLUDE := -I"include" 
 	CLIBS := 
 else
-	TARGETSUFFIX :=.so
 	INCLUDE := -I"include" 
 	CLIBS := -lGL -lX11 -lEGL -lXrender -lOpenCL -lpthread -ldl -lrt -lxcb -lX11-xcb -lXrandr -lm
 endif
@@ -25,6 +23,7 @@ CFLAGS :=
 
 
 ifeq ($(OS),Windows_NT)
+	TARGETSUFFIX :=.dll
     CFLAGS += -D WIN32
     ifeq ($(PROCESSOR_ARCHITECTURE),AMD64)
         CFLAGS += -D AMD64
@@ -33,12 +32,13 @@ ifeq ($(OS),Windows_NT)
         CFLAGS += -D IA32
     endif
 else
+	TARGETSUFFIX :=.so
     UNAME_S := $(shell uname -s)
     ifeq ($(UNAME_S),Linux)
         CFLAGS += -D LINUX
     endif
     ifeq ($(UNAME_S),Darwin)
-        CCFLAGS += -D OSX
+        CFLAGS += -D OSX
     endif
     UNAME_P := $(shell uname -p)
     ifeq ($(UNAME_P),x86_64)
@@ -68,9 +68,6 @@ sources += $(wildcard src/system/*.c)
 sources += $(wildcard src/math/*.c)
 sources += $(wildcard src/graphic/*.c)
 
-
-
-
 objects = $(notdir $(subst .c,.o,$(sources)) )
 
 
@@ -80,6 +77,22 @@ TARGET = libEngineEx$(TARGETSUFFIX)
 # debian packaging todo resolve later!
 BUILD_DIR := build/
 OUTPUT_DIR := build/
+
+
+
+
+
+.PHONY : nacl
+.PHONY : pnacl
+.PHONY : linux32
+.PHONY : linux64
+.PHONY : android
+.PHONY : ios
+.PHONY : win32 
+.PHONY : win64
+.PHONY : arm
+
+
 
 
 all: $(TARGET)
@@ -129,16 +142,20 @@ static : $(objects)
 	$(AR) -rcs $(TARGET) -f $(notdir $(objects))
 
 
-.PHONY : linux32
-.PHONY : linux64
 
+linux32 : CFLAGS += -m32
 linux32 : $(objects)
 	$(CC) $(CFLAGS) -shared $^ -o $@ $(TARGET) $(CLIBS)
+
+linux64 : CFLAGS += -m64
+linux64 : $(objects)
+	$(CC) $(CFLAGS) -shared $^ -o build/$(TARGET) $(CLIBS)
+
 
 
 CWINCLIBS := -lopengl32 -lgdi32 -lglu32  -lwininet -lws2_32 -lkernel32 -luser32 -lwinmm  -lpsapi -legl -ldbghelp #-lopencl
 
-.PHONY : win32
+
 win32 : CFLAGS += -mwin32 -municode -mwindows -I"External/OpenCL/Include" -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1  -DDONT_SUPPORT_OPENCL=1
 win32 : TARGET := EngineEx32.dll
 win32 : CLIBS := $(CWINCLIBS)
@@ -148,7 +165,7 @@ win32 : $(objects) $(notdir $(subst .c,.o, $(wildcard src/system/win/*.c) ))
 	$(WINCC) $(CFLAGS) -shared $^ -o $(TARGET) $(CLIBS)
 
 
-.PHONY : win64
+
 win64 : CFLAGS += -municode -mwindows -I"External/OpenCL/Include" -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1   
 win64 : sources += $(wildcard src/system/win/*.c)
 win64 : TARGET := EngineEx64.dll
@@ -158,25 +175,20 @@ win64 : $(objects)
 	$(WINCC) $(CFLAGS)   $^ -o $(TARGET) $(CLIBS)
 
 
-.PHONY : nacl
+
 nacl : 
 	$(MAKE) -C ./port/nacl/ $@
 #	make V=1 -f port/nacl/Makefile $@
 
-.PHONY : pnacl
+
 pnacl : 
 	$(MAKE) -C ./port/nacl/ $@
 
 
-.PHONY : android
+
 android :
 	$(MAKE) -C ./port/android/jni/
-		
-
-
-.PHONY : avr
-avr : $(objects)
-	
+			
 
 # make sure that all dependecy are installed. 
 .PHONY : dependency

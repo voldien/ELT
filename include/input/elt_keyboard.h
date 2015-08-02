@@ -26,7 +26,7 @@
 #endif
 typedef Keycode ExScancode;
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus /* C++ environment */
 extern "C"{
 #endif
 
@@ -82,7 +82,7 @@ extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyReleased(const Uint32 keyCode);
 
 
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus /* C++ environment */
 }
 #endif
 #endif

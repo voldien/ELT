@@ -21,15 +21,15 @@
 #define _ElT_SURFACE_H_ 1
 #include"elt_win.h"
 
-#define RGB_COLOR(r,g,b)	(r << 24) | (g << 16) | (b << 8)
-#define RGB_COLOR(r,g,b)	((r << 24) | (g << 16) | (b << 8) | a)
+#define EXRGB_COLOR(r,g,b)	(r << 24) | (g << 16) | (b << 8)
+#define EXRGBA_COLOR(r,g,b,a)	((r << 24) | (g << 16) | (b << 8) | a)
 
 #define EX_RGB 0x20
 #define EX_RGBA 0x40
 
 typedef void* Surface;
 
-#ifdef __cplusplus // C++ environment
+#ifdef  __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
 /**
@@ -51,10 +51,10 @@ extern DECLSPEC int ExSetSurfacePixel(Surface handle, unsigned int x, unsigned i
 /**
     set fill color..
 */
-extern DECLSPEC int ExFillRect(Surface handle,struct exrect* rect, Uint32 color);
+extern DECLSPEC int ExFillRect(Surface handle,struct ex_rect* rect, Uint32 color);
 
 
-#ifdef __cplusplus // C++ environment
+#ifdef  __cplusplus	/* C++ Environment */
 }
 #endif
 

@@ -62,7 +62,7 @@ extern DECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(ExBoolean enabled);
 /**
     clip cursor onto specified rectangle view
 */
-extern DECLSPEC Int32 ELTAPIENTRY ExClipCursor(const struct exrect* rect);
+extern DECLSPEC Int32 ELTAPIENTRY ExClipCursor(const struct ex_rect* rect);
 /**
 	Create Cursor
 */

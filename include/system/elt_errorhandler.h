@@ -19,18 +19,22 @@
 #ifndef _ELT_ERROR_HANDLER_H_
 #define _ELT_ERROR_HANDLER_H_ 1
 #include"./../EngineAssembly.h"
+#ifdef EX_ANDROID
+#include<android/log.h>
+#endif
 
 
 
 typedef void(ELTAPIENTRY *singalcallback)(Int32);
-#ifdef  __cplusplus	// C++ Environment
+#ifdef  __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
-/**
+
+/*
 	ExInternalError
 */
 #define ExIsError(x) { if( ( x ) <= 0 ){ ExDevPrint("Error");} }
-/**
+/*
 	C error
 */
 #define ExIsCError(x) { if( ( x ) <= 0){ ExDevPrintf("Error | %s",strerror(errno));}}
@@ -48,11 +52,13 @@ extern "C"{
 	#define ExIsHError(x) x
 	#define ExIsDXError(x) EX_UNUSED(x)
 #endif
+
 #define EX_ERROR_MESSAGEBOX 0x1
 #define EX_ERROR_TERMINATE 0x2
 #define EX_ERROR_ERROR_HANDLE 0x4
 #define EX_ERROR_LOG 0x8
 #define EX_ERROR_LOG_ERR 0x10
+
 #define EX_SIGN_
 /**
 	Error
@@ -136,8 +142,8 @@ extern DECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcallback 
 
 #ifdef EX_ANDROID
 
-#define fprintf(x,...)   //__android_log_print(ANDROID_LOG_INFO,"EngineEx", x ,##__VA_ARGS__ )
-#define printf(x,...)    //__android_log_print(ANDROID_LOG_INFO,"EngineEx", x ,##__VA_ARGS__ )
+#define fprintf(x,...)   __android_log_print(ANDROID_LOG_INFO,"EngineEx", x ,##__VA_ARGS__ )
+#define printf(x,...)    __android_log_print(ANDROID_LOG_INFO,"EngineEx", x ,##__VA_ARGS__ )
 
 #endif
 
@@ -261,7 +267,7 @@ extern DECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcallback 
 
 
 
-#ifdef  __cplusplus	// C++ Environment
+#ifdef  __cplusplus	/* C++ Environment */
 }
 #endif
 

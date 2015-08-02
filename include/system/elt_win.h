@@ -22,7 +22,7 @@
 #include"elt_event.h"
 #include"elt_cl.h"
 
-#ifdef  __cplusplus	/** C++ Environment */
+#ifdef  __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
 
@@ -31,6 +31,7 @@ extern "C"{
 #else
 	#define ExMessageBox(a,b,c,d) gtk_message_dialog_new()
 #endif
+
 #ifdef EX_LINUX
 extern void* display;
 #endif
@@ -38,8 +39,9 @@ extern void* display;
 #define EX_WIN_SCREENSAVER_ENABLE   0x200000
 #define EX_WIN_SCREENSAVER_DISABLE  0x400000
 
-typedef struct exsize{unsigned int width,height;}ExSize;
-typedef struct exrect{int x,y,width,height;}ExRect;
+
+
+
 
 /**
 	Create Window
@@ -113,19 +115,19 @@ extern DECLSPEC void ELTAPIENTRY ExSetWindowSize(ExWin window,Int32 width, Int32
 /**
 	Set Window Size
 */
-extern DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window,const struct exsize* size);
+extern DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window,ExSize* size);
 /*
     Get Window Size
 */
-extern DECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, struct exsize* size);
+extern DECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, ExSize* size);
 /*
 	// Set Window Rect
 */
-extern DECLSPEC void ELTAPIENTRY ExSetWindowRect(ExWin window, const struct exrect* rect);
+extern DECLSPEC void ELTAPIENTRY ExSetWindowRect(ExWin window, const ExRect* rect);
 /*
 	// Get Window Rect
 */
-extern DECLSPEC void ELTAPIENTRY ExGetWindowRect(ExWin window, struct exrect* rect);
+extern DECLSPEC void ELTAPIENTRY ExGetWindowRect(ExWin window, ExRect* rect);
 
 
 
@@ -140,14 +142,21 @@ extern DECLSPEC void ELTAPIENTRY ExSetWindowFlag(ExWin window, Enum flag);
 
 extern DECLSPEC void ELTAPIENTRY ExSetWindowFlagv(ExWin window, Enum flag, int value);
 
-/**
- *	Assign Icon Handle onto window
+/*
+	Assign Icon Handle onto window
  */
 extern DECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, HANDLE hIcon);
 /**
- *	Get Window Icon Handle
+	Get Window Icon Handle
  */
 extern DECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window);
+
+
+extern DECLSPEC HANDLE ELTAPIENTRY ExGetWindowUserData(ExWin window);
+
+extern DECLSPEC void ELTAPIENTRY ExSetWindowUserData(ExWin window, HANDLE userdata);
+
+
 
 /**
 

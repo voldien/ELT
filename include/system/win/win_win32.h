@@ -37,7 +37,7 @@ typedef void(ELTAPIENTRY *ReShapeCallBack)(unsigned int width, unsigned int heig
 typedef void(ELTAPIENTRY *SystemKeyDown)(WPARAM wParam, LPARAM lParam);
 typedef int(ELTAPIENTRY *MouseButton)(Enum action, Enum buttonID);
 
-#ifdef __cplusplus // C++ environment
+#ifdef  __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
 /**
@@ -160,7 +160,7 @@ extern DECLSPEC void ELTAPIENTRY ExRunWinMessageLoop(void);
 /**/
 extern DECLSPEC void ELTAPIENTRY ExRunWinPeekMessage(void);
 
-#ifdef __cplusplus // C++ environment
+#ifdef  __cplusplus	/* C++ Environment */
 }
 #endif
 

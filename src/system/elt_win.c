@@ -377,7 +377,7 @@ DECLSPEC void ELTAPIENTRY ExSetWindowSize(ExWin window,Int32 width, Int32 height
 	XResizeWindow(display,window,width,height);
 #endif
 }
-DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window,const struct exsize* size){
+DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window, ExSize* size){
 #ifdef EX_WINDOWS
 	RECT winrect;
 	GetWindowRect(window,&winrect);
@@ -385,7 +385,7 @@ DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window,const struct exsize* siz
 	XResizeWindow(display,window,size->width,size->height);
 #endif
 }
-DECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, struct exsize* size){
+DECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, ExSize* size){
 #ifdef EX_WINDOWS
 	RECT winrect;
 	GetWindowRect(window, &winrect);
@@ -400,7 +400,7 @@ DECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, struct exsize* size){
 }
 
 
-DECLSPEC void ELTAPIENTRY ExSetWindowRect(ExWin window, const struct exrect* rect){
+DECLSPEC void ELTAPIENTRY ExSetWindowRect(ExWin window, const ExRect* rect){
 #if defined(EX_WINDOWS)
 	SetWindowPos(window,HWND_TOP,rect->x,rect->y,rect->width - rect->x,rect->height - rect->y,SWP_SHOWWINDOW);
 #elif defined(EX_LINUX)
@@ -409,7 +409,7 @@ DECLSPEC void ELTAPIENTRY ExSetWindowRect(ExWin window, const struct exrect* rec
 #endif
 }
 
-DECLSPEC void ELTAPIENTRY ExGetWindowRect(ExWin window, struct exrect* rect){
+DECLSPEC void ELTAPIENTRY ExGetWindowRect(ExWin window, ExRect* rect){
 #if defined(EX_WINDOWS)
 	GetWindowRect(window, (RECT*)rect);
 #elif defined(EX_LINUX)
@@ -480,6 +480,22 @@ DECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window){
 
     return NULL;
 #endif // EX_WINDOWS
+}
+
+
+
+
+
+DECLSPEC HANDLE ELTAPIENTRY ExGetWindowUserData(ExWin window){
+#ifdef EX_LINUX
+	//XAssocTable table;
+	//XLookUpAssoc(display, &table, window);
+#endif
+
+}
+
+DECLSPEC void ELTAPIENTRY ExSetWindowUserData(ExWin window, HANDLE userdata){
+
 }
 
 

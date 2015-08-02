@@ -26,13 +26,13 @@
 	#include<GL/glu.h>
 #endif
 
-#define GL_GET_PROC(x) glXGetProcAddress( ( x ) )           /**  get OpenGL function process address */
+#define GL_GET_PROC(x) glXGetProcAddress((const char*)( x ) )           /**  get OpenGL function process address */
 
 
 
 extern int isExtensionSupported(const char* extList, const char* extension);
 
-#define PIXATTOFFSET 8
+#define PIXATTOFFSET 8	/*	offset to variable	*/
 int pixAtt[] = {
 	GLX_RENDER_TYPE, GLX_RGBA_BIT,
 	GLX_X_RENDERABLE, True,
@@ -293,11 +293,10 @@ DECLSPEC void ELTAPIENTRY ExOpenGLResetAttributes(void){
 
 DECLSPEC ExBoolean ELTAPIENTRY ExDestroyContext(WindowContext drawable, OpenGLContext glc){
 	ExBoolean hr = 1;
-	if(!drawable)
-		drawable = ExGetCurrentGLDC();
 
-    if(!glXMakeCurrent(display, NULL, NULL)){
-        fprintf(stderr,"error");
+    if(!ExMakeGLCurrent(NULL,NULL)){
+        fprintf(stderr,"failed to make current Opengl NUll, NULL.\n");
+        hr = 0;
     }
 	glXDestroyContext(display,glc);
 	return hr;
@@ -358,7 +357,7 @@ DECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window,Enum ienum){
 
 	XTextProperty textprop = {0};
 	XWMHints *startup_state;
-	EX_C_STRUCT exsize size;
+	EX_C_STRUCT ex_size size;
 	XSizeHints hints;
 
 	ExGetWindowSizev(window,&size);
@@ -390,5 +389,15 @@ DECLSPEC Int32 ELTAPIENTRY ExIsVendorNvidia(void){
 }
 DECLSPEC Int32 ELTAPIENTRY ExIsVendorIntel(void){
 	return strstr((const char*)glXGetClientString(display,GLX_VENDOR), "INTEL") ? TRUE : FALSE;
+}
+
+DECLSPEC ERESULT ELTAPIENTRY ExOpenGLSetVSync(ExBoolean enabled, ExWin window){
+    typedef void (*glXSwapIntervalEXTProc)(Display*, GLXDrawable drawable, int intervale);
+    glXSwapIntervalEXTProc glXSwapIntervalEXT = (glXSwapIntervalEXTProc)GL_GET_PROC((const GLubyte*)"glXSwapIntervalEXT");
+    if(glXSwapIntervalEXT){
+        glXSwapIntervalEXT(display, window, enabled);
+        return TRUE;
+    }
+    else return FALSE;
 }
 

@@ -18,11 +18,12 @@
 */
 #ifndef _EX_COMMON_H_
 #define _EX_COMMON_H_ 1
+#include"system/elt_win.h"
 #include"EngineAssembly.h"
 #include"ExAssert.h"
-#include"system/elt_win.h"
 
-#ifdef __cplusplus	// C++ Environment
+
+#ifdef  __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
 
@@ -42,19 +43,19 @@ extern DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName
 /**
 	Get System Primary Screen Size
 */
-extern DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(struct exsize* size);
+extern DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(ExSize* size);
 /**
 	Get System Monitor
 */
-extern DECLSPEC void ELTAPIENTRY ExGetMonitorSize(Uint32 index, struct exsize* size);
+extern DECLSPEC void ELTAPIENTRY ExGetMonitorSize(Uint32 index,ExSize* size);
 /*
 
 */
-extern DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenRect(struct exrect* rect);
+extern DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenRect(ExRect* rect);
 /*
 
 */
-extern DECLSPEC void ELTAPIENTRY ExGetMonitorRect(Uint32 index, struct exrect* rect);
+extern DECLSPEC void ELTAPIENTRY ExGetMonitorRect(Uint32 index, ExRect* rect);
 /**
 	// Get Monitor by Index Hz
 	@return
@@ -82,7 +83,7 @@ extern DECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct);
 	// Get Application Name
 	@return
 */
-extern DECLSPEC void ELTAPIENTRY ExGetApplicationName(ExChar* name,Int32 length);
+extern DECLSPEC ExChar* ELTAPIENTRY ExGetApplicationName(ExChar* name,Int32 length);
 
 
 
@@ -160,7 +161,7 @@ extern DECLSPEC ERESULT ELTAPIENTRY ExPutFTPFile(const ExChar* ftp, const ExChar
 */
 #define ExCopyVPTR(destination,source) {memcpy((void*)( destination ),(const void*) ( source ), sizeof(unsigned int));}
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef  __cplusplus	/* C++ Environment */
 }
 #endif
 #endif

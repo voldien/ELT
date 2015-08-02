@@ -19,7 +19,7 @@
 #ifndef _ELT_KEYCODE_H_
 #define _ELT_KEYCODE_H_ 1
 
-enum KeyCodes {
+enum ExKeyCodes {
     EXK_UNKNOWN = 0,
 
     EXK_RETURN = '\r',

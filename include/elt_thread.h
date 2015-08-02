@@ -27,7 +27,7 @@
 	#define ExSleep usleep
 #endif
 
-#ifdef  __cplusplus	// C++ Environment
+#ifdef  __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
 /**
@@ -36,6 +36,8 @@ extern "C"{
 #define EX_THREAD_PRIORITY_LOW 0x1
 #define EX_THREAD_PRIORITY_MEDIUM 0x2
 #define EX_THREAD_PRIORITY_HIGH 0x3
+
+
 /**
 	Create thread.
 	\callback function to invoke
@@ -53,8 +55,10 @@ extern DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callb
 	Detach thread
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread);
-/**
 
+
+/**
+	\thread is the thread of the current thread.
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExExitThread(ExThread thread);
 
@@ -100,7 +104,7 @@ extern DECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread,Enum nPr
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExWaitThread(ExThread thread, Int32* status);
 
-#ifdef  __cplusplus	// C++ Environment
+#ifdef  __cplusplus	/* C++ Environment */
 }
 #endif
 

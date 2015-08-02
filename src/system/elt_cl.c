@@ -44,6 +44,7 @@
 /**
 	OpenCL Error
 */
+
 #define ExIsCLError(x)  { if( ( x ) != CL_SUCCESS ){ ExDevPrintfc("Error | %s",EX_CONSOLE_RED,ExGetErrorMessage( ( x ) )); } }
 
 
@@ -51,6 +52,8 @@
 #define ELT_CL_CPU_INDEX(x) ((x & 0x0000ff00))
 
 
+
+/*	TODO remove these console macros!*/
 #define KNRM  "\x1B[0m"
 #define KRED  "\x1B[31m"
 #define KGRN  "\x1B[32m"
@@ -78,6 +81,10 @@
 #define EX_CONSOLE_LIGHT_YELLOW 0xE
 #define EX_CONSOLE_LIGHT_WHITE 0xF
 #define EX_CONSOLE_COLOR_RESET 0x10
+
+
+
+
 
 
 #if !(defined(EX_ANDROID) || defined(DONT_SUPPORT_OPENCL))  /*  TODO resolve this provisional approach to solve the problem*/
@@ -337,9 +344,11 @@ DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(void* context,void* param_value,En
 }
 
 DECLSPEC void ELTAPIENTRY ExReleaseCL(void){
-	if(hClContext)
-		if(clReleaseContext(hClContext) != CL_FALSE)
+	if(hClContext){
+		if(clReleaseContext(hClContext) != CL_FALSE){
 			ExDevPrint("Failed to release context.");
+		}
+	}
 }
 DECLSPEC void ELTAPIENTRY ExReleaseCLContext(void* context){
 	ExIsCLError(clReleaseContext((cl_context)context));

@@ -191,6 +191,8 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 	ERESULT hr = 0;
 	HANDLE hmodule;
+
+
 	if(ELT_INIT_VIDEO & engineflag){
         #ifdef EX_WINDOWS
 		/* Load OpenGL library*/
@@ -286,9 +288,7 @@ DECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag){
         #endif
 	}
 
-#ifndef DONT_SUPPORT_OPENCL
-	ExReleaseCL();
-#endif
+
 
 
 }
@@ -327,11 +327,16 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
     Linux
 */
 #elif defined(EX_LINUX)
+
+
+#ifndef DONT_SUPPORT_OPENCL
 	ExReleaseCL();
+#endif
+
+
 	ExDestroyContext(ExGetCurrentGLDrawable(), ExGetCurrentOpenGLContext());
 	eglTerminate(eglGetCurrentDisplay());
-	if(ExGetCurrentOpenGLContext())
-		ExDestroyContext(0,ExGetCurrentOpenGLContext());
+
     XFlush(display);
 	XCloseDisplay(display);
 
@@ -345,10 +350,10 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 /*
 	debug information
 */
-#ifdef EX_DEBUG || (EX_ENGINE_VERSION_MAJOR < 1)
+#if defined(EX_DEBUG) || (EX_ENGINE_VERSION_MAJOR < 1)
 	#if defined(EX_VC) || defined(EX_WINDOWS)
 
-	#elif defined(EX_UNIX)
+	#elif defined(EX_LINUX)
 	mi = mallinfo();
 	printf("Total non-mmapped bytes (arena):       %d\n", mi.arena);
 	printf("# of free chunks (ordblks):            %d\n", mi.ordblks);

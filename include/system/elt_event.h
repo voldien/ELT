@@ -21,12 +21,31 @@
 #include"./../ExNT.h"
 
 
-#ifdef  __cplusplus	// C++ Environment
+#ifdef  __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
-struct expoint{
+
+
+EX_ALIGN_PREFIX(4)
+typedef struct ex_point{
 	int x,y;
-};
+}ExPoint;
+
+EX_ALIGN_PREFIX(4)
+typedef struct ex_size{
+	unsigned int width;
+	unsigned int height;
+}ExSize;
+
+EX_ALIGN_PREFIX(4)
+typedef struct ex_rect{
+	int x;
+	int y;
+	int width;
+	int height;
+}ExRect;
+
+
 
 #define EX_EVENT_MOUSE 0x1
 #define EX_EVENT_KEY 0x2
@@ -45,32 +64,33 @@ struct expoint{
 #define EX_EVENT_WINDOW_MOVE 0x4000
 
 
+
+
+
+
+EX_ALIGN_PREFIX(4)
 typedef struct ex_system_event{
 	unsigned int message;		/**/
 }ExSystemEvent;
 
-typedef struct ex_size_event{
-	int width;					/**/
-	int height;					/**/
-}ExSizeEvent;
-
+EX_ALIGN_PREFIX(4)
 typedef struct ex_joy_stick_event{
 	Uint8 button[5];			/**/
 }ExJoyStickEvent;
-
+EX_ALIGN_PREFIX(4)
 typedef struct ex_joystick_move_event{
 	Uint32 x[3];				/**/
 }ExJoySticMoveEvent;
-
+EX_ALIGN_PREFIX(4)
 typedef struct ex_joystick_button_event{
-	Uint8 button[5];			/**/
+	Uint8 button[8];			/**/
 }ExJoySticButtonEvent;
-
+EX_ALIGN_PREFIX(4)
 typedef struct ex_mouse_move_event{
 	int x;						/**/
 	int y;						/**/
 }ExMouseMoveEvent;
-
+EX_ALIGN_PREFIX(4)
 typedef struct ex_mouse_motion_event{
 	int x;						/**/
 	int y;						/**/
@@ -81,12 +101,12 @@ typedef struct ex_mouse_motion_event{
 typedef struct elt_win_button_event{
 	Uint8 button;				/**/
 }ExWinButtonEvent;
-
+EX_ALIGN_PREFIX(4)
 typedef struct ex_mouse_wheel_event{
 	int delta;					/**/
 	int x,y;					/**/
 }ExMouseWheelEvent;
-
+EX_ALIGN_PREFIX(4)
 typedef struct ex_key_event{
 	Uint8 code;					/**/
 	Uint8 alt;					/**/
@@ -94,12 +114,13 @@ typedef struct ex_key_event{
 	Uint8 system;				/**/
 	Uint8 ctrl;					/**/
 }ExKeyEvent;
-
+EX_ALIGN_PREFIX(4)
 typedef struct ex_drop_event{
 	int number;
 	int cize;
 }ExDropEvent;
 
+EX_ALIGN_PREFIX(4)
 typedef struct ex_touch_finger_event{
     unsigned int type;          /*              */
     unsigned int touchid;       /*              */
@@ -112,15 +133,18 @@ typedef struct ex_touch_finger_event{
 }ExTouchFingerEvent;
 
 
+EX_ALIGN_PREFIX(4)
 typedef struct window_poll_events{
 	Enum event;                                     /*      */
 	ExKeyEvent key;                                 /*      */
-	ExSizeEvent size;                               /*      */
+	ExSize size;                               		/*      */
 	ExMouseMoveEvent mouse;                         /*      */
 	ExMouseWheelEvent mouseWheelEvent;              /*      */
-	ExWinButtonEvent button;        /*      */
-	EX_C_STRUCT ex_drop_event drop;                 /*      */
-	unsigned long int time;							/*			*/
+	ExWinButtonEvent button;        				/*      */
+	ExDropEvent drop;                 				/*      */
+	unsigned long int time;							/*		*/
+	void* display;									/*		*/
+	ExWin window;
 }ExWindowEvent;
 
 
@@ -133,7 +157,7 @@ typedef struct elt_poll_events{
 	ExWinButtonEvent button;    				/*          */
 	ExSystemEvent sys;                         	/*          */
 	ExDropEvent drop;            				/*          */
-	ExSizeEvent size;                          	/*          */
+	ExSize size;                          		/*          */
 	ExSystemEvent system;                      	/*          */
 	ExTouchFingerEvent touch;                  	/*          */
 	MouseMotionEvent motion;					/*			*/
@@ -141,6 +165,10 @@ typedef struct elt_poll_events{
 	void* display;								/*			*/
 	ExWin window;
 }ExEvent;
+
+
+
+
 /**
 	Poll Event from process.
 	\event
@@ -167,7 +195,11 @@ extern DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
 extern DECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event);
 
 
-#ifdef __cplusplus	// C++ Environment
+
+extern DECLSPEC Int32 ELTAPIENTRY ExForwardEvent(Uint32 event, HANDLE data, Uint32 size);
+
+
+#ifdef  __cplusplus	/* C++ Environment */
 }
 #endif
 #endif

@@ -19,6 +19,7 @@
 #ifndef _EX_PRE_PROCESSOR_H_
 #define _EX_PRE_PROCESSOR_H_ 1
 #include<stddef.h>
+#include<stdint.h>
 
 #ifdef __cplusplus
 	#include<cstdio>
@@ -470,7 +471,7 @@
 #if defined(EX_VC)
 	#define EX_INT_MAX_BITS _INTEGRAL_MAX_BITS
 #elif defined(EX_GNUC)
-	#define EX_INT_MAX_BITS 32
+	#define EX_INT_MAX_BITS _INTEGRAL_MAX_BITS
 #endif
 /**
 	Unused indication. // will make the compiler exclude it from the final binary.
@@ -570,7 +571,7 @@
 	#define EX_VERSION_MINOR 6
 #endif
 #ifndef EX_VERSION_REVISION
-	#define EX_VERSION_REVISION 10
+	#define EX_VERSION_REVISION 11
 #endif
 
 #define EX_ENGINE_PREALPHA EX_TEXT("pa")	        /* Pre alpha    */
@@ -583,7 +584,7 @@
 /*
 	ELT Version [8 bit major | 8 bit minor | 8 bit bugfix | 8 bit reserved ]
 */
-#define EX_ENGINE_VERSION ((EX_VERSION_MAJOR << 24) + (EX_VERSION_MINOR << 16) + (EX_VERSION_REVISION << 8) + 0)
+#define EX_ENGINE_VERSION ( (EX_VERSION_MAJOR << 16) | (EX_VERSION_MINOR << 8) | (EX_VERSION_REVISION << 0) )
 
 #if defined(EX_VC) && defined(EX_INTERNAL_DEVELOP_ENVIROMENT)
 	#pragma comment(linker,"/VERSION:"STR(EX_VERSION_MAJOR)"[."STR(EX_VERSION_MINOR)STR(EX_VERSION_REVISION)"]")

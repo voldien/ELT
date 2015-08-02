@@ -21,7 +21,7 @@
 #include"./../EngineAssembly.h"
 #include"elt_joystick.h"
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus /* C++ environment */
 extern "C"{
 #endif
 
@@ -42,7 +42,7 @@ extern DECLSPEC void ELTAPIENTRY ExGameControllerVibration(Int32 index, Int16 Le
 
 extern DECLSPEC void ELTAPIENTRY ExGameControllerBattery(Int32 index,Int32 );
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus /* C++ environment */
 }
 #endif
 #endif

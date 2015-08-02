@@ -36,7 +36,6 @@
 #define _IN_		// Header Comments Value will
 #define _OUT_		// Header Comments Value will return ou
 #define _INOUT_ 	// Header Will Input a Value as well return.
-//
 
 /*
 	Type declaration
@@ -129,15 +128,12 @@ typedef Uint8 ExBoolean;
 
 #endif
 
-#if !defined(EX_WIN32)
-typedef void* HANDLE;
+#ifndef EX_WIN32
+	typedef void* HANDLE;
 #endif
-#ifdef EX_WINDOWS
-//typedef __success(return >= 0) long ERESULT;
+
 typedef long ERESULT;
-#else
-typedef long ERESULT;
-#endif
+
 /**
     ELT Character data type
 */
@@ -167,23 +163,23 @@ typedef union doubleUnion{
 
 
 /**
-	// 16 bits high and low value
+	16 bits high and low value
 */
 #define EX_MAKEHIWORD(a,b)   {a = ( ( a ) | (( ( b ) << 8) & 0xff00));}
 #define EX_MAKELOWORD(a,b)	  {a = ( ( a )  | ( ( b ) & 0x00ff));}
 /**
-	// 32 bits
+	32 bits
 */
 #define EX_MAKEHIDWORD(a,b)	{a = ( ( a ) | (( ( b ) << 16) & 0xffff0000));}
 #define EX_MAKELODWORD(a,b)	{a = ( ( a ) | ( ( b ) & 0x0000ffff));}
 /**
-	// 64 bits
+	64 bits
 */
 #define EX_MAKEHIQWORD(a,b)	{a = ( ( a ) | (( ( b ) << 32) & 0xffffffff00000000));}
 #define EX_MAKELOQWORD(a,b) {a = ( ( a ) | ( ( b ) & 0xffffffff00000000));}
 
 /**
-	// 128 bits high and low value
+	128 bits high and low value
 */
 #define MAKEHIDQWORD(a,b)
 #define MAKELODQWORD(a,b)
@@ -208,38 +204,27 @@ typedef union doubleUnion{
 #define EX_DECLARE_HANDLE(name) struct name##__{int unused;}; typedef struct name##__ *name
 #endif
 
-/**
-	// platform specific type
+/*
+	platform specific type
 */
+typedef void* ExWin;
+typedef void* OpenGLContext;
+typedef void* ExOpenGLContext;
+typedef void* OpenCLContext;
+typedef void* ExOpenCLContext;
+typedef void* WindowContext;
+
 #ifdef EX_WINDOWS
-	typedef void* ExWin;
-	typedef void* OpenGLContext;
-	typedef void* OpenCLContext;
-	typedef void* WindowContext;
+
 	#define THREAD_CALLBACK __stdcall
 #elif defined(EX_LINUX) && defined(GLX_H)
-	typedef void* ExWin;
-	typedef void* OpenGLContext;
-	typedef void* OpenCLContext;
-	typedef void* WindowContext;
 	#define THREAD_CALLBACK //__cdecl
 #elif defined(EX_ANDROID)
-	typedef void* ExWin;
-	typedef void* OpenGLContext;
-	typedef void* OpenCLContext;
-	typedef void* WindowContext;
 	#define THREAD_CALLBACK //__cdecl
 #elif defined(EX_MAC)
-	typedef void* ExWin;
-	typedef void* OpenGLContext;
-	typedef void* OpenCLContext;
-	typedef void* WindowContext;
 	#define THREAD_CALLBACK __cdecl
 #else
-	typedef void* ExWin;
-	typedef void* OpenGLContext;
-	typedef void* OpenCLContext;
-	typedef void* WindowContext;
+
 	#define THREAD_CALLBACK __cdecl
 #endif
 

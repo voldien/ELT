@@ -111,7 +111,7 @@
  | ELT_INIT_TIMER | ELT_INIT_GAMECONTROLLER | ELT_INIT_EVENTS)
 
 
-#ifdef __cplusplus	 // C++ environment
+#ifdef  __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
 
@@ -137,7 +137,7 @@ extern DECLSPEC int ExGetf(Enum Enum);
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length);
 
 
-#ifdef __cplusplus
+#ifdef  __cplusplus	/* C++ Environment */
 }
 #endif
 #include"elt_timer.h"

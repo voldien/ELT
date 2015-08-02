@@ -38,7 +38,7 @@ typedef vec_t vec2x2_t[2][2];
 typedef struct vec2x2_s{float m11,m21,m31,m41,m12,m22,m32,m42,m13,m23,m33,m43,m14,m24,m34,m44;}mat2;
 #define vec2x2 ALIGN(4) vec2x2_t
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus /* C++ environment */
 extern "C"{
 #endif
 
@@ -96,7 +96,7 @@ extern void mat4x4_orth(vec4x4_t f_mat4,float f_right, float f_left, float f_top
 extern int mat4x4_unproj(float winx, float winy, float winz,const vec4x4_t projection,const vec4x4_t modelview,const int* viewport,vec3_t pos);
 
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus /* C++ environment */
 }
 #endif
 

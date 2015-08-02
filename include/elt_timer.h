@@ -34,7 +34,7 @@
 #define ExGetCurrentTimeHiRes clock
 #define EX_TICKS_PER_SECOND CLOCKS_PER_SEC
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef  __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
 
@@ -86,7 +86,7 @@ extern DECLSPEC long int ELTAPIENTRY ExGetHiResTime(void);
 #define ExGetSecondsf ((float)ExGetTicks() / (float)EX_TICKS_PER_SECOND)
 
 
-#ifdef  __cplusplus	// C++ Environment
+#ifdef  __cplusplus	/* C++ Environment */
 }
 #endif
 #endif

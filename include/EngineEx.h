@@ -23,7 +23,7 @@
 
 
 
-#ifdef __cplusplus // C++ environment
+#ifdef  __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
 
@@ -78,10 +78,7 @@ extern DECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void);
 */
 extern DECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void);
 
-
-
-extern char* Developer;
-#ifdef __cplusplus // C++ environment
+#ifdef  __cplusplus	/* C++ Environment */
 }
 #endif
 #endif

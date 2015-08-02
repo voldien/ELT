@@ -10,7 +10,7 @@ Copyright (C) 2014 BroodCity Software, Inc. Voldemor2009@hotmail.com
 #ifdef EX_WINDOWS
 
 
-#ifdef __cplusplus // C++ environment
+#ifdef  __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
 
@@ -187,7 +187,7 @@ extern DECLSPEC ExWin ELTAPIENTRY ExSetStaticControlBitMap(ExWin staticControl, 
 */
 extern DECLSPEC ExWin ELTAPIENTRY ExCreatePropertySheet(ExWin parenthWnd);
 
-#ifdef __cplusplus // C++ environment
+#ifdef  __cplusplus	/* C++ Environment */
 }
 #endif
 

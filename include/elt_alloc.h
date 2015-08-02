@@ -27,7 +27,7 @@
 #define ExReAlloc realloc
 #define ExFree(p_pointer) {free(p_pointer);p_pointer = NULL;}
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef  __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
 

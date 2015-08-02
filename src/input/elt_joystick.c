@@ -63,13 +63,13 @@ DECLSPEC void* ELTAPIENTRY ExJoystickOpen(Int32 device_index){
 	return joy_id[device_index];
 #endif
 }
+
 DECLSPEC int ELTAPIENTRY ExJoyStickClose(Int32 device_index){
     #ifdef EX_WINDOWS
 
 	return 0;
     #elif defined(EX_LINUX)
     close(joy_id[device_index]);
-
     #endif // EX_WINDOWS
 }
 

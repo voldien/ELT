@@ -620,3 +620,15 @@ DECLSPEC Int32 ELTAPIFASTENTRY ExMaxTextureUints(void){
 }
 
 */
+
+
+DECLSPEC ERESULT ELTAPIENTRY ExOpenGLSetVSync(ExBoolean enabled, ExWin window){
+	WGLSWAPINTERVALEXT_T wglSwapIntervalEXT = (WGLSWAPINTERVALEXT_T)GL_GET_PROC("wglSwapIntervalEXT");
+    if(wglSwapIntervalEXT){
+        glXSwapIntervalEXT( enabled);
+        return TRUE;
+    }
+    else return FALSE;
+}
+
+

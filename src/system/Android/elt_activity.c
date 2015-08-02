@@ -10,6 +10,10 @@
 #include <android/configuration.h>
 #include <EGL/egl.h>
 #include <jni.h>
+#include <android/sensor.h>
+#include <android/log.h>
+#include <android_native_app_glue.h>
+
 
 /**
 	entry point for normal application to be found here.
@@ -116,24 +120,25 @@ static void onSaveInstanceState(ANativeActivity* activity, size_t* outlen){
 
 }
 
-static void  onLowMemory(ANativeActivity* activity){
+static void onLowMemory(ANativeActivity* activity){
 
 
 }
 
 
 void android_main(struct android_app* app) {
+	printf("entering main.\n");
     //ex_app = app;
-    //app_dummy();
-   // ANativeActivity_onCreate(app->activity, app->savedState, app->saveStateSize);
+    app_dummy();
+    ANativeActivity_onCreate(app->activity, app->savedState, app->savedStateSize);
 }
 
 /**
     entry point for Native Android.
 */
 void ANativeActivity_onCreate(ANativeActivity* activity, void* saveState, size_t saveStateSize){
-
-     elt_activity = activity;
+	ExThread main;
+	elt_activity = activity;
 
     /**
         callbacks
@@ -164,9 +169,10 @@ void ANativeActivity_onCreate(ANativeActivity* activity, void* saveState, size_t
 
     eglInitialize(eglGetDisplay(EGL_DEFAULT_DISPLAY),NULL,NULL);
 
-    /*  create the main thread  */
-    ExCreateThread(elt_main,0,0);
 
+    /*  create the main thread  */
+    main = ExCreateThread(elt_main,0,0);
+    ExWaitThread(main,NULL);
 
     ExDelay(1000);
 

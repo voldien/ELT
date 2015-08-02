@@ -197,6 +197,9 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 		case LASTEvent:
 			event->event = 0;
 			return FALSE;
+		default:
+			event->event |= msg.type;
+			break;
 		}
 		event->time = ExGetHiResTime();
 		event->window = msg.xany.window;
@@ -341,3 +344,17 @@ DECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event)
 #elif defined(EX_ANDROID)
 #endif
 }
+
+
+
+
+
+
+DECLSPEC Int32 ELTAPIENTRY ExForwardEvent(Uint32 event, HANDLE data, Uint32 size){
+#ifdef EX_LINUX
+	XSendEvent(display,0,True,event,data);
+#endif
+
+}
+
+

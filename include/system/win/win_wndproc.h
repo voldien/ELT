@@ -26,7 +26,7 @@
 */
 #define WM_USER_SIZE (WM_USER + 1)
 
-#ifdef __cplusplus // C++ environment
+#ifdef  __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
 /**
@@ -78,7 +78,7 @@ extern DECLSPEC LRESULT CALLBACK DefViewWindowProc(ExWin hwnd, UINT message, WPA
 extern DECLSPEC LRESULT CALLBACK ListViewWindowProc(ExWin hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 
-#ifdef __cplusplus /* C++ environment */
+#ifdef  __cplusplus	/* C++ Environment */
 }
 #endif
 

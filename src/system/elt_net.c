@@ -252,9 +252,10 @@ DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int p
          server->h_length);
     serv_addr.sin_port = htons(port);
 
-    if(connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0)
+    if(connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0){
         fprintf(stderr,strerror(errno));
-
+        return 0;
+    }
     return sockfd;
     #endif
 }

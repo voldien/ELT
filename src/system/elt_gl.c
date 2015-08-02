@@ -13,7 +13,10 @@
     #include<X11/Xatom.h>
     #include<X11/keysym.h>
 	#include<GL/glx.h>
+
 	#include"system/unix/unix_win.h"
+
+
 
    #define GL_GET_PROC(x) glXGetProcAddress( ( x ) )           /**  get OpenGL function process address */
 #elif defined(EX_ANDROID)
@@ -21,6 +24,8 @@
     #include<jni.h>
     #include<android/native_activity.h>
 	#include<EGL/egl.h>
+	#include<EGL/eglext.h>
+	#define GL_ES_VERSION_2_0 1
 
 	extern EGLDisplay eglDisplay;
 #define GL_GET_PROC(x)  eglGetProcAddress(x)                                      /* * get OpenGL function process address */
@@ -41,14 +46,14 @@
 
 
 
-#ifdef GL_ES_VERSION_3_0
+#if defined(GL_ES_VERSION_3_0)
 	#include<GLES3/gl3.h>
-	#include<GLES3/gl3ext.h>
-	#include<GLES3/gl3platform.h>
+	//#include<GLES3/gl3ext.h>
+	//#include<GLES3/gl3platform.h>
 #elif defined(GL_ES_VERSION_2_0)
 	#include<GLES2/gl2.h>
-	#include<GLES2/gl2ext.h>
-	#include<GLES2/gl2platform.h>
+	//#include<GLES2/gl2ext.h>
+	//#include<GLES2/gl2platform.h>
 #elif defined(GL_ES_VERSION_1_0)
 	#include<GLES/gl.h>
 	#include<GLES/glext.h>
@@ -96,9 +101,8 @@ DECLSPEC inline ExWin ELTAPIENTRY ExGetOpenGLContextWindow(OpenGLContext glc){
 	return eglGetCurrentSurface(NULL);
 #endif
 }
-/**
-    Get Drawable
-*/
+
+
 DECLSPEC inline WindowContext ELTAPIFASTENTRY ExGetCurrentGLDC(void){
 #ifdef EX_WINDOWS
 	return wglGetCurrentDC();
@@ -125,13 +129,13 @@ DECLSPEC inline OpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void){
 
 
 
-DECLSPEC inline void ELTAPIENTRY ExMakeGLCurrent(WindowContext drawable, OpenGLContext glc){
+DECLSPEC inline int ELTAPIENTRY ExMakeGLCurrent(WindowContext drawable, OpenGLContext glc){
 #ifdef EX_WINDOWS
-	ExIsWinError(wglMakeCurrent(drawable,glc));
+	return wglMakeCurrent(drawable,glc);
 #elif defined(EX_LINUX)
-	glXMakeCurrent(display,(GLXDrawable)drawable,(OpenGLContext)glc);
+	return glXMakeCurrent(display,(GLXDrawable)drawable,(OpenGLContext)glc);
 #elif defined(EX_ANDROID)
-	eglMakeCurrent(eglDisplay, drawable, drawable, glc);
+	return eglMakeCurrent(eglDisplay, drawable, drawable, glc);
 #endif
 }
 
@@ -144,38 +148,22 @@ DECLSPEC inline void ELTAPIENTRY ExMakeGLCurrent(WindowContext drawable, OpenGLC
 
 DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 	int value;
+
+
 #if (EX_ENGINE_VERSION_MAJOR < 1 )
-#ifdef EX_WINDOWS
-
-	/*
-		WGLSWAPINTERVALEXT_T wglSwapIntervalEXT = (WGLSWAPINTERVALEXT_T)GL_GET_PROC("wglSwapIntervalEXT");
-
-		ExWin hWnd;	// Window
-		RECT rect;	// client Rect
-		hWnd = WindowFromDC(wglGetCurrentDC());
-		GetClientRect(hWnd,&rect);
-		// v-sync
-		wglSwapIntervalEXT((engineDescription.EngineFlag & ENGINE_SUPPORT_VSYNC));
-		// gl Viewport
-		glViewport(0,0,rect.right - rect.left,rect.bottom - rect.top);
-	*/
-#elif defined(EX_LINUX)
-    typedef void (*glXSwapIntervalEXTProc)(Display*, GLXDrawable drawable, int intervale);
-    glXSwapIntervalEXTProc glXSwapIntervalEXT = (glXSwapIntervalEXTProc)GL_GET_PROC((const GLubyte*)"glXSwapIntervalEXT");
-    if(glXSwapIntervalEXT)
-        glXSwapIntervalEXT(display, (GLXDrawable)ExGetCurrentGLDC(), 0);
-#elif defined(EX_ANDROID)
-
+	//ExOpenGLSetVSync(0,ExGetCurrentGLDrawable());
 #endif
-#endif
+
+
     int sampleSupport;
 	// depth
 	//glClearDepth(1.0f);
 	// color mask
+#if  !( defined(EX_ANDROID) ^ defined(EX_PNACL) )
 	glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
 
 
-#if  !( defined(EX_ANDROID) ^ defined(EX_PNACL) )
+
 	if(ExOpenGLGetAttribute(EX_OPENGL_ALPHA_SIZE,&value) > 0)
 		glEnable(GL_ALPHA_TEST);
 	else glDisable(GL_ALPHA_TEST);
@@ -191,7 +179,7 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-#endif
+
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
@@ -202,6 +190,8 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_FRONT);
 	glFrontFace(GL_CW);
+
+#endif
 	glClearColor(0.0f,0.0f,0.0f,1.0f);
 }
 

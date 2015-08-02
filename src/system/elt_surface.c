@@ -60,7 +60,7 @@ DECLSPEC int ExSetSurfacePixel(void* handle, unsigned int x, unsigned int y, lon
 #endif
 }
 
-DECLSPEC int ExFillRect(void* handle,struct exrect* rect, unsigned int  color){
+DECLSPEC int ExFillRect(void* handle,struct ex_rect* rect, unsigned int  color){
 #ifdef EX_WINDOWS
 
 #elif defined(EX_LINUX)
