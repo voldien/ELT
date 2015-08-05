@@ -75,9 +75,9 @@ extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void);
 /**
 	@return
 */
-extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(const Uint32 keyCode);
-extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(const Uint32 keyCode);
-extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyReleased(const Uint32 keyCode);
+extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(Uint32 keyCode);
+extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode);
+extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyReleased(Uint32 keyCode);
 
 
 
