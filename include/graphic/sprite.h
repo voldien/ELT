@@ -38,7 +38,7 @@ typedef struct sprite_batch{
 	unsigned int num;					/**/
 	unsigned int numDraw;				/**/
 	unsigned int vbo;					/**/
-	ShaderHeader shader;				/**/
+	ExShader shader;				/**/
 	int numTexture;
 	int numMaxTextures;
 	ExTexture* texture[32];
@@ -61,7 +61,7 @@ extern DECLSPEC int ELTAPIENTRY ExBeginSpriteBatch(ExSpriteBatch* spriteBatch,fl
 extern DECLSPEC int ELTAPIENTRY ExEndSpriteBatch(ExSpriteBatch* spriteBatch);
 
 
-extern DECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* spritebatch,ExTexture* texture,float* position,float* rect,float scale, float angle, float depth);
+extern DECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* spritebatch,ExTexture* texture,float* position,float* rect,float* color, float scale, float angle, float depth);
 
 
 extern DECLSPEC int ELTAPIENTRY ExDrawSpriteNormalize(ExSpriteBatch* spritebatch,ExTexture* texture,float* position,float* rect,float* color, float scale, float angle, float depth);

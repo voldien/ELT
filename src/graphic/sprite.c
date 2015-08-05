@@ -1,6 +1,7 @@
 #include"graphic/sprite.h"
 #include"graphic/geometry.h"
 #include"math/vect.h"
+
 #ifdef GL_ES_VERSION_3_0
 	#include<GLES3/gl3.h>
 	#include<GLES3/gl3ext.h>
@@ -22,17 +23,25 @@
 
 DECLSPEC ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* batch){
 	int x;
-	int texture[64] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+	int texture[256];
+	if(!batch)
+		return NULL;
+
 	/*	*/
 	batch->vbo = ExCreateVBO(GL_ARRAY_BUFFER, ExGetPageSize() * sizeof(ExSprite) * 10, GL_DYNAMIC_DRAW);
 	batch->num = ExGetPageSize() * 10;
 	batch->sprite = malloc(batch->num * sizeof(ExSprite));
 	glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS,&batch->numMaxTextures);
+	for(x = 0; x < batch->numMaxTextures; x++){
+		texture[x] = x;
+
+		continue;
+	}
 
 	if(!ExLoadShaderv(&batch->shader,EX_VERTEX_SPRITE, EX_FRAGMENT_SPRITE,NULL, NULL, NULL)){
 		/*	failure	*/
-		//ExReleaseSpriteBatch(batch);
-		//return NULL;
+		ExReleaseSpriteBatch(batch);
+		return NULL;
 	}
 
 	glUniform1iv(glGetUniformLocation(batch->shader.program,"texture"),sizeof(texture) / sizeof(texture[0]),texture);
@@ -84,6 +93,7 @@ DECLSPEC int ELTAPIENTRY ExBeginSpriteBatch(ExSpriteBatch* spriteBatch,float* ca
 
 	return TRUE;
 }
+
 DECLSPEC int ELTAPIENTRY ExEndSpriteBatch(ExSpriteBatch* spriteBatch){
 
 	/*	send buffer	*/
@@ -95,16 +105,15 @@ DECLSPEC int ELTAPIENTRY ExEndSpriteBatch(ExSpriteBatch* spriteBatch){
 	return 1;
 }
 
-DECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* batch, ExTexture* texture,float* position,float* rect, float scale, float angle, float depth){
+DECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* batch,ExTexture* texture,float* position,float* rect,float* color, float scale, float angle, float depth){
 	ExTexture* tex;
 	int i;
 	int index;
-	unsigned int numDraw = batch->numDraw;
-
+	register unsigned int numDraw;	/*TODO I'm not sure if this will actually improve performance.*/
+	numDraw = batch->numDraw;
 
 	batch->sprite[numDraw].pos[0] = 2.0f * ( (position[0] ) / (float)batch->width) - 1.0f  + ( ((float)texture->width  ) / ((float)batch->width) );
 	batch->sprite[numDraw].pos[1] = 2.0f * ( (-position[1] ) / (float)batch->height) + 1.0f  - ( ((float)texture->height  ) / ((float)batch->height) );
-
 
 	//batch->sprite[batch->numDraw].pos[0] = 2.0f * ( (position[0] ) / (float)batch->width) - 1.0f;
 	//batch->sprite[batch->numDraw].pos[1] = 2.0f * ( (-position[1] ) / (float)batch->height) + 1.0f;
@@ -123,6 +132,18 @@ DECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* batch, ExTexture* texture,f
 		batch->sprite[numDraw].rect[1] = 0.0f;
 		batch->sprite[numDraw].rect[2] = 1.0f;
 		batch->sprite[numDraw].rect[3] = 1.0f;
+	}
+	if(color){
+		batch->sprite[numDraw].color[0] = color[0];
+		batch->sprite[numDraw].color[1] = color[1];
+		batch->sprite[numDraw].color[2] = color[2];
+		batch->sprite[numDraw].color[3] = color[3];
+	}
+	else{
+		batch->sprite[numDraw].color[0] = 1.0f;
+		batch->sprite[numDraw].color[1] = 1.0f;
+		batch->sprite[numDraw].color[2] = 1.0f;
+		batch->sprite[numDraw].color[3] = 1.0f;
 	}
 	batch->sprite[numDraw].angle = angle;
 	batch->sprite[numDraw].scale = scale;
@@ -288,6 +309,8 @@ DECLSPEC int ELTAPIENTRY ExRemoveSprite(ExSpriteBatch* spritebatch,int index){
 
 DECLSPEC inline  int ELTAPIENTRY ExDisplaySprite(ExSpriteBatch* spriteBatch){
 	int i;
+
+	glBindBuffer(GL_ARRAY_BUFFER,spriteBatch->vbo);
 
 	for(i = 0; i < spriteBatch->numTexture; i++){
 		glActiveTexture(GL_TEXTURE0 + i);

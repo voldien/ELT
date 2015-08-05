@@ -38,7 +38,7 @@ int ExGetShaderProgramSize(unsigned int program){
 	return fsize;
 }
 
-int ExLoadShader(ShaderHeader* shad,const char* cvertexfilename, const char* cfragmentfilename, const char* cgeometryfilename, const char* ctesscfilename, const char* ctessefilename){
+int ExLoadShader(ExShader* shad,const char* cvertexfilename, const char* cfragmentfilename, const char* cgeometryfilename, const char* ctesscfilename, const char* ctessefilename){
 	char* v_source;
 	char* f_source;
 	char* g_source;
@@ -81,7 +81,7 @@ int ExLoadShader(ShaderHeader* shad,const char* cvertexfilename, const char* cfr
 #endif
 	return 1;
 }
-int ExLoadShaderv(ShaderHeader* shad, const char* cvertexSource,const char* cfragmentSource,const char* cgeometrySource,const char* ctessCSource, const char* ctessESource){
+int ExLoadShaderv(ExShader* shad, const char* cvertexSource,const char* cfragmentSource,const char* cgeometrySource,const char* ctessCSource, const char* ctessESource){
 	if(!shad)
 		return 0;
 	shad->program = glCreateProgram();
@@ -116,7 +116,7 @@ int ExLoadShaderv(ShaderHeader* shad, const char* cvertexSource,const char* cfra
 }
 
 
-int ExDeleteShaderProgram(ShaderHeader* header){
+int ExDeleteShaderProgram(ExShader* header){
 	glDeleteProgram(header->program);
 	glDeleteShader(header->ver);
 	glDeleteShader(header->fra);

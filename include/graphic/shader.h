@@ -19,7 +19,8 @@
 #ifndef _ELT_SHADER_H_
 #define _ELT_SHADER_H_ 1
 #include<stdio.h>
-typedef struct shader_header{
+
+typedef struct ex_shader{
 	unsigned int ver;
 	unsigned int fra;
 	unsigned int geo;
@@ -27,7 +28,7 @@ typedef struct shader_header{
 	unsigned int tese;
 	unsigned int program;
 	unsigned int flag;
-}ShaderHeader;
+}ExShader,ShaderHeaderr;
 #ifdef __cplusplus	/* C++ environment	*/
 extern "C"{
 #endif 
@@ -39,12 +40,12 @@ extern int ExGetShaderProgramSize(unsigned int program);
 extern int ExGetShaderSourceSize(unsigned int shader);
 /*
  */
-extern int ExLoadShader(ShaderHeader* shad,const char* cvertexfilename, const char* cfragmentfilename, const char* cgeometryfilename, const char* ctesscfilename, const char* ctessefilename);
+extern int ExLoadShader(ExShader* shad,const char* cvertexfilename, const char* cfragmentfilename, const char* cgeometryfilename, const char* ctesscfilename, const char* ctessefilename);
 /*
  */
-extern int ExLoadShaderv(ShaderHeader* shad, const char* cvertexSource,const char* cfragmentSource,const char* cgeometry_source,const char* ctess_c_source, const char* ctess_e_source);
+extern int ExLoadShaderv(ExShader* shad, const char* cvertexSource,const char* cfragmentSource,const char* cgeometry_source,const char* ctess_c_source, const char* ctess_e_source);
 
-extern int ExDeleteShaderProgram(ShaderHeader* header);
+extern int ExDeleteShaderProgram(ExShader* header);
 
 extern int ExCompileShaderSource(const char* strPath,char** source, unsigned int flag);
 
@@ -143,7 +144,7 @@ void main(void){
 //#extension GL_EXT_gpu_shader4 : enable
 
 #define EX_VERTEX_SPRITE	""						\
-"#version 330\n"									\
+"#version 420\n"									\
 "#extension GL_EXT_gpu_shader4 : enable\n"			\
 "#ifdef GL_ES\n"									\
 "precision mediump float;\n"						\
@@ -159,6 +160,7 @@ void main(void){
 "out vec4 frect;\n"													\
 "out mat2 coord;\n"													\
 "out int ftexture;\n"												\
+"out vec4 fcolor;\n"												\
 "void main(void){\n"												\
 "	float sin_theta = sin(angle);\n"								\
 "	float cos_theta = cos(angle);\n"								\
@@ -171,13 +173,14 @@ void main(void){
 "	fangle = angle;\n"								\
 "	frect = rect;\n"								\
 "	ftexture = tex;\n"								\
+"	fcolor = color;\n"								\
 "}\n"
 
 
 
 
 #define EX_FRAGMENT_SPRITE ""								\
-"#version 330\n"											\
+"#version 420\n"											\
 "#ifdef GL_ES\n"											\
 "precision mediump float;\n"								\
 "#endif\n"													\
@@ -187,11 +190,12 @@ void main(void){
 "in float fangle;\n"										\
 "in int ftexture;\n"										\
 "in mat2 coord;\n"											\
+"in vec4 fcolor;\n"											\
 "void main(void){\n"										\
 "	float texwidth = float(textureSize(texture[0],0).x);\n"			\
 "	float texheight = float(textureSize(texture[0],0).y);\n"			\
 "	vec2 fragscale = vec2(clamp( texheight / texwidth ,1.0,10.0 ) , clamp( texwidth / texheight ,1.0,10.0) );\n"														\
-"	fragColor = texture2D(texture[0],frect.xy  + ((vec2(1.0) - frect.zw) / 2) * vec2(-1,1)  + vec2(0.5) + coord * ((gl_PointCoord - vec2(0.5) ) * frect.zw * fragscale.xy));\n"		\
+"	fragColor = texture2D(texture[0],frect.xy  + ((vec2(1.0) - frect.zw) / 2) * vec2(-1,1)  + vec2(0.5) + coord * ((gl_PointCoord - vec2(0.5) ) * frect.zw * fragscale.xy)) * fcolor;\n"		\
 "	//fragColor.rg += (frect.xy  + vec2(0.5) + coord * ((gl_PointCoord - vec2(0.5) ) * frect.zw * fragscale.xy)).xy;\n"		\
 "	//fragColor.a = 1.0;\n"									\
 "}\n"														\

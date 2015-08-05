@@ -34,6 +34,7 @@ typedef struct ex_frame_buffer{
 extern ExFrameBuffer* ExCreateRenderTexture2D(ExFrameBuffer* texture,unsigned int width, unsigned int height,unsigned int attachment);
 extern ExFrameBuffer* ExCreateRenderTexture3D(ExFrameBuffer* texture,unsigned int width, unsigned int height,unsigned int attachment);
 
+extern void ExDestroyRenderTexture(ExFrameBuffer* texture);
 
 
 
