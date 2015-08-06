@@ -31,11 +31,6 @@
 extern "C"{
 #endif
 
-/**
-	Get CL context
-	@return
-*/
-extern DECLSPEC OpenCLContext ELTAPIFASTENTRY ExGetCLContext(void);
 
 /**
 	Get current cl context
@@ -54,10 +49,7 @@ extern DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLContext(Enum eEnumFlag);
 	@return
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(OpenCLContext context,void* param_value,Enum param_name);
-/*
-	Release Current CL Context
-*/
-extern DECLSPEC void ELTAPIENTRY ExReleaseCL(void);
+
 /*
 	Release CL Context
 */

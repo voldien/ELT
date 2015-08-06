@@ -110,7 +110,7 @@ static char* get_device_extension(cl_device_id device){
 /*
 
 */
-static inline void loadOpenClLibrary(void){
+static void loadOpenClLibrary(void){
     if(!ExIsModuleLoaded(OPENCL_LIBRARY_NAME))
         #ifdef EX_LINUX
         ExLoadLibrary(OPENCL_LIBRARY_NAME);
@@ -121,8 +121,6 @@ static inline void loadOpenClLibrary(void){
         #endif
 }
 
-
-DECLSPEC OpenCLContext ELTAPIFASTENTRY ExGetCLContext(void){return hClContext;}
 
 DECLSPEC OpenCLContext ELTAPIFASTENTRY ExGetCurrentCLContext(void){return hClContext;}
 
@@ -203,44 +201,47 @@ DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, Wi
     TODO check if needed or logic is accepted*/
     loadOpenClLibrary();
 
-    /*Get platform id	*/
+    /*Get platform ID	*/
 	if(ExGetCLPlatformID(&cpPlatform,flag) != TRUE){
 		return NULL;
 	}
-    // Get Device ID
+
+    /* Get Device ID from GPU	*/
     if(!(ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_GPU, 0, NULL, &uiDevCount))){
         // create OpenCL Devices on the GPU
         cdDevices = (cl_device_id*)malloc(sizeof(cl_device_id) *uiDevCount);
         ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_GPU, uiDevCount, cdDevices, NULL);
         size+=uiDevCount;
     }
-    // if gpu failure. check CPU
+
+    /* Get Device ID from CPU	*/
     else if(!(ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_CPU, 0, NULL, &uiDevCount))){
         // create OpenCL Devices on the CPU
         cdDevices = (cl_device_id*)realloc(cdDevices, size  + sizeof(cl_device_id) *uiDevCount);
-        ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_CPU, uiDevCount, cdDevices + size * sizeof(cl_device_id), NULL);
+        ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_CPU, uiDevCount, &cdDevices[size] , NULL);
     }
 
-    /**
-        Check witch device support gl sharing TODO add for DIRECTX
-    */
+
+
+    /*	Check witch device support gl sharing TODO add for DIRECTX	*/
 #ifdef _DIRECTX
 
 #endif
     for(i = 0; i < uiDevCount; i++){
         extension = get_device_extension(cdDevices[i]);
         if(strstr(extension,GL_SHARING_EXTENSION)){
-
+        	/*	found shareable context*/
+        	uiDeviceUsed = i;
         }else{
             size--;
         }
         free(extension);
     }
-    //if(clGetDeviceInfo(cdDevices[0],CL_DEVICE_EXTENSIONS,))
 
-    // print developing info of the CL
+
+
     ExPrintCLDevInfo(0, &cdDevices[uiDeviceUsed]);
-    uiDeviceUsed = CLAMP(uiDeviceUsed, 0, uiDevCount - 1);
+
 
 #ifdef EX_WINDOWS
     /*  get Device Context*/
@@ -248,7 +249,7 @@ DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, Wi
         window = ExGetCurrentGLDC();
 #endif
 
-    /**
+    /*
         Context Properties
     */
     cl_context_properties props[] = {
@@ -343,13 +344,8 @@ DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(void* context,void* param_value,En
     return ciErrNum;
 }
 
-DECLSPEC void ELTAPIENTRY ExReleaseCL(void){
-	if(hClContext){
-		if(clReleaseContext(hClContext) != CL_FALSE){
-			ExDevPrint("Failed to release context.");
-		}
-	}
-}
+
+
 DECLSPEC void ELTAPIENTRY ExReleaseCLContext(void* context){
 	ExIsCLError(clReleaseContext((cl_context)context));
 }
