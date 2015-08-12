@@ -45,8 +45,14 @@ typedef struct sprite_batch{
 	ExSprite* sprite;
 	float scale;
 	float cameraPos[2];
+	float rotation;
 	unsigned int width;
 	unsigned int height;
+
+	float viewmatrix[3][3];
+	int locationViewMatrix;
+	int locationScale;
+	int locationTexture;
 
 }ExSpriteBatch;
 

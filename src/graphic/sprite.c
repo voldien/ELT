@@ -1,6 +1,7 @@
 #include"graphic/sprite.h"
 #include"graphic/geometry.h"
 #include"math/vect.h"
+#include"math/matrix.h"
 
 #ifdef GL_ES_VERSION_3_0
 	#include<GLES3/gl3.h>
@@ -31,6 +32,8 @@ DECLSPEC ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* batch){
 	batch->vbo = ExCreateVBO(GL_ARRAY_BUFFER, ExGetPageSize() * sizeof(ExSprite) * 10, GL_DYNAMIC_DRAW);
 	batch->num = ExGetPageSize() * 10;
 	batch->sprite = malloc(batch->num * sizeof(ExSprite));
+	batch->scale = 1.0f;
+
 	glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS,&batch->numMaxTextures);
 	for(x = 0; x < batch->numMaxTextures; x++){
 		texture[x] = x;
@@ -38,14 +41,22 @@ DECLSPEC ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* batch){
 		continue;
 	}
 
+
 	if(!ExLoadShaderv(&batch->shader,EX_VERTEX_SPRITE, EX_FRAGMENT_SPRITE,NULL, NULL, NULL)){
 		/*	failure	*/
 		ExReleaseSpriteBatch(batch);
 		return NULL;
 	}
 
-	glUniform1iv(glGetUniformLocation(batch->shader.program,"texture"),sizeof(texture) / sizeof(texture[0]),texture);
-	//glUniform1iv(glGetUniformLocation(batch->shader.program,"texture"),sizeof(texture) / sizeof(texture[0]),texture);
+
+	batch->locationViewMatrix = glGetUniformLocation(batch->shader.program,"gmat");
+	batch->locationScale  = glGetUniformLocation(batch->shader.program,"gscale");
+	batch->locationTexture  = glGetUniformLocation(batch->shader.program,"texture");
+	glUniform1f(batch->locationScale,batch->scale);
+
+
+
+	glUniform1iv(batch->locationTexture,32,texture);
 
 
 	/*	enable sprite feature	*/
@@ -76,8 +87,8 @@ DECLSPEC int ELTAPIENTRY ExBeginSpriteBatch(ExSpriteBatch* spriteBatch,float* ca
 	spriteBatch->numDraw = 0;
 	spriteBatch->numTexture = 0;
 	glGetIntegerv(GL_VIEWPORT,rect);
-	spriteBatch->width = rect[2];
-	spriteBatch->height = rect[3];
+	spriteBatch->width = rect[2] - rect[0];
+	spriteBatch->height = rect[3] - rect[1];
 	spriteBatch->scale = scale;
 
 	/*	camera view position*/
@@ -309,6 +320,9 @@ DECLSPEC int ELTAPIENTRY ExRemoveSprite(ExSpriteBatch* spritebatch,int index){
 
 DECLSPEC inline  int ELTAPIENTRY ExDisplaySprite(ExSpriteBatch* spriteBatch){
 	int i;
+	float matscale[3][3];
+	float rotmat[3][3];
+	float tranmat[3][3];
 
 	glBindBuffer(GL_ARRAY_BUFFER,spriteBatch->vbo);
 
@@ -318,8 +332,16 @@ DECLSPEC inline  int ELTAPIENTRY ExDisplaySprite(ExSpriteBatch* spriteBatch){
 	}
 
 	glUseProgram(spriteBatch->shader.program);
-	/*TODO add global scale*/
-	//glUniform1i(glGetUniformLocation())
+
+
+
+	/*	update view matrix and global scale*/	/*TODO*/
+	mat3x3_translation(tranmat,spriteBatch->cameraPos[0],spriteBatch->cameraPos[1]);
+	mat3x3_scale(matscale,spriteBatch->scale,spriteBatch->scale);
+	mat3x3_multi_mat3x3(matscale,tranmat,spriteBatch->viewmatrix);
+
+	glUniform1fv(spriteBatch->locationScale,1, &spriteBatch->scale);
+	glUniformMatrix3fv(spriteBatch->locationViewMatrix,1,GL_FALSE,spriteBatch->viewmatrix);
 
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);

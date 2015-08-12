@@ -156,6 +156,8 @@ void main(void){
 "layout(location = 4) in float scale;\n"								\
 "layout(location = 5) in vec4 color;\n"								\
 "uniform sampler2D texture[32];\n"									\
+"uniform mat3 gmat;\n"												\
+"uniform float gscale;\n"										\
 "out float fangle;\n"												\
 "out vec4 frect;\n"													\
 "out mat2 coord;\n"													\
@@ -166,10 +168,11 @@ void main(void){
 "	float cos_theta = cos(angle);\n"								\
 "	coord = mat2(cos_theta, sin_theta,\n"							\
 "-sin_theta, cos_theta);\n"											\
-"	vec2 uv = coord * vec2(float(textureSize(texture[0],0).x) * rect.z * scale,float(textureSize2D(texture[0],0).y) * rect.w * scale);\n"					\
+"	vec2 uv = coord * vec2(float(textureSize(texture[0],0).x) * rect.z * scale,float(textureSize2D(texture[0],0).y) * rect.w * scale );\n"					\
 "	gl_PointSize = float(max(abs(uv.x * sin(angle)) + abs(uv.y * cos(angle) ),"	\
-"abs(uv.x * cos(angle)) + abs(uv.y * sin(angle)) ));// *  sqrt( ( cos(angle) * cos(angle) ) + ( sin(angle) * sin(angle) ) ) ;\n"						\
-"	gl_Position = vec4( vertex.x , vertex.y , vertex.z ,1.0f);\n"							\
+"abs(uv.x * cos(angle)) + abs(uv.y * sin(angle)) )); \n"						\
+"	gl_PointSize *= gscale;\n"													\
+"	gl_Position = vec4( (gmat * vec3(vertex.xy,1.0)).xy, vertex.z ,1.0f);\n"							\
 "	fangle = angle;\n"								\
 "	frect = rect;\n"								\
 "	ftexture = tex;\n"								\
