@@ -46,3 +46,8 @@ ExFrameBuffer* ExCreateRenderTexture3D(ExFrameBuffer* framebuffer,unsigned int w
 	glBindTexture(GL_TEXTURE_3D, framebuffer->texture.texture);
 
 }
+void ExDestroyRenderTexture(ExFrameBuffer* framebuffer){
+	ExDeleteTexture(&framebuffer->texture);
+	glDeleteFramebuffers(1,&framebuffer->framebuffer);
+
+}

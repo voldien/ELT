@@ -1,6 +1,8 @@
 #include"graphic/geometry.h"
 #include<stdio.h>
 
+
+#include<EGL/egl.h>
 #ifdef GL_ES_VERSION_3_0
 	#include<GLES3/gl3.h>
 	#include<GLES3/gl3ext.h>
@@ -18,14 +20,15 @@
 	#include<GL/glu.h>
 	#include<GL/glext.h>
 #endif
+#if defined(_WIN32)
+	extern PFNGLBINDBUFFERPROC glBindBuffer;
+#endif
 
 int ExCreateVBO(unsigned int target, unsigned int size, unsigned int mode){
 	unsigned int vbo;
 	glGenBuffers(1,&vbo);
 	glBindBuffer(GL_ARRAY_BUFFER,vbo);
 	glBufferData(GL_ARRAY_BUFFER,size,NULL, GL_STATIC_DRAW);
-
-
 
 	return vbo;
 }

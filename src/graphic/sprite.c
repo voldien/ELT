@@ -343,6 +343,7 @@ DECLSPEC inline  int ELTAPIENTRY ExDisplaySprite(ExSpriteBatch* spriteBatch){
 	glUniform1fv(spriteBatch->locationScale,1, &spriteBatch->scale);
 	glUniformMatrix3fv(spriteBatch->locationViewMatrix,1,GL_FALSE,spriteBatch->viewmatrix);
 
+
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);

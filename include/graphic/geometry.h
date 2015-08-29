@@ -18,6 +18,18 @@
 */
 #ifndef _ELT_GEOMETRY_H_ 
 #define _ELT_GEOMETRY_H_ 1
+#include"./../ExPreProcessor.h"
+
+/*TODO add some common buffer structure*/
+typedef struct ex_vbo{
+
+}ExVBO;
+
+
+typedef struct ex_uniform_buffer{
+
+}ExUniformBuffer;
+
 
 #ifdef __cplusplus	/* C++ environment	*/
 extern "C"{
@@ -27,6 +39,7 @@ extern "C"{
 extern int ExCreateVBO(unsigned int target, unsigned int size, unsigned int mode);
 extern int ExCreateVAO(void);
 extern int ExCreateUniformBuffer(unsigned int size);
+extern int ExDestroyBuffer(unsigned int buffer);
 
 
 

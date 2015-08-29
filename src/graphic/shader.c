@@ -19,7 +19,7 @@
 	#include<GL/glext.h>
 #endif
 
-#include<glslex/glslex.h>
+//#include<glslex/glslex.h>
 
 
 int ExGetShaderProgramSize(unsigned int program){
@@ -37,6 +37,7 @@ int ExGetShaderProgramSize(unsigned int program){
 	}
 	return fsize;
 }
+
 
 int ExLoadShader(ExShader* shad,const char* cvertexfilename, const char* cfragmentfilename, const char* cgeometryfilename, const char* ctesscfilename, const char* ctessefilename){
 	char* v_source;
@@ -147,6 +148,7 @@ int ExCompileShaderSource(const char* strPath,char** source, unsigned int flag){
 	}else{printf("Invalid Path %s",strPath); return -1;}
 	return shader;
 }
+
 int ExCompileShaderSourcev(const char** source, unsigned int flag){
 	int shader;
 	int status;
@@ -172,42 +174,56 @@ int ExCompileShaderSourcev(const char** source, unsigned int flag){
 extern int ExShaderCompileLog(unsigned int program,unsigned int shaderflag){
 	int status,validate;
 	char log[256];
+
+	/* check if shader*/
+	if(!glIsProgram(program)){
+		glGetShaderiv(program, GL_COMPILE_STATUS,&status);
+		if(status)
+			return TRUE;
+	}
+
 	switch(shaderflag){
 	case GL_VERTEX_SHADER:
 		glGetShaderInfoLog(program, sizeof(log),NULL,log);
-		printf("[Failed to Compile Vertex Shader]\n %s \n",log);
+		printf("\x1B[31m""[Failed to Compile Vertex Shader]\n %s \n",log);
 		break;
 	case GL_FRAGMENT_SHADER:
 		glGetShaderInfoLog(program, sizeof(log),NULL,log);
-		printf("[Failed to Compile Fragment Shader]\n%s \n", log);
+		printf("\x1B[31m""[Failed to Compile Fragment Shader]\n%s \n", log);
 		break;
 #if !defined(GL_ES_VERSION_2_0)
 	case GL_GEOMETRY_SHADER:
 		glGetShaderInfoLog(program, sizeof(log),NULL,log);
-		printf("[Failed to Compile GEOMETRY Shader]\n%s \n", log);
+		printf("\x1B[31m""[Failed to Compile GEOMETRY Shader]\n%s \n", log);
 		break;
 	case GL_TESS_CONTROL_SHADER:
 
 		glGetShaderInfoLog(program, sizeof(log),NULL,log);
-		printf("[Failed to Compile tessellation control  Shader]\n%s \n", log);
+		printf("\x1B[31m ""[Failed to Compile tessellation control  Shader]\n%s \n", log);
 		break;
 	case GL_TESS_EVALUATION_SHADER:
 		glGetShaderInfoLog(program, sizeof(log),NULL,log);
-		printf("[Failed to Compile tessellation evolutation Shader]\n%s \n", log);
+		printf("\x1B[31m [Failed to Compile tessellation evolutation Shader]\n%s \n", log);
 		break;
+#endif
 
 	case GL_LINK_STATUS:
 	case GL_PROGRAM:
 		glGetProgramiv(program, GL_LINK_STATUS,&status);
 		glGetProgramiv(program, GL_VALIDATE_STATUS, &validate);
-		printf("Error message when compiling glsl Shader\n%s", log);
+		if(!status){
+			glGetProgramInfoLog(program, sizeof(log),NULL,log);
+			printf("\x1B[31m""Failed to link program\n%s", log);
+		}
+		if(!validate){
+			printf("\x1B[31m""Failed to validate Program.\n%s", log);
+		}
 		return status;
 		break;
-#endif
 		default:return 0;
 	}
 
-	return 1;
+	return TRUE;
 }
 
 

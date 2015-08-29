@@ -28,15 +28,14 @@ typedef struct ex_frame_buffer{
 	ExTexture texture;
 	unsigned int framebuffer;
 	unsigned int attachment;
-}ExFrameBuffer;
+}ExFrameBuffer,ExRenderTexture;
 
 
 extern ExFrameBuffer* ExCreateRenderTexture2D(ExFrameBuffer* texture,unsigned int width, unsigned int height,unsigned int attachment);
 extern ExFrameBuffer* ExCreateRenderTexture3D(ExFrameBuffer* texture,unsigned int width, unsigned int height,unsigned int attachment);
 
+
 extern void ExDestroyRenderTexture(ExFrameBuffer* texture);
-
-
 
 
 #ifdef __cplusplus	/* C++ environment	*/

@@ -95,11 +95,51 @@ unsigned int getTextureDataSize(unsigned int textureid){
 	}
 }
 
+ExTexture*  ExCreateTexture(ExTexture* texture, unsigned int  target, int level,
+        int internalFormat,
+        int width, int height,
+        int border, unsigned int format, unsigned int type,
+        const void *pixels ){
+	if(!texture)
+		return NULL;
+
+	texture->target = target;
+	texture->internalformat = internalFormat;
+	texture->width = width;
+	texture->height = height;
+	texture->internalformat = format;
+	texture->type = type;
 
 
+	glGenTextures(1,&texture->texture);
+	glBindTexture(target,texture->texture);
+	glPixelStorei(GL_PACK_ALIGNMENT,4);
 
-float getMaxTextureAnisotropy(void){
-	GLfloat fLargest;
+
+	glTexImage2D(target,level,internalFormat,width, height,border, format,type,pixels);
+
+
+	glTexParameteri(target,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(target,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(target,GL_TEXTURE_WRAP_S,GL_REPEAT);
+	glTexParameteri(target,GL_TEXTURE_WRAP_S,GL_REPEAT);
+
+
+	return texture;
+}
+
+void ExDeleteTexture(ExTexture* texture){
+	glDeleteTextures(1,&texture->texture);
+}
+
+void ExSetTextureAnisotropy(ExTexture* texture,float anisotropy){
+	glBindTexture(texture->target,texture->texture);
+	glTexParameteri(texture->target, GL_TEXTURE_MAX_ANISOTROPY_EXT,anisotropy);
+}
+
+
+float ExGetMaxTextureAnisotropy(void){
+	float fLargest;
 	glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &fLargest);
 	return fLargest;
 }

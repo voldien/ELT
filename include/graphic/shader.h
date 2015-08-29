@@ -203,7 +203,4 @@ void main(void){
 "	//fragColor.a = 1.0;\n"									\
 "}\n"														\
 
-//fragscale - vec2(1,1) -vec2(-0.5,-0.5) +
-
-
 #endif 
