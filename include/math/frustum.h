@@ -30,7 +30,7 @@ typedef struct frustum{
 }ExFrustum;
 
 //struct frustum_sphere
-extern int frustum_create(struct frustum* f);
+extern int frustum_create(ExFrustum* f);
 
 extern int frustum_AABB(const float* b, struct frustum* f);
 extern int frustum_sphere(const float* pos,float radius, struct frustum* f);

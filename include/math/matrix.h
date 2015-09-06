@@ -1,5 +1,4 @@
 /*
-========================================================================
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -41,7 +40,6 @@ typedef struct vec2x2_s{float m11,m21,m31,m41,m12,m22,m32,m42,m13,m23,m33,m43,m1
 #ifdef __cplusplus /* C++ environment */
 extern "C"{
 #endif
-
 
 /*
 
@@ -95,6 +93,21 @@ extern void mat4x4_orth(vec4x4_t f_mat4,float f_right, float f_left, float f_top
 
 extern int mat4x4_unproj(float winx, float winy, float winz,const vec4x4_t projection,const vec4x4_t modelview,const int* viewport,vec3_t pos);
 
+
+
+
+extern void mat3x3_translation(vec3x3_t f_mat2,float x, float y);
+extern void mat3x3_scale(vec3x3_t f_mat2, float x,float y);
+extern void mat3x3_rotation(float rotation_pi);
+extern void mat3x3_multi_mat3x3(const vec3x3_t lf_mat4,const vec3x3_t rf_mat4, vec3x3_t outf_mat4);
+
+
+
+
+extern void mat2x2_translation(vec2x2_t f_mat2,float x, float y);
+extern void mat2x2_scale(vec2x2_t f_mat2, float x,float y);
+extern void mat2x2_rotation(float rotation_pi);
+extern void mat2x2_multi_mat2x2(const vec2x2_t lf_mat4,const vec2x2_t rf_mat4, vec2x2_t outf_mat4);
 
 #ifdef __cplusplus /* C++ environment */
 }
