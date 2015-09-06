@@ -32,48 +32,52 @@ typedef struct ex_texture{
 
 #ifdef __cplusplus	/* C++ environment	*/
 extern "C"{
-#endif 
+#endif
 
 /*
 	return texture internal type in size in bytes
 */
-extern unsigned int getTextureTypeSize(unsigned int internalformat);
+extern unsigned int ExGetTextureTypeSize(unsigned int internalformat);
 
 /*
 	return texture internal type in size in bits
 */
 
-extern unsigned int getTextureTypeBits(unsigned int internalformat);
+extern unsigned int ExGetTextureTypeBits(unsigned int internalformat);
 
 /**
 	Get texture Internal format by number of bits
 */
-extern unsigned int getTextureTypeBySize(unsigned int bytesperpixel);
+extern unsigned int ExGetTextureTypeBySize(unsigned int bytesperpixel);
 
 
 /**
 	Get texture Internal format by number of bits
 */
-extern unsigned int getTextureTypeByBits(unsigned int bitsPerPixels);
+extern unsigned int ExGetTextureTypeByBits(unsigned int bitsPerPixels);
 
 /**
 
 */
-extern unsigned int getInternalSrgbType(unsigned int internal_format);
+extern unsigned int ExGetInternalSrgbType(unsigned int internal_format);
 
 /*
 	get texture size in bytes
 */
-extern unsigned int getTextureDataSize(unsigned int textureid);
+extern unsigned int ExGetTextureDataSize(unsigned int textureid);
 /**
     Get texture data by level in unsigned int
 */
-extern unsigned int getTextureLevelDatai(unsigned int textureid,unsigned int level,unsigned char** pixeldata);
+extern unsigned int ExGetTextureLevelDatai(unsigned int textureid,unsigned int level,unsigned char** pixeldata);
 
 
 extern ExTexture* ExCreateTexture(ExTexture* texture, unsigned int  target, int level, int internalFormat, int  width, int height, int border, unsigned int format, unsigned int type, const void *pixels);
 
+extern void ExSubTexture(ExTexture* texture, int level,	int xoffset, int yoffset, int width, int height,int format,int type, const void *pixels );
+
 extern void ExDeleteTexture(ExTexture* texture);
+
+extern void ExGenerateTextureMipmap(ExTexture* texture);
 
 extern void  ExSetTextureAnisotropy(ExTexture* texture,float anisotropy);
 

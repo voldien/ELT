@@ -26,7 +26,7 @@ unsigned int is_texture_compressed(unsigned int textureid){
 
 
 
-unsigned int getTextureTypeSize(unsigned int internalformat){
+unsigned int ExGetTextureTypeSize(unsigned int internalformat){
 	switch(internalformat){
 	case GL_LUMINANCE:
 	case GL_LUMINANCE_ALPHA:
@@ -48,7 +48,7 @@ unsigned int getTextureTypeSize(unsigned int internalformat){
 
 	}
 }
-unsigned int getTextureLevelDatai(unsigned int textureid,unsigned int level, unsigned char** pixeldata){
+unsigned int ExGetTextureLevelDatai(unsigned int textureid,unsigned int level, unsigned char** pixeldata){
 	int width,height,bpp,internal;
 	if(!pixeldata)
 		return 0;
@@ -56,7 +56,7 @@ unsigned int getTextureLevelDatai(unsigned int textureid,unsigned int level, uns
 	glGetTexLevelParameteriv(GL_TEXTURE_2D,level,GL_TEXTURE_WIDTH, &width);
 	glGetTexLevelParameteriv(GL_TEXTURE_2D,level,GL_TEXTURE_HEIGHT, &height);
 	glGetTexLevelParameteriv(GL_TEXTURE_2D,level,GL_TEXTURE_INTERNAL_FORMAT, &internal);
-	bpp = getTextureTypeSize(internal);
+	bpp = ExGetTextureTypeSize(internal);
 
 	pixeldata[0] = (unsigned char*)malloc(width * height * bpp);
 
@@ -67,7 +67,7 @@ unsigned int getTextureLevelDatai(unsigned int textureid,unsigned int level, uns
 
 
 
-unsigned int getInternalSrgbType(unsigned int internal_format){
+unsigned int ExGetInternalSrgbType(unsigned int internal_format){
 	switch(internal_format){
 	case GL_RGB:return GL_SRGB;
 	case GL_RGBA: return GL_SRGB8_ALPHA8;
@@ -80,14 +80,14 @@ unsigned int getInternalSrgbType(unsigned int internal_format){
 	}
 }
 
-unsigned int getTextureDataSize(unsigned int textureid){
+unsigned int ExGetTextureDataSize(unsigned int textureid){
 	int width, height,internalformat;
 	glBindTexture(GL_TEXTURE_2D,textureid);
 	if(!is_texture_compressed(textureid)){
 		glGetTexLevelParameteriv(GL_TEXTURE_2D,0,GL_TEXTURE_WIDTH, &width);
 		glGetTexLevelParameteriv(GL_TEXTURE_2D,0,GL_TEXTURE_HEIGHT, &height);
 		glGetTexLevelParameteriv(GL_TEXTURE_2D,0,GL_TEXTURE_INTERNAL_FORMAT, &internalformat);
-		return width* height * getTextureTypeSize(internalformat);
+		return width* height * ExGetTextureTypeSize(internalformat);
 	}
 	else{
 		glGetTexLevelParameteriv(GL_TEXTURE_2D,0, GL_TEXTURE_COMPRESSED_IMAGE_SIZE_ARB,&internalformat);
@@ -95,7 +95,7 @@ unsigned int getTextureDataSize(unsigned int textureid){
 	}
 }
 
-ExTexture*  ExCreateTexture(ExTexture* texture, unsigned int  target, int level,
+ExTexture* ExCreateTexture(ExTexture* texture, unsigned int  target, int level,
         int internalFormat,
         int width, int height,
         int border, unsigned int format, unsigned int type,
@@ -127,6 +127,11 @@ ExTexture*  ExCreateTexture(ExTexture* texture, unsigned int  target, int level,
 
 	return texture;
 }
+void ExSubTexture(ExTexture* texture, int level, int xoffset, int yoffset, int width, int height,int format,int type, const void *pixels ){
+	glBindTexture(texture->target,texture->texture);
+	glTexSubImage2D(texture->target,level,xoffset,yoffset,width,height,format,type,pixels);
+}
+
 
 void ExDeleteTexture(ExTexture* texture){
 	glDeleteTextures(1,&texture->texture);
