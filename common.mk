@@ -7,10 +7,13 @@ MAKE := make
 CMAKE := cmake
 TAR := tar
 
+CFLAGS ?= 
 
-MAJOR_VERSION := 0
-MINOR_VERSION := 6
-REVISION_VERSION := 8
+
+#echo `git describe` | sed -e 's/[^0-9]*//g' | cut -c1-1 
+MAJOR_VERSION :=` git describe | sed -e 's/[^0-9]*//g' | cut -c1-1 `
+MINOR_VERSION := ` git describe | sed -e 's/[^0-9].[^0-9]*//g' | cut -c1-1 `
+REVISION_VERSION := ` git describe | sed -e 's/[^0-9].[^0-9].[^0-9]*//g' | cut -c1-2`
 
 
 PACKAGE_INCLUDE ?= src include 
@@ -46,12 +49,18 @@ else
     endif
 endif
 
+CFLAGS += -DMAJOR_VERSION=$(MAJOR_VERSION)
+CFLAGS += -DMINOR_VERSION=$(MINOR_VERSION)
+CFLAGS += -DREVISION_VERSION=$(REVISION_VERSION)
+
 
 
 
 .PHONY : createpackage
 createpackage:
+	@echo "version: " $(MAJOR_VERSION).$(MINOR_VERSION).$(REVISION_VERSION)
 	tar -zcvf $(current_dir)-$(MAJOR_VERSION).$(MINOR_VERSION).$(REVISION_VERSION).tar.gz src include 
+	@du -h $(current_dir)-$(MAJOR_VERSION).$(MINOR_VERSION).$(REVISION_VERSION).tar.gz
 
 
 
