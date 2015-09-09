@@ -22,8 +22,8 @@
 #	include<wininet.h>
 #endif
 
-
 #include<malloc.h>
+
 
 DECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName){
 #ifdef EX_WINDOWS
@@ -69,6 +69,7 @@ DECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName){
     return 1;
 #endif
 }
+
 
 DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName, ...){
 	va_list argptr;
@@ -141,6 +142,10 @@ DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName, ...){
 #endif
 }
 
+
+
+
+
 DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(struct ex_size* size){
 #ifdef EX_WINDOWS
 	RECT rect;
@@ -155,6 +160,7 @@ DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(struct ex_size* size){
 
 #endif
 }
+
 DECLSPEC void ELTAPIENTRY ExGetMonitorSize(Uint32 index, struct ex_size* size){
 #ifdef EX_WINDOWS
 	//EnumDisplaySettings(
@@ -288,17 +294,18 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetApplicationName(ExChar* name,Int32 length){
 #endif
 }
 
-DECLSPEC char* ELTAPIENTRY ExGetCurrentDirectory(void){
+DECLSPEC ExChar* ELTAPIENTRY ExGetCurrentDirectory(void){
 #ifdef EX_UNIX
-		char cwd[1024];
-	   if (getcwd(cwd, sizeof(cwd)) != NULL)
-	       fprintf(stdout, "Current working dir: %s\n", cwd);
-	   else
-	       perror("getcwd() error");
-	   return cwd;
+	ExChar cwd[1024];
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
+	   fprintf(stdout, "Current working dir: %s\n", cwd);
+	else
+	   perror("getcwd() error");
+	return cwd;
 #elif defined(EX_WINDOWS)
 	   ExChar path[1024];
 	   DWORD a = GetCurrentDirectory(MAX_PATH,path);
+	   return path;
 #endif
 }
 
@@ -306,7 +313,7 @@ DECLSPEC int ELTAPIENTRY ExSetCurrentDirectory (const char* cdirectory){
 #ifdef EX_UNIX
 	return chdir(cdirectory);
 #elif defined(EX_WINDOWS)
-
+	return SetCurrentDirectory(cdirectory);
 #endif
 }
 
@@ -339,29 +346,6 @@ DECLSPEC Uint64 ELTAPIENTRY ExGetTotalVirtualMemory(void){
 }
 
 
-//InternetOpenUrl
-DECLSPEC void* ELTAPIENTRY ExDownloadURL(const ExChar* url){
-#ifdef EX_WINDOWS
-	//LAST ERROR
-	HINTERNET hOpen = NULL;
-	HINTERNET hFile = NULL;
-	HANDLE hOut = NULL;
-	char* lpBuffer = NULL;
-	DWORD dwBytesRead = 0;
-	DWORD dwBytesWritten = 0;
-	hOpen = InternetOpen(L"MyAgent", NULL, NULL, NULL, NULL);
-	hFile = InternetOpenUrl(hOpen,url,0,0,INTERNET_FLAG_RELOAD | INTERNET_FLAG_DONT_CACHE,NULL);
-
-	//InternetReadFile(hFile,0,0,&dwBytesRead);
-	lpBuffer = (char*)malloc(1024);
-	InternetReadFile(hFile,(LPVOID*)lpBuffer,1024,&dwBytesRead);
-	InternetCloseHandle(hFile);
-	InternetCloseHandle(hOpen);
-	return lpBuffer;
-#elif defined(EX_LINUX)
-	return 0;
-#endif
-}
 
 DECLSPEC const ExChar* ELTAPIENTRY ExGetOSName(void){
 #if defined(EX_WINDOWS)
@@ -420,32 +404,12 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetCurrentUser(void){
 	ULong csize;
 	ExIsError(GetUserName(user,&csize));
 	return user;
-#elif defined(EX_LINUX) || defined(EX_ANDROID)
+#elif defined(EX_UNIX)
 	return getenv("USER");
 #endif
 }
 
-// get clipboard text
-DECLSPEC ExChar* ELTAPIENTRY ExGetClipboardText(void){
-#ifdef EX_WINDOWS
-	HANDLE hData;
-	ExChar* pszText;
-	OpenClipboard(NULL);
-#ifdef EX_UNICODE
-	hData = GetClipboardData(CF_UNICODETEXT);
-	pszText = (ExChar*)GlobalLock(hData);
-#else
-	hData = GetClipboardData(CF_TEXT);
-	pszText = (char*)GlobalLock(hData);
-#endif
-	GlobalUnlock( hData );
-	CloseClipboard();
 
-	return (ExChar*)pszText;
-#elif defined(EX_LINUX)
-	return 0;
-#endif
-}
 
 DECLSPEC Int32 ELTAPIENTRY ExSetClipboardText(const ExChar* text){
 #ifdef EX_WINDOWS
@@ -469,10 +433,60 @@ DECLSPEC Int32 ELTAPIENTRY ExSetClipboardText(const ExChar* text){
 	return 0;
 #endif
 }
+// get clipboard text
+DECLSPEC ExChar* ELTAPIENTRY ExGetClipboardText(void){
+#ifdef EX_WINDOWS
+	HANDLE hData;
+	ExChar* pszText;
+	OpenClipboard(NULL);
+#ifdef EX_UNICODE
+	hData = GetClipboardData(CF_UNICODETEXT);
+	pszText = (ExChar*)GlobalLock(hData);
+#else
+	hData = GetClipboardData(CF_TEXT);
+	pszText = (char*)GlobalLock(hData);
+#endif
+	GlobalUnlock( hData );
+	CloseClipboard();
+
+	return (ExChar*)pszText;
+#elif defined(EX_LINUX)
+	return 0;
+#endif
+}
+
+
 
 #ifdef EX_LINUX
 #	include<sys/socket.h>
 #endif
+
+
+//InternetOpenUrl
+DECLSPEC void* ELTAPIENTRY ExDownloadURL(const ExChar* url){
+#ifdef EX_WINDOWS
+	//LAST ERROR
+	HINTERNET hOpen = NULL;
+	HINTERNET hFile = NULL;
+	HANDLE hOut = NULL;
+	char* lpBuffer = NULL;
+	DWORD dwBytesRead = 0;
+	DWORD dwBytesWritten = 0;
+	hOpen = InternetOpen(L"MyAgent", NULL, NULL, NULL, NULL);
+	hFile = InternetOpenUrl(hOpen,url,0,0,INTERNET_FLAG_RELOAD | INTERNET_FLAG_DONT_CACHE,NULL);
+
+	//InternetReadFile(hFile,0,0,&dwBytesRead);
+	lpBuffer = (char*)malloc(1024);
+	InternetReadFile(hFile,(LPVOID*)lpBuffer,1024,&dwBytesRead);
+	InternetCloseHandle(hFile);
+	InternetCloseHandle(hOpen);
+	return lpBuffer;
+#elif defined(EX_LINUX)
+	return 0;
+#endif
+}
+
+
 DECLSPEC ERESULT ELTAPIENTRY ExPutFTPFile(const ExChar* ftp, const ExChar* user, const ExChar* password,const ExChar* file, const ExChar* directory){
 #ifdef EX_WINDOWS
 	HINTERNET hInternet;

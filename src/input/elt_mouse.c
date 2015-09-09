@@ -144,24 +144,5 @@ DECLSPEC void ELTAPIENTRY ExWarpMouseGlobal(int x, int y){
 #endif // EX_WINDOWS
 }
 
-DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButton(Uint32 keyCode){
-#ifdef EX_WINDOWS
-	//return (MouseState[0].rgbButtons[keyCode] & 0x80) ? TRUE : FALSE;
-#endif
-	return 0;
-}
-DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButtonDown(Uint32 keyCode){
-#ifdef EX_WINDOWS
-	//return (MouseState[0].rgbButtons[keyCode] & 0x80) ? TRUE : FALSE;
-#endif
-	return 0;
-}
-DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButtonUp(Uint32 keyCode){
-#ifdef EX_WINDOWS
-	//return !(MouseState[0].rgbButtons[keyCode]  & 0x80) &&
-	//	(MouseState[1].rgbButtons[keyCode]  & 0x80) != FALSE ? TRUE : FALSE;
-#endif
-	return 0;
-}
 
 

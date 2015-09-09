@@ -1,5 +1,4 @@
-/*
-========================================================================
+/**
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -32,26 +31,27 @@ typedef void* Surface;
 #ifdef  __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
-/**
+/*
     Create Surface
 */
 extern DECLSPEC Surface ExCreatSurface(unsigned int width, unsigned height, unsigned int format);
-/**
+/*
     release surface.
 */
 extern DECLSPEC int ExDestroySurface(Surface handle);
-/**
+/*
     resize surface handle
 */
 extern DECLSPEC int ExResizeSurface(Surface handle, unsigned int width, unsigned height);
-/**
+/*
     set surface window
 */
 extern DECLSPEC int ExSetSurfacePixel(Surface handle, unsigned int x, unsigned int y, long pixel);
-/**
+/*
     set fill color..
 */
 extern DECLSPEC int ExFillRect(Surface handle,struct ex_rect* rect, Uint32 color);
+
 
 
 #ifdef  __cplusplus	/* C++ Environment */

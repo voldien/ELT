@@ -25,7 +25,8 @@
 extern "C"{
 #endif
 
-extern DECLSPEC int ExCreateEGLContextAttrib(ExWin window,int* attrib, unsigned int* size); OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window);
+extern DECLSPEC int ExCreateEGLContextAttrib(ExWin window,int* attrib, unsigned int* size);
+extern DECLSPEC OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window);
 
 extern DECLSPEC  int ExCreateEGLContextAttrib(ExWin window,int* attrib, unsigned int* size);
 

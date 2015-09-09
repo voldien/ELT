@@ -87,7 +87,7 @@ DECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms){
 
 #ifdef EX_DEBUG
     if(nanosleep(&tim , NULL) < 0 ){
-        fprintf(stderr, strerror(errno));
+        fprintf(stderr,"errno error code %d\n"" errno");
     }
 #else
     nanosleep(&tim , NULL);

@@ -4,8 +4,6 @@
 #if !defined(EX_PNACL) || !defined(EX_NACL)
 
 
-
-
 #ifdef EX_WINDOWS
 	#include<EGL/egl.h>
     #define EX_EGL_LIB_MOUDLE_NAME EX_TEXT("libEGL.dll")		/**/
@@ -34,6 +32,7 @@
 	#include<GLES/glplatform.h>
 #endif
 
+
 EGLDisplay eglDisplay;
 
 DECLSPEC OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
@@ -60,12 +59,11 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
 
 	}
 
-    EGLint configAttribList[] =
-    {
-    EGL_BUFFER_SIZE, 16,
-          EGL_RENDERABLE_TYPE,
-          EGL_OPENGL_ES2_BIT,
-          EGL_NONE
+    EGLint configAttribList[] ={
+    	EGL_BUFFER_SIZE, 16,
+        EGL_RENDERABLE_TYPE,
+        EGL_OPENGL_ES2_BIT,
+        EGL_NONE
     };
 
 

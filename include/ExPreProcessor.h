@@ -60,27 +60,31 @@
     	#pragma warning(disable : 4201)
 	#define EX_COMPILER_NAME "Visual Studio C++/C"
 
-#elif defined(__clang__)  || defined(__llvm__)           /*  LLVM    */
+#elif defined(__clang__)  || defined(__llvm__)           /*  LLVM, clang   */
     #define EX_LLVM 1
 	#define EX_CLANG 1
 	#define ENGINE_EX_COMPILER 5
-	#define EX_COMPILER_NAME "LLVM"
+	#define EX_COMPILER_NAME "LLVM/CLANG"
+	#define EX_COMPILER_MAJOR_VERSION __clang_major__
+	#define EX_COMPILER_MINOR_VERSION __clang_minor__
 
 #elif defined(__GNUC__) || defined(__SNC__) || defined( __GNUC_MINOR__)	/*  GNU C Compiler*/
-	#define EX_GNUC
+	#define EX_GNUC 1
 	#define ENGINE_EX_COMPILER 2
 	#define EX_COMPILER_NAME "GNU C"
+	#define EX_COMPILER_MAJOR_VERSION __clang_major__
+	#define EX_COMPILER_MINOR_VERSION __clang_minor__
 
 #elif defined(__GNUG__) /*  GNU C++ Compiler*/
-	#define EX_GNUC 1
+	#define EX_GNUC 2
 
-#elif defined(__ghs__)		// GHS
-	#define EX_GHS
+#elif defined(__ghs__)		/* GHS	*/
+	#define EX_GHS 1
 	#define ENGINE_EX_COMPILER 3
 
-#elif defined(__HP_cc) || defined(__HP_aCC)
+#elif defined(__HP_cc) || defined(__HP_aCC)			/*	*/
 
-#elif defined(__PGI)
+#elif defined(__PGI)			/*	*/
 
 #elif defined(__ICC) || defined(__INTEL_COMPILER) /*  Intel Compiler  */
 	#define EX_INTEL
@@ -96,8 +100,8 @@
 
 
 /**
-	//  Platform define
-	//  Architecture!
+	Platform define
+	Architecture!
 */
 #ifdef EX_VC
 	#if defined(_M_IX86) || defined(_WIN32)
@@ -105,12 +109,10 @@
 		#define EX_X32                          /**/
 		#define EX_WIN32                        /**/
 		#define EX_WINDOWS                      /**/
-		#define EX_BITS_ARCHITECTURE 32         /**/
 	#elif defined(_M_X64) || defined(_WIN64)
 		#define EX_X64                          /**/
 		#define EX_WIN64                        /**/
 		#define EX_WINDOWS                      /**/
-		#define EX_BITS_ARCHITECTURE 64         /**/
 	#elif defined(_M_PPC)
 		#define EX_PPC                          /**/
 		#define EX_X360                         /**/
@@ -123,12 +125,13 @@
 	#ifdef __CELLOS_LV2__   /**/
         #define EX_PS3                          /*	playstation 3*/
 	#elif defined(__arm__)	/**/
+		#define EX_ARM
         #define EX_PSP2                         /*	playstation portable 2*/
         #define EX_RAS_PI                       /*	rasberry pi	*/
 	#endif
 	#if defined(_WIN32) /**  Window*/
+		#define EX_X86
 		#define EX_WINDOWS                      /**/
-		#define EX_BITS_ARCHITECTURE 32         /**/
 	#endif
 	#if ( defined(__linux__) || defined(__linux) || defined(linux) ) && (!(__ANDROID__) || !(ANDROID))/* Linux */
 		#define EX_LINUX 1                       /**/
@@ -193,11 +196,10 @@
 
 
 
-	#if defined(__unix__) || defined(__unix) || defined(unix)	/*  Unix    */
-        #   define EX_UNIX 1
-	#endif
+
 
 #elif defined(__ICC) || defined(__INTEL_COMPILER)
+
 
 #else
 	#error  Unsupported architecture!   /*  No architecture support implicitly. remove this line to compile anyway*/
@@ -209,7 +211,9 @@
 #if defined(__pnacl__)          /* portable nacl google */
 	#define EX_PNACL 1
 #endif
-
+#if defined(__unix__) || defined(__unix) || defined(unix)	/*  Unix    */
+	#   define EX_UNIX 1
+#endif
 
 
 /*
@@ -292,9 +296,11 @@
 #define EX_EXTERN extern
 #define C_EXTERN extern "C"
 #define CPP_EXTERN extern "C++"
-#define VIRTUAL virtual
-#define NORETURN __declspec(noreturn)				// No Return, will loop forever.
-
+#ifdef EX_VC
+	#define NORETURN __declspec(noreturn)				// No Return, will loop forever.
+#elif defined(EX_GNUC)
+	#define NORETURN
+#endif
 /**
 	No Initialization Virtual Table. [4 byte In size] //TODO confirm size of virtual table
 	only supports in C++ environments
@@ -320,7 +326,7 @@
 */
 #ifdef EX_VC
 	#define NOTHROW __declspec(nothrow)						// No Throw
-#else
+#elif defined(EX_GNUC)
 	#define NOTHROW
 #endif
 
@@ -345,7 +351,11 @@
 
 /**
 	Calling Convention
+	__cdecl		:
+	__stdcall	:
+	__fastcall	:
 */
+
 #ifdef EX_WINDOWS	        /** Windows Calling Convention.*/
 	#define ELTAPIENTRY     __cdecl
 	#define ELTAPIFASTENTRY __fastcall
@@ -359,11 +369,13 @@
 #else
 #   ifndef __cdecl
         #define __cdecl  __attribute__ ((__cdecl__))
+        #define __stdcall  __attribute__ ((stdcall))
+		#define __fastcall __attribute__((fastcall))
 #   endif
-	#define ELTAPIENTRY     //__cdecl
-	#define ELTAPISTDENTRY  //__cdecl
-	#define ELTAPIFASTENTRY //__cdecl
-	#define ELTAPITHISENTRY //__cdecl
+	#define ELTAPIENTRY     __cdecl
+	#define ELTAPISTDENTRY  __stdcall
+	#define ELTAPIFASTENTRY __fastcall
+	#define ELTAPITHISENTRY //__this
 #endif
 
 // disable on SPU because they are not supported
@@ -377,6 +389,7 @@
 	#define EX_PUSH_PACK_DEFAULT
 	#define EX_POP_PACK
 #endif
+
 
 /**
     inline
@@ -565,13 +578,27 @@
 #define EX_ENGINE   "Engine Library Toolkit"
 
 #ifndef EX_VERSION_MAJOR
-	#define EX_VERSION_MAJOR 0
+	#ifdef MAJOR_VERSION
+		#define EX_VERSION_MAJOR MAJOR_VERSION
+	#else
+		#define EX_VERSION_MAJOR 0
+	#endif
 #endif
+
 #ifndef EX_VERSION_MINOR
-	#define EX_VERSION_MINOR 6
+	#ifdef MINOR_VERSION
+		#define EX_VERSION_MINOR MINOR_VERSION
+	#else
+		#define EX_VERSION_MINOR 6
+	#endif
 #endif
+
 #ifndef EX_VERSION_REVISION
-	#define EX_VERSION_REVISION 11
+	#ifdef REVISION_VERSION
+		#define	EX_VERSION_REVISION REVISION_VERSION
+	#else
+		#define EX_VERSION_REVISION 11
+	#endif
 #endif
 
 #define EX_ENGINE_PREALPHA EX_TEXT("pa")	        /* Pre alpha    */

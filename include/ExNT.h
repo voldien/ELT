@@ -32,7 +32,7 @@
 #	define FALSE 0
 #endif
 
-// Defination only for simpler understanding of the parameter will do.
+
 #define _IN_		// Header Comments Value will
 #define _OUT_		// Header Comments Value will return ou
 #define _INOUT_ 	// Header Will Input a Value as well return.
@@ -41,21 +41,21 @@
 	Type declaration
 */
 #if defined(EX_WINDOWS)
-	typedef signed __int64 Int64;
-	typedef signed __int32 Int32;
-	typedef signed __int16 Int16;
-	typedef signed __int8  Int8;
+	typedef signed __int64 		Int64;
+	typedef signed __int32 		Int32;
+	typedef signed __int16 		Int16;
+	typedef signed __int8  		Int8;
 
-	typedef unsigned __int64 Uint64;
-	typedef unsigned __int32 Uint32;
-	typedef unsigned __int16 Uint16;
-	typedef unsigned __int8  Uint8;
-	typedef unsigned __int32 Uint;
-	typedef unsigned short	 Ushort;
+	typedef unsigned __int64 	Uint64;
+	typedef unsigned __int32 	Uint32;
+	typedef unsigned __int16 	Uint16;
+	typedef unsigned __int8  	Uint8;
+	typedef unsigned __int32 	Uint;
+	typedef unsigned short	 	Ushort;
 
-	typedef signed __int32   Int;
-	typedef signed short	 Short;
-	typedef signed char	 Char;
+	typedef signed __int32   	Int;
+	typedef signed short	 	Short;
+	typedef signed char	 		Char;
 
 #if EX_INT_MAX_BITS > 64
 	typedef signed __int128 Int128;
@@ -63,14 +63,14 @@
 #endif
 
 #elif defined(EX_UNIX)
-	typedef signed long long Int64;
-	typedef signed int		 Int32;
-	typedef signed short	 Int16;
-	typedef signed char		 Int8;
+	typedef signed long long 	Int64;
+	typedef signed int		 	Int32;
+	typedef signed short	 	Int16;
+	typedef signed char		 	Int8;
 
-	typedef signed int	 Int;
-	typedef signed short Short;
-	typedef signed char  Char;
+	typedef signed int	 		Int;
+	typedef signed short 		Short;
+	typedef signed char  		Char;
 
 	typedef unsigned long long  Uint64;
 	typedef unsigned int		Uint32;
@@ -83,6 +83,7 @@
 	typedef signed __int128 Int128;
 	typedef unsigned __int128 Uint128;
 #endif
+
 #elif defined(EX_APPLE)
 	typedef signed long long Int64;
 	typedef signed int		 Int32;
@@ -117,24 +118,18 @@ typedef long Long;
 
 /* 64 bits [0 to 18,446,744,073,709,551,615] */
 typedef Uint8 Keycode;
-typedef void* buffer;
-
-
-#ifdef __cplusplus
-	typedef Uint8 Boolean;
-#endif
+/**/
 typedef Uint8 ExBoolean;
-#ifndef INTERNAL_ENGINEX
 
-#endif
 
 #ifndef EX_WIN32
 	typedef void* HANDLE;
+	//EX_DECLARE_HANDLE(HANDLE);
 #endif
 
 typedef long ERESULT;
 
-/**
+/*
     ELT Character data type
 */
 #ifdef EX_UNICODE
@@ -201,7 +196,7 @@ typedef union doubleUnion{
 #ifdef EX_VC
 	#define EX_DECLARE_HANDLE(name) struct name##__{int unused;}; typedef struct name##__ *name
 #else
-#define EX_DECLARE_HANDLE(name) struct name##__{int unused;}; typedef struct name##__ *name
+	#define EX_DECLARE_HANDLE(name) struct name##__{int unused;}; typedef struct name##__ *name
 #endif
 
 /*
@@ -213,6 +208,8 @@ typedef void* ExOpenGLContext;
 typedef void* OpenCLContext;
 typedef void* ExOpenCLContext;
 typedef void* WindowContext;
+typedef void* ExWindowContext;
+typedef void* ExAudioContext;
 
 #ifdef EX_WINDOWS
 

@@ -26,11 +26,4 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitDirectSound(ExWin hWnd, Uint32 flag){
 	return hr;
 }
 
-
-DECLSPEC void ELTAPIENTRY ExReleaseDirectSound(void){
-/*	ERESULT hr;
-	if(pDS)
-		if(FAILED(hr = pDS->Release()))
-			wExDevPrintf(EX_TEXT("Failed to Release DirectSound"), ExGetHResultErrorMessage(hr));*/
-}
 #endif

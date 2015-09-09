@@ -1,7 +1,5 @@
 #include"system/elt_net.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include<string.h>
+
 
 #if defined(EX_PNACL)
 #   include<sys/types.h>
@@ -96,23 +94,15 @@ static int ip_exists(const char* ip){
 }
 
 
-DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(unsigned int protocol){
+DECLSPEC ExSocket ELTAPIENTRY ExOpenSocket(unsigned int protocol){
     #ifdef EX_WINDOWS
     unsigned int sockfd,newsockdf;
     unsigned int sock_domain,socket_protocol;
-    SOCKADDR_IN serv_addr, cli_addr;
 
 	if(wsadata.wVersion != EX_WSA_VERSION){
 		if(WSAStartup(EX_WSA_VERSION, &wsadata))return -1;
 	}
 
-	if(!ip_exists(ip)){
-		create_ip_address(ip,port);
-	}
-
-	serv_addr.sin_family = AF_INET;
-	serv_addr.sin_port = htons(port);
-	serv_addr.sin_addr.S_un.S_addr = inet_addr(ip);
 
 	sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if(protocol & ELT_CLIENT)
@@ -132,7 +122,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(unsigned int protocol){
     }
     else{
         socket_protocol = 0;
-        sock_domain = PF_INET;
+        sock_domain = AF_INET;
     }
 
 
@@ -168,7 +158,8 @@ DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(unsigned int protocol){
     #endif
 }
 
-DECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(unsigned int socket){
+
+DECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(ExSocket socket){
     #ifdef EX_WINDOWS
 	return closesocket((SOCKET)socket);
 #elif defined(EX_UNIX)
@@ -177,7 +168,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(unsigned int socket){
 
 }
 
-DECLSPEC unsigned int ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port,unsigned int socket){
+DECLSPEC ExSocket ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port, ExSocket socket){
 #ifdef EX_WINDOWS
     SOCKADDR_IN serv_addr, cli_addr;
 
@@ -190,6 +181,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port
     struct sockaddr_in serv_addr, cli_addr;
 
 	struct hostent* host;
+
 	host = gethostbyname(ip);
 
     bzero((char*)&serv_addr,sizeof(serv_addr));
@@ -198,19 +190,17 @@ DECLSPEC unsigned int ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port
 	inet_pton(0,ip, &serv_addr.sin_addr);
     serv_addr.sin_port = htons(port);
 
-    /**
-        TODO solve how to create a ip address
-    */
+    /*	TODO solve how to create a ip address	*/
     if(bind(socket, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0){
         fprintf(stderr,strerror(errno));
         return -1;
     }
     return socket;
-#endif // EX_WINDOWS
+#endif
 
 }
 
-DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int port){
+DECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int port){
     #ifdef EX_WINDOWS
     SOCKADDR_IN serv_addr;
     struct hostent *server;
@@ -219,7 +209,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int p
 	if(wsadata.wVersion != EX_WSA_VERSION)
 		WSAStartup(EX_WSA_VERSION, &wsadata);
 
-    sockfd = ExOpenSocket(ip,port,ELT_CLIENT);
+    sockfd = ExOpenSocket(ELT_CLIENT);
 
 	server = gethostbyname(ip);/*   Get information of the ip address */
 
@@ -237,7 +227,7 @@ DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int p
 #elif defined(EX_UNIX)
     struct sockaddr_in serv_addr;
     struct hostent *server;
-    int sockfd;/**TODO check if sockdf should be input parameter*/
+    ExSocket sockfd;
     /**/
     sockfd = ExOpenSocket(ELT_CLIENT);
 
@@ -250,15 +240,17 @@ DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int p
     bcopy((char*)server->h_addr,
          (char*)&serv_addr.sin_addr.s_addr,
          server->h_length);
+
     serv_addr.sin_port = htons(port);
 
     if(connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0){
         fprintf(stderr,strerror(errno));
-        return 0;
+        return -1;
     }
     return sockfd;
     #endif
 }
+
 
 DECLSPEC inline int ELTAPIENTRY ExGetHostIp(char ip[16]){
 #ifdef EX_WINDOWS

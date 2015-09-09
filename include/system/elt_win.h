@@ -33,6 +33,7 @@ extern "C"{
 #endif
 
 #ifdef EX_LINUX
+typedef void* ExDisplay;
 extern void* display;
 #endif
 
@@ -115,7 +116,7 @@ extern DECLSPEC void ELTAPIENTRY ExSetWindowSize(ExWin window,Int32 width, Int32
 /**
 	Set Window Size
 */
-extern DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window,ExSize* size);
+extern DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window,const ExSize* size);
 /*
     Get Window Size
 */
@@ -158,6 +159,12 @@ extern DECLSPEC void ELTAPIENTRY ExSetWindowUserData(ExWin window, HANDLE userda
 
 
 
+extern DECLSPEC int ELTAPIENTRY ExSetWindowParent(ExWin parent,ExWin window);
+extern DECLSPEC ExWin ELTAPIENTRY ExGetWindowParent(ExWin window);
+
+extern DECLSPEC int ELTAPIENTRY ExSetWindowChild(ExWin window,ExWin child);
+extern DECLSPEC ExWin ELTAPIENTRY ExGetWindowChild(ExWin window,unsigned int index);
+extern DECLSPEC int ELTAPIENTRY ExGetWindowNumChildren(ExWin window);
 /**
 
 */
@@ -166,8 +173,6 @@ extern DECLSPEC Int32 ELTAPIENTRY ExIsScreenSaverEnable(void);
 /**/
 extern DECLSPEC ExWin ELTAPIENTRY ExGetDesktopWindow(void);
 
-extern DECLSPEC int ELTAPIENTRY ExSetWindowParent(ExWin parent,ExWin window);
-//extern DECLSPEC int ELTAPIENTRY ExSetChildren()
 
 
 

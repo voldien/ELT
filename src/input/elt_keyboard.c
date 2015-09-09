@@ -21,14 +21,9 @@
 #   include<android/input.h>
 #endif
 
-unsigned char KeyBoardState[2][0xff];
+unsigned char KeyBoardState[2][0xFF];
 
 
-
-/**
-================================
-
-*/
 
 static inline int ExGetKeyCodeInternal(Uint32 keyCode){
     int keysym;
@@ -99,7 +94,9 @@ static inline int ExGetKeyCodeInternal(Uint32 keyCode){
         case EXK_Tilde:      keysym = XK_dead_grave;   break;
         case EXK_Equal:      keysym = XK_equal;        break;
         case EXK_Dash:       keysym = XK_minus;        break;
-        case EXK_Space:      keysym = XK_space;        break;
+        */
+        case EXK_SPACE:      keysym = XK_space;        break;
+        /*
         case EXK_Return:     keysym = XK_Return;       break;
         case EXK_BackSpace:  keysym = XK_BackSpace;    break;
         case EXK_Tab:        keysym = XK_Tab;          break;
@@ -244,6 +241,8 @@ static inline int ExGetKeyCodeInternal(Uint32 keyCode){
         case EXK_F14:        keysym = VK_F14;        break;
         case EXK_F15:        keysym = VK_F15;        break;
         case EXK_Pause:      keysym = VK_PAUSE;      break;
+		#elif defined(EX_ANDROID)
+		#elif defined(EX_MAC)
         #endif
         default:             keysym = 0;               break;
     }
@@ -297,10 +296,14 @@ DECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys){
 	unsigned char ispressed = GetKeyboardState(&KeyBoardState[0][0]);
 	return KeyBoardState[0];
 #elif defined(EX_LINUX)
-	if(numkeys)
-        *numkeys = XQueryKeymap(display,KeyBoardState[0]);
-    else XQueryKeymap(display,KeyBoardState[0]);
-	return KeyBoardState[0];
+	xcb_query_keymap_reply_t* keymap = NULL;
+	//keymap = xcb_query_keymap_reply(xcbConnection,xcb_query_keymap(xcbConnection), NULL);*/
+	return keymap->keys;
+
+	//if(numkeys)
+     //   *numkeys = XQueryKeymap(display,KeyBoardState[0]);
+    //else XQueryKeymap(display,KeyBoardState[0]);
+	//return KeyBoardState[0];
 #endif
 }
 /**
@@ -322,14 +325,20 @@ DECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void){
 
 	return FALSE;
 }
+
+
 DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(Uint32 keyCode){
 #if defined(EX_WINDOWS)
 	return (ExBoolean)GetAsyncKeyState(keyCode);
 #elif defined(EX_LINUX)
-	return 0;
+	return ExIsKeyDown(keyCode);
 #endif
 }
 
+
+#ifdef EX_LINUX
+	extern xcb_connection_t* xcbConnection;
+#endif
 
 DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode){
 #if defined(EX_WINDOWS)
@@ -337,7 +346,8 @@ DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode){
 #elif defined(EX_LINUX)
 	KeySym keysym = ExGetKeyCodeInternal(keyCode);
 
-	xcb_connection_t* connection = XGetXCBConnection(display);
+	if(!xcbConnection)
+		xcbConnection = XGetXCBConnection(display);
 
 
 	unsigned int keycode = XKeysymToKeycode(display, keysym);
@@ -346,7 +356,7 @@ DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode){
 
 		xcb_query_keymap_reply_t* keymap = NULL;
 		unsigned char isPressed;
-		keymap = xcb_query_keymap_reply(connection,xcb_query_keymap(connection), NULL);
+		keymap = xcb_query_keymap_reply(xcbConnection,xcb_query_keymap(xcbConnection), NULL);
 
 		isPressed = (keymap->keys[keycode/8] & (1 << (keycode % 8))) ?  1 : 0;
 
@@ -356,11 +366,11 @@ DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode){
 #endif
 }
 
-DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyUp(const Uint32 keyCode){
+DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyUp(Uint32 keyCode){
 #if defined(EX_WINDOWS)
 	return GetAsyncKeyState(keyCode);
 #elif defined(EX_LINUX)
-	return FALSE;
+	return ExIsKeyDown(keyCode);
 #endif
 
 }

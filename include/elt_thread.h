@@ -57,8 +57,11 @@ extern DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callb
 extern DECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread);
 
 
+
+extern DECLSPEC void ELTAPIENTRY ExTerminateThread(ExThread thread);
 /**
 	\thread is the thread of the current thread.
+	TODO check if to replace  this function with ExTerminateThread.
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExExitThread(ExThread thread);
 

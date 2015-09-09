@@ -122,16 +122,6 @@ extern DECLSPEC ExBoolean ELTAPIENTRY ExShowCursor(ExBoolean enabled);
 
 
 
-
-//---------------------------------------------------
-extern DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButton(Uint32 keyCode);
-//---------------------------------------------------
-extern DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButtonDown(Uint32 keyCode);
-//---------------------------------------------------
-extern DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButtonUp(Uint32 keyCode);
-
-
-
 /**
 
 	@return

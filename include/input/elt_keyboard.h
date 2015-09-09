@@ -1,5 +1,4 @@
 /**
-========================================================================
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -76,6 +75,7 @@ extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void);
 	@return
 */
 extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(Uint32 keyCode);
+
 extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode);
 extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyReleased(Uint32 keyCode);
 

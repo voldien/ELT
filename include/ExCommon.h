@@ -74,11 +74,7 @@ extern DECLSPEC int ELTAPIENTRY ExSetScreenSize(int index, int width, int height
 	@return
 */
 extern DECLSPEC const char* ExGetPlatform(void);
-/**
-	// Get Power Info
-	@return
-*/
-extern DECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct);
+
 /**
 	// Get Application Name
 	@return
@@ -87,9 +83,10 @@ extern DECLSPEC ExChar* ELTAPIENTRY ExGetApplicationName(ExChar* name,Int32 leng
 
 
 
-extern DECLSPEC char* ELTAPIENTRY ExGetCurrentDirectory(void);
+extern DECLSPEC ExChar* ELTAPIENTRY ExGetCurrentDirectory(void);
 
 extern DECLSPEC int ELTAPIENTRY ExSetCurrentDirectory (const char* cdirectory);
+
 
 /*
     Get Application Execute global Path.
@@ -100,6 +97,8 @@ extern DECLSPEC void ELTAPIENTRY ExGetExecutePath(ExChar* wChar, Int32 lengthSiz
 extern DECLSPEC void ELTAPIENTRY ExGetAppliationPath(ExChar* wChar, Int32 lengthSize);
 /* Get Relative Path.*/
 extern DECLSPEC void ELTAPIENTRY ExGetRelativePath(const ExChar* wChar, ExChar* Chas, Int32 lengthSize);
+
+
 
 
 
@@ -115,8 +114,9 @@ extern DECLSPEC Uint64 ELTAPIENTRY ExGetTotalSystemMemory(void);
 extern DECLSPEC Uint64 ELTAPIENTRY ExGetTotalVirtualMemory(void);
 
 
-//InternetOpenUrl
-extern DECLSPEC void* ELTAPIENTRY ExDownloadURL(const ExChar* url);
+
+
+
 
 /*
 	Get System OperatingSystem Os Name
@@ -131,10 +131,9 @@ extern DECLSPEC const ExChar* ELTAPIENTRY ExGetOSName(void);
     @return
 */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetCurrentUser(void);
-/**
-	Get Clipboard Text
-*/
-extern DECLSPEC ExChar* ELTAPIENTRY ExGetClipboardText(void);
+
+
+
 /**
 	Set Clipboard Text
 */
@@ -142,10 +141,15 @@ extern DECLSPEC Int32 ELTAPIENTRY ExSetClipboardText(const ExChar* text);
 /**
 	Set Clipboard Data
 */
-extern DECLSPEC Int32 ELTAPIENTRY ExSetClipboardData(void* data,Uint32 csize);
+extern DECLSPEC Int32 ELTAPIENTRY ExSetClipboardData(void* pdata,Uint32 csize);
+/**
+	Get Clipboard Text
+*/
+extern DECLSPEC ExChar* ELTAPIENTRY ExGetClipboardText(void);
 /**
 	Get Clipboard data
 */
+
 extern DECLSPEC Int32 ELTAPIENTRY ExGetClipboardData(void* pdata);
 
 /*
@@ -154,10 +158,14 @@ extern DECLSPEC Int32 ELTAPIENTRY ExGetClipboardData(void* pdata);
 extern DECLSPEC ERESULT ELTAPIENTRY ExPutFTPFile(const ExChar* ftp, const ExChar* user, const ExChar* password,const ExChar* fileconst, const ExChar* directory);
 
 
+//InternetOpenUrl
+extern DECLSPEC void* ELTAPIENTRY ExDownloadURL(const ExChar* url);
+
+
 
 /*
-	TODO remote or something later!
-	// Copy Virtual Table for C++ classes
+	TODO remove or something later!
+	Copy Virtual Table for C++ classes
 */
 #define ExCopyVPTR(destination,source) {memcpy((void*)( destination ),(const void*) ( source ), sizeof(unsigned int));}
 

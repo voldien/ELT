@@ -135,6 +135,7 @@ DECLSPEC void ELTAPIENTRY ExError(const ExChar* error,...){
 
 #endif
 }
+
 /**
 	\Error
 */
@@ -183,6 +184,7 @@ DECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...){
 	if(flag & EX_ERROR_TERMINATE)
 		exit(EXIT_FAILURE);
 }
+
 
 ERESULT ex_error[4];
 DECLSPEC ERESULT ELTAPIFASTENTRY ExGetError(void){

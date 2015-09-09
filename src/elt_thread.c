@@ -103,11 +103,24 @@ DECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread){
 #elif defined(EX_UNIX)
     if(pthread_detach(thread) == -1){
         fprintf(stderr, strerror(errno));
-        return 0;
+        return FALSE;
     }
-	return 1;
+	return TRUE;
 #endif
 }
+
+DECLSPEC void ELTAPIENTRY ExTerminateThread(ExThread thread){
+#ifdef EX_UNIX
+	#ifdef EX_ANDROID
+	pthread_ cancel(thread);
+	#else
+	pthread_kill(thread,SIGUSR1);
+	#endif
+#endif
+
+}
+
+
 DECLSPEC ERESULT ELTAPIENTRY ExExitThread(ExThread thread){
 #ifdef EX_WINDOWS
 	return TerminateThread(thread,NULL);
@@ -119,7 +132,6 @@ DECLSPEC ERESULT ELTAPIENTRY ExExitThread(ExThread thread){
 
 DECLSPEC void ELTAPIENTRY ExLockThread(ExThread thread){
 #ifdef EX_UNIX
-
 	//pthread_mutex_lock()
 #endif
 }

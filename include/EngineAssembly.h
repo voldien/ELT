@@ -39,26 +39,6 @@
 #elif defined(EX_MAC)
 #endif
 
-/**
-		Type
-*/
-#ifdef __cplusplus //	C++	Environment
-	#define TYPE(x) typeid(x)
-	#define TYPEX(x) TypeEx(typeid(x),sizeof(x))
-	#define TYPEMI(vertex,indices) //MeshInstruction(TYPEX(vertex),TYPEX(indices))
-	#define TYPE_EQUAL(x,y) ( (typeid( ( x ) ) == typeid( ( y ) )) ? TRUE : FALSE )
-	#define TYPEX_EQUAL(x,y)
-	#define TYPEBASE(current,base) typeid(current).before(base)
-	#define TYPENAME(x) typeid(x).name()
-#else
-	#define TYPE(x)	EX_UNUSED(x)
-	#define TYPEX(x)	EX_UNUSED(x)
-	#define TYPEMI(x)	EX_UNUSED(x)
-	#define TYPE_EQUAL(x,y)	EX_UNUSED(x)
-	#define TYPEX_EQUAL(x,y)	EX_UNUSED(x)
-	#define TYPEBASE(x,y) EX_UNUSED(x)
-	#define TYPENAME(x) EX_UNUSED(x)
-#endif
 
 #ifdef EX_CPP
 	#define CASTP(type,y) reinterpret_cast<type>( ( y ) )

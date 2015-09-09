@@ -17,10 +17,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef ELT_GAME_CONTROLLER_H
-#define ELT_GAME_CONTROLLER_H
+#ifndef ELT_GAME_CONTROLLER_H_
+#define ELT_GAME_CONTROLLER_H_ 1
 #include"./../EngineAssembly.h"
 #include"elt_joystick.h"
+
+typedef int ExGameCont;
 
 #ifdef __cplusplus	// C++ Environment
 extern "C"{
@@ -31,19 +33,23 @@ extern DECLSPEC Int32 ELTAPIENTRY ExGameControllerAddMappinFromFile(const char* 
 extern DECLSPEC Int32 ELTAPIENTRY ExGameControllerEventState(Int32 state);
 extern DECLSPEC Int32 ELTAPIENTRY ExGameControllerEventState(Int32 state);
 
+extern DECLSPEC ExBoolean ELTAPIENTRY ExGameControllerOpen(Int32 index);
 extern DECLSPEC ExBoolean ELTAPIENTRY ExGameControllerClose(Int32 index);
+
+
 extern DECLSPEC const char* ELTAPIENTRY ExGameControlerNameForIndex(Int32 index);
 extern DECLSPEC ExBoolean ELTAPIENTRY ExGameControllerOpen(Int32 index);
-extern DECLSPEC ExBoolean ELTAPIENTRY ExIsGameController(Int32 joystick_index);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExIsGameController(Int32 joystickIndex);
 
 extern DECLSPEC Uint16 ELTAPIENTRY ExGameControllerGetAxis(int index, int* axis);
 
 
-extern DECLSPEC void ELTAPIENTRY ExGameControllerVibration(Int32 index, Int16 LeftMotorSpeed, Int16 RightMotorSpeed);
+extern DECLSPEC void ELTAPIENTRY ExGameControllerVibration(Int32 index, Int16 leftMotorSpeed, Int16 rightMotorSpeed);
 
-extern DECLSPEC void ELTAPIENTRY ExGameControllerBattery(Int32 index,Int32 );
+extern DECLSPEC void ELTAPIENTRY ExGameControllerBattery(Int32 index,Int32* battprec );
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus	// C++ Environmsent
 }
 #endif
+
 #endif

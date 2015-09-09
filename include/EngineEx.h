@@ -67,7 +67,7 @@ extern DECLSPEC void ELTAPIENTRY ExDisable(Enum disable);
 //TODO put ExCreateInterrupt somewhere else!
 /*
 */
-extern DECLSPEC int ELTAPIENTRY ExCreateInterrupt(interrupt_routine callback,unsigned int etype);
+extern DECLSPEC int ELTAPIENTRY ExCreateInterrupt(interrupt_routine callback,unsigned int type);
 
 /*
 	Get ELT Version

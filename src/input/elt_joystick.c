@@ -23,7 +23,7 @@
 #endif
 
 
-DECLSPEC Uint32 ELTAPIENTRY ExNumJoysticks(void){
+DECLSPEC Uint32 ELTAPIENTRY ExJoysticksNum(void){
 #ifdef EX_WINDOWS
 	Int32 num = 0;
 	Uint32 i,count;
@@ -35,9 +35,19 @@ DECLSPEC Uint32 ELTAPIENTRY ExNumJoysticks(void){
 	}
 	return num;
 #elif defined(EX_LINUX)
-	struct js_event event;
+	unsigned int num;
+	unsigned int x;
 
-	return 0;
+	for(x = 0; x < 1000;x++){
+		char device_text[sizeof("/dev/input/js0") + 10] = {0};
+		sprintf(device_text,"/dev/input/js%d",x);
+		if(access(device_text,F_OK) != -1){
+			continue;
+		}
+		else
+			break;
+	}
+	return num;
 #elif defined(EX_ANDROID)
 	return 0;
 #else
@@ -45,22 +55,22 @@ DECLSPEC Uint32 ELTAPIENTRY ExNumJoysticks(void){
 #endif
 }
 
-DECLSPEC void* ELTAPIENTRY ExJoystickOpen(Int32 device_index){
+DECLSPEC void* ELTAPIENTRY ExJoystickOpen(Int32 index){
 #ifdef EX_WINDOWS
 	JOYCAPS caps;
-	joyGetDevCaps(device_index,&caps,sizeof(caps));
+	joyGetDevCaps(index,&caps,sizeof(caps));
 	if(!GetModuleHandle(caps.szRegKey))
 		return ExLoadObject(caps.szRegKey);
 	else return (void*)TRUE;
 #elif defined(EX_LINUX)
-	struct js_event event;
+	//struct js_event event;
 
-	char device_text[sizeof("/dev/input/js0") + 1] = {0};
-	sprintf(device_text,"/dev/input/js%d",device_index);
+	char device_text[sizeof("/dev/input/js0") + 10] = {0};
+	sprintf(device_text,"/dev/input/js%d",index);
 
-	joy_id[device_index] = open(device_text, O_RDONLY);
-	read(joy_id[device_index],&event,sizeof(event));
-	return joy_id[device_index];
+	joy_id[index] = open(device_text, O_RDONLY);
+	//read(joy_id[index],&event,sizeof(event));
+	return index;
 #endif
 }
 
@@ -70,7 +80,7 @@ DECLSPEC int ELTAPIENTRY ExJoyStickClose(Int32 device_index){
 	return 0;
     #elif defined(EX_LINUX)
     close(joy_id[device_index]);
-    #endif // EX_WINDOWS
+    #endif
 }
 
 DECLSPEC ExGUID ELTAPIENTRY ExJoystickGetDeviceGUID(Int32 device_index){
@@ -80,6 +90,7 @@ DECLSPEC ExGUID ELTAPIENTRY ExJoystickGetDeviceGUID(Int32 device_index){
 	joyGetDevCaps(device_index,(LPJOYCAPSW)&caps2,sizeof(caps2));
 	memcpy(&guid,&caps2.NameGuid,sizeof(ExGUID));
 #elif defined(EX_LINUX)
+
 	//read(joy_id[device_index],&event,sizeof(event));
 #endif
 	return guid;
@@ -128,14 +139,14 @@ DECLSPEC Int32 ELTAPIENTRY ExJoystickNumAxis(Int32 device_index){
     #endif
 }
 
-DECLSPEC Int16 ELTAPIENTRY ExJoystickGetAxis(Int32 device_index,int axis){
+DECLSPEC Int16 ELTAPIENTRY ExJoystickGetAxis(Int32 index,int axis){
     #ifdef EX_WINDOWS
     JOYINFO  pji;
-    joyGetPos(device_index,&pji);
+    joyGetPos(index,&pji);
     return ((unsigned int*)&pji)[axis];
     #elif defined(EX_LINUX)
     struct js_event js;
-    if(read(joy_id[device_index], &js,sizeof(struct js_event))){
+    if(read(joy_id[index], &js,sizeof(struct js_event))){
         if(js.type & JS_EVENT_AXIS)
             return js.value;
     }else return -1;
@@ -160,68 +171,3 @@ DECLSPEC Uint8 ELTAPIENTRY ExJoyStickGetButton(Int32 device_index, int button){
 
 //http://msdn.microsoft.com/en-us/library/windows/desktop/ms645546(v=vs.85).aspx
 
-//HJoyStick* m_joyStickhandler = NULL;
-/*
-DECLSPEC ERESULT ELTAPIENTRY ExInitJoyStick( ExWin hwnd){
-#ifdef EX_WINDOWS
-	ERESULT hr;
-	RAWINPUTDEVICE rid;
-
-	ExIsWinError(LoadLibrary(EX_TEXT("dinput.dll")));
-
-	IDirectInput8* DI = g_pDI;
-	rid.usUsagePage = 1;
-	rid.usUsage = 4;
-	rid.dwFlags = 0;
-	rid.hwndTarget = hwnd;
-	if(!RegisterRawInputDevices(&rid, 1, sizeof(RAWINPUTDEVICE)))
-			return -1;
-	return 1;
-	//if(!m_joyStickhandler){
-	//	m_joyStickhandler = (HJoyStick*)ExMalloc(sizeof(HJoyStick));
-	//	memset(m_joyStickhandler,0, sizeof(HJoyStick));
-	//	m_joyStickhandler->joyState = (DIJOYSTATE*)ExMalloc(sizeof(DIJOYSTATE));
-	//}
-	////for(Uint32 x = 0; x < EX_JOYSTICK_MAX_COUNT; x++){
-	////	continue;
-	////}
-	//
-	//DIJOYCONFIG preferredJoyCfg = {0};
-	//DI_ENUM_CONTEXT enumContext;
-	//enumContext.pPreferredJoyCfg = &preferredJoyCfg;
-	//enumContext.bPreferredJoyCfgValid = false;
-	////enumContext.
-	//
-	//IDirectInputJoyConfig8* pJoyConfig = NULL;
-	//if(FAILED(hr = g_pDI->QueryInterface(IID_IDirectInputJoyConfig8,(void**)&pJoyConfig))){
-	//	// print some error regarding the failure!!
-	//	return hr;
-	//}
-	//preferredJoyCfg.dwSize = sizeof(preferredJoyCfg);
-	//if(SUCCEEDED(pJoyConfig->GetConfig(0,&preferredJoyCfg,DIJC_GUIDINSTANCE))){
-	//	enumContext.bPreferredJoyCfgValid = true;
-	//}
-	//// Look for a simple joystick we can use for this sample program.
-	//if(FAILED(hr = DI->EnumDevices(DI8DEVCLASS_GAMECTRL, EnumJoysticksCallback,&enumContext, DIEDFL_ATTACHEDONLY))){
-	//	return hr;
-	//}
-	//
-	//if(NULL == m_joyStickhandler->p_joystick[0]){
-	//	// FAILURE
-	//	return hr;
-	//}
-	//
-	//if(FAILED(hr = m_joyStickhandler->p_joystick[0]->SetDataFormat(&c_dfDIJoystick)))
-	//	return hr;
-	//
-	//if(FAILED(hr = m_joyStickhandler->p_joystick[0]->SetCooperativeLevel(hwnd,		((ExGetEngineFlag() & ENGINE_SUPPORT_INPUT_FOREGROUND) != 0 ? DISCL_FOREGROUND : 0)
-	//	| ((ExGetEngineFlag() & ENGINE_SUPPORT_INPUT_BACKGROUND) != 0 ? DISCL_BACKGROUND : 0)
-	//	| ((ExGetEngineFlag() & ENGINE_SUPPORT_INPUT_EXCLUSIVE) == 0 ? DISCL_NONEXCLUSIVE : DISCL_EXCLUSIVE))))
-	//	return hr;
-	//
-	//if(FAILED(hr = m_joyStickhandler->p_joystick[0]->EnumObjects(EnumObjectsCallBack, (void*)hwnd, DIDFT_ALL)))
-	//	return hr;
-	//return S_OK;
-#endif
-	return 0;
-}*/

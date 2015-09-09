@@ -32,7 +32,7 @@ extern "C"{
 /**
 	Number of joystick
 */
-extern DECLSPEC Uint32 ELTAPIENTRY ExNumJoysticks(void);
+extern DECLSPEC Uint32 ELTAPIENTRY ExJoysticksNum(void);
 /**
     Open joystick by device index
 */

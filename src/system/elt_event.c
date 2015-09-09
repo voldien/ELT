@@ -183,12 +183,16 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 		case  VisibilityNotify:{
 
 
-
 		}break;
 		case ConfigureNotify:{
             //event->event |= EX_EVENT_SIZE;
             //event->size.width =  msg.xconfigure.width;
             //event->size.height = msg.xconfigure.height;
+		}break;
+		case DestroyNotify:{
+			event->event |= EX_EVENT_WINDOW_DESTROYED;
+			event->destroy.window = msg.xdestroywindow.window;
+
 		}break;
 		case FocusIn:
 			break;
@@ -201,7 +205,7 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 			event->event |= msg.type;
 			break;
 		}
-		event->time = ExGetHiResTime();
+		event->time = ExGetTicks();
 		event->window = msg.xany.window;
 		return TRUE;
 	}else {/*XSync(display,TRUE);*/ return FALSE;}
@@ -336,9 +340,10 @@ DECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event)
     if(XPending(display))
     	XWindowEvent(display,window,0,&msg);
 
+    switch(msg.type){
 
 
-
+    }
 
 	return TRUE;
 #elif defined(EX_ANDROID)
@@ -352,6 +357,7 @@ DECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event)
 
 DECLSPEC Int32 ELTAPIENTRY ExForwardEvent(Uint32 event, HANDLE data, Uint32 size){
 #ifdef EX_LINUX
+
 	XSendEvent(display,0,True,event,data);
 #endif
 

@@ -1,4 +1,7 @@
 #include"system/eltfile.h"
+#ifdef EX_WINDOWS
+	#include<windows.h>
+#endif
 #include<stdio.h>
 
 static inline long unsigned int  ExGetFileStreamSize(FILE* file){

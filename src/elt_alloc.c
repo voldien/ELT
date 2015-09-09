@@ -58,6 +58,32 @@ DECLSPEC void* ELTAPIENTRY ExPoolReturn(ExPoolAllactor* allactor, void* data, un
 
 	return tmp;
 }
+
+DECLSPEC ExPoolAllactor* ELTAPIENTRY ExPoolResize(ExPoolAllactor* allcotor, unsigned num, unsigned int itemsize){
+	ExPoolAllactor* next;
+	ExPoolAllactor* terminate = allcotor->next;
+
+
+	/*	get the last pool*/
+	while(terminate->next){
+		terminate = terminate->next;
+	}
+	terminate = terminate->next;
+
+
+	next = allcotor->next;
+
+	allcotor->next = realloc(allcotor->next,num * itemsize);
+	if(!allcotor->next){
+
+	}
+	else{
+
+	}
+
+	return allcotor;
+}
+
 DECLSPEC void ELTAPIENTRY ExPoolFree(ExPoolAllactor* allactor){
 	free(allactor);
 }

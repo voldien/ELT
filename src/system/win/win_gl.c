@@ -49,8 +49,14 @@ int pixAtt[] = {
 	WGL_STEREO_ARB,0,
 	WGL_SAMPLE_BUFFERS_ARB,0,
 	WGL_SAMPLES_ARB,0,
-	//WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB,True,
+	WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB,TRUE,
+	NULL,
+	WGL_CONTEXT_MAJOR_VERSION_ARB,3,
+	WGL_CONTEXT_MINOR_VERSION_ARB, 3,
+	WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
+	WGL_CONTEXT_FLAGS_ARB,WGL_CONTEXT_DEBUG_BIT_ARB,
 	NULL
+
 };
 
 
@@ -71,6 +77,84 @@ typedef const char *(APIENTRY * WGLGETEXTENSIONSSTRINGARB_T)( HDC );    /* wglGe
 
 typedef HGLRC (APIENTRY * WGLCREATECONTEXTATTRIBSARB)(HDC,HGLRC hShareContext,const int *attribList);			/*  */
 
+
+/*	*/
+typedef void (APIENTRY * PFNGLATTACHSHADERPROC) (GLuint program, GLuint shader);
+typedef void (APIENTRY * PFNGLBINDBUFFERPROC) (GLenum target, GLuint buffer);
+typedef void (APIENTRY * PFNGLBINDVERTEXARRAYPROC) (GLuint array);
+typedef void (APIENTRY * PFNGLBUFFERDATAPROC) (GLenum target, ptrdiff_t size, const GLvoid *data, GLenum usage);
+typedef void (APIENTRY * PFNGLCOMPILESHADERPROC) (GLuint shader);
+typedef GLuint (APIENTRY * PFNGLCREATEPROGRAMPROC) (void);
+typedef GLuint (APIENTRY * PFNGLCREATESHADERPROC) (GLenum type);
+typedef void (APIENTRY * PFNGLDELETEBUFFERSPROC) (GLsizei n, const GLuint *buffers);
+typedef void (APIENTRY * PFNGLDELETEPROGRAMPROC) (GLuint program);
+typedef void (APIENTRY * PFNGLDELETESHADERPROC) (GLuint shader);
+typedef void (APIENTRY * PFNGLDELETEVERTEXARRAYSPROC) (GLsizei n, const GLuint *arrays);
+typedef void (APIENTRY * PFNGLDETACHSHADERPROC) (GLuint program, GLuint shader);
+typedef void (APIENTRY * PFNGLENABLEVERTEXATTRIBARRAYPROC) (GLuint index);
+typedef void (APIENTRY * PFNGLGENBUFFERSPROC) (GLsizei n, GLuint *buffers);
+typedef void (APIENTRY * PFNGLGENVERTEXARRAYSPROC) (GLsizei n, GLuint *arrays);
+typedef GLint (APIENTRY * PFNGLGETATTRIBLOCATIONPROC) (GLuint program, const char *name);
+typedef void (APIENTRY * PFNGLGETPROGRAMINFOLOGPROC) (GLuint program, GLsizei bufSize, GLsizei *length, char *infoLog);
+typedef void (APIENTRY * PFNGLGETPROGRAMIVPROC) (GLuint program, GLenum pname, GLint *params);
+typedef void (APIENTRY * PFNGLGETSHADERINFOLOGPROC) (GLuint shader, GLsizei bufSize, GLsizei *length, char *infoLog);
+typedef void (APIENTRY * PFNGLGETSHADERIVPROC) (GLuint shader, GLenum pname, GLint *params);
+typedef void (APIENTRY * PFNGLLINKPROGRAMPROC) (GLuint program);
+typedef void (APIENTRY * PFNGLSHADERSOURCEPROC) (GLuint shader, GLsizei count, const char* *string, const GLint *length);
+typedef void (APIENTRY * PFNGLUSEPROGRAMPROC) (GLuint program);
+typedef void (APIENTRY * PFNGLVERTEXATTRIBPOINTERPROC) (GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride,
+                                                        const GLvoid *pointer);
+typedef void (APIENTRY * PFNGLBINDATTRIBLOCATIONPROC) (GLuint program, GLuint index, const char *name);
+typedef GLint (APIENTRY * PFNGLGETUNIFORMLOCATIONPROC) (GLuint program, const char *name);
+typedef void (APIENTRY * PFNGLUNIFORMMATRIX4FVPROC) (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
+typedef void (APIENTRY * PFNGLACTIVETEXTUREPROC) (GLenum texture);
+typedef void (APIENTRY * PFNGLUNIFORM1IPROC) (GLint location, GLint v0);
+typedef void (APIENTRY * PFNGLGENERATEMIPMAPPROC) (GLenum target);
+typedef void (APIENTRY * PFNGLDISABLEVERTEXATTRIBARRAYPROC) (GLuint index);
+typedef void (APIENTRY * PFNGLUNIFORM3FVPROC) (GLint location, GLsizei count, const GLfloat *value);
+typedef void (APIENTRY * PFNGLUNIFORM4FVPROC) (GLint location, GLsizei count, const GLfloat *value);
+
+/**/
+PFNGLATTACHSHADERPROC glAttachShader;
+PFNGLBINDBUFFERPROC glBindBuffer;
+PFNGLBINDVERTEXARRAYPROC glBindVertexArray;
+PFNGLBUFFERDATAPROC glBufferData;
+PFNGLCOMPILESHADERPROC glCompileShader;
+PFNGLCREATEPROGRAMPROC glCreateProgram;
+PFNGLCREATESHADERPROC glCreateShader;
+PFNGLDELETEBUFFERSPROC glDeleteBuffers;
+PFNGLDELETEPROGRAMPROC glDeleteProgram;
+PFNGLDELETESHADERPROC glDeleteShader;
+PFNGLDELETEVERTEXARRAYSPROC glDeleteVertexArrays;
+PFNGLDETACHSHADERPROC glDetachShader;
+PFNGLENABLEVERTEXATTRIBARRAYPROC glEnableVertexAttribArray;
+PFNGLGENBUFFERSPROC glGenBuffers;
+PFNGLGENVERTEXARRAYSPROC glGenVertexArrays;
+PFNGLGETATTRIBLOCATIONPROC glGetAttribLocation;
+PFNGLGETPROGRAMINFOLOGPROC glGetProgramInfoLog;
+PFNGLGETPROGRAMIVPROC glGetProgramiv;
+PFNGLGETSHADERINFOLOGPROC glGetShaderInfoLog;
+PFNGLGETSHADERIVPROC glGetShaderiv;
+PFNGLLINKPROGRAMPROC glLinkProgram;
+PFNGLSHADERSOURCEPROC glShaderSource;
+PFNGLUSEPROGRAMPROC glUseProgram;
+PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointer;
+PFNGLBINDATTRIBLOCATIONPROC glBindAttribLocation;
+PFNGLGETUNIFORMLOCATIONPROC glGetUniformLocation;
+PFNGLUNIFORMMATRIX4FVPROC glUniformMatrix4fv;
+PFNGLACTIVETEXTUREPROC glActiveTexture;
+PFNGLUNIFORM1IPROC glUniform1i;
+PFNGLGENERATEMIPMAPPROC glGenerateMipmap;
+PFNGLDISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArray;
+PFNGLUNIFORM3FVPROC glUniform3fv;
+PFNGLUNIFORM4FVPROC glUniform4fv;
+
+
+
+
+
+
+
 static void ELTAPIENTRY ExCreatePFD( void* pPFD, Int32 colorbits, Int32 depthbits, Int32 stencilbits){
 
 	PIXELFORMATDESCRIPTOR* pfd = (PIXELFORMATDESCRIPTOR*)pPFD;
@@ -85,7 +169,7 @@ static void ELTAPIENTRY ExCreatePFD( void* pPFD, Int32 colorbits, Int32 depthbit
 	pfd->cStencilBits = stencilbits;
 
 }
-static void ELTAPIENTRY ExCreatePFD2( void *pPFD, EngineDescription* desc){
+static void ELTAPIENTRY ExCreatePFD2( void *pPFD){
 
 	PIXELFORMATDESCRIPTOR pfd = {0};
 
@@ -113,42 +197,38 @@ static OpenGLContext create_temp_gl_context(HWND window){
 	OpenGLContext gl_context,hrc;
 	int npixelFormat;
 	HDC hDC;
-	/**
-        Create Pixel Description
-	*/
+	/*	Create Pixel Description	*/
 	ExCreatePFD(&pfd,32,24,0);
 	hDC = GetDC(window);    /*Get device context*/
-	/**
-        // Choose Pixel Format.
-	*/
+
+	/*	Choose Pixel Format.	*/
 	if(!(npixelFormat = ChoosePixelFormat(hDC,(const PIXELFORMATDESCRIPTOR*)&pfd))){
 		ExIsWinError(npixelFormat);
 		return NULL;
 	}
-	/**
-        // Set Pixel format
-	*/
+
+	/*	Set Pixel format	*/
 	if(!SetPixelFormat(hDC, npixelFormat,(const PIXELFORMATDESCRIPTOR*)&pfd)){
 		wExDevPrintf(EX_TEXT("Failed to Set PixelFormat : %s\n"), ExGetErrorMessage(GetLastError()));
 		return NULL;
 	}
-	/**
-		// Create OpenGL Context
-	*/
+
+	/*	Create OpenGL Context	*/
 	if(!(gl_context = wglCreateContext(hDC))){
 		wExDevPrintf(EX_TEXT("Failed to Create OpenGL Context : %s\n"), ExGetErrorMessage(GetLastError()));
 		MessageBox(NULL, EX_TEXT("Failed to Create Window OpenGL Context"), EX_TEXT("ERROR"), MB_OK | MB_ICONERROR);
 		return NULL;
 	}
-	/**
-        // Make Current Context On this Thread
-	*/
+
+
+	/*	Make Current Context On this Thread	*/
 	if(!wglMakeCurrent(hDC,gl_context)){
 		wExDevPrintf(EX_TEXT("Failed to Make OpenGL Current : %s\n"), ExGetErrorMessage(GetLastError()));
 		return NULL;
 	}
 
 	hrc = gl_context;
+
 	// Release Context
 	/*if(ReleaseDC(window,hDC))
 		return gl_context;
@@ -320,6 +400,9 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
 
    if(!ReleaseDC(WindowFromDC(wglGetCurrentDC()),wglGetCurrentDC()))
        wprintf(EX_TEXT("Failed to Release DC : %s \n"),ExGetErrorMessage(GetLastError()));
+
+
+   /*	get opengl functions */
 
 	return glc;
 }
@@ -513,12 +596,13 @@ DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin win
 			dm.dmPelsHeight = screenRes[1];
 		}
 		dm.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT;
-		if(engineDescription.ColorBits != 0){
 			// glw_state.allowdisplaydepthchange )
-			dm.dmBitsPerPel = engineDescription.ColorBits;
-			dm.dmFields |= DM_BITSPERPEL;
-			ExPrintf("Using colorbits of %d\n", engineDescription.ColorBits);
-		}
+			dm.dmBitsPerPel = ExOpenGLGetAttribute(EX_OPENGL_RED_SIZE,NULL) +
+				ExOpenGLGetAttribute(EX_OPENGL_GREEN_SIZE,NULL) +
+				ExOpenGLGetAttribute(EX_OPENGL_BLUE_SIZE,NULL) +
+				ExOpenGLGetAttribute(EX_OPENGL_BLUE_SIZE,NULL);
+		dm.dmFields |= DM_BITSPERPEL;
+		ExPrintf("Using colorbits of %d\n", engineDescription.ColorBits);
 		SetWindowLong(window, GWL_STYLE, GetWindowLong(window,GWL_STYLE) | WS_VISIBLE);		//Change Window Class Style.
 		//SetWindowLongPtr(hWnd,GWL_EXSTYLE, WS_EX_APPWINDOW);							//Change Extened Window Class Style.
 		ShowWindow(window, SW_MAXIMIZE);
@@ -620,6 +704,17 @@ DECLSPEC Int32 ELTAPIFASTENTRY ExMaxTextureUints(void){
 }
 
 */
+DECLSPEC void ELTAPIENTRY ExOpenGLSetAttribute(unsigned int attr, int value){
+	pixAtt[PIXATTOFFSET + (2 * attr) + 1] = value;
+}
+DECLSPEC int ELTAPIENTRY ExOpenGLGetAttribute(unsigned int attr, int* value){
+	if(value)
+		value = (unsigned int)pixAtt[PIXATTOFFSET + (2 * attr) + 1];
+	return pixAtt[PIXATTOFFSET + (2 * attr) + 1];
+}
+DECLSPEC void ELTAPIENTRY ExOpenGLResetAttributes(void){
+
+}
 
 
 DECLSPEC ERESULT ELTAPIENTRY ExOpenGLSetVSync(ExBoolean enabled, ExWin window){

@@ -71,8 +71,11 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length){
 	return text;
 }
 
+
+
 static void* createELTIcon(ExWin window){
-	if(!window)return NULL;
+	if(!window)
+		return NULL;
 
     #ifdef EX_WINDOWS
     HANDLE icon;
@@ -377,7 +380,7 @@ DECLSPEC void ELTAPIENTRY ExSetWindowSize(ExWin window,Int32 width, Int32 height
 	XResizeWindow(display,window,width,height);
 #endif
 }
-DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window, ExSize* size){
+DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window,const ExSize* size){
 #ifdef EX_WINDOWS
 	RECT winrect;
 	GetWindowRect(window,&winrect);
@@ -498,6 +501,60 @@ DECLSPEC void ELTAPIENTRY ExSetWindowUserData(ExWin window, HANDLE userdata){
 
 }
 
+DECLSPEC int ELTAPIENTRY ExSetWindowParent(ExWin parent,ExWin window){
+#ifdef EX_LINUX
+	int pos[2];
+	ExGetWindowPosv(parent,pos);
+	return XReparentWindow(display,window,parent,pos[0],pos[1]);
+#endif
+}
+DECLSPEC ExWin ELTAPIENTRY ExGetWindowParent(ExWin window){
+#ifdef EX_LINUX
+	int screen = DefaultScreen(display);
+	ExWin root = RootWindow(display,screen);
+	ExWin parent;
+	ExWin* children;
+	ExWin win;
+	int n;
+
+	XQueryTree(display, window, &win, &parent, &children, &n);
+	return parent;
+#endif
+}
+
+ DECLSPEC int ELTAPIENTRY ExSetWindowChild(ExWin window,ExWin child){
+#ifdef EX_LINUX
+		int pos[2];
+		ExGetWindowPosv(window,pos);
+		return XReparentWindow(display,child,window,pos[0],pos[1]);
+#endif
+}
+ DECLSPEC ExWin ELTAPIENTRY ExGetWindowChild(ExWin window,unsigned int index){
+#ifdef EX_LINUX
+	int screen = DefaultScreen(display);
+	ExWin root = RootWindow(display,screen);
+	ExWin parent;
+	ExWin* children;
+	ExWin win;
+	int n;
+
+	XQueryTree(display, window, &win, &parent, &children, &n);
+	return children[index];
+#endif
+}
+DECLSPEC int ELTAPIENTRY ExGetWindowNumChildren(ExWin window){
+#ifdef EX_LINUX
+	int screen = DefaultScreen(display);
+	ExWin root = RootWindow(display,screen);
+	ExWin parent;
+	ExWin* children;
+	ExWin win;
+	int n;
+
+	XQueryTree(display, window, &win, &parent, &children, &n);
+	return n;
+#endif
+}
 
 
 DECLSPEC Int32 ELTAPIENTRY ExIsScreenSaverEnable(void){
@@ -530,6 +587,10 @@ DECLSPEC ExWin ELTAPIENTRY ExGetDesktopWindow(void){
 	int height = DisplayHeight (display, screen);
 	ExWin desktop;
 	XWindowAttributes attrs;
+	Atom workeara;
+
+	//workeara = XInternAtom(display,"_NET_WORKAREA",False);
+
 
 	#define DEFAULT_DESKTOP_WINDOW_NAME "Desktop"
 	XQueryTree(display, root, &troot, &parent, &children, &n);

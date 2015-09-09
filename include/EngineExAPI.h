@@ -43,35 +43,28 @@
 #include"ExPreProcessor.h"
 // Library Import
 //define EX_AUTO_LINKER
-#ifdef ENGINE_EX_STATIC
+
 #ifdef EX_VC
 	// debug version
 	#ifdef EX_DEBUG
 		#ifdef EX_X86
-			#pragma comment(lib, "EngineEx.lib")
+			#pragma comment(lib, "EngineExD.lib")
 
 		#elif EX_X64
-			#pragma comment(lib, "EngineEx_64.lib")
+			#pragma comment(lib, "EngineEx64D.lib")
 		#endif
 	// release version
 	#elif defined(EX_RELEASE)
 		#ifdef EX_X86
 			#pragma comment(lib, "EngineEx.lib")
 		#elif EX_X64
-			#pragma comment(lib, "EngineEx_64.lib")
+			#pragma comment(lib, "EngineEx64.lib")
 		#endif
 	#endif
 #elif defined(EX_BORDERLAND)
 #elif defined(EX_LCC)
-#elif defined(EX_LINUX)
-	#ifdef EX_DEBUG
-		#ifdef EX_X86
-			#pragma comment(lib, "EngineExUnix.lib")
-		#endif
-	#endif
 #elif defined(EX_APPLE)
 	#pragma comment(lib, "EngineEx.lib")
-#endif
 #endif
 
 #include"EngineAssembly.h"

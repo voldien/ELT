@@ -45,42 +45,11 @@
 	OpenCL Error
 */
 
-#define ExIsCLError(x)  { if( ( x ) != CL_SUCCESS ){ ExDevPrintfc("Error | %s",EX_CONSOLE_RED,ExGetErrorMessage( ( x ) )); } }
+//#define ExIsCLError(x)  { if( ( x ) != CL_SUCCESS ){ ExDevPrintfc("Error | %s",EX_CONSOLE_RED,ExGetErrorMessage( ( x ) )); } }
 
 
 #define ELT_CL_GPU_INDEX(x) ((x & (ELT_GPU0 >> (ELT_GPU0 / 2))))
 #define ELT_CL_CPU_INDEX(x) ((x & 0x0000ff00))
-
-
-
-/*	TODO remove these console macros!*/
-#define KNRM  "\x1B[0m"
-#define KRED  "\x1B[31m"
-#define KGRN  "\x1B[32m"
-#define KYEL  "\x1B[33m"
-#define KBLU  "\x1B[34m"
-#define KMAG  "\x1B[35m"
-#define KCYN  "\x1B[36m"
-#define KWHT  "\x1B[37m"
-#define RESET "\033[0m"
-
-#define EX_CONSOLE_BLACK 0x0
-#define EX_CONSOLE_BLUE 0x1
-#define EX_CONSOLE_GREEN 0x2
-#define EX_CONSOLE_AQUA 0x3
-#define EX_CONSOLE_RED 0x4
-#define EX_CONSOLE_PURPLE 0x5
-#define EX_CONSOLE_YELLOW  0x6
-#define EX_CONSOLE_WHITE 0x7
-#define EX_CONSOLE_GRAY 0x8
-#define EX_CONSOLE_LIGHT_BLUE 0x9
-#define EX_CONSOLE_LIGHT_GREEN 0xA
-#define EX_CONSOLE_LIGHT_AQUA 0xB
-#define EX_CONSOLE_LIGHT_RED 0xC
-#define EX_CONSOLE_LIGHT_PURPLE 0xD
-#define EX_CONSOLE_LIGHT_YELLOW 0xE
-#define EX_CONSOLE_LIGHT_WHITE 0xF
-#define EX_CONSOLE_COLOR_RESET 0x10
 
 
 
@@ -127,6 +96,7 @@ DECLSPEC OpenCLContext ELTAPIFASTENTRY ExGetCurrentCLContext(void){return hClCon
 
 
 
+
 DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLContext(Enum flag){
 	cl_int cpPlatform;
 	cl_int ciErrNum;
@@ -139,13 +109,14 @@ DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLContext(Enum flag){
     Uint32 uiDeviceUsed = 0,uiEndDev = 0;
 
 
-    /*TODO check if needed or logic is accepted	*/
+    /**
+    TODO check if needed or logic is accepted*/
     loadOpenClLibrary();
 
-    /*	Get platform id	*/
-	if(!ExGetCLPlatformID(&cpPlatform,flag))
-		ExDevPrint("Failed to Get CL Platform ID");
-
+    /*Get platform ID	*/
+	if(ExGetCLPlatformID(&cpPlatform,flag) != CL_SUCCESS){
+		return NULL;
+	}
 
 	cl_context_properties props[] = {
         CL_CONTEXT_PLATFORM,cpPlatform,
@@ -164,6 +135,8 @@ DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLContext(Enum flag){
 
 	}
 
+
+
     // Get Device ID
     if(!(ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_GPU, 0, NULL, &uiDevCount))){
         // create OpenCL Devices on the GPU
@@ -181,8 +154,8 @@ DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLContext(Enum flag){
 
 	hClContext = clCreateContext(props,size, cdDevices,NULL,NULL,&ciErrNum);
 
-    if(!hClContext)
-        ExIsCLError(ciErrNum);
+    //if(!hClContext)
+    //    ExIsCLError(ciErrNum);
 
 	return (ERESULT)hClContext;
 }
@@ -202,7 +175,7 @@ DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, Wi
     loadOpenClLibrary();
 
     /*Get platform ID	*/
-	if(ExGetCLPlatformID(&cpPlatform,flag) != TRUE){
+	if(ExGetCLPlatformID(&cpPlatform,flag) != CL_SUCCESS){
 		return NULL;
 	}
 
@@ -347,7 +320,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(void* context,void* param_value,En
 
 
 DECLSPEC void ELTAPIENTRY ExReleaseCLContext(void* context){
-	ExIsCLError(clReleaseContext((cl_context)context));
+	clReleaseContext((cl_context)context);
 }
 
 /**

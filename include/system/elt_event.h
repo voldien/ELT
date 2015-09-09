@@ -62,6 +62,7 @@ typedef struct ex_rect{
 #define EX_EVENT_ON_FOCUSE	0x1000
 #define EX_EVENT_ON_UNFOCUSE 0x2000
 #define EX_EVENT_WINDOW_MOVE 0x4000
+#define EX_EVENT_WINDOW_DESTROYED 0x8000
 
 
 
@@ -116,8 +117,8 @@ typedef struct ex_key_event{
 }ExKeyEvent;
 EX_ALIGN_PREFIX(4)
 typedef struct ex_drop_event{
-	int number;
-	int cize;
+	int number;					/**/
+	int cize;					/**/
 }ExDropEvent;
 
 EX_ALIGN_PREFIX(4)
@@ -131,6 +132,14 @@ typedef struct ex_touch_finger_event{
     float dy;                   /*              */
     float pressure;             /*              */
 }ExTouchFingerEvent;
+
+
+EX_ALIGN_PREFIX(4)
+typedef struct ex_window_destroy{
+	ExWin window;
+
+}ExEventDestroyedWindow;
+
 
 
 EX_ALIGN_PREFIX(4)
@@ -161,6 +170,7 @@ typedef struct elt_poll_events{
 	ExSystemEvent system;                      	/*          */
 	ExTouchFingerEvent touch;                  	/*          */
 	MouseMotionEvent motion;					/*			*/
+	ExEventDestroyedWindow destroy;				/*			*/
 	unsigned long int time;						/*			*/
 	void* display;								/*			*/
 	ExWin window;
@@ -169,7 +179,7 @@ typedef struct elt_poll_events{
 
 
 
-/**
+/*
 	Poll Event from process.
 	\event
 	@return
@@ -195,7 +205,9 @@ extern DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
 extern DECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event);
 
 
-
+/*
+ *
+ */
 extern DECLSPEC Int32 ELTAPIENTRY ExForwardEvent(Uint32 event, HANDLE data, Uint32 size);
 
 

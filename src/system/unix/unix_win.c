@@ -100,7 +100,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int3
 	XGCValues gr_values;
 	GC graphical_context;
 	Colormap cmap;
-    Atom del_atom;
+    Atom delMsg;
 	GLXFBConfig fbconfigs;
 
 
@@ -174,11 +174,6 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int3
 
    //XIfEvent(display, &event, WaitFormMap)
 
-
-	/*	on destruction of window*/
-    if((del_atom = XInternAtom(display, "WM_DELETE_WINDOW", 0)) != None){
-        XSetWMProtocols(display, window, &del_atom, 1);
-    }
 
     XFlush(display);
 	return window;

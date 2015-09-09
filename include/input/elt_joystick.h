@@ -20,6 +20,7 @@
 #define _ELT_JOYSTICK_H_ 1
 #include"./../EngineAssembly.h"
 
+typedef int ExJoyStick;
 
 typedef struct ex_GUID{
 	Uint8 data[16];
@@ -32,23 +33,23 @@ extern "C"{
 	Number of joystick
 	@return
 */
-extern DECLSPEC Uint32 ELTAPIENTRY ExNumJoysticks(void);
+extern DECLSPEC Uint32 ELTAPIENTRY ExJoysticksNum(void);
 /**
     Open joystick by device index
 	@return
 */
-extern DECLSPEC void* ELTAPIENTRY ExJoystickOpen(Int32  device_index);
+extern DECLSPEC HANDLE ELTAPIENTRY ExJoystickOpen(Int32 index);
 /**
     Close Joystick by device index
 	@return
 */
-extern DECLSPEC Int32 ELTAPIENTRY ExJoyStickClose(Int32 device_index);
+extern DECLSPEC Int32 ELTAPIENTRY ExJoyStickClose(Int32 index);
 
 /**
 	Get Joystick Device GUID
     	@return
 */
-extern DECLSPEC ExGUID ELTAPIENTRY ExJoystickGetDeviceGUID(Int32 device_index);
+extern DECLSPEC ExGUID ELTAPIENTRY ExJoystickGetDeviceGUID(Int32 index);
 /**
 	Get Joystick name
 	@return
@@ -74,17 +75,8 @@ extern DECLSPEC Int16 ELTAPIENTRY ExJoystickGetAxis(Int32 device_ptr,int axis);
 extern DECLSPEC Uint8 ELTAPIENTRY ExJoyStickGetButton(Int32 device_index, int button);
 
 
-extern DECLSPEC ERESULT ELTAPIENTRY ExInitJoyStick(ExWin hwnd);
 
-
-DECLSPEC void* ELTAPIENTRY GetJoyStickDeviceContext(Uint32 userIndex);
-
-
-DECLSPEC void ELTAPIENTRY ExSetJoyStickState(Enum bitFlag, const Uint32 userIndex);
-
-DECLSPEC void ELTAPIENTRY ExJoyStickShutDown(void);
-DECLSPEC void ELTAPIENTRY ExJoyStickDisConnected(void);		// check which index the disconneted XBox has, to applyed to it later, if it gets connected again.
-DECLSPEC void ELTAPIENTRY ExUpdateJoyStickController(void);
+DECLSPEC void ELTAPIENTRY ExSetJoyStickState(Enum bitFlag, Uint32 userIndex);
 
 #ifdef __cplusplus /* C++ environment */
 };

@@ -22,6 +22,7 @@
 
 #include"system/elt_win.h"
 #include"system/elt_event.h"
+#include"system/elt_surface.h"
 
 
 

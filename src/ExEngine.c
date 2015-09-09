@@ -18,7 +18,6 @@
 #   include<jni.h>
 #endif
 
-
 #include<signal.h>
 
 /**
@@ -87,8 +86,9 @@ _In_  HINSTANCE hinstDLL,
 #endif
 
 
-extern Uint64 eltTickTime;     /*	high accuracy timer   */
+extern Uint64 eltTickTime;     	/*	high accuracy timer   */
 unsigned long int engineflag = 0;
+void* xcbConnection;
 
 /*	Initialize Engine Library Toolkit	*/
 DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
@@ -155,11 +155,10 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 #elif defined(EX_LINUX)
     /*	Create Connection with Display Server.	*/
     display = XOpenDisplay(getenv("DISPLAY"));
-    if(!display)
+    if(!display){
         ExError("couldn't open Display\n");
+    }
 
-    /*		enable X events	*/
-    XAllowEvents(display , SyncBoth,CurrentTime);
 
 
 #elif defined(EX_APPLE)
@@ -205,6 +204,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 	}
 	if(ELT_INIT_JOYSTICK & engineflag){
 
+
 	}
 	if(ELT_INIT_AUDIO & engineflag){
 		ExAudioInit(0);
@@ -223,7 +223,8 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 #if defined(EX_WINDOWS)
 
 #elif defined(EX_LINUX)
-
+	    /*		enable X events	*/
+		XAllowEvents(display , SyncBoth,CurrentTime);
 #endif
 	}
 	if(ELT_INIT_TIMER & engineflag){
@@ -284,7 +285,8 @@ DECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag){
 	    #ifdef EX_LINUX
         ExLoadLibrary("");
         #elif defined(EX_WINDOWS)
-        ExLoadLibrary(EX_TEXT(""));
+    	if(ExIsModuleLoaded(EX_TEXT("Ws2_32.dll")))
+    		WSACleanup();
         #endif
 	}
 
@@ -300,7 +302,7 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
     struct mallinfo mi;
 #endif
 
-	ExQuitSubSytem(0xFFFFFFFF);
+	ExQuitSubSytem(ELT_INIT_EVERYTHING);
 
 #ifdef EX_WINDOWS
 	DEVMODE d = {0};
@@ -311,8 +313,7 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 	ExDestroyContext(ExGetCurrentGLDrawable(), ExGetCurrentOpenGLContext());
 
 	ExUnRegisterClasses();
-	if(ExIsModuleLoaded(EX_TEXT("Ws2_32.dll")))
-		WSACleanup();
+
 
 	#if defined(EX_INCLUDE_DIRECTX)
 	ExReleaseDirectX();
@@ -330,15 +331,24 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 
 
 #ifndef DONT_SUPPORT_OPENCL
-	ExReleaseCL();
+	ExReleaseCLContext(ExGetCurrentCLContext());
 #endif
 
 
-	ExDestroyContext(ExGetCurrentGLDrawable(), ExGetCurrentOpenGLContext());
-	eglTerminate(eglGetCurrentDisplay());
+	if(ExGetCurrentOpenGLContext())
+		ExDestroyContext(ExGetCurrentGLDrawable(), ExGetCurrentOpenGLContext());
 
-    XFlush(display);
-	XCloseDisplay(display);
+	if(eglGetCurrentDisplay())
+		eglTerminate(eglGetCurrentDisplay());
+
+	if(xcbConnection)
+		XCloseDisplay(xcbConnection);
+	XSync(display,True);
+	if(display)
+		XFlush(display);
+    if(display)
+    	XCloseDisplay(display);
+
 
 #elif defined(EX_APPLE)
 
@@ -425,12 +435,6 @@ DECLSPEC void ELTAPIENTRY ExDisable(Enum disable){
 
 
 
-
-
-/*
-#define _EX_TEXT(quote) L##quote
-#define EX_TEXT(quote)  _EX_TEXT(quote)
-*/
 
 
 

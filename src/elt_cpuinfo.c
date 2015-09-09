@@ -56,10 +56,10 @@
 #elif defined(EX_LINUX)	/** LINUX   */
     #if defined(EX_X86)
     #   include<cpuid.h>
-    #endif
+	#endif
 
 	/** cpuid for linux  */
-#ifdef EX_X86 && !defined(EX_CLANG)
+#if defined(EX_X86) && !defined(EX_CLANG) && !defined(EX_LLVM)
 	#define cpuid(regs,i) 	EX_ASSM  __volatile__ \
 			("cpuid" : "=a" (regs[0]), "=b" (regs[1]), "=c" (regs[2]), "=d" (regs[3])\
 			: "a" (i), "c" (0))
