@@ -1,24 +1,30 @@
 #!/bin/bash
 
+
 SHELL := /bin/bash
 BASE = $(call my-dir)
 MAKE := make
 RM := rm -rf
 MKDIR :=  mkdir -p
 CP := cp
+INSTALL := install
+
 ARMCC := arm-linux-gnueabihf-gcc
 WINCC := x86_64-w64-mingw32-gcc
 CLANGCC := clang
 CC ?= gcc
-AR := ar
+
+AR = ar
+
+
+DEV ?= -s
 
 ifdef ComSpec
-	INCLUDE := -I"include" 
 	CLIBS := 
 else
-	INCLUDE := -I"include" 
-	CLIBS := -lGL -lX11 -lEGL -lXrender -lOpenCL -lpthread -ldl -lrt -lxcb -lX11-xcb -lXrandr -lm
+	CLIBS :=  -lX11 -lEGL -lXrender -lOpenCL -lpthread -ldl -lrt -lxcb -lX11-xcb -lXrandr -lm -lasound #-lGL
 endif
+INCLUDE := -I"include" 
 CFLAGS := 
 
 
@@ -79,18 +85,18 @@ BUILD_DIR := build/
 OUTPUT_DIR := build/
 
 
-
-
-
 .PHONY : nacl
 .PHONY : pnacl
 .PHONY : linux32
 .PHONY : linux64
 .PHONY : android
 .PHONY : ios
+.PHONY : darwin32
+.PHONY : darwin64
 .PHONY : win32 
 .PHONY : win64
 .PHONY : arm
+.PHONY : arm64
 
 
 
@@ -101,14 +107,14 @@ all: $(TARGET)
 
 
 
-$(TARGET) : CFLAGS += -O3 
+$(TARGET) : CFLAGS += -O3
 $(TARGET) : $(objects)  $(notdir $(subst .c,.o, $(wildcard src/system/unix/*.c) ) ) 
 	$(MKDIR) build
 	$(CC) $(CFLAGS) -shared $^ -o build/$@  $(CLIBS)
 	
 
 %.o : %.c
-	@echo -en "($(CC))" $^ "\n" 
+	@echo -en "("$(CC)")" $^ "\n" 
 	@ $(CC) $(CFLAGS) -c $^ -o $(notdir $(subst .c,.o,$^))
 
 
@@ -122,7 +128,7 @@ arm : CFLAGS += -marm -O3
 arm : CFLAGS += -L"/usr/lib/"
 arm : CC := $(ARMCC)
 arm : $(objects)
-	$(ARMCC) $(CFLAGS)  -shared $(notdir $^ ) -o  build/$(TARGET) # $(CLIBS)
+	$(ARMCC) $(CFLAGS)  -shared $(notdir $^ ) -o  build/$(TARGET)  $(CLIBS)
 
 
 
@@ -162,7 +168,7 @@ win32 : CLIBS := $(CWINCLIBS)
 win32 : winobjects = 
 win32 : CC := $(WINCC)
 win32 : $(objects) $(notdir $(subst .c,.o, $(wildcard src/system/win/*.c) ))
-	$(WINCC) $(CFLAGS) -shared $^ -o $(TARGET) $(CLIBS)
+	$(WINCC) $(CFLAGS) -shared -o build/$(TARGET)  $^ -Wl,--out-implib,build/libEngineEx.a  #$(CLIBS)
 
 
 
@@ -172,7 +178,7 @@ win64 : TARGET := EngineEx64.dll
 win64 : CLIBS := $(CWINCLIBS)
 win64 : CC := $(WINCC)
 win64 : $(objects)
-	$(WINCC) $(CFLAGS)   $^ -o $(TARGET) $(CLIBS)
+	$(WINCC) $(CFLAGS) $^ -o build/$(TARGET) -Wl,--out-implib,  # $(CLIBS)
 
 
 
@@ -221,3 +227,5 @@ clean:
 	$(RM) *.o
 	@echo -en "every object files removed"
 
+
+include ./common.mk
