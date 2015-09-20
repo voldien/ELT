@@ -59,7 +59,7 @@ CFLAGS += -DREVISION_VERSION=$(REVISION_VERSION)
 .PHONY : createpackage
 createpackage:
 	@echo "version: " $(MAJOR_VERSION).$(MINOR_VERSION).$(REVISION_VERSION)
-	tar -zcvf $(current_dir)-$(MAJOR_VERSION).$(MINOR_VERSION).$(REVISION_VERSION).tar.gz src include 
+	find include/ src/ -name "*.c" -or -name "*.h" | tar -zcvf $(current_dir)-$(MAJOR_VERSION).$(MINOR_VERSION).$(REVISION_VERSION).tar.gz -T -
 	@du -h $(current_dir)-$(MAJOR_VERSION).$(MINOR_VERSION).$(REVISION_VERSION).tar.gz
 
 
