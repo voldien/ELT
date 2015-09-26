@@ -6,6 +6,7 @@
 #elif defined(EX_UNIX)
 #	include<errno.h>
 #	include<unistd.h>
+#	include <sys/time.h>
 #endif
 
 #include<time.h>
@@ -100,7 +101,7 @@ DECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nanosec){
 
 #ifdef EX_DEBUG
     if(nanosleep(&tim , NULL) < 0 ){
-        fprintf(stderr, strerror(errno));
+        fprintf(stderr,"errno error code %d\n"" errno");
     }
 #else
     nanosleep(&tim , NULL);
@@ -117,12 +118,22 @@ DECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void){
 }
 DECLSPEC long int ELTAPIENTRY ExGetHiResTime(void){
     #ifdef EX_WINDOWS
-
-	return 0;
+	LARGE_INTEGER time;
+	QueryPerformanceCounter(&time);
+	return time;
 #elif defined(EX_UNIX)
-    struct timespec tSpec;
-    clock_gettime(CLOCK_MONOTONIC,&tSpec);
+	struct timeval tSpec;
+    //struct timespec tSpec;
+
+/*    if(clock_gettime(CLOCK_MONOTONIC,&tSpec) < 0){
+    	printf("error from ExGetHiResTime : %d", errno);
+    	return tSpec.tv_nsec;
+    }
+*/
+    gettimeofday(&tSpec,NULL);
+
     //clock_gettime(CLOCK_MONOTONIC, &t_spec);
-    return tSpec.tv_nsec;  /*  return time in nano seconds*/
+    //return tSpec.tv_usec * 1000;  /*  return time in nano seconds*/
+    return (tSpec.tv_sec*1e6 + tSpec.tv_usec) * 1000;
     #endif
 }
