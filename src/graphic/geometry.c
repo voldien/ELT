@@ -2,12 +2,14 @@
 #include<stdio.h>
 
 
-#include<EGL/egl.h>
+
+
 #ifdef GL_ES_VERSION_3_0
 	#include<GLES3/gl3.h>
 	#include<GLES3/gl3ext.h>
 	#include<GLES3/gl3platform.h>
 #elif defined(GL_ES_VERSION_2_0)
+	#undef GL_ES_VERSION_2_0
 	#include<GLES2/gl2.h>
 	#include<GLES2/gl2ext.h>
 	#include<GLES2/gl2platform.h>
@@ -20,6 +22,9 @@
 	#include<GL/glu.h>
 	#include<GL/glext.h>
 #endif
+
+
+
 #if defined(_WIN32)
 	extern PFNGLBINDBUFFERPROC glBindBuffer;
 #endif

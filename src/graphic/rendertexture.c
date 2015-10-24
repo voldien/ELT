@@ -1,10 +1,13 @@
 #include"graphic/rendertexture.h"
 #include"graphic/texture.h"
+
+
 #ifdef GL_ES_VERSION_3_0
 	#include<GLES3/gl3.h>
 	#include<GLES3/gl3ext.h>
 	#include<GLES3/gl3platform.h>
 #elif defined(GL_ES_VERSION_2_0)
+	#undef GL_ES_VERSION_2_0
 	#include<GLES2/gl2.h>
 	#include<GLES2/gl2ext.h>
 	#include<GLES2/gl2platform.h>
@@ -48,14 +51,14 @@ ExFrameBuffer* ExCreateRenderTexture3D(ExFrameBuffer* framebuffer,unsigned int w
 		return NULL;
 
 	glGenFramebuffers(1,&framebuffer->framebuffer);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER,framebuffer->framebuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER,framebuffer->framebuffer);
 
 
 
-	glGenTextures(1,&framebuffer->texture.texture);
-	glBindTexture(GL_TEXTURE_3D, framebuffer->texture.texture);
+	//glGenTextures(1,&framebuffer->texture.texture);
+	//glBindTexture(GL_TEXTURE_3D, framebuffer->texture.texture);
 
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER,0);
+	glBindFramebuffer(GL_FRAMEBUFFER,0);
 	return framebuffer;
 }
 
