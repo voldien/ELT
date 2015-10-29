@@ -56,8 +56,8 @@ int pixAtt[] = {
 	GLX_SAMPLES_ARB,0,
 	GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB,True,
 	None,None,
-    GLX_CONTEXT_MAJOR_VERSION_ARB,3,
-    GLX_CONTEXT_MINOR_VERSION_ARB,3,
+    GLX_CONTEXT_MAJOR_VERSION_ARB,0,
+    GLX_CONTEXT_MINOR_VERSION_ARB,0,
     #ifdef EX_DEBUG
     GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_DEBUG_BIT_ARB | GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,   /*  Debug TODO add hint*/
     #else
@@ -155,9 +155,15 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
     glXQueryVersion(display,&glxmaj,&glxmin);
 
 
-    /*	Get Current Supported Version of OpenGL	*/
-    if(!ExGetOpenGLVersion(&major, &minor)){
-    	/*	bad	*/
+    /*	Get Current Supported Version of OpenGL	or get user requested version*/
+    if(!ExOpenGLGetAttribute(EX_OPENGL_MAJOR_VERSION,NULL)){
+		if(!ExGetOpenGLVersion(&major, &minor)){
+			/*	bad	*/
+		}
+    }
+    else{
+    	major = ExOpenGLGetAttribute(EX_OPENGL_MAJOR_VERSION,NULL);
+    	minor = ExOpenGLGetAttribute(EX_OPENGL_MINOR_VERSION,NULL);
     }
     vendor = ExGetOpenGLVendor();
 
@@ -260,19 +266,22 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
     };
 
     switch(ExGetOpenGLVendor()){
-    case EX_AMD:break;
-    default:
-    	break;
-    }
+		case EX_AMD:
+			break;
+		default:
 
-    /*  Get context ARB */
-    glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc)glXGetProcAddress((const GLubyte*)"glXCreateContextAttribsARB");
+		/*  Get context ARB */
+		glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc)glXGetProcAddress((const GLubyte*)"glXCreateContextAttribsARB");
 
-    if(glXCreateContextAttribsARB)
-        shared_glc = glXCreateContextAttribsARB(display, fbconfig,glc, True,contextAttribs);
-    else{
-    	shared_glc = glXCreateNewContext(display,fbconfig,GLX_RGBA_TYPE,glc,TRUE);
-    }
+		if(glXCreateContextAttribsARB)
+			shared_glc = glXCreateContextAttribsARB(display, fbconfig,glc, True,contextAttribs);
+
+		if(!glXCreateContextAttribsARB || !shared_glc){
+			//shared_glc = glXCreateNewContext(display,fbconfig,GLX_RGBA_TYPE,glc,True);
+		}
+		break;
+	}
+
     return shared_glc;
 }
 
