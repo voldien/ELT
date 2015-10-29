@@ -59,3 +59,7 @@ DECLSPEC int ExDestroySurface(void* handle){
 DECLSPEC int ExSetSurfacePixel(void* handle, unsigned int x, unsigned int y, long pixel){
     return XPutPixel((XImage*)handle, x,y, pixel);
 }
+
+DECLSPEC int ExFillRect(ExSurface handle,struct ex_rect* rect, unsigned int color){
+
+}
