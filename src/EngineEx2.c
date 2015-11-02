@@ -3,6 +3,8 @@
 #include<string.h>
 
 #ifdef EX_WINDOWS		// TODO solve
+	#pragma warning(disable : 4480) // enum
+	#pragma warning(disable : 4995) // deprecated
 #   include"system/win/wnd_common.h"
 #   include<GL/gl.h>
 #elif defined(EX_LINUX)     /** Linux   */

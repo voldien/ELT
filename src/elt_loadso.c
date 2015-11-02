@@ -1,6 +1,8 @@
 #include"elt_loadso.h"
 
+
 #if defined(EX_UNIX) || defined(EX_ANDROID)
+#define _GNU_SOURCE
 #   include<stdio.h>
 #	ifndef EX_PNACL
 #   		include<link.h>
@@ -12,6 +14,28 @@
 #	include<windef.h>
 #   include<winbase.h>
 #endif
+
+
+/*
+static int symbol_list(truct dl_phdr_info *info, size_t size, void *data){
+
+	return 1;
+}
+
+*/
+
+/**/
+DECLSPEC int ELTAPIENTRY ExLoadNumSymbol(HANDLE handle){
+#ifdef EX_UNIX
+	dl_iterate_phdr(NULL,NULL);
+#endif
+}
+/**/
+DECLSPEC char* ELTAPIENTRY ExLoadSymbol(HANDLE handle, int index, char* symbol, int len){
+#ifdef EX_UNIX
+	dl_iterate_phdr(NULL,symbol);
+#endif
+}
 
 
 

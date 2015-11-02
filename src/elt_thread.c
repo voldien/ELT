@@ -112,7 +112,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread){
 DECLSPEC void ELTAPIENTRY ExTerminateThread(ExThread thread){
 #ifdef EX_UNIX
 	#ifdef EX_ANDROID
-	pthread_ cancel(thread);
+	//pthread_ cancel(thread);
 	#else
 	pthread_kill(thread,SIGUSR1);
 	#endif

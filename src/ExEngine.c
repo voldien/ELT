@@ -17,13 +17,9 @@
 #   include<android/native_activity.h>
 #   include<jni.h>
 #endif
-
 #include<signal.h>
 
-/**
-    Linux flags Link
-    -lGL -lX11 -lGLEW -lXrender -ldl -lOpenCL -lEGL
-*/
+
 #if defined(EX_WINDOWS)
 #   if defined(EX_VC)
 #   	include<delayimp.h>
@@ -89,6 +85,7 @@ _In_  HINSTANCE hinstDLL,
 extern Uint64 eltTickTime;     	/*	high accuracy timer   */
 unsigned long int engineflag = 0;
 void* xcbConnection;
+
 
 /*	Initialize Engine Library Toolkit	*/
 DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
@@ -207,7 +204,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 
 	}
 	if(ELT_INIT_AUDIO & engineflag){
-		ExAudioInit(0);
+		//ExAudioInit(0);
 	}
 	if(ELT_INIT_GAMECONTROLLER & engineflag){
 #ifdef EX_WINDOWS

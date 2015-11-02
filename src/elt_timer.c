@@ -120,7 +120,7 @@ DECLSPEC long int ELTAPIENTRY ExGetHiResTime(void){
     #ifdef EX_WINDOWS
 	LARGE_INTEGER time;
 	QueryPerformanceCounter(&time);
-	return time;
+	return (long int)time.QuadPart;
 #elif defined(EX_UNIX)
 	struct timeval tSpec;
     //struct timespec tSpec;

@@ -427,20 +427,22 @@ void mat3x3_scale(vec3x3_t f_mat2, float x,float y){
 
 void mat3x3_rotation(float rotation_pi){
 
+
+
 }
 void mat3x3_multi_mat3x3(const vec3x3_t lf_mat4,const vec3x3_t rf_mat4, vec3x3_t outf_mat4){
 
-	outf_mat4[0][0] = lf_mat4[0][0] * rf_mat4[0][0] +  lf_mat4[0][0] * rf_mat4[1][0] +  lf_mat4[0][0] * rf_mat4[2][0];
-	outf_mat4[1][0] = lf_mat4[1][0] * rf_mat4[0][1] +  lf_mat4[1][0] * rf_mat4[1][1] +  lf_mat4[1][0] * rf_mat4[2][1];
-	outf_mat4[2][0] = lf_mat4[2][0] * rf_mat4[0][2] +  lf_mat4[2][0] * rf_mat4[1][2] +  lf_mat4[2][0] * rf_mat4[2][2];
+	outf_mat4[0][0] = lf_mat4[0][0] * rf_mat4[0][0] +  lf_mat4[1][0] * rf_mat4[1][0] +  lf_mat4[2][0] * rf_mat4[2][0];
+	outf_mat4[1][0] = lf_mat4[0][0] * rf_mat4[0][1] +  lf_mat4[1][0] * rf_mat4[1][1] +  lf_mat4[2][0] * rf_mat4[2][1];
+	outf_mat4[2][0] = lf_mat4[0][0] * rf_mat4[0][2] +  lf_mat4[1][0] * rf_mat4[1][2] +  lf_mat4[2][0] * rf_mat4[2][2];
 
-	outf_mat4[0][1] = lf_mat4[0][1] * rf_mat4[0][0] +  lf_mat4[0][1] * rf_mat4[1][0] +  lf_mat4[0][1] * rf_mat4[2][0];
-	outf_mat4[1][1] = lf_mat4[1][1] * rf_mat4[0][1] +  lf_mat4[1][1] * rf_mat4[1][1] +  lf_mat4[1][1] * rf_mat4[2][1];
-	outf_mat4[2][1] = lf_mat4[2][1] * rf_mat4[0][2] +  lf_mat4[2][1] * rf_mat4[1][2] +  lf_mat4[2][1] * rf_mat4[2][2];
+	outf_mat4[0][1] = lf_mat4[0][1] * rf_mat4[0][0] +  lf_mat4[1][1] * rf_mat4[1][0] +  lf_mat4[2][1] * rf_mat4[2][0];
+	outf_mat4[1][1] = lf_mat4[0][1] * rf_mat4[0][1] +  lf_mat4[1][1] * rf_mat4[1][1] +  lf_mat4[2][1] * rf_mat4[2][1];
+	outf_mat4[2][1] = lf_mat4[0][1] * rf_mat4[0][2] +  lf_mat4[1][1] * rf_mat4[1][2] +  lf_mat4[2][1] * rf_mat4[2][2];
 
-	outf_mat4[0][2] = lf_mat4[0][2] * rf_mat4[0][0] +  lf_mat4[0][2] * rf_mat4[1][0] +  lf_mat4[0][2] * rf_mat4[2][0];
-	outf_mat4[1][2] = lf_mat4[1][2] * rf_mat4[0][1] +  lf_mat4[1][2] * rf_mat4[1][1] +  lf_mat4[1][2] * rf_mat4[2][1];
-	outf_mat4[2][2] = lf_mat4[2][2] * rf_mat4[0][2] +  lf_mat4[2][2] * rf_mat4[1][2] +  lf_mat4[2][2] * rf_mat4[2][2];
+	outf_mat4[0][2] = lf_mat4[0][2] * rf_mat4[0][0] +  lf_mat4[1][2] * rf_mat4[1][0] +  lf_mat4[2][2] * rf_mat4[2][0];
+	outf_mat4[1][2] = lf_mat4[0][2] * rf_mat4[0][1] +  lf_mat4[1][2] * rf_mat4[1][1] +  lf_mat4[2][2] * rf_mat4[2][1];
+	outf_mat4[2][2] = lf_mat4[0][2] * rf_mat4[0][2] +  lf_mat4[1][2] * rf_mat4[1][2] +  lf_mat4[2][2] * rf_mat4[2][2];
 
 }
 
