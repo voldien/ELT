@@ -16,8 +16,6 @@
 
 	#include"system/unix/unix_win.h"
 
-
-
    #define GL_GET_PROC(x) glXGetProcAddress( ( x ) )           /**  get OpenGL function process address */
 #elif defined(EX_ANDROID)
 
@@ -41,9 +39,7 @@
 
 #ifdef EX_NACL
 #	include<ppapi/c/ppb.h>
-
 #endif
-
 
 
 #if defined(GL_ES_VERSION_3_0)
@@ -148,6 +144,7 @@ DECLSPEC inline int ELTAPIENTRY ExMakeGLCurrent(WindowContext drawable, OpenGLCo
 
 DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 	int value;
+    int sampleSupport;
 
 
 #if (EX_ENGINE_VERSION_MAJOR < 1 )
@@ -155,7 +152,7 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 #endif
 
 
-    int sampleSupport;
+
 	// depth
 	//glClearDepth(1.0f);
 	// color mask
@@ -170,8 +167,10 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 
 	if(ExOpenGLGetAttribute(EX_OPENGL_MULTISAMPLEBUFFERS,&value) > 0){
         glEnable(GL_MULTISAMPLE_ARB);
-//        	glGetIntegerv(GL_SAMPLE_BUFFERS,&sampleSupport);
-//			if(sampleSupport){}
+        	glGetIntegerv(GL_SAMPLE_BUFFERS,&sampleSupport);
+        	if(sampleSupport){
+
+        	}
 	}
 	glDepthRange(0.0, 1.0);
 
@@ -192,7 +191,7 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 	glFrontFace(GL_CW);
 
 #endif
-	glClearColor(0.0f,0.0f,0.0f,1.0f);
+
 }
 
 
@@ -242,6 +241,7 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor){
         return ExGetOpenGLShadingVersion();
     }
 }
+
 
 #ifndef EX_LINUX
 DECLSPEC Int32 ELTAPIENTRY ExIsVendorAMD(void){

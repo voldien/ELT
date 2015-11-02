@@ -24,7 +24,7 @@
 #   include<sys/types.h>
 #   include<sys/stat.h>
 #   include<fcntl.h>
-#	define LOG_TAG "ELT (Engine Library ToolKit)"
+#	define LOG_TAG "ELT"
 #   define LOGI(...)   __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
 #   define LOGE(...)   __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
 #endif

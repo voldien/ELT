@@ -106,6 +106,7 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 	else
 		return FALSE;
 #elif defined(EX_LINUX)
+
 	XEvent msg;
 	if(XPending(display)){
 		XNextEvent(display,&msg);
@@ -165,11 +166,13 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
             event->size.width = msg.xresizerequest.width;
             event->size.height = msg.xresizerequest.height;
 
+
 		}break;
 		case Expose:{
 			event->event |= EX_EVENT_EXPOSE;
 			event->size.width = msg.xexpose.width;
 			event->size.height = msg.xexpose.height;
+            msg.xexpose.x;
 		}break;
 		case ClientMessage:{
             //event->event |= EX_EVENT_SIZE;

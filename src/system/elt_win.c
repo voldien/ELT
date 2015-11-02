@@ -8,7 +8,11 @@
 	#include<EGL/egl.h>
 #elif defined(EX_LINUX)
 	#include"system/unix/unix_win.h"
-	#include<X11/Xlib.h>
+	#include <X11/X.h>
+	#include <X11/Xlib.h>
+	#include <X11/Xutil.h>
+	#include <X11/keysym.h>
+
 	#include<EGL/egl.h>
 	#include<GL/glx.h>
 	#include<X11/extensions/dpms.h>
@@ -104,6 +108,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 	OpenGLContext glc = NULL;
 	OpenCLContext clc = NULL;
 	char title[256];
+
 #ifdef EX_WINDOWS
     void* directx;
 	if((flag & ENGINE_NATIVE) || flag == 0){
@@ -289,6 +294,9 @@ DECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin window){
 }
 
 
+
+
+
 DECLSPEC void ELTAPIENTRY ExSetWindowMode(ExWin window, Enum mode){
 #ifdef EX_WINDOW
     if(mode & EX_WIN_SCREENSAVER_ENABLE){
@@ -318,11 +326,29 @@ DECLSPEC void ELTAPIENTRY ExSetWindowTitle(ExWin window,const ExChar* title){
 #if defined(EX_WINDOWS)
 	ExIsWinError(SetWindowText(window,title));
 #elif defined(EX_LINUX)
-	XStoreName(display,(Window*)window,title);
+	XTextProperty textprop;
+	Atom XA_STRING = 31;
+
+	textprop.value = (unsigned char*)title;
+	    textprop.encoding = XA_STRING;
+	    textprop.format = 8;
+	    textprop.nitems = strlen(title);
+
+	    XSetWMProperties(display, window,&textprop, &textprop,
+	                NULL, 0,
+	                NULL,
+	                NULL,
+	                NULL);
+
+	//XStoreName(display,(Window*)window,title);
+
+
 #elif defined(EX_ANDROID)
 
 #endif
 }
+
+
 DECLSPEC ExChar* ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title){
 	if(!window || !title)
 		return NULL;
@@ -489,72 +515,9 @@ DECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window){
 
 
 
-DECLSPEC HANDLE ELTAPIENTRY ExGetWindowUserData(ExWin window){
-#ifdef EX_LINUX
-	//XAssocTable table;
-	//XLookUpAssoc(display, &table, window);
-#endif
 
-}
 
-DECLSPEC void ELTAPIENTRY ExSetWindowUserData(ExWin window, HANDLE userdata){
 
-}
-
-DECLSPEC int ELTAPIENTRY ExSetWindowParent(ExWin parent,ExWin window){
-#ifdef EX_LINUX
-	int pos[2];
-	ExGetWindowPosv(parent,pos);
-	return XReparentWindow(display,window,parent,pos[0],pos[1]);
-#endif
-}
-DECLSPEC ExWin ELTAPIENTRY ExGetWindowParent(ExWin window){
-#ifdef EX_LINUX
-	int screen = DefaultScreen(display);
-	ExWin root = RootWindow(display,screen);
-	ExWin parent;
-	ExWin* children;
-	ExWin win;
-	int n;
-
-	XQueryTree(display, window, &win, &parent, &children, &n);
-	return parent;
-#endif
-}
-
- DECLSPEC int ELTAPIENTRY ExSetWindowChild(ExWin window,ExWin child){
-#ifdef EX_LINUX
-		int pos[2];
-		ExGetWindowPosv(window,pos);
-		return XReparentWindow(display,child,window,pos[0],pos[1]);
-#endif
-}
- DECLSPEC ExWin ELTAPIENTRY ExGetWindowChild(ExWin window,unsigned int index){
-#ifdef EX_LINUX
-	int screen = DefaultScreen(display);
-	ExWin root = RootWindow(display,screen);
-	ExWin parent;
-	ExWin* children;
-	ExWin win;
-	int n;
-
-	XQueryTree(display, window, &win, &parent, &children, &n);
-	return children[index];
-#endif
-}
-DECLSPEC int ELTAPIENTRY ExGetWindowNumChildren(ExWin window){
-#ifdef EX_LINUX
-	int screen = DefaultScreen(display);
-	ExWin root = RootWindow(display,screen);
-	ExWin parent;
-	ExWin* children;
-	ExWin win;
-	int n;
-
-	XQueryTree(display, window, &win, &parent, &children, &n);
-	return n;
-#endif
-}
 
 
 DECLSPEC Int32 ELTAPIENTRY ExIsScreenSaverEnable(void){
@@ -569,49 +532,5 @@ DECLSPEC Int32 ELTAPIENTRY ExIsScreenSaverEnable(void){
 
     //}
     return 0;
-#endif
-}
-
-
-DECLSPEC ExWin ELTAPIENTRY ExGetDesktopWindow(void){
-#ifdef EX_LINUX
-	int i;
-	unsigned int n;
-	int screen = DefaultScreen(display);
-	ExWin win = RootWindow(display,screen);
-	ExWin root = RootWindow(display,screen);
-	ExWin troot, parent, *children;
-	char *name;
-	int status;
-	int width  = DisplayWidth (display, screen);
-	int height = DisplayHeight (display, screen);
-	ExWin desktop;
-	XWindowAttributes attrs;
-	Atom workeara;
-
-	//workeara = XInternAtom(display,"_NET_WORKAREA",False);
-
-
-	#define DEFAULT_DESKTOP_WINDOW_NAME "Desktop"
-	XQueryTree(display, root, &troot, &parent, &children, &n);
-	for (i = 0; i < (int) n; i++){
-		status = XFetchName(display, children[i], &name);
-		status |= XGetWindowAttributes(display, children[i], &attrs);
-		if ((status != 0) && (NULL != name)){
-			if( (attrs.map_state != 0) && (attrs.width == width) &&
-					(attrs.height == height) && (!strcmp(name, DEFAULT_DESKTOP_WINDOW_NAME)) ){
-				//DEBUG_MSG("Found Window:%s\n", name);
-				win = children[i];
-				XFree(children);
-				XFree(name);
-				desktop = win;
-				return win;
-			}
-			if(name){
-				XFree(name);
-			}
-		}
-	}
-	return NULL;
 #endif
 }

@@ -79,6 +79,7 @@ static char* get_device_extension(cl_device_id device){
 /*
 
 */
+inline
 static void loadOpenClLibrary(void){
     if(!ExIsModuleLoaded(OPENCL_LIBRARY_NAME))
         #ifdef EX_LINUX
@@ -91,10 +92,9 @@ static void loadOpenClLibrary(void){
 }
 
 
-DECLSPEC OpenCLContext ELTAPIFASTENTRY ExGetCurrentCLContext(void){return hClContext;}
-
-
-
+DECLSPEC OpenCLContext ELTAPIFASTENTRY ExGetCurrentCLContext(void){
+	return hClContext;
+}
 
 
 DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLContext(Enum flag){
@@ -159,7 +159,6 @@ DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLContext(Enum flag){
 
 	return (ERESULT)hClContext;
 }
-
 
 DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowContext window,Enum flag){
     Int32 cpPlatform,ciErrNum;Uint32 uiDevCount = 0;
@@ -239,14 +238,14 @@ DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, Wi
         NULL
     };
 #ifdef EX_WINDOWS
-    if(flag & EX_OPENGL){props[2] = CL_WGL_HDC_KHR;}
+    if(layer & EX_OPENGL){props[2] = CL_WGL_HDC_KHR;}
 #	ifdef EX_INCLUDE_DIRECTX
-    else if(flag & EX_DIRECTX){props[0] = CL_CONTEXT_ADAPTER_D3D9_KHR;}
+    else if(layer & EX_DIRECTX){props[0] = CL_CONTEXT_ADAPTER_D3D9_KHR;}
 #	endif 
 #elif defined(EX_LINUX)
     if(flag & EX_OPENGL){props[2] = CL_GLX_DISPLAY_KHR;}
 #elif defined(EX_ANDROID)
-    if(flag & EX_OPENGL || erenderingFlag & EX_OPENGLES){props[2] = CL_EGL_DISPLAY_KHR;}
+    if(layer & EX_OPENGL || erenderingFlag & EX_OPENGLES){props[2] = CL_EGL_DISPLAY_KHR;}
 #endif
     else if(flag & EX_OPENCL){props[2] = CL_CGL_SHAREGROUP_KHR;}
     else if(flag & EX_OPENGLES){props[2] = CL_EGL_DISPLAY_KHR;}
@@ -489,7 +488,7 @@ DECLSPEC void* ExCreateProgram(void* context, void* device, const char* cfilenam
 	va_list list;
 	cl_int errNum = 0;
     cl_program program;
-    void* data;
+    char* data;
     size_t length = 0;
     char buffer[1024*4] = {'\0'};
     char* pbuffer = &buffer[0];
@@ -512,6 +511,7 @@ DECLSPEC void* ExCreateProgram(void* context, void* device, const char* cfilenam
     /*	read file*/
     if(!ExLoadFile(cfilename,&data))
     	return NULL;
+    data[strlen(data)] =  '\0';
 
     /*  error was length was wrong size....*/
     program = clCreateProgramWithSource(context, 1, (const char**)&data, &length,&errNum);

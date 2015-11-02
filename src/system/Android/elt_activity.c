@@ -14,6 +14,10 @@
 #include <android/log.h>
 #include <android_native_app_glue.h>
 
+#define LOG_TAG "ELT"
+#define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO,LOG_TAG, __VA_ARGS__))
+#define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN,LOG_TAG, __VA_ARGS__))
+
 
 /**
 	entry point for normal application to be found here.
@@ -126,11 +130,73 @@ static void onLowMemory(ANativeActivity* activity){
 }
 
 
-void android_main(struct android_app* app) {
-	printf("entering main.\n");
-    //ex_app = app;
+
+
+static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) {
+	return 0;
+}
+
+
+static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
+
+}
+
+
+void android_main(struct android_app* state) {
+	//struct engine engine;
     app_dummy();
-    ANativeActivity_onCreate(app->activity, app->savedState, app->savedStateSize);
+	LOGI("entering main.\n");
+
+    //ex_app = app;
+    state->onAppCmd = engine_handle_cmd;
+    state->onInputEvent = engine_handle_input;
+/*
+    state->lastTime = now_ms();
+    state->firstTime = 0.;
+    state->firstFrame = 0;
+    state->numFrames  = 0;
+*/
+
+
+	//memset(&engine, 0, sizeof(engine));
+
+
+    //stats_init(&engine.stats);
+
+    // loop waiting for stuff to do.
+
+    while (1) {
+        // Read all pending events.
+        int ident;
+        int events;
+        struct android_poll_source* source;
+
+        // If not animating, we will block forever waiting for events.
+        // If animating, we loop until all events are read, then continue
+        // to draw the next frame of animation.
+        //
+        while ((ident=ALooper_pollAll(1 ? 0 : -1, NULL, &events,
+                (void**)&source)) >= 0) {
+
+            // Process this event.
+            if (source != NULL) {
+                source->process(state, source);
+            }
+
+            // Check if we are exiting.
+            if (state->destroyRequested != 0) {
+                LOGI("Engine thread destroy requested!");
+                //engine_term_display(&engine);
+                return;
+            }
+        }
+        /*
+        if (engine.animating) {
+            engine_draw_frame(&engine);
+        }
+        */
+    }
+
 }
 
 /**
@@ -163,6 +229,8 @@ void ANativeActivity_onCreate(ANativeActivity* activity, void* saveState, size_t
 
     activity->callbacks->onSaveInstanceState = onSaveInstanceState;
     activity->callbacks->onLowMemory = onLowMemory;
+
+    LOGI("callback initialized.\n");
 
 	ANativeActivity_setWindowFlags(activity, AWINDOW_FLAG_KEEP_SCREEN_ON,AWINDOW_FLAG_KEEP_SCREEN_ON);
 

@@ -4,7 +4,7 @@
 #endif
 #include<stdio.h>
 
-static inline long unsigned int  ExGetFileStreamSize(FILE* file){
+static long unsigned int ExGetFileStreamSize(FILE* file){
     unsigned int pos;
     long size;
     pos = ftell(file);
@@ -32,10 +32,12 @@ DECLSPEC int ELTAPIENTRY ExLoadFile(const char* cfilename, void** data){
         return 0;
     size = ExGetFileStreamSize(file);
 
-    data[0] = malloc(size);
-    memset(data[0],0,size);
-    if(fread(data[0], 1, size,file) != size)
-        return 0;
+    data[0] = (void*)malloc(size);
+
+    if(fread(data[0], 1, size,file) != size){
+    	fclose(file);
+        return -1;
+    }
 
     fclose(file);
     return size;
