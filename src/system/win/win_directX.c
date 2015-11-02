@@ -1,6 +1,7 @@
 #include"system/win/win_directX.h"
 #if (defined(EX_VC) || defined(EX_WINDOWS)) && defined(EX_INCLUDE_DIRECTX)
-#include"./../elt_win.h"
+#include"system/elt_win.h"
+
 #ifdef INTERNAL_ENGINEX
 	//#include<D3dx9tex.h>
 	#include<d3d9.h>

@@ -11,7 +11,7 @@
 	#pragma comment(lib, "dinput8.lib")
 LPDIRECTSOUND8 pDS = NULL;
 	
-DECLSPEC ERESULT ELTAPIENTRY ExInitDirectSound(ExWin hWnd, Uint32 flag){
+DECLSPEC ERESULT ELTAPIENTRY ExInitDirectSound(ExWin hWnd, Uint32 layer){
 	ERESULT hr;
 
 	CoInitializeEx(NULL,COINIT_MULTITHREADED);
