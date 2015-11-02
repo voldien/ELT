@@ -20,8 +20,13 @@
 #define _ELT_SYSTEM_H_ 1
 #include"ExPreProcessor.h"
 
-
-
-
+#include"system/elt_win.h"
+#include"system/elt_gl.h"
+#include"system/elt_cl.h"
+#include"system/elt_egl.h"
+#include"system/elt_net.h"
+#include"system/elt_power.h"
+#include"system/elt_event.h"
+#include"system/elt_surface.h"
 
 #endif 

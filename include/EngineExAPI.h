@@ -41,6 +41,13 @@
 
 
 #include"ExPreProcessor.h"
+#include"window.h"
+#include"graphic.h"
+#include"system.h"
+#include"audio.h"
+
+
+
 // Library Import
 //define EX_AUTO_LINKER
 
@@ -67,10 +74,6 @@
 	#pragma comment(lib, "EngineEx.lib")
 #endif
 
-#include"EngineAssembly.h"
-#include"EngineEx.h"
-#include"elt_thread.h"
-
 #if defined(EX_WINDOWS)
 
 #elif defined(EX_LINUX)
@@ -94,7 +97,5 @@
 #else
 	#error "Error! no supporting Devices"   /**/
 #endif
-
-#include"ExCommon.h"
 
 #endif

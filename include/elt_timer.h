@@ -34,6 +34,8 @@
 #define ExGetCurrentTimeHiRes clock
 #define EX_TICKS_PER_SECOND CLOCKS_PER_SEC
 
+
+
 #ifdef  __cplusplus	/* C++ Environment */
 extern "C"{
 #endif

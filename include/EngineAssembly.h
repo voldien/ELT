@@ -25,8 +25,6 @@
 #include"EngineEx.h"
 #include"ExCommon.h"
 #if defined(EX_WINDOWS)
-	#pragma warning(disable : 4480) // enum
-	#pragma warning(disable : 4995) // deprecated
 	#include<tchar.h>
 	#ifdef EX_VC
 		#include<strsafe.h>
@@ -120,6 +118,7 @@ extern DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int le
 #ifdef  __cplusplus	/* C++ Environment */
 }
 #endif
+
 #include"elt_timer.h"
 #include"system/elt_win.h"
 #include"system/elt_errorhandler.h"
@@ -135,4 +134,5 @@ extern DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int le
 #include"elt_alloc.h"
 #include"math/matrix.h"
 #include"system/android/elt_activity.h"
+
 #endif

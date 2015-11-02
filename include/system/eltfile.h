@@ -1,5 +1,4 @@
-/*
-========================================================================
+/**
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -23,6 +22,8 @@
 #ifdef __cplusplus //	C++ Environment
 extern "C"{
 #endif
+
+
 /**
 	Get file size in bytes
 */
@@ -31,18 +32,30 @@ extern DECLSPEC long unsigned int ELTAPIENTRY ExGetFileSize(const char* cfilname
 	Load data by specified pathname
 */
 extern DECLSPEC int ELTAPIENTRY ExLoadFile(const char* cfilename, void** data);
-/**
+/*
 	Save File by specified file name
 */
 extern DECLSPEC int ELTAPIENTRY ExSaveFile(const char* cfilename, void* data, unsigned int csize);
 
-/*
+/**/
+extern DECLSPEC FILE* ExSafeOpenWrite(const char* cfilename);
+/**/
+extern DECLSPEC FILE* ExSafeOpenRead(const char* cfilename);
+/**/
+extern DECLSPEC void ExSafeWrite(FILE *f, void* buffer, unsigned int count);
 
+
+/**/
+static void safeRead(FILE*f, void* buffer, int count);
+
+
+/*
  */
 extern DECLSPEC int ELTAPIENTRY ExCreateDirectory(const char* directory);
+
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // _ELT_FILE_H
+#endif

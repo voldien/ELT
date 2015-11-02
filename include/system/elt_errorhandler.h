@@ -144,7 +144,7 @@ extern DECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcallback 
 
 #define fprintf(x,...)   __android_log_print(ANDROID_LOG_INFO,"EngineEx", x ,##__VA_ARGS__ )
 #define printf(x,...)    __android_log_print(ANDROID_LOG_INFO,"EngineEx", x ,##__VA_ARGS__ )
-
+#define vfprintf(x,y,...) __android_log_print(ANDROID_LOG_INFO,"EngineEx", x ,##__VA_ARGS__ )
 #endif
 
 #ifdef EX_UNICODE
@@ -153,6 +153,7 @@ extern DECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcallback 
 #else
 	#define ExPrint printf
 	#define ExSPrintf sprintf
+	#define vExfprintf vfprintf
 #endif
 
 
@@ -266,10 +267,8 @@ extern DECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcallback 
 #endif
 
 
-
 #ifdef  __cplusplus	/* C++ Environment */
 }
 #endif
-
 
 #endif

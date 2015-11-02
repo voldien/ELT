@@ -173,6 +173,7 @@ typedef struct elt_poll_events{
 	ExEventDestroyedWindow destroy;				/*			*/
 	unsigned long int time;						/*			*/
 	void* display;								/*			*/
+	/*ExPoint location;	*/
 	ExWin window;
 }ExEvent;
 

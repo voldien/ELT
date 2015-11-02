@@ -38,14 +38,19 @@ typedef struct sprite_batch{
 	unsigned int num;					/**/
 	unsigned int numDraw;				/**/
 	unsigned int vbo;					/**/
-	ExShader shader;				/**/
+
+	ExShader shader;					/**/
+
 	int numTexture;
 	int numMaxTextures;
+
 	ExTexture* texture[32];
 	ExSprite* sprite;
+
 	float scale;
 	float cameraPos[2];
 	float rotation;
+
 	unsigned int width;
 	unsigned int height;
 
@@ -56,26 +61,41 @@ typedef struct sprite_batch{
 
 }ExSpriteBatch;
 
+/*	Create */
 extern DECLSPEC ExSpriteBatch* ELTAPIENTRY ExCreateSpriteBatch(ExSpriteBatch* spriteBatch);
 
+/**/
 extern DECLSPEC int	ELTAPIENTRY ExReleaseSpriteBatch(ExSpriteBatch* spritebatch);
 
+
+
+//extern DECLSPEC int ELTAPIENTRY ExGetSpriteBatchUniform(ExSpriteBatch* spritebatch);
 /**/
 extern DECLSPEC int ELTAPIENTRY ExBeginSpriteBatch(ExSpriteBatch* spriteBatch,float* camerapos, float scale);
 
-
+/**/
 extern DECLSPEC int ELTAPIENTRY ExEndSpriteBatch(ExSpriteBatch* spriteBatch);
 
-
+/**/
 extern DECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* spritebatch,ExTexture* texture,float* position,float* rect,float* color, float scale, float angle, float depth);
 
-
+/**/
 extern DECLSPEC int ELTAPIENTRY ExDrawSpriteNormalize(ExSpriteBatch* spritebatch,ExTexture* texture,float* position,float* rect,float* color, float scale, float angle, float depth);
 
 
-extern DECLSPEC int ELTAPIENTRY ExAddSprite(ExSpriteBatch* spritebatch,ExTexture* texture,float* position,float* rect,float* color, float scale, float angle, float depth);
+/**/
 extern DECLSPEC int ELTAPIENTRY ExAddSpriteNormalized(ExSpriteBatch* spritebatch,ExTexture* texture,float* position,float* rect,float* color, float scale, float angle, float depth);
+
+/**/
+extern DECLSPEC int ELTAPIENTRY ExAddSprite(ExSpriteBatch* spritebatch,ExTexture* texture,float* position,float* rect,float* color, float scale, float angle, float depth);
+
+/**/
 extern DECLSPEC int ELTAPIENTRY ExRemoveSprite(ExSpriteBatch* spritebatch,int index);
+
+/**/
+extern DECLSPEC int ELTAPIENTRY ExFlushSpriteBatch(ExSpriteBatch* spritebatch);
+
+/*	*/
 extern DECLSPEC int ELTAPIENTRY ExDisplaySprite(ExSpriteBatch* spritebatch);
 
 

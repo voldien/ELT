@@ -80,10 +80,9 @@ extern DECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const char* ip, unsigned in
 	@return
 */
 #ifdef EX_LINUX
-#define ExReadSocket read
-//extern DECLSPEC int ELTAPIENTRY ExReadSocket(ExSocket socket, unsigned char* buffer,unsigned size);
+	#define ExReadSocket read
 #elif defined(EX_WINDOWS)
-#define ExReadSocket recive
+	#define ExReadSocket recive
 #endif
 
 /**
@@ -94,16 +93,15 @@ extern DECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const char* ip, unsigned in
 	@return
 */
 #ifdef EX_LINUX
-#define ExWriteSocket read
-//extern DECLSPEC int ELTAPIENTRY ExWriteSocket(ExSocket socket, unsigned char* data,unsigned size);
+	#define ExWriteSocket read
 #elif defined(EX_WINDOWS)
-#define ExWriteSocket send
+	#define ExWriteSocket send
 #endif
 
 /*
 	Get host ip adress.
 */
-extern DECLSPEC int ELTAPIENTRY ExGetHostIp(char ip[16]);
+extern DECLSPEC int ELTAPIENTRY ExGetHostIp(char* ip);
 
 
 #ifdef  __cplusplus	/* C++ Environment */

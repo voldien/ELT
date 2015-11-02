@@ -38,6 +38,11 @@ extern int ExGetShaderProgramSize(unsigned int program);
 /*
  */
 extern int ExGetShaderSourceSize(unsigned int shader);
+
+/**/
+extern int ExSetProgramShader(int program, int shader);
+
+
 /*
  */
 extern int ExLoadShader(ExShader* shad,const char* cvertexfilename, const char* cfragmentfilename, const char* cgeometryfilename, const char* ctesscfilename, const char* ctessefilename);
@@ -45,14 +50,18 @@ extern int ExLoadShader(ExShader* shad,const char* cvertexfilename, const char* 
  */
 extern int ExLoadShaderv(ExShader* shad, const char* cvertexSource,const char* cfragmentSource,const char* cgeometry_source,const char* ctess_c_source, const char* ctess_e_source);
 
+/**/
 extern int ExDeleteShaderProgram(ExShader* header);
 
+/**/
 extern int ExCompileShaderSource(const char* strPath,char** source, unsigned int flag);
 
 /*	*/
 extern int ExCompileShaderSourcev(const char** source, unsigned int flag);
 
 extern int ExShaderCompileLog(unsigned int program,unsigned int shaderflag);
+
+extern int ExShaderCompileLogv(unsigned int program,unsigned int shaderflag, char* log);
 
 extern int ExGetShaderSource(unsigned int program, unsigned int shader_flag, char** source);
 
@@ -155,7 +164,7 @@ void main(void){
 "layout(location = 3) in int tex;\n"								\
 "layout(location = 4) in float scale;\n"								\
 "layout(location = 5) in vec4 color;\n"								\
-"uniform sampler2D texture[32];\n"									\
+"uniform sampler2D textures[32];\n"									\
 "uniform mat3 gmat;\n"												\
 "uniform float gscale;\n"										\
 "out float fangle;\n"												\
@@ -168,7 +177,7 @@ void main(void){
 "	float cos_theta = cos(angle);\n"								\
 "	coord = mat2(cos_theta, sin_theta,\n"							\
 "-sin_theta, cos_theta);\n"											\
-"	vec2 uv = coord * vec2(float(textureSize(texture[0],0).x) * rect.z * scale,float(textureSize2D(texture[0],0).y) * rect.w * scale );\n"					\
+"	vec2 uv = coord * vec2(float(textureSize(textures[0],0).x) * rect.z * scale,float(textureSize2D(textures[0],0).y) * rect.w * scale );\n"					\
 "	gl_PointSize = float(max(abs(uv.x * sin(angle)) + abs(uv.y * cos(angle) ),"	\
 "abs(uv.x * cos(angle)) + abs(uv.y * sin(angle)) )); \n"						\
 "	gl_PointSize *= gscale;\n"													\
@@ -188,17 +197,17 @@ void main(void){
 "precision mediump float;\n"								\
 "#endif\n"													\
 "layout(location = 0) out vec4 fragColor;\n"				\
-"uniform sampler2D texture[32];\n"							\
+"uniform sampler2D textures[32];\n"							\
 "in vec4 frect;\n"											\
 "in float fangle;\n"										\
 "in int ftexture;\n"										\
 "in mat2 coord;\n"											\
 "in vec4 fcolor;\n"											\
 "void main(void){\n"										\
-"	float texwidth = float(textureSize(texture[0],0).x);\n"			\
-"	float texheight = float(textureSize(texture[0],0).y);\n"			\
+"	float texwidth = float(textureSize(textures[0],0).x);\n"			\
+"	float texheight = float(textureSize(textures[0],0).y);\n"			\
 "	vec2 fragscale = vec2(clamp( texheight / texwidth ,1.0,10.0 ) , clamp( texwidth / texheight ,1.0,10.0) );\n"														\
-"	fragColor = texture2D(texture[0],frect.xy  + ((vec2(1.0) - frect.zw) / 2) * vec2(-1,1)  + vec2(0.5) + coord * ((gl_PointCoord - vec2(0.5) ) * frect.zw * fragscale.xy)) * fcolor;\n"		\
+"	fragColor = texture2D(textures[0],frect.xy  + ((vec2(1.0) - frect.zw) / 2) * vec2(-1,1)  + vec2(0.5) + coord * ((gl_PointCoord - vec2(0.5) ) * frect.zw * fragscale.xy)) * fcolor;\n"		\
 "	//fragColor.rg += (frect.xy  + vec2(0.5) + coord * ((gl_PointCoord - vec2(0.5) ) * frect.zw * fragscale.xy)).xy;\n"		\
 "	//fragColor.a = 1.0;\n"									\
 "}\n"														\

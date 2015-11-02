@@ -20,9 +20,17 @@
 #define _ELT_CPUINFO_H_ 1
 #include"EngineAssembly.h"
 
+
 #ifdef __cplusplus	// C++ Environment
 extern "C"{
 #endif
+
+/*TODO take a look at which approuch for dealing with cpu information. enum or string?*/
+#define EX_CPU_VENDOR_INTEL
+#define EX_CPU_VENDOR_AMD
+#define EX_CPU_VENDOR_ARM
+
+
 /**
 	Get CPU Name
 	@return
@@ -77,6 +85,10 @@ extern DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE41(void);
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void);
 
+
+extern DECLSPEC Enum ELTAPIENTRY ExGetCpuVendor(void);
+
+extern DECLSPEC Enum ELTAPIENTRY ExGetCPUInstructionArchecture(void);
 
 #ifdef __cplusplus	// C++ Environment
 }

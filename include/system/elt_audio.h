@@ -24,16 +24,21 @@
 extern "C"{
 #endif
 
-extern DECLSPEC ERESULT ELTAPIENTRY ExAudioInit(const char* driverName);
+extern DECLSPEC ExAudioContext ELTAPIENTRY ExAudioInit(const char* driverName);
 
 extern DECLSPEC ERESULT ELTAPIENTRY ExAudioQuit(void);
+
+
+extern DECLSPEC ERESULT ELTAPIENTRY ExAudioWrite(const void* data);
+extern DECLSPEC ERESULT ELTAPIENTRY ExAudioRead(void* data);
+
 
 extern DECLSPEC const char* ELTAPIENTRY ExGetAudioDriver(Int32 index);
 
 extern DECLSPEC void ELTAPIENTRY ExGetAudioStatus(void);
 extern DECLSPEC const char* ELTAPIENTRY ExGetCurrentAudioDriver(void);
-extern DECLSPEC void ELTAPIENTRY EXGetNumAudioDevices(void);
-extern DECLSPEC void ELTAPIENTRY EXGetNumAudioDriver(void);
+extern DECLSPEC int ELTAPIENTRY ExGetNumAudioDevices(void);
+extern DECLSPEC int ELTAPIENTRY ExGetNumAudioDriver(void);
 
 
 #ifdef  __cplusplus	/* C++ Environment */

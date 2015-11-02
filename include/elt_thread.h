@@ -44,13 +44,13 @@ extern "C"{
 	\lpParameter
     @return thread handle.
 */
-extern DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpParamater,Uint32* pid);
+extern DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback, void* lpParamater, Uint32* pid);
 /**
     Create Thread with affinity mask.
 
     @return thread handle.
 */
-extern DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback,void* lpParamater,Uint32* pid,unsigned int core);
+extern DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback, void* lpParamater, Uint32* pid, unsigned int core);
 /**
 	Detach thread
 */
@@ -78,8 +78,11 @@ extern DECLSPEC void ELTAPIENTRY ExUnLockThread(ExThread thread);
 
 
 extern DECLSPEC void ELTAPIENTRY ExSuspendThread(ExThread thread);
+
 extern DECLSPEC void ELTAPIENTRY ExResumeThread(ExThread thread);
 
+
+extern DECLSPEC void ELTAPIENTRY ExCreateThreadCondition(void);
 
 /**
     Get current thread identification.

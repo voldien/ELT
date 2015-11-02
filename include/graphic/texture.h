@@ -20,13 +20,13 @@
 #define _ELT_TEXTURE_H_ 1
 
 typedef struct ex_texture{
-	unsigned int target;
-	unsigned int texture;
-	unsigned int width;
-	unsigned int height;
-	unsigned int layer;
-	unsigned int type;
-	unsigned int internalformat;
+	unsigned int target;			/**/
+	unsigned int texture;			/**/
+	unsigned int width;				/**/
+	unsigned int height;			/**/
+	unsigned int layer;				/**/
+	unsigned int type;				/**/
+	unsigned int internalformat;	/**/
 }ExTexture;
 
 
@@ -42,21 +42,20 @@ extern unsigned int ExGetTextureTypeSize(unsigned int internalformat);
 /*
 	return texture internal type in size in bits
 */
-
 extern unsigned int ExGetTextureTypeBits(unsigned int internalformat);
 
-/**
+/*
 	Get texture Internal format by number of bits
 */
 extern unsigned int ExGetTextureTypeBySize(unsigned int bytesperpixel);
 
 
-/**
+/*
 	Get texture Internal format by number of bits
 */
 extern unsigned int ExGetTextureTypeByBits(unsigned int bitsPerPixels);
 
-/**
+/*
 
 */
 extern unsigned int ExGetInternalSrgbType(unsigned int internal_format);
@@ -65,15 +64,17 @@ extern unsigned int ExGetInternalSrgbType(unsigned int internal_format);
 	get texture size in bytes
 */
 extern unsigned int ExGetTextureDataSize(unsigned int textureid);
-/**
+
+/*
     Get texture data by level in unsigned int
 */
 extern unsigned int ExGetTextureLevelDatai(unsigned int textureid,unsigned int level,unsigned char** pixeldata);
 
+/**/
+extern ExTexture* ExCreateTexture(ExTexture* texture, unsigned int target, int level, int internalFormat, int width, int height, int border, unsigned int format, unsigned int type, const void *pixels);
 
-extern ExTexture* ExCreateTexture(ExTexture* texture, unsigned int  target, int level, int internalFormat, int  width, int height, int border, unsigned int format, unsigned int type, const void *pixels);
-
-extern void ExSubTexture(ExTexture* texture, int level,	int xoffset, int yoffset, int width, int height,int format,int type, const void *pixels );
+/**/
+extern void ExSubTexture(ExTexture* texture, int level,	int xoffset, int yoffset, int width, int height, int format, int type, const void *pixels );
 
 extern void ExDeleteTexture(ExTexture* texture);
 
