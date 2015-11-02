@@ -195,6 +195,8 @@ DECLSPEC int ExSupportOpenGL(void){
 
 
 
+/*	=============================================================	*/
+
 
 
 DECLSPEC Int32 ELTAPIENTRY ExSetWindowFullScreen(ExWin window, ExBoolean flag){
@@ -253,13 +255,78 @@ DECLSPEC Int32 ELTAPIENTRY ExSetWindowFullScreen(ExWin window, ExBoolean flag){
 
 
 
+DECLSPEC HANDLE ELTAPIENTRY ExGetWindowUserData(ExWin window){
+#ifdef EX_LINUX
+	//XAssocTable table;
+	//XLookUpAssoc(display, &table, window);
+#endif
+
+}
+
+DECLSPEC void ELTAPIENTRY ExSetWindowUserData(ExWin window, HANDLE userdata){
+
+}
 
 
 
 
+DECLSPEC int ELTAPIENTRY ExSetWindowParent(ExWin parent,ExWin window){
+#ifdef EX_LINUX
+	int pos[2];
+	ExGetWindowPosv(parent,pos);
+	return XReparentWindow(display,window,parent,pos[0],pos[1]);
+#endif
+}
 
+DECLSPEC ExWin ELTAPIENTRY ExGetWindowParent(ExWin window){
+#ifdef EX_LINUX
+	int screen = DefaultScreen(display);
+	ExWin root = RootWindow(display,screen);
+	ExWin parent;
+	ExWin* children;
+	ExWin win;
+	int n;
 
+	XQueryTree(display, window, &win, &parent, &children, &n);
+	return parent;
+#endif
+}
 
+ DECLSPEC int ELTAPIENTRY ExSetWindowChild(ExWin window,ExWin child){
+#ifdef EX_LINUX
+		int pos[2];
+		ExGetWindowPosv(window,pos);
+		return XReparentWindow(display,child,window,pos[0],pos[1]);
+#endif
+}
+
+ DECLSPEC ExWin ELTAPIENTRY ExGetWindowChild(ExWin window,unsigned int index){
+#ifdef EX_LINUX
+	int screen = DefaultScreen(display);
+	ExWin root = RootWindow(display,screen);
+	ExWin parent;
+	ExWin* children;
+	ExWin win;
+	int n;
+
+	XQueryTree(display, window, &win, &parent, &children, &n);
+	return children[index];
+#endif
+}
+
+DECLSPEC int ELTAPIENTRY ExGetWindowNumChildren(ExWin window){
+#ifdef EX_LINUX
+	int screen = DefaultScreen(display);
+	ExWin root = RootWindow(display,screen);
+	ExWin parent;
+	ExWin* children;
+	ExWin win;
+	int n;
+
+	XQueryTree(display, window, &win, &parent, &children, &n);
+	return n;
+#endif
+}
 
 
 
@@ -551,20 +618,5 @@ cleanup:
 
 	return 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

@@ -133,8 +133,6 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateTempGLContext(void){
 
 
 
-
-
 DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
 	OpenGLContext glc = NULL;
 	unsigned int vendor;
@@ -393,9 +391,11 @@ DECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window,Enum ienum){
 DECLSPEC Int32 ELTAPIENTRY ExIsVendorAMD(void){
 	return strstr((const char*)glXGetClientString(display,GLX_VENDOR), "AMD") ? TRUE : FALSE;
 }
+
 DECLSPEC Int32 ELTAPIENTRY ExIsVendorNvidia(void){
 	return (strstr((const char*)glXGetClientString(display,GLX_VENDOR), "NVIDIA")) ? TRUE : FALSE;
 }
+
 DECLSPEC Int32 ELTAPIENTRY ExIsVendorIntel(void){
 	return strstr((const char*)glXGetClientString(display,GLX_VENDOR), "INTEL") ? TRUE : FALSE;
 }

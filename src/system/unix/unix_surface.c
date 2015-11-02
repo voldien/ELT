@@ -60,6 +60,6 @@ DECLSPEC int ExSetSurfacePixel(void* handle, unsigned int x, unsigned int y, lon
     return XPutPixel((XImage*)handle, x,y, pixel);
 }
 
-DECLSPEC int ExFillRect(ExSurface handle,struct ex_rect* rect, unsigned int color){
-
+DECLSPEC int ExFillRect(ExSurface handle, ExRect* rect, unsigned int color){
+	//XFillRectangle(display, m_window, gc,0,0,this->getWidth(),this->getHeight());
 }
