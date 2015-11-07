@@ -76,7 +76,6 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length){
 }
 
 
-
 static void* createELTIcon(ExWin window){
 	if(!window)
 		return NULL;
@@ -96,13 +95,7 @@ static void* createELTIcon(ExWin window){
     #endif
 }
 
-/**
-    Create Window.
-    \x left coordination.
-    \y top coordination.
-    \width width of the window.
-    \height height of the window.
-*/
+
 DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 height, Enum flag){
 	ExWin window = NULL;
 	OpenGLContext glc = NULL;
@@ -209,7 +202,6 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
     /**
         Android
     */
-
 	if((flag & ENGINE_NATIVE) || flag == 0){
         ANativeWindow_acquire(&window);
 	}
@@ -260,39 +252,26 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 	return window;
 }
 
-/*
 
-*/
+#ifdef EX_WINDOWS
 DECLSPEC void ELTAPIENTRY ExShowWindow(ExWin window){
-#ifdef EX_WINDOWS
 	ShowWindow(window,SW_SHOW);
-#elif defined(EX_LINUX)
-    XRaiseWindow(display,window);
-	XMapWindow(display,(Window*)window);
-#elif defined(EX_ANDROID)
-
-#endif
 }
+#endif
+
+#ifdef EX_WINDOWS
 DECLSPEC void ELTAPIENTRY ExHideWindow(ExWin window){
-#ifdef EX_WINDOWS
 	ShowWindow(window,SW_HIDE);
-#elif defined(EX_LINUX)
-    XUnmapWindow(display,window);
-#elif defined(EX_ANDROID)
-
-#endif
 }
-DECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin window){
+#endif
+
+
 #ifdef EX_WINDOWS
+DECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin window){
     CloseWindow(window);
 	DestroyWindow(window);
-#elif defined(EX_LINUX)
-    XDestroyWindow(display, window);
-#elif defined(EX_ANDROID)
-
-#endif
 }
-
+#endif
 
 
 
@@ -311,56 +290,34 @@ DECLSPEC void ELTAPIENTRY ExSetWindowMode(ExWin window, Enum mode){
 }
 
 
-DECLSPEC ExBoolean ELTAPIENTRY ExDestroyWindow(ExWin window){
 #if defined(EX_WINDOWS)
+DECLSPEC ExBoolean ELTAPIENTRY ExDestroyWindow(ExWin window){
 	return DestroyWindow(window);
-#elif defined(EX_LINUX)
-	return XDestroyWindow(display,(Window*)window);
-#elif defined(EX_ANDROID)
-
-#endif
 }
+#endif
 
+#if defined(EX_WINDOWS)
 DECLSPEC void ELTAPIENTRY ExSetWindowTitle(ExWin window,const ExChar* title){
 	if(!window || !title)return;
-#if defined(EX_WINDOWS)
 	ExIsWinError(SetWindowText(window,title));
-#elif defined(EX_LINUX)
-	XTextProperty textprop;
-	Atom XA_STRING = 31;
-
-	textprop.value = (unsigned char*)title;
-	    textprop.encoding = XA_STRING;
-	    textprop.format = 8;
-	    textprop.nitems = strlen(title);
-
-	    XSetWMProperties(display, window,&textprop, &textprop,
-	                NULL, 0,
-	                NULL,
-	                NULL,
-	                NULL);
-
-	//XStoreName(display,(Window*)window,title);
 
 
-#elif defined(EX_ANDROID)
-
-#endif
 }
+#endif
 
-
+#if defined(EX_WINDOWS)
 DECLSPEC ExChar* ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title){
 	if(!window || !title)
 		return NULL;
-#if defined(EX_WINDOWS)
+
 	ExIsWinError(GetWindowText(window,title,EX_STR_LEN(title)));
 	return title;
-#elif defined(EX_LINUX)
-	XFetchName(display,(Window*)window,&title);
-	return title;
-#elif defined(EX_ANDROID)
-#endif
 }
+#endif
+
+
+
+
 
 DECLSPEC void ELTAPIENTRY ExSetWindowPos(ExWin window,Int32 x,Int32 y){
 #if defined(EX_WINDOWS)
@@ -508,16 +465,8 @@ DECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window){
 
 
     return NULL;
-#endif // EX_WINDOWS
+#endif
 }
-
-
-
-
-
-
-
-
 
 
 DECLSPEC Int32 ELTAPIENTRY ExIsScreenSaverEnable(void){

@@ -1,10 +1,8 @@
 #include"system/elt_surface.h"
 #include"system/elt_win.h"
 
-#include"system/unix/unix_win.h"
-#	include<X11/Xlib.h>
-#	include <X11/extensions/XShm.h>
-
+#include<X11/Xlib.h>
+#include<X11/extensions/XShm.h>
 
 static int surface_bits_per_pixel(unsigned int format){
     switch(format){
@@ -15,9 +13,7 @@ static int surface_bits_per_pixel(unsigned int format){
 }
 
 
-
 DECLSPEC void* ExCreateSurface(unsigned int width, unsigned height, unsigned int format){
-	int use_mitshm = 1;
     XImage* image;
     char* buffer;
 
@@ -55,11 +51,56 @@ DECLSPEC int ExDestroySurface(void* handle){
     return XDestroyImage((XImage*)handle);
 }
 
+DECLSPEC void ExDisplaySurfaceToWindow(ExWin window,ExSurface surface){
+	ExRect rect;
+	GC gc;
 
-DECLSPEC int ExSetSurfacePixel(void* handle, unsigned int x, unsigned int y, long pixel){
-    return XPutPixel((XImage*)handle, x,y, pixel);
+	ExGetSurfaceRect(surface,&rect);
+
+
+	gc = XDefaultGC(display,XDefaultScreen(display));
+    XSetFillStyle(display, gc, FillSolid);
+    XSetForeground(display, gc, BlackPixel(display, DefaultScreen(display)));
+    XSetBackground(display, gc, WhitePixel(display, DefaultScreen(display)));
+    //XSync(display, False);
+
+    XPutImage(display, window, gc,surface , 0,0,0,0,rect.width,rect.height);
 }
 
-DECLSPEC int ExFillRect(ExSurface handle, ExRect* rect, unsigned int color){
+DECLSPEC int ExResizeSurface(ExSurface surface, unsigned int width, unsigned height){
+	((XImage*)surface)->data = realloc( ((XImage*)surface)->data,width * height * ((XImage*)surface)->bitmap_pad);
+	if( ((XImage*)surface)->data){
+		((XImage*)surface)->width = width;
+		((XImage*)surface)->height = height;
+	}
+
+	return FALSE;
+}
+
+
+DECLSPEC int ExGetSurfaceRect(ExSurface surface, ExRect* rect){
+	if(!rect)
+		return 0;
+
+	rect->x = ((XImage*)surface)->xoffset;
+	rect->y = ((XImage*)surface)->xoffset;
+	rect->width = ((XImage*)surface)->width;
+	rect->height = ((XImage*)surface)->height;
+	return TRUE;
+}
+
+
+DECLSPEC int ExSetSurfacePixel(void* surface, unsigned int x, unsigned int y, unsigned long pixel){
+    return XPutPixel((XImage*)surface, x,y, pixel);
+}
+
+DECLSPEC int ExFillRect(ExSurface surface, ExRect* rect, unsigned int color){
+	GC gc;
+	ExRect mrect;
+
+	if(!rect){
+		ExGetSurfaceRect(surface,&mrect);
+	}
+
 	//XFillRectangle(display, m_window, gc,0,0,this->getWidth(),this->getHeight());
 }

@@ -31,6 +31,8 @@ typedef void* ExSurface;
 #ifdef  __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
+
+
 /*
     Create Surface
 */
@@ -39,21 +41,30 @@ extern DECLSPEC ExSurface ExCreateSurface(unsigned int width, unsigned height, u
     release surface.
 */
 extern DECLSPEC int ExDestroySurface(ExSurface handle);
+
+/**/
+extern DECLSPEC void ExDisplaySurfaceToWindow(ExWin window,ExSurface surface);
 /*
     resize surface handle
 */
 extern DECLSPEC int ExResizeSurface(ExSurface handle, unsigned int width, unsigned height);
+
+/**/
+extern DECLSPEC int ExGetSurfaceRect(ExSurface surface, ExRect* rect);
+
 /*
     set surface window
 */
-extern DECLSPEC int ExSetSurfacePixel(ExSurface handle, unsigned int x, unsigned int y, long pixel);
+extern DECLSPEC int ExSetSurfacePixel(ExSurface handle, unsigned int x, unsigned int y, unsigned long pixel);
+
+
 
 /*
     set fill color..
 */
-extern DECLSPEC int ExFillRect(ExSurface handle,struct ex_rect* rect, Uint32 color);
+extern DECLSPEC int ExFillRect(ExSurface handle, ExRect* rect, Uint32 color);
 
-//extern DECLSPEC int ExGetSurfaceRect(ExSurface surface, ExRect* rect);
+
 
 /**/
 extern DECLSPEC ExUnlockSurface(ExSurface surface);
