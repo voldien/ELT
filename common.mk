@@ -2,15 +2,25 @@
 
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 current_dir := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
+
+#
+BASE ?= $(call my-dir)
+SHELL ?= /bin/bash
 DESTDIR=/
 MAKE := make
 CMAKE := cmake
+MKDIR ?=  mkdir -p
 TAR := tar
+CP ?= cp
+RM ?= rm -rf
+INSTALL ?= install
+
 
 CFLAGS ?= 
 
 
 #echo `git describe` | sed -e 's/[^0-9]*//g' | cut -c1-1 
+
 MAJOR_VERSION :=` git describe | sed -e 's/[^0-9]*//g' | cut -c1-1 `
 MINOR_VERSION := ` git describe | sed -e 's/[^0-9].[^0-9]*//g' | cut -c1-1 `
 REVISION_VERSION := ` git describe | sed -e 's/[^0-9].[^0-9].[^0-9]*//g' | cut -c1-2`
@@ -49,6 +59,8 @@ else
     endif
 endif
 
+# check if git exist in directory.
+#ifdef $(find .git
 CFLAGS += -DMAJOR_VERSION=$(MAJOR_VERSION)
 CFLAGS += -DMINOR_VERSION=$(MINOR_VERSION)
 CFLAGS += -DREVISION_VERSION=$(REVISION_VERSION)

@@ -13,7 +13,6 @@ ARMCC := arm-linux-gnueabihf-gcc
 WINCC := x86_64-w64-mingw32-gcc
 CLANGCC := clang
 CC ?= gcc
-
 AR = ar
 
 
@@ -22,7 +21,7 @@ DEV ?= -s
 ifdef ComSpec
 	CLIBS := 
 else
-	CLIBS :=  -lX11 -lEGL -lXrender -lOpenCL -lpthread -ldl -lrt -lxcb -lX11-xcb -lXrandr -lm -lasound #-lGL
+	CLIBS :=  -lX11 -lEGL -lXrender -lOpenCL -lpthread -ldl -lrt -lxcb -lX11-xcb -lXrandr -lm -lopenal #-lGL
 endif
 INCLUDE := -I"include" 
 CFLAGS := 
@@ -97,6 +96,8 @@ OUTPUT_DIR := build/
 .PHONY : win64
 .PHONY : arm
 .PHONY : arm64
+.PHONY : java
+.PHONY : csharp
 
 
 
@@ -119,7 +120,7 @@ $(TARGET) : $(objects)  $(notdir $(subst .c,.o, $(wildcard src/system/unix/*.c) 
 
 
 debug : CFLAGS += -g -D_DEBUG=1
-debug : $(objects)
+debug : $(objects) $(notdir $(subst .c,.o, $(wildcard src/system/unix/*.c) ) )
 	$(CC) $(CFLAGS) -shared $(notdir $^) -o build/$(TARGET)  $(CLIBS)
 	@du -h build/$(TARGET)
 
@@ -191,17 +192,24 @@ pnacl :
 	$(MAKE) -C ./port/nacl/ $@
 
 
-
 android :
 	$(MAKE) -C ./port/android/jni/
-			
+
+
+java :
+	$(MAKE) -C ./port/android/java/
+
+
+csharp :
+	$(MAKE) -C ./port/android/csharp/			
 
 # make sure that all dependecy are installed. 
 .PHONY : dependency
 dependency :
-	sudo apt-get install mesa-common-dev libx11-dev libx11-xcb-dev libegl1-mesa-dev libxrandr-dev libgles2-mesa-dev
+	sudo apt-get install mesa-common-dev libx11-dev libx11-xcb-dev libegl1-mesa-dev libxrandr-dev libgles2-mesa-dev libopenal-dev
 
 
+.PHONY : install
 install : $(TARGET)
 	@echo -en "installing ELT!\n"
 	sudo $(MKDIR) /usr/include/ELT
@@ -210,18 +218,18 @@ install : $(TARGET)
 	sudo $(MKDIR) /usr/include/ELT/system/android/
 	sudo $(MKDIR) /usr/include/ELT/graphic
 	sudo $(MKDIR) /usr/include/ELT/math
-	sudo $(CP) include/*.h /usr/include/ELT/
-	sudo $(CP) include/input/*.h /usr/include/ELT/input/
-	sudo $(CP) include/system/*.h /usr/include/ELT/system/
-	sudo $(CP) include/system/android/*.h /usr/include/ELT/system/android/
-	sudo $(CP) include/graphic/*.h /usr/include/ELT/graphic/
-	sudo $(CP) include/math/*.h /usr/include/ELT/math/
-	sudo $(CP) build/$(TARGET) /usr/lib/$(TARGET)
+	sudo $(INSTALL) include/*.h /usr/include/ELT/
+	sudo $(INSTALL) include/input/*.h /usr/include/ELT/input/
+	sudo $(INSTALL) include/system/*.h /usr/include/ELT/system/
+	sudo $(INSTALL) include/system/android/*.h /usr/include/ELT/system/android/
+	sudo $(INSTALL) include/graphic/*.h /usr/include/ELT/graphic/
+	sudo $(INSTALL) include/math/*.h /usr/include/ELT/math/
+	sudo $(INSTALL) build/$(TARGET) /usr/lib/$(TARGET)
 
-	
+.PHONY : uninstall 
 uninstall : 
 	
-
+	
 
 clean:
 	$(RM) *.o
