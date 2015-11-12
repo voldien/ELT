@@ -57,6 +57,39 @@ DECLSPEC int ELTAPIENTRY ExSaveFile(const char* cfilename, void* data, unsigned 
     return TRUE;
 }
 
+FILE* ExSafeOpenWrite(const char *filename){
+	FILE* f;
+	f = fopen(filename, "wb");
+	if(!f){
+		printf ("Error opening file %s: %s\n",filename,strerror(errno));
+	}
+	return f;
+}
+
+FILE* ExSafeOpenRead(const char *filename){
+	FILE* f;
+	f = fopen(filename,"rb");
+	if(!f){
+		printf ("Error opening file %s : %s\n",filename,strerror(errno));
+	}
+	return f;
+}
+
+void ExSafeWrite(FILE *f, void* buffer, unsigned int count){
+	if((int)fwrite(buffer,1, count, f) != count){
+		printf("File write failure : %s \n",strerror(errno));
+	}
+}
+
+void ExSafeRead(FILE*f, void* buffer, int count){
+	if((int)fread(buffer,1,count,f) != count){
+		printf("File read failure : %s\n",strerror(errno));
+	}
+}
+
+
+
+
 DECLSPEC int ELTAPIENTRY ExCreateDirectory(const char* directory){
 #ifdef EX_UNIX
 	return mkdir(directory,644);
