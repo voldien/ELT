@@ -1,10 +1,315 @@
 #include"system/win/wnd_common.h"
-
-
+#include<windows.h>
+#include<wininet.h>
 #include<string.h>
-#ifdef EX_CPP
-	using namespace std;
+
+
+DECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName){
+	PROCESS_INFORMATION pi = {0};
+	STARTUPINFO si = {0};
+    si.cb = sizeof(si);
+	if( !CreateProcess(
+        applicationName,    // No module name (use command line)
+        EX_TEXT(""),        // Command line
+        NULL,               // Process handle not inheritable
+        NULL,               // Thread handle not inheritable
+        FALSE,              // Set handle inheritance to FALSE
+        CREATE_NEW_PROCESS_GROUP,              // No creation flags
+        NULL,               // Use parent's environment block
+        NULL,               // Use parent's starting directory
+        &si,                // Pointer to STARTUPINFO structure
+        &pi )               // Pointer to PROCESS_INFORMATION structure
+    ) {
+		ExDevWindowPrint(EX_TEXT("CreateProcess failed (%d).\n"));
+		return FALSE;
+    }
+	return TRUE;
+
+}
+
+
+DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName, ...){
+	va_list argptr;
+	ExChar argv[1024]= {0};
+	ExChar* arg_temp;
+	va_start(argptr,applicationName);
+
+	PROCESS_INFORMATION pi = {0};
+	STARTUPINFO si = {0};
+
+#ifdef EX_UNICODE
+	while(arg_temp = va_arg(argptr, ExChar*)){	// while arg isn't a null variable
+		wcscat(argv,(const ExChar*)arg_temp);
+		wcscat(argv,EX_TEXT(" "));
+		continue;
+	}
+#else
+	while((arg_temp = va_arg(argptr, ExChar*)) != NULL){
+		strcat(argv,arg_temp);
+		wcscat(argv,EX_TEXT(" "));
+		continue;
+	}
+
 #endif
+	va_end(argptr);
+    si.cb = sizeof(si);
+	if( !CreateProcess(applicationName,   	// No module name (use command line)
+       argv,       	// Command line
+        NULL,           // Process handle not inheritable
+        NULL,           // Thread handle not inheritable
+        FALSE,          // Set handle inheritance to FALSE
+        CREATE_NEW_PROCESS_GROUP,// No creation flags
+        NULL,           // Use parent's environment block
+        NULL,           // Use parent's starting directory
+        &si,            // Pointer to STARTUPINFO structure
+        &pi )           // Pointer to PROCESS_INFORMATION structure
+    ) {
+		ExDevWindowPrint(EX_TEXT("CreateProcess failed"));
+		return FALSE;
+    }
+
+	return TRUE;
+
+}
+
+
+
+DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(ExSize* size){
+	RECT rect;
+	GetWindowRect(GetDesktopWindow(), &rect);
+	size->width  = rect.right - rect.left;
+	size->height = rect.bottom - rect.top;
+
+}
+
+
+DECLSPEC void ELTAPIENTRY ExGetMonitorSize(Uint32 index, ExSize* size){
+	//EnumDisplaySettings(
+
+}
+
+
+DECLSPEC int ELTAPIENTRY ExGetMonitorSizes(Uint index, Uint* num, ExSize*sizes){
+
+}
+
+DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenRect(ExRect* rect){
+	GetWindowRect(GetDesktopWindow(), (LPRECT)rect);
+}
+
+DECLSPEC void ELTAPIENTRY ExGetMonitorRect(Uint32 index, ExRect* rect){
+
+}
+
+DECLSPEC Int32 ELTAPIENTRY ExGetMonitorHz(Uint32 index){
+	DEVMODE mod;
+	DISPLAY_DEVICE dev;
+	//memcpy(&dev,&ExGetMonitor(index),sizeof(dev));
+	EnumDisplaySettings(dev.DeviceName,ENUM_CURRENT_SETTINGS, &mod);
+	return mod.dmDisplayFrequency;
+}
+
+
+const char* ELTAPIENTRY ExGetPlatform(void){
+
+}
+
+
+DECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct){
+	SYSTEM_POWER_STATUS spsPwr;
+	if(!GetSystemPowerStatus(&spsPwr))
+		ExIsWinError(EX_TEXT("Failed to Get Power Information"));
+	if(sec)
+		*sec = spsPwr.BatteryLifeTime;
+	if(pct)
+		*pct = spsPwr.BatteryLifePercent;
+	return TRUE;
+}
+
+DECLSPEC void ELTAPIENTRY ExGetExecutePath(ExChar* wChar, Int32 length){
+	ExIsError(GetModuleFileName(NULL,wChar,length));
+}
+
+DECLSPEC void ELTAPIENTRY ExGetAppliationPath(ExChar* path, Int32 length){
+	ExIsError(GetCurrentDirectory(length,path));
+}
+//function manually
+DECLSPEC ExChar* ELTAPIENTRY ExGetApplicationName(ExChar* name,Int32 length){
+	ExChar path[MAX_PATH];
+	ExIsError(GetModuleFileName(NULL,path,sizeof(path)));
+	_wsplitpath(path,0,0,name,0);
+	return name;
+
+}
+
+DECLSPEC ExChar* ELTAPIENTRY ExGetCurrentDirectory(void){
+	ExChar path[1024];
+	DWORD a = GetCurrentDirectory(MAX_PATH,path);
+	return path;
+
+}
+
+DECLSPEC int ELTAPIENTRY ExSetCurrentDirectory (const char* cdirectory){
+	return SetCurrentDirectory(cdirectory);
+}
+
+
+
+DECLSPEC Uint64 ELTAPIENTRY ExGetTotalSystemMemory(void){
+	MEMORYSTATUSEX status;
+	status.dwLength = sizeof(status);
+	GlobalMemoryStatusEx(&status);
+	return status.ullTotalPhys;
+
+}
+
+DECLSPEC Uint64 ELTAPIENTRY ExGetTotalVirtualMemory(void){
+	MEMORYSTATUSEX status;
+	status.dwLength = sizeof(status);
+	GlobalMemoryStatusEx(&status);
+	return status.ullTotalVirtual;
+
+}
+
+
+
+DECLSPEC const ExChar* ELTAPIENTRY ExGetOSName(void){
+	OSVERSIONINFO pOSVI;
+	pOSVI.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+	if(!GetVersionEx(&pOSVI)){
+		wExDevPrintf(TEXT("Failed to Get Operting System Version | %s |"),ExGetErrorMessage(GetLastError()));
+	}
+	// check what version this computer is running.
+	if ((pOSVI.dwMajorVersion ==6)&&(pOSVI.dwMinorVersion==4))
+		return EX_TEXT("Windows 10");
+	else if ((pOSVI.dwMajorVersion ==6)&&(pOSVI.dwMinorVersion==3))
+		return EX_TEXT("Windows 8.1");
+	else if ((pOSVI.dwMajorVersion ==6)&&(pOSVI.dwMinorVersion==2))
+		return EX_TEXT("Windows 8");
+	else if ((pOSVI.dwMajorVersion ==6)&&(pOSVI.dwMinorVersion==1))
+		return EX_TEXT("Windows 7");
+	else if ((pOSVI.dwMajorVersion ==6)&&(pOSVI.dwMinorVersion==0))
+		return EX_TEXT("Windows Vista");
+	else if ((pOSVI.dwMajorVersion ==5)&&(pOSVI.dwMinorVersion==1))
+		return EX_TEXT("Windows XP");
+	else if ((pOSVI.dwMajorVersion ==5)&&(pOSVI.dwMinorVersion==0))
+		return EX_TEXT("Windows 2000");
+	else if ((pOSVI.dwMajorVersion ==4)&&(pOSVI.dwMinorVersion==0))
+		return EX_TEXT("Windows NT 4.0");
+	else if ((pOSVI.dwMajorVersion ==3)&&(pOSVI.dwMinorVersion==51))
+		return EX_TEXT("Windows NT 3.51");
+	else if ((pOSVI.dwMajorVersion ==4)&&(pOSVI.dwMinorVersion==90))
+		return EX_TEXT("Windows ME");
+	else if ((pOSVI.dwMajorVersion ==4)&&(pOSVI.dwMinorVersion==10))
+		return EX_TEXT("Windows 98");
+	else if((pOSVI.dwMajorVersion ==4)&&(pOSVI.dwMinorVersion==0))
+		return TEXT("Windows 95");
+	else
+		return TEXT("Windows OS Unknown");
+
+}
+
+DECLSPEC ExChar* ELTAPIENTRY ExGetCurrentUser(void){
+	ExChar user[MAX_PATH];
+	ULong csize;
+	ExIsError(GetUserName(user,&csize));
+	return user;
+}
+
+
+
+DECLSPEC Int32 ELTAPIENTRY ExSetClipboardText(const ExChar* text){
+
+	HANDLE handle;
+	void* data;
+	OpenClipboard(NULL);
+	// create a buffer of data
+	handle = GlobalAlloc(GMEM_MOVEABLE,
+		sizeof(ExChar) * EX_STR_LEN(text) + sizeof(ExChar));
+	data = GlobalLock(handle );
+	memcpy(data,text, sizeof(ExChar) * EX_STR_LEN(text)+sizeof(ExChar));
+	GlobalUnlock(handle);
+#ifdef EX_UNICODE
+	SetClipboardData(CF_UNICODETEXT,handle);
+#else
+	SetClipboardData(CF_TEXT,handle);
+#endif
+	CloseClipboard();
+	return (data != NULL);
+
+}
+
+
+// get clipboard text
+DECLSPEC ExChar* ELTAPIENTRY ExGetClipboardText(void){
+	HANDLE hData;
+	ExChar* pszText;
+	OpenClipboard(NULL);
+#ifdef EX_UNICODE
+	hData = GetClipboardData(CF_UNICODETEXT);
+	pszText = (ExChar*)GlobalLock(hData);
+#else
+	hData = GetClipboardData(CF_TEXT);
+	pszText = (char*)GlobalLock(hData);
+#endif
+	GlobalUnlock( hData );
+	CloseClipboard();
+
+	return (ExChar*)pszText;
+
+}
+
+
+//InternetOpenUrl
+DECLSPEC void* ELTAPIENTRY ExDownloadURL(const ExChar* url){
+
+	HINTERNET hOpen = NULL;
+	HINTERNET hFile = NULL;
+	HANDLE hOut = NULL;
+	char* lpBuffer = NULL;
+	DWORD dwBytesRead = 0;
+	DWORD dwBytesWritten = 0;
+	hOpen = InternetOpen(L"MyAgent", NULL, NULL, NULL, NULL);
+	hFile = InternetOpenUrl(hOpen,url,0,0,INTERNET_FLAG_RELOAD | INTERNET_FLAG_DONT_CACHE,NULL);
+
+	//InternetReadFile(hFile,0,0,&dwBytesRead);
+	lpBuffer = (char*)malloc(1024);
+	InternetReadFile(hFile,(LPVOID*)lpBuffer,1024,&dwBytesRead);
+	InternetCloseHandle(hFile);
+	InternetCloseHandle(hOpen);
+	return lpBuffer;
+
+}
+
+
+DECLSPEC ERESULT ELTAPIENTRY ExPutFTPFile(const ExChar* ftp, const ExChar* user, const ExChar* password,const ExChar* file, const ExChar* directory){
+
+	HINTERNET hInternet;
+	HINTERNET hFtpSession;
+	hInternet = InternetOpen(NULL,INTERNET_OPEN_TYPE_PRECONFIG,NULL,NULL,0);
+	if(!hInternet)
+		return E_FAILURE;
+	hFtpSession = InternetConnect(hInternet,(LPTSTR)ftp , INTERNET_DEFAULT_FTP_PORT, (LPTSTR)user, (LPTSTR)password, INTERNET_SERVICE_FTP, 0, 0);
+	if(directory)
+	FtpSetCurrentDirectory(hFtpSession,directory);
+	if(!hFtpSession)
+		return E_FAILURE;
+	if(!FtpPutFile(hFtpSession,file,file, FTP_TRANSFER_TYPE_ASCII, 0))
+		ExIsError(0);
+	InternetCloseHandle(hFtpSession);
+	InternetCloseHandle(hInternet);
+	return TRUE;
+}
+
+
+
+
+
+
+
+
+
+
 
 DECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetMonitor(Uint32 index){
 	DISPLAY_DEVICE dd;
