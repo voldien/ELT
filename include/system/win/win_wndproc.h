@@ -32,15 +32,15 @@ extern "C"{
 /**
 
 */
-extern DECLSPEC void ELTAPIENTRY WIN_DisableAltTab(void);
+extern DECLSPEC void ELTAPIENTRY ExDisableAltTab(void);
 /**
 
 */
-extern DECLSPEC void ELTAPIENTRY WIN_EnableAltTab(void);
+extern DECLSPEC void ELTAPIENTRY ExEnableAltTab(void);
 /**
 
 */
-extern DECLSPEC ExBoolean ELTAPIENTRY WIN_EnableDeviceNotification(ExWin hWnd);
+extern DECLSPEC ExBoolean ELTAPIENTRY ExEnableDeviceNotification(ExWin hWnd);
 /**
 	//	main window procedure
 	//	Remark :
@@ -64,17 +64,14 @@ extern DECLSPEC BOOL WINAPI ExOnContextMenu(ExWin hWnd,Int32 x, Int32 y);
 extern DECLSPEC BOOL WINAPI ExOnContextMenu2(ExWin hWnd,HMENU hmenu,Int32 x, Int32 y);
 /*	Display Window Context	*/
 extern DECLSPEC BOOL WINAPI ExDisplayContextMenu(ExWin hWnd, POINT* pt);
-/**
 
-*/
+/**/
 extern DECLSPEC HANDLE ELTAPIENTRY ExHookWndProc(Int32  idHook, HOOKPROC lpfn);
-/**
 
-*/
+/**/
 extern DECLSPEC LRESULT CALLBACK DefViewWindowProc(ExWin hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-/**
 
-*/
+/**/
 extern DECLSPEC LRESULT CALLBACK ListViewWindowProc(ExWin hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 

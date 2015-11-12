@@ -1,5 +1,4 @@
 #include"system/win/win_win32.h"
-#ifdef EX_WINDOWS
 #	include<windows.h>	// Window header
 #	include<windowsx.h>
 #	include <commctrl.h>
@@ -11,6 +10,7 @@
 #	include<signal.h>
 #	include <io.h>
 #	include <fcntl.h>
+
 #	pragma comment(lib,"Dwmapi.lib")
 #	pragma comment(lib, "winmm.lib")
 #	pragma comment(lib,"User32.lib")
@@ -67,6 +67,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateDirectXWindow(int x, int y, int width, int he
 	SetForegroundWindow(hWnd); // check error
 	return hWnd;
 }
+
 DECLSPEC ExWin ELTAPIENTRY ExCreateOpenGLWindow(Int32 x, Int32 y, Int32 width, Int32 height){
 	HWND hWnd;
 	WNDCLASSEX wc;
@@ -113,6 +114,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateOpenGLWindow(Int32 x, Int32 y, Int32 width, I
 	UpdateWindow(hWnd);
 	return hWnd;
 }
+
 DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){
 
 	ATOM reg;
@@ -175,6 +177,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateMIDWindow(Int32 x, Int32 y, Int32 width , Int
 	if(!(hwnd = CreateMDIWindow(EX_TEXT("ExMIDWindow"),EX_TEXT(""),WS_MAXIMIZE, x,y,width, height, GetDesktopWindow(),wc.hInstance, NULL))){
 		wExDevPrintf(EX_TEXT("Failed to Create MID Window | %s"), ExGetErrorMessage(GetLastError()));
 	}
+
 	return hwnd;
 }
 
@@ -197,17 +200,21 @@ DECLSPEC DWORD ELTAPIENTRY ExSetWindowProc(ExWin hwnd, WNDPROC procPointer){
 	unsigned long _result = SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG)procPointer);
 	return _result;
 }
+
 DECLSPEC WNDPROC ELTAPIENTRY ExGetWindowProc(_IN_ ExWin hwnd){
-	if(!hwnd)return 0;
-	else return (WNDPROC)GetWindowLongPtr(hwnd, GWLP_WNDPROC);
+	if(!hwnd)
+		return 0;
+	return (WNDPROC)GetWindowLongPtr(hwnd, GWLP_WNDPROC);
 }
 
 DECLSPEC void ELTAPIENTRY ExSetWindowStyle(ExWin hwnd, Long style){
 	SetWindowLongPtr(hwnd, GWL_STYLE, style);return;
 }
+
 DECLSPEC void ELTAPIENTRY ExSetAddiWindowStyle(ExWin hWnd, Long lstyle){
 	SetWindowLong(hWnd,GWL_STYLE,GetWindowLong(hWnd, GWL_STYLE) | lstyle);
 }
+
 DECLSPEC Long ELTAPIENTRY ExGetWindowStyle(ExWin hwnd){
 	return GetWindowLongPtr(hwnd, GWL_STYLE);
 }
@@ -215,6 +222,7 @@ DECLSPEC Long ELTAPIENTRY ExGetWindowStyle(ExWin hwnd){
 DECLSPEC void ELTAPIENTRY ExSetWindowStyleEx(ExWin hwnd, Long ExStyle){
 	SetWindowLongPtr(hwnd, GWL_EXSTYLE, ExStyle);return;
 }
+
 DECLSPEC Long ELTAPIENTRY ExGetWindowStyleEx(ExWin hwnd){
 	return GetWindowLongPtr(hwnd, GWL_EXSTYLE);
 }
@@ -227,9 +235,10 @@ DECLSPEC int ELTAPIENTRY ExGetWindowMessage(ExWin hWnd){
 		DispatchMessage(&messageHandler);
 		return TRUE;
 	}
-	else
-		return FALSE;
+
+	return FALSE;
 }
+
 DECLSPEC int ELTAPIENTRY ExGetWindowPeekMessage(ExWin hwnd){
 	MSG messageHandler;
 	if(PeekMessage(&messageHandler,hwnd, 0,0,PM_REMOVE)){
@@ -237,24 +246,31 @@ DECLSPEC int ELTAPIENTRY ExGetWindowPeekMessage(ExWin hwnd){
 		DispatchMessage(&messageHandler);
 		return TRUE;
 	}
-	else{
-		return FALSE;
-	}
+
+	return FALSE;
 }
+
 DECLSPEC void ELTAPIENTRY ExRunWinMessageLoop(void){
 	MSG messageHandler;
+
 	while(GetMessage(&messageHandler, NULL, NULL, NULL)){
 		TranslateMessage(&messageHandler);
 		DispatchMessage(&messageHandler);
 	}
+
 }
+
 DECLSPEC void ELTAPIENTRY ExRunWinPeekMessage(void){
 	MSG messageHandler;
+
 	while(PeekMessage(&messageHandler,NULL, NULL,NULL,PM_REMOVE)){
 		TranslateMessage(&messageHandler);
 		DispatchMessage(&messageHandler);
-		continue;
 	}
+
 }
 
-#endif
+
+
+
+

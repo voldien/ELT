@@ -1,5 +1,5 @@
 #include"system/win/wnd_common.h"
-#ifdef EX_WINDOWS
+
 
 #include<string.h>
 #ifdef EX_CPP
@@ -16,6 +16,7 @@ DECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetMonitor(Uint32 index){
 		return dd;
 	}
 }
+
 DECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetSafeMonitor(Uint32 index){
 	DISPLAY_DEVICE dd;
 	dd.cb = sizeof(DISPLAY_DEVICE);
@@ -26,6 +27,7 @@ DECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetSafeMonitor(Uint32 index){
 		return dd;
 	}
 }
+
 DECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetPrimaryMontior(void){
 	DISPLAY_DEVICE dd;
 	dd.cb = sizeof(DISPLAY_DEVICE);
@@ -68,6 +70,7 @@ DECLSPEC ExWin ELTAPIENTRY ExprograMan(void){
 	ExWin handle =  FindWindowEx(desktop,0,EX_TEXT("Progman"),EX_TEXT("Program Manager"));
 	return handle;
 }
+
 DECLSPEC ExWin ELTAPIENTRY ExShellDef (void){
 	HWND desktop = GetDesktopWindow();
 	HWND _programHandle = ExprograMan();
@@ -80,14 +83,16 @@ DECLSPEC ExWin ELTAPIENTRY ExShellDef (void){
 			defView = FindWindowEx(worker, 0, EX_TEXT("SHELLDLL_DefView"),0);
 		}
 		ChildAfter++;
-		continue;
+
 	}
 	return defView;
 }
+
 DECLSPEC ExWin ELTAPIENTRY ExhShell(void){
 	HWND handle = FindWindowEx(ExprograMan(), 0, EX_TEXT("DeskFolder"), NULL);
 	return handle;
 }
+
 DECLSPEC ExWin ELTAPIENTRY ExListView(void){
 	HWND hwnd;
 	Uint32 i = 0;
@@ -115,7 +120,9 @@ DECLSPEC ExWin ELTAPIENTRY ExSysHeader32(void){
 
 DECLSPEC void ELTAPIENTRY ExAsciiToUnicode(const char* cchar, WCHAR** wchar){
 	Int32 length;
-	if(!cchar)return;
+	if(!cchar)
+		return;
+
 	length = strlen(cchar);
 	if(!wchar[0])
 		wchar[0] = (WCHAR*)ExMalloc(sizeof(WCHAR) * length + 2);
@@ -123,6 +130,7 @@ DECLSPEC void ELTAPIENTRY ExAsciiToUnicode(const char* cchar, WCHAR** wchar){
 		wExDevPrintf(EX_TEXT("Failed to Convert to Unicode | %s"), ExGetErrorMessage(GetLastError()));
 	}
 }
+
 DECLSPEC WCHAR* ELTAPIENTRY ExConvertToUnicode(const char* cchar){
 	WCHAR* wconvert;ExAsciiToUnicode(cchar,&wconvert);return wconvert;
 }
@@ -136,6 +144,7 @@ DECLSPEC void ELTAPIENTRY ExUnicodeToAscii(const WCHAR* wchar, char** cchar){
 		wExDevPrintf(EX_TEXT("Failed to Convert to Asci | %s"), ExGetErrorMessage(GetLastError()));
 	}
 }
+
 DECLSPEC char* ELTAPIENTRY ExConvertAscii(const WCHAR* wwchar){
 	char* cconvert;ExUnicodeToAscii(wwchar,&cconvert);return cconvert;
 }
@@ -160,6 +169,7 @@ DECLSPEC Uint32 ELTAPIENTRY ExGetRegValuei(HKEY hKey, const ExChar* directory, c
 	RegCloseKey(hKey);
 	return val;
 }
+
 DECLSPEC Uint64 ELTAPIENTRY ExGetRegValuel(HKEY hKey, const ExChar* directory, const ExChar* cregname){
 	DWORD res;
 	DWORD type =REG_DWORD;
@@ -172,6 +182,7 @@ DECLSPEC Uint64 ELTAPIENTRY ExGetRegValuel(HKEY hKey, const ExChar* directory, c
 	RegCloseKey(hKey);
 	return val;
 }
+
 DECLSPEC Uint32 ELTAPIENTRY ExGetRegValuec(HKEY hKey, const ExChar* directory, const ExChar* cregname, ExChar* character_string){
 	DWORD res;
 	DWORD type =REG_DWORD;
@@ -187,6 +198,7 @@ DECLSPEC Uint32 ELTAPIENTRY ExGetRegValuec(HKEY hKey, const ExChar* directory, c
 DECLSPEC void ExSetRegValuei(HKEY hKey, const ExChar* directory, const ExChar* cregname,Int32 iint){
 
 }
+
 DECLSPEC void ExSetRegValuel(HKEY hKey, const ExChar* directory, const ExChar* cregname,Long ilong){
 	DWORD res;
 	DWORD type =REG_DWORD;
@@ -197,6 +209,7 @@ DECLSPEC void ExSetRegValuel(HKEY hKey, const ExChar* directory, const ExChar* c
 	RegSetValueEx(hKey,cregname,NULL,REG_DWORD,(Uint8*)&ilong,sizeof(Long));
 	RegCloseKey(hKey);
 }
+
 DECLSPEC void ExSetRegValuec(HKEY hKey, LPCWSTR directory, LPCWSTR cregname,LPCWSTR character){
 	DWORD res;
 	DWORD type =REG_DWORD;
@@ -240,151 +253,3 @@ DECLSPEC void ExCreateFileExtsDesc(LPCWSTR filetype,LPCWSTR description){
 	ExSetRegValuec(HKEY_CLASSES_ROOT,filetype,EX_TEXT(""),description);
 }
 
-
-#ifdef EX_CPP
-/*
-	folder file paths
-*/
-DECLSPEC FolderListA ELTAPIENTRY ExGetFolderFilePathA(const char* directoryPath){
-	if(strlen(directoryPath) == 0)return FolderListA();// directory null
-
-	FolderListA fileList;
-	WIN32_FIND_DATA ffd;
-	LARGE_INTEGER fileSize;
-	TCHAR szDir[MAX_PATH];
-	HANDLE hFind = INVALID_HANDLE_VALUE;
-	DWORD wdError = 0;
-	string path = directoryPath;
-	wstring thePath;
-	thePath = wstring(path.begin(), path.end());
-	if(directoryPath[path.size() - 1] != '\\')
-		thePath += TEXT("\\");
-	thePath += TEXT("/*");
-	hFind  = FindFirstFile(thePath.c_str(), &ffd);
-
-	if (INVALID_HANDLE_VALUE == hFind){
-		thePath.pop_back();	thePath.pop_back();
-		wExDevPrintf(TEXT("Failed to Get Folder Files | Path %s : Error Code %s"),thePath.data(),ExGetErrorMessage(GetLastError()));
-		return fileList;
-	}
-	do{
-      if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY){
-		  printf("FileName : %s \n",ffd.cFileName);
-      }
-      else{
-         fileSize.LowPart = ffd.nFileSizeLow;
-         fileSize.HighPart = ffd.nFileSizeHigh;
-
-		 const wstring fileName = ffd.cFileName;
-		 fileList.push_back(string(path.begin(),path.end()) + "\\" + string(fileName.begin(), fileName.end()));
-      }
-   }
-   while (FindNextFile(hFind, &ffd) != 0);
-   wdError = GetLastError();
-   if(wdError != ERROR_NO_MORE_FILES) {
-	   // a error acured under the process.
-		wExDevPrintf(TEXT("Error Accuted during the GetFolderPath | Path %s : Error Code %s"),thePath.data(),ExGetErrorMessage(wdError));
-   }
-	FindClose(hFind);
-	return fileList;
-}	
-DECLSPEC FolderListW ELTAPIENTRY ExGetFolderFilePathW(const WCHAR* directoryPath){
-	if(!wcslen(directoryPath))return FolderListW();
-	FolderListW fileList;
-	WIN32_FIND_DATA ffd;
-	LARGE_INTEGER fileSize;
-	TCHAR szDir[MAX_PATH];
-	HANDLE hFind = INVALID_HANDLE_VALUE;
-	DWORD wdError = 0;
-	wstring path = directoryPath;
-	wstring thePath(path.size() - 1, EX_TEXT('#'));
-	thePath = directoryPath;
-
-	if(thePath[thePath.size() - 1] != EX_TEXT('\\'))
-		thePath += EX_TEXT("\\");
-	thePath += EX_TEXT("/*");
-	hFind  = FindFirstFile(thePath.c_str(), &ffd);
-
-	// if handler was found
-	if (INVALID_HANDLE_VALUE == hFind){
-		thePath.pop_back();	thePath.pop_back();
-		wExDevPrintf(EX_TEXT("Failed to Get Folder Files | Path %s | Error Code %s"),thePath.data(),ExGetErrorMessage(GetLastError()));
-		return fileList;
-	}
-	do{
-		if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY){
-#ifdef EX_DEBUG
-			wprintf(EX_TEXT("FileName %s\n"), ffd.cFileName);
-#endif
-		}
-		else{
-			fileSize.LowPart = ffd.nFileSizeLow;
-			fileSize.HighPart = ffd.nFileSizeHigh;
-
-			const wstring fileName = ffd.cFileName;
-			fileList.push_back(wstring(path.begin(),path.end()));
-			fileList[fileList.size() - 1] = wstring(fileList[fileList.size() - 1] + fileName );
-		}
-	}
-	while (FindNextFile(hFind, &ffd) != 0);
-	wdError = GetLastError();
-	if (wdError != ERROR_NO_MORE_FILES) {
-		// a error accured during the process.
-		wExDevPrintf(EX_TEXT("Error Accuted during the GetFolderPath | Path %s : Error Code %s"),thePath.data(),ExGetErrorMessage(wdError));
-	}
-	FindClose(hFind);
-	return fileList;
-}
-
-DECLSPEC FolderListW ELTAPIENTRY ExGetFolderDirectoryPathW(const WCHAR* directoryPath){
-	if(wcslen(directoryPath) == 0)return FolderListW();
-	FolderListW fileList;
-	WIN32_FIND_DATA ffd;
-	LARGE_INTEGER fileSize;
-	TCHAR szDir[MAX_PATH];
-	HANDLE hFind = INVALID_HANDLE_VALUE;
-	DWORD wdError = 0;
-	wstring path = directoryPath;
-	wstring thePath(path.size() - 1, EX_TEXT('#'));
-	thePath = directoryPath;
-
-	if(thePath[thePath.size() - 1] != EX_TEXT('\\'))
-		thePath += EX_TEXT("\\");
-	thePath += EX_TEXT("/*");
-	hFind  = FindFirstFile(thePath.c_str(), &ffd);
-	// if handler was found
-	if (INVALID_HANDLE_VALUE == hFind){
-		thePath.pop_back();	thePath.pop_back();
-		wExDevPrintf(EX_TEXT("Failed to Get Folder Files | Path %s | Error Code %s"),thePath.data(),ExGetErrorMessage(GetLastError()));
-		return fileList;
-	}
-	do{
-		if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY){
-			fileSize.LowPart = ffd.nFileSizeLow;
-			fileSize.HighPart = ffd.nFileSizeHigh;
-
-			const wstring fileName = ffd.cFileName;
-			fileList.push_back(path);
-			fileList[fileList.size() - 1] = wstring(fileList[fileList.size() - 1] + fileName + EX_TEXT("\\"));
-		}
-	}
-	while (FindNextFile(hFind, &ffd) != 0);
-	wdError = GetLastError();
-	if (wdError != ERROR_NO_MORE_FILES) {
-		// a error accured during the process.
-		wExDevPrintf(EX_TEXT("Error Accuted during the GetFolderPath | Path %s : Error Code %s"),thePath.data(),ExGetErrorMessage(wdError));
-	}
-	FindClose(hFind);
-	return fileList;
-}
-DECLSPEC FolderListA ELTAPIENTRY ExGetFolderDirectoryPathA(const char* directoryPath){
-	if(strlen(directoryPath) == 0)return FolderListA();
-	FolderListA filelist;
-
-	return filelist;
-}
-
-#endif // C++
-
-
-#endif // Windows

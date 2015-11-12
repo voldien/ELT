@@ -1,7 +1,6 @@
 #include"system/win/win_wndproc.h"
-#ifdef EX_WINDOWS
-#include"system/win/win_win32.h"
 
+#include"system/win/win_win32.h"
 #include<windows.h>
 #include<winuser.h>
 #include<commctrl.h>
@@ -17,21 +16,23 @@
 CallBack ExOnFocus = NULL;
 CallBack ExOnUnFocus = NULL;
 
-DECLSPEC void ELTAPIENTRY WIN_DisableAltTab(void){
+DECLSPEC void ELTAPIENTRY ExDisableAltTab(void){
 	BOOL old;
 	RegisterHotKey( 0, 0, MOD_ALT, VK_TAB );
 
 	SystemParametersInfo( SPI_SCREENSAVERRUNNING, 1, &old, 0 );
 }
-DECLSPEC void ELTAPIENTRY WIN_EnableAltTab(void){
+DECLSPEC void ELTAPIENTRY ExEnableAltTab(void){
 	BOOL old;
 	UnregisterHotKey( 0, 0 );
 
 	SystemParametersInfo( SPI_SCREENSAVERRUNNING,0, &old, 0 );
 }
+
 GUID WceusbshGUID = { 0x25dbce51, 0x6c8f, 0x4a72,
                       0x8a,0x6d,0xb5,0x4c,0x2b,0x4f,0xc8,0x35 };
-DECLSPEC ExBoolean ELTAPIENTRY WIN_EnableDeviceNotification(ExWin hWnd){
+
+DECLSPEC ExBoolean ELTAPIENTRY ExEnableDeviceNotification(ExWin hWnd){
 	HDEVNOTIFY hDevNotify = 0;
 	DEV_BROADCAST_DEVICEINTERFACE  notificationFilter = {0};
 
@@ -54,6 +55,7 @@ DECLSPEC ExBoolean ELTAPIENTRY WIN_EnableDeviceNotification(ExWin hWnd){
 
 	return (ExBoolean)((hDevNotify) ? TRUE : FALSE);
 }
+
 /*	Main Proc designed for OpenGL Window mainly.	*/
 DECLSPEC ERESULT WINAPI MainWndProc(ExWin hWnd,UINT uMsg, WPARAM wParam, LPARAM lParam){
 	ExGLWindowHandler* handler;
@@ -464,6 +466,7 @@ DECLSPEC BOOL WINAPI ExOnContextMenu(ExWin hWnd,Int x, Int y){
     // Return FALSE if no menu is displayed.
     return FALSE;
 }
+
 DECLSPEC BOOL WINAPI ExOnContextMenu2(ExWin hWnd,HMENU hmenuTrackPopup,Int x, Int y){
 	if(!hmenuTrackPopup)return FALSE;
 	RECT rc;                    // client area of window
@@ -514,5 +517,3 @@ DECLSPEC HANDLE ELTAPIENTRY ExHookWndProc(Int32  idHook, HOOKPROC lpfn){
 	ExIsWinError(hook =SetWindowsHookEx(idHook,lpfn,GetModuleHandle(NULL),0));
 	return hook;
 }
-
-#endif

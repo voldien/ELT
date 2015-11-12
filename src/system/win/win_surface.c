@@ -11,12 +11,23 @@ DECLSPEC void* ExCreateSurface(unsigned int width, unsigned height, unsigned int
 }
 
 
-DECLSPEC int ExDestroySurface(void* handle){
+int ExDestroySurface(void* handle){
     return DeleteObject(handle);
 }
 
-DECLSPEC int ExSetSurfacePixel(void* handle, unsigned int x, unsigned int y, long pixel){
-    return SetPixel(handle,x,y,pixel);
+
+void ExDisplaySurfaceToWindow(ExWin window,ExSurface surface){
+
+
+}
+
+int ExResizeSurface(ExSurface surface, unsigned int width, unsigned height){
+
+
+}
+
+int ExSetSurfacePixel(void* surface, unsigned int x, unsigned int y, unsigned long pixel){
+    return SetPixel(surface, x, y, pixel);
 }
 
 
