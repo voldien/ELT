@@ -1,6 +1,5 @@
 #include"graphic/shader.h"
-#include"system/eltfile.h"
-
+#include"system/elt_file.h"
 
 
 #ifdef GL_ES_VERSION_3_0
@@ -23,6 +22,7 @@
 	#include<GL/glu.h>
 	#include<GL/glext.h>
 #endif
+
 
 int ExGetShaderProgramSize(unsigned int program){
 	unsigned int i,fsize;
@@ -270,28 +270,36 @@ extern int ExShaderCompileLog(unsigned int program,unsigned int shaderflag){
 	return TRUE;
 }
 
+int ExShaderCompileLogv(unsigned int program,unsigned int shaderflag, char* log){
+
+	return TRUE;
+}
 
 
-int ExGetShaderSource(unsigned int program, unsigned int shader_flag, char** source){
+
+int ExGetShaderSource(unsigned int shader, char** source){
 	int len;
-	glGetShaderiv(program, GL_SHADER_SOURCE_LENGTH,&len);
+	if(!glIsShader(shader))
+		return 0;
+
+	glGetShaderiv(shader, GL_SHADER_SOURCE_LENGTH,&len);
 	if(!len)
 		return 0;
 
 	source[0] = (char*)malloc(len);
-	glGetShaderSource(program, len, NULL, source[0]);
+	glGetShaderSource(shader, len, &len, source[0]);
 	//glGetProgramiv(program,
 	return 1;
 }
 
-char* getShaderSourcefast(unsigned int program, unsigned int shader_flag){
+char* getShaderSourcefast(unsigned int shader){
 	int len;
 	char* source;
-	glGetShaderiv(program, GL_SHADER_SOURCE_LENGTH,&len);
+	glGetShaderiv(shader, GL_SHADER_SOURCE_LENGTH,&len);
 	if(!len)
 		return 0;
 
 	source = (char*)malloc(len);
-	glGetShaderSource(program, len, NULL, source);
+	glGetShaderSource(shader, len, NULL, source);
 	return source;
 }

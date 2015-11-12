@@ -21,13 +21,13 @@
 #include<stdio.h>
 
 typedef struct ex_shader{
-	unsigned int ver;
-	unsigned int fra;
-	unsigned int geo;
-	unsigned int tesc;
-	unsigned int tese;
-	unsigned int program;
-	unsigned int flag;
+	int ver;
+	int fra;
+	int geo;
+	int tesc;
+	int tese;
+	int program;
+	int flag;
 }ExShader,ShaderHeaderr;
 #ifdef __cplusplus	/* C++ environment	*/
 extern "C"{
@@ -63,10 +63,10 @@ extern int ExShaderCompileLog(unsigned int program,unsigned int shaderflag);
 
 extern int ExShaderCompileLogv(unsigned int program,unsigned int shaderflag, char* log);
 
-extern int ExGetShaderSource(unsigned int program, unsigned int shader_flag, char** source);
+extern int ExGetShaderSource(unsigned int shader, char** source);
 
 /* */
-extern int ExGetShaderSourcev(unsigned int program, unsigned int shader_flag, char* source);
+extern int ExGetShaderSourcev(unsigned int shader, char* source);
 
 /*	*/
 extern unsigned int ExGetShaderNumComponent(unsigned int program);
