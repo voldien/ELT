@@ -1,6 +1,4 @@
-#include"system/win/win_GL.h"
 #include"system/win/win_wndproc.h"
-
 #pragma warning(disable : 4273)     // 'function' : inconsistent DLL linkage
 
 /* library  */
@@ -78,7 +76,8 @@ typedef const char *(APIENTRY * WGLGETEXTENSIONSSTRINGARB_T)( HDC );    /* wglGe
 typedef HGLRC (APIENTRY * WGLCREATECONTEXTATTRIBSARB)(HDC,HGLRC hShareContext,const int *attribList);			/*  */
 
 
-/*	*/
+
+/*		*/
 typedef void (APIENTRY * PFNGLATTACHSHADERPROC) (GLuint program, GLuint shader);
 typedef void (APIENTRY * PFNGLBINDBUFFERPROC) (GLenum target, GLuint buffer);
 typedef void (APIENTRY * PFNGLBINDVERTEXARRAYPROC) (GLuint array);
@@ -113,6 +112,32 @@ typedef void (APIENTRY * PFNGLGENERATEMIPMAPPROC) (GLenum target);
 typedef void (APIENTRY * PFNGLDISABLEVERTEXATTRIBARRAYPROC) (GLuint index);
 typedef void (APIENTRY * PFNGLUNIFORM3FVPROC) (GLint location, GLsizei count, const GLfloat *value);
 typedef void (APIENTRY * PFNGLUNIFORM4FVPROC) (GLint location, GLsizei count, const GLfloat *value);
+
+
+/*	framebuffer	*/
+typedef void (APIENTRY * PFNGLBINDFRAMEBUFFERPROC) (GLenum target, GLuint framebuffer);
+typedef void (APIENTRY * PFNGLBINDRENDERBUFFERPROC) (GLenum target, GLuint renderbuffer);
+typedef void (APIENTRY * PFNGLBLITFRAMEBUFFERPROC) (GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter);
+typedef GLenum (APIENTRY * PFNGLCHECKFRAMEBUFFERSTATUSPROC) (GLenum target);
+typedef void (APIENTRY * PFNGLDELETEFRAMEBUFFERSPROC) (GLsizei n, const GLuint* framebuffers);
+typedef void (APIENTRY * PFNGLDELETERENDERBUFFERSPROC) (GLsizei n, const GLuint* renderbuffers);
+typedef void (APIENTRY * PFNGLFRAMEBUFFERRENDERBUFFERPROC) (GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
+typedef void (APIENTRY * PFNGLFRAMEBUFFERTEXTURE1DPROC) (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
+typedef void (APIENTRY * PFNGLFRAMEBUFFERTEXTURE2DPROC) (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
+typedef void (APIENTRY * PFNGLFRAMEBUFFERTEXTURE3DPROC) (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLint layer);
+typedef void (APIENTRY * PFNGLFRAMEBUFFERTEXTURELAYERPROC) (GLenum target,GLenum attachment, GLuint texture,GLint level,GLint layer);
+typedef void (APIENTRY * PFNGLGENFRAMEBUFFERSPROC) (GLsizei n, GLuint* framebuffers);
+typedef void (APIENTRY * PFNGLGENRENDERBUFFERSPROC) (GLsizei n, GLuint* renderbuffers);
+typedef void (APIENTRY * PFNGLGENERATEMIPMAPPROC) (GLenum target);
+typedef void (APIENTRY * PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC) (GLenum target, GLenum attachment, GLenum pname, GLint* params);
+typedef void (APIENTRY * PFNGLGETRENDERBUFFERPARAMETERIVPROC) (GLenum target, GLenum pname, GLint* params);
+typedef GLboolean (APIENTRY * PFNGLISFRAMEBUFFERPROC) (GLuint framebuffer);
+typedef GLboolean (APIENTRY * PFNGLISRENDERBUFFERPROC) (GLuint renderbuffer);
+typedef void (APIENTRY * PFNGLRENDERBUFFERSTORAGEPROC) (GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
+typedef void (APIENTRY * PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC) (GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height);
+
+
+
 
 /**/
 PFNGLATTACHSHADERPROC glAttachShader;
@@ -152,9 +177,6 @@ PFNGLUNIFORM4FVPROC glUniform4fv;
 
 
 
-
-
-
 static void ELTAPIENTRY ExCreatePFD( void* pPFD, Int32 colorbits, Int32 depthbits, Int32 stencilbits){
 
 	PIXELFORMATDESCRIPTOR* pfd = (PIXELFORMATDESCRIPTOR*)pPFD;
@@ -169,6 +191,7 @@ static void ELTAPIENTRY ExCreatePFD( void* pPFD, Int32 colorbits, Int32 depthbit
 	pfd->cStencilBits = stencilbits;
 
 }
+
 static void ELTAPIENTRY ExCreatePFD2( void *pPFD){
 
 	PIXELFORMATDESCRIPTOR pfd = {0};
@@ -189,9 +212,7 @@ static void ELTAPIENTRY ExCreatePFD2( void *pPFD){
 	memcpy(pPFD,&pfd, sizeof(PIXELFORMATDESCRIPTOR));
 }
 
-/**
-    Create temporarily OpenGL context for windows
-*/
+
 static OpenGLContext create_temp_gl_context(HWND window){
 	PIXELFORMATDESCRIPTOR pfd;
 	OpenGLContext gl_context,hrc;
@@ -238,9 +259,7 @@ static OpenGLContext create_temp_gl_context(HWND window){
 	}*/
 	return gl_context;
 }
-/*
-    Generate a temporarily window for creating the extension window.
-*/
+
 static HWND create_temp_gl_win(OpenGLContext* pglc_context){
     ExWin hwnd;
     OpenGLContext glc;
@@ -281,7 +300,7 @@ static HWND create_temp_gl_win(OpenGLContext* pglc_context){
 }
 
 
-DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
+OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
 	OpenGLContext glc = NULL;
 	unsigned int render_vendor;
 
@@ -404,6 +423,8 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
 
    /*	get opengl functions */
 
+
+
 	return glc;
 }
 
@@ -429,10 +450,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 }
 
 
-/**
-    Create Shared OpenGL Context from a already existing context.
-*/
-DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLContext glc){
+OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLContext glc){
     int major;
     int minor;
     OpenGLContext shared_glc;
@@ -562,11 +580,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExDestroyContext(WindowContext drawable, OpenGLCo
 	return hr;
 }
 
-
-/**
-    Opengl Fullscreen
-*/
-DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes){
+ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes){
 
 	RECT rect;
 	DEVMODE dm;
@@ -631,7 +645,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin win
 }
 
 
-DECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window,Enum ienum){
+void ELTAPIENTRY ExSetGLTransparent(ExWin window,Enum ienum){
 
 	DWM_BLURBEHIND bb = {0};
 	HRESULT hr;
@@ -704,14 +718,17 @@ DECLSPEC Int32 ELTAPIFASTENTRY ExMaxTextureUints(void){
 }
 
 */
+
 DECLSPEC void ELTAPIENTRY ExOpenGLSetAttribute(unsigned int attr, int value){
 	pixAtt[PIXATTOFFSET + (2 * attr) + 1] = value;
 }
+
 DECLSPEC int ELTAPIENTRY ExOpenGLGetAttribute(unsigned int attr, int* value){
 	if(value)
 		value = (unsigned int)pixAtt[PIXATTOFFSET + (2 * attr) + 1];
 	return pixAtt[PIXATTOFFSET + (2 * attr) + 1];
 }
+
 DECLSPEC void ELTAPIENTRY ExOpenGLResetAttributes(void){
 
 }

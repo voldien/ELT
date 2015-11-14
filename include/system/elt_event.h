@@ -78,19 +78,23 @@ EX_ALIGN_PREFIX(4)
 typedef struct ex_joy_stick_event{
 	Uint8 button[5];			/**/
 }ExJoyStickEvent;
+
 EX_ALIGN_PREFIX(4)
 typedef struct ex_joystick_move_event{
 	Uint32 x[3];				/**/
 }ExJoySticMoveEvent;
+
 EX_ALIGN_PREFIX(4)
 typedef struct ex_joystick_button_event{
 	Uint8 button[8];			/**/
 }ExJoySticButtonEvent;
+
 EX_ALIGN_PREFIX(4)
 typedef struct ex_mouse_move_event{
 	int x;						/**/
 	int y;						/**/
 }ExMouseMoveEvent;
+
 EX_ALIGN_PREFIX(4)
 typedef struct ex_mouse_motion_event{
 	int x;						/**/
@@ -99,14 +103,17 @@ typedef struct ex_mouse_motion_event{
 	int ydelta;					/**/
 }MouseMotionEvent;
 
+EX_ALIGN_PREFIX(4)
 typedef struct elt_win_button_event{
 	Uint8 button;				/**/
 }ExWinButtonEvent;
+
 EX_ALIGN_PREFIX(4)
 typedef struct ex_mouse_wheel_event{
 	int delta;					/**/
 	int x,y;					/**/
 }ExMouseWheelEvent;
+
 EX_ALIGN_PREFIX(4)
 typedef struct ex_key_event{
 	Uint8 code;					/**/
@@ -115,6 +122,7 @@ typedef struct ex_key_event{
 	Uint8 system;				/**/
 	Uint8 ctrl;					/**/
 }ExKeyEvent;
+
 EX_ALIGN_PREFIX(4)
 typedef struct ex_drop_event{
 	int number;					/**/
@@ -206,9 +214,7 @@ extern DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
 extern DECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event);
 
 
-/*
- *
- */
+/*	*/
 extern DECLSPEC Int32 ELTAPIENTRY ExForwardEvent(Uint32 event, HANDLE data, Uint32 size);
 
 

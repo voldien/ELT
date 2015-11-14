@@ -20,7 +20,7 @@
 #define _WIN_CONSTROLS_H_ 1
 #include"./../../ExPreProcessor.h"
 #include"win_win32.h"
-#ifdef EX_WINDOWS
+
 
 
 #ifdef  __cplusplus	/* C++ Environment */
@@ -204,5 +204,4 @@ extern DECLSPEC ExWin ELTAPIENTRY ExCreatePropertySheet(ExWin parenthWnd);
 }
 #endif
 
-#endif
 #endif

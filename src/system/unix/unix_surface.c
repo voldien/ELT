@@ -94,13 +94,13 @@ DECLSPEC int ExSetSurfacePixel(void* surface, unsigned int x, unsigned int y, un
     return XPutPixel((XImage*)surface, x,y, pixel);
 }
 
-DECLSPEC int ExFillRect(ExSurface surface, ExRect* rect, unsigned int color){
+DECLSPEC void ExFillRect(ExSurface surface, ExRect* rect, unsigned int color){
 	GC gc;
 	ExRect mrect;
-
 	if(!rect){
 		ExGetSurfaceRect(surface,&mrect);
 	}
 
+	XAddPixel(surface,color);
 	//XFillRectangle(display, m_window, gc,0,0,this->getWidth(),this->getHeight());
 }

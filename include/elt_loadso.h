@@ -28,6 +28,7 @@ extern "C"{
 
 /**/
 extern DECLSPEC int ELTAPIENTRY ExLoadNumSymbol(HANDLE handle);
+
 /**/
 extern DECLSPEC char* ELTAPIENTRY ExLoadSymbol(HANDLE handle, int index, char* symbol, int len);
 

@@ -1,4 +1,4 @@
-/**
+/*
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     designed for OpenGL and OpenCL.
     Copyright (C) 2014  Valdemar Lindberg

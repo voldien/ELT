@@ -19,13 +19,11 @@
 #ifndef _WIN32_WINDOW_H_
 #define _WIN32_WINDOW_H_ 1
 #include"./../../ExPreProcessor.h"
-#ifdef EX_WINDOWS
 #include<windows.h>
 #include"./../../EngineAssembly.h"
 #include"win_wndproc.h"
 #include"win_directX.h"
 #include"wnd_common.h"
-#include"wnd_snd.h"
 
 
 typedef void(ELTAPIENTRY *CallBack)(void);
@@ -90,11 +88,11 @@ extern DECLSPEC void ELTAPIENTRY ExUnRegisterClasses(void);
     Create Window dedicated for DirectX
     @return
 */
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateDirectXWindow(int x, int y, int width,int height);
+extern DECLSPEC ExWin ELTAPIENTRY ExCreateDirectXWindow(int x, int y, int width, int height);
 /**
 
 */
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateOpenGLWindow(int x, int y, int width,int height);
+extern DECLSPEC ExWin ELTAPIENTRY ExCreateOpenGLWindow(int x, int y, int width, int height);
 /**
     @return
 */
@@ -113,6 +111,8 @@ extern DECLSPEC ExWin ELTAPIENTRY ExCreateMIDWindow(int x, int y, int width , in
 
 /* Set Window Processor [ HWND hwnd, WNDPROC procPointer] */
 extern DECLSPEC DWORD ELTAPIENTRY ExSetWindowProc(ExWin hwnd, WNDPROC procPointer);
+
+
 /* Get Window Processsor [HWND hwnd] */
 extern DECLSPEC WNDPROC ELTAPIENTRY ExGetWindowProc(ExWin hwnd);
 
@@ -166,5 +166,4 @@ extern DECLSPEC void ELTAPIENTRY ExRunWinPeekMessage(void);
 
 
 #include"win_controls.h"
-#endif
 #endif

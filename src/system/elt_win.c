@@ -44,11 +44,7 @@
 
 #include"system/elt_icon.h"
 
-
-
 #define EX_ENGINE_VERSION_STRING EX_TEXT("ELT Version | %d.%d%d%s | OS : %s : OpenGL %d.%d")
-
-
 
 DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length){
 	if(!text)
@@ -253,6 +249,8 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 }
 
 
+
+
 #ifdef EX_WINDOWS
 DECLSPEC void ELTAPIENTRY ExShowWindow(ExWin window){
 	ShowWindow(window,SW_SHOW);
@@ -275,19 +273,15 @@ DECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin window){
 
 
 
-
-DECLSPEC void ELTAPIENTRY ExSetWindowMode(ExWin window, Enum mode){
 #ifdef EX_WINDOW
+DECLSPEC void ELTAPIENTRY ExSetWindowMode(ExWin window, Enum mode){
+
     if(mode & EX_WIN_SCREENSAVER_ENABLE){
         ExLoadLibrary(EX_TEXT("scrnsave.dll"));
     }
 
-#elif defined(EX_LINUX)
-    if(mode & EX_WIN_SCREENSAVER_ENABLE){
-
-    }
-#endif
 }
+#endif
 
 
 #if defined(EX_WINDOWS)
@@ -318,155 +312,114 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title){
 
 
 
-
-DECLSPEC void ELTAPIENTRY ExSetWindowPos(ExWin window,Int32 x,Int32 y){
 #if defined(EX_WINDOWS)
+DECLSPEC void ELTAPIENTRY ExSetWindowPos(ExWin window,Int32 x,Int32 y){
+
 	RECT winrect;
 	if(!window)return;
 	GetWindowRect(window,&winrect);
 	SetWindowPos(window,NULL,x,y,winrect.right - winrect.left,winrect.bottom - winrect.top,SWP_SHOWWINDOW);
-#elif defined(EX_LINUX)
-	XMoveWindow(display,(Window*)window,x,y);
-#endif
+
 }
+#endif
+
+#if defined(EX_WINDOWS)
 DECLSPEC void ELTAPIENTRY ExSetWindowPosv(ExWin window, const Int32* position){
 	if(!window || !position)return;
-#if defined(EX_WINDOWS)
+
 	RECT winrect;
 	GetWindowRect(window,&winrect);
 	SetWindowPos(window, NULL,position[0],position[1], winrect.right - winrect.left,winrect.bottom - winrect.top,SWP_SHOWWINDOW);
-#elif defined(EX_LINUX)
-	XMoveWindow(display,(Window*)window,position[0],position[1]);
-#elif defined(EX_ANDROID)
-
-#endif
 }
-DECLSPEC void ELTAPIENTRY ExGetWindowPosv(ExWin window, Int32* position){
+#endif
+
 #ifdef EX_WINDOWS
+DECLSPEC void ELTAPIENTRY ExGetWindowPosv(ExWin window, Int32* position){
+
 	RECT winrect;
 	GetWindowRect(window,&winrect);
 	position[0]= winrect.left;
 	position[1] = winrect.top;
-#elif defined(EX_LINUX)
-	XWindowAttributes xwa;
-	XGetWindowAttributes(display, window,&xwa);
-	position[0] = xwa.x;
-	position[1] = xwa.y;
-#endif
-}
 
+}
+#endif
+
+#ifdef EX_WINDOWS
 DECLSPEC void ELTAPIENTRY ExSetWindowSize(ExWin window,Int32 width, Int32 height){
-#ifdef EX_WINDOWS
+
 	RECT winrect;
 	GetWindowRect(window,&winrect);
-#elif defined(EX_LINUX)
-	XResizeWindow(display,window,width,height);
-#endif
+
 }
+#endif
+
+
+#ifdef EX_WINDOWS
 DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window,const ExSize* size){
-#ifdef EX_WINDOWS
+
 	RECT winrect;
 	GetWindowRect(window,&winrect);
-#elif defined(EX_LINUX)
-	XResizeWindow(display,window,size->width,size->height);
-#endif
+
 }
-DECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, ExSize* size){
+#endif
+
 #ifdef EX_WINDOWS
+DECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, ExSize* size){
+
 	RECT winrect;
 	GetWindowRect(window, &winrect);
 	size->width = winrect.right - winrect.left;
 	size->height = winrect.bottom - winrect.top;
-#elif defined(EX_LINUX)
-	XWindowAttributes xwa;
-	XGetWindowAttributes(display, window,&xwa);
-	size->width = xwa.width;
-	size->height= xwa.height;
-#endif
+
+
 }
+#endif
 
 
+#if defined(EX_WINDOWS)
 DECLSPEC void ELTAPIENTRY ExSetWindowRect(ExWin window, const ExRect* rect){
-#if defined(EX_WINDOWS)
+
 	SetWindowPos(window,HWND_TOP,rect->x,rect->y,rect->width - rect->x,rect->height - rect->y,SWP_SHOWWINDOW);
-#elif defined(EX_LINUX)
-	XMoveWindow(display,(Window)window,rect->x,rect->y);
-	XResizeWindow(display,(Window)window,rect->width - rect->x,rect->height - rect->y);
-#endif
-}
 
-DECLSPEC void ELTAPIENTRY ExGetWindowRect(ExWin window, ExRect* rect){
+}
+#endif
+
 #if defined(EX_WINDOWS)
+DECLSPEC void ELTAPIENTRY ExGetWindowRect(ExWin window, ExRect* rect){
+
 	GetWindowRect(window, (RECT*)rect);
-#elif defined(EX_LINUX)
-	XWindowAttributes xwa;
-	XGetWindowAttributes(display, (Window*)window,&xwa);
-	rect->width = xwa.width;
-	rect->height = xwa.height;
-	rect->x = xwa.x;
-	rect->y= xwa.y;
-#endif
 }
+#endif
 
-
+#ifdef EX_WINDOWS
 DECLSPEC Uint32 ELTAPIENTRY ExGetWindowFlag(ExWin window){
-#ifdef EX_WINDOWS
+
 	return GetWindowLong(window,GWL_STYLE);
-#elif defined(EX_LINUX)
-    //TODO remove or something
-	XWindowAttributes xwa;
-	XGetWindowAttributes(display, (Window*)window,&xwa);
-	return xwa.all_event_masks;
-#endif
+
 }
+#endif
 
-
-DECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, HANDLE hIcon){
 #ifdef EX_WINDOWS
+DECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, HANDLE hIcon){
+
 	LRESULT result;
 	result = SetClassLong(window,GCLP_HICON, (LONG)hIcon);
 	result = SetClassLong(window,GCLP_HICONSM,(LONG)hIcon);
 	return result;
-#elif defined(EX_LINUX)
-     //http://www.sbin.org/doc/Xlib/chapt_03.html
-    XWMHints wm_hints = {0};
-/*    if (!(wm_hints = XAllocWMHints())) {
-      fprintf(stderr, "%s: failure allocating memory", "ELT");
-      return FALSE;
-    }*/
-    Atom net_wm_icon = XInternAtom(display, "_NET_WM_ICON", False);
-    Atom cardinal = XInternAtom(display, "CARDINAL", False);
 
-    wm_hints.initial_state = AllHints;
-    wm_hints.input = True;
-    wm_hints.icon_pixmap = hIcon;
-    wm_hints.icon_mask = hIcon;
-    wm_hints.flags = IconPixmapHint;
-    wm_hints.icon_x = 0x0;
-    wm_hints.icon_y = 0x0;
-    wm_hints.icon_window = window;
 
-    XFlush(display);
-    XSetWMHints(display, window, &wm_hints);
-
-	return TRUE;
-#endif
 }
+#endif
 
-DECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window){
 #ifdef EX_WINDOWS
-
-
-
-    return NULL;
-#elif defined(EX_LINUX)
+DECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window){
 
 
 
 
     return NULL;
-#endif
 }
+#endif
 
 
 DECLSPEC Int32 ELTAPIENTRY ExIsScreenSaverEnable(void){

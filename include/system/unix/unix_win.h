@@ -20,7 +20,6 @@
 #define _UNIX_WIN_H_ 1
 #include"./../../EngineAssembly.h"
 
-#ifdef EX_LINUX
 #ifdef __cplusplus /* C++ environment */
 extern "C"{
 #endif
@@ -45,5 +44,4 @@ extern DECLSPEC int ExSupportOpenGL(void);
 };
 #endif
 
-#endif
 #endif

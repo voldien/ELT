@@ -40,6 +40,7 @@ extern DECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName)
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName,...);
 
+
 /**
 	Get System Primary Screen Size
 */
@@ -49,8 +50,11 @@ extern DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(ExSize* size);
 */
 extern DECLSPEC void ELTAPIENTRY ExGetMonitorSize(Uint32 index,ExSize* size);
 /*
-
+	Get possible resolutions for a given monitor
 */
+extern DECLSPEC int ELTAPIENTRY ExGetMonitorSizes(Uint index, Uint* num, ExSize*sizes);
+
+
 extern DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenRect(ExRect* rect);
 /*
 
@@ -67,13 +71,14 @@ extern DECLSPEC Int32 ELTAPIENTRY ExGetMonitorHz(Uint32 index);
 extern DECLSPEC Int32 ELTAPIENTRY ExGetPrimaryMonitorHz(void);
 
 
+/**/
 extern DECLSPEC int ELTAPIENTRY ExSetScreenSize(int index, int width, int height);
 
 /**
 	// Get Platform
 	@return
 */
-extern DECLSPEC const char* ExGetPlatform(void);
+extern DECLSPEC const char* ELTAPIENTRY ExGetPlatform(void);
 
 /**
 	// Get Application Name
@@ -81,10 +86,10 @@ extern DECLSPEC const char* ExGetPlatform(void);
 */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetApplicationName(ExChar* name,Int32 length);
 
-
-
+/**/
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetCurrentDirectory(void);
 
+/**/
 extern DECLSPEC int ELTAPIENTRY ExSetCurrentDirectory (const char* cdirectory);
 
 
@@ -105,12 +110,12 @@ extern DECLSPEC void ELTAPIENTRY ExGetRelativePath(const ExChar* wChar, ExChar* 
 /**
 
     @return
-*/
+*//*TODO make move to elt_alloc*/
 extern DECLSPEC Uint64 ELTAPIENTRY ExGetTotalSystemMemory(void);
 /**
 
     @return
-*/
+*//*TODO make move to elt_alloc*/
 extern DECLSPEC Uint64 ELTAPIENTRY ExGetTotalVirtualMemory(void);
 
 

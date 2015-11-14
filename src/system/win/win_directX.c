@@ -1,5 +1,6 @@
 #include"system/win/win_directX.h"
-#if (defined(EX_VC) || defined(EX_WINDOWS)) && defined(EX_INCLUDE_DIRECTX)
+
+#if defined(EX_INCLUDE_DIRECTX)
 #include"system/elt_win.h"
 
 #ifdef INTERNAL_ENGINEX

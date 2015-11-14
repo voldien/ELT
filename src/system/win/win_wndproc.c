@@ -16,13 +16,14 @@
 CallBack ExOnFocus = NULL;
 CallBack ExOnUnFocus = NULL;
 
-DECLSPEC void ELTAPIENTRY ExDisableAltTab(void){
+void ELTAPIENTRY ExDisableAltTab(void){
 	BOOL old;
 	RegisterHotKey( 0, 0, MOD_ALT, VK_TAB );
 
 	SystemParametersInfo( SPI_SCREENSAVERRUNNING, 1, &old, 0 );
 }
-DECLSPEC void ELTAPIENTRY ExEnableAltTab(void){
+
+void ELTAPIENTRY ExEnableAltTab(void){
 	BOOL old;
 	UnregisterHotKey( 0, 0 );
 
@@ -32,7 +33,8 @@ DECLSPEC void ELTAPIENTRY ExEnableAltTab(void){
 GUID WceusbshGUID = { 0x25dbce51, 0x6c8f, 0x4a72,
                       0x8a,0x6d,0xb5,0x4c,0x2b,0x4f,0xc8,0x35 };
 
-DECLSPEC ExBoolean ELTAPIENTRY ExEnableDeviceNotification(ExWin hWnd){
+
+ExBoolean ELTAPIENTRY ExEnableDeviceNotification(ExWin hWnd){
 	HDEVNOTIFY hDevNotify = 0;
 	DEV_BROADCAST_DEVICEINTERFACE  notificationFilter = {0};
 
@@ -57,7 +59,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExEnableDeviceNotification(ExWin hWnd){
 }
 
 /*	Main Proc designed for OpenGL Window mainly.	*/
-DECLSPEC ERESULT WINAPI MainWndProc(ExWin hWnd,UINT uMsg, WPARAM wParam, LPARAM lParam){
+ERESULT WINAPI MainWndProc(ExWin hWnd,UINT uMsg, WPARAM wParam, LPARAM lParam){
 	ExGLWindowHandler* handler;
 	switch(uMsg){
 	case WM_CREATE:{
@@ -234,7 +236,7 @@ DECLSPEC ERESULT WINAPI MainWndProc(ExWin hWnd,UINT uMsg, WPARAM wParam, LPARAM 
 }
 
 
-DECLSPEC ERESULT WINAPI WndProcNative(ExWin hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
+ERESULT WINAPI WndProcNative(ExWin hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
 	switch(uMsg){
 	case WM_CREATE:
 		return DefWindowProc(hWnd,uMsg,wParam,lParam);
@@ -254,8 +256,8 @@ DECLSPEC ERESULT WINAPI WndProcNative(ExWin hWnd, UINT uMsg, WPARAM wParam, LPAR
 		}
 	}break;
 	case WM_NCCREATE:{
-		CREATESTRUCT* pCreate = CASTP(CREATESTRUCT*, lParam);
-		if(pCreate->lpCreateParams != NULL)
+		CREATESTRUCT* pCreate = (CREATESTRUCT*)lParam;
+		if(pCreate->lpCreateParams)
 			SetWindowLongPtr(hWnd, GWLP_USERDATA,(LONG_PTR)pCreate->lpCreateParams);
 	}break;
 	case WM_PAINT:{
@@ -443,7 +445,8 @@ DECLSPEC ERESULT WINAPI WndProcNative(ExWin hWnd, UINT uMsg, WPARAM wParam, LPAR
 	//return CallWindowProc ((WNDPROC)GetWindowLong(hWnd,GWL_WNDPROC),hWnd, uMsg, wParam, lParam);
 }
 
-DECLSPEC BOOL WINAPI ExOnContextMenu(ExWin hWnd,Int x, Int y){
+
+BOOL WINAPI ExOnContextMenu(ExWin hWnd,Int x, Int y){
 	RECT rc;                    // client area of window
     POINT pt = { x, y };        // location of mouse click
 
@@ -491,7 +494,7 @@ DECLSPEC BOOL WINAPI ExOnContextMenu2(ExWin hWnd,HMENU hmenuTrackPopup,Int x, In
     return FALSE;
 }
 
-DECLSPEC BOOL WINAPI ExDisplayContextMenu(ExWin hWnd, POINT* pt){
+BOOL WINAPI ExDisplayContextMenu(ExWin hWnd, POINT* pt){
 	HMENU hmenu;            // top-level menu
     HMENU hmenuTrackPopup;  // shortcut menu
 
@@ -512,7 +515,7 @@ DECLSPEC BOOL WINAPI ExDisplayContextMenu(ExWin hWnd, POINT* pt){
 	return TRUE;
 }
 
-DECLSPEC HANDLE ELTAPIENTRY ExHookWndProc(Int32  idHook, HOOKPROC lpfn){
+HANDLE ELTAPIENTRY ExHookWndProc(Int32  idHook, HOOKPROC lpfn){
 	HHOOK hook;
 	ExIsWinError(hook =SetWindowsHookEx(idHook,lpfn,GetModuleHandle(NULL),0));
 	return hook;

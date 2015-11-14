@@ -20,9 +20,8 @@
 #define _WND_COMMON_H_ 1
 #include"./../../EngineAssembly.h"
 #include"./../../elt_console.h"
+#include<Windows.h>
 
-#ifdef EX_WINDOWS
-	#include<Windows.h>
 #ifdef __cplusplus /* C++ environment */
 extern "C"{
 #endif
@@ -102,15 +101,6 @@ extern DECLSPEC ExBoolean ELTAPIENTRY ExRemoveFileExts(const ExChar* filetype);
 }
 #endif
 
-
-#ifdef __cplusplus // C++ environment
-#include<vector>
-#include<string>
-// vector list container of strings
-typedef std::vector<std::string> FolderListA;
-// vector list container of wide-strings
-typedef std::vector<std::wstring> FolderListW;
-#else
 typedef struct filefolderA{
 	char** file;
 	unsigned int filecount;
@@ -119,7 +109,6 @@ typedef struct filefolderW{
 	wchar_t** file;
 	unsigned int filecount;
 }FILE_FOLDER_W;
-#endif
 
 // UNICODE
 #ifdef EX_UNCIODE
@@ -134,7 +123,4 @@ typedef struct filefolderW{
 	//typedef FolderListA FolderList;
 #endif
 
-
-
-#endif
 #endif

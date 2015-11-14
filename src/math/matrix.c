@@ -121,13 +121,13 @@ void mat4x4_subt_mat4x4(const vec4x4_t lf_mat4, const vec4x4_t rf_mat4, vec4x4_t
 	outf_mat4[3][0] = lf_mat4[3][0] - rf_mat4[3][0];	outf_mat4[3][1] = lf_mat4[3][1] - rf_mat4[3][1];	outf_mat4[3][2] = lf_mat4[3][2] - rf_mat4[3][2];	outf_mat4[3][3] = lf_mat4[3][3] - rf_mat4[3][3];
 }
 
-
 void mat4x4_identity(vec4x4_t f_mat4){
 	f_mat4[0][0] = 1.0f;f_mat4[1][0] = 0.0f;f_mat4[2][0] = 0.0f;f_mat4[3][0] = 0.0f;
 	f_mat4[0][1] = 0.0f;f_mat4[1][1] = 1.0f;f_mat4[2][1] = 0.0f;f_mat4[3][1] = 0.0f;
 	f_mat4[0][2] = 0.0f;f_mat4[1][2] = 0.0f;f_mat4[2][2] = 1.0f;f_mat4[3][2] = 0.0f;
 	f_mat4[0][3] = 0.0f;f_mat4[1][3] = 0.0f;f_mat4[2][3] = 0.0f;f_mat4[3][3] = 1.0f;
 }
+
 void mat4x4_transpose(vec4x4_t f_mat4){
     // origional		transpose
 	//|a b c d |	 |a e i m|
@@ -170,6 +170,7 @@ void mat4x4_transpose(vec4x4_t f_mat4){
 	f_mat4[2][1] = f_mat4[1][2];
 	f_mat4[1][2] = temp;
 }
+
 float mat4x4_determinant(vec4x4_t f_mat4){
 	return f_mat4[0][0]* f_mat4[1][1]* f_mat4[2][2]* f_mat4[3][3] - f_mat4[0][0]* f_mat4[1][1]* f_mat4[2][3]* f_mat4[3][2] + f_mat4[0][0]* f_mat4[1][2]* f_mat4[2][3]* f_mat4[3][1] -  f_mat4[0][0]* f_mat4[1][2]* f_mat4[2][1]* f_mat4[3][3]
 		 + f_mat4[0][0]* f_mat4[1][3]* f_mat4[2][1]* f_mat4[3][2] - f_mat4[0][0]* f_mat4[1][3]* f_mat4[2][2]* f_mat4[3][1] - f_mat4[0][1]* f_mat4[1][2]* f_mat4[2][3]* f_mat4[3][0] +  f_mat4[0][1]* f_mat4[1][2]* f_mat4[2][0]* f_mat4[3][3]
@@ -178,6 +179,7 @@ float mat4x4_determinant(vec4x4_t f_mat4){
 		 + f_mat4[0][2]* f_mat4[1][1]* f_mat4[2][3]* f_mat4[3][0] - f_mat4[0][2]* f_mat4[1][1]* f_mat4[2][0]* f_mat4[3][3] - f_mat4[0][3]* f_mat4[1][0]* f_mat4[2][1]* f_mat4[3][2] +  f_mat4[0][3]* f_mat4[1][0]* f_mat4[2][2]* f_mat4[3][1]
 		 - f_mat4[0][3]* f_mat4[1][1]* f_mat4[2][2]* f_mat4[3][0] + f_mat4[0][3]* f_mat4[1][1]* f_mat4[2][0]* f_mat4[3][2] - f_mat4[0][3]* f_mat4[1][2]* f_mat4[2][0]* f_mat4[3][1] +  f_mat4[0][3]* f_mat4[1][2]* f_mat4[2][1]* f_mat4[3][0];
 }
+
 float mat4x4_inverse(vec4x4_t f_mat4){   //TODO check if functional
     float detm;
 	float invdet;

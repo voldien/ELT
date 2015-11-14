@@ -3,7 +3,6 @@
 
 
 #ifdef GL_ES_VERSION_3_0
-	#undef GL_ES_VERSION_3_0
 	#include<GLES3/gl3.h>
 	#include<GLES3/gl3ext.h>
 	#include<GLES3/gl3platform.h>
@@ -13,7 +12,6 @@
 	#include<GLES2/gl2ext.h>
 	#include<GLES2/gl2platform.h>
 #elif defined(GL_ES_VERSION_1_0)
-	#undef GL_ES_VERSION_1_0
 	#include<GLES/gl.h>
 	#include<GLES/glext.h>
 	#include<GLES/glplatform.h>
@@ -63,8 +61,6 @@ int ExSetProgramShader(int program, int shader){
 }
 
 
-
-
 int ExLoadShader(ExShader* shad,const char* cvertexfilename, const char* cfragmentfilename, const char* cgeometryfilename, const char* ctesscfilename, const char* ctessefilename){
 	char* v_source;
 	char* f_source;
@@ -104,11 +100,14 @@ int ExLoadShader(ExShader* shad,const char* cvertexfilename, const char* cfragme
 
 
 	glLinkProgram(shad->program);
+
 #if !defined(GL_ES_VERSION_2_0)
 	return ExShaderCompileLog(shad->program,GL_PROGRAM);
 #endif
+
 	return 1;
 }
+
 int ExLoadShaderv(ExShader* shad, const char* cvertexSource,const char* cfragmentSource,const char* cgeometrySource,const char* ctessCSource, const char* ctessESource){
 	if(!shad)
 		return 0;
@@ -143,7 +142,6 @@ int ExLoadShaderv(ExShader* shad, const char* cvertexSource,const char* cfragmen
 	return 1;
 }
 
-
 int ExDeleteShaderProgram(ExShader* header){
 	glDeleteProgram(header->program);
 	glDeleteShader(header->ver);
@@ -154,7 +152,6 @@ int ExDeleteShaderProgram(ExShader* header){
 
 	return !glIsProgram(header->program);
 }
-
 
 int ExCompileShaderSource(const char* strPath,char** source, unsigned int flag){
 	char* data;
@@ -205,8 +202,7 @@ int ExCompileShaderSourcev(const char** source, unsigned int flag){
 	return shader;
 }
 
-
-extern int ExShaderCompileLog(unsigned int program,unsigned int shaderflag){
+int ExShaderCompileLog(unsigned int program,unsigned int shaderflag){
 	int status,validate;
 	char log[256];
 

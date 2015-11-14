@@ -4,6 +4,7 @@
 #if defined(EX_UNIX) || defined(EX_ANDROID)
 #define _GNU_SOURCE
 #   include<stdio.h>
+#	include<stdlib.h>
 #	ifndef EX_PNACL
 #   		include<link.h>
 #   		include<dlfcn.h>
@@ -16,27 +17,28 @@
 #endif
 
 
-/*
-static int symbol_list(truct dl_phdr_info *info, size_t size, void *data){
 
-	return 1;
+#if defined(EX_LINUX) && !defined(EX_ANDROID)
+static int callback(struct dl_phdr_info *info, size_t size, void *data){
+	//((int*)data) = (int)info->dlpi_phnum;
+
+	return 0;
 }
+#endif
 
-*/
 
-/**/
-DECLSPEC int ELTAPIENTRY ExLoadNumSymbol(HANDLE handle){
-#ifdef EX_UNIX
-	dl_iterate_phdr(NULL,NULL);
+int ELTAPIENTRY ExLoadNumSymbol(HANDLE handle){
+#if defined(EX_LINUX) && !defined(EX_ANDROID)
+	int num = 0;
+	dl_iterate_phdr(callback,&num);
 #endif
 }
-/**/
-DECLSPEC char* ELTAPIENTRY ExLoadSymbol(HANDLE handle, int index, char* symbol, int len){
-#ifdef EX_UNIX
+
+char* ELTAPIENTRY ExLoadSymbol(HANDLE handle, int index, char* symbol, int len){
+#if defined(EX_LINUX) && !defined(EX_ANDROID)
 	dl_iterate_phdr(NULL,symbol);
 #endif
 }
-
 
 
 DECLSPEC inline HANDLE ELTAPIENTRY ExLoadFunction(HANDLE handle,const char* pProcName){
@@ -88,6 +90,7 @@ DECLSPEC inline HANDLE ELTAPIENTRY ExIsModuleLoaded(const ExChar* file){
 
     void* p = handle;// + sizeof(void*) * 3;    /*to skip the first waste one .*/
     struct link_map* map = p;
+
     while(map->l_next){
         map = (struct link_map*)map->l_next;
         readlink(map->l_name, buffer, sizeof(buffer));  /*  get library real name   */
@@ -99,8 +102,8 @@ DECLSPEC inline HANDLE ELTAPIENTRY ExIsModuleLoaded(const ExChar* file){
             return TRUE;    //BASE name correct
             // Look if its necessary to look for version extension.
         }
-        else continue;
     }
+
     dlclose(handle);
     return FALSE;
 #endif

@@ -24,7 +24,7 @@
 
 
 
-void* display = 0;
+ExDisplay display = 0;
 void* m_connection = 0;		/*	todo take a loot*/
 extern int* pixAtt;
 extern int ExChooseFBconfig(GLXFBConfig* pfbconfig);
@@ -202,6 +202,8 @@ DECLSPEC int ExSupportOpenGL(void){
 #endif
 
 
+
+
 /*	=============================================================	*/
 
 DECLSPEC void ELTAPIENTRY ExShowWindow(ExWin window){
@@ -215,6 +217,12 @@ DECLSPEC void ELTAPIENTRY ExHideWindow(ExWin window){
 
 DECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin window){
     XDestroyWindow(display, window);
+}
+
+DECLSPEC void ELTAPIENTRY ExSetWindowMode(ExWin window, Enum mode){
+    if(mode & EX_WIN_SCREENSAVER_ENABLE){
+
+    }
 }
 
 DECLSPEC ExBoolean ELTAPIENTRY ExDestroyWindow(ExWin window){
@@ -245,6 +253,97 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title){
 		return NULL;
 	XFetchName(display,(Window*)window,&title);
 	return title;
+}
+
+
+
+DECLSPEC void ELTAPIENTRY ExSetWindowPos(ExWin window,Int32 x,Int32 y){
+	XMoveWindow(display,(Window*)window,x,y);
+}
+
+DECLSPEC void ELTAPIENTRY ExSetWindowPosv(ExWin window, const Int32* position){
+	if(!window || !position)
+		return;
+
+	XMoveWindow(display,(Window*)window,position[0],position[1]);
+}
+
+
+DECLSPEC void ELTAPIENTRY ExGetWindowPosv(ExWin window, Int32* position){
+	XWindowAttributes xwa;
+	XGetWindowAttributes(display, window,&xwa);
+	position[0] = xwa.x;
+	position[1] = xwa.y;
+}
+
+DECLSPEC void ELTAPIENTRY ExSetWindowSize(ExWin window,Int32 width, Int32 height){
+	XResizeWindow(display,window,width,height);
+}
+
+DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window,const ExSize* size){
+	XResizeWindow(display,window,size->width,size->height);
+}
+DECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, ExSize* size){
+	XWindowAttributes xwa;
+	XGetWindowAttributes(display, window,&xwa);
+	size->width = xwa.width;
+	size->height= xwa.height;
+}
+
+
+DECLSPEC void ELTAPIENTRY ExSetWindowRect(ExWin window, const ExRect* rect){
+	XMoveWindow(display,(Window)window,rect->x,rect->y);
+	XResizeWindow(display,(Window)window,rect->width - rect->x,rect->height - rect->y);
+}
+
+DECLSPEC void ELTAPIENTRY ExGetWindowRect(ExWin window, ExRect* rect){
+	XWindowAttributes xwa;
+	XGetWindowAttributes(display, (Window*)window,&xwa);
+	rect->width = xwa.width;
+	rect->height = xwa.height;
+	rect->x = xwa.x;
+	rect->y= xwa.y;
+}
+
+
+DECLSPEC Uint32 ELTAPIENTRY ExGetWindowFlag(ExWin window){
+    //TODO remove or something
+	XWindowAttributes xwa;
+	XGetWindowAttributes(display, (Window*)window,&xwa);
+	return xwa.all_event_masks;
+}
+
+
+
+DECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, HANDLE hIcon){
+     //http://www.sbin.org/doc/Xlib/chapt_03.html
+    XWMHints wm_hints = {0};
+/*    if (!(wm_hints = XAllocWMHints())) {
+      fprintf(stderr, "%s: failure allocating memory", "ELT");
+      return FALSE;
+    }*/
+    Atom net_wm_icon = XInternAtom(display, "_NET_WM_ICON", False);
+    Atom cardinal = XInternAtom(display, "CARDINAL", False);
+
+    wm_hints.initial_state = AllHints;
+    wm_hints.input = True;
+    wm_hints.icon_pixmap = hIcon;
+    wm_hints.icon_mask = hIcon;
+    wm_hints.flags = IconPixmapHint;
+    wm_hints.icon_x = 0x0;
+    wm_hints.icon_y = 0x0;
+    wm_hints.icon_window = window;
+
+    XFlush(display);
+    XSetWMHints(display, window, &wm_hints);
+
+	return TRUE;
+}
+
+DECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window){
+
+
+    return NULL;
 }
 
 
@@ -443,9 +542,6 @@ DECLSPEC ExWin ELTAPIENTRY ExGetDesktopWindow(void){
 
 
 
-
-
-
 typedef struct
 {
     int x, y;
@@ -460,17 +556,14 @@ button;
 
 
 static void draw_button( button* b, int fg, int bg,
-                         Display* dpy, Window w, GC gc )
-{
-    if( b->mouseover )
-    {
+                         Display* dpy, Window w, GC gc ){
+    if( b->mouseover ){
         XFillRectangle( dpy, w, gc, b->clicked+b->x, b->clicked+b->y,
                                     b->width, b->height );
         XSetForeground( dpy, gc, bg );
         XSetBackground( dpy, gc, fg );
     }
-    else
-    {
+    else{
         XSetForeground( dpy, gc, fg );
         XSetBackground( dpy, gc, bg );
         XDrawRectangle( dpy, w, gc, b->x, b->y, b->width, b->height );
@@ -482,15 +575,15 @@ static void draw_button( button* b, int fg, int bg,
     XSetBackground( dpy, gc, bg );
 }
 
-static int is_point_inside( button* b, int px, int py )
-{
+static int is_point_inside( button* b, int px, int py ){
+
     return px>=b->x && px<=(b->x+(int)b->width-1) &&
            py>=b->y && py<=(b->y+(int)b->height-1);
 }
 
 
 
-DECLSPEC int ELTAPIENTRY ExMessageBox(unsigned int flags, const char* title, const char* text, ExWin window){
+DECLSPEC int ELTAPIENTRY ExMessageBox(ExWin window, const char* text, const char* title, unsigned int flags){
     const char* wmDeleteWindow = "WM_DELETE_WINDOW";
     int black, white, height = 0, direction, ascent, descent, X, Y, W=0, H;
     size_t i, lines = 0;
@@ -585,22 +678,18 @@ DECLSPEC int ELTAPIENTRY ExMessageBox(unsigned int flags, const char* title, con
     XFlush( dpy );
 
     /* Event loop */
-    while( 1 )
-    {
+    while( 1 ){
         XNextEvent( dpy, &e );
         ok.clicked = 0;
 
-        if( e.type == MotionNotify )
-        {
-            if( is_point_inside( &ok, e.xmotion.x, e.xmotion.y ) )
-            {
+        if( e.type == MotionNotify ){
+            if( is_point_inside( &ok, e.xmotion.x, e.xmotion.y ) ){
                 if( !ok.mouseover )
                     e.type = Expose;
 
                 ok.mouseover = 1;
             }
-            else
-            {
+            else{
                 if( ok.mouseover )
                     e.type = Expose;
 

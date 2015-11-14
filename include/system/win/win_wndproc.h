@@ -19,7 +19,6 @@
 #ifndef _WIN_WNDPROC_H_
 #define _WIN_WNDPROC_H_ 1
 #include"win_win32.h"
-#include"win_GL.h"
 
 /*
 	## user defied window message
@@ -69,10 +68,10 @@ extern DECLSPEC BOOL WINAPI ExDisplayContextMenu(ExWin hWnd, POINT* pt);
 extern DECLSPEC HANDLE ELTAPIENTRY ExHookWndProc(Int32  idHook, HOOKPROC lpfn);
 
 /**/
-extern DECLSPEC LRESULT CALLBACK DefViewWindowProc(ExWin hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+extern DECLSPEC ERESULT CALLBACK DefViewWindowProc(ExWin hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 /**/
-extern DECLSPEC LRESULT CALLBACK ListViewWindowProc(ExWin hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+ERESULT CALLBACK ListViewWindowProc(ExWin hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 
 #ifdef  __cplusplus	/* C++ Environment */

@@ -33,41 +33,32 @@ extern "C"{
 #endif
 
 
-/*
-    Create Surface
-*/
+/*	Create Surface	*/
 extern DECLSPEC ExSurface ExCreateSurface(unsigned int width, unsigned height, unsigned int format);
-/*
-    release surface.
-*/
+
+/*	release surface.	*/
 extern DECLSPEC int ExDestroySurface(ExSurface handle);
 
 /**/
 extern DECLSPEC void ExDisplaySurfaceToWindow(ExWin window,ExSurface surface);
-/*
-    resize surface handle
-*/
+
+/*	resize surface handle	*/
 extern DECLSPEC int ExResizeSurface(ExSurface handle, unsigned int width, unsigned height);
 
-/**/
+/*	*/
 extern DECLSPEC int ExGetSurfaceRect(ExSurface surface, ExRect* rect);
 
-/*
-    set surface window
-*/
+/*	set surface window	*/
 extern DECLSPEC int ExSetSurfacePixel(ExSurface handle, unsigned int x, unsigned int y, unsigned long pixel);
 
 
 
-/*
-    set fill color..
-*/
-extern DECLSPEC int ExFillRect(ExSurface handle, ExRect* rect, Uint32 color);
-
-
+/*	set fill color..	*/
+extern DECLSPEC void ExFillRect(ExSurface handle, ExRect* rect, Uint32 color);
 
 /**/
 extern DECLSPEC ExUnlockSurface(ExSurface surface);
+
 /**/
 extern DECLSPEC ExLockSurface(ExSurface surface);
 

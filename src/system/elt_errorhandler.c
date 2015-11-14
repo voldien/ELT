@@ -1,5 +1,8 @@
 #include"system/elt_errorhandler.h"
 #include"system/elt_log.h"
+#include"system/elt_win.h"
+
+
 #ifdef EX_WINDOWS
 #	include<windows.h>
 #	include <winuser.h>
@@ -69,6 +72,8 @@
 extern DECLSPEC void ELTAPIENTRY ExSetConsoleColor(Uint16 colour);
 /*	Get Console Color	*/
 extern DECLSPEC Uint16 ELTAPIENTRY ExGetConsoleColor(void);
+
+
 
 
 DECLSPEC void ELTAPIENTRY ExSetConsoleColor(Uint16 colour){

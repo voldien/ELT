@@ -18,18 +18,20 @@
 */
 #ifndef _ENGINE_ASSEMBLY_H_
 #define _ENGINE_ASSEMBLY_H_ 1
-
 #include"ExPreProcessor.h"
 #include"ExNT.h"
 #include"system/elt_event.h"
 #include"EngineEx.h"
 #include"ExCommon.h"
+
+
 #if defined(EX_WINDOWS)
 	#include<tchar.h>
 	#ifdef EX_VC
 		#include<strsafe.h>
 	#endif
 #elif defined(EX_LINUX)
+
 #elif defined(EX_PNACL)
 #	include<ppapi/c/ppb.h>
 #elif defined(EX_ANDROID)
@@ -38,6 +40,7 @@
 #endif
 
 
+/*
 #ifdef EX_CPP
 	#define CASTP(type,y) reinterpret_cast<type>( ( y ) )
 	#define CAST(type,y) static_cast<type>( ( y ) )
@@ -47,6 +50,7 @@
 	#define CAST(type,y) (type)( ( y ) )
 	#define CASTD(type,y) (type)( ( y ) )
 #endif
+*/
 
 /**
     pixel mode
@@ -92,22 +96,6 @@
 #ifdef  __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
-
-
-/**
-    Set parameter
-    @return
-*/
-extern DECLSPEC int ELTAPIENTRY ExSetParameteri(Enum eflag, int value);
-/**
-    Set parameter
-    @return
-*/
-extern DECLSPEC int ELTAPIENTRY ExSetParameterf(Enum eflag, float value);
-
-
-extern DECLSPEC int ExGeti(Enum Enum);
-extern DECLSPEC int ExGetf(Enum Enum);
 
 /**
     Get ELT Window default Title!

@@ -82,9 +82,9 @@ _In_  HINSTANCE hinstDLL,
 #endif
 
 
-extern Uint64 eltTickTime;     	/*	high accuracy timer   */
-unsigned long int engineflag = 0;
-void* xcbConnection;
+extern Uint64 eltTickTime;     		/*	high accuracy timer   */
+unsigned long int engineflag = 0;	/**/
+void* xcbConnection;				/**/
 
 
 /*	Initialize Engine Library Toolkit	*/
@@ -181,9 +181,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 
 	return result;
 }
-/*
 
-*/
 DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 	ERESULT hr = 0;
 	HANDLE hmodule;
@@ -315,7 +313,6 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 	#if defined(EX_INCLUDE_DIRECTX)
 	ExReleaseDirectX();
 	#endif
-	ExReleaseDirectSound();
 
 	// restore screen
 	display = ChangeDisplaySettings(&d, NULL);
@@ -429,9 +426,6 @@ DECLSPEC void ELTAPIENTRY ExDisable(Enum disable){
 	default:return;
 	}
 }
-
-
-
 
 
 

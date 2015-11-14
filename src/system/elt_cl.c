@@ -1,6 +1,6 @@
 #include"system/elt_cl.h"
 #include"ExPreProcessor.h"
-#include"system/eltfile.h"
+#include"system/elt_file.h"
 #if defined(EX_WINDOWS)
 #   define OPENCL_LIBRARY_NAME EX_TEXT("OpenCL.dll")
 	#include<CL/cl.h>
@@ -8,8 +8,9 @@
 	#include<CL/cl_gl_ext.h>
 	#include<CL/cl_platform.h>
 	#include<CL/cl_ext.h>
+	#include<CL/cl_d3d10.h>
+	#include<CL/cl_dx9_media_sharing.h>
 
-	//#include<CL/cl_dx9_media_sharing.h>
 	#pragma comment(lib,"OpenCL.lib")
 
 #elif defined(EX_LINUX)
@@ -19,6 +20,7 @@
 #   include<CL/cl_gl.h>
 #   include<GL/gl.h>
 #   include<GL/glext.h>
+
 #elif defined(EX_ANDROID)
 #   define OPENCL_LIBRARY_NAME EX_TEXT("libOpenCL.so")
 #   include<jni.h>
@@ -41,7 +43,7 @@
 #define GL_SHARING_EXTENSION "cl_khr_gl_sharing"        /**/
 #define DX_SHARING_EXTENSION "cl_khr_d3d10_sharing"     /**/
 
-/**
+/*
 	OpenCL Error
 */
 
@@ -50,10 +52,6 @@
 
 #define ELT_CL_GPU_INDEX(x) ((x & (ELT_GPU0 >> (ELT_GPU0 / 2))))
 #define ELT_CL_CPU_INDEX(x) ((x & 0x0000ff00))
-
-
-
-
 
 
 #if !(defined(EX_ANDROID) || defined(DONT_SUPPORT_OPENCL))  /*  TODO resolve this provisional approach to solve the problem*/

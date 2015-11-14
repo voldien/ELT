@@ -14,10 +14,13 @@
 #   include<errno.h>
 #   include<unistd.h>
 
-
-
-
-
+static int ip_exists(const char* ip){
+	struct hostent* host;
+	host = gethostbyname(ip);
+	if(!host)
+		return FALSE;
+	return TRUE;
+}
 
 DECLSPEC ExSocket ELTAPIENTRY ExOpenSocket(unsigned int protocol){
     unsigned int sockfd;

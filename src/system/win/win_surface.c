@@ -31,7 +31,7 @@ int ExSetSurfacePixel(void* surface, unsigned int x, unsigned int y, unsigned lo
 }
 
 
-DECLSPEC int ExFillRect(ExSurface handle,struct ex_rect* rect, unsigned int color){
+DECLSPEC void ExFillRect(ExSurface handle,struct ex_rect* rect, unsigned int color){
 	//XFillRectangle(display,handle,gc)
 
 }

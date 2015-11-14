@@ -110,8 +110,10 @@ extern DECLSPEC int ELTAPIENTRY ExInitErrorHandler(void);
 
 /*	Get Error Code In Character out of Error.*/
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetErrorMessageW(ULong dw);
+
 /*	Get Error Code In Character out of HRESULT.*/
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetHResultErrorMessageW(ERESULT hresult);
+
 /*	Get Error Code Of HModule */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetHModuleErrorMessageW(ERESULT dw);
 

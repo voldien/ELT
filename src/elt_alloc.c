@@ -6,7 +6,7 @@
 #   include<unistd.h>
 #endif
 
-DECLSPEC int ELTAPIENTRY ExGetPageSize(void){
+int ELTAPIENTRY ExGetPageSize(void){
     #ifdef EX_WINDOWS
 	PERFORMANCE_INFORMATION erformance_info;
 	GetPerformanceInfo(&erformance_info,sizeof(PERFORMANCE_INFORMATION));

@@ -60,7 +60,7 @@ extern DECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(ExSocket socket);
 */
 extern DECLSPEC ExSocket ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port, ExSocket socket);
 
-/**
+/*
 	Connect to socket
 	\ip
 	\port

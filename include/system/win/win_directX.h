@@ -19,7 +19,6 @@
 #ifndef _WIN_DIRECTX_H_
 #define _WIN_DIRECTX_H_ 1
 #include"./../../EngineAssembly.h"
-#if defined(EX_WINDOWS) && defined(EX_INCLUDE_DIRECTX)
 
 #ifdef __cplusplus /* C++ environment */
 extern "C"{
@@ -68,7 +67,7 @@ extern DECLSPEC void ELTAPIENTRY ExDirectFullScreen(ExBoolean fullscreen);
 #ifdef __cplusplus /* C++ environment */
 }
 #endif
-#endif
+
 
 #if !defined(EX_WINDOWS) || !defined(EX_INCLUDE_DIRECTX)
 	#define ExInitDirectX(x,y) EX_UNUSED(0)
@@ -80,4 +79,5 @@ extern DECLSPEC void ELTAPIENTRY ExDirectFullScreen(ExBoolean fullscreen);
 	#define ExReleaseDirectContext(x) EX_UNUSED(0)
 	#define ExDirectFullScreen(x)	EX_UNUSED(0)
 #endif
+
 #endif

@@ -1,5 +1,5 @@
 #include"system/win/win_controls.h"
-#ifdef EX_WINDOWS
+
 #include<windows.h>
 #include<uxtheme.h>
 #include<winuser.h>
@@ -664,6 +664,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateStaticControl(ExWin parentHwnd,CallBack callb
 	}
 	return hWndstatic;
 }
+
 DECLSPEC ExWin ELTAPIENTRY ExSetStaticControlBitMap(ExWin staticControl, HBITMAP hBitMap){
 
 	// assign the texture
@@ -672,5 +673,3 @@ DECLSPEC ExWin ELTAPIENTRY ExSetStaticControlBitMap(ExWin staticControl, HBITMAP
 	ExSetAddiWindowStyle(staticControl,SS_BITMAP | SS_REALSIZEIMAGE | SS_CENTERIMAGE );
 	return staticControl;
 }
-
-#endif

@@ -25,16 +25,10 @@
 #ifdef  __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
-
-#ifdef EX_WINDOWS
-	#define ExMessageBox MessageBox
-#else
-	//#define ExMessageBox(a,b,c,d) gtk_message_dialog_new()
-#endif
+typedef void* ExDisplay;
 
 #ifdef EX_LINUX
-typedef void* ExDisplay;
-extern void* display;
+extern ExDisplay display;
 #endif
 
 #define EX_WIN_SCREENSAVER_ENABLE   0x200000
@@ -93,7 +87,7 @@ extern DECLSPEC ExBoolean ELTAPIENTRY ExDestroyWindow(ExWin window);
 	\window
 	\title window title
 */
-extern DECLSPEC void ELTAPIENTRY ExSetWindowTitle(ExWin window,const ExChar* title);
+extern DECLSPEC void ELTAPIENTRY ExSetWindowTitle(ExWin window, const ExChar* title);
 /**
 	Get Windows Title
 	\window
@@ -107,12 +101,12 @@ extern DECLSPEC ExChar* ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title
 	\x
 	\y
 */
-extern DECLSPEC void ELTAPIENTRY ExSetWindowPos(ExWin window,Int32 x,Int32 y);
+extern DECLSPEC void ELTAPIENTRY ExSetWindowPos(ExWin window, Int32 x, Int32 y);
 
 /**
 	Set Windows Position
 */
-extern DECLSPEC void ELTAPIENTRY ExSetWindowPosv(ExWin window,const Int32* position);
+extern DECLSPEC void ELTAPIENTRY ExSetWindowPosv(ExWin window, const Int32* position);
 /**
  */
 extern DECLSPEC void ELTAPIENTRY ExGetWindowPosv(ExWin window, Int32* position);
@@ -123,7 +117,7 @@ extern DECLSPEC void ELTAPIENTRY ExSetWindowSize(ExWin window,Int32 width, Int32
 /**
 	Set Window Size
 */
-extern DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window,const ExSize* size);
+extern DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window, const ExSize* size);
 /*
     Get Window Size
 */
@@ -159,23 +153,29 @@ extern DECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, HANDLE hIcon);
  */
 extern DECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window);
 
+/**/
 extern DECLSPEC Int32 ELTAPIENTRY ExSetWindowFullScreen(ExWin window, ExBoolean flag);
 
-
+/**/
 extern DECLSPEC HANDLE ELTAPIENTRY ExGetWindowUserData(ExWin window);
 
+/**/
 extern DECLSPEC void ELTAPIENTRY ExSetWindowUserData(ExWin window, HANDLE userdata);
 
-
-
+/**/
 extern DECLSPEC int ELTAPIENTRY ExSetWindowParent(ExWin parent,ExWin window);
+
+/**/
 extern DECLSPEC ExWin ELTAPIENTRY ExGetWindowParent(ExWin window);
 
-extern DECLSPEC int ELTAPIENTRY ExSetWindowChild(ExWin window,ExWin child);
-extern DECLSPEC ExWin ELTAPIENTRY ExGetWindowChild(ExWin window,unsigned int index);
+/**/
+extern DECLSPEC int ELTAPIENTRY ExSetWindowChild(ExWin window, ExWin child);
+
+/**/
+extern DECLSPEC ExWin ELTAPIENTRY ExGetWindowChild(ExWin window, unsigned int index);
+
+/**/
 extern DECLSPEC int ELTAPIENTRY ExGetWindowNumChildren(ExWin window);
-
-
 
 
 /**/
@@ -183,22 +183,18 @@ extern DECLSPEC ExWin ELTAPIENTRY ExGetDesktopWindow(void);
 
 
 /**/
-extern DECLSPEC int ELTAPIENTRY ExMessageBox(unsigned int flags, const char* title, const char* text, ExWin window);
-
-
-
+extern DECLSPEC int ELTAPIENTRY ExMessageBox(ExWin window, const char* text, const char* title,  unsigned int flags );
 
 
 /**/
 extern DECLSPEC int ELTAPIENTRY ExGetDisplayDPI(int displayIndex, float* ddpi, float* hdpi, float* vdpi);
 
-
-
-/**
-*/
+/**/
 extern DECLSPEC Int32 ELTAPIENTRY ExIsScreenSaverEnable(void);
+
 /**/
 extern DECLSPEC int ExEnableScreenSaver(void);
+
 /**/
 extern DECLSPEC int ExDisableScreenSaver(void);
 

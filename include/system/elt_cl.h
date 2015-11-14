@@ -63,21 +63,21 @@ extern DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext 
 
 /**/
 extern DECLSPEC void* ExCreateCommandQueue(OpenCLContext context, void*device);
+
 /**/
 extern DECLSPEC void* ExCreateProgram(OpenCLContext context, void* device, const char* cfilename,...);
+
 /**
 	Get CL platform identification
 	@return current CL context.
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum flag);
-/**
 
-*/
+/**/
 extern DECLSPEC void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, void* p_cl_device_id);
 
 /* Get and return device capability */
 extern DECLSPEC Int32 ELTAPIENTRY ExGetClDevCap(void* device);
-
 
 
 #ifdef __cplusplus	/* C++ Environment  */

@@ -21,14 +21,18 @@
 #include"./../EngineAssembly.h"
 #include"elt_gl.h"
 
+
 #ifdef  __cplusplus	/** C++ Environment */
 extern "C"{
 #endif
 
+/**/
 extern DECLSPEC int ELTAPIENTRY ExCreateEGLContextAttrib(ExWin window, int* attrib, unsigned int* size);
 
+/**/
 extern DECLSPEC OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window);
 
+/**/
 extern DECLSPEC int ELTAPIENTRY ExCreateEGLContextAttrib(ExWin window, int* attrib, unsigned int* size);
 
 
