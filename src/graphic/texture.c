@@ -144,14 +144,18 @@ ExTexture* ExCreateTexture(ExTexture* texture, unsigned int target, int level,
 	case GL_TEXTURE_2D:
 		glTexImage2D(target,level,internalFormat,width, height,border, format,type,pixels);
 		break;
+#ifndef GL_ES_VERSION_2_0
 	case GL_TEXTURE_1D:
 		glTexImage1D(target,level,internalFormat,width,border, format,type,pixels);
 		break;
+
 	case GL_TEXTURE_2D_ARRAY:
 		glTexStorage3D(GL_TEXTURE_2D_ARRAY, level, texture->internalformat, width, height, texture->layer);
 		break;
+
 	case GL_TEXTURE_3D:
 		break;
+#endif
 	}
 
 
@@ -171,12 +175,14 @@ void ExSubTexture(ExTexture* texture, int level, int xoffset, int yoffset, int w
 	case GL_TEXTURE_2D:
 		glTexSubImage2D(texture->target,level,xoffset,yoffset,width,height,format,type,pixels);
 		break;
+#ifndef GL_ES_VERSION_2_0
 	case GL_TEXTURE_1D:
 		glTexSubImage1D(texture->target,level,xoffset,width,format,type,pixels);
 		break;
 	case GL_TEXTURE_2D_ARRAY:
 		glTexSubImage3D(texture->target,level,xoffset,yoffset,0,width,height,0,format,type,pixels);
 		break;
+#endif
 	}
 }
 

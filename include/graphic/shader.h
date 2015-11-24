@@ -29,6 +29,7 @@ typedef struct ex_shader{
 	int program;
 	int flag;
 }ExShader,ShaderHeaderr;
+
 #ifdef __cplusplus	/* C++ environment	*/
 extern "C"{
 #endif 
