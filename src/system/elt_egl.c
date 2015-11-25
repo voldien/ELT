@@ -46,7 +46,7 @@
 
 EGLDisplay eglDisplay;
 
-DECLSPEC OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
+OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
 	/*	TODO resolve later!!*/
 
 	int major ,minor ;
@@ -125,6 +125,8 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
 
 	return eglContext;
 }
+
+
 int ExCreateEGLContextAttrib(ExWin window, int* attrib, unsigned int* size){
 
 

@@ -42,6 +42,7 @@
 
 #endif
 
+
 #include"system/elt_icon.h"
 
 #define EX_ENGINE_VERSION_STRING EX_TEXT("ELT Version | %d.%d%d%s | OS : %s : OpenGL %d.%d")
@@ -49,6 +50,7 @@
 DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length){
 	if(!text)
 		return NULL;
+
 	ExChar wchar[260] = {};
 	int major;
 	int minor;
@@ -71,7 +73,6 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length){
 	return text;
 }
 
-
 static void* createELTIcon(ExWin window){
 	if(!window)
 		return NULL;
@@ -90,6 +91,7 @@ static void* createELTIcon(ExWin window){
     return icon;
     #endif
 }
+
 
 
 DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 height, Enum flag){
@@ -251,175 +253,6 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 
 
 
-#ifdef EX_WINDOWS
-DECLSPEC void ELTAPIENTRY ExShowWindow(ExWin window){
-	ShowWindow(window,SW_SHOW);
-}
-#endif
-
-#ifdef EX_WINDOWS
-DECLSPEC void ELTAPIENTRY ExHideWindow(ExWin window){
-	ShowWindow(window,SW_HIDE);
-}
-#endif
-
-
-#ifdef EX_WINDOWS
-DECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin window){
-    CloseWindow(window);
-	DestroyWindow(window);
-}
-#endif
-
-
-
-#ifdef EX_WINDOW
-DECLSPEC void ELTAPIENTRY ExSetWindowMode(ExWin window, Enum mode){
-
-    if(mode & EX_WIN_SCREENSAVER_ENABLE){
-        ExLoadLibrary(EX_TEXT("scrnsave.dll"));
-    }
-
-}
-#endif
-
-
-#if defined(EX_WINDOWS)
-DECLSPEC ExBoolean ELTAPIENTRY ExDestroyWindow(ExWin window){
-	return DestroyWindow(window);
-}
-#endif
-
-#if defined(EX_WINDOWS)
-DECLSPEC void ELTAPIENTRY ExSetWindowTitle(ExWin window,const ExChar* title){
-	if(!window || !title)return;
-	ExIsWinError(SetWindowText(window,title));
-
-
-}
-#endif
-
-#if defined(EX_WINDOWS)
-DECLSPEC ExChar* ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title){
-	if(!window || !title)
-		return NULL;
-
-	ExIsWinError(GetWindowText(window,title,EX_STR_LEN(title)));
-	return title;
-}
-#endif
-
-
-
-
-#if defined(EX_WINDOWS)
-DECLSPEC void ELTAPIENTRY ExSetWindowPos(ExWin window,Int32 x,Int32 y){
-
-	RECT winrect;
-	if(!window)return;
-	GetWindowRect(window,&winrect);
-	SetWindowPos(window,NULL,x,y,winrect.right - winrect.left,winrect.bottom - winrect.top,SWP_SHOWWINDOW);
-
-}
-#endif
-
-#if defined(EX_WINDOWS)
-DECLSPEC void ELTAPIENTRY ExSetWindowPosv(ExWin window, const Int32* position){
-	if(!window || !position)return;
-
-	RECT winrect;
-	GetWindowRect(window,&winrect);
-	SetWindowPos(window, NULL,position[0],position[1], winrect.right - winrect.left,winrect.bottom - winrect.top,SWP_SHOWWINDOW);
-}
-#endif
-
-#ifdef EX_WINDOWS
-DECLSPEC void ELTAPIENTRY ExGetWindowPosv(ExWin window, Int32* position){
-
-	RECT winrect;
-	GetWindowRect(window,&winrect);
-	position[0]= winrect.left;
-	position[1] = winrect.top;
-
-}
-#endif
-
-#ifdef EX_WINDOWS
-DECLSPEC void ELTAPIENTRY ExSetWindowSize(ExWin window,Int32 width, Int32 height){
-
-	RECT winrect;
-	GetWindowRect(window,&winrect);
-
-}
-#endif
-
-
-#ifdef EX_WINDOWS
-DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window,const ExSize* size){
-
-	RECT winrect;
-	GetWindowRect(window,&winrect);
-
-}
-#endif
-
-#ifdef EX_WINDOWS
-DECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, ExSize* size){
-
-	RECT winrect;
-	GetWindowRect(window, &winrect);
-	size->width = winrect.right - winrect.left;
-	size->height = winrect.bottom - winrect.top;
-
-
-}
-#endif
-
-
-#if defined(EX_WINDOWS)
-DECLSPEC void ELTAPIENTRY ExSetWindowRect(ExWin window, const ExRect* rect){
-
-	SetWindowPos(window,HWND_TOP,rect->x,rect->y,rect->width - rect->x,rect->height - rect->y,SWP_SHOWWINDOW);
-
-}
-#endif
-
-#if defined(EX_WINDOWS)
-DECLSPEC void ELTAPIENTRY ExGetWindowRect(ExWin window, ExRect* rect){
-
-	GetWindowRect(window, (RECT*)rect);
-}
-#endif
-
-#ifdef EX_WINDOWS
-DECLSPEC Uint32 ELTAPIENTRY ExGetWindowFlag(ExWin window){
-
-	return GetWindowLong(window,GWL_STYLE);
-
-}
-#endif
-
-#ifdef EX_WINDOWS
-DECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, HANDLE hIcon){
-
-	LRESULT result;
-	result = SetClassLong(window,GCLP_HICON, (LONG)hIcon);
-	result = SetClassLong(window,GCLP_HICONSM,(LONG)hIcon);
-	return result;
-
-
-}
-#endif
-
-#ifdef EX_WINDOWS
-DECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window){
-
-
-
-
-    return NULL;
-}
-#endif
 
 
 DECLSPEC Int32 ELTAPIENTRY ExIsScreenSaverEnable(void){

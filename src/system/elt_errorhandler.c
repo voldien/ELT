@@ -105,6 +105,7 @@ DECLSPEC void ELTAPIENTRY ExSetConsoleColor(Uint16 colour){
 #endif
 }
 
+
 DECLSPEC Uint16 ELTAPIENTRY ExGetConsoleColor(void){
 #ifdef EX_WINDOWS
 	CONSOLE_SCREEN_BUFFER_INFO bufferInfo;
@@ -117,9 +118,9 @@ DECLSPEC Uint16 ELTAPIENTRY ExGetConsoleColor(void){
 }
 
 
-
 // Error Message text
 ExChar* errorText = NULL;
+
 /**
 	ExError
 */
@@ -142,7 +143,7 @@ DECLSPEC void ELTAPIENTRY ExError(const ExChar* error,...){
 }
 
 /**
-	\Error
+	Error
 */
 DECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...){
 	ExChar text[512];
@@ -191,19 +192,19 @@ DECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...){
 }
 
 
-ERESULT ex_error[4];
+ERESULT ex_error[4] = {E_OK};
 DECLSPEC ERESULT ELTAPIFASTENTRY ExGetError(void){
 	return ex_error[0];
 }
+
 DECLSPEC void ELTAPIFASTENTRY ExSetError(ERESULT error){
 	ex_error[0] = error;
 }
+
 DECLSPEC void ELTAPIFASTENTRY ExClearError(void){
 	memset(ex_error,E_OK, sizeof(ex_error));
 }
-/**
 
-*/
 DECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode){
 #ifdef EX_DEBUG
 	switch(errorcode){
@@ -219,6 +220,7 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode){
 	return NULL;
 }
 #if defined(EX_LINUX)
+
 /**
     xlib error callback
 */
@@ -240,7 +242,9 @@ static int ctxErrorHandler(Display* dpy, XErrorEvent* error){
 }
 #endif
 
-DECLSPEC int ELTAPIENTRY ExInitErrorHandler(void){
+
+
+int ELTAPIENTRY ExInitErrorHandler(void){
 #if defined(EX_LINUX)
     /*	enable X window error message handler.	*/
 	if(!XSetErrorHandler(ctxErrorHandler))
@@ -270,7 +274,8 @@ DECLSPEC int ELTAPIENTRY ExInitErrorHandler(void){
 	return TRUE;
 }
 
-DECLSPEC void ELTAPIENTRY ExErrorExit(ExChar* lpszFunction) {
+
+void ELTAPIENTRY ExErrorExit(ExChar* lpszFunction) {
     // Retrieve the system error message for the last-error code
 #ifdef EX_WINDOWS
     LPVOID lpMsgBuf;
@@ -302,7 +307,7 @@ DECLSPEC void ELTAPIENTRY ExErrorExit(ExChar* lpszFunction) {
     ExSignalCatch(2);
     exit(EXIT_FAILURE);
 #endif
-	return;
+
 }
 
 DECLSPEC ExChar* ELTAPIENTRY ExGetErrorMessageW(ULong dw){
@@ -431,7 +436,6 @@ static void debugLogTrace(void){
 
     for(i = 0; i < j; i++){
 		fprintf(stderr,"%s\n",strings[i]);
-    	continue;
     }
     free(strings);
 
@@ -440,10 +444,9 @@ static void debugLogTrace(void){
 
 #endif
 }
-/**
-    \SignalCatch
-    catch signal and interpret the signal
-*/
+
+
+
 #define EX_ERROR_MESSAGE EX_TEXT("%s has just crashed %s Do you want to send a bug report to the developers team?")
 DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 	ExChar wchar[512];
@@ -527,12 +530,10 @@ DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 #endif
 	exit(signal);
 	fclose(m_file_log);	/*	TODO make more genertic*/
-	return;
 }
-/**
 
-*/
-DECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcallback signal_callback){
+
+int ELTAPIENTRY ExSetSignal(unsigned int isignal, singalcallback signal_callback){
 	int hr;
 	hr = (int)signal(isignal,signal_callback);
 	ExIsError(hr != (int)SIG_ERR);
