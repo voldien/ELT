@@ -267,12 +267,12 @@ static HWND create_temp_gl_win(OpenGLContext* pglc_context){
     #define TEMP_WINDOW_CLASS EX_TEXT("temp")
     wc.cbSize = sizeof(wc);
 	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-    wc.lpfnWndProc = MainWndProc;
+    wc.lpfnWndProc = ExMainWndProc;
 	wc.hInstance = GetModuleHandle(NULL);
     wc.hIcon = (HICON)LoadIcon(wc.hInstance,NULL);
     wc.hCursor = LoadCursor(wc.hInstance, NULL);
     wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
-	wc.lpfnWndProc = MainWndProc;
+	wc.lpfnWndProc = ExMainWndProc;
 	wc.hbrBackground =  (HBRUSH) 0;
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
@@ -740,7 +740,8 @@ DECLSPEC ERESULT ELTAPIENTRY ExOpenGLSetVSync(ExBoolean enabled, ExWin window){
         glXSwapIntervalEXT( enabled);
         return TRUE;
     }
-    else return FALSE;
+    else
+    	return FALSE;
 }
 
 

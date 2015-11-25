@@ -59,7 +59,7 @@ ExBoolean ELTAPIENTRY ExEnableDeviceNotification(ExWin hWnd){
 }
 
 /*	Main Proc designed for OpenGL Window mainly.	*/
-ERESULT WINAPI MainWndProc(ExWin hWnd,UINT uMsg, WPARAM wParam, LPARAM lParam){
+ERESULT WINAPI ExMainWndProc(ExWin hWnd,UINT uMsg, WPARAM wParam, LPARAM lParam){
 	ExGLWindowHandler* handler;
 	switch(uMsg){
 	case WM_CREATE:{
@@ -236,7 +236,8 @@ ERESULT WINAPI MainWndProc(ExWin hWnd,UINT uMsg, WPARAM wParam, LPARAM lParam){
 }
 
 
-ERESULT WINAPI WndProcNative(ExWin hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
+
+ERESULT WINAPI ExWndProcNative(ExWin hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
 	switch(uMsg){
 	case WM_CREATE:
 		return DefWindowProc(hWnd,uMsg,wParam,lParam);
