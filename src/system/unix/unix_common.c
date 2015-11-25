@@ -199,6 +199,8 @@ DECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct){
 	return TRUE;
 }
 
+
+
 DECLSPEC void ELTAPIENTRY ExGetExecutePath(ExChar* wChar, Int32 length){
 
     extern char* __progname;

@@ -123,7 +123,7 @@ int ExChooseFBconfig(GLXFBConfig* pfbconfig){
 	return 1;
 }
 
-DECLSPEC OpenGLContext ELTAPIENTRY ExCreateTempGLContext(void){
+OpenGLContext ELTAPIENTRY ExCreateTempGLContext(void){
 	OpenGLContext glc;
 	GLXFBConfig fbconfig;
 	ExChooseFBconfig(&fbconfig);
@@ -133,7 +133,7 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateTempGLContext(void){
 
 
 
-DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
+OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
 	OpenGLContext glc = NULL;
 	unsigned int vendor;
 	unsigned int glxmaj,glxmin;
@@ -147,7 +147,7 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
 	/*if windows doesn't support the opengl, than try to use */
 	if(!glXQueryExtension(display,&min, &maj)){
 		ExError("OpenGL not supported by X server\n");
-    }
+	}
 
 	/**/
     glXQueryVersion(display,&glxmaj,&glxmin);
@@ -236,7 +236,7 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
 }
 
 
-DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLContext glc){
+OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLContext glc){
     typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
     int major;
     int minor;
@@ -284,19 +284,19 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLC
 }
 
 
-DECLSPEC void ELTAPIENTRY ExOpenGLSetAttribute(unsigned int attr, int value){
+void ELTAPIENTRY ExOpenGLSetAttribute(unsigned int attr, int value){
 	pixAtt[PIXATTOFFSET + (2 * attr) + 1] = value;
 }
-DECLSPEC int ELTAPIENTRY ExOpenGLGetAttribute(unsigned int attr, int* value){
+
+int ELTAPIENTRY ExOpenGLGetAttribute(unsigned int attr, int* value){
 	if(value)
 		value = (unsigned int)pixAtt[PIXATTOFFSET + (2 * attr) + 1];
 	return pixAtt[PIXATTOFFSET + (2 * attr) + 1];
 }
-DECLSPEC void ELTAPIENTRY ExOpenGLResetAttributes(void){
+
+void ELTAPIENTRY ExOpenGLResetAttributes(void){
 
 }
-
-
 
 DECLSPEC ExBoolean ELTAPIENTRY ExDestroyContext(WindowContext drawable, OpenGLContext glc){
 	ExBoolean hr = 1;
@@ -360,6 +360,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin win
 	return TRUE;
 
 }
+
 DECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window,Enum ienum){
 
 	XTextProperty textprop = {0};
@@ -407,6 +408,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExOpenGLSetVSync(ExBoolean enabled, ExWin window){
         glXSwapIntervalEXT(display, window, enabled);
         return TRUE;
     }
-    else return FALSE;
+    else
+    	return FALSE;
 }
 
