@@ -20,6 +20,9 @@
 #define _ELT_ACTIVITY_H_ 1
 #include<stdio.h>
 #include"../../EngineAssembly.h"
+#ifdef EX_ANDROID
+#include<android/log.h>
+#endif
 
 #ifdef __cplusplus /* C++ environment */
 extern "C"{
@@ -35,6 +38,12 @@ extern DECLSPEC void* ELTAPIENTRY ExGetNativeActivity(void);
 */
 extern DECLSPEC void* ELTAPIENTRY ExGetNativeLooper(void);
 
+
+#ifdef EX_ANDROID
+#define fprintf(x,...)   __android_log_print(ANDROID_LOG_INFO,"EngineEx", x ,##__VA_ARGS__ )
+#define printf(x,...)    __android_log_print(ANDROID_LOG_INFO,"EngineEx", x ,##__VA_ARGS__ )
+#define vfprintf(x,y,...) __android_log_print(ANDROID_LOG_INFO,"EngineEx", x ,##__VA_ARGS__ )
+#endif
 
 #ifdef __cplusplus /* C++ environment */
 }

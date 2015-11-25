@@ -19,13 +19,9 @@
 #ifndef _ELT_ERROR_HANDLER_H_
 #define _ELT_ERROR_HANDLER_H_ 1
 #include"./../EngineAssembly.h"
-#ifdef EX_ANDROID
-#include<android/log.h>
-#endif
-
-
 
 typedef void(ELTAPIENTRY *singalcallback)(Int32);
+
 #ifdef  __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
@@ -34,6 +30,7 @@ extern "C"{
 	ExInternalError
 */
 #define ExIsError(x) { if( ( x ) <= 0 ){ ExDevPrint("Error");} }
+
 /*
 	C error
 */
@@ -75,14 +72,17 @@ extern DECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...);
 	Get Error
 */
 extern DECLSPEC ERESULT ELTAPIFASTENTRY ExGetError(void);
+
 /**
 	Set Error
 */
 extern DECLSPEC void ELTAPIFASTENTRY ExSetError(ERESULT error);
+
 /**
 	Clear Errors
 */
 extern DECLSPEC void ELTAPIFASTENTRY ExClearError(void);
+
 /**
 	// Get ELT Error String.
 	//
@@ -118,7 +118,9 @@ extern DECLSPEC ExChar* ELTAPIENTRY ExGetHResultErrorMessageW(ERESULT hresult);
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetHModuleErrorMessageW(ERESULT dw);
 
 
-// UNICODED
+/*
+ *	UNICODED
+*/
 #ifdef UNICODE
 	#define ExGetErrorMessage ExGetErrorMessageW
 	#define ExGetHResultErrorMessage ExGetHResultErrorMessageW
@@ -137,17 +139,8 @@ extern DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal);
 /**
 	Set Signal callback.
 */
-extern DECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal,singalcallback signal_callback);
+extern DECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal, singalcallback signal_callback);
 
-
-
-
-#ifdef EX_ANDROID
-
-#define fprintf(x,...)   __android_log_print(ANDROID_LOG_INFO,"EngineEx", x ,##__VA_ARGS__ )
-#define printf(x,...)    __android_log_print(ANDROID_LOG_INFO,"EngineEx", x ,##__VA_ARGS__ )
-#define vfprintf(x,y,...) __android_log_print(ANDROID_LOG_INFO,"EngineEx", x ,##__VA_ARGS__ )
-#endif
 
 #ifdef EX_UNICODE
 	#define ExPrint printf

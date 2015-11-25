@@ -24,12 +24,13 @@
 extern "C"{
 #endif
 
-
 /**
 
     @return
 */
 extern DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(int x, int y, int width, int height);
+
+
 /**
 
     @return
@@ -38,7 +39,6 @@ extern DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(int x , int y, int width, int
 
 
 extern DECLSPEC int ExSupportOpenGL(void);
-
 
 #ifdef __cplusplus /* C++ environment */
 };

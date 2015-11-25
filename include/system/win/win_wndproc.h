@@ -49,12 +49,12 @@ extern DECLSPEC ExBoolean ELTAPIENTRY ExEnableDeviceNotification(ExWin hWnd);
 	\lParam
 	@return
 */
-extern DECLSPEC ERESULT WINAPI MainWndProc(ExWin hWnd,UINT uMsg, WPARAM wParam, LPARAM lParam);
+extern DECLSPEC ERESULT WINAPI ExMainWndProc(ExWin hWnd,UINT uMsg, WPARAM wParam, LPARAM lParam);
 /**
 	native windows. designed for user interface handling
 
 */
-extern DECLSPEC ERESULT WINAPI WndProcNative(ExWin hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+extern DECLSPEC ERESULT WINAPI ExWndProcNative(ExWin hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 /**
 	On Window Context menu
 */
