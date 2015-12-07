@@ -39,36 +39,19 @@
 #elif defined(EX_MAC)
 #endif
 
+#define EXCAST(type,y) (type)( ( y ) )
 
 /*
-#ifdef EX_CPP
-	#define CASTP(type,y) reinterpret_cast<type>( ( y ) )
-	#define CAST(type,y) static_cast<type>( ( y ) )
-	#define CASTD(type,y) dynamic_cast<type>( ( y ) )
-#else
-	#define CASTP(type, y) (type)( ( y ) )
-	#define CAST(type,y) (type)( ( y ) )
-	#define CASTD(type,y) (type)( ( y ) )
-#endif
-*/
+	Engine Rendering Flags
+ */
 
-/**
-    pixel mode
-*/
-#define ENGINE_ALPHA 0x1UL
-#define ENGINE_RGB 0x2UL
-#define ENGINE_RGBA (ENGINE_RGB | ENGINE_ALPHA)
-#define ENGINE_INDEX 0x8UL
-
-
-
-// Engine Rendering Flags
 #define ENGINE_NATIVE (1 << 7)
 #define EX_OPENGL (1 << 8)
 #define EX_OPENGLES (1 << 9)
 #define EX_OPENCL  (1 << 10)
 #define EX_DIRECTX  (1 << 11)
 #define EX_OPENGL_AND_OPENCL (ENGINE_OPENGL | ENGINE_OPENCL)
+#define EX_VULKAN (1 << 12)
 #define EX_RENDER_CONTEXT_DEBUG (1 << 12)
 
 #define ELT_OPENGL ENGINE_OPENGL
@@ -78,8 +61,8 @@
 #define ELT_OPENGL_AND_OPENGL (ENGINE_OPENGL | ENGINE_OPENCL)
 
 
-/**
-	// high layer flag
+/*
+	high layer flag
 */
 #define ELT_INIT_TIMER			0x00000001
 #define ELT_INIT_VIDEO			0x00000020

@@ -94,7 +94,7 @@
 #elif defined(__SUNPRO_C) || defined(__SUNPRO_CC)
 
 #else
-	#error UnSupported Compiler.
+	#error Unsupported Compiler.
 #endif
 
 
@@ -387,7 +387,6 @@
 	#define ELTAPIENTRY     __cdecl
 	#define ELTAPISTDENTRY  __stdcall
 	#define ELTAPIFASTENTRY __fastcall
-	#define ELTAPITHISENTRY //__this
 #endif
 
 // disable on SPU because they are not supported
@@ -446,7 +445,7 @@
 	#define EXDEPRECATEDMESSAGE(x) __declspec(deprecated(x))
 #elif defined(EX_GNUC)
 	#define EXDEPRECATED __attribute__(( deprecated ))		    // Deprecated deceleration (x = Warning Message)
-    	#define EXDEPRECATEDMESSAGE(msg) __attribute__ (( deprecated ( msg ) ))
+    #define EXDEPRECATEDMESSAGE(msg) __attribute__ (( deprecated ( msg ) ))
 #endif
 
 /**
