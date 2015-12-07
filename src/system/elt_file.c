@@ -2,6 +2,9 @@
 #ifdef EX_WINDOWS
 	#include<windows.h>
 #endif
+#ifdef EX_UNIX
+	#include<unistd.h>
+#endif
 #include<stdio.h>
 
 static long int ExGetFileStreamSize(FILE* file){
@@ -55,20 +58,20 @@ int ELTAPIENTRY ExSaveFile(const char* cfilename, void* racBuffer, unsigned int 
 	return f ? 1 : 0;
 }
 
-FILE* ExSafeOpenWrite(const char *filename){
+FILE* ExSafeOpenWrite(const char *cfilename){
 	FILE* f;
-	f = fopen(filename, "wb");
+	f = fopen(cfilename, "wb");
 	if(!f){
-		printf ("Error opening file %s: %s\n",filename,strerror(errno));
+		printf ("Error opening file %s: %s\n",cfilename,strerror(errno));
 	}
 	return f;
 }
 
-FILE* ExSafeOpenRead(const char *filename){
+FILE* ExSafeOpenRead(const char *cfilename){
 	FILE* f;
-	f = fopen(filename,"rb");
+	f = fopen(cfilename,"rb");
 	if(!f){
-		printf ("Error opening file %s : %s\n",filename,strerror(errno));
+		printf ("Error opening file %s : %s\n",cfilename,strerror(errno));
 	}
 	return f;
 }
@@ -92,4 +95,10 @@ int ELTAPIENTRY ExCreateDirectory(const char* directory){
 #elif defined(EX_WINDOWS)
 	return CreateDirectory(directory,NULL);
 #endif
+}
+
+
+
+int ExExistFile(const char* cfilename){
+	return !access(cfilename,F_OK);
 }
