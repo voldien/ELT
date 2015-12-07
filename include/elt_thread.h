@@ -45,20 +45,23 @@ extern "C"{
     @return thread handle.
 */
 extern DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback, void* lpParamater, Uint32* pid);
+
 /**
     Create Thread with affinity mask.
 
     @return thread handle.
 */
 extern DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback, void* lpParamater, Uint32* pid, unsigned int core);
+
 /**
 	Detach thread
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread);
 
 
-
+/**/
 extern DECLSPEC void ELTAPIENTRY ExTerminateThread(ExThread thread);
+
 /**
 	\thread is the thread of the current thread.
 	TODO check if to replace  this function with ExTerminateThread.
@@ -76,12 +79,15 @@ extern DECLSPEC void ELTAPIENTRY ExLockThread(ExThread thread);
 */
 extern DECLSPEC void ELTAPIENTRY ExUnLockThread(ExThread thread);
 
-
+/**/
 extern DECLSPEC void ELTAPIENTRY ExSuspendThread(ExThread thread);
 
+
+/**/
 extern DECLSPEC void ELTAPIENTRY ExResumeThread(ExThread thread);
 
 
+/**/
 extern DECLSPEC void ELTAPIENTRY ExCreateThreadCondition(void);
 
 /**
@@ -89,21 +95,25 @@ extern DECLSPEC void ELTAPIENTRY ExCreateThreadCondition(void);
 	@return current thread handle.
 */
 extern DECLSPEC ExThread ELTAPIENTRY ExGetCurrentThread(void);
+
 /**
 	Get Thread ID
 	@return
 */
 extern DECLSPEC Uint32 ELTAPIENTRY ExGetThreadID(ExThread thread);
+
 /**
 	Get Thread name by the invoked function.
 	@return get function name.
 */
 extern DECLSPEC const char* ELTAPIENTRY ExGetThreadName(ExThread thread);
+
 /**
 	Set thread priority
 	@return
 */
-extern DECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread,Enum nPriority);
+extern DECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread, Enum nPriority);
+
 /**
 	Wait the thread
 	@return
