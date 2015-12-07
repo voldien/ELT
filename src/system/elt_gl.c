@@ -211,6 +211,7 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor){
 		ExWin win;
 		unsigned int version;
 		OpenGLContext glc;
+
 #if !(defined(EX_ANDROID) ^ defined(EX_WINDOWS)  ^ defined(EX_PNACL))
 		win = ExCreateGLWindow(0,0,1,1,0);
 		glc = ExCreateTempGLContext();
