@@ -88,6 +88,7 @@ DECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms){
 #endif
     #endif
 }
+
 DECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nanosec){
     #ifdef EX_WINDOWS
     struct timeval tv;  // TODO Does this nano sleep work ?
@@ -116,6 +117,7 @@ DECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void){
 	return (clock() - eltTickTime);
 #endif
 }
+
 DECLSPEC long int ELTAPIENTRY ExGetHiResTime(void){
     #ifdef EX_WINDOWS
 	LARGE_INTEGER time;

@@ -88,6 +88,7 @@
 
 
 
+
 DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
 #ifdef EX_WINDOWS
 	ExChar cpu_name[0xff];
@@ -223,6 +224,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE(void){
 	else
 		return FALSE;
 }
+
 DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE2(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
@@ -231,6 +233,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE2(void){
 	else
 		return FALSE;
 }
+
 DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE3(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
@@ -239,6 +242,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE3(void){
 	else
 		return FALSE;
 }
+
 DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE41(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
@@ -247,6 +251,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE41(void){
 	else
 		return FALSE;
 }
+
 DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);

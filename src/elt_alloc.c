@@ -17,7 +17,6 @@ int ELTAPIENTRY ExGetPageSize(void){
     #endif
 }
 
-
 DECLSPEC ExPoolAllactor* ELTAPIENTRY ExPoolCreate(unsigned int num, unsigned int itemsize){
 	ExPoolAllactor* alloc;
 	ExPoolAllactor* tmp;
@@ -41,6 +40,7 @@ DECLSPEC ExPoolAllactor* ELTAPIENTRY ExPoolCreate(unsigned int num, unsigned int
 
 	return alloc;
 }
+
 DECLSPEC void* ELTAPIENTRY ExPoolObtain(ExPoolAllactor* allactor){
 	ExPoolAllactor* tmp;
 	if(allactor->next == NULL)
@@ -50,6 +50,7 @@ DECLSPEC void* ELTAPIENTRY ExPoolObtain(ExPoolAllactor* allactor){
 	allactor->next = tmp->next;
 	return tmp;
 }
+
 DECLSPEC void* ELTAPIENTRY ExPoolReturn(ExPoolAllactor* allactor, void* data, unsigned int len){
 	ExPoolAllactor* tmp;
 	tmp = (data - (void*)allactor ) + sizeof(ExPoolAllactor);
