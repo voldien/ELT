@@ -58,11 +58,13 @@ int pixAtt[] = {
 	None,None,
     GLX_CONTEXT_MAJOR_VERSION_ARB,0,
     GLX_CONTEXT_MINOR_VERSION_ARB,0,
+
     #ifdef EX_DEBUG
     GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_DEBUG_BIT_ARB | GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,   /*  Debug TODO add hint*/
     #else
     GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
     #endif
+
 	GLX_CONTEXT_PROFILE_MASK_ARB, GLX_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
     None
 };
@@ -139,6 +141,8 @@ OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
 	unsigned int glxmaj,glxmin;
 	unsigned int major;
 	unsigned int minor;
+	unsigned int contextflag;
+	unsigned int contextprofile;
 
 	XVisualInfo* vi;		//	Visual Info
 	int min;
@@ -163,6 +167,10 @@ OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
     	major = ExOpenGLGetAttribute(EX_OPENGL_MAJOR_VERSION,NULL);
     	minor = ExOpenGLGetAttribute(EX_OPENGL_MINOR_VERSION,NULL);
     }
+    contextflag = ExOpenGLGetAttribute(EX_OPENGL_CONTEXT_FLAGS,NULL);
+    contextprofile = ExOpenGLGetAttribute(EX_OPENGL_CONTEXT_PROFILE_MASK,NULL);
+
+
     vendor = ExGetOpenGLVendor();
 
 
@@ -170,11 +178,11 @@ OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
         GLX_CONTEXT_MAJOR_VERSION_ARB,major,
         GLX_CONTEXT_MINOR_VERSION_ARB,minor,
         #ifdef EX_DEBUG
-        GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_DEBUG_BIT_ARB | GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,   /*  Debug TODO add hint*/
+        GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_DEBUG_BIT_ARB | contextflag,   /*  Debug TODO add hint*/
         #else
-        GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
+        GLX_CONTEXT_FLAGS_ARB, contextflag,
         #endif
-		GLX_CONTEXT_PROFILE_MASK_ARB, GLX_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
+		GLX_CONTEXT_PROFILE_MASK_ARB, contextprofile,
         None
     };
 
@@ -240,6 +248,10 @@ OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLContext gl
     typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
     int major;
     int minor;
+	unsigned int contextflag;
+	unsigned int contextprofile;
+
+
     OpenGLContext shared_glc;
     GLXFBConfig fbconfig;
     glXCreateContextAttribsARBProc glXCreateContextAttribsARB;
@@ -249,6 +261,8 @@ OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLContext gl
 
     /*  query OpenGL context fbconfig id*/
     glXQueryContext(display, glc, GLX_FBCONFIG_ID, &fbconfig);
+
+
 
 
     int contextAttribs[]={
