@@ -81,7 +81,7 @@ typedef HGLRC (APIENTRY * WGLCREATECONTEXTATTRIBSARB)(HDC,HGLRC hShareContext,co
 typedef void (APIENTRY * PFNGLATTACHSHADERPROC) (GLuint program, GLuint shader);
 typedef void (APIENTRY * PFNGLBINDBUFFERPROC) (GLenum target, GLuint buffer);
 typedef void (APIENTRY * PFNGLBINDVERTEXARRAYPROC) (GLuint array);
-typedef void (APIENTRY * PFNGLBUFFERDATAPROC) (GLenum target, ptrdiff_t size, const GLvoid *data, GLenum usage);
+typedef void (APIENTRY * PFNGLBUFFERDATAPROC) (GLenum target, ptrdiff_t size, const GLvoid *pair, GLenum usage);
 typedef void (APIENTRY * PFNGLCOMPILESHADERPROC) (GLuint shader);
 typedef GLuint (APIENTRY * PFNGLCREATEPROGRAMPROC) (void);
 typedef GLuint (APIENTRY * PFNGLCREATESHADERPROC) (GLenum type);
