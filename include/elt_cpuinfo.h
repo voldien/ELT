@@ -96,6 +96,11 @@ extern DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE41(void);
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void);
 
+/*
+ *
+ */
+extern DECLSPEC ExBoolean ELTAPIENTRY ExHasNeon(void);
+
 /**/
 extern DECLSPEC Enum ELTAPIENTRY ExGetCpuVendor(void);
 
