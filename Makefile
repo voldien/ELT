@@ -1,6 +1,6 @@
 #!/bin/bash
 
-
+DESTDIR := 
 SHELL := /bin/bash
 BASE = $(call my-dir)
 MAKE := make
@@ -161,15 +161,13 @@ linux64 : $(objects)
 
 
 CWINCLIBS := -lopengl32 -lgdi32 -lglu32  -lwininet -lws2_32 -lkernel32 -luser32 -lwinmm  -lpsapi -legl -ldbghelp #-lopencl
-
-
 win32 : CFLAGS += -mwin32 -municode -mwindows -I"External/OpenCL/Include" -I"/usr/x86_64-w64-mingw32/include" -DDLLEXPORT=1  -DDONT_SUPPORT_OPENCL=1
 win32 : TARGET := EngineEx32.dll
 win32 : CLIBS := $(CWINCLIBS)
 win32 : winobjects = 
 win32 : CC := $(WINCC)
 win32 : $(objects) $(notdir $(subst .c,.o, $(wildcard src/system/win/*.c) ))
-	$(WINCC) $(CFLAGS) -shared -o build/$(TARGET)  $^ -Wl,--out-implib,build/libEngineEx.a  #$(CLIBS)
+	$(WINCC) $(CFLAGS) -shared -o build/$(TARGET)  $^ -Wl,--out-implib,build/libEngineEx.a  $(CLIBS)
 
 
 
@@ -197,11 +195,11 @@ android :
 
 
 java :
-	$(MAKE) -C ./port/android/java/
+	$(MAKE) -C ./port/java/
 
 
 csharp :
-	$(MAKE) -C ./port/android/csharp/			
+	$(MAKE) -C ./port/csharp/			
 
 # make sure that all dependecy are installed. 
 .PHONY : dependency
