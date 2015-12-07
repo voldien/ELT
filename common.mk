@@ -3,7 +3,7 @@
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 current_dir := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
 
-#
+#	
 BASE ?= $(call my-dir)
 SHELL ?= /bin/bash
 DESTDIR=/
@@ -15,7 +15,16 @@ CP ?= cp
 RM ?= rm -rf
 INSTALL ?= install
 
+#	compilers	
+ARMCC ?= arm-linux-gnueabihf-g++
+WINCC ?= x86_64-w64-mingw32-c++
+CPP ?= g++
+ARMCC ?= arm-linux-gnueabihf-gcc
+WINCC ?= x86_64-w64-mingw32-gcc
+CLANGCC ?= clang
+CC ?= gcc
 
+#
 CFLAGS ?= 
 
 
@@ -67,8 +76,9 @@ CFLAGS += -DREVISION_VERSION=$(REVISION_VERSION)
 
 
 
-
+# create packge for making debian packages.
 .PHONY : createpackage
+
 createpackage:
 	@echo "version: " $(MAJOR_VERSION).$(MINOR_VERSION).$(REVISION_VERSION)
 	find include/ src/ -name "*.c" -or -name "*.h" | tar -zcvf $(current_dir)-$(MAJOR_VERSION).$(MINOR_VERSION).$(REVISION_VERSION).tar.gz -T -
