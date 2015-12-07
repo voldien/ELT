@@ -23,7 +23,7 @@
 
 
 typedef struct ex_GUID{
-	Uint8 data[16];
+	Uint8 pair[16];
 }ExGUID;
 
 #ifdef __cplusplus	// C++ Environment

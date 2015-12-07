@@ -35,7 +35,7 @@ DECLSPEC Int32 ELTAPIENTRY ExClipCursor(const struct ex_rect* rect){
 DECLSPEC ExCursor ELTAPIENTRY ExCreateCursor(const Uint8* data, const Uint8* mask, Int32 width,Int32 height, Int32 hot_x, Int32 hot_y){
 #ifdef EX_WINDOWS
 	ExCursor cursor;
-	ExIsWinError(!(cursor = CreateCursor(GetModuleHandle(NULL),hot_x, hot_y,width, height, data, mask)));
+	ExIsWinError(!(cursor = CreateCursor(GetModuleHandle(NULL),hot_x, hot_y,width, height, pair, mask)));
 	return cursor;
 #elif defined(EX_LINUX)
     return XCreatePixmap(display, 0, width,height,8);
