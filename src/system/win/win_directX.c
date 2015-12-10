@@ -1,13 +1,12 @@
 #include"system/win/win_directX.h"
-
-#if defined(EX_INCLUDE_DIRECTX)
 #include"system/elt_win.h"
 
-#ifdef INTERNAL_ENGINEX
-	//#include<D3dx9tex.h>
-	#include<d3d9.h>
-	#pragma comment(lib, "D3d9.lib")
-#endif
+#if defined(EX_INCLUDE_DIRECTX)
+
+//#include<D3dx9tex.h>
+#include<d3d9.h>
+#pragma comment(lib, "D3d9.lib")
+
 
 LPDIRECT3D9 d3d = NULL;
 LPDIRECT3DDEVICE9 directDevice = NULL;
@@ -19,7 +18,8 @@ DECLSPEC void* ELTAPIFASTENTRY ExGetDirect3D(void){
 	return directDevice;
 }
 
-DECLSPEC ERESULT ELTAPIENTRY ExInitDirectX(ExWin window){
+
+DECLSPEC ERESULT ELTAPIENTRY ExCreateDirectXContext(ExWin window){
 	ERESULT hresult = 0;
 	size_t win_size[2];
 	D3DCAPS9 m_d3dDevCaps;
@@ -86,16 +86,6 @@ DECLSPEC void ELTAPIENTRY ExReleaseDirectX(void){
 	if(directDevice)
 		if(FAILED(directDevice->Release()))
 			ExDevPrintf("Failed to Release D3D");
-}
-
-DECLSPEC void ELTAPIFASTENTRY ExDirectXBegin(void){
-	directDevice->BeginScene();
-}
-DECLSPEC void ELTAPIFASTENTRY ExDirectXEnd(void){
-	directDevice->EndScene();
-}
-DECLSPEC void ELTAPIFASTENTRY ExDirectXPresent(void){
-	directDevice->Present(0,0,0,0);
 }
 
 #endif

@@ -23,44 +23,36 @@
 #ifdef __cplusplus /* C++ environment */
 extern "C"{
 #endif
+
+
 /**
 	Get 3D Context
     @return
 */
 extern DECLSPEC HANDLE ELTAPIFASTENTRY ExGetD3D(void);
-/**
-	Get Direct3D Context
-    @return
-*/
+/*
+ *	Get Direct3D Context
+ *   @return
+ */
 extern DECLSPEC HANDLE ELTAPIFASTENTRY ExGetDirect3D(void);
 
 /**
     @return
 */
-extern DECLSPEC ERESULT ELTAPIENTRY ExInitDirectX(ExWin hWnd);
+extern DECLSPEC ERESULT ELTAPIENTRY ExCreateDirectXContext(ExWin window);
 
-/**
 
-*/
-extern DECLSPEC void ELTAPIFASTENTRY ExDirectXBegin(void);
-/**
-	//
-*/
-extern DECLSPEC void ELTAPIFASTENTRY ExDirectXEnd(void);
-/**
-
-*/
-extern DECLSPEC void ELTAPIFASTENTRY ExDirectXPresent(void);
-/**
-
-*/
+/*
+ *
+ */
 extern DECLSPEC void ELTAPIENTRY ExReleaseDirectX(void);
-/**
-
+/*
+ *
 */
-extern DECLSPEC void ELTAPIENTRY ExReleaseDirectXContext(void* d3d);
-/**
+extern DECLSPEC void ELTAPIENTRY ExDestroyDirectXContext(void* d3d);
 
+/*
+ *
 */
 extern DECLSPEC void ELTAPIENTRY ExDirectFullScreen(ExBoolean fullscreen);
 

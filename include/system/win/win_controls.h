@@ -18,7 +18,7 @@
 */
 #ifndef _WIN_CONSTROLS_H_
 #define _WIN_CONSTROLS_H_ 1
-#include"./../../ExPreProcessor.h"
+#include"./../../elt_def.h"
 #include"win_win32.h"
 
 
@@ -60,6 +60,7 @@ typedef struct ex_progressbar_event{
 typedef struct ex_text_input_event{
 	ExTextInput textInput;
 }ExTextInputEvent;
+
 /*
 	//Assign the event control
 */

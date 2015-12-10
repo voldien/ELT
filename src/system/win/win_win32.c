@@ -253,27 +253,6 @@ int ELTAPIENTRY ExGetWindowPeekMessage(ExWin hwnd){
 	return FALSE;
 }
 
-void ELTAPIENTRY ExRunWinMessageLoop(void){
-	MSG messageHandler;
-
-	while(GetMessage(&messageHandler, NULL, NULL, NULL)){
-		TranslateMessage(&messageHandler);
-		DispatchMessage(&messageHandler);
-	}
-
-}
-
-void ELTAPIENTRY ExRunWinPeekMessage(void){
-	MSG messageHandler;
-
-	while(PeekMessage(&messageHandler,NULL, NULL,NULL,PM_REMOVE)){
-		TranslateMessage(&messageHandler);
-		DispatchMessage(&messageHandler);
-	}
-
-}
-
-
 int ELTAPIENTRY ExMessageBox(ExWin window, const char* text, const char* title,  unsigned int flags ){
 	return MessageBox(window,text,title,flags);
 }

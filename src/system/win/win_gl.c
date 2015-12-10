@@ -393,7 +393,7 @@ OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
 		ExError(EX_TEXT("function : wglChoosePixelFormatARB Failed"));
 
 
-	if(ExDestroyContext(hDC,glc)){  /*  destroy temp context    */
+	if(ExDestroyGLContext(hDC,glc)){  /*  destroy temp context    */
 		DestroyWindow(temp_gl_hwnd);
 	}else ExDevPrint("Failed to delete Temp OpenGL Context.\n");
 
@@ -568,7 +568,7 @@ DECLSPEC void ELTAPIENTRY ExInitExtension(ExWin hWnd,WindowContext deviContext,H
 
 
 
-DECLSPEC ExBoolean ELTAPIENTRY ExDestroyContext(WindowContext drawable, OpenGLContext glc){
+DECLSPEC ExBoolean ELTAPIENTRY ExDestroyGLContext(WindowContext drawable, OpenGLContext glc){
 	ExBoolean hr;
 	// if hDC is null
 	if(!drawable)

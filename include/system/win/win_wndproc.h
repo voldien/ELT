@@ -21,57 +21,65 @@
 #include"win_win32.h"
 
 /*
-	## user defied window message
-*/
+ *	## user defied window message
+ */
 #define WM_USER_SIZE (WM_USER + 1)
 
 #ifdef  __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
-/**
 
-*/
+/*
+ *
+ */
 extern DECLSPEC void ELTAPIENTRY ExDisableAltTab(void);
-/**
-
-*/
+/*
+ *
+ */
 extern DECLSPEC void ELTAPIENTRY ExEnableAltTab(void);
-/**
-
-*/
+/*
+ *
+ */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExEnableDeviceNotification(ExWin hWnd);
-/**
-	//	main window procedure
-	//	Remark :
-	\hWnd
-	\uMsg
-	\wParam
-	\lParam
-	@return
+/*
+ *	//	main window procedure
+ *	//	Remark :
+ *	\hWnd
+ *	\uMsg
+ *	\wParam
+ *	\lParam
+ *	@return
 */
-extern DECLSPEC ERESULT WINAPI ExMainWndProc(ExWin hWnd,UINT uMsg, WPARAM wParam, LPARAM lParam);
-/**
-	native windows. designed for user interface handling
+extern DECLSPEC ERESULT ELTAPISTDENTRY ExMainWndProc(ExWin hWnd, Uint uMsg, WPARAM wParam, LPARAM lParam);
 
-*/
-extern DECLSPEC ERESULT WINAPI ExWndProcNative(ExWin hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+/*
+ *	native windows. designed for user interface handling
+ *
+ */
+extern DECLSPEC ERESULT ELTAPISTDENTRY ExWndProcNative(ExWin hWnd, Uint uMsg, WPARAM wParam, LPARAM lParam);
 /**
 	On Window Context menu
 */
-extern DECLSPEC BOOL WINAPI ExOnContextMenu(ExWin hWnd,Int32 x, Int32 y);
+extern DECLSPEC BOOL ELTAPISTDENTRY ExOnContextMenu(ExWin hWnd,Int32 x, Int32 y);
 /*	On Window Context menu	*/
-extern DECLSPEC BOOL WINAPI ExOnContextMenu2(ExWin hWnd,HMENU hmenu,Int32 x, Int32 y);
+extern DECLSPEC BOOL ELTAPISTDENTRY ExOnContextMenu2(ExWin hWnd, HMENU hmenu, Int32 x, Int32 y);
 /*	Display Window Context	*/
-extern DECLSPEC BOOL WINAPI ExDisplayContextMenu(ExWin hWnd, POINT* pt);
+extern DECLSPEC BOOL ELTAPISTDENTRY ExDisplayContextMenu(ExWin hWnd, POINT* pt);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC HANDLE ELTAPIENTRY ExHookWndProc(Int32  idHook, HOOKPROC lpfn);
 
-/**/
-extern DECLSPEC ERESULT CALLBACK DefViewWindowProc(ExWin hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+/*
+ *
+ */
+extern DECLSPEC ERESULT ELTAPISTDENTRY DefViewWindowProc(ExWin hwnd, Uint message, WPARAM wParam, LPARAM lParam);
 
-/**/
-ERESULT CALLBACK ListViewWindowProc(ExWin hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+/*
+ *
+ */
+extern DECLSPEC ERESULT ELTAPISTDENTRY ListViewWindowProc(ExWin hwnd, Uint message, WPARAM wParam, LPARAM lParam);
 
 
 #ifdef  __cplusplus	/* C++ Environment */
