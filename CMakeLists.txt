@@ -21,6 +21,14 @@ set (PROJECT_VERSION "${ELT_VERSION}")
 
 add_definitions(-D_INTERNAL_ENGINE=1)
 
+add_definitions(-DMAJOR_VERSION=${ELT_VERSION_MAJOR})
+add_definitions(-DMINOR_VERSION=${ELT_VERSION_MINOR})
+add_definitions(-DREVISION_VERSION=${ELT_VERSION_REVISION})
+
+#configure_file (
+#	${PROJECT_SOURCE_DIR}/elt.pc.in
+#	${PROJECT_LIBRARY_DIR}/elt.pc
+#)
 
 
 
@@ -29,81 +37,56 @@ if(CMAKE_COMPILER_IS_MINGW)
 endif()
 
 
+#	gnu compiler
 if((CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX) AND NOT CMAKE_COMPILER_IS_MINGW)
 	if(BUILD_SHARED_LIBS)
 	add_definitions(-fPIC)
 	endif()
-
 	add_definitions(-fvisibility=hidden -Wall)
 elseif(MSVC)
 	add_definitions(/MP)
-
-endif()
-
-
-
-if (UNIX)
-	add_definitions(-Wall)
-
-	if(BUILD_SHARED_LIBS)
-		add_definitions(-fvisibility=hidden)
-
-	endif()
-endif()
-
-
-if(MSVC)
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
-
-endif()
-
-
-
-
-if(MINGW)
-
-
-
 endif()
 
 
 
 
 if (WIN32)
-    set(_GLFW_WIN32 1)
+    set(_EX_WIN32 1)
     message(STATUS "Using Win32 for window creation")
 
-    if (GLFW_USE_EGL)
-        set(_GLFW_EGL 1)
+    if (EX_USE_EGL)
+        set(_EX_EGL 1)
         message(STATUS "Using EGL for context creation")
     else()
-        set(_GLFW_WGL 1)
+        set(_EX_WGL 1)
         message(STATUS "Using WGL for context creation")
     endif()
+
 elseif (APPLE)
-    set(_GLFW_COCOA 1)
+    set(_EX_COCOA 1)
     message(STATUS "Using Cocoa for window creation")
-    set(_GLFW_NSGL 1)
+
+    set(_EX_NSGL 1)
     message(STATUS "Using NSGL for context creation")
 elseif (UNIX)
-    if (GLFW_USE_WAYLAND)
-        set(_GLFW_WAYLAND 1)
+
+    if (EX_USE_WAYLAND)
+        set(_EX_WAYLAND 1)
         message(STATUS "Using Wayland for window creation")
-    elseif (GLFW_USE_MIR)
-        set(_GLFW_MIR 1)
-        message(STATUS "Using Mir for window creation")
     else()
-        set(_GLFW_X11 1)
+        set(_EX_X11 1)
         message(STATUS "Using X11 for window creation")
     endif()
 
-    if (GLFW_USE_EGL)
-        set(_GLFW_EGL 1)
+    if (EX_USE_EGL)
+        set(_EX_EGL 1)
         message(STATUS "Using EGL for context creation")
     else()
-        set(_GLFW_GLX 1)
+        set(_EX_GLX 1)
         message(STATUS "Using GLX for context creation")
     endif()
+
 else()
     message(FATAL_ERROR "No supported platform was detected")
 endif()
@@ -114,6 +97,7 @@ endif()
 INCLUDE_DIRECTORIES(include)
 
 
+# TODO make it compadiable for what platform to port to.
 FILE(GLOB _srcFiles
 	"src/*.c"
 	"src/graphic/*.c"
