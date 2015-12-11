@@ -491,7 +491,7 @@
 #endif
 
 /*
- *	Unused indication. // will make the compiler exclude it from the final binary.
+ *	Unused indication. Will make the compiler exclude it from the final binary.
 */
 #define EX_UNUSED(_p)	((void)(_p))
 

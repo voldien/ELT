@@ -33,10 +33,12 @@ extern "C"{
  *
  */
 extern DECLSPEC void ELTAPIENTRY ExDisableAltTab(void);
+
 /*
  *
  */
 extern DECLSPEC void ELTAPIENTRY ExEnableAltTab(void);
+
 /*
  *
  */
