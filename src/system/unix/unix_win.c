@@ -241,7 +241,21 @@ DECLSPEC void ELTAPIENTRY ExMaximizeWindow(ExWin window){
 }
 
 DECLSPEC void ELTAPIENTRY ExMinimizeWindow(ExWin window){
+	XEvent xev;
+	Atom wm_state = XInternAtom(display, "_NET_WM_STATE", False);
+	Atom min_horz = XInternAtom(display, "_NET_WM_STATE_MINIMIZE_HORZ", False);
+	Atom min_vert = XInternAtom(display, "_NET_WM_STATE_MINIMIZE_VERT", False);
 
+	memset(&xev,0,sizeof(xev));
+	xev.type = ClientMessage;
+	xev.xclient.window = window;
+	xev.xclient.message_type = wm_state;
+	xev.xclient.format = 32;
+	xev.xclient.data.l[0] = _NET_WM_STATE_ADD;
+	xev.xclient.data.l[1] = min_horz;
+	xev.xclient.data.l[2] = min_vert;
+
+	XSendEvent(display, DefaultRootWindow(display), False, SubstructureNotifyMask, &xev);
 }
 
 DECLSPEC void ELTAPIENTRY ExSetWindowMode(ExWin window, Enum mode){
