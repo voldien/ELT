@@ -24,12 +24,16 @@
 extern "C"{
 #endif
 
-/**
-    Get Page size
-    @return number of bytes per page.
-*/
+/*
+ *	Get Page size
+ *  @return number of bytes per page.
+ */
 extern DECLSPEC int ELTAPIENTRY ExGetPageSize(void);
 
+
+
+
+/*	TODO move to a header with data structure!	*/
 
 
 EX_ALIGN_PREFIX(4)
@@ -38,19 +42,29 @@ typedef struct ex_pool_allactor{
 }ExPoolAllactor;
 
 
-/*	poll allocator	*/
+/*
+ *	Poll allocator
+ */
 extern DECLSPEC ExPoolAllactor* ELTAPIENTRY ExPoolCreate(unsigned int num, unsigned int itemsize);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC void* ELTAPIENTRY ExPoolObtain(ExPoolAllactor* allactor);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC void* ELTAPIENTRY ExPoolReturn(ExPoolAllactor* allactor, void* data, unsigned int len);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC ExPoolAllactor* ELTAPIENTRY ExPoolResize(ExPoolAllactor* allcotor, unsigned num, unsigned int itemsize);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC void  ELTAPIENTRY ExPoolFree(ExPoolAllactor* allactor);
 
 #define ExPoolIndex(alloc,index,len)	( ( alloc ) + (( index ) * ( len )  + ( index )) )

@@ -18,7 +18,7 @@
 */
 #ifndef _ELT_SYSTEM_H_ 
 #define _ELT_SYSTEM_H_ 1
-#include"ExPreProcessor.h"
+#include"elt_def.h"
 
 #include"system/elt_win.h"
 #include"system/elt_gl.h"

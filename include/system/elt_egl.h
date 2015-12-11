@@ -26,14 +26,23 @@
 extern "C"{
 #endif
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC int ELTAPIENTRY ExCreateEGLContextAttrib(ExWin window, int* attrib, unsigned int* size);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window);
 
 /**/
 extern DECLSPEC int ELTAPIENTRY ExCreateEGLContextAttrib(ExWin window, int* attrib, unsigned int* size);
+
+/*
+ *
+ */
+extern DECLSPEC void ELTAPIENTRY ExDestroyEGLContext(OpenGLContext context);
 
 
 #ifdef  __cplusplus	/** C++ Environment */

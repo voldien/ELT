@@ -33,16 +33,24 @@ extern "C"{
 #endif
 
 
-/*	Create Surface	*/
+/*
+ *	Create Surface
+ */
 extern DECLSPEC ExSurface ExCreateSurface(unsigned int width, unsigned height, unsigned int format);
 
-/*	release surface.	*/
+/*
+ *	release surface.
+ */
 extern DECLSPEC int ExDestroySurface(ExSurface handle);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC void ExDisplaySurfaceToWindow(ExWin window,ExSurface surface);
 
-/*	resize surface handle	*/
+/*
+ *	resize surface handle
+ */
 extern DECLSPEC int ExResizeSurface(ExSurface handle, unsigned int width, unsigned height);
 
 /*	*/

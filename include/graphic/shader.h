@@ -32,19 +32,25 @@ typedef struct ex_shader{
 
 #ifdef __cplusplus	/* C++ environment	*/
 extern "C"{
-#endif 
+#endif
+
 /*
+ *
  */
 extern int ExGetShaderProgramSize(unsigned int program);
 /*
+ *
  */
 extern int ExGetShaderSourceSize(unsigned int shader);
 
-/**/
+/*
+ *
+ */
 extern int ExSetProgramShader(int program, int shader);
 
 
 /*
+ *
  */
 extern int ExLoadShader(ExShader* shad,const char* cvertexfilename, const char* cfragmentfilename, const char* cgeometryfilename, const char* ctesscfilename, const char* ctessefilename);
 /*

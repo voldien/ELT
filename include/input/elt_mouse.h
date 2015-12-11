@@ -52,70 +52,82 @@
 #ifdef __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
-/**
-	Capture mouse
-	@return
+
+
+
+/*
+ *	Capture mouse
+ *	@return
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(ExBoolean enabled);
-/**
-    clip cursor onto specified rectangle view
+
+/*
+ *	Clip cursor onto specified rectangle view
+ */
+extern DECLSPEC Int32 ELTAPIENTRY ExClipCursor(const ExRect* rect);
+
+/*
+ *	Create Cursor
+ *	@return
 */
-extern DECLSPEC Int32 ELTAPIENTRY ExClipCursor(const struct ex_rect* rect);
-/**
-	Create Cursor
-	@return
-*/
-extern DECLSPEC ExCursor ELTAPIENTRY ExCreateCursor(const Uint8* data, const Uint8* mask, Int32 width,Int32 height, Int32 hot_x, Int32 hot_y);
-/**
-	Create System Cursor
-	@return
+extern DECLSPEC ExCursor ELTAPIENTRY ExCreateCursor(const Uint8* data, const Uint8* mask, Int32 width, Int32 height, Int32 hot_x, Int32 hot_y);
+/*
+ *	Create System Cursor
+ *	@return
 */
 extern DECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(Enum system_id);
-/**
-	Free cursor
-	@return
-*/
+/*
+ *	Free cursor
+ *	@return
+ */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExFreeCursor(ExCursor cursor);
-/**
-	Set Cursor
-	@return
-*/
+
+/*
+ *	Set Cursor
+ *	@return
+ */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExSetCursor(ExCursor cursor);
-/**
-	Get Cursor
-	@return
+
+/*
+ *	Get Cursor
+ *	@return
 */
 extern DECLSPEC ExCursor ELTAPIENTRY ExGetCursor(void);
-/**
 
-*/
+/*
+ *
+ */
 extern DECLSPEC ExCursor ELTAPIENTRY ExGetDefaultCursor(void);
-/**
 
-*/
+/*
+ *
+ */
 extern DECLSPEC ExWin ELTAPIENTRY ExGetMouseFocus(void);
-/**
-	Get Global Mouse State
-    @return button pressed.
-*/
-extern DECLSPEC Uint32 ELTAPIENTRY ExGetGlobalMouseState(Int32* x, Int32* y);
-/**
 
-*/
+/*
+ *	Get Global Mouse State
+ *	@return button pressed.
+ */
+extern DECLSPEC Uint32 ELTAPIENTRY ExGetGlobalMouseState(Int32* x, Int32* y);
+
+/*
+ *
+ */
 extern DECLSPEC Uint32 ELTAPIENTRY ExGetMouseState(Int32* x, Int32* y);
-/**
-	Set cursor in screen space respect to monitor resolution.
+
+/*
+ *	Set cursor in screen space respect to monitor resolution.
 */
 extern DECLSPEC void ELTAPIENTRY ExWarpMouseGlobal(Int32 x, Int32 y);
 
-/**
-	Set Cursor relative to window
-*/
-extern DECLSPEC void ELTAPIENTRY ExWarpMouseInWindow(ExWin win,Int32 x, Int32 y);
-/**
-    Show Cursor
-    @return if successfully then return value is equal to input value.
-*/
+/*
+ *	Set Cursor relative to window
+ */
+extern DECLSPEC void ELTAPIENTRY ExWarpMouseInWindow(ExWin win, Int32 x, Int32 y);
+/*
+ *	Show Cursor
+ *	@return if successfully then return value is equal to input value.
+ */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExShowCursor(ExBoolean enabled);
 
 

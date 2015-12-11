@@ -18,7 +18,7 @@
 */
 #ifndef _ELT_OPENGL_H_ 
 #define _ELT_OPENGL_H_ 1
-#include"ExPreProcessor.h"
+#include"elt_def.h"
 #include"system/elt_gl.h"
 #include"system/elt_egl.h"
 

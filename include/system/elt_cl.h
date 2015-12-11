@@ -20,11 +20,10 @@
 #define _ELT_CL_H_ 1
 #include"./../EngineAssembly.h"
 
-
-#define ELT_GPU0 0x20                        /* GPU index 0 + offset*/
-#define ELT_CPU0 0x40                       /* CPU index 0 + offset*/
-#define ELT_CL_FLOPS_HIGHEST 0x400          /* Device with most FLOPS */
-#define ELT_CL_AVAILABLE_PLATFORM 0x1000    /* Get available device */
+#define ELT_GPU0 0x20                        	/* GPU index 0 + offset*/
+#define ELT_CPU0 0x40                       	/* CPU index 0 + offset*/
+#define ELT_CL_FLOPS_HIGHEST 0x400          	/* Device with most FLOPS */
+#define ELT_CL_AVAILABLE_PLATFORM 0x1000    	/* Get available device */
 //#define EX_CL_GL_SYNC   0x2000    //TODO check if it's needed
 
 #ifdef __cplusplus	/* C++ Environment	*/
@@ -32,51 +31,60 @@ extern "C"{
 #endif
 
 
-/**
-	Get current cl context
-	@return CL context.
-*/
-extern DECLSPEC OpenCLContext ELTAPIFASTENTRY ExGetCurrentCLContext(void);
-
-/**
-	Create OpenCL Context
-	@return
-*/
-extern DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLContext(Enum eEnumFlag);
-
-/**
-	Query Context information
-	@return
-*/
-extern DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(OpenCLContext context,void* param_value,Enum param_name);
 
 /*
-	Release CL Context
-*/
-extern DECLSPEC void ELTAPIENTRY ExReleaseCLContext(OpenCLContext context);
+ *	Get current cl context
+ *	@return CL context.
+ */
+extern DECLSPEC ExOpenCLContext ELTAPIFASTENTRY ExGetCurrentCLContext(void);
 
-/**
-	Create shared CL context with OpenGL context
-	@return CL context.
-*/
-extern DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowContext window,Enum erenderingFlag);
+/*
+ *	Create OpenCL Context
+ *	@return
+ */
+extern DECLSPEC ExOpenCLContext ELTAPIENTRY ExCreateCLContext(Enum eEnumFlag);
 
-/**/
+/*
+ *	Query Context information
+ *	@return
+ */
+extern DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(ExOpenCLContext context, void* param_value, Enum param_name);
+
+/*
+ *	Release OpenCL Context
+ */
+extern DECLSPEC void ELTAPIENTRY ExDestroyCLContext(ExOpenCLContext context);
+
+/*
+ *	Create shared CL context with OpenGL context
+ *	@return CL context.
+ */
+extern DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowContext window, Enum erenderingFlag);
+
+/*
+ *
+ */
 extern DECLSPEC void* ExCreateCommandQueue(OpenCLContext context, void*device);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC void* ExCreateProgram(OpenCLContext context, void* device, const char* cfilename,...);
 
-/**
-	Get CL platform identification
-	@return current CL context.
-*/
-extern DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum flag);
+/*
+ *	Get CL platform identification
+ *	@return current CL context.
+ */
+extern DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID, Enum flag);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, void* p_cl_device_id);
 
-/* Get and return device capability */
+/*
+ *	Get and return device capability
+ */
 extern DECLSPEC Int32 ELTAPIENTRY ExGetClDevCap(void* device);
 
 

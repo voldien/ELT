@@ -6,10 +6,10 @@
 extern "C"{
 #endif
 
-/**
-	// Get Power Info
-	@return
-*/
+/*
+ *	Get Power Info
+ *	@return
+ */
 extern DECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct);
 
 

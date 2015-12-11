@@ -25,9 +25,16 @@
 extern "C"{
 #endif
 
+/**/
 extern DECLSPEC Int32 ELTAPIENTRY ExGameControllerAddMapping(const char* mappingString);
+
+/**/
 extern DECLSPEC Int32 ELTAPIENTRY ExGameControllerAddMappinFromFile(const char* filename);
+
+/**/
 extern DECLSPEC Int32 ELTAPIENTRY ExGameControllerEventState(Int32 state);
+
+/**/
 extern DECLSPEC Int32 ELTAPIENTRY ExGameControllerEventState(Int32 state);
 
 extern DECLSPEC ExBoolean ELTAPIENTRY ExGameControllerClose(Int32 index);

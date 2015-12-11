@@ -18,7 +18,7 @@
 */
 #ifndef _ELT_GEOMETRY_H_ 
 #define _ELT_GEOMETRY_H_ 1
-#include"./../ExPreProcessor.h"
+#include"./../elt_def.h"
 
 /*TODO add some common buffer structure*/
 typedef struct ex_vbo{

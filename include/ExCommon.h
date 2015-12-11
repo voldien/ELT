@@ -28,55 +28,64 @@ extern "C"{
 #endif
 
 
-/**
-	create process
-	@return if successfully
-*/
+/*
+ * 	create process
+ *	@return if successfully
+ */
 extern DECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName);
-/**
-	// create process with variable argument list
-	// Remark :last argument should be null to prevent system error.
-	@return
+
+/*
+ *	create process with variable argument list
+ *	Remark :last argument should be null to prevent system error.
+ *	@return
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName,...);
 
 
-/**
-	Get System Primary Screen Size
-*/
-extern DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(ExSize* size);
-/**
-	Get System Monitor
-*/
-extern DECLSPEC void ELTAPIENTRY ExGetMonitorSize(Uint32 index,ExSize* size);
 /*
-	Get possible resolutions for a given monitor
-*/
+ *	Get System Primary Screen Size
+ */
+extern DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(ExSize* size);
+
+/*
+ *	sGet System Monitor
+ */
+extern DECLSPEC void ELTAPIENTRY ExGetMonitorSize(Uint32 index,ExSize* size);
+
+/*
+ *	Get possible resolutions for a given monitor
+ */
 extern DECLSPEC int ELTAPIENTRY ExGetMonitorSizes(Uint index, Uint* num, ExSize*sizes);
 
-
+/*
+ *
+ */
 extern DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenRect(ExRect* rect);
 /*
-
-*/
+ *
+ */
 extern DECLSPEC void ELTAPIENTRY ExGetMonitorRect(Uint32 index, ExRect* rect);
-/**
-	// Get Monitor by Index Hz
-	@return
-*/
-extern DECLSPEC Int32 ELTAPIENTRY ExGetMonitorHz(Uint32 index);
-/*
 
-*/
+/*
+ *	Get Monitor by Index Hz
+ *	@return
+ */
+extern DECLSPEC Int32 ELTAPIENTRY ExGetMonitorHz(Uint32 index);
+
+/*
+ *
+ */
 extern DECLSPEC Int32 ELTAPIENTRY ExGetPrimaryMonitorHz(void);
 
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC int ELTAPIENTRY ExSetScreenSize(int index, int width, int height);
 
 /**
-	// Get Platform
-	@return
+ *	Get Platform
+ *		@return
 */
 extern DECLSPEC const char* ELTAPIENTRY ExGetPlatform(void);
 
@@ -86,18 +95,23 @@ extern DECLSPEC const char* ELTAPIENTRY ExGetPlatform(void);
 */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetApplicationName(ExChar* name,Int32 length);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetCurrentDirectory(void);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC int ELTAPIENTRY ExSetCurrentDirectory (const char* cdirectory);
 
 
 /*
-    Get Application Execute global Path.
-    @return
-*/
+ *  Get Application Execute global Path.
+ *   @return
+ */
 extern DECLSPEC void ELTAPIENTRY ExGetExecutePath(ExChar* wChar, Int32 lengthSize);
+
 /* Get Application Path where the Exe file is located. */
 extern DECLSPEC void ELTAPIENTRY ExGetAppliationPath(ExChar* wChar, Int32 lengthSize);
 /* Get Relative Path.*/

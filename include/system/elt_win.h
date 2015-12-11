@@ -22,7 +22,7 @@
 #include"elt_event.h"
 #include"elt_cl.h"
 
-#ifdef  __cplusplus	/* C++ Environment */
+#ifdef  __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 typedef void* ExDisplay;
@@ -39,146 +39,182 @@ extern ExDisplay display;
 #define EX_WIN_BELOW
 #define EX_WIN_
 
-/**
-	Create Window
-	\x : coordinate
-	\y : coordinate
-	\width : width of the window
-	\height : height of the window
-	\flag : window type
-	@return window handle
+/*
+ *	Create Window
+ *	\x : coordinate
+ *	\y : coordinate
+ *	\width : width of the window
+ *	\height : height of the window
+ *	\flag : window type
+ *	@return window handle
 */
 extern DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height,Enum flag);
-/**
-	Show window
-	\window window handle
+
+/*
+ *	Show window
+ *	\window window handle
 */
 extern DECLSPEC void ELTAPIENTRY ExShowWindow(ExWin window);
-/**
-	Hide Window
-	\window Window handle
+
+/*
+ *	Hide Window
+ *	\window Window handle
 */
 extern DECLSPEC void ELTAPIENTRY ExHideWindow(ExWin window);
-/*
 
-*/
+/*
+ *
+ */
 extern DECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin window);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC void ELTAPIENTRY ExMaximizeWindow(ExWin window);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC void ELTAPIENTRY ExMinimizeWindow(ExWin window);
 
-/**
-	Set window mode
-*/
+/*
+ *	Set window mode
+ */
 extern DECLSPEC void ELTAPIENTRY ExSetWindowMode(ExWin window, Enum mode);
 
 
 
-/**
-    Destroy Window
-*/
+/*
+ *   Destroy Window
+ */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExDestroyWindow(ExWin window);
 
-/**
-	Set Window Title
-	\window
-	\title window title
+/*
+ *	Set Window Title
+ *	\window
+ *	\title window title
 */
 extern DECLSPEC void ELTAPIENTRY ExSetWindowTitle(ExWin window, const ExChar* title);
-/**
-	Get Windows Title
-	\window
-	\title
+
+/*
+ *	Get Windows Title
+ *	\window
+ *	\title
 */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title);
 
-/**
-	Set Windows Position
-	\window
-	\x
-	\y
-*/
+/*
+ *	Set Windows Position
+ *	\window
+ *	\x
+ *	\y
+ */
 extern DECLSPEC void ELTAPIENTRY ExSetWindowPos(ExWin window, Int32 x, Int32 y);
 
-/**
-	Set Windows Position
-*/
+/*
+ *	Set Windows Position
+ */
 extern DECLSPEC void ELTAPIENTRY ExSetWindowPosv(ExWin window, const Int32* position);
-/**
+
+/*
+ *
  */
 extern DECLSPEC void ELTAPIENTRY ExGetWindowPosv(ExWin window, Int32* position);
-/**
-	Set Window size
-*/
+
+/*
+ *	Set Window size
+ */
 extern DECLSPEC void ELTAPIENTRY ExSetWindowSize(ExWin window,Int32 width, Int32 height);
-/**
-	Set Window Size
-*/
+
+/*
+ *	Set Window Size
+ */
 extern DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window, const ExSize* size);
+
 /*
-    Get Window Size
-*/
+ *   Get Window Size
+ */
 extern DECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, ExSize* size);
+
 /*
-	// Set Window Rect
-*/
+ *	Set Window Rect
+ */
 extern DECLSPEC void ELTAPIENTRY ExSetWindowRect(ExWin window, const ExRect* rect);
+
 /*
-	// Get Window Rect
-*/
+ *	Get Window Rect
+ */
 extern DECLSPEC void ELTAPIENTRY ExGetWindowRect(ExWin window, ExRect* rect);
 
-
-
-/**
-    Get Window mode
-*/
+/*
+ *	Get Window mode
+ */
 extern DECLSPEC Uint32 ELTAPIENTRY ExGetWindowFlag(ExWin window);
-/**
-    Set Window Flag
-*/
+
+/*
+ *	Set Window Flag
+ */
 extern DECLSPEC void ELTAPIENTRY ExSetWindowFlag(ExWin window, Enum flag);
 
+/*
+ *
+ */
 extern DECLSPEC void ELTAPIENTRY ExSetWindowFlagv(ExWin window, Enum flag, int value);
 
 /*
-	Assign Icon Handle onto window
+ *	Assign Icon Handle onto window
  */
 extern DECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, HANDLE hIcon);
-/**
-	Get Window Icon Handle
+
+/*
+ *	Get Window Icon Handle
  */
 extern DECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC Int32 ELTAPIENTRY ExSetWindowFullScreen(ExWin window, ExBoolean flag);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC HANDLE ELTAPIENTRY ExGetWindowUserData(ExWin window);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC void ELTAPIENTRY ExSetWindowUserData(ExWin window, HANDLE userdata);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC int ELTAPIENTRY ExSetWindowParent(ExWin parent,ExWin window);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC ExWin ELTAPIENTRY ExGetWindowParent(ExWin window);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC int ELTAPIENTRY ExSetWindowChild(ExWin window, ExWin child);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC ExWin ELTAPIENTRY ExGetWindowChild(ExWin window, unsigned int index);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC int ELTAPIENTRY ExGetWindowNumChildren(ExWin window);
 
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC ExWin ELTAPIENTRY ExGetDesktopWindow(void);
 
 

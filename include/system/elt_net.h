@@ -36,62 +36,62 @@ extern "C" {
 #endif
 
 
-/**
-    Open socket
-    \ip
-    \port
-    \protocol
+/*
+ *	Open socket
+ *    \ip
+ *	\port
+ *	\protocol
 */
 extern DECLSPEC ExSocket ELTAPIENTRY ExOpenSocket(unsigned int protocol);
 
-/**
-	Close socket
-	\socket
-	@return
+/*
+ *	Close socket
+ *	\socket
+ *	@return
 */
 extern DECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(ExSocket socket);
 
-/**
-	Bind socket to ip and port address
-	\ip
-	\port
-	\socket
-	@return
+/*
+ *	Bind socket to ip and port address
+ *	\ip
+ *	\port
+ *	\socket
+ *	@return
 */
 extern DECLSPEC ExSocket ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port, ExSocket socket);
 
 /*
-	Connect to socket
-	\ip
-	\port
-	@return socket
+ *	Connect to socket
+ *	\ip
+ *	\port
+ *	@return socket
 */
 extern DECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int port);
 
-/**
-    Listen
+/*
+ *    Listen
 */
 #define ExListen    listen
 /**
-	Read Socket data
-	\socket
-	\buffer
-	\size
-	@return
-*/
+ *	Read Socket data
+ *	\socket
+ *	\buffer
+ *	\size
+ *	@return
+ */
 #ifdef EX_LINUX
 	#define ExReadSocket read
 #elif defined(EX_WINDOWS)
 	#define ExReadSocket recive
 #endif
 
-/**
-	Write Socket data
-	\socket
-	\buffer
-	\size
-	@return
-*/
+/*
+ *	Write Socket data
+ *	\socket
+ *	\buffer
+ *	\size
+ *	@return
+ */
 #ifdef EX_LINUX
 	#define ExWriteSocket read
 #elif defined(EX_WINDOWS)
@@ -99,8 +99,8 @@ extern DECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const char* ip, unsigned in
 #endif
 
 /*
-	Get host ip adress.
-*/
+ *	Get host ip adress.
+ */
 extern DECLSPEC int ELTAPIENTRY ExGetHostIp(char* ip);
 
 

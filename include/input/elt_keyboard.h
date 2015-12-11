@@ -20,9 +20,7 @@
 #define _ELT_KEYBOARD_H_ 1
 #include"./../EngineAssembly.h"
 #include"eltkeycode.h"
-#ifndef DIRECTINPUT_VERSION
-#	define DIRECTINPUT_VERSION 0x800
-#endif
+
 typedef Keycode ExScancode;
 
 #ifdef __cplusplus /* C++ environment */
@@ -31,52 +29,62 @@ extern "C"{
 
 
 #define ExGetKeyCode(array,keycode) ( ( ( array ) [ ( keycode ) /8] )  & (1 << ( ( keycode )  % 8)))
-/**
-	Get KeyCode name identification index
-	@return
+/*
+ *	Get KeyCode name identification index
+ *	@return
 */
 extern DECLSPEC Keycode ELTAPIENTRY ExGetKeyFromName(const char* name);
-/**
-	Get Key from Scancode
-	@return
-*/
+
+/*
+ *	Get Key from Scancode
+ *	@return
+ */
 extern DECLSPEC Keycode ELTAPIENTRY ExGetKeyFromScancode(ExScancode scancode);
-/**
-	Get KeyCode name
-	@return
-*/
+
+/*
+ *	Get KeyCode name
+ *	@return
+ */
 extern DECLSPEC const char* ELTAPIENTRY ExGetKeyName(Keycode keycode);
 
-/**
-	Get Window that is keyboard is focus to
-	@return
-*/
+/*
+ *	Get Window that is keyboard is focus to
+ *	@return
+ */
 extern DECLSPEC ExWin ELTAPIENTRY ExGetKeyboardFocus(void);
-/**
-	Get keyboard state.
-	@return
-*/
+/*
+ *	Get keyboard state.
+ *	@return
+ */
 extern DECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys);
-/**
-	@return
-*/
+
+/*
+ *	@return
+ */
 extern DECLSPEC Keycode ELTAPIENTRY ExGetModeState(void);
 
-/**
-	Is any key pressed
-	@return
-*/
+/*
+ *	Is any key pressed
+ *	@return
+ */
 extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKey(void);
-/**
-	@return
-*/
+/*
+ *	@return
+ */
 extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void);
-/**
-	@return
-*/
+/*
+ *	@return
+ */
 extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(Uint32 keyCode);
 
+/*
+ *
+ */
 extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode);
+
+/*
+ *
+ */
 extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyReleased(Uint32 keyCode);
 
 

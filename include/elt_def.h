@@ -24,18 +24,20 @@
 #ifdef __cplusplus
 	#include<cstdio>
 	#include<climits>
-	#define EX_CPP	// C++ environment
+	#define EX_CPP	/* C++ environment	*/
 #else
 	#include<stdio.h>
 	#include<limits.h>
-	#define EX_C	// C environment
+	#define EX_C	/* C environment	*/
 #endif
+
+
 /*	khr group	*/
-#include<KHR/khrplatform.h>
+#include <KHR/khrplatform.h>
 
 
 /*
-    Compiler
+ *	Compiler
 */
 #ifdef _MSC_VER 	/*	Visual Studio C++ Compiler.	*/
 	#define EX_VC
@@ -99,9 +101,9 @@
 
 
 
-/**
-	Platform define
-	Architecture!
+/*
+ *	Platform define
+ *	Architecture!
 */
 #ifdef EX_VC
 	#if defined(_M_IX86) || defined(_WIN32)
@@ -213,7 +215,9 @@
 #endif
 
 
-/**/
+/*
+ *	module information for SWIG interpreter.
+ */
 #ifdef SWIG
 	%module elt
 #endif
@@ -221,7 +225,7 @@
 
 
 /*
-
+ *
  */
 #ifdef GL_ES_VERSION_3_0
 	#define EX_GL_ES_VERSION
@@ -229,8 +233,8 @@
 
 
 /*
-    C Compiler Version
-*/
+ *   C Compiler Version
+ */
 #if (__STDC_VERSION__ == 201112L)
 #   define EX_C11
 #elif (__STDC_VERSION == 199901L)
@@ -253,13 +257,15 @@
 	#define RELEASEMODE
 #endif
 
-/*	convert to string in preprocessing */
+/*
+ *	Converting character into a constant string in precompiling stage.
+ */
 #define STR_HELPER(x) #x
 #define STR(x) STR_HELPER(x)
 
 /*
-    Unicode
-*/
+ *	Unicode macro for converting constant string to
+ */
 #ifdef UNICODE  /*  UTF-16*/
 	#define EX_UNICODE
 	#define _EX_TEXT(quote) L##quote
@@ -272,7 +278,7 @@
 
 
 /*
-    declaration specification
+ *	Declaration specification
 */
 #if !defined(ENGINE_EX_STATIC_BUILD)
 	#if defined(EX_WINDOWS) || defined(EX_VC)                 /**     Window      */
@@ -303,38 +309,19 @@
 #endif
 
 /*
-    Reserved keyword
+ *   Reserved keyword
 */
 #define EX_EXTERN extern
 #define C_EXTERN extern "C"
-#define CPP_EXTERN extern "C++"
 #ifdef EX_VC
 	#define NORETURN __declspec(noreturn)				// No Return, will loop forever.
 #elif defined(EX_GNUC)
 	#define NORETURN
 #endif
-/**
-	No Initialization Virtual Table. [4 byte In size] //TODO confirm size of virtual table
-	only supports in C++ environments
-*/
-#ifdef EX_WINDOWS
-	#define NOINITVTABLE __declspec(novtable)
-#else
-	#define NOINITVTABLE
-#endif
 
 
 /*
-        Virtual table size
-*/
-#ifdef __cplusplus   // C++ feature
-	#define EX_VIRTUAL_VTAB_SIZE(x)
-#else
-	#define EX_VIRTUAL_VTAB_SIZE(x) EX_UNUSED(x)
-#endif
-
-/*
-	No Throw
+ *	No Throw
 */
 #ifdef EX_VC
 	#define NOTHROW __declspec(nothrow)						// No Throw
@@ -345,7 +332,7 @@
 
 
 /*
-	Internal
+ *	Internal
 */
 #if defined(_ENGINE_INTERNAL) || (EX_ENGINE_VERSION_MAJOR < 1)	// Macro Definition Only Defined in this solution.
 	#define INTERNAL_ENGINEX	// Used for Assembly Data and Include Data structure.
@@ -361,24 +348,25 @@
 #endif
 #endif
 
-/**
-	Calling Convention
-	__cdecl		:
-	__stdcall	:
-	__fastcall	:
+/*
+ *	Calling Convention
+ *	__cdecl		:
+ *	__stdcall	:
+ *	__fastcall	:
+ *
 */
 
-#ifdef EX_WINDOWS	        /** Windows Calling Convention.*/
+#ifdef EX_WINDOWS	        				/* Windows Calling Convention.*/
 	#define ELTAPIENTRY     __cdecl
 	#define ELTAPIFASTENTRY __fastcall
 	#define ELTAPITHISENTRY __thiscall
 	#define ELTAPISTDENTRY  __stdcall
-#elif defined(EX_ANDROID)   /** Android Calling Convention*/
+#elif defined(EX_ANDROID)   				/* Android Calling Convention*/
     #define ELTAPIENTRY JNICALL
     #define ELTAPIFASTENTRY JNICALL
     #define ELTAPITHISENTRY JNICALL
     #define ELTAPISTDENTRY JNICALL
-#else
+#else										/*	GNU	*/
 #   ifndef __cdecl
         #define __cdecl  __attribute__ ((__cdecl__))
         #define __stdcall  __attribute__ ((stdcall))
@@ -389,7 +377,11 @@
 	#define ELTAPIFASTENTRY __fastcall
 #endif
 
-// disable on SPU because they are not supported
+
+
+/*
+ *	Disable on SPU because they are not supported
+ */
 #if defined(EX_VC)
 	#define EX_PUSH_PACK_DEFAULT __pragma(pack(push,8))
 	#define EX_POP_PACK			 __pragma(pack(pop))
@@ -402,8 +394,8 @@
 #endif
 
 
-/**
-    inline
+/*
+ *	inline
 */
 #if defined(EX_VC)
 	#define INLINE inline
@@ -412,9 +404,9 @@
 	#define INLINE inline
 #endif
 
-/**
-    force inline
-*/
+/*
+ *	force inline
+ */
 #if defined(EX_VC)
 	#define EX_FORCE_INLINE __forceinline
 #elif defined(EX_LINUX)
@@ -425,9 +417,9 @@
 	#define EX_FORCE_INLINE inline
 #endif
 
-/**
-	No inline
-*/
+/*
+ *	No inline
+ */
 #if defined EX_WINDOWS || defined EX_XBOX
 	#define EX_NOINLINE __declspec(noinline)
 #elif defined(EX_GNUC)  || defined(EX_GHS)
@@ -448,8 +440,8 @@
     #define EXDEPRECATEDMESSAGE(msg) __attribute__ (( deprecated ( msg ) ))
 #endif
 
-/**
-	Alignment of data
+/*
+ *	Alignment of data
 */
 #ifndef EX_ALIGN
 	#if defined(EX_VC)
@@ -471,9 +463,9 @@
 	#define EX_DLL _DLL
 #endif
 
-/**
-	Function and other predefined macro
-*/
+/*
+ *	Function and other predefined macro
+ */
 #if defined(EX_VC)
 	#define EX_FUNCNAME __FUNCTION__
 	#define EX_FUNCSIG __FUNCSIG__
@@ -489,30 +481,23 @@
 
 #endif
 
-/**
-	Int max bits size supported by compiler or hardware
+/*
+ *	Int max bits size supported by compiler or hardware
 */
 #if defined(EX_VC)
 	#define EX_INT_MAX_BITS _INTEGRAL_MAX_BITS
 #elif defined(EX_GNUC)
 	#define EX_INT_MAX_BITS _INTEGRAL_MAX_BITS
 #endif
-/**
-	Unused indication. // will make the compiler exclude it from the final binary.
+
+/*
+ *	Unused indication. // will make the compiler exclude it from the final binary.
 */
 #define EX_UNUSED(_p)	((void)(_p))
 
 
-#ifndef APPLICATIONTYPE
-#if defined(NSCREENSAVER)
-	#define APPLICATIONTYPE SCREENSAVER
-#else
-	#define APPLICATIONTYPE GAME
-#endif
-#endif
-
-/**
-	Rendering Software Interface.
+/*
+ *	Rendering Software Interface.
 */
 #ifdef EX_WINDOWS
 	#define EX_SUPPORT_OPENGL
@@ -538,8 +523,8 @@
 #endif
 
 
-/**
-	Assembly instruction identification
+/*
+ *	Assembly instruction identification
 */
 #if defined(EX_VC)
 	#define EX_ASSM __asm
@@ -549,9 +534,9 @@
 	#define EX_ASSM asm
 #endif
 
-/**
-    Export & Import of DLL
-*/
+/*
+ *	Export & Import of DLL
+ */
 #ifndef PROCCLASSEXPORT
 	#if defined(INTERNAL_ENGINEX)  && (!defined(ENGINE_EX_STATIC_BUILD))	// Export In DLL Format
 		#define DECLSPEC EX_EXPORT
@@ -583,11 +568,15 @@
 #endif
 
 
-/**
-	ELT Version.
+/*
+ *	ELT Version.
 */
 #define EX_ENGINE   "Engine Library Toolkit"
 
+
+/*
+ *
+ */
 #ifndef EX_VERSION_MAJOR
 	#ifdef MAJOR_VERSION
 		#define EX_VERSION_MAJOR MAJOR_VERSION
@@ -596,6 +585,9 @@
 	#endif
 #endif
 
+/*
+ *
+ */
 #ifndef EX_VERSION_MINOR
 	#ifdef MINOR_VERSION
 		#define EX_VERSION_MINOR MINOR_VERSION
@@ -604,6 +596,9 @@
 	#endif
 #endif
 
+/*
+ *
+ */
 #ifndef EX_VERSION_REVISION
 	#ifdef REVISION_VERSION
 		#define	EX_VERSION_REVISION REVISION_VERSION
@@ -612,6 +607,7 @@
 	#endif
 #endif
 
+/**/
 #define EX_ENGINE_PREALPHA EX_TEXT("pa")	        /* Pre alpha    */
 #define EX_ENGINE_ALPHA EX_TEXT("a")		        /* Alpha        */
 #define EX_ENGINE_BETA EX_TEXT("b")		       	    /* Beta         */
@@ -620,8 +616,8 @@
 #define EX_ENGINE_RELEASE_BETTER EX_TEXT("rc5")		/*          */
 
 /*
-	ELT Version [8 bit major | 8 bit minor | 8 bit bugfix | 8 bit reserved ]
-*/
+ *	ELT Version [8 bit major | 8 bit minor | 8 bit bugfix | 8 bit reserved ]
+ */
 #define EX_ENGINE_VERSION ( (EX_VERSION_MAJOR << 16) | (EX_VERSION_MINOR << 8) | (EX_VERSION_REVISION << 0) )
 
 #if defined(EX_VC) && defined(EX_INTERNAL_DEVELOP_ENVIROMENT)
@@ -629,8 +625,8 @@
 #endif
 
 /*
-    ELT status
-*/
+ *	ELT status
+ */
 #ifdef EX_DEBUG
 	#define EX_ENGINE_STATUS EX_ENGINE_PREALPHA
 #else
@@ -638,16 +634,16 @@
 #endif
 
 /*
-	Information
-*/
+ *	Information
+ */
 #define EX_ENGINE_COMPILER_ARCHITECTURE
 #define EX_ENGINE_BUILT_DATA __DATE__
 #define EX_ENGINE_BUILT_TIME __TIME__
 
 
 /*
-    all IDE don't enable NDEBUG || _DEBUG by default. Has be predefined explicitly if not defined.
-*/
+ *	all IDE don't enable NDEBUG || _DEBUG by default. Has to be predefined explicitly if not defined.
+ */
 #if (NDEBUG || _DEBUG)
 	#if !(defined NDEBUG ^ defined _DEBUG)
 		#error Exactly one of NDEBUG and _DEBUG needs to be defined by preprocessor
@@ -655,8 +651,8 @@
 #endif
 
 /*
-	Argumentental function
-*/
+ *	variable argument list
+ */
 #ifdef EX_VC
 	#define EX_VA_ARGS __VA_ARGS__
 #elif defined(EX_GNUC)
@@ -666,18 +662,18 @@
 #endif
 
 
+/*
+ *
+ */
 #ifdef EX_VC
-	#define WIN32_LEAN_AND_MEAN	    /**	ignoring some tedious useless warnings from window.*/
-#endif
+	#define WIN32_LEAN_AND_MEAN	    /*	ignoring some tedious useless warnings from Windows.*/
 
-
-
-
-#ifdef INTERNAL_ENGINEX
-	#ifdef EX_VC
+	#ifdef INTERNAL_ENGINEX
 		#pragma warning(disable : 4996)		// Disable a warning
 		#pragma warning(disable : 4251) 	// Dll
 	#endif
 #endif
+
+
 
 #endif

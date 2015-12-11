@@ -26,41 +26,48 @@ extern "C"{
 #endif
 
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC int ELTAPIENTRY ExLoadNumSymbol(HANDLE handle);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC char* ELTAPIENTRY ExLoadSymbol(HANDLE handle, int index, char* symbol, int len);
 
 
 /*
-	Load function from handle.
-	\handle handle to library.
-	\pProcName function name.
-	@return function pointer.
-*/
+ *	Load function from handle.
+ *	\handle handle to library.
+ *	\pProcName function name.
+ *	@return function pointer.
+ */
 extern DECLSPEC HANDLE ELTAPIENTRY ExLoadFunction(HANDLE handle, const char* pProcName);
 /*
-	Load Module object
-	@return
-*/
+ *	Load Module object to process
+ *	@return pointer to module if succesful.
+ */
 extern DECLSPEC HANDLE ELTAPIENTRY ExLoadObject(const ExChar* sofile);
+
 /*
-	UnLoad Module object
-*/
+ *	UnLoad Specified module object from process.
+ */
 extern DECLSPEC void ELTAPIENTRY ExUnLoadObject(HANDLE handle);
+
 /*
-	Is Module Loaded
-	@return
-*/
+ * 	Check if a module is loaded in the current application.
+ *	@return
+ */
 extern DECLSPEC HANDLE ELTAPIENTRY ExIsModuleLoaded(const ExChar* file);
+
 /*
-    Is Module Loaded
-*/
+ *    Is Module Loaded
+ */
 #define ExGetFileModule ExIsModuleLoaded
 /*
-    Load Object
-*/
+ *    Load Object
+ */
 #define ExLoadLibrary ExLoadObject
 
 #ifdef  __cplusplus	// C++ Environment

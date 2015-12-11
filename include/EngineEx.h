@@ -27,39 +27,39 @@
 extern "C"{
 #endif
 
-/**
-	Initialization of ELT Engine Library ToolKit
-	\engineflag
-	@return
+/*
+ *	Initialization of ELT Engine Library ToolKit
+ *	\engineflag
+ *	@return
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExInit(Uint32 engineFlag);
 
-/**
-	Initialize specific subsystems
-	\engineflag
-	@return
+/*
+ *	Initialize specific subsystems
+ *	\engineflag
+ *	@return
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineFlag);
 
-/**
-	Shut Down Function ELT
+/*
+ *	Shut Down Function ELT
 */
 extern DECLSPEC void ELTAPIENTRY ExShutDown(void);
 
 #define ExQuit ExShutDown
-/**
-	Quit Sub System
-	\engineflag
-*/
+/*
+ *	Quit Sub System
+ *	\engineflag
+ */
 extern DECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag);
 
-/**
-	EngineEx Enable
-*/
+/*
+ *	EngineEx Enable
+ */
 extern DECLSPEC void ELTAPIENTRY ExEnable(Enum enable);
 
-/**
-	EngineEx Disable
+/*
+ *	EngineEx Disable
 */
 extern DECLSPEC void ELTAPIENTRY ExDisable(Enum disable);
 
@@ -73,13 +73,13 @@ extern DECLSPEC void ELTAPIENTRY ExDisable(Enum disable);
 extern DECLSPEC int ELTAPIENTRY ExCreateInterrupt(interrupt_routine callback,unsigned int type);
 
 /*
-	Get ELT Version
-*/
+ *	Get ELT Version
+ */
 extern DECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void);
 
-/**
-    Get Compiler compiled with ELT.
-*/
+/*
+ *	Get Compiler compiled with ELT.
+ */
 extern DECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void);
 
 #ifdef  __cplusplus	/* C++ Environment */

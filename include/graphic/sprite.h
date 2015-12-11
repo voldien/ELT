@@ -61,19 +61,29 @@ typedef struct sprite_batch{
 
 }ExSpriteBatch;
 
-/*	Create */
+
+/*
+ *	Create
+ */
 extern DECLSPEC ExSpriteBatch* ELTAPIENTRY ExCreateSpriteBatch(ExSpriteBatch* spriteBatch);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC int	ELTAPIENTRY ExReleaseSpriteBatch(ExSpriteBatch* spritebatch);
 
 
 
 //extern DECLSPEC int ELTAPIENTRY ExGetSpriteBatchUniform(ExSpriteBatch* spritebatch);
-/**/
+
+/*
+ *
+ */
 extern DECLSPEC int ELTAPIENTRY ExBeginSpriteBatch(ExSpriteBatch* spriteBatch,float* camerapos, float scale);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC int ELTAPIENTRY ExEndSpriteBatch(ExSpriteBatch* spriteBatch);
 
 /**/

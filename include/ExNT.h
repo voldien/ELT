@@ -18,7 +18,7 @@
 */
 #ifndef _EX_NT_H_
 #define _EX_NT_H_ 1
-#include"ExPreProcessor.h"
+#include"elt_def.h"
 
 #include <stdlib.h>
 #include <errno.h>
@@ -32,13 +32,8 @@
 #	define FALSE 0
 #endif
 
-
-#define _IN_		// Header Comments Value will
-#define _OUT_		// Header Comments Value will return ou
-#define _INOUT_ 	// Header Will Input a Value as well return.
-
 /*
-	Type declaration
+ *	Type declaration
 */
 #if defined(EX_WINDOWS)
 	typedef signed __int64 		Int64;
@@ -200,7 +195,7 @@ typedef union doubleUnion{
 #endif
 
 /*
-	platform specific type
+ *	platform specific type
 */
 typedef void* ExWin;
 typedef void* OpenGLContext;
@@ -227,8 +222,8 @@ typedef void* ExAudioContext;
 
 #define EX_CALLBACK ELTAPISTDENTRY
 
-/**
-	Thread
+/*
+ *	Thread
 */
 typedef void*(*interrupt_routine)(void*);
 typedef void*(THREAD_CALLBACK *thread_routine)(void*);

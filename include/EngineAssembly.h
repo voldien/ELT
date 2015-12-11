@@ -18,7 +18,7 @@
 */
 #ifndef _ENGINE_ASSEMBLY_H_
 #define _ENGINE_ASSEMBLY_H_ 1
-#include"ExPreProcessor.h"
+#include"elt_def.h"
 #include"ExNT.h"
 #include"system/elt_event.h"
 #include"EngineEx.h"
@@ -42,9 +42,8 @@
 #define EXCAST(type,y) (type)( ( y ) )
 
 /*
-	Engine Rendering Flags
+ *	Engine Rendering Flags
  */
-
 #define ENGINE_NATIVE (1 << 7)
 #define EX_OPENGL (1 << 8)
 #define EX_OPENGLES (1 << 9)
@@ -62,8 +61,8 @@
 
 
 /*
-	high layer flag
-*/
+ *	high layer flag
+ */
 #define ELT_INIT_TIMER			0x00000001
 #define ELT_INIT_VIDEO			0x00000020
 #define ELT_INIT_AUDIO			0x00000010
@@ -80,9 +79,9 @@
 extern "C"{
 #endif
 
-/**
-    Get ELT Window default Title!
-*/
+/*
+ *   Get ELT Window default Title!
+ */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length);
 
 

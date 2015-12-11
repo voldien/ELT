@@ -30,32 +30,33 @@
 #ifdef  __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
-/**
-	Thread Priority
+
+/*
+ *	Thread Priority
 */
 #define EX_THREAD_PRIORITY_LOW 0x1
 #define EX_THREAD_PRIORITY_MEDIUM 0x2
 #define EX_THREAD_PRIORITY_HIGH 0x3
 
 
-/**
-	Create thread.
-	\callback function to invoke
-	\lpParameter
-    @return thread handle.
+/*
+ *	Create thread.
+ *	\callback function to invoke
+ *	\lpParameter
+ *	@return thread handle.
 */
 extern DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback, void* lpParamater, Uint32* pid);
 
-/**
-    Create Thread with affinity mask.
-
-    @return thread handle.
+/*
+ *    Create Thread with affinity mask.
+ *
+ *    @return thread handle.
 */
 extern DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback, void* lpParamater, Uint32* pid, unsigned int core);
 
-/**
-	Detach thread
-*/
+/*
+ *	Detach thread
+ */
 extern DECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread);
 
 
@@ -90,33 +91,33 @@ extern DECLSPEC void ELTAPIENTRY ExResumeThread(ExThread thread);
 /**/
 extern DECLSPEC void ELTAPIENTRY ExCreateThreadCondition(void);
 
-/**
-    Get current thread identification.
-	@return current thread handle.
+/*
+ *	Get current thread identification.
+ *	@return current thread handle.
 */
 extern DECLSPEC ExThread ELTAPIENTRY ExGetCurrentThread(void);
 
-/**
-	Get Thread ID
-	@return
+/*
+ *	Get Thread ID
+ *	@return
 */
 extern DECLSPEC Uint32 ELTAPIENTRY ExGetThreadID(ExThread thread);
 
-/**
-	Get Thread name by the invoked function.
-	@return get function name.
+/*
+ *	Get Thread name by the invoked function.
+ *	@return get function name.
 */
 extern DECLSPEC const char* ELTAPIENTRY ExGetThreadName(ExThread thread);
 
-/**
-	Set thread priority
-	@return
+/*
+ *	Set thread priority
+ *	@return
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread, Enum nPriority);
 
-/**
-	Wait the thread
-	@return
+/*
+ *	Wait the thread
+ *	@return
 */
 extern DECLSPEC ERESULT ELTAPIENTRY ExWaitThread(ExThread thread, Int32* status);
 

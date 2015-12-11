@@ -40,17 +40,14 @@
 #define _ENGINE_EX_API_ 1
 
 
-#include"ExPreProcessor.h"
+#include"elt_def.h"
 #include"window.h"
 #include"graphic.h"
 #include"system.h"
 #include"audio.h"
 
 
-
-// Library Import
-//define EX_AUTO_LINKER
-
+/**/
 #ifdef EX_VC
 	// debug version
 	#ifdef EX_DEBUG
@@ -68,11 +65,11 @@
 			#pragma comment(lib, "EngineEx64.lib")
 		#endif
 	#endif
-#elif defined(EX_BORDERLAND)
-#elif defined(EX_LCC)
 #elif defined(EX_APPLE)
 	#pragma comment(lib, "EngineEx.lib")
 #endif
+
+
 
 #if defined(EX_WINDOWS)
 

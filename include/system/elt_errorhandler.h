@@ -57,35 +57,38 @@ extern "C"{
 #define EX_ERROR_LOG_ERR 0x10
 
 #define EX_SIGN_
-/**
-	Error
-	application will terminate with error failure message.
-	printout of error messages.
-*/
+
+
+/*
+ *	Error
+ *	application will terminate with error failure message.
+ *	printout of error messages.
+ */
 extern DECLSPEC void ELTAPIENTRY ExError(const ExChar* error,...);
-/**
-	Error with argument of how the error will be treated
-*/
+
+/*
+ *	Error with argument of how the error will be treated
+ */
 extern DECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...);
 
-/**
-	Get Error
-*/
+/*
+ *	Get Error
+ */
 extern DECLSPEC ERESULT ELTAPIFASTENTRY ExGetError(void);
 
-/**
-	Set Error
-*/
+/*
+ *	Set Error
+ */
 extern DECLSPEC void ELTAPIFASTENTRY ExSetError(ERESULT error);
 
-/**
-	Clear Errors
-*/
+/*
+ *	Clear Errors
+ */
 extern DECLSPEC void ELTAPIFASTENTRY ExClearError(void);
 
-/**
-	// Get ELT Error String.
-	//
+/*
+ *	Get ELT Error String.
+ *	//
 */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode);
 
@@ -102,9 +105,9 @@ extern DECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode);
 #define EX_CRASH_FLOAT 0x3
 #define EX_CRASH_EXEPCTION 0x4
 
-/**
-    Initialize Error Handler
-*/
+/*
+ *    Initialize Error Handler
+ */
 extern DECLSPEC int ELTAPIENTRY ExInitErrorHandler(void);
 
 

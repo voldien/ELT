@@ -189,32 +189,36 @@ typedef struct elt_poll_events{
 
 
 /*
-	Poll Event from process.
-	\event
-	@return
+ *	Poll Event from process.
+ *	\event
+ *	@return
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
 
-/**
-	Poll event from specifed window.
-	\window
-	\event
-	@return
-*/
 /*
-// Poll Window Event information
-// *[HWND] which window to poll event information.
-//	Remark: message feed will only be apply to given HWND paramter
-//	if HWND is null all window create on this application will be update
-//	read more at MSDN for more specific information regarding PeekMessage with null HWND.
-// *[ExWindowEvent] pointer to event struct. all event will be stored in it.
-//	#return if PeekMessage was success.
-// PeekMessage : http://msdn.microsoft.com/en-us/library/windows/desktop/ms644943(v=vs.85).aspx
+ *	Poll event from specifed window.
+ *	\window
+ *	\event
+ *	@return
+*/
+
+
+/*
+ * Poll Window Event information
+ * *[HWND] which window to poll event information.
+ *	Remark: message feed will only be apply to given HWND paramter
+ *	if HWND is null all window create on this application will be update
+ *	read more at MSDN for more specific information regarding PeekMessage with null HWND.
+ * *[ExWindowEvent] pointer to event struct. all event will be stored in it.
+ *	#return if PeekMessage was success.
+ * PeekMessage : http://msdn.microsoft.com/en-us/library/windows/desktop/ms644943(v=vs.85).aspx
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event);
 
 
-/*	*/
+/*
+ *
+ */
 extern DECLSPEC Int32 ELTAPIENTRY ExForwardEvent(Uint32 event, HANDLE data, Uint32 size);
 
 
