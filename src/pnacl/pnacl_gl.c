@@ -73,7 +73,7 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
 	return glContext;
 }
 
-DECLSPEC ExBoolean ELTAPIENTRY ExDestroyContext(WindowContext drawable, OpenGLContext glc){
+DECLSPEC ExBoolean ELTAPIENTRY ExDestroyGLContext(WindowContext drawable, OpenGLContext glc){
 
 }
 

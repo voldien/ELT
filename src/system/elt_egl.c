@@ -133,4 +133,9 @@ int ExCreateEGLContextAttrib(ExWin window, int* attrib, unsigned int* size){
 	return 1;
 }
 
+
+DECLSPEC void ELTAPIENTRY ExDestroyEGLContext(OpenGLContext context){
+	eglDestroyContext(eglGetCurrentDisplay(),context);
+}
+
 #endif

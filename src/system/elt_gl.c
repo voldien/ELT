@@ -1,5 +1,5 @@
 #include"system/elt_gl.h"
-#include"ExPreProcessor.h"
+#include"elt_def.h"
 
 #ifdef EX_WINDOWS
 #include<GL/gl.h>
@@ -226,7 +226,7 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor){
 			glGetIntegerv(GL_MINOR_VERSION, minor);
 
 		ExMakeGLCurrent(0,0);
-		ExDestroyContext(NULL,glc);
+		ExDestroyGLContext(NULL,glc);
 		ExDestroyWindow(win);
 #endif
 		return version;

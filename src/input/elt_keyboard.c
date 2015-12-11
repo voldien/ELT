@@ -5,6 +5,10 @@
     #include<dbt.h>
     #include<oleauto.h>
     #include<shellapi.h>
+	#ifndef DIRECTINPUT_VERSION
+		#define DIRECTINPUT_VERSION 0x800
+	#endif
+
 #elif defined(EX_LINUX)
     #include<X11/Xlib.h>
     #include<X11/keysym.h>
@@ -22,8 +26,6 @@
 #endif
 
 unsigned char KeyBoardState[2][0xFF];
-
-
 
 static inline int ExGetKeyCodeInternal(Uint32 keyCode){
     int keysym;
@@ -248,7 +250,6 @@ static inline int ExGetKeyCodeInternal(Uint32 keyCode){
     }
     return keysym;
 }
-
 
 
 

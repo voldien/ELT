@@ -28,9 +28,8 @@
 
 #define GL_GET_PROC(x) glXGetProcAddress((const char*)( x ) )           /**  get OpenGL function process address */
 
-
-
 extern int isExtensionSupported(const char* extList, const char* extension);
+
 
 #define PIXATTOFFSET 8	/*	offset to variable	*/
 int pixAtt[] = {
@@ -38,7 +37,8 @@ int pixAtt[] = {
 	GLX_X_RENDERABLE, True,
 	GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
 	GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
-	/**/
+
+	/*	*/
 	GLX_RED_SIZE,8,
 	GLX_GREEN_SIZE,8,
 	GLX_BLUE_SIZE,8,
@@ -50,7 +50,8 @@ int pixAtt[] = {
 	GLX_ACCUM_GREEN_SIZE,0,
 	GLX_ACCUM_BLUE_SIZE,0,
 	GLX_ACCUM_ALPHA_SIZE,0,
-	//GLX_
+
+	/*	GLX	*/
 	GLX_STEREO,0,
 	GLX_SAMPLE_BUFFERS_ARB,0,
 	GLX_SAMPLES_ARB,0,
@@ -60,9 +61,9 @@ int pixAtt[] = {
     GLX_CONTEXT_MINOR_VERSION_ARB,0,
 
     #ifdef EX_DEBUG
-    GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_DEBUG_BIT_ARB | GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,   /*  Debug TODO add hint*/
+    GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_DEBUG_BIT_ARB ,   /*  Debug TODO add hint*/
     #else
-    GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
+    GLX_CONTEXT_FLAGS_ARB, 0,
     #endif
 
 	GLX_CONTEXT_PROFILE_MASK_ARB, GLX_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
@@ -310,9 +311,11 @@ int ELTAPIENTRY ExOpenGLGetAttribute(unsigned int attr, int* value){
 
 void ELTAPIENTRY ExOpenGLResetAttributes(void){
 
+
+
 }
 
-DECLSPEC ExBoolean ELTAPIENTRY ExDestroyContext(WindowContext drawable, OpenGLContext glc){
+DECLSPEC ExBoolean ELTAPIENTRY ExDestroyGLContext(WindowContext drawable, OpenGLContext glc){
 	ExBoolean hr = 1;
 
     if(!ExMakeGLCurrent(NULL,NULL)){

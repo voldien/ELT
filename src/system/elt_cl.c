@@ -1,5 +1,5 @@
 #include"system/elt_cl.h"
-#include"ExPreProcessor.h"
+#include"elt_def.h"
 #include"system/elt_file.h"
 #if defined(EX_WINDOWS)
 #   define OPENCL_LIBRARY_NAME EX_TEXT("OpenCL.dll")
@@ -316,7 +316,7 @@ ERESULT ELTAPIENTRY ExQueryCLContext(void* context,void* param_value,Enum param_
 
 
 
-void ELTAPIENTRY ExReleaseCLContext(void* context){
+void ELTAPIENTRY ExDestroyCLContext(void* context){
 	clReleaseContext((cl_context)context);
 }
 

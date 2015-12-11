@@ -1,5 +1,5 @@
 #include"EngineEx.h"
-#include"ExPreProcessor.h"
+#include"elt_def.h"
 #include"system/elt_cl.h"
 #include"system/elt_gl.h"
 #include"system/elt_errorhandler.h"
@@ -305,7 +305,7 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 
 
 	/*	delete opencl and opengl context*/
-	ExDestroyContext(ExGetCurrentGLDrawable(), ExGetCurrentOpenGLContext());
+	ExDestroyGLContext(ExGetCurrentGLDrawable(), ExGetCurrentOpenGLContext());
 
 	ExUnRegisterClasses();
 
@@ -325,12 +325,12 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 
 
 #ifndef DONT_SUPPORT_OPENCL
-	ExReleaseCLContext(ExGetCurrentCLContext());
+	ExDestroyCLContext(ExGetCurrentCLContext());
 #endif
 
 
 	if(ExGetCurrentOpenGLContext())
-		ExDestroyContext(ExGetCurrentGLDrawable(), ExGetCurrentOpenGLContext());
+		ExDestroyGLContext(ExGetCurrentGLDrawable(), ExGetCurrentOpenGLContext());
 
 	if(eglGetCurrentDisplay())
 		eglTerminate(eglGetCurrentDisplay());

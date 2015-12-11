@@ -23,6 +23,9 @@
 #include"system/elt_gl.h"
 
 
+#ifndef _NET_WM_STATE_ADD
+	#define _NET_WM_STATE_ADD	1
+#endif
 
 ExDisplay display = 0;
 void* m_connection = 0;		/*	todo take a loot*/
@@ -219,6 +222,28 @@ DECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin window){
     XDestroyWindow(display, window);
 }
 
+DECLSPEC void ELTAPIENTRY ExMaximizeWindow(ExWin window){
+	XEvent xev;
+	Atom wm_state = XInternAtom(display, "_NET_WM_STATE", False);
+	Atom max_horz = XInternAtom(display, "_NET_WM_STATE_MAXIMIZED_HORZ", False);
+	Atom max_vert = XInternAtom(display, "_NET_WM_STATE_MAXIMIZED_VERT", False);
+
+	memset(&xev,0,sizeof(xev));
+	xev.type = ClientMessage;
+	xev.xclient.window = window;
+	xev.xclient.message_type = wm_state;
+	xev.xclient.format = 32;
+	xev.xclient.data.l[0] = _NET_WM_STATE_ADD;
+	xev.xclient.data.l[1] = max_horz;
+	xev.xclient.data.l[2] = max_vert;
+
+	XSendEvent(display, DefaultRootWindow(display), False, SubstructureNotifyMask, &xev);
+}
+
+DECLSPEC void ELTAPIENTRY ExMinimizeWindow(ExWin window){
+
+}
+
 DECLSPEC void ELTAPIENTRY ExSetWindowMode(ExWin window, Enum mode){
     if(mode & EX_WIN_SCREENSAVER_ENABLE){
 
@@ -290,7 +315,6 @@ DECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, ExSize* size){
 	size->height= xwa.height;
 }
 
-
 DECLSPEC void ELTAPIENTRY ExSetWindowRect(ExWin window, const ExRect* rect){
 	XMoveWindow(display,(Window)window,rect->x,rect->y);
 	XResizeWindow(display,(Window)window,rect->width - rect->x,rect->height - rect->y);
@@ -312,7 +336,6 @@ DECLSPEC Uint32 ELTAPIENTRY ExGetWindowFlag(ExWin window){
 	XGetWindowAttributes(display, (Window*)window,&xwa);
 	return xwa.all_event_masks;
 }
-
 
 
 DECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, HANDLE hIcon){

@@ -141,7 +141,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 #if  defined(EX_INCLUDE_DIRECTX)
 	else if(flag & EX_DIRECTX){
 		window = ExCreateDirectXWindow(x,y,width, height);
-		directx = (void*)ExInitDirectX(window);
+		directx = (void*)ExCreateDirectXContext(window);
 #ifndef DONT_SUPPORT_OPENCL
 		if(flag & EX_OPENCL)
             ExCreateCLSharedContext((OpenGLContext)directx,GetDC(window),EX_DIRECTX);
