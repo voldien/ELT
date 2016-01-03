@@ -15,7 +15,10 @@
 Uint64 eltTickTime = 0;
 
 #define CLOCKID CLOCK_REALTIME
+<<<<<<< HEAD
 #define SIG SIGUSR2
+=======
+>>>>>>> d059ba6e572554429ab54f107c82c3e74aaf0dde
 
 DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback, void* param){
 	Uint32 pid;
@@ -36,15 +39,19 @@ DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback,
 	sigset_t mask;
 	struct sigaction sa;
 
+<<<<<<< HEAD
 	ExPrintf("Establishing handler for signal %d\n", SIG);
 
+=======
+	printf("Establishing handler for signal %d\n", SIGUSR1);
+>>>>>>> d059ba6e572554429ab54f107c82c3e74aaf0dde
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = callback;
 	sigemptyset(&sa.sa_mask);
-	sigaction(SIG, &sa, NULL);
+	sigaction(SIGUSR1, &sa, NULL);
 
 	sev.sigev_notify = SIGEV_SIGNAL;
-	sev.sigev_signo = SIG;
+	sev.sigev_signo = SIGUSR1;
 	sev.sigev_value.sival_ptr = &timerid;
 	timer_create(CLOCKID, &sev, &timerid);
 

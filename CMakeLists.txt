@@ -1,15 +1,17 @@
-#!/bin/bash
+
 cmake_minimum_required(VERSION 2.8)
 project(ELT)
 
 #	build shared/dynamic library option
 option(BUILD_SHARED_LIBS "Build package with shared libraries." ON)
+
 if(NOT BUILD_SHARED_LIBS)
 	set(CMAKE_EXE_LINKER_FLAGS "-static")
 	set(LINK_SEARCH_START_STATIC TRUE)	
 endif(NOT BUILD_SHARED_LIBS)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
+INCLUDE_DIRECTORIES(include)
 
 
 set (ELT_VERSION_MAJOR 0)
@@ -40,7 +42,7 @@ endif()
 #	gnu compiler
 if((CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX) AND NOT CMAKE_COMPILER_IS_MINGW)
 	if(BUILD_SHARED_LIBS)
-	add_definitions(-fPIC)
+		add_definitions(-fPIC)
 	endif()
 	add_definitions(-fvisibility=hidden -Wall)
 elseif(MSVC)
@@ -69,6 +71,8 @@ elseif (APPLE)
 
     set(_EX_NSGL 1)
     message(STATUS "Using NSGL for context creation")
+
+
 elseif (UNIX)
 
     if (EX_USE_WAYLAND)
@@ -87,14 +91,15 @@ elseif (UNIX)
         message(STATUS "Using GLX for context creation")
     endif()
 
+
 else()
+
     message(FATAL_ERROR "No supported platform was detected")
 endif()
 
 
 
 
-INCLUDE_DIRECTORIES(include)
 
 
 # TODO make it compadiable for what platform to port to.
@@ -107,9 +112,10 @@ FILE(GLOB _srcFiles
 )
 
 add_library(EngineEx ${_srcFiles})
+target_link_libraries(EngineEx GL X11 OpenCL)
+
+
 # add the install targets
 install (TARGETS EngineEx DESTINATION lib)
 install (FILES include/*.h DESTINATION include)
-
-
 
