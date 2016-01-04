@@ -10,8 +10,6 @@
 #   include<X11/Xlib.h>
 #   include<X11/extensions/Xrandr.h>
 
-
-
 DECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName){
     pid_t pid;
     pid = fork();
@@ -38,12 +36,11 @@ DECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName){
 }
 
 
-DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName, ...){
+DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName,...){
 	va_list argptr;
 	ExChar argv[1024]= {0};
 	ExChar* arg_temp;
 	va_start(argptr,applicationName);
-
 
     pid_t pid;
     // TODO FIX
@@ -52,16 +49,20 @@ DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName, ...){
 		wcscat(argv,EX_TEXT(" "));
 		continue;
 	}*/
+
 	va_end(argptr);
+
+	/*	make a copy of the process.	*/
     pid = fork();
     switch(pid){
         case -1:{
             fprintf(stderr,strerror(errno));
             kill(pid,9);
             return 0;
+
         }break;
         case 0:{
-	/*	TODO some error when arm */
+        	/*	TODO some error when arm */
             if(execv(applicationName,(const char*)applicationName + sizeof(void*) ) == -1)
                 fprintf(stderr,strerror(errno));
 	}break;
@@ -118,7 +119,7 @@ DECLSPEC void ELTAPIENTRY ExGetMonitorSize(Uint32 index, ExSize* size){
 
 
 
-DECLSPEC int ELTAPIENTRY ExGetMonitorSizes(Uint index, Uint* num, ExSize*sizes){
+DECLSPEC Int32 ELTAPIENTRY ExGetMonitorSizes(Uint index, Uint* num, ExSize*sizes){
 	XRRScreenResources *screen;
 	XRROutputInfo *info;
 	XRRCrtcInfo *crtc_info;
@@ -144,16 +145,13 @@ DECLSPEC int ELTAPIENTRY ExGetMonitorSizes(Uint index, Uint* num, ExSize*sizes){
 }
 
 
-
-
 DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenRect(ExRect* rect){
-
 	Screen* scrn = DefaultScreenOfDisplay(display);
+
 	rect->x = 0;
 	rect->y = 0;
 	rect->width = scrn->width;
 	rect->height = scrn->height;
-
 }
 
 DECLSPEC void ELTAPIENTRY ExGetMonitorRect(Uint32 index, ExRect* rect){
@@ -176,7 +174,7 @@ DECLSPEC Int32 ELTAPIENTRY ExGetMonitorHz(Uint32 index){
 }
 
 
-const char* ELTAPIENTRY ExGetPlatform(void){
+const ExChar* ELTAPIENTRY ExGetPlatform(void){
 
 	struct utsname name;
 
@@ -190,7 +188,6 @@ const char* ELTAPIENTRY ExGetPlatform(void){
 
 DECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct){
 
-
     if(sec)
         *sec = 1;
     if(pct)
@@ -202,18 +199,17 @@ DECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct){
 
 
 DECLSPEC void ELTAPIENTRY ExGetExecutePath(ExChar* wChar, Int32 length){
-
+	/**/
     extern char* __progname;
+
     memcpy(wChar,/*program_invocation_name*/__progname,length);
-
-
 }
+
 DECLSPEC void ELTAPIENTRY ExGetAppliationPath(ExChar* path, Int32 length){
     //readlink()
 	getcwd(path,length);
-
 }
-//function manually
+
 DECLSPEC ExChar* ELTAPIENTRY ExGetApplicationName(ExChar* name,Int32 length){
 
 #   if defined(EX_GNUC) || defined(EX_GNUC)
@@ -237,16 +233,15 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetCurrentDirectory(void){
 
 }
 
-DECLSPEC int ELTAPIENTRY ExSetCurrentDirectory (const char* cdirectory){
-
+DECLSPEC Int32 ELTAPIENTRY ExSetCurrentDirectory (const char* cdirectory){
 	return chdir(cdirectory);
 }
 
 
 
 DECLSPEC Uint64 ELTAPIENTRY ExGetTotalSystemMemory(void){
-
     struct sysinfo sys_info;
+
     sysinfo(&sys_info);
 	return sys_info.totalram;
 
@@ -256,49 +251,41 @@ DECLSPEC Uint64 ELTAPIENTRY ExGetTotalVirtualMemory(void){
     struct sysinfo sys_info;
     sysinfo(&sys_info);
 	return sys_info.totalswap;
-
 }
-
-
-
 
 DECLSPEC const ExChar* ELTAPIENTRY ExGetOSName(void){
-    return "Linux";
-	struct utsname _name;
-	if(uname(&_name) != EFAULT)
-		return _name.sysname;
-	else return EX_TEXT("linux");
+	struct utsname name;
+	if(uname(&name) != EFAULT)
+		return name.sysname;
+	else
+		return EX_TEXT("linux");
 
 }
 
-DECLSPEC ExChar* ELTAPIENTRY ExGetCurrentUser(void){
+DECLSPEC const ExChar* ELTAPIENTRY ExGetCurrentUser(void){
 	return getenv("USER");
-
 }
 
 
 
 DECLSPEC Int32 ELTAPIENTRY ExSetClipboardText(const ExChar* text){
 
-	return 0;
+	return NULL;
 }
 
-
-// get clipboard text
 DECLSPEC ExChar* ELTAPIENTRY ExGetClipboardText(void){
-	return 0;
+
+	return NULL;
 }
 
 
-//InternetOpenUrl
 DECLSPEC void* ELTAPIENTRY ExDownloadURL(const ExChar* url){
+	ExSocket sock = ExOpenSocket(ELT_TCP);
 
-	return 0;
+	if(ExConnectSocket(ExGetHostIp(url),80)){
 
-}
-
-
-DECLSPEC ERESULT ELTAPIENTRY ExPutFTPFile(const ExChar* ftp, const ExChar* user, const ExChar* password,const ExChar* file, const ExChar* directory){
+	}
+	ExCloseSocket(sock);
 	return 0;
 }
 

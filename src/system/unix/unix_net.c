@@ -22,11 +22,13 @@ static int ip_exists(const char* ip){
 	return TRUE;
 }
 
-DECLSPEC ExSocket ELTAPIENTRY ExOpenSocket(unsigned int protocol){
+
+ExSocket ELTAPIENTRY ExOpenSocket(unsigned int protocol){
     unsigned int sockfd;
     unsigned int sock_domain,socket_protocol;
     struct sockaddr_in serv_addr, cli_addr;
 
+    /*	*/
     if(protocol & ELT_LOCAL){
         sock_domain = PF_LOCAL;
         socket_protocol = 0;
@@ -70,14 +72,13 @@ DECLSPEC ExSocket ELTAPIENTRY ExOpenSocket(unsigned int protocol){
 
 
 
-inline
-DECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(ExSocket socket){
+inline unsigned int ELTAPIENTRY ExCloseSocket(ExSocket socket){
     return close(socket);
 }
 
 
 
-DECLSPEC ExSocket ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port, ExSocket socket){
+ExSocket ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port, ExSocket socket){
     unsigned int sock_domain,socket_protocol;
     struct sockaddr_in serv_addr, cli_addr;
 
@@ -100,11 +101,12 @@ DECLSPEC ExSocket ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port, Ex
 }
 
 
-DECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int port){
+ExSocket ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int port){
 
     struct sockaddr_in serv_addr;
     struct hostent *server;
     ExSocket sockfd;
+
     /**/
     sockfd = ExOpenSocket(ELT_CLIENT);
 
@@ -128,11 +130,12 @@ DECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int port)
 }
 
 
-int ExGetHostIp(char* ip){
+int ExGetHostIp(char* host){
     int fd;
     struct ifreq ifr;
 
-    if((fd = socket(AF_INET, SOCK_DGRAM,0)) < 0){   /**/
+    /**/
+    if((fd = socket(AF_INET, SOCK_DGRAM,0)) < 0){
         fprintf(stderr,strerror(errno));
         return -1;
     }
@@ -145,11 +148,11 @@ int ExGetHostIp(char* ip){
 
     close(fd);
 
-    memcpy(ip,
+    memcpy(host,
            inet_ntoa(((struct sockaddr_in*)&ifr.ifr_addr)->sin_addr),
            strlen(inet_ntoa(((struct sockaddr_in*)&ifr.ifr_addr)->sin_addr)));
 
-    ip[strlen(inet_ntoa(((struct sockaddr_in*)&ifr.ifr_addr)->sin_addr))] = '\0';   /*end the string*/
+    host[strlen(inet_ntoa(((struct sockaddr_in*)&ifr.ifr_addr)->sin_addr))] = '\0';   /*end the string*/
 
     return TRUE;
 }

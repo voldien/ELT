@@ -1,5 +1,5 @@
 #include"system/unix/unix_win.h"
-#ifdef EX_LINUX
+
 #include<unistd.h>
 #include<stdio.h>
 #include<stdlib.h>
@@ -98,9 +98,6 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, I
 	return window;
 }
 
-/**
-    Create a Window defined for OpenGL X purpose
-*/
 DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 height, void** pglx_window){
 	XVisualInfo* vi;
 	int screen;
@@ -193,7 +190,6 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int3
 	return window;
 }
 
-
 DECLSPEC int ExSupportOpenGL(void){
     int major,minor;
 	if(!glXQueryVersion(display,&major,&minor)){
@@ -202,10 +198,10 @@ DECLSPEC int ExSupportOpenGL(void){
     }
     return TRUE;
 }
-#endif
 
 
 
+/*	=============================================================	*/
 
 /*	=============================================================	*/
 
@@ -359,6 +355,7 @@ DECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, HANDLE hIcon){
       fprintf(stderr, "%s: failure allocating memory", "ELT");
       return FALSE;
     }*/
+
     Atom net_wm_icon = XInternAtom(display, "_NET_WM_ICON", False);
     Atom cardinal = XInternAtom(display, "CARDINAL", False);
 
@@ -378,7 +375,6 @@ DECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, HANDLE hIcon){
 }
 
 DECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window){
-
 
     return NULL;
 }
@@ -440,10 +436,6 @@ DECLSPEC Int32 ELTAPIENTRY ExSetWindowFullScreen(ExWin window, ExBoolean flag){
 
 
 
-
-
-
-
 DECLSPEC HANDLE ELTAPIENTRY ExGetWindowUserData(ExWin window){
 	HANDLE data;
 	//XGetWindowProperty(display,window,NULL,0,0,0,0,)
@@ -453,23 +445,22 @@ DECLSPEC HANDLE ELTAPIENTRY ExGetWindowUserData(ExWin window){
 }
 
 DECLSPEC void ELTAPIENTRY ExSetWindowUserData(ExWin window, HANDLE userdata){
-
-
+	//XGetWindowProperty(display,window,NULL,0,0,0,0,)
+	//XAssocTable table;
+	//XLookUpAssoc(display, &table, window);
 }
 
 
 
 
-DECLSPEC int ELTAPIENTRY ExSetWindowParent(ExWin parent,ExWin window){
-#ifdef EX_LINUX
+DECLSPEC Int32 ELTAPIENTRY ExSetWindowParent(ExWin parent,ExWin window){
 	int pos[2];
 	ExGetWindowPosv(parent,pos);
 	return XReparentWindow(display,window,parent,pos[0],pos[1]);
-#endif
 }
 
 DECLSPEC ExWin ELTAPIENTRY ExGetWindowParent(ExWin window){
-#ifdef EX_LINUX
+
 	int screen = DefaultScreen(display);
 	ExWin root = RootWindow(display,screen);
 	ExWin parent;
@@ -479,19 +470,16 @@ DECLSPEC ExWin ELTAPIENTRY ExGetWindowParent(ExWin window){
 
 	XQueryTree(display, window, &win, &parent, &children, &n);
 	return parent;
-#endif
+
 }
 
- DECLSPEC int ELTAPIENTRY ExSetWindowChild(ExWin window,ExWin child){
-#ifdef EX_LINUX
-		int pos[2];
-		ExGetWindowPosv(window,pos);
-		return XReparentWindow(display,child,window,pos[0],pos[1]);
-#endif
+ DECLSPEC Int32 ELTAPIENTRY ExSetWindowChild(ExWin window,ExWin child){
+	Int32 pos[2];
+	ExGetWindowPosv(window,pos);
+	return XReparentWindow(display,child,window,pos[0],pos[1]);
 }
 
  DECLSPEC ExWin ELTAPIENTRY ExGetWindowChild(ExWin window,unsigned int index){
-#ifdef EX_LINUX
 	int screen = DefaultScreen(display);
 	ExWin root = RootWindow(display,screen);
 	ExWin parent;
@@ -501,11 +489,11 @@ DECLSPEC ExWin ELTAPIENTRY ExGetWindowParent(ExWin window){
 
 	XQueryTree(display, window, &win, &parent, &children, &n);
 	return children[index];
-#endif
+
 }
 
-DECLSPEC int ELTAPIENTRY ExGetWindowNumChildren(ExWin window){
-#ifdef EX_LINUX
+DECLSPEC Int32 ELTAPIENTRY ExGetWindowNumChildren(ExWin window){
+
 	int screen = DefaultScreen(display);
 	ExWin root = RootWindow(display,screen);
 	ExWin parent;
@@ -515,7 +503,6 @@ DECLSPEC int ELTAPIENTRY ExGetWindowNumChildren(ExWin window){
 
 	XQueryTree(display, window, &win, &parent, &children, &n);
 	return n;
-#endif
 }
 
 
