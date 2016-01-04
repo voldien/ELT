@@ -47,6 +47,10 @@ extern "C"{
 #define EX_DIRECTX_WINDOW_CLASS EX_TEXT("DirectX_Window")
 
 typedef struct desktop_window{	// Use of When Application InterFace is Hooked up With Desktop Handles.
+
+	/*
+	 *
+	 */
 	HWND hookDesktop;
 	HHOOK hHookCallWndProc;
 	HHOOK hHookCallGetMessage;
@@ -65,7 +69,14 @@ typedef struct event_handler{
 }EventHandler;
 
 typedef struct ex_nativ_window_handler{
+	/*
+	 *
+	 */
 	Enum windowFlag;
+
+	/*
+	 *
+	 */
 	EventHandler events;
 }ExNativWindowHandler;
 
@@ -77,13 +88,14 @@ typedef struct ex_gl_window_handler{
 typedef struct WindowEvent{
 	MSG msg;
 }Wevent, *Hevent;
+
 extern CallBack ExOnFocus;
 extern CallBack ExOnUnFocus;
 
 
 /*
  *	UnRegister all Windows
-*/
+ */
 extern DECLSPEC void ELTAPIENTRY ExUnRegisterClasses(void);
 
 /*

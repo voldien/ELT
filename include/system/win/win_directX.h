@@ -25,10 +25,10 @@ extern "C"{
 #endif
 
 
-/**
-	Get 3D Context
-    @return
-*/
+/*
+ *	Get 3D Context
+ *  @return
+ */
 extern DECLSPEC HANDLE ELTAPIFASTENTRY ExGetD3D(void);
 /*
  *	Get Direct3D Context
@@ -36,9 +36,9 @@ extern DECLSPEC HANDLE ELTAPIFASTENTRY ExGetD3D(void);
  */
 extern DECLSPEC HANDLE ELTAPIFASTENTRY ExGetDirect3D(void);
 
-/**
-    @return
-*/
+/*
+ *    @return
+ */
 extern DECLSPEC ERESULT ELTAPIENTRY ExCreateDirectXContext(ExWin window);
 
 

@@ -64,11 +64,11 @@ typedef struct ex_text_input_event{
 /*
 	//Assign the event control
 */
-extern DECLSPEC void ELTAPIENTRY ExSetControlEvent(ExWin hWnd,const HANDLE eventHandle);
+extern DECLSPEC void ELTAPIENTRY ExSetControlEvent(ExWin hWnd, const HANDLE eventHandle);
 /*
 
 */
-extern DECLSPEC void ELTAPIENTRY ExSetControlEventv(ExWin hWnd,const HANDLE eventHandle, Uint32 size);
+extern DECLSPEC void ELTAPIENTRY ExSetControlEventv(ExWin hWnd, const HANDLE eventHandle, Uint32 size);
 
 /*	Get Control Event of the Window*/
 extern DECLSPEC void* ELTAPIENTRY ExGetControlEvent(ExWin hWnd);
@@ -103,11 +103,11 @@ extern DECLSPEC HMENU ELTAPIENTRY ExCreateMainMenu(ExWin hwnd);
 	AppendMenu(hsubMenu,MF_STRING,ID, string);
 
 
-extern DECLSPEC HMENU ELTAPIENTRY ExCreatePopupMenu(HMENU hMenu,const ExChar* string);
-extern DECLSPEC HMENU ELTAPIENTRY ExCreatePopupMenuB(HMENU hMenu,HBITMAP bitmap);
+extern DECLSPEC HMENU ELTAPIENTRY ExCreatePopupMenu(HMENU hMenu, const ExChar* string);
+extern DECLSPEC HMENU ELTAPIENTRY ExCreatePopupMenuB(HMENU hMenu, HBITMAP bitmap);
 
-extern DECLSPEC HMENU ELTAPIENTRY ExCreatePopUpMenuItem2(HMENU hpopupMenu,const ExChar* string, CallBack callback);
-extern DECLSPEC HMENU ELTAPIENTRY ExCreatePopUpMenuItem(HMENU hpopupMenu,const ExChar* string, Uint32 ID);
+extern DECLSPEC HMENU ELTAPIENTRY ExCreatePopUpMenuItem2(HMENU hpopupMenu, const ExChar* string, CallBack callback);
+extern DECLSPEC HMENU ELTAPIENTRY ExCreatePopUpMenuItem(HMENU hpopupMenu, const ExChar* string, Uint32 ID);
 /**/
 extern DECLSPEC HMENU ELTAPIENTRY ExCreateMenuItemB(HMENU hpopupMenu, HBITMAP bitmap,  CallBack callback);
 

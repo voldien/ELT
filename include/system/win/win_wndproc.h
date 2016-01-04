@@ -21,7 +21,7 @@
 #include"win_win32.h"
 
 /*
- *	## user defied window message
+ *	User defined window message
  */
 #define WM_USER_SIZE (WM_USER + 1)
 
@@ -43,6 +43,7 @@ extern DECLSPEC void ELTAPIENTRY ExEnableAltTab(void);
  *
  */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExEnableDeviceNotification(ExWin hWnd);
+
 /*
  *	//	main window procedure
  *	//	Remark :
@@ -55,17 +56,23 @@ extern DECLSPEC ExBoolean ELTAPIENTRY ExEnableDeviceNotification(ExWin hWnd);
 extern DECLSPEC ERESULT ELTAPISTDENTRY ExMainWndProc(ExWin hWnd, Uint uMsg, WPARAM wParam, LPARAM lParam);
 
 /*
- *	native windows. designed for user interface handling
- *
+ *	native windows. designed for user interface handling.
  */
 extern DECLSPEC ERESULT ELTAPISTDENTRY ExWndProcNative(ExWin hWnd, Uint uMsg, WPARAM wParam, LPARAM lParam);
-/**
-	On Window Context menu
-*/
+
+/*
+ *	On Window Context menu.
+ */
 extern DECLSPEC BOOL ELTAPISTDENTRY ExOnContextMenu(ExWin hWnd,Int32 x, Int32 y);
-/*	On Window Context menu	*/
+
+/*
+ *	On Window Context menu.
+ */
 extern DECLSPEC BOOL ELTAPISTDENTRY ExOnContextMenu2(ExWin hWnd, HMENU hmenu, Int32 x, Int32 y);
-/*	Display Window Context	*/
+
+/*
+ *	Display Window Context.
+ */
 extern DECLSPEC BOOL ELTAPISTDENTRY ExDisplayContextMenu(ExWin hWnd, POINT* pt);
 
 /*

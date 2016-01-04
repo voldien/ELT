@@ -27,7 +27,6 @@ DECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName){
 
 }
 
-
 DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName, ...){
 	va_list argptr;
 	ExChar argv[1024]= {0};
@@ -114,7 +113,6 @@ const char* ELTAPIENTRY ExGetPlatform(void){
 
 }
 
-
 DECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct){
 	SYSTEM_POWER_STATUS spsPwr;
 	if(!GetSystemPowerStatus(&spsPwr))
@@ -133,6 +131,7 @@ DECLSPEC void ELTAPIENTRY ExGetExecutePath(ExChar* wChar, Int32 length){
 DECLSPEC void ELTAPIENTRY ExGetAppliationPath(ExChar* path, Int32 length){
 	ExIsError(GetCurrentDirectory(length,path));
 }
+
 //function manually
 DECLSPEC ExChar* ELTAPIENTRY ExGetApplicationName(ExChar* name,Int32 length){
 	ExChar path[MAX_PATH];
@@ -282,33 +281,6 @@ DECLSPEC void* ELTAPIENTRY ExDownloadURL(const ExChar* url){
 }
 
 
-DECLSPEC ERESULT ELTAPIENTRY ExPutFTPFile(const ExChar* ftp, const ExChar* user, const ExChar* password,const ExChar* file, const ExChar* directory){
-
-	HINTERNET hInternet;
-	HINTERNET hFtpSession;
-	hInternet = InternetOpen(NULL,INTERNET_OPEN_TYPE_PRECONFIG,NULL,NULL,0);
-	if(!hInternet)
-		return E_FAILURE;
-	hFtpSession = InternetConnect(hInternet,(LPTSTR)ftp , INTERNET_DEFAULT_FTP_PORT, (LPTSTR)user, (LPTSTR)password, INTERNET_SERVICE_FTP, 0, 0);
-	if(directory)
-	FtpSetCurrentDirectory(hFtpSession,directory);
-	if(!hFtpSession)
-		return E_FAILURE;
-	if(!FtpPutFile(hFtpSession,file,file, FTP_TRANSFER_TYPE_ASCII, 0))
-		ExIsError(0);
-	InternetCloseHandle(hFtpSession);
-	InternetCloseHandle(hInternet);
-	return TRUE;
-}
-
-
-
-
-
-
-
-
-
 
 
 DECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetMonitor(Uint32 index){
@@ -360,6 +332,7 @@ BOOL CALLBACK EnumWindowsProc(_In_  ExWin hwnd,_In_  LPARAM lParam){
 	//*(Uint*)lParam+= isVis;
 	return TRUE; 
 }
+
 
 DECLSPEC Uint32 ELTAPIENTRY ExGetWindowChildCount(ExWin hwnd){
 	Uint32 icount = 0;

@@ -8,7 +8,8 @@
 
 WSADATA wsadata = {0};
 #define EX_WSA_VERSION MAKEWORD(2,2)
-static int inline init_wsa(void){  /*  initialize was*/
+
+static inline  int init_wsa(void){  /*  initialize was*/
 	if(wsadata.wVersion != EX_WSA_VERSION){
 		if(!WSAStartup(EX_WSA_VERSION, &wsadata))return -1;
 	}

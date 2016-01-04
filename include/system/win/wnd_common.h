@@ -33,10 +33,16 @@ extern "C"{
 
 
 
-/* Get Monitor Display Device*/
+/*
+ *	Get Monitor Display Device
+ */
 extern DECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetMonitor(Uint32 index);
-/* Get Monitor Display Device. if index isn't value. then it will decriment intill a valid monitor Index*/
+
+/*
+ *	Get Monitor Display Device. if index isn't value. then it will decriment intill a valid monitor Index
+ */
 extern DECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetSafeMonitor(Uint32 index);
+
 /* Get Primary Montior Display Device.*/
 extern DECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetPrimaryMontior(void);
 
@@ -97,30 +103,8 @@ extern DECLSPEC void ELTAPIENTRY ExCreateFileExts(const ExChar* filetype);
 extern DECLSPEC void ELTAPIENTRY ExCreateFileExtsDesc(const ExChar* filetype,const ExChar* description);
 extern DECLSPEC ExBoolean ELTAPIENTRY ExRemoveFileExts(const ExChar* filetype);
 
-#ifdef __cplusplus // C++ environment
+#ifdef __cplusplus	/*	C++ environment	*/
 }
-#endif
-
-typedef struct filefolderA{
-	char** file;
-	unsigned int filecount;
-}FILE_FOLDER_A;
-typedef struct filefolderW{
-	wchar_t** file;
-	unsigned int filecount;
-}FILE_FOLDER_W;
-
-// UNICODE
-#ifdef EX_UNCIODE
-	#define ExGetFolderFilePath ExGetFolderFilePathW
-	#define ExGetFolderDirectoryPath ExGetFolderDirectoryPathW
-	#define ExGetFolderFileName ExGetFolderFileNameW
-	typedef FolderListW FolderList;
-#else
-	#define ExGetFolderFilePath ExGetFolderFilePathA
-	#define ExGetFolderDirectoryPath ExGetFolderDirectoryPathA
-	#define ExGetFolderFileName ExGetFolderFileNameA
-	//typedef FolderListA FolderList;
 #endif
 
 #endif

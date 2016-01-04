@@ -4,12 +4,10 @@
 #include<uxtheme.h>
 #include<winuser.h>
 
-	#include <commctrl.h>
-	#pragma comment(lib, "comctl32.lib")
-	#	pragma comment(linker,"\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
+#include <commctrl.h>
+#pragma comment(lib, "comctl32.lib")
+#	pragma comment(linker,"\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
-
-/* ELT Event handler system	*/
 DECLSPEC void ELTAPIENTRY ExSetControlEvent(ExWin hWnd,const HANDLE eventHandle){
 	if(!SetWindowLongPtr(hWnd,GWLP_USERDATA, (LONG_PTR)eventHandle) && !(eventHandle)){
 		// Ex Control Event assignment failed.

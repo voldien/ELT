@@ -14,6 +14,7 @@ LPDIRECT3DDEVICE9 directDevice = NULL;
 DECLSPEC void* ELTAPIFASTENTRY ExGetD3D(void){
 	return d3d;
 }
+
 DECLSPEC void* ELTAPIFASTENTRY ExGetDirect3D(void){
 	return directDevice;
 }

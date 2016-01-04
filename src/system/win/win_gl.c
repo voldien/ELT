@@ -260,7 +260,8 @@ static OpenGLContext create_temp_gl_context(HWND window){
 	return gl_context;
 }
 
-static HWND create_temp_gl_win(OpenGLContext* pglc_context){
+
+static HWND create_temp_gl_win(ExOpenGLContext* pglc_context){
     ExWin hwnd;
     OpenGLContext glc;
     WNDCLASSEX  wc= {0};
@@ -300,8 +301,8 @@ static HWND create_temp_gl_win(OpenGLContext* pglc_context){
 }
 
 
-OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
-	OpenGLContext glc = NULL;
+OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shared){
+	ExOpenGLContext glc = NULL;
 	unsigned int render_vendor;
 
 
@@ -316,7 +317,7 @@ OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
 	HDC hDC;
 	int pixAttribs[60] = {0};
 	int pixelFormat[1];
-	int major_version = 0, minor_version = 0;
+	int major = 0, minor = 0;
 	int attrib[] = {WGL_NUMBER_PIXEL_FORMATS_ARB};
 	int nResults[1] ={0};
 	int pixFmt = 1;
@@ -340,8 +341,8 @@ OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
    /**
 		Get supported opengl version.
    */
-   glGetIntegerv(GL_MAJOR_VERSION, &major_version);
-   glGetIntegerv(GL_MINOR_VERSION, &minor_version);
+   glGetIntegerv(GL_MAJOR_VERSION, &major);
+   glGetIntegerv(GL_MINOR_VERSION, &minor);
 
 	//ExGLPrintDevInfo();
 	hDC = GetDC(window);
@@ -373,8 +374,8 @@ OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
        Context attributes
    */
    int context_attribs[]={
-	WGL_CONTEXT_MAJOR_VERSION_ARB, !major_version ? ((ExGetOpenGLVersion(NULL,NULL) - (ExGetOpenGLVersion(NULL,NULL) % 100)) / 100) : major_version,
-       WGL_CONTEXT_MINOR_VERSION_ARB, minor_version ? ExGetOpenGLVersion(NULL,NULL) % 100 : minor_version,
+	WGL_CONTEXT_MAJOR_VERSION_ARB, !major ? ((ExGetOpenGLVersion(NULL,NULL) - (ExGetOpenGLVersion(NULL,NULL) % 100)) / 100) : major,
+       WGL_CONTEXT_MINOR_VERSION_ARB, minor ? ExGetOpenGLVersion(NULL,NULL) % 100 : minor,
        WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
        #ifdef EX_DEBUG
        WGL_CONTEXT_FLAGS_ARB,WGL_CONTEXT_DEBUG_BIT_ARB,
@@ -407,9 +408,20 @@ OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
    else
        wExDevPrintf(EX_TEXT("Failed to Set PixelFormat : %s \n"),ExGetErrorMessage(GetLastError()));
 
-   /**
+   /*
        Create OpenGL Context.
    */
+   switch(ExGetOpenGLVendor()){
+	   case EX_AMD:
+		   break;
+	   case EX_NVIDIA:
+		   break;
+	   case EX_INTEL:
+		   break;
+	   default:
+		   break;
+   }
+
    if(!(glc = wglCreateContextAttribsARB(hDC, NULL,pixAttribs))){
        //ExDevPrintf(EX_TEXT("Failed to Create OpenGL Context ARB | %s.\n"),glewGetErrorString(glGetError()));
        //MessageBoxA(NULL,  (LPCSTR)glewGetErrorString(glGetError()),"Error | OpenGL Context",MB_OK | MB_ICONERROR);
@@ -450,47 +462,9 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 }
 
 
-OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLContext glc){
-    int major;
-    int minor;
-    OpenGLContext shared_glc;
+OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, ExOpenGLContext glc){
+	return ExCreateGLContext(window,glc);
 
-    HDC hdc;
-    WGLSWAPINTERVALEXT_T wglSwapIntervalEXT;
-    WGLCHOOSEPIXELFORMATARB_T wglChoosePixelFormatARB;
-    WGLGETPIXELFORMATATTRIBIVARB_T wglGetPixelFormatAttribivARB;
-    WGLGETEXTENSIONSSTRINGEXT_T wglGetExtensionStringEXT;
-    WGLGETEXTENSIONSSTRINGARB_T wglGetExtensionStringARB;
-    WGLCREATECONTEXTATTRIBSARB wglCreateContextAttribsARB;
-
-    hdc = GetDC(window);
-
-	/**
-		Get major and minor version of opengl
-	*/
-    glGetIntegerv(GL_MAJOR_VERSION, &major);
-	glGetIntegerv(GL_MINOR_VERSION, &minor);
-
-
-	int attribs[] ={
-			WGL_CONTEXT_MAJOR_VERSION_ARB, major,
-			WGL_CONTEXT_MINOR_VERSION_ARB, minor,
-			WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
-#ifdef EX_DEBUG
-			WGL_CONTEXT_FLAGS_ARB,WGL_CONTEXT_DEBUG_BIT_ARB,
-#endif
-			NULL
-	};
-
-    if(!wglChoosePixelFormatARB(hdc,0,0,0,0,0))
-        ExError(EX_TEXT(""));
-    //if(!SetPixelFormat(hdc, 0, 0))
-
-    shared_glc = wglCreateContextAttribsARB(hdc,glc,0);
-    wglCopyContext(glc, shared_glc, GL_ALL_ATTRIB_BITS);
-    wglShareLists(glc, shared_glc);
-
-    return shared_glc;
 }
 
 
@@ -568,7 +542,7 @@ DECLSPEC void ELTAPIENTRY ExInitExtension(ExWin hWnd,WindowContext deviContext,H
 
 
 
-DECLSPEC ExBoolean ELTAPIENTRY ExDestroyGLContext(WindowContext drawable, OpenGLContext glc){
+DECLSPEC ExBoolean ELTAPIENTRY ExDestroyGLContext(WindowContext drawable, ExOpenGLContext glc){
 	ExBoolean hr;
 	// if hDC is null
 	if(!drawable)
@@ -580,7 +554,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExDestroyGLContext(WindowContext drawable, OpenGL
 	return hr;
 }
 
-ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes){
+ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int32* screenRes){
 
 	RECT rect;
 	DEVMODE dm;
@@ -730,6 +704,9 @@ DECLSPEC int ELTAPIENTRY ExOpenGLGetAttribute(unsigned int attr, int* value){
 }
 
 DECLSPEC void ELTAPIENTRY ExOpenGLResetAttributes(void){
+
+
+
 
 }
 
