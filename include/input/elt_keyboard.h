@@ -29,6 +29,7 @@ extern "C"{
 
 
 #define ExGetKeyCode(array,keycode) ( ( ( array ) [ ( keycode ) /8] )  & (1 << ( ( keycode )  % 8)))
+
 /*
  *	Get KeyCode name identification index
  *	@return
@@ -52,6 +53,7 @@ extern DECLSPEC const char* ELTAPIENTRY ExGetKeyName(Keycode keycode);
  *	@return
  */
 extern DECLSPEC ExWin ELTAPIENTRY ExGetKeyboardFocus(void);
+
 /*
  *	Get keyboard state.
  *	@return
@@ -68,10 +70,12 @@ extern DECLSPEC Keycode ELTAPIENTRY ExGetModeState(void);
  *	@return
  */
 extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKey(void);
+
 /*
  *	@return
  */
 extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void);
+
 /*
  *	@return
  */

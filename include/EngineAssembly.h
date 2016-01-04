@@ -53,16 +53,11 @@
 #define EX_VULKAN (1 << 12)
 #define EX_RENDER_CONTEXT_DEBUG (1 << 12)
 
-#define ELT_OPENGL ENGINE_OPENGL
-#define ELT_OPENCL ENGINE_OPENCL
-#define ELT_OPENGL_ES ENGINE_OPENGL_ES
-#define ELT_DIRECTX ENGINE_DIRECTX
-#define ELT_OPENGL_AND_OPENGL (ENGINE_OPENGL | ENGINE_OPENCL)
-
 
 /*
- *	high layer flag
+ *	High layer flag.
  */
+
 #define ELT_INIT_TIMER			0x00000001
 #define ELT_INIT_VIDEO			0x00000020
 #define ELT_INIT_AUDIO			0x00000010
@@ -70,24 +65,12 @@
 #define ELT_INIT_EVENTS			0x00002000
 #define ELT_INIT_GAMECONTROLLER 0x00004000
 #define ELT_INIT_NET			0x00008000
+#define ELT_INIT_DEBUG			0x00010000
+
 #define ELT_INIT_EVERYTHING (							\
 	ELT_INIT_VIDEO | ELT_INIT_AUDIO | ELT_INIT_JOYSTICK	\
  | ELT_INIT_TIMER | ELT_INIT_GAMECONTROLLER | ELT_INIT_EVENTS)
 
-
-#ifdef  __cplusplus	/* C++ Environment */
-extern "C"{
-#endif
-
-/*
- *   Get ELT Window default Title!
- */
-extern DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length);
-
-
-#ifdef  __cplusplus	/* C++ Environment */
-}
-#endif
 
 #include"elt_timer.h"
 #include"system/elt_win.h"

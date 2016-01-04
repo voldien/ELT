@@ -21,6 +21,7 @@ DECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(ExBoolean enabled){
 #endif
 	return TRUE;
 }
+
 DECLSPEC Int32 ELTAPIENTRY ExClipCursor(const struct ex_rect* rect){
 #ifdef EX_WINDOWS
 	const RECT clip_rect = {rect->x,rect->y,rect->x + rect->width,rect->y + rect->height};
@@ -41,9 +42,8 @@ DECLSPEC ExCursor ELTAPIENTRY ExCreateCursor(const Uint8* data, const Uint8* mas
     return XCreatePixmap(display, 0, width,height,8);
 #endif
 }
-/**
-	Create System Cursor
-*/
+
+
 DECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(Enum system_id){
 	ExChar* arrow;
 #ifdef EX_WINDOWS
@@ -86,6 +86,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExFreeCursor(ExCursor cursor){
 #endif
 	return destroyed;
 }
+
 
 DECLSPEC ExBoolean ELTAPIENTRY ExSetCursor(ExCursor cursor){
 #if defined(EX_WINDOWS)
@@ -143,6 +144,3 @@ DECLSPEC void ELTAPIENTRY ExWarpMouseGlobal(int x, int y){
     xcb_flush(connection);
 #endif // EX_WINDOWS
 }
-
-
-

@@ -47,7 +47,7 @@
 
 #define EX_ENGINE_VERSION_STRING EX_TEXT("ELT Version | %d.%d%d%s | OS : %s : OpenGL %d.%d")
 
-DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, int length){
+DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, Int32 length){
 	if(!text)
 		return NULL;
 
@@ -109,7 +109,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 	// create window dedicated for OpenGL
 	else if(flag & EX_OPENGL){
 		window = ExCreateOpenGLWindow(x,y,width, height);
-		glc = ExCreateGLContext(window);
+		glc = ExCreateGLContext(window,NULL);
 		ExMakeGLCurrent(GetDC(window),glc);
 #ifndef DONT_SUPPORT_OPENCL
 		if(flag & EX_OPENCL)
@@ -156,10 +156,11 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 	if((flag & ENGINE_NATIVE) || !flag){
 		window = ExCreateNativeWindow(x,y,width, height);
 	}
+
 	else if((flag & EX_OPENGL)){
         void* glx_window; //GLXWindow
 		window = ExCreateGLWindow(x,y,width, height,&glx_window);
-        glc = ExCreateGLContext(glx_window != NULL ? glx_window : window);
+        glc = ExCreateGLContext(glx_window != NULL ? glx_window : window, NULL);
 		ExMakeGLCurrent(glx_window != NULL ? glx_window : window,glc);
 		ExInitOpenGLStates();
 
@@ -237,10 +238,12 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
     	printf("pnacl create window");
 		//window = ExCreateGLWindow(x,y,width, height,&glx_window);
     	window = NULL;
-        glc = ExCreateGLContext(window);
+        glc = ExCreateGLContext(window,NULL);
     }
 
 #endif
+
+
     /*	icon	*/
     ExSetWindowIcon(window,createELTIcon(window));
 
@@ -249,8 +252,6 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 	ExSetWindowTitle(window,title);
 	return window;
 }
-
-
 
 
 

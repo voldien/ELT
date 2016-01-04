@@ -20,6 +20,7 @@
 #define _ELT_MOUSE_H_ 1
 #include"./../EngineAssembly.h"
 #include"./../system/elt_errorhandler.h"
+
 #ifdef EX_WINDOWS
 	typedef void* ExCursor;
 #elif defined(EX_UNIX)
@@ -129,8 +130,6 @@ extern DECLSPEC void ELTAPIENTRY ExWarpMouseInWindow(ExWin win, Int32 x, Int32 y
  *	@return if successfully then return value is equal to input value.
  */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExShowCursor(ExBoolean enabled);
-
-
 
 
 

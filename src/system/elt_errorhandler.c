@@ -2,7 +2,6 @@
 #include"system/elt_log.h"
 #include"system/elt_win.h"
 
-
 #ifdef EX_WINDOWS
 #	include<windows.h>
 #	include <winuser.h>
@@ -12,6 +11,7 @@
 #	include<string.h>
 #	include<dbghelp.h>
 #   pragma comment(lib, "Dbghelp.lib")
+
 #elif defined(EX_LINUX)
 #   include<syslog.h>
 #	include<X11/Xlib.h>
@@ -21,6 +21,7 @@
 #   include<sys/stat.h>
 #   include<fcntl.h>
 #elif defined(EX_ANDROID)
+
 #   include<syslog.h>
 #   include<android/log.h>
 #   include<unistd.h>
@@ -68,13 +69,6 @@
 #define EX_CONSOLE_LIGHT_WHITE 0xF
 #define EX_CONSOLE_COLOR_RESET 0x10
 
-/*	Set Console Color	*/
-extern DECLSPEC void ELTAPIENTRY ExSetConsoleColor(Uint16 colour);
-/*	Get Console Color	*/
-extern DECLSPEC Uint16 ELTAPIENTRY ExGetConsoleColor(void);
-
-
-
 
 DECLSPEC void ELTAPIENTRY ExSetConsoleColor(Uint16 colour){
 #if defined(EX_WINDOWS)
@@ -118,12 +112,11 @@ DECLSPEC Uint16 ELTAPIENTRY ExGetConsoleColor(void){
 }
 
 
+
 // Error Message text
 ExChar* errorText = NULL;
 
-/**
-	ExError
-*/
+
 DECLSPEC void ELTAPIENTRY ExError(const ExChar* error,...){
 	va_list argptr;
 
@@ -142,9 +135,6 @@ DECLSPEC void ELTAPIENTRY ExError(const ExChar* error,...){
 #endif
 }
 
-/**
-	Error
-*/
 DECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...){
 	ExChar text[512];
 
@@ -191,7 +181,6 @@ DECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...){
 		exit(EXIT_FAILURE);
 }
 
-
 ERESULT ex_error[4] = {E_OK};
 DECLSPEC ERESULT ELTAPIFASTENTRY ExGetError(void){
 	return ex_error[0];
@@ -204,6 +193,7 @@ DECLSPEC void ELTAPIFASTENTRY ExSetError(ERESULT error){
 DECLSPEC void ELTAPIFASTENTRY ExClearError(void){
 	memset(ex_error,E_OK, sizeof(ex_error));
 }
+
 
 DECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode){
 #ifdef EX_DEBUG
@@ -219,11 +209,10 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode){
 #endif
 	return NULL;
 }
+
 #if defined(EX_LINUX)
 
-/**
-    xlib error callback
-*/
+
 static int ctxErrorHandler(Display* dpy, XErrorEvent* error){
     #ifdef EX_DEBUG
     char error_buffer[1024];
@@ -244,6 +233,7 @@ static int ctxErrorHandler(Display* dpy, XErrorEvent* error){
 
 
 
+
 int ELTAPIENTRY ExInitErrorHandler(void){
 #if defined(EX_LINUX)
     /*	enable X window error message handler.	*/
@@ -251,7 +241,7 @@ int ELTAPIENTRY ExInitErrorHandler(void){
         ExDevPrintf("error");
 #endif
 
-	/**interrupt*/
+	/*	interrupt	*/
 	ExSetSignal(SIGINT,ExSignalCatch);
 #ifdef EX_WINDOWS
 	/**Sudden Abort*/
@@ -276,6 +266,7 @@ int ELTAPIENTRY ExInitErrorHandler(void){
 
 
 void ELTAPIENTRY ExErrorExit(ExChar* lpszFunction) {
+
     // Retrieve the system error message for the last-error code
 #ifdef EX_WINDOWS
     LPVOID lpMsgBuf;

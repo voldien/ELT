@@ -61,13 +61,19 @@ extern DECLSPEC int ExSetSurfacePixel(ExSurface handle, unsigned int x, unsigned
 
 
 
-/*	set fill color..	*/
+/*
+ *	set fill color..
+ */
 extern DECLSPEC void ExFillRect(ExSurface handle, ExRect* rect, Uint32 color);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC ExUnlockSurface(ExSurface surface);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC ExLockSurface(ExSurface surface);
 
 #ifdef  __cplusplus	/* C++ Environment */

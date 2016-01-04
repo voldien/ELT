@@ -49,10 +49,9 @@ extern DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback, voi
 
 /*
  *    Create Thread with affinity mask.
- *
  *    @return thread handle.
 */
-extern DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback, void* lpParamater, Uint32* pid, unsigned int core);
+extern DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback, HANDLE lpParamater, Uint32* pid, Int32 core);
 
 /*
  *	Detach thread
@@ -63,7 +62,7 @@ extern DECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread);
 /**/
 extern DECLSPEC void ELTAPIENTRY ExTerminateThread(ExThread thread);
 
-/**
+/*
 	\thread is the thread of the current thread.
 	TODO check if to replace  this function with ExTerminateThread.
 */
@@ -94,31 +93,31 @@ extern DECLSPEC void ELTAPIENTRY ExCreateThreadCondition(void);
 /*
  *	Get current thread identification.
  *	@return current thread handle.
-*/
+ */
 extern DECLSPEC ExThread ELTAPIENTRY ExGetCurrentThread(void);
 
 /*
  *	Get Thread ID
  *	@return
-*/
+ */
 extern DECLSPEC Uint32 ELTAPIENTRY ExGetThreadID(ExThread thread);
 
 /*
  *	Get Thread name by the invoked function.
  *	@return get function name.
-*/
+ */
 extern DECLSPEC const char* ELTAPIENTRY ExGetThreadName(ExThread thread);
 
 /*
  *	Set thread priority
  *	@return
-*/
+ */
 extern DECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread, Enum nPriority);
 
 /*
  *	Wait the thread
  *	@return
-*/
+ */
 extern DECLSPEC ERESULT ELTAPIENTRY ExWaitThread(ExThread thread, Int32* status);
 
 #ifdef  __cplusplus	/* C++ Environment */

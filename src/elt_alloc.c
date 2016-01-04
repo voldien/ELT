@@ -17,11 +17,11 @@ int ELTAPIENTRY ExGetPageSize(void){
     #endif
 }
 
-DECLSPEC ExPoolAllactor* ELTAPIENTRY ExPoolCreate(unsigned int num, unsigned int itemsize){
-	ExPoolAllactor* alloc;
-	ExPoolAllactor* tmp;
+DECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolCreate(unsigned int num, unsigned int itemsize){
+	ExPoolAllocator* alloc;
+	ExPoolAllocator* tmp;
 	unsigned int i;
-	alloc = malloc(num * (itemsize + sizeof(ExPoolAllactor)));
+	alloc = malloc(num * (itemsize + sizeof(ExPoolAllocator)));
 
 	if(!alloc)
 		return 0;
@@ -29,20 +29,20 @@ DECLSPEC ExPoolAllactor* ELTAPIENTRY ExPoolCreate(unsigned int num, unsigned int
 	/*	create pool chain.*/
 	tmp = alloc;
 	for(i = 0; i < num; i++){
-		tmp->next = tmp + sizeof(ExPoolAllactor) + itemsize;
-		tmp += sizeof(ExPoolAllactor) + itemsize;
+		tmp->next = tmp + sizeof(ExPoolAllocator) + itemsize;
+		tmp += sizeof(ExPoolAllocator) + itemsize;
 		continue;
 	}
 
 	/*	terminator of the pool*/
-	tmp -= itemsize + sizeof(ExPoolAllactor);
+	tmp -= itemsize + sizeof(ExPoolAllocator);
 	tmp->next = NULL;
 
 	return alloc;
 }
 
-DECLSPEC void* ELTAPIENTRY ExPoolObtain(ExPoolAllactor* allactor){
-	ExPoolAllactor* tmp;
+DECLSPEC void* ELTAPIENTRY ExPoolObtain(ExPoolAllocator* allactor){
+	ExPoolAllocator* tmp;
 	if(allactor->next == NULL)
 		return NULL;
 
@@ -51,18 +51,18 @@ DECLSPEC void* ELTAPIENTRY ExPoolObtain(ExPoolAllactor* allactor){
 	return tmp;
 }
 
-DECLSPEC void* ELTAPIENTRY ExPoolReturn(ExPoolAllactor* allactor, void* data, unsigned int len){
-	ExPoolAllactor* tmp;
-	tmp = (data - (void*)allactor ) + sizeof(ExPoolAllactor);
+DECLSPEC void* ELTAPIENTRY ExPoolReturn(ExPoolAllocator* allactor, void* data, unsigned int len){
+	ExPoolAllocator* tmp;
+	tmp = (data - (void*)allactor ) + sizeof(ExPoolAllocator);
 	tmp->next = allactor->next;
 	allactor->next = tmp;
 
 	return tmp;
 }
 
-DECLSPEC ExPoolAllactor* ELTAPIENTRY ExPoolResize(ExPoolAllactor* allcotor, unsigned num, unsigned int itemsize){
-	ExPoolAllactor* next;
-	ExPoolAllactor* terminate = allcotor->next;
+DECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolResize(ExPoolAllocator* allcotor, unsigned num, unsigned int itemsize){
+	ExPoolAllocator* next;
+	ExPoolAllocator* terminate = allcotor->next;
 
 
 	/*	get the last pool*/
@@ -85,6 +85,6 @@ DECLSPEC ExPoolAllactor* ELTAPIENTRY ExPoolResize(ExPoolAllactor* allcotor, unsi
 	return allcotor;
 }
 
-DECLSPEC void ELTAPIENTRY ExPoolFree(ExPoolAllactor* allactor){
+DECLSPEC void ELTAPIENTRY ExPoolFree(ExPoolAllocator* allactor){
 	free(allactor);
 }

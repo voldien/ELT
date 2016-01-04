@@ -39,6 +39,12 @@ extern ExDisplay display;
 #define EX_WIN_BELOW
 #define EX_WIN_
 
+
+/*
+ *   Get ELT Window default Title!
+ */
+extern DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, Int32 length);
+
 /*
  *	Create Window
  *	\x : coordinate
@@ -48,7 +54,7 @@ extern ExDisplay display;
  *	\flag : window type
  *	@return window handle
 */
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height,Enum flag);
+extern DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height, Enum flag);
 
 /*
  *	Show window
@@ -159,7 +165,7 @@ extern DECLSPEC void ELTAPIENTRY ExSetWindowFlag(ExWin window, Enum flag);
 /*
  *
  */
-extern DECLSPEC void ELTAPIENTRY ExSetWindowFlagv(ExWin window, Enum flag, int value);
+extern DECLSPEC void ELTAPIENTRY ExSetWindowFlagv(ExWin window, Enum flag, Int32 value);
 
 /*
  *	Assign Icon Handle onto window
@@ -177,19 +183,19 @@ extern DECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window);
 extern DECLSPEC Int32 ELTAPIENTRY ExSetWindowFullScreen(ExWin window, ExBoolean flag);
 
 /*
- *
+ *	Get user-data associated with window handle.
  */
 extern DECLSPEC HANDLE ELTAPIENTRY ExGetWindowUserData(ExWin window);
 
 /*
- *
+ *	Set user-data associated with window handle.
  */
 extern DECLSPEC void ELTAPIENTRY ExSetWindowUserData(ExWin window, HANDLE userdata);
 
 /*
  *
  */
-extern DECLSPEC int ELTAPIENTRY ExSetWindowParent(ExWin parent,ExWin window);
+extern DECLSPEC Int32 ELTAPIENTRY ExSetWindowParent(ExWin parent,ExWin window);
 
 /*
  *
@@ -199,27 +205,26 @@ extern DECLSPEC ExWin ELTAPIENTRY ExGetWindowParent(ExWin window);
 /*
  *
  */
-extern DECLSPEC int ELTAPIENTRY ExSetWindowChild(ExWin window, ExWin child);
+extern DECLSPEC Int32 ELTAPIENTRY ExSetWindowChild(ExWin window, ExWin child);
 
 /*
  *
  */
-extern DECLSPEC ExWin ELTAPIENTRY ExGetWindowChild(ExWin window, unsigned int index);
+extern DECLSPEC ExWin ELTAPIENTRY ExGetWindowChild(ExWin window, Uint32 index);
 
 /*
- *
+ *	Get number of window children.
  */
-extern DECLSPEC int ELTAPIENTRY ExGetWindowNumChildren(ExWin window);
-
+extern DECLSPEC Int32 ELTAPIENTRY ExGetWindowNumChildren(ExWin window);
 
 /*
- *
+ *	Get desktop window handle.
  */
 extern DECLSPEC ExWin ELTAPIENTRY ExGetDesktopWindow(void);
 
 
 /**/
-extern DECLSPEC int ELTAPIENTRY ExMessageBox(ExWin window, const char* text, const char* title,  unsigned int flags );
+extern DECLSPEC int ELTAPIENTRY ExMessageBox(ExWin window, const ExChar* text, const ExChar* title, unsigned int flags );
 
 
 /**/

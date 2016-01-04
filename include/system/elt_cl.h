@@ -1,4 +1,4 @@
-/**
+/*
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -26,10 +26,9 @@
 #define ELT_CL_AVAILABLE_PLATFORM 0x1000    	/* Get available device */
 //#define EX_CL_GL_SYNC   0x2000    //TODO check if it's needed
 
-#ifdef __cplusplus	/* C++ Environment	*/
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
-
 
 
 /*
@@ -42,18 +41,7 @@ extern DECLSPEC ExOpenCLContext ELTAPIFASTENTRY ExGetCurrentCLContext(void);
  *	Create OpenCL Context
  *	@return
  */
-extern DECLSPEC ExOpenCLContext ELTAPIENTRY ExCreateCLContext(Enum eEnumFlag);
-
-/*
- *	Query Context information
- *	@return
- */
-extern DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(ExOpenCLContext context, void* param_value, Enum param_name);
-
-/*
- *	Release OpenCL Context
- */
-extern DECLSPEC void ELTAPIENTRY ExDestroyCLContext(ExOpenCLContext context);
+extern DECLSPEC ExOpenCLContext ELTAPIENTRY ExCreateCLContext(Enum eEnumFlag, ExOpenCLContext clc);
 
 /*
  *	Create shared CL context with OpenGL context
@@ -62,14 +50,26 @@ extern DECLSPEC void ELTAPIENTRY ExDestroyCLContext(ExOpenCLContext context);
 extern DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowContext window, Enum erenderingFlag);
 
 /*
- *
+ *	Query Context information
+ *	@return
  */
-extern DECLSPEC void* ExCreateCommandQueue(OpenCLContext context, void*device);
+extern DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(ExOpenCLContext context, HANDLE param_value, Enum param_name);
+
+/*
+ *	Destroy OpenCL Context.
+ */
+extern DECLSPEC void ELTAPIENTRY ExDestroyCLContext(ExOpenCLContext context);
+
 
 /*
  *
  */
-extern DECLSPEC void* ExCreateProgram(OpenCLContext context, void* device, const char* cfilename,...);
+extern DECLSPEC void* ExCreateCommandQueue(OpenCLContext context, HANDLE device);
+
+/*
+ *
+ */
+extern DECLSPEC void* ExCreateProgram(OpenCLContext context, HANDLE device, const ExChar* cfilename,...);
 
 /*
  *	Get CL platform identification
@@ -80,7 +80,7 @@ extern DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,
 /*
  *
  */
-extern DECLSPEC void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, void* p_cl_device_id);
+extern DECLSPEC void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, HANDLE p_cl_device_id);
 
 /*
  *	Get and return device capability
@@ -88,7 +88,7 @@ extern DECLSPEC void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, void* p_cl_dev
 extern DECLSPEC Int32 ELTAPIENTRY ExGetClDevCap(void* device);
 
 
-#ifdef __cplusplus	/* C++ Environment  */
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 

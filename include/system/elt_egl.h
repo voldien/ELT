@@ -36,7 +36,9 @@ extern DECLSPEC int ELTAPIENTRY ExCreateEGLContextAttrib(ExWin window, int* attr
  */
 extern DECLSPEC OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC int ELTAPIENTRY ExCreateEGLContextAttrib(ExWin window, int* attrib, unsigned int* size);
 
 /*

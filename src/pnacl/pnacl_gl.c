@@ -1,4 +1,5 @@
 #include"system/elt_gl.h"
+#include"system.h"
 
 #include "ppapi/c/pp_errors.h"
 #include "ppapi/c/pp_module.h"
@@ -30,20 +31,20 @@ void swap_callback(void* user_data, int32_t result){
 }
 
 
-DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
+DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, OpenGLContext shared){
 	unsigned int width;
 	unsigned int height;
 	PP_Instance instance = ppb_instance_interface;
 
-	printf("create opengl\n");
+	ExPrintf("create opengl\n");
 
 	if(!browser){
-		printf("browser null\n");
+		ExPrintf("browser null\n");
 		//ExDelay(1000);
 	}
 
 	if (!glInitializePPAPI(browser)) {
-	    printf("glInitializePPAPI failed\n");
+		ExPrintf("glInitializePPAPI failed\n");
 	    return PP_ERROR_FAILED;
 	}
 
@@ -52,16 +53,16 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window){
 	int32_t attribs[] = {PP_GRAPHICS3DATTRIB_WIDTH, 800,
 					   PP_GRAPHICS3DATTRIB_HEIGHT, 600,
 					   PP_GRAPHICS3DATTRIB_NONE};
-	glContext = graphics3d_interface->Create(instance, 0, attribs);
+	glContext = graphics3d_interface->Create(instance, shared, attribs);
 	if (glContext == 0) {
-		printf("failed to create graphics3d context\n");
+			ExPrintf("failed to create graphics3d context\n");
 		return PP_FALSE;
 	}
 
 	glSetCurrentContextPPAPI(glContext);
 
 	if (!ppb_instance_interface->BindGraphics(instance, glContext)) {
-		printf("failed to bind graphics3d context\n");
+		ExPrintf("failed to bind graphics3d context\n");
 		return PP_FALSE;
 	}
 

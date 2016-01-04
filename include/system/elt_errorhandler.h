@@ -26,6 +26,20 @@ typedef void(ELTAPIENTRY *singalcallback)(Int32);
 extern "C"{
 #endif
 
+#define E_OK				((ERESULT)1L)		/*	No Error */
+#define E_FAILURE			((ERESULT)0L)		/*	FAILURE */
+#define E_ERROR				((ERESULT)-1L)		/*	Error   */
+#define E_INVALID_ARGUMENT	((ERESULT)-2L)		/*	Invalid Argument */
+#define E_ERROR_SYSTEM		((ERESULT)-3L)		/*	System Error */
+#define E_INVALID_ENUM		((ERESULT)-4L)		/*	Invalid Enum */
+#define E_ABI_ERROR			((ERESULT)-5L)		/*	Application Binary interface Error */
+
+#define EX_CRASH_TERMINATE 0x1
+#define EX_CRASH_ABORT 0x2
+#define EX_CRASH_FLOAT 0x3
+#define EX_CRASH_EXEPCTION 0x4
+
+
 /*
 	ExInternalError
 */
@@ -60,6 +74,12 @@ extern "C"{
 
 
 /*
+ *    Initialize Error Handler
+ */
+extern DECLSPEC int ELTAPIENTRY ExInitErrorHandler(void);
+
+
+/*
  *	Error
  *	application will terminate with error failure message.
  *	printout of error messages.
@@ -82,47 +102,43 @@ extern DECLSPEC ERESULT ELTAPIFASTENTRY ExGetError(void);
 extern DECLSPEC void ELTAPIFASTENTRY ExSetError(ERESULT error);
 
 /*
- *	Clear Errors
+ *	Clear Errors.
  */
 extern DECLSPEC void ELTAPIFASTENTRY ExClearError(void);
 
 /*
  *	Get ELT Error String.
- *	//
 */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode);
 
-#define E_OK				((ERESULT)1L)		/*	No Error */
-#define E_FAILURE			((ERESULT)0L)		/*	FAILURE */
-#define E_ERROR				((ERESULT)-1L)		/*	Error   */
-#define E_INVALID_ARGUMENT	((ERESULT)-2L)		/*	Invalid Argument */
-#define E_ERROR_SYSTEM		((ERESULT)-3L)		/*	System Error */
-#define E_INVALID_ENUM		((ERESULT)-4L)		/*	Invalid Enum */
-#define E_ABI_ERROR			((ERESULT)-5L)		/*	Application Binary interface Error */
-
-#define EX_CRASH_TERMINATE 0x1
-#define EX_CRASH_ABORT 0x2
-#define EX_CRASH_FLOAT 0x3
-#define EX_CRASH_EXEPCTION 0x4
 
 /*
- *    Initialize Error Handler
+ *	Get Error Code In Character out of Error.
  */
-extern DECLSPEC int ELTAPIENTRY ExInitErrorHandler(void);
-
-
-/*	Get Error Code In Character out of Error.*/
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetErrorMessageW(ULong dw);
 
-/*	Get Error Code In Character out of HRESULT.*/
+/*
+ *	Get Error Code In Character out of HRESULT.
+ */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetHResultErrorMessageW(ERESULT hresult);
 
-/*	Get Error Code Of HModule */
+/*
+ *	Get Error Code Of HModule
+ */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetHModuleErrorMessageW(ERESULT dw);
+
+/*
+ *	Signal Catch.
+ */
+extern DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal);
+/*
+ *	Set Signal callback.
+ */
+extern DECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal, singalcallback signal_callback);
 
 
 /*
- *	UNICODED
+ *	UNICODED.
 */
 #ifdef UNICODE
 	#define ExGetErrorMessage ExGetErrorMessageW
@@ -135,25 +151,19 @@ extern DECLSPEC ExChar* ELTAPIENTRY ExGetHModuleErrorMessageW(ERESULT dw);
 #endif
 
 
-/**
-	Signal Catch
-*/
-extern DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal);
-/**
-	Set Signal callback.
-*/
-extern DECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal, singalcallback signal_callback);
 
 
 #ifdef EX_UNICODE
+	#define ExPrintf(pFormat,...) printf(pFormat,##__VA_ARGS__)
 	#define ExPrint printf
 	#define ExSPrintf sprintf
 #else
+	#define ExPrintf(pFormat,...) printf(pFormat,##__VA_ARGS__)
+	#define ExPrintfError(pFormat,...) fprintf(stderr,pFormat,##__VA_ARGS__)
 	#define ExPrint printf
 	#define ExSPrintf sprintf
 	#define vExfprintf vfprintf
 #endif
-
 
 
 #if  defined(EX_DEBUG)
@@ -171,10 +181,12 @@ extern DECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal, singalcallback
 
 #endif
 
+
+
 #if !defined(EX_DISABLE_DEV_PRINT)
 		#ifdef EX_DEBUG
 			/*		*/
-			#define ExPrintf(pFormat,...) printf(pFormat,##__VA_ARGS__)
+
 			#define ExPrintfc(pFormat, color,...) {Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat,__VA_ARGS__);ExSetConsoleColor(__colour__);}
 
 			/* Print Developer Information With Arguments*/
@@ -210,7 +222,6 @@ extern DECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal, singalcallback
 			#define ExDevGLPrintfc(pFormat,color,...){Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat EX_DEV_OPENGL_INFO EXDEVFILEINFO,__VA_ARGS__,glGetError(), glewGetString(glGetError()), __LINE__, __FILE__);ExSetConsoleColor(__colour__);}
 		#else
 			/*		*/
-			#define ExPrintf(pFormat,...)
 			#define ExPrintfc(pFormat, color,...)
 
 			/* Print Developer Information With Arguments*/
@@ -265,7 +276,9 @@ extern DECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal, singalcallback
 #endif
 
 
-#ifdef  __cplusplus	/* C++ Environment */
+
+
+#ifdef  __cplusplus	/*	C++ Environment	*/
 }
 #endif
 

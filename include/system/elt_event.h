@@ -20,8 +20,7 @@
 #define _ELT_EVENT_H_ 1
 #include"./../ExNT.h"
 
-
-#ifdef  __cplusplus	/* C++ Environment */
+#ifdef  __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
@@ -71,22 +70,34 @@ typedef struct ex_rect{
 
 EX_ALIGN_PREFIX(4)
 typedef struct ex_system_event{
-	unsigned int message;		/**/
+	/*
+	 *
+	 */
+	unsigned int message;
 }ExSystemEvent;
 
 EX_ALIGN_PREFIX(4)
 typedef struct ex_joy_stick_event{
-	Uint8 button[5];			/**/
+	/*
+	 *
+	 */
+	Uint8 button[5];
 }ExJoyStickEvent;
 
 EX_ALIGN_PREFIX(4)
 typedef struct ex_joystick_move_event{
-	Uint32 x[3];				/**/
+	/*
+	 *
+	 */
+	Uint32 x[3];
 }ExJoySticMoveEvent;
 
 EX_ALIGN_PREFIX(4)
 typedef struct ex_joystick_button_event{
-	Uint8 button[8];			/**/
+	/*
+	 *
+	 */
+	Uint8 button[8];
 }ExJoySticButtonEvent;
 
 EX_ALIGN_PREFIX(4)

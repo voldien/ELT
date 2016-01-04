@@ -34,7 +34,9 @@
 #endif
 
 
-/*	GPU Vendors constant of.	*/
+/*
+ *	GPU Vendors constant of.
+ */
 #define EX_UNKNOWN 0x0				/**/
 #define EX_NVIDIA 0x1				/**/
 #define EX_INTEL 0x2				/**/
@@ -42,7 +44,7 @@
 
 
 /*
- *
+ *	context attributes.
  */
 #define EX_OPENGL_RED_SIZE				0
 #define EX_OPENGL_GREEN_SIZE			1
@@ -63,7 +65,7 @@
 
 
 /*
- *	context attributes
+ *	Context flag attributes.
  */
 #define EX_OPENGL_MAJOR_VERSION			16
 #define EX_OPENGL_MINOR_VERSION			17
@@ -72,18 +74,21 @@
 #define EX_OPENGL_EGL
 
 
-/*	*/
+/*
+ *	Context profile flag attributes bit.
+ */
 #define EX_GL_CONTEXT_PROFILE_CORE           	0x00000001
 #define EX_GL_CONTEXT_PROFILE_COMPATIBILITY  	0x00000002
 #define EX_GL_CONTEXT_PROFILE_ES             	0x00000004 /* GLX_CONTEXT_ES2_PROFILE_BIT_EXT */
+#define EX_GL_CONTEXT_PROFILE_ES2				0x00000008
 
-/*	*/
+/*
+ *	Context debug flag attributes bit.
+ */
 #define EX_GL_CONTEXT_DEBUG_FLAG              	0x00000001
 #define EX_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG 	0x00000002
 #define EX_GL_CONTEXT_ROBUST_ACCESS_FLAG      	0x00000004
 #define EX_GL_CONTEXT_RESET_ISOLATION_FLAG    	0x00000008
-
-
 
 
 #ifdef __cplusplus /* C++ environment */
@@ -127,7 +132,7 @@ extern DECLSPEC void ELTAPIENTRY ExCreateContextAttrib(ExWindowContext hDC,Int32
 /*
  *	Create OpenGL context for given window
 */
-extern DECLSPEC ExOpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window);
+extern DECLSPEC ExOpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shareContext);
 
 /*
  *
@@ -161,7 +166,7 @@ extern DECLSPEC void ELTAPIENTRY ExOpenGLResetAttributes(void);
 extern DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void);
 
 /*
- *	Destroy OpenGL Context
+ *	Destroy OpenGL Context.
 */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExDestroyGLContext(ExWindowContext drawable, ExOpenGLContext glc);
 
@@ -172,7 +177,7 @@ extern DECLSPEC ExBoolean ELTAPIENTRY ExDestroyCurrentGLContext(void);
 
 /*
  *	Set Window associated with OpenGL context fullScreen.
- *	 \
+ *	\
  *	\
  *	\
  *	\
@@ -234,7 +239,7 @@ extern DECLSPEC Enum ELTAPIENTRY ExGetOpenGLVendor(void);
 
 
 /*
- *	Set vsync
+ *	Set OpenGL VSync.
  */
 extern DECLSPEC ERESULT ELTAPIENTRY ExOpenGLSetVSync(ExBoolean enabled, ExWin window);
 

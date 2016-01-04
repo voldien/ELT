@@ -81,18 +81,34 @@ _In_  HINSTANCE hinstDLL,
 }
 #endif
 
-
-extern Uint64 eltTickTime;     		/*	high accuracy timer   */
-unsigned long int engineflag = 0;	/**/
-void* xcbConnection;				/**/
+#define OPENGL_SHARE_NAME ""
 
 
-/*	Initialize Engine Library Toolkit	*/
+
+
+
+/*
+ *	High accuracy timer.
+ */
+extern Uint64 eltTickTime;
+
+/*
+ *
+ */
+unsigned long int engineflag = 0;
+
+/*
+ *
+ */
+void* xcbConnection;
+
+
 DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	ERESULT result = E_OK;
 	HANDLE hmodule;
 	Int32 hConHandle;
 	Long lStdHandle;
+
 
 	/*	if all is already initilated return !	*/
     if(engineflag & ELT_INIT_EVERYTHING)
@@ -132,11 +148,13 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	#endif
 #endif
 
+
 	/*	enable loggint */
 	m_file_log = fopen("EngineExDevLog.txt", "w+" );
 	if(dup2(stdout,m_file_log) == -1)
         fprintf(stderr,"error");
     dup2(stdout,stderr);  //redirects stderr to stdout below this line.
+
 
 /*	unicode		*/
 #ifdef UNICODE
@@ -150,6 +168,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 
 
 #elif defined(EX_LINUX)
+
     /*	Create Connection with Display Server.	*/
     display = XOpenDisplay(getenv("DISPLAY"));
     if(!display){
@@ -166,21 +185,24 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 
 #endif
 
+
 	/*	Initialize sub system	*/
 	ExInitSubSystem(engineFlag);
 
 
+	/*	initilize error handler.	*/
 	if(!(result = ExInitErrorHandler())){
 	    ExError(EX_TEXT("Failed to initialize error handler."));
 	}
 
 	engineflag |= engineFlag;
 
-	/* release resouces even if exit unexcpeted */
+	/* release resources even if application exit unexpected */
 	atexit(ExShutDown);
 
 	return result;
 }
+
 
 DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 	ERESULT hr = 0;
@@ -196,6 +218,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
         #elif defined(EX_ANDROID)
 
         #endif
+
 	}
 	if(ELT_INIT_JOYSTICK & engineflag){
 
@@ -226,6 +249,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 		eltTickTime = clock();
 	}
 	if(ELT_INIT_NET & engineflag){
+
 	    #ifdef EX_LINUX
         ExLoadLibrary("");
         #elif defined(EX_ANDROID)
@@ -234,12 +258,14 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
         if(!ExIsModuleLoaded(EX_TEXT("WS2_32.dll")))
         	ExLoadLibrary(EX_TEXT("WS2_32.dll"));
         #endif
+
 	}
 	return hr;
 }
 
 
 DECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag){
+
 	if(ELT_INIT_TIMER & engineflag){
         #ifdef EX_WINDOWS   // EX_WINDOWS
 
@@ -273,9 +299,11 @@ DECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag){
 
 #endif
 	}
+
 	if(ELT_INIT_VIDEO & engineflag){
 
 	}
+
 	if(ELT_INIT_NET & engineflag){
 	    #ifdef EX_LINUX
         ExLoadLibrary("");
@@ -289,9 +317,6 @@ DECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag){
 
 
 }
-/*
-
-*/
 DECLSPEC void ELTAPIENTRY ExShutDown(void){
 #ifdef EX_LINUX
     struct mallinfo mi;
@@ -299,38 +324,33 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 
 	ExQuitSubSytem(ELT_INIT_EVERYTHING);
 
+
+	if(ExGetCurrentOpenGLContext())
+		ExDestroyGLContext(ExGetCurrentGLDrawable(), ExGetCurrentOpenGLContext());
+
+#if !(defined(EX_ANDROID) || defined(DONT_SUPPORT_OPENCL))
+	ExDestroyCLContext(ExGetCurrentCLContext());
+#endif
+
+
+
+#if defined(EX_INCLUDE_DIRECTX)
+	ExReleaseDirectX();
+#endif
+
 #ifdef EX_WINDOWS
 	DEVMODE d = {0};
 	Int32 display;
 
-
-	/*	delete opencl and opengl context*/
-	ExDestroyGLContext(ExGetCurrentGLDrawable(), ExGetCurrentOpenGLContext());
-
 	ExUnRegisterClasses();
-
-
-	#if defined(EX_INCLUDE_DIRECTX)
-	ExReleaseDirectX();
-	#endif
 
 	// restore screen
 	display = ChangeDisplaySettings(&d, NULL);
 	FreeLibrary(GetModuleHandle(NULL));
 
-/**
-    Linux
-*/
 #elif defined(EX_LINUX)
 
 
-#ifndef DONT_SUPPORT_OPENCL
-	ExDestroyCLContext(ExGetCurrentCLContext());
-#endif
-
-
-	if(ExGetCurrentOpenGLContext())
-		ExDestroyGLContext(ExGetCurrentGLDrawable(), ExGetCurrentOpenGLContext());
 
 	if(eglGetCurrentDisplay())
 		eglTerminate(eglGetCurrentDisplay());
@@ -381,22 +401,22 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 
 
 
-
-
-
-
 DECLSPEC void ELTAPIENTRY ExEnable(Enum enable){
 #ifdef EX_WINDOWS
 #endif
 	switch(enable){
 	case EX_CRASH_TERMINATE:
 		signal(SIGTERM,ExSignalCatch);
+
 		break;
 	case EX_CRASH_ABORT:
+
 		break;
 	case EX_CRASH_FLOAT:
+
 		break;
 	case EX_CRASH_EXEPCTION:
+
 		break;
 	case EX_OPENCL:
 		ExLoadLibrary(EX_TEXT("OpenCL.dll"));
@@ -426,6 +446,7 @@ DECLSPEC void ELTAPIENTRY ExDisable(Enum disable){
 	default:return;
 	}
 }
+
 
 
 

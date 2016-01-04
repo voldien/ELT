@@ -99,34 +99,40 @@
 	typedef float Float;
 	typedef double Double;
 #endif
+
+
 /* 32 bits [0 to 4,294,967,295] */
 typedef unsigned long ULong;
 /* 32 bits [0 to 4,294,967,295] */
 typedef Uint32 Enum;
-/* 32 bits [0 to 4,294,967,295] */
-typedef Uint8 ColorBitDepth;
 typedef Uint64 ULLong;
-
 /* 32 bits [0 to 4,294,967,295] */
 typedef Uint32 ClearFlag;
 typedef long Long;
 
 /* 64 bits [0 to 18,446,744,073,709,551,615] */
 typedef Uint8 Keycode;
+
 /**/
 typedef Uint8 ExBoolean;
 
+typedef int ExAtom;
+
+/*
+ *
+ */
+typedef long ERESULT;
 
 #ifndef EX_WIN32
 	typedef void* HANDLE;
 	//EX_DECLARE_HANDLE(HANDLE);
 #endif
 
-typedef long ERESULT;
+
 
 /*
-    ELT Character data type
-*/
+ *	ELT Character data type.
+ */
 #ifdef EX_UNICODE
 	typedef wchar_t ExChar;
 	#define EX_STR_LEN wcslen	// length of character of ExChar
@@ -152,25 +158,27 @@ typedef union doubleUnion{
 }DoubleUnion,UlongUnion;
 
 
-/**
-	16 bits high and low value
-*/
+/*
+ *	16 bits high and low value
+ */
 #define EX_MAKEHIWORD(a,b)   {a = ( ( a ) | (( ( b ) << 8) & 0xff00));}
 #define EX_MAKELOWORD(a,b)	  {a = ( ( a )  | ( ( b ) & 0x00ff));}
-/**
-	32 bits
-*/
+
+/*
+ *	32 bits
+ */
 #define EX_MAKEHIDWORD(a,b)	{a = ( ( a ) | (( ( b ) << 16) & 0xffff0000));}
 #define EX_MAKELODWORD(a,b)	{a = ( ( a ) | ( ( b ) & 0x0000ffff));}
-/**
-	64 bits
-*/
+
+/*
+ *	64 bits
+ */
 #define EX_MAKEHIQWORD(a,b)	{a = ( ( a ) | (( ( b ) << 32) & 0xffffffff00000000));}
 #define EX_MAKELOQWORD(a,b) {a = ( ( a ) | ( ( b ) & 0xffffffff00000000));}
 
-/**
-	128 bits high and low value
-*/
+/*
+ *	128 bits high and low value
+ */
 #define MAKEHIDQWORD(a,b)
 #define MAKELODQWORD(a,b)
 
@@ -195,7 +203,7 @@ typedef union doubleUnion{
 #endif
 
 /*
- *	platform specific type
+ *	platform specific type.
 */
 typedef void* ExWin;
 typedef void* OpenGLContext;
@@ -224,7 +232,7 @@ typedef void* ExAudioContext;
 
 /*
  *	Thread
-*/
+ */
 typedef void*(*interrupt_routine)(void*);
 typedef void*(THREAD_CALLBACK *thread_routine)(void*);
 typedef void* ExThread;

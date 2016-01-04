@@ -24,6 +24,8 @@
 
 typedef signed int ExSocket;
 
+
+/*TODO rename ELT to EX.	*/
 #define ELT_CLIENT 0x1  	/*  Client socket*/
 #define ELT_TCP 0x2     	/*  reliable,  two-way  */
 #define ELT_UDP 0x4     	/*  UDP protocol */
@@ -31,14 +33,14 @@ typedef signed int ExSocket;
 #define ELT_STREAM 0x10		/**/
 #define ELT_DGRAM 0x20		/**/
 
-#ifdef  __cplusplus	/* C++ Environment */
+#ifdef  __cplusplus	/*	C++ Environment	*/
 extern "C" {
 #endif
 
 
 /*
  *	Open socket
- *    \ip
+ *	\ip
  *	\port
  *	\protocol
 */
@@ -99,9 +101,9 @@ extern DECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const char* ip, unsigned in
 #endif
 
 /*
- *	Get host ip adress.
+ *	Get host name to ip adress.
  */
-extern DECLSPEC int ELTAPIENTRY ExGetHostIp(char* ip);
+extern DECLSPEC int ELTAPIENTRY ExGetHostIp(char* host);
 
 
 #ifdef  __cplusplus	/* C++ Environment */

@@ -65,7 +65,6 @@ OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
 		ExLoadLibrary(EX_GLES_LIB_MOUDLE_NAME);
 
 
-
 	if(!ExCreateEGLContextAttrib(window,attrs,NULL)){
 
 	}

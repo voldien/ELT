@@ -21,23 +21,24 @@
 #include"EngineAssembly.h"
 
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
 /*TODO take a look at which approuch for dealing with cpu information. enum or string?*/
-#define EX_CPU_VENDOR_INTEL
-#define EX_CPU_VENDOR_AMD
-#define EX_CPU_VENDOR_ARM
-
+#define EX_CPU_VENDOR_INTEL	0x1
+#define EX_CPU_VENDOR_AMD	0x2
+#define EX_CPU_VENDOR_ARM	0x4
 
 /*
- *	Get CPU Name
+ *	Get the name of the CPU.
  *	@return
 */
 extern DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC Int32 ELTAPIENTRY ExGetFrequence(void);
 
 /*
@@ -61,7 +62,7 @@ extern DECLSPEC ExBoolean ELTAPIENTRY ExHas3DNow(void);
 extern DECLSPEC ExBoolean ELTAPIENTRY ExHasMMX(void);
 
 /*
- *	Get CPU number of cpu cores
+ *	Get number of cpu's cores.
  *	@return number of cpu cores.
  */
 extern DECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void);
@@ -107,7 +108,7 @@ extern DECLSPEC Enum ELTAPIENTRY ExGetCpuVendor(void);
 /**/
 extern DECLSPEC Enum ELTAPIENTRY ExGetCPUInstructionArchecture(void);
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 

@@ -16,23 +16,26 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _EX_PRE_PROCESSOR_H_
-#define _EX_PRE_PROCESSOR_H_ 1
+#ifndef _EX_DEF_H_
+#define _EX_DEF_H_ 1
 #include<stddef.h>
 #include<stdint.h>
+
 
 #ifdef __cplusplus
 	#include<cstdio>
 	#include<climits>
-	#define EX_CPP	/* C++ environment	*/
+	#define EX_CPP	/*	C++ environment	*/
 #else
 	#include<stdio.h>
 	#include<limits.h>
-	#define EX_C	/* C environment	*/
+	#define EX_C	/*	C environment	*/
 #endif
 
 
-/*	khr group	*/
+/*
+ *	khr group
+ */
 #include <KHR/khrplatform.h>
 
 
@@ -98,6 +101,7 @@
 #else
 	#error Unsupported Compiler.
 #endif
+
 
 
 
@@ -232,6 +236,7 @@
 #endif
 
 
+
 /*
  *   C Compiler Version
  */
@@ -243,9 +248,10 @@
 #   define EX_C90
 #endif
 
+
 /*
-    macro definition of Release and Debug  build
-*/
+ *	Macro definition of Release and Debug build.
+ */
 #if defined(_DEBUG) || defined(DEBUG)
 	#define EX_DEBUG	1
 	#define DEBUGMODE	1
@@ -256,6 +262,7 @@
 	#define EX_RELEASE
 	#define RELEASEMODE
 #endif
+
 
 /*
  *	Converting character into a constant string in precompiling stage.
@@ -483,7 +490,7 @@
 
 /*
  *	Int max bits size supported by compiler or hardware
-*/
+ */
 #if defined(EX_VC)
 	#define EX_INT_MAX_BITS _INTEGRAL_MAX_BITS
 #elif defined(EX_GNUC)
@@ -492,7 +499,7 @@
 
 /*
  *	Unused indication. Will make the compiler exclude it from the final binary.
-*/
+ */
 #define EX_UNUSED(_p)	((void)(_p))
 
 
@@ -513,9 +520,9 @@
 	#define EX_EDGE
 #endif
 
-/**
-	C struct
-*/
+/*
+ *	C struct
+ */
 #ifdef EX_CPP
 	#define EX_C_STRUCT
 #else
@@ -525,7 +532,7 @@
 
 /*
  *	Assembly instruction identification
-*/
+ */
 #if defined(EX_VC)
 	#define EX_ASSM __asm
 #elif defined(EX_GNUC)
@@ -533,6 +540,7 @@
 #elif defined(EX_CLANG)
 	#define EX_ASSM asm
 #endif
+
 
 /*
  *	Export & Import of DLL
@@ -550,9 +558,9 @@
 #endif
 
 
-/**
-    ELT Library file name.
-*/
+/*
+ *    ELT shared/dynamic Library file name.
+ */
 #ifdef EX_DEBUG
 #   ifdef EX_WINDOWS
 #       define EX_LIBRARY_NAME "libEngineEx.dll"
@@ -570,7 +578,7 @@
 
 /*
  *	ELT Version.
-*/
+ */
 #define EX_ENGINE   "Engine Library Toolkit"
 
 
@@ -607,7 +615,9 @@
 	#endif
 #endif
 
-/**/
+/*
+ *
+ */
 #define EX_ENGINE_PREALPHA EX_TEXT("pa")	        /* Pre alpha    */
 #define EX_ENGINE_ALPHA EX_TEXT("a")		        /* Alpha        */
 #define EX_ENGINE_BETA EX_TEXT("b")		       	    /* Beta         */
@@ -642,7 +652,7 @@
 
 
 /*
- *	all IDE don't enable NDEBUG || _DEBUG by default. Has to be predefined explicitly if not defined.
+ *	All IDE don't enable NDEBUG || _DEBUG by default. Has to be predefined explicitly if not defined.
  */
 #if (NDEBUG || _DEBUG)
 	#if !(defined NDEBUG ^ defined _DEBUG)
@@ -663,7 +673,7 @@
 
 
 /*
- *
+ *	Disable some useless and tedious compiler warning.
  */
 #ifdef EX_VC
 	#define WIN32_LEAN_AND_MEAN	    /*	ignoring some tedious useless warnings from Windows.*/

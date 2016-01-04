@@ -34,10 +34,14 @@ extern DECLSPEC ExAudioContext ELTAPIENTRY ExAudioInit(const char* driverName);
  */
 extern DECLSPEC ERESULT ELTAPIENTRY ExAudioQuit(void);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC ERESULT ELTAPIENTRY ExAudioWrite(const void* data);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC ERESULT ELTAPIENTRY ExAudioRead(void* data);
 
 /**/

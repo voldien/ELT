@@ -40,12 +40,11 @@
 #endif
 
 
-#define GL_SHARING_EXTENSION "cl_khr_gl_sharing"        /**/
-#define DX_SHARING_EXTENSION "cl_khr_d3d10_sharing"     /**/
+/**/
+#define GL_SHARING_EXTENSION "cl_khr_gl_sharing"
+/**/
+#define DX_SHARING_EXTENSION "cl_khr_d3d10_sharing"
 
-/*
-	OpenCL Error
-*/
 
 //#define ExIsCLError(x)  { if( ( x ) != CL_SUCCESS ){ ExDevPrintfc("Error | %s",EX_CONSOLE_RED,ExGetErrorMessage( ( x ) )); } }
 
@@ -55,6 +54,8 @@
 
 
 #if !(defined(EX_ANDROID) || defined(DONT_SUPPORT_OPENCL))  /*  TODO resolve this provisional approach to solve the problem*/
+
+
 /**handle to OpenCL Library */
 HANDLE cl_libhandle=NULL;
 /** opencl context of current */
@@ -75,9 +76,8 @@ static char* get_device_extension(cl_device_id device){
     return extension;
 }
 
-/*	*/
-inline
-static void loadOpenClLibrary(void){
+
+static inline void loadOpenClLibrary(void){
     if(!ExIsModuleLoaded(OPENCL_LIBRARY_NAME))
         #ifdef EX_LINUX
         ExLoadLibrary(OPENCL_LIBRARY_NAME);
@@ -93,8 +93,7 @@ OpenCLContext ELTAPIFASTENTRY ExGetCurrentCLContext(void){
 	return hClContext;
 }
 
-
-OpenCLContext ELTAPIENTRY ExCreateCLContext(Enum flag){
+OpenCLContext ELTAPIENTRY ExCreateCLContext(Enum flag, ExOpenCLContext clc){
 	cl_int cpPlatform;
 	cl_int ciErrNum;
 	Uint32 uiDevCount = 0;
@@ -110,7 +109,8 @@ OpenCLContext ELTAPIENTRY ExCreateCLContext(Enum flag){
     TODO check if needed or logic is accepted*/
     loadOpenClLibrary();
 
-    /*Get platform ID	*/
+
+    /*	Get platform ID	*/
 	if(ExGetCLPlatformID(&cpPlatform,flag) != CL_SUCCESS){
 		return NULL;
 	}
@@ -257,7 +257,10 @@ OpenCLContext ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowConte
     return (void*)hClContext;
 }
 
-ERESULT ELTAPIENTRY ExQueryCLContext(void* context,void* param_value,Enum param_name){
+
+
+
+ERESULT ELTAPIENTRY ExQueryCLContext(ExOpenCLContext context, HANDLE param_value, Enum param_name){
     cl_int ciErrNum;
 	size_t size;
 	if(!context)return -1;
@@ -316,7 +319,7 @@ ERESULT ELTAPIENTRY ExQueryCLContext(void* context,void* param_value,Enum param_
 
 
 
-void ELTAPIENTRY ExDestroyCLContext(void* context){
+void ELTAPIENTRY ExDestroyCLContext(ExOpenCLContext context){
 	clReleaseContext((cl_context)context);
 }
 
@@ -446,8 +449,8 @@ Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum flag){
 	return FALSE;
 }
 
-/**/
-void* ExCreateCommandQueue(void* context, void*device){
+
+void* ExCreateCommandQueue(ExOpenCLContext context, HANDLE device){
     cl_int errNum;
     cl_device_id* devices;
     cl_command_queue commandQueue = NULL;
@@ -483,7 +486,7 @@ void* ExCreateCommandQueue(void* context, void*device){
 }
 
 /**/
-void* ExCreateProgram(void* context, void* device, const char* cfilename, ...){
+void* ExCreateProgram(ExOpenCLContext context, HANDLE device, const ExChar* cfilename, ...){
 	va_list list;
 	cl_int errNum = 0;
     cl_program program;

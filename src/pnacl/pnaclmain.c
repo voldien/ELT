@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include"system.h"
+
 #include "ppapi/c/pp_errors.h"
 #include "ppapi/c/pp_module.h"
 #include "ppapi/c/pp_var.h"
@@ -119,7 +121,5 @@ PP_EXPORT const void* PPP_GetInterface(const char* interface_name) {
 
 
 PP_EXPORT void PPP_ShutdownModule() {
-
-
-
+	ExPrintf("Shutting down module.\n");
 }

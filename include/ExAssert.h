@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef EX_ASSERT_H
-#define EX_ASSERT_H
+#ifndef _EX_ASSERT_H_
+#define _EX_ASSERT_H_ 1
 #include<assert.h>
 // send error message to
 //#define ExAssert(condition) _wassert(_CRT_WIDE(#_Expression), _CRT_WIDE(__FILE__), __LINE__),0)

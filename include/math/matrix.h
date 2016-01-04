@@ -45,12 +45,24 @@ extern "C"{
 
 */
 extern void mat4x4_multi_vec4(const vec4x4_t lf_mat4,const float rf_vec4[4],float out_vec4[4]);
+
 /*
 */
 extern void mat4x4_multi_mat4x4(const vec4x4_t lf_mat4,const vec4x4_t rf_mat4, vec4x4_t outf_mat4);
 
+/*
+ *
+ */
 extern void mat4x4_divs_mat4x4(const vec4x4_t lf_mat4, const vec4x4_t rf_mat4, vec4x4_t outf_mat4);
+
+/*
+ *
+ */
 extern void mat4x4_addi_mat4x4(const vec4x4_t lf_mat4, const vec4x4_t rf_mat4, vec4x4_t outf_mat4);
+
+/*
+ *
+ */
 extern void mat4x4_subt_mat4x4(const vec4x4_t lf_mat4, const vec4x4_t rf_mat4, vec4x4_t outf_mat4);
 
 extern void mat4x4_identity(vec4x4_t f_mat4);

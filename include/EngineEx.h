@@ -20,15 +20,12 @@
 #define _ENGINE_EX_H_ 1
 #include"EngineAssembly.h"
 
-
-
-
-#ifdef  __cplusplus	/* C++ Environment */
+#ifdef  __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
 /*
- *	Initialization of ELT Engine Library ToolKit
+ *	Initialize ELT Engine Library ToolKit
  *	\engineflag
  *	@return
 */
@@ -38,15 +35,15 @@ extern DECLSPEC ERESULT ELTAPIENTRY ExInit(Uint32 engineFlag);
  *	Initialize specific subsystems
  *	\engineflag
  *	@return
-*/
+ */
 extern DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineFlag);
 
 /*
- *	Shut Down Function ELT
-*/
+ *	Shut Down Function ELT.
+ */
 extern DECLSPEC void ELTAPIENTRY ExShutDown(void);
-
 #define ExQuit ExShutDown
+
 /*
  *	Quit Sub System
  *	\engineflag
@@ -54,35 +51,35 @@ extern DECLSPEC void ELTAPIENTRY ExShutDown(void);
 extern DECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag);
 
 /*
- *	EngineEx Enable
+ *	Enable.
  */
 extern DECLSPEC void ELTAPIENTRY ExEnable(Enum enable);
 
 /*
- *	EngineEx Disable
-*/
+ *	Disable.
+ */
 extern DECLSPEC void ELTAPIENTRY ExDisable(Enum disable);
 
 
-
-/**/
-
-//TODO put ExCreateInterrupt somewhere else!
 /*
-*/
-extern DECLSPEC int ELTAPIENTRY ExCreateInterrupt(interrupt_routine callback,unsigned int type);
+ *	Create interrupt event.
+ *	TODO put ExCreateInterrupt somewhere else!
+ */
+extern DECLSPEC int ELTAPIENTRY ExCreateInterrupt(interrupt_routine callback, Uint32 type);
+
 
 /*
- *	Get ELT Version
+ *	Get ELT Version.
  */
 extern DECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void);
 
 /*
- *	Get Compiler compiled with ELT.
+ *	Get compiler compiled with ELT.
  */
 extern DECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void);
 
 #ifdef  __cplusplus	/* C++ Environment */
 }
 #endif
+
 #endif

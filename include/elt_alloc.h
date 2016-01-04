@@ -31,44 +31,73 @@ extern "C"{
 extern DECLSPEC int ELTAPIENTRY ExGetPageSize(void);
 
 
+/*
+ *	Get total system memory on the system.
+ */
+extern DECLSPEC Uint64 ELTAPIENTRY ExGetTotalSystemMemory(void);
+
+/*
+ *	Get total virtual memory on the system.
+ */
+extern DECLSPEC Uint64 ELTAPIENTRY ExGetTotalVirtualMemory(void);
+
 
 
 /*	TODO move to a header with data structure!	*/
 
-
 EX_ALIGN_PREFIX(4)
-typedef struct ex_pool_allactor{
+typedef struct ex_pool_allocator{
 	void* next;
-}ExPoolAllactor;
+}ExPoolAllocator;
 
 
 /*
  *	Poll allocator
  */
-extern DECLSPEC ExPoolAllactor* ELTAPIENTRY ExPoolCreate(unsigned int num, unsigned int itemsize);
+extern DECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolCreate(unsigned int num, unsigned int itemsize);
+
+/*
+ *	obtain next item
+ *	If return value is null, then the allocator
+ *	is full
+ */
+extern DECLSPEC void* ELTAPIENTRY ExPoolObtain(ExPoolAllocator* allactor);
 
 /*
  *
  */
-extern DECLSPEC void* ELTAPIENTRY ExPoolObtain(ExPoolAllactor* allactor);
+extern DECLSPEC void* ELTAPIENTRY ExPoolReturn(ExPoolAllocator* allactor, void* data, unsigned int len);
 
 /*
  *
  */
-extern DECLSPEC void* ELTAPIENTRY ExPoolReturn(ExPoolAllactor* allactor, void* data, unsigned int len);
+extern DECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolResize(ExPoolAllocator* allcotor, unsigned num, unsigned int itemsize);
 
 /*
  *
  */
-extern DECLSPEC ExPoolAllactor* ELTAPIENTRY ExPoolResize(ExPoolAllactor* allcotor, unsigned num, unsigned int itemsize);
-
-/*
- *
- */
-extern DECLSPEC void  ELTAPIENTRY ExPoolFree(ExPoolAllactor* allactor);
+extern DECLSPEC void  ELTAPIENTRY ExPoolFree(ExPoolAllocator* allactor);
 
 #define ExPoolIndex(alloc,index,len)	( ( alloc ) + (( index ) * ( len )  + ( index )) )
 #define ExPoolDataIndex(alloc,data,len)	((data - alloc)
+
+
+typedef struct ex_quad_tree{
+	struct ex_quad_tree* t0;
+	struct ex_quad_tree* t1;
+	struct ex_quad_tree* t2;
+	struct ex_quad_tree* t3;
+	void* data[0];
+}ExQuadTree;
+
+typedef struct ex_octree_tree{
+
+}ExOctreTree;
+
+
+typedef struct ex_hash_table{
+
+}ExHashTable;
 
 #ifdef __cplusplus
 }

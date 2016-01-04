@@ -87,7 +87,7 @@ int isExtensionSupported(const char* extList, const char* extension){
 	return FALSE;
 }
 
-/*	Get window associated with the opengl context	*/
+
 DECLSPEC inline ExWin ELTAPIENTRY ExGetOpenGLContextWindow(OpenGLContext glc){
 #ifdef EX_WINDOWS
 	return WindowFromDC(wglGetCurrentDC());

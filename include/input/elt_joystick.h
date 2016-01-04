@@ -22,13 +22,15 @@
 
 typedef int ExJoyStick;
 
+EX_ALIGN_PREFIX(4)
 typedef struct ex_GUID{
 	Uint8 data[16];
 }ExGUID;
 
-#ifdef __cplusplus /* C++ environment */
+#ifdef __cplusplus	/*	C++ environment	*/
 extern "C"{
 #endif
+
 /*
  *	Number of joystick
  *	@return
@@ -51,26 +53,30 @@ extern DECLSPEC Int32 ELTAPIENTRY ExJoyStickClose(Int32 index);
  *	@return
  */
 extern DECLSPEC ExGUID ELTAPIENTRY ExJoystickGetDeviceGUID(Int32 index);
+
 /*
  *	Get Joystick name
  *	@return
 */
-
 extern DECLSPEC const ExChar* ELTAPIENTRY ExJoyStickName(Uint32 ptr);
+
 /*
  *	Get number of buttons on a joystick
  *	@return
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExJoystickNumButtons(Uint32 ptr);
+
 /*
  *	Axis Get number of axis on joystick
  *	@return
  */
 extern DECLSPEC Int32 ELTAPIENTRY ExJoystickNumAxis(Int ptr);
+
 /*
  *
  */
 extern DECLSPEC Int16 ELTAPIENTRY ExJoystickGetAxis(Int32 device_ptr,int axis);
+
 /*
  *   \Button
  */
