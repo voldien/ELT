@@ -91,7 +91,7 @@
 #define EX_GL_CONTEXT_RESET_ISOLATION_FLAG    	0x00000008
 
 
-#ifdef __cplusplus /* C++ environment */
+#ifdef __cplusplus	/*	C++ environment	*/
 extern "C"{
 #endif
 
@@ -110,18 +110,19 @@ extern DECLSPEC WindowContext ELTAPIFASTENTRY ExGetCurrentGLDC(void);
 
 /*
  *	Get OpenGL context on the current thread
-*/
+ */
 extern DECLSPEC ExOpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void);
+
 /*
  *	Get OpenGL context from given window.
-*/
+ */
 extern DECLSPEC ExOpenGLContext ELTAPIENTRY ExGetOpenGLCFromWindow(ExWin window);
 
 /*
  *	Make current OpenGL context.
  *	\hDC
  *	\glc
-*/
+ */
 extern DECLSPEC int ELTAPIENTRY ExMakeGLCurrent(ExWindowContext hDC, ExOpenGLContext glc);
 
 /*
@@ -131,7 +132,7 @@ extern DECLSPEC void ELTAPIENTRY ExCreateContextAttrib(ExWindowContext hDC,Int32
 
 /*
  *	Create OpenGL context for given window
-*/
+ */
 extern DECLSPEC ExOpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shareContext);
 
 /*
@@ -141,22 +142,22 @@ extern DECLSPEC ExOpenGLContext ELTAPIENTRY ExCreateTempGLContext(void);
 
 /*
  *	Create Shared OpenGL Context from a already existing context.
-*/
+ */
 extern DECLSPEC ExOpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, ExOpenGLContext context);
 
 /*
- *
+ *	Set OpenGL context attribute.
  */
 extern DECLSPEC void ELTAPIENTRY ExOpenGLSetAttribute(unsigned int attr, int value);
 
 /*
- *
+ *	Get OpenGL context attribute.
  */
 extern DECLSPEC int ELTAPIENTRY ExOpenGLGetAttribute(unsigned int attr, int* value);
 
 
 /*
- *
+ *	Reset OpenGL context attributes to default.
  */
 extern DECLSPEC void ELTAPIENTRY ExOpenGLResetAttributes(void);
 
@@ -244,7 +245,7 @@ extern DECLSPEC Enum ELTAPIENTRY ExGetOpenGLVendor(void);
 extern DECLSPEC ERESULT ELTAPIENTRY ExOpenGLSetVSync(ExBoolean enabled, ExWin window);
 
 
-#ifdef __cplusplus /* C++ environment */
+#ifdef __cplusplus	/*	C++ environment	*/
 }
 #endif
 
