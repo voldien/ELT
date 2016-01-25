@@ -36,7 +36,7 @@
 
 
 
-#ifdef  __cplusplus	/* C++ Environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
@@ -89,7 +89,7 @@ extern DECLSPEC long int ELTAPIENTRY ExGetHiResTime(void);
 #define ExGetSecondsf ((float)ExGetTicks() / (float)EX_TICKS_PER_SECOND)
 
 
-#ifdef  __cplusplus	/* C++ Environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 #endif
