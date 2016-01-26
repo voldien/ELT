@@ -25,17 +25,17 @@
  */
 #define WM_USER_SIZE (WM_USER + 1)
 
-#ifdef  __cplusplus	/* C++ Environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
 /*
- *
+ *	Disable alt tab
  */
 extern DECLSPEC void ELTAPIENTRY ExDisableAltTab(void);
 
 /*
- *
+ * Enable alt tab.
  */
 extern DECLSPEC void ELTAPIENTRY ExEnableAltTab(void);
 
@@ -45,8 +45,8 @@ extern DECLSPEC void ELTAPIENTRY ExEnableAltTab(void);
 extern DECLSPEC ExBoolean ELTAPIENTRY ExEnableDeviceNotification(ExWin hWnd);
 
 /*
- *	//	main window procedure
- *	//	Remark :
+ *	Main window message queue procedure.
+ *	This WndProc utitilize
  *	\hWnd
  *	\uMsg
  *	\wParam
@@ -56,7 +56,7 @@ extern DECLSPEC ExBoolean ELTAPIENTRY ExEnableDeviceNotification(ExWin hWnd);
 extern DECLSPEC ERESULT ELTAPISTDENTRY ExMainWndProc(ExWin hWnd, Uint uMsg, WPARAM wParam, LPARAM lParam);
 
 /*
- *	native windows. designed for user interface handling.
+ *	Native windows. designed for user interface handling.
  */
 extern DECLSPEC ERESULT ELTAPISTDENTRY ExWndProcNative(ExWin hWnd, Uint uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -91,7 +91,7 @@ extern DECLSPEC ERESULT ELTAPISTDENTRY DefViewWindowProc(ExWin hwnd, Uint messag
 extern DECLSPEC ERESULT ELTAPISTDENTRY ListViewWindowProc(ExWin hwnd, Uint message, WPARAM wParam, LPARAM lParam);
 
 
-#ifdef  __cplusplus	/* C++ Environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 
