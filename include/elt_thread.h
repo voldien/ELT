@@ -27,7 +27,7 @@
 	#define ExSleep usleep
 #endif
 
-#ifdef  __cplusplus	/* C++ Environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
@@ -120,7 +120,7 @@ extern DECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread, Enum nP
  */
 extern DECLSPEC ERESULT ELTAPIENTRY ExWaitThread(ExThread thread, Int32* status);
 
-#ifdef  __cplusplus	/* C++ Environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 

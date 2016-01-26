@@ -34,8 +34,8 @@
 
 /*
  *	Type declaration
-*/
-#if defined(EX_WINDOWS)
+ */
+#if defined(EX_VC)
 	typedef signed __int64 		Int64;
 	typedef signed __int32 		Int32;
 	typedef signed __int16 		Int16;
@@ -96,8 +96,11 @@
 	typedef unsigned int		Uint;
 	typedef unsigned short		Ushort;
 
-	typedef float Float;
-	typedef double Double;
+#if EX_INT_MAX_BITS > 64
+	typedef signed __int128 Int128;
+	typedef unsigned __int128 Uint128;
+#endif
+
 #endif
 
 
@@ -113,9 +116,12 @@ typedef long Long;
 /* 64 bits [0 to 18,446,744,073,709,551,615] */
 typedef Uint8 Keycode;
 
-/**/
+/*	*/
 typedef Uint8 ExBoolean;
 
+/*
+ *	Atom data type.
+ */
 typedef int ExAtom;
 
 /*
@@ -124,22 +130,25 @@ typedef int ExAtom;
 typedef long ERESULT;
 
 #ifndef EX_WIN32
+	typedef void* ExHandle;
 	typedef void* HANDLE;
 	//EX_DECLARE_HANDLE(HANDLE);
 #endif
-
-
+#define ELT_DECLARE_HANDLE(name) typedef struct name##__ { int unused; } *name
+ELT_DECLARE_HANDLE(EXHANDLE);
 
 /*
  *	ELT Character data type.
  */
 #ifdef EX_UNICODE
 	typedef wchar_t ExChar;
-	#define EX_STR_LEN wcslen	// length of character of ExChar
+	#define EX_STR_LEN wcslen	/*	length of character of ExChar	*/
 #else
 	typedef char ExChar;
-	#define EX_STR_LEN strlen	// length of character of ExChar
+	#define EX_STR_LEN strlen	/*	length of character of ExChar	*/
 #endif
+
+typedef wchar_t ExWide;
 
 // TODO change location later on!!
 /*
@@ -215,7 +224,6 @@ typedef void* ExWindowContext;
 typedef void* ExAudioContext;
 
 #ifdef EX_WINDOWS
-
 	#define THREAD_CALLBACK __stdcall
 #elif defined(EX_LINUX) && defined(GLX_H)
 	#define THREAD_CALLBACK //__cdecl
@@ -224,14 +232,18 @@ typedef void* ExAudioContext;
 #elif defined(EX_MAC)
 	#define THREAD_CALLBACK __cdecl
 #else
-
 	#define THREAD_CALLBACK __cdecl
 #endif
 
 #define EX_CALLBACK ELTAPISTDENTRY
 
 /*
- *	Thread
+ *
+ */
+typedef void(EX_CALLBACK* ExCallBack)(void);
+
+/*
+ *	Thread callback type.
  */
 typedef void*(*interrupt_routine)(void*);
 typedef void*(THREAD_CALLBACK *thread_routine)(void*);

@@ -24,7 +24,7 @@
 #include<android/log.h>
 #endif
 
-#ifdef __cplusplus /* C++ environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
@@ -46,7 +46,7 @@ extern DECLSPEC void* ELTAPIENTRY ExGetNativeLooper(void);
 #define vfprintf(x,y,...) __android_log_print(ANDROID_LOG_INFO,"EngineEx", x ,##__VA_ARGS__ )
 #endif
 
-#ifdef __cplusplus /* C++ environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 

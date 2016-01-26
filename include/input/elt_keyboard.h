@@ -55,6 +55,11 @@ extern DECLSPEC const char* ELTAPIENTRY ExGetKeyName(Keycode keycode);
 extern DECLSPEC ExWin ELTAPIENTRY ExGetKeyboardFocus(void);
 
 /*
+ *
+ */
+extern DECLSPEC void ELTAPIENTRY ExSetKeyboardFocus(ExWin window);
+
+/*
  *	Get keyboard state.
  *	@return
  */

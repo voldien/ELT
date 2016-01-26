@@ -23,7 +23,7 @@
 #include"ExAssert.h"
 
 
-#ifdef  __cplusplus	/*	C++ Environment	*/
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
@@ -172,7 +172,7 @@ extern DECLSPEC Int32 ELTAPIENTRY ExGetClipboardData(void* pdata);
 extern DECLSPEC void* ELTAPIENTRY ExDownloadURL(const ExChar* url);
 
 
-#ifdef  __cplusplus	/*	C++ Environment	*/
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 #endif

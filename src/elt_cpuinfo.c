@@ -47,18 +47,16 @@
 
 #endif
 
-
-
 //http://stackoverflow.com/questions/1666093/cpuid-implementations-in-c
 
-#ifdef EX_WINDOWS       /** WINDOWS */
+#ifdef EX_WINDOWS       /*	WINDOWS	*/
 	#define cpuid __cpuid
-#elif defined(EX_LINUX)	/** LINUX   */
+#elif defined(EX_LINUX)	/*	LINUX	*/
     #if defined(EX_X86)
     #   include<cpuid.h>
 	#endif
 
-	/** cpuid for linux  */
+	/*	cpuid for linux	*/
 #if defined(EX_X86) && !defined(EX_CLANG) && !defined(EX_LLVM)
 	#define cpuid(regs,i) 	EX_ASSM  __volatile__ \
 			("cpuid" : "=a" (regs[0]), "=b" (regs[1]), "=c" (regs[2]), "=d" (regs[3])\
@@ -162,14 +160,12 @@ DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
 #endif
 }
 
-/**
-	Has CPU Support For AVX (Advanced Vector Extension)
-*/
 DECLSPEC ExBoolean ELTAPIENTRY ExHasAVX(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,0x1);
 	return (cpuInfo[2] >> 28) &  0x1;
 }
+
 DECLSPEC ExBoolean ELTAPIENTRY ExHasAVX2(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);

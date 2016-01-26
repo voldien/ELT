@@ -20,7 +20,7 @@
 #define _ENGINE_EX_H_ 1
 #include"EngineAssembly.h"
 
-#ifdef  __cplusplus	/*	C++ Environment	*/
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
@@ -78,7 +78,7 @@ extern DECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void);
  */
 extern DECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void);
 
-#ifdef  __cplusplus	/* C++ Environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 

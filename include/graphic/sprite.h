@@ -21,7 +21,7 @@
 #include"../EngineAssembly.h"
 #include"texture.h"
 #include"shader.h"
-#ifdef __cplusplus	/* C++ environment	*/
+#ifdef __cplusplus	/*	C++ environment	*/
 extern "C"{
 #endif
 

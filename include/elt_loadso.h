@@ -21,7 +21,7 @@
 #include"EngineAssembly.h"
 #include"system/elt_win.h"
 
-#ifdef  __cplusplus	/* C++ Environment	*/
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
@@ -70,7 +70,7 @@ extern DECLSPEC HANDLE ELTAPIENTRY ExIsModuleLoaded(const ExChar* file);
  */
 #define ExLoadLibrary ExLoadObject
 
-#ifdef  __cplusplus	// C++ Environment
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 

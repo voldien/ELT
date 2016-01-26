@@ -173,6 +173,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
     display = XOpenDisplay(getenv("DISPLAY"));
     if(!display){
         ExError("couldn't open Display\n");
+        abort();
     }
 
 

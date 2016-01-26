@@ -1,4 +1,4 @@
-/**
+/*
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -20,20 +20,22 @@
 #define _ELT_CPUINFO_H_ 1
 #include"EngineAssembly.h"
 
-
 #ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
 /*TODO take a look at which approuch for dealing with cpu information. enum or string?*/
-#define EX_CPU_VENDOR_INTEL	0x1
-#define EX_CPU_VENDOR_AMD	0x2
-#define EX_CPU_VENDOR_ARM	0x4
+#define EX_CPU_UNKNOWN    0x0
+#define EX_CPU_X86        0x1
+#define EX_CPU_PPC        0x2
+#define EX_CPU_ARM        0x3
+#define EX_CPU_MIPS       0x4
+
 
 /*
  *	Get the name of the CPU.
  *	@return
-*/
+ */
 extern DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void);
 
 /*

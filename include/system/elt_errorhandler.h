@@ -22,7 +22,7 @@
 
 typedef void(ELTAPIENTRY *singalcallback)(Int32);
 
-#ifdef  __cplusplus	/* C++ Environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
@@ -41,13 +41,13 @@ extern "C"{
 
 
 /*
-	ExInternalError
-*/
+ *	ExInternalError
+ */
 #define ExIsError(x) { if( ( x ) <= 0 ){ ExDevPrint("Error");} }
 
 /*
-	C error
-*/
+ *	C error
+ */
 #define ExIsCError(x) { if( ( x ) <= 0){ ExDevPrintf("Error | %s",strerror(errno));}}
 
 
@@ -278,7 +278,7 @@ extern DECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal, singalcallback
 
 
 
-#ifdef  __cplusplus	/*	C++ Environment	*/
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 

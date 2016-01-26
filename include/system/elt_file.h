@@ -71,12 +71,12 @@ extern DECLSPEC int ELTAPIENTRY ExCreateDirectory(const ExChar* directory);
 extern DECLSPEC int ELTAPIENTRY ExRemoveDirectory(const ExChar* directory);
 
 /*
- *
+ *	Remove file by given name.
  */
 extern DECLSPEC int ELTAPIENTRY ExRemoveFile(const ExChar* cfilename);
 
 /*
- *
+ *	Return true if file exist.
  */
 extern DECLSPEC int ELTAPIENTRY ExExistFile(const ExChar* cfilename);
 

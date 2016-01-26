@@ -1,4 +1,4 @@
-/**
+/*
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -22,7 +22,7 @@
 #include"elt_gl.h"
 
 
-#ifdef  __cplusplus	/** C++ Environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
@@ -47,7 +47,7 @@ extern DECLSPEC int ELTAPIENTRY ExCreateEGLContextAttrib(ExWin window, int* attr
 extern DECLSPEC void ELTAPIENTRY ExDestroyEGLContext(OpenGLContext context);
 
 
-#ifdef  __cplusplus	/** C++ Environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 

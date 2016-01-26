@@ -30,7 +30,7 @@ typedef struct ex_shader{
 	int flag;
 }ExShader,ShaderHeaderr;
 
-#ifdef __cplusplus	/* C++ environment	*/
+#ifdef __cplusplus	/*	C++ environment	*/
 extern "C"{
 #endif
 

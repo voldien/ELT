@@ -30,7 +30,7 @@ typedef struct ex_texture{
 }ExTexture;
 
 
-#ifdef __cplusplus	/* C++ environment	*/
+#ifdef __cplusplus	/*	C++ environment	*/
 extern "C"{
 #endif
 

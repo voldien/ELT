@@ -28,7 +28,7 @@
 
 typedef void* ExSurface;
 
-#ifdef  __cplusplus	/* C++ Environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
@@ -76,7 +76,7 @@ extern DECLSPEC ExUnlockSurface(ExSurface surface);
  */
 extern DECLSPEC ExLockSurface(ExSurface surface);
 
-#ifdef  __cplusplus	/* C++ Environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 
