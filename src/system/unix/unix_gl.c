@@ -28,7 +28,7 @@
 
 #define GL_GET_PROC(x) glXGetProcAddress((const char*)( x ) )           /*  get OpenGL function process address */
 
-extern int isExtensionSupported(const char* extList, const char* extension);
+//extern int isExtensionSupported(const char* extList, const char* extension);
 
 
 #define PIXATTOFFSET 8	/*	offset to variable	*/
@@ -198,7 +198,7 @@ OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shareC
 
 			glXCreateAssociatedContextAttribsAMD = glXGetProcAddress("glXCreateAssociatedContextAttribsAMD"); /*  AMD */
 			glXGetGPUIDsAMD = glXGetProcAddress("glXGetGPUIDsAMD");
-	        if(isExtensionSupported(glXQueryExtensionsString(display,DefaultScreen(display)), "GLX_AMD_gpu_association")){
+	        if(ExIsExtensionSupported(glXQueryExtensionsString(display,DefaultScreen(display)), "GLX_AMD_gpu_association")){
 	        	glXGetGPUIDsAMD(sizeof(gpuids) / sizeof(gpuids[0]), gpuids);
 	        	glc = glXCreateAssociatedContextAttribsAMD(gpuids[0],NULL,pixAtt);
 
@@ -210,7 +210,7 @@ OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shareC
 
 		default:{
 
-			if(isExtensionSupported(glXQueryExtensionsString(display,DefaultScreen(display)), "GLX_ARB_create_context")){
+			if(ExIsExtensionSupported(glXQueryExtensionsString(display,DefaultScreen(display)), "GLX_ARB_create_context")){
 				typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
 				glXCreateContextAttribsARBProc glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc)glXGetProcAddress((const GLubyte*)"glXCreateContextAttribsARB");
 

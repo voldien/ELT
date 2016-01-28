@@ -62,30 +62,7 @@
 
 
 
-/*  check if extension is supported */
-int isExtensionSupported(const char* extList, const char* extension){
-	const char* start;
-	const char *where;
-	const char*terminator;
-	where = strchr(extension, ' ');
-	if(where || extension[0] == '\0')
-		return 0;
 
-	for(start = extList; ; ){
-		where = strstr(start, extension);
-
-		if(!where)break;
-
-		terminator = where + strlen(extension);
-
-		if(where == start || *(where - 1) == ' ')
-			if(*terminator == ' ' || *terminator == '\0')
-				return 1;
-
-		start  = terminator;
-	}
-	return FALSE;
-}
 
 
 DECLSPEC inline ExWin ELTAPIENTRY ExGetOpenGLContextWindow(OpenGLContext glc){
@@ -242,6 +219,39 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor){
         return ExGetOpenGLShadingVersion();
     }
 }
+
+Uint32 ExIsOpenGLExtensionSupported(const char* extension){
+	return ExIsExtensionSupported(glGetString(GL_EXTENSIONS), extension);
+}
+
+Uint32 ExIsExtensionSupported(const char* extList,const char* extension){
+	const char* start;
+	const char *where;
+	const char*terminator;
+
+	where = strchr(extension, ' ');
+	if(where || extension[0] == '\0')
+		return 0;
+
+	for(start = extList; ; ){
+		where = strstr(start, extension);
+
+		if(!where)break;
+
+		terminator = where + strlen(extension);
+
+		if(where == start || *(where - 1) == ' ')
+			if(*terminator == ' ' || *terminator == '\0')
+				return 1;
+
+		start  = terminator;
+	}
+	return FALSE;
+}
+
+
+
+
 
 
 #ifndef EX_LINUX

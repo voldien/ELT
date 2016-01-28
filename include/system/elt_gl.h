@@ -214,6 +214,20 @@ extern DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void);
 */
 extern DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor);
 
+
+/*
+ *	Get if OpenGL extension is supported on current binded machine.
+ *	@return TRUE is supported. Otherwise FALSE.
+ */
+extern DECLSPEC Uint32 ELTAPIENTRY ExIsOpenGLExtensionSupported(const char* extension);
+
+/*
+ *	TODO perhaps move it somewhere else, as some other API may use the same
+ *	extension parsing convention.
+ */
+extern DECLSPEC Uint32 ELTAPIENTRY ExIsExtensionSupported(const char* extList,const char* extension);
+
+
 /*
  *	Check if graphic card is AMD GPU
  *	@return
