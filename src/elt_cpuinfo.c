@@ -12,8 +12,9 @@
 #elif defined(EX_MAC)
 #   include<sys/sysctl.h>
 #endif
-#include<setjmp.h>
 
+
+#include<setjmp.h>
 
 #ifdef EX_GNUC
 
@@ -48,6 +49,8 @@
 #endif
 
 //http://stackoverflow.com/questions/1666093/cpuid-implementations-in-c
+
+
 
 #ifdef EX_WINDOWS       /*	WINDOWS	*/
 	#define cpuid __cpuid
@@ -153,6 +156,9 @@ DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
         cpu_name[i++] = (char)(d & 0xff); d >>= 8;
         cpu_name[i++] = (char)(d & 0xff); d >>= 8;
     }
+	#else	/*	get CPU name for ARM.*/
+
+
     #endif
     return cpu_name;
 #elif defined(EX_ANDROID)
@@ -187,6 +193,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExHasMMX(void){
 	else
 		return FALSE;
 }
+
 
 DECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void){
 #ifdef EX_WINDOWS
@@ -254,3 +261,9 @@ DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void){
 	else
 		return FALSE;
 }
+
+
+DECLSPEC ExBoolean ELTAPIENTRY ExHasNeon(void){
+	return FALSE;
+}
+

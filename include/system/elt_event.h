@@ -229,6 +229,7 @@ extern DECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent*
 
 /*
  *
+ *	@return
  */
 extern DECLSPEC Int32 ELTAPIENTRY ExForwardEvent(Uint32 event, HANDLE data, Uint32 size);
 

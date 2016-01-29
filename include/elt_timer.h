@@ -64,17 +64,22 @@ extern DECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nanosec);
 
 /*
  *	Get performance counter
- s*/
+ *	@return
+ */
 extern DECLSPEC Uint64 ELTAPIENTRY ExGetPerformanceCounter(void);
+
 /*
  *	Get Performance frequency
-*/
+ *	@return
+ */
 extern DECLSPEC Uint64 ELTAPIENTRY ExGetPerformanceFrequency(void);
+
 /*
  *	Get numbers Ticks sense ELT_TIMER was initialize
  *	@return
-*/
+ */
 extern DECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void);
+
 /*
  *	Get numbers Ticks sense ELT_TIMER was initialize
  *	@return get number of ticks.

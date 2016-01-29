@@ -64,17 +64,20 @@ extern DECLSPEC void ELTAPIENTRY ExDisable(Enum disable);
 /*
  *	Create interrupt event.
  *	TODO put ExCreateInterrupt somewhere else!
+ *	@return
  */
 extern DECLSPEC int ELTAPIENTRY ExCreateInterrupt(interrupt_routine callback, Uint32 type);
 
 
 /*
  *	Get ELT Version.
+ *	@return
  */
 extern DECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void);
 
 /*
  *	Get compiler compiled with ELT.
+ *	@return
  */
 extern DECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void);
 

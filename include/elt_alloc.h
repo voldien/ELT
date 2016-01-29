@@ -25,7 +25,7 @@ extern "C"{
 #endif
 
 /*
- *	Get Page size
+ *	Get Page size.
  *  @return number of bytes per page.
  */
 extern DECLSPEC int ELTAPIENTRY ExGetPageSize(void);
@@ -33,11 +33,13 @@ extern DECLSPEC int ELTAPIENTRY ExGetPageSize(void);
 
 /*
  *	Get total system memory on the system.
+ *	@return
  */
 extern DECLSPEC Uint64 ELTAPIENTRY ExGetTotalSystemMemory(void);
 
 /*
  *	Get total virtual memory on the system.
+ *	@return
  */
 extern DECLSPEC Uint64 ELTAPIENTRY ExGetTotalVirtualMemory(void);
 

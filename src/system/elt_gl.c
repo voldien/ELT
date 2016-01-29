@@ -63,8 +63,6 @@
 
 
 
-
-
 DECLSPEC inline ExWin ELTAPIENTRY ExGetOpenGLContextWindow(OpenGLContext glc){
 #ifdef EX_WINDOWS
 	return WindowFromDC(wglGetCurrentDC());
@@ -100,8 +98,6 @@ DECLSPEC inline OpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void){
 
 
 
-
-
 DECLSPEC inline int ELTAPIENTRY ExMakeGLCurrent(WindowContext drawable, OpenGLContext glc){
 #ifdef EX_WINDOWS
 	return wglMakeCurrent(drawable,glc);
@@ -111,12 +107,6 @@ DECLSPEC inline int ELTAPIENTRY ExMakeGLCurrent(WindowContext drawable, OpenGLCo
 	return eglMakeCurrent(eglDisplay, drawable, drawable, glc);
 #endif
 }
-
-
-
-/**
-    Create Shared OpenGL Context from a already existing context.
-*/
 
 
 DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
@@ -170,8 +160,6 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 #endif
 
 }
-
-
 
 
 DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void){
@@ -248,10 +236,6 @@ Uint32 ExIsExtensionSupported(const char* extList,const char* extension){
 	}
 	return FALSE;
 }
-
-
-
-
 
 
 #ifndef EX_LINUX

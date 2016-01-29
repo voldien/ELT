@@ -35,11 +35,13 @@ extern "C"{
 
 /*
  *	Create Surface
+ *	@return
  */
 extern DECLSPEC ExSurface ExCreateSurface(unsigned int width, unsigned height, unsigned int format);
 
 /*
  *	release surface.
+ *	@return
  */
 extern DECLSPEC int ExDestroySurface(ExSurface handle);
 

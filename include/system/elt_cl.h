@@ -63,11 +63,13 @@ extern DECLSPEC void ELTAPIENTRY ExDestroyCLContext(ExOpenCLContext context);
 
 /*
  *
+ *	@return
  */
 extern DECLSPEC void* ExCreateCommandQueue(OpenCLContext context, HANDLE device);
 
 /*
  *
+ *	@return
  */
 extern DECLSPEC void* ExCreateProgram(OpenCLContext context, HANDLE device, const ExChar* cfilename,...);
 
@@ -84,6 +86,7 @@ extern DECLSPEC void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, HANDLE p_cl_de
 
 /*
  *	Get and return device capability
+ *	@return
  */
 extern DECLSPEC Int32 ELTAPIENTRY ExGetClDevCap(void* device);
 

@@ -33,7 +33,7 @@ extern "C"{
 /*
  *	Get KeyCode name identification index
  *	@return
-*/
+ */
 extern DECLSPEC Keycode ELTAPIENTRY ExGetKeyFromName(const char* name);
 
 /*
@@ -88,11 +88,13 @@ extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(Uint32 keyCode);
 
 /*
  *
+ *	@return
  */
 extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode);
 
 /*
  *
+ *	@return
  */
 extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyReleased(Uint32 keyCode);
 

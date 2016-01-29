@@ -74,7 +74,8 @@ extern "C"{
 
 
 /*
- *    Initialize Error Handler
+ *	Initialize Error Handler
+ *	@return
  */
 extern DECLSPEC int ELTAPIENTRY ExInitErrorHandler(void);
 
@@ -93,6 +94,7 @@ extern DECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...);
 
 /*
  *	Get Error
+ *	@return
  */
 extern DECLSPEC ERESULT ELTAPIFASTENTRY ExGetError(void);
 
@@ -108,7 +110,8 @@ extern DECLSPEC void ELTAPIFASTENTRY ExClearError(void);
 
 /*
  *	Get ELT Error String.
-*/
+ *	@return
+ */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode);
 
 
@@ -131,6 +134,7 @@ extern DECLSPEC ExChar* ELTAPIENTRY ExGetHModuleErrorMessageW(ERESULT dw);
  *	Signal Catch.
  */
 extern DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal);
+
 /*
  *	Set Signal callback.
  */
