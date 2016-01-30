@@ -75,20 +75,20 @@
 
 
 /*
- *	Context profile flag attributes bit.
+ *	Context profile mask flag attributes bit.
  */
-#define EX_GL_CONTEXT_PROFILE_CORE           	0x00000001
-#define EX_GL_CONTEXT_PROFILE_COMPATIBILITY  	0x00000002
-#define EX_GL_CONTEXT_PROFILE_ES             	0x00000004 /* GLX_CONTEXT_ES2_PROFILE_BIT_EXT */
-#define EX_GL_CONTEXT_PROFILE_ES2				0x00000008
+#define EX_GL_CONTEXT_PROFILE_CORE           	0x00000001	/*	*/
+#define EX_GL_CONTEXT_PROFILE_COMPATIBILITY  	0x00000002	/*	*/
+#define EX_GL_CONTEXT_PROFILE_ES             	0x00000004 	/* GLX_CONTEXT_ES2_PROFILE_BIT_EXT */
+#define EX_GL_CONTEXT_PROFILE_ES2				0x00000008	/*	*/
 
 /*
- *	Context debug flag attributes bit.
+ *	Context flag attributes bit.
  */
-#define EX_GL_CONTEXT_DEBUG_FLAG              	0x00000001
-#define EX_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG 	0x00000002
-#define EX_GL_CONTEXT_ROBUST_ACCESS_FLAG      	0x00000004
-#define EX_GL_CONTEXT_RESET_ISOLATION_FLAG    	0x00000008
+#define EX_GL_CONTEXT_DEBUG_FLAG              	0x00001
+#define EX_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG 	0x00002
+#define EX_GL_CONTEXT_ROBUST_ACCESS_FLAG      	0x00004
+#define EX_GL_CONTEXT_RESET_ISOLATION_FLAG    	0x00008
 
 
 #ifdef __cplusplus	/*	C++ environment	*/

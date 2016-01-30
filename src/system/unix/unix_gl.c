@@ -40,29 +40,29 @@ int pixAtt[] = {
 	GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
 
 	/*		*/
-	GLX_RED_SIZE,8,
-	GLX_GREEN_SIZE,8,
-	GLX_BLUE_SIZE,8,
-	GLX_DEPTH_SIZE,16,
-	GLX_ALPHA_SIZE,0,
-	GLX_DOUBLEBUFFER,1,
-	GLX_STENCIL_SIZE,0,
-	GLX_ACCUM_RED_SIZE,0,
-	GLX_ACCUM_GREEN_SIZE,0,
-	GLX_ACCUM_BLUE_SIZE,0,
-	GLX_ACCUM_ALPHA_SIZE,0,
+	GLX_RED_SIZE, 8,
+	GLX_GREEN_SIZE, 8,
+	GLX_BLUE_SIZE, 8,
+	GLX_DEPTH_SIZE, 24,
+	GLX_ALPHA_SIZE, 0,
+	GLX_DOUBLEBUFFER, True,
+	GLX_STENCIL_SIZE, 0,
+	GLX_ACCUM_RED_SIZE, 0,
+	GLX_ACCUM_GREEN_SIZE, 0,
+	GLX_ACCUM_BLUE_SIZE, 0,
+	GLX_ACCUM_ALPHA_SIZE, 0,
 
 	/*	GLX	*/
-	GLX_STEREO,0,
-	GLX_SAMPLE_BUFFERS_ARB,0,
-	GLX_SAMPLES_ARB,0,
-	GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB,True,
+	GLX_STEREO, 0,
+	GLX_SAMPLE_BUFFERS_ARB, 0,
+	GLX_SAMPLES_ARB, 0,
+	GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB, True,
 	None,None,
-    GLX_CONTEXT_MAJOR_VERSION_ARB,0,
-    GLX_CONTEXT_MINOR_VERSION_ARB,0,
 
+    GLX_CONTEXT_MAJOR_VERSION_ARB, 0,
+    GLX_CONTEXT_MINOR_VERSION_ARB, 0,
     #ifdef EX_DEBUG
-    GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_DEBUG_BIT_ARB ,   /*  Debug TODO add hint*/
+    GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_DEBUG_BIT_ARB,   /*  Debug TODO add hint*/
     #else
     GLX_CONTEXT_FLAGS_ARB, 0,
     #endif
@@ -103,21 +103,24 @@ int ExChooseFBconfig(GLXFBConfig* pfbconfig){
 	int numfbconfigs,i;
 	unsigned int attr;
 
-	fbconfigs = glXChooseFBConfig(display,DefaultScreen(display), pixAtt,&numfbconfigs);
+	fbconfigs = glXChooseFBConfig(display,DefaultScreen(display), pixAtt, &numfbconfigs);
     pfbconfig[0] = fbconfigs[0];
 
-    /*	choose */
+    /*	choose TODO check if something has bee free.*/
 	for(i = 0; i < numfbconfigs; i++){
 		visual = (XVisualInfo*)glXGetVisualFromFBConfig(display, fbconfigs[i]);
-		if(!visual)continue;
+		if(!visual)
+			continue;
 
 		pict_format = XRenderFindVisualFormat(display, visual->visual);
-		if(!pict_format)continue;
+		if(!pict_format)
+			continue;
+
 
 		pfbconfig[0] = fbconfigs[i];
-
-		if(ExOpenGLGetAttribute(EX_OPENGL_ALPHA_SIZE,&attr) > 0){
-		    if(pict_format->direct.alphaMask > 0)break;
+		if(ExOpenGLGetAttribute(EX_OPENGL_ALPHA_SIZE, &attr) > 0){
+		    if(pict_format->direct.alphaMask > 0)
+		    	break;
 		}else break;
 
 	}
@@ -158,7 +161,7 @@ OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shareC
 	}
 
 	/**/
-    glXQueryVersion(display,&glxmaj,&glxmin);
+    glXQueryVersion(display, &glxmaj, &glxmin);
 
 
     /*	Get Current Supported Version of OpenGL	or get user requested version*/
@@ -168,22 +171,31 @@ OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shareC
 		}
     }
     else{
-    	major = ExOpenGLGetAttribute(EX_OPENGL_MAJOR_VERSION,NULL);
-    	minor = ExOpenGLGetAttribute(EX_OPENGL_MINOR_VERSION,NULL);
+    	major = ExOpenGLGetAttribute(EX_OPENGL_MAJOR_VERSION, NULL);
+    	minor = ExOpenGLGetAttribute(EX_OPENGL_MINOR_VERSION, NULL);
     }
-    contextflag = ExOpenGLGetAttribute(EX_OPENGL_CONTEXT_FLAGS,NULL);
-    contextprofile = ExOpenGLGetAttribute(EX_OPENGL_CONTEXT_PROFILE_MASK,NULL);
+
+
+
+    /*	check opengl attribute */
+
+
+
+    /**/
+    contextflag = ExOpenGLGetAttribute(EX_OPENGL_CONTEXT_FLAGS, NULL);
+    contextprofile = ExOpenGLGetAttribute(EX_OPENGL_CONTEXT_PROFILE_MASK, NULL);
+
 
 
     int contextAttribs[]={
-        GLX_CONTEXT_MAJOR_VERSION_ARB,major,
-        GLX_CONTEXT_MINOR_VERSION_ARB,minor,
+        GLX_CONTEXT_MAJOR_VERSION_ARB, major,
+        GLX_CONTEXT_MINOR_VERSION_ARB, minor,
         #ifdef EX_DEBUG
         GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_DEBUG_BIT_ARB | contextflag,   /*  Debug TODO add hint*/
         #else
         GLX_CONTEXT_FLAGS_ARB, contextflag,
         #endif
-		GLX_CONTEXT_PROFILE_MASK_ARB, contextprofile,
+		GLX_CONTEXT_PROFILE_MASK_ARB, ExIsExtensionSupported(glXQueryExtensionsString(display,DefaultScreen(display)),"GLX_ARB_create_context_profile") ? contextprofile : GLX_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
         None
     };
 
@@ -200,46 +212,42 @@ OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shareC
 			glXGetGPUIDsAMD = glXGetProcAddress("glXGetGPUIDsAMD");
 	        if(ExIsExtensionSupported(glXQueryExtensionsString(display,DefaultScreen(display)), "GLX_AMD_gpu_association")){
 	        	glXGetGPUIDsAMD(sizeof(gpuids) / sizeof(gpuids[0]), gpuids);
-	        	glc = glXCreateAssociatedContextAttribsAMD(gpuids[0],NULL,pixAtt);
+	        	glc = glXCreateAssociatedContextAttribsAMD(gpuids[0], NULL, pixAtt);
 
 	        }
 		}break;
 		case EX_INTEL:
-
 		case EX_NVIDIA:
-
 		default:{
 
-			if(ExIsExtensionSupported(glXQueryExtensionsString(display,DefaultScreen(display)), "GLX_ARB_create_context")){
+			if(ExIsExtensionSupported(glXQueryExtensionsString(display, DefaultScreen(display)), "GLX_ARB_create_context")){
 				typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
 				glXCreateContextAttribsARBProc glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc)glXGetProcAddress((const GLubyte*)"glXCreateContextAttribsARB");
 
-
 				if(glXCreateContextAttribsARB){
 					ExChooseFBconfig(&fbconfig);
-
-					//TODO resolve
-					glc = glXCreateContextAttribsARB(display, fbconfig, shareContext, True,contextAttribs);
+					glc = glXCreateContextAttribsARB(display, fbconfig, shareContext, True, contextAttribs);
 					XSync(display, False );
 				}
 			}
 			else{
+				ExPrintf("GL_ARB_create_context not supported.\n");
 				vi = glXChooseVisual(display,DefaultScreen(display),pixAtt);
-
 				glc = glXCreateContext(display,vi, shareContext,True);
 			}
 			/*
 
 			*/
-
 		}break;
     }
 
 
     glcdefault:	/*	default opengl context	*/
 	if(!glc){
-		glc = glXCreateNewContext(display, fbconfig, GLX_RGBA_TYPE, shareContext,True);
+		ExPrintf("Failed to create ARB Context.\n");
+		glc = glXCreateNewContext(display, fbconfig, GLX_RGBA_TYPE, shareContext, True);
 	}
+	XSync( display, False );
 
 
 	if(!glXIsDirect(display, glc))
@@ -266,8 +274,8 @@ OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLContext gl
     glGetIntegerv(GL_MAJOR_VERSION, &major);
 	glGetIntegerv(GL_MINOR_VERSION, &minor);
 
-    contextflag = ExOpenGLGetAttribute(EX_OPENGL_CONTEXT_FLAGS,NULL);
-    contextprofile = ExOpenGLGetAttribute(EX_OPENGL_CONTEXT_PROFILE_MASK,NULL);
+    contextflag = ExOpenGLGetAttribute(EX_OPENGL_CONTEXT_FLAGS, NULL);
+    contextprofile = ExOpenGLGetAttribute(EX_OPENGL_CONTEXT_PROFILE_MASK, NULL);
 
     /*  query OpenGL context fbconfig id*/
     glXQueryContext(display, glc, GLX_FBCONFIG_ID, &fbconfig);
@@ -431,6 +439,9 @@ DECLSPEC Int32 ELTAPIENTRY ExIsVendorIntel(void){
 }
 
 DECLSPEC ERESULT ELTAPIENTRY ExOpenGLSetVSync(ExBoolean enabled, ExWin window){
+	//glXSwapIntervalEXT
+	//sf_ptrc_glXSwapIntervalMESA
+	//glXSwapIntervalSGI
     typedef void (*glXSwapIntervalEXTProc)(Display*, GLXDrawable drawable, int intervale);
     glXSwapIntervalEXTProc glXSwapIntervalEXT = (glXSwapIntervalEXTProc)GL_GET_PROC((const GLubyte*)"glXSwapIntervalEXT");
     if(glXSwapIntervalEXT){
