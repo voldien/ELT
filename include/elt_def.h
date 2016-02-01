@@ -43,24 +43,24 @@
  *	Compiler.
  */
 #ifdef _MSC_VER 	/*	Visual Studio C++ Compiler.	*/
-	#define EX_VC
+	#define EX_MSVC
 	#define ENGINE_EX_COMPILER 1
 	#if _MSC_VER >= 1900
-		#define EX_V13 _MSC_VER
+		#define EX_MSVC13 _MSC_VER
 	#elif _MSC_VER >= 1800
-		#define EX_V12 _MSC_VER
+		#define EX_MSVC12 _MSC_VER
 	#elif _MSC_VER >= 1700
-		#define EX_VC11 _MSC_VER
+		#define EX_MSVC11 _MSC_VER
 	#elif _MSC_VER >= 1600
-		#define EX_VC10 _MSC_VER
+		#define EX_MSVC10 _MSC_VER
 	#elif _MSC_VER >= 1500
-		#define EX_VC9 _MSC_VER
+		#define EX_MSVC9 _MSC_VER
 	#elif _MSC_VER >= 1400
-		#define EX_VC8 _MSC_VER
+		#define EX_MSVC8 _MSC_VER
 	#elif _MSC_VER >= 1300
-		#define EX_VC7 _MSC_VER
+		#define EX_MSVC7 _MSC_VER
 	#else
-		#define EX_VC6 _MSC_VER
+		#define EX_MSVC6 _MSC_VER
 	#endif
     	#pragma warning(disable : 4201)
 	#define EX_COMPILER_NAME "Visual Studio C++/C"
@@ -108,7 +108,7 @@
 /*
  *	Find platform.
  */
-#ifdef EX_VC
+#ifdef EX_MSVC
 
 	#if defined(_M_IX86) || defined(_WIN32)
 		#define EX_X86                          /**/
@@ -304,7 +304,7 @@
  *	Declaration specification.
 */
 #if !defined(ENGINE_EX_STATIC_BUILD)
-	#if defined(EX_WINDOWS) || defined(EX_VC)					/*	Window	*/
+	#if defined(EX_WINDOWS) || defined(EX_MSVC)					/*	Window	*/
 		#define EX_IMPORT __declspec(dllimport)
 		#define EX_EXPORT __declspec(dllexport)
 	#elif defined(EX_LINUX)										/*	Linux	*/
@@ -341,7 +341,7 @@
 /*
  *
  */
-#ifdef EX_VC
+#ifdef EX_MSVC
 	#define NORETURN __declspec(noreturn)				// No Return, will loop forever.
 #elif defined(EX_GNUC)
 	#define NORETURN __attribute__(noreturn)
@@ -353,7 +353,7 @@
 /*
  *	No Throw.
  */
-#ifdef EX_VC
+#ifdef EX_MSVC
 	#define EX_NOTHROW __declspec(nothrow)						// No Throw
 #elif defined(EX_GNUC)
 	#define EX_NOTHROW __attribute__(nothrow)
@@ -368,17 +368,19 @@
  */
 #if defined(_ENGINE_INTERNAL) || (EX_ENGINE_VERSION_MAJOR < 1)	// Macro Definition Only Defined in this solution.
 	#define INTERNAL_ENGINEX	// Used for Assembly Data and Include Data structure.
-	#define EX_INTERNAL_DEVELOP_ENVIROMENT
+	//#define EX_INTERNAL_DEVELOP_ENVIROMENT
 #elif defined(EXTERNAL_ENGINE_INTERNAL)
 	#define INTERNAL_ENGINEX	// Used for Assembly Data and Include Data structure.
-	#define EX_INTERNAL_DEVELOP_ENVIROMENT
+	//#define EX_INTERNAL_DEVELOP_ENVIROMENT
 #endif
 
+
 #if (!defined(ENGINE_EX_STATICLIB) && !defined(ENGINE_EX_STATICLIB))
-#ifndef ENGINE_EX_LIB
-	#define ENGINE_EX_LIB
+	#ifndef ENGINE_EX_LIB
+		#define ENGINE_EX_LIB
+	#endif
 #endif
-#endif
+
 
 /*
  *	Calling Convention
@@ -398,11 +400,12 @@
     #define ELTAPITHISENTRY JNICALL
     #define ELTAPISTDENTRY JNICALL
 #else										/*	GNU	*/
-#   ifndef __cdecl
+#   if !defined(__cdecl) && defined(EX_GNUC)
         #define __cdecl  __attribute__ ((__cdecl__))
         #define __stdcall  __attribute__ ((stdcall))
 		#define __fastcall __attribute__((fastcall))
 #   endif
+
 	#define ELTAPIENTRY     __cdecl
 	#define ELTAPISTDENTRY  __stdcall
 	#define ELTAPIFASTENTRY __fastcall
@@ -413,7 +416,7 @@
 /*
  *	Disable on SPU because they are not supported
  */
-#if defined(EX_VC)
+#if defined(EX_MSVC)
 	#define EX_PUSH_PACK_DEFAULT __pragma(pack(push,8))
 	#define EX_POP_PACK			 __pragma(pack(pop))
 #elif (defined(EX_GNUC) && !defined(__SPU__)) || defined(EX_GHS)
@@ -428,7 +431,7 @@
 /*
  *	Inline.
 */
-#if defined(EX_VC)
+#if defined(EX_MSVC)
 	#define EX_INLINE inline
 	#pragma inline_depth(255)
 #else
@@ -438,7 +441,7 @@
 /*
  *	force inline.
  */
-#if defined(EX_VC)
+#if defined(EX_MSVC)
 	#define EX_FORCE_INLINE __forceinline
 #elif defined(EX_LINUX)
 	#define EX_FORCE_INLINE inline
@@ -463,7 +466,7 @@
 /*
  *	#define EXDEPRECATED(x) __declspec(deprecated(x))		// Deprecated deceleration (x = Warning Message)
  */
-#ifdef EX_VC
+#ifdef EX_MSVC
 	#define EXDEPRECATED  __declspec(deprecated)		    // Deprecated deceleration (x = Warning Message)
 	#define EXDEPRECATEDMESSAGE(x) __declspec(deprecated(x))
 #elif defined(EX_GNUC) || defined(EX_CLANG)
@@ -477,7 +480,7 @@
  *	Alignment of data.
 */
 #ifndef EX_ALIGN
-	#if defined(EX_VC)
+	#if defined(EX_MSVC)
 		#define EX_ALIGN(alignment, decl) __declspec(align(alignment)) decl
 		#define EX_ALIGN_PREFIX(alignment) __declspec(align(alignment))
 #define EX_ALIGN_VECTOR(alignment)  __declspec ((__vector_size__ (alignment), __may_alias__))
@@ -503,7 +506,7 @@
 /*
  *	Function and other predefined macro.
  */
-#if defined(EX_VC)
+#if defined(EX_MSVC)
 	#define EX_FUNCNAME __FUNCTION__
 	#define EX_FUNCSIG __FUNCSIG__
 	#define EX_FUNCDNAME __FUNCDNAME__
@@ -526,7 +529,7 @@
 /*
  *	Int max bits size supported by compiler or hardware.
  */
-#if defined(EX_VC)
+#if defined(EX_MSVC)
 	#define EX_INT_MAX_BITS _INTEGRAL_MAX_BITS
 #elif defined(EX_GNUC)
 	#define EX_INT_MAX_BITS _INTEGRAL_MAX_BITS
@@ -570,7 +573,7 @@
 /*
  *	Compiler assembly instruction identification.
  */
-#if defined(EX_VC)
+#if defined(EX_MSVC)
 	#define EX_ASSM __asm
 #elif defined(EX_GNUC)
 	#define EX_ASSM __asm__
@@ -667,7 +670,7 @@
  */
 #define EX_ENGINE_VERSION ( (EX_VERSION_MAJOR << 16) | (EX_VERSION_MINOR << 8) | (EX_VERSION_REVISION << 0) )
 
-#if defined(EX_VC) && defined(EX_INTERNAL_DEVELOP_ENVIROMENT)
+#if defined(EX_MSVC) && defined(EX_INTERNAL_DEVELOP_ENVIROMENT)
 	#pragma comment(linker,"/VERSION:"STR(EX_VERSION_MAJOR)"[."STR(EX_VERSION_MINOR)STR(EX_VERSION_REVISION)"]")
 #endif
 
@@ -700,7 +703,7 @@
 /*
  *	variable argument list.
  */
-#ifdef EX_VC
+#ifdef EX_MSVC
 	#define EX_VA_ARGS __VA_ARGS__
 #elif defined(EX_GNUC)
 	#define EX_VA_ARGS __VA_ARGS__
@@ -713,7 +716,7 @@
  *	Disable some useless and tedious compiler warning
  *	for visual studios C++ compiler.
  */
-#ifdef EX_VC
+#ifdef EX_MSVC
 	 : 4345)
 #endif
 
