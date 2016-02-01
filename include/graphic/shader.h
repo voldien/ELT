@@ -160,7 +160,7 @@ void main(void){
 //#extension GL_EXT_gpu_shader4 : enable
 
 #define EX_VERTEX_SPRITE	""						\
-"#version 420\n"									\
+"#version 330\n"									\
 "#extension GL_EXT_gpu_shader4 : enable\n"			\
 "#ifdef GL_ES\n"									\
 "precision mediump float;\n"						\
@@ -199,7 +199,7 @@ void main(void){
 
 
 #define EX_FRAGMENT_SPRITE ""								\
-"#version 420\n"											\
+"#version 330\n"											\
 "#ifdef GL_ES\n"											\
 "precision mediump float;\n"								\
 "#endif\n"													\

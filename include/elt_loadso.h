@@ -61,6 +61,7 @@ extern DECLSPEC void ELTAPIENTRY ExUnLoadObject(HANDLE handle);
  */
 extern DECLSPEC HANDLE ELTAPIENTRY ExIsModuleLoaded(const ExChar* file);
 
+/*	TODO check if ExLoadLibrary should be an individul library for binding with the application depdencnt symbol table. */
 /*
  *    Is Module Loaded
  */

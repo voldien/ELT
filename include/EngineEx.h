@@ -28,8 +28,8 @@ extern "C"{
  *	Initialize ELT Engine Library ToolKit
  *	\engineflag
  *	@return
-*/
-extern DECLSPEC ERESULT ELTAPIENTRY ExInit(Uint32 engineFlag);
+ */
+extern DECLSPEC ERESULT ELTAPIENTRY ExInit(Uint32 engineFlag);/*TODO perhaps add argc,argv*/
 
 /*
  *	Initialize specific subsystems
