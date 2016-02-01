@@ -34,9 +34,32 @@ OPTION (ELT_OPT_BUILD_PACKAGE "Set to ON to generate CPack configuration files a
 
 add_definitions(-D_INTERNAL_ENGINE=1)
 
+
+# extracing version.
+execute_process(COMMAND git describe | sed -e 's/[^0-9]*//g' | cut -c1-1
+	    OUTPUT_VARIABLE _major_version OUTPUT_STRIP_TRAILING_WHITESPACE
+	    RESULT_VARIABLE _major_version_failed)
+
+execute_process(COMMAND  git describe | sed -e 's/[^0-9].[^0-9]*//g' | cut -c1-1
+	    OUTPUT_VARIABLE _minor_version OUTPUT_STRIP_TRAILING_WHITESPACE
+	    RESULT_VARIABLE _minor_version_failed)
+
+execute_process(COMMAND git describe | sed -e 's/[^0-9].[^0-9].[^0-9]*//g' | cut -c1-2
+	    OUTPUT_VARIABLE _revision_version OUTPUT_STRIP_TRAILING_WHITESPACE
+	    RESULT_VARIABLE _revision_version_failed)
+
 add_definitions(-DMAJOR_VERSION=${ELT_VERSION_MAJOR})
 add_definitions(-DMINOR_VERSION=${ELT_VERSION_MINOR})
 add_definitions(-DREVISION_VERSION=${ELT_VERSION_REVISION})
+
+SET(CMAKE_MODULE_PATH       "${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules" )	#
+SET(LIBELT_COMPONENT     "libelt${ELT_VERSION_MAJOR}.${ELT_VERSION_MINOR}.${ELT_VERSION_REVISION}" )
+SET(LIBELT-DEV_COMPONENT "libelt${ELT_VERSION_MAJOR}.${ELT_VERSION_MINOR}.${ELT_VERSION_REVISION}-dev" )
+SET(CPACK_COMPONENTS_ALL elt-bin ${LIBELT_COMPONENT} ${LIBELT-DEV_COMPONENT} elt-dev)
+
+
+
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/elt-config.cmake"             "${CMAKE_CURRENT_BINARY_DIR}/elt-config-version.cmake" DESTINATION "${ELT_LIB_INSTALL_DIR}/cmake/elt-${ELT_VERSION_MAJOR}.${ELT_VERSION_MINOR}" COMPONENT ${LIBELT-DEV_COMPONENT})
 
 #configure_file (
 #	${PROJECT_SOURCE_DIR}/elt.pc.in
@@ -51,14 +74,19 @@ if(CMAKE_COMPILER_IS_MINGW)
 endif()
 
 
+FIND_PACKAGE(JNI)
+
+
 #	gnu compiler
 if((CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX) AND NOT CMAKE_COMPILER_IS_MINGW)
 	IF (BUILD_SHARED_LIBS AND CMAKE_SIZEOF_VOID_P EQUAL 8)
-		add_definitions(-fPIC)
+		#add_definitions(-fPIC)
+		SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC" )
 	endif()
-	add_definitions( -fvisibility=hidden )
+
+	#add_definitions( -fvisibility=hidden )
 	add_definitions( -Wall )
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden -Wall" )
+	#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden -Wall" )
 elseif(MSVC)
 	add_definitions(/MP)
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
@@ -67,6 +95,13 @@ elseif(MSVC)
 
 endif()
 
+# Cache these to allow the user to override them manually.
+SET( ELT_LIB_INSTALL_DIR "lib" CACHE PATH
+  "Path the built library files are installed to." )
+SET( ELT_INCLUDE_INSTALL_DIR "include" CACHE PATH
+  "Path the header files are installed to." )
+SET( ELT_BIN_INSTALL_DIR "bin" CACHE PATH
+  "Path the tool executables are installed to." )
 
 IF (CMAKE_BUILD_TYPE STREQUAL "Release")
   SET(CMAKE_DEBUG_POSTFIX "" CACHE STRING "Debug Postfix for lib, samples and tools")
@@ -135,38 +170,70 @@ endif()
 
 
 # TODO make it compadiable for what platform to port to.
-FILE(GLOB _srcFiles
-	"src/*.c"
-	"src/graphic/*.c"
-	"src/input/*.c"
-	"src/system/*.c"
-	"src/system/unix/*.c"
+
+FILE(GLOB gCore		"${CMAKE_CURRENT_SOURCE_DIR}/src/*.c"
+			"${CMAKE_CURRENT_SOURCE_DIR}/src/system/*.c"
+			"${CMAKE_CURRENT_SOURCE_DIR}/src/input/*.c"
 )
 
+FILE(GLOB gmaths	"${CMAKE_CURRENT_SOURCE_DIR}/src/math/*.c")
 
-SOURCE_GROUP( core 	FILES "src/*.c" "src/system/*.c")
-SOURCE_GROUP( windows 	FILES "src/system/win/*.c")
-SOURCE_GROUP( android 	FILES "src/system/android/*.c")
-SOURCE_GROUP( nacl	FILES "src/nacl/*.c")
-SOURCE_GROUP( unix	FILES "src/system/unix/*.c")
-SOURCE_GROUP( mac	FILES "src/system/mac/*.c")
+FILE(GLOB gunix		"${CMAKE_CURRENT_SOURCE_DIR}/src/system/unix/*.c")
+
+
+SOURCE_GROUP( core 	FILES	"${CMAKE_CURRENT_SOURCE_DIR}/src/*.c"
+				"${CMAKE_CURRENT_SOURCE_DIR}/src/system/*.c"
+				"${CMAKE_CURRENT_SOURCE_DIR}/src/input/*.c")
+SOURCE_GROUP( maths	FILES	"${CMAKE_CURRENT_SOURCE_DIR}/src/math/*.c")
+
+SOURCE_GROUP( windows 	FILES 	"${CMAKE_CURRENT_SOURCE_DIR}/src/system/win/*.c")
+SOURCE_GROUP( android 	FILES 	"${CMAKE_CURRENT_SOURCE_DIR}/src/system/android/*.c")
+SOURCE_GROUP( nacl	FILES 	"${CMAKE_CURRENT_SOURCE_DIR}/src/nacl/*.c")
+SOURCE_GROUP( unix	FILES 	"${CMAKE_CURRENT_SOURCE_DIR}/src/system/unix/*.c")
+SOURCE_GROUP( mac	FILES 	"${CMAKE_CURRENT_SOURCE_DIR}/src/system/mac/*.c")
 
 FILE(GLOB includes		"${CMAKE_CURRENT_SOURCE_DIR}/include/*.h")
+FILE(GLOB mathinclude		"${CMAKE_CURRENT_SOURCE_DIR}/include/math/*.h" )
 FILE(GLOB systeminclude 	"${CMAKE_CURRENT_SOURCE_DIR}/include/system/*.h")
 FILE(GLOB inputinclude 		"${CMAKE_CURRENT_SOURCE_DIR}/include/input/*.h")
 FILE(GLOB unixinclude 		"${CMAKE_CURRENT_SOURCE_DIR}/include/system/unix/*.h")
 FILE(GLOB windowsinclude 	"${CMAKE_CURRENT_SOURCE_DIR}/include/system/win/*.h")
 FILE(GLOB graphicinclude 	"${CMAKE_CURRENT_SOURCE_DIR}/include/graphic/*.h")
 
-add_library(EngineEx ${_srcFiles})
-target_link_libraries(EngineEx libGL.so libX11.so libOpenCL.so)
 
 
+
+
+SET( elt_src
+	${gCore}
+	${gmaths}
+	${gunix}
+)
+
+ADD_LIBRARY(EngineEx ${elt_src} )
+target_link_libraries(EngineEx
+				 -lX11
+				 -lEGL
+				 -lXrender
+				 -lpthread
+				 -ldl
+				 -lrt
+				 -lxcb
+				 -lX11-xcb
+				 -lXrandr
+				 -lm
+				 -lopenal
+				 -lGL
+				 -lX11
+				 -lOpenCL
+)
 
 
 # add the install targets
 INSTALL (TARGETS EngineEx DESTINATION lib)
 INSTALL (FILES ${includes} DESTINATION include/ELT)
+INSTALL (FILES ${mathinclude} DESTINATION include/ELT/math)
+INSTALL (FILES ${graphicinclude} DESTINATION include/ELT/graphic)
 INSTALL (FILES ${systeminclude} DESTINATION include/ELT/system)
 INSTALL (FILES ${inputinclude} DESTINATION include/ELT/input)
 INSTALL (FILES ${graphicinclude} DESTINATION include/ELT/graphic)
@@ -174,22 +241,25 @@ IF ( UNIX )
 	INSTALL (FILES ${unixinclude} DESTINATION include/ELT/system/unix)
 ELSEIF (WIN32)
 	INSTALL (FILES ${windowsinclude} DESTINATION include/ELT/system/win)
+#ELSEIF (
 ENDIF()
 
 # Generate a pkg-config .pc for the Assimp library.
 #CONFIGURE_FILE( "${PROJECT_SOURCE_DIR}/elt.pc.in" "${PROJECT_BINARY_DIR}/elt.pc" @ONLY )
-#INSTALL( FILES "${PROJECT_BINARY_DIR}/elt.pc" DESTINATION ${ASSIMP_LIB_INSTALL_DIR}/pkgconfig/ COMPONENT ${LIBASSIMP-DEV_COMPONENT})
+INSTALL( FILES "${PROJECT_BINARY_DIR}/elt.pc" DESTINATION ${ELT_LIB_INSTALL_DIR}/pkgconfig/ COMPONENT ${ELT-DEV_COMPONENT})
+
 
 #debian package
 #ELT_OPT_BUILD_PACKAGE
 IF (CMAKE_CPACK_COMMAND AND UNIX )
 
+
 	IF(UNIX)
-	SET(CPACK_GENERATOR "DEB")
+		SET(CPACK_GENERATOR "DEB")
 	ENDIF()
 
 
-	SET(CPACK_PACKAGE_NAME	"elt")
+	SET(CPACK_PACKAGE_NAME	"elt${ELT_VERSION_MAJOR}")
 	SET(CPACK_PACKAGE_CONTACT "" CACHE STRING "Package maintainer and PGP signer.")
 	SET(CPACK_PACKAGE_VENDOR "http://elt.linuxsenpai.org/")
 	SET(CPACK_PACKAGE_DISPLAY_NAME "ELT ${ELT_VERSION}")
@@ -203,23 +273,34 @@ IF (CMAKE_CPACK_COMMAND AND UNIX )
 	SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 	#http://stackoverflow.com/questions/28768417/how-to-set-an-icon-in-nsis-install-cmake
 	#SET(CPACK_PACKAGE_ICON  "${CMAKE_CURRENT_SOURCE_DIR}/elt.ico")
-	SET(CPACK_RESOURCE_FILE_WELCOME )
+	#SET(CPACK_RESOURCE_FILE_WELCOME )
 
-	#SET(CPACK_
+
+	string(TOUPPER ${LIBELT_COMPONENT}     "LIBELT_COMPONENT_UPPER")
+	string(TOUPPER ${LIBELT-DEV_COMPONENT} "LIBELT-DEV_COMPONENT_UPPER")
+
+	SET(CPACK_COMPONENT_ELT-BIN_DISPLAY_NAME                       "tools")
+	SET(CPACK_COMPONENT_ELT-BIN_DEPENDS                            "${LIBELT_COMPONENT}" )
+	SET(CPACK_COMPONENT_${LIBELT_COMPONENT_UPPER}_DISPLAY_NAME     "libraries")
+	SET(CPACK_COMPONENT_${LIBELT-DEV_COMPONENT_UPPER}_DISPLAY_NAME "common headers and installs")
+	SET(CPACK_COMPONENT_${LIBELT-DEV_COMPONENT_UPPER}_DEPENDS      "${LIBELT_COMPONENT}" )
+	SET(CPACK_COMPONENT_ELT-DEV_DISPLAY_NAME                       "${CPACK_COMPONENT_${LIBELT-DEV_COMPONENT}_DISPLAY_NAME}" )
+	SET(CPACK_COMPONENT_ELT-DEV_DEPENDS                            "${LIBELT-DEV_COMPONENT}" )
 	SET(CPACK_DEBIAN_BUILD_DEPENDS debhelper cmake pkg-config)
 
+
 	#debian
-	SET(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
+	SET(CPACK_DEBIAN_PACKAGE_PRIORITY "extra")
 	SET(CPACK_DEBIAN_CMAKE_OPTIONS "")
 	SET(CPACK_DEBIAN_PACKAGE_SECTION "libs")
-	SET(CPACK_DEBIAN_PACKAGE_ARCHITECTURE all) #
-	SET(CPACK_DEBIAN_PACKAGE_DEPENDS "mesa-common-dev, libx11-dev, libx11-xcb-dev, libegl1-mesa-dev, libxrandr-dev, libgles2-mesa-dev, libopenal-dev, libxi-dev, libudev-dev, libglu1-mesa-dev, libasound2-dev, libc6 (>= 2.1), opencl-headers")
+	SET(CPACK_DEBIAN_PACKAGE_ARCHITECTURE any) #
+	SET(CPACK_DEBIAN_PACKAGE_DEPENDS "mesa-common-dev , libx11-dev , libx11-xcb-dev , libegl1-mesa-dev , libxrandr-dev , libgles2-mesa-dev , libopenal-dev , libxi-dev, libudev-dev, libglu1-mesa-dev, libasound2-dev, libc6 (>= 2.1), opencl-headers, ${CPACK_COMPONENTS_ALL}")
 	SET(CPACK_DEBIAN_PACKAGE_SUGGESTS "" )
 	SET(CPACK_DEBIAN_PACKAGE_NAME "elt")
 	#SET(CPACK_DEBIAN_PACKAGE_FILE_NAME "elt-${ELT_VERSION_MAJOR}.${ELT_VERSION_MINOR}${ELT_VERSION_REVISION}")
 	SET(CPACK_DEBIAN_PACKAGE_SOURCE_FILES ${_srcFiles} )
-	SET(CPACK_DEBIAN_PACKAGE_REMOVE_SOURCE_FILES build ) #samplers docs
-	SET(CPACK_DEBIAN_PACKAGE_SOURCE_COPY svn export --force)
+	SET(CPACK_DEBIAN_PACKAGE_REMOVE_SOURCE_FILES ) #samplers docs
+	SET(CPACK_DEBIAN_PACKAGE_SOURCE_COPY svn export --force) #
 	SET(CPACK_DEBIAN_CHANGELOG "" )
 	SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "Valdemar Lindberg") #required
 
@@ -236,11 +317,11 @@ IF (CMAKE_CPACK_COMMAND AND UNIX )
 	endif()
 
 	#set(DPUT_HOST "" CACHE STRING "PPA repository to upload the debian source")
-	INCLUDE(CPack)
-	#INCLUDE(DebSourcePPA)
-		
-	# set(CPACK_DEBIAN_PACKAGE_SECTION devel)
 
+	SET(CPACK_COMPONENTS_ALL_IN_ONE_PACKAGE OFF)
+	SET(CPACK_ARCHIVE_COMPONENT_INSTALL ON)
+	INCLUDE(CPack)
+ 	INCLUDE(DebSourcePPA)
 ENDIF()
 
 
