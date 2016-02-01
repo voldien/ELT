@@ -22,7 +22,7 @@
 
 typedef void(ELTAPIENTRY *singalcallback)(Int32);
 
-#ifdef  __cplusplus	/* C++ Environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
@@ -41,13 +41,13 @@ extern "C"{
 
 
 /*
-	ExInternalError
-*/
+ *	ExInternalError
+ */
 #define ExIsError(x) { if( ( x ) <= 0 ){ ExDevPrint("Error");} }
 
 /*
-	C error
-*/
+ *	C error
+ */
 #define ExIsCError(x) { if( ( x ) <= 0){ ExDevPrintf("Error | %s",strerror(errno));}}
 
 
@@ -74,7 +74,8 @@ extern "C"{
 
 
 /*
- *    Initialize Error Handler
+ *	Initialize Error Handler
+ *	@return
  */
 extern DECLSPEC int ELTAPIENTRY ExInitErrorHandler(void);
 
@@ -93,6 +94,7 @@ extern DECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...);
 
 /*
  *	Get Error
+ *	@return
  */
 extern DECLSPEC ERESULT ELTAPIFASTENTRY ExGetError(void);
 
@@ -108,7 +110,8 @@ extern DECLSPEC void ELTAPIFASTENTRY ExClearError(void);
 
 /*
  *	Get ELT Error String.
-*/
+ *	@return
+ */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode);
 
 
@@ -131,6 +134,7 @@ extern DECLSPEC ExChar* ELTAPIENTRY ExGetHModuleErrorMessageW(ERESULT dw);
  *	Signal Catch.
  */
 extern DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal);
+
 /*
  *	Set Signal callback.
  */
@@ -278,7 +282,7 @@ extern DECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal, singalcallback
 
 
 
-#ifdef  __cplusplus	/*	C++ Environment	*/
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 

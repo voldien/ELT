@@ -20,7 +20,7 @@
 #define _ELT_EVENT_H_ 1
 #include"./../ExNT.h"
 
-#ifdef  __cplusplus	/*	C++ Environment	*/
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
@@ -140,6 +140,7 @@ typedef struct ex_drop_event{
 	int cize;					/**/
 }ExDropEvent;
 
+
 EX_ALIGN_PREFIX(4)
 typedef struct ex_touch_finger_event{
     unsigned int type;          /*              */
@@ -158,7 +159,6 @@ typedef struct ex_window_destroy{
 	ExWin window;
 
 }ExEventDestroyedWindow;
-
 
 
 EX_ALIGN_PREFIX(4)
@@ -220,20 +220,21 @@ extern DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
  *	Remark: message feed will only be apply to given HWND paramter
  *	if HWND is null all window create on this application will be update
  *	read more at MSDN for more specific information regarding PeekMessage with null HWND.
- * *[ExWindowEvent] pointer to event struct. all event will be stored in it.
+ *	[ExWindowEvent] pointer to event struct. all event will be stored in it.
  *	#return if PeekMessage was success.
- * PeekMessage : http://msdn.microsoft.com/en-us/library/windows/desktop/ms644943(v=vs.85).aspx
+ *	PeekMessage : http://msdn.microsoft.com/en-us/library/windows/desktop/ms644943(v=vs.85).aspx
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event);
 
 
 /*
  *
+ *	@return
  */
 extern DECLSPEC Int32 ELTAPIENTRY ExForwardEvent(Uint32 event, HANDLE data, Uint32 size);
 
 
-#ifdef  __cplusplus	/* C++ Environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 #endif

@@ -137,24 +137,30 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int3
 	winAttribs.bit_gravity = StaticGravity;
 
 
-	winmask  =CWBackPixmap|
+	winmask = CWBackPixmap|
 	        CWColormap|
 	        CWBorderPixel|
 	        CWEventMask;
 
+	/*	TODO resolve why x and y position is bad. probarly because of multi screencd .	*/
 	window = XCreateWindow(display,
                               root,
-                              x,y,width,height,
+                              x, y, width, height,
                               0,
                               vi->depth,
                               InputOutput,
                               vi->visual,
                                 winmask,&winAttribs);
 
+	XSync(display, FALSE);
+
+
 	/*	problems was it was a random pointer as a value....	*/
     if(major >= 1 && minor >= 3 && pglx_window){
+
     	/*glXCreateWindow create opengl for window that might not have capability for OpenGL	*/
-    	pglx_window[0]= glXCreateWindow(display, fbconfigs,window,0);
+    	pglx_window[0] = 0;
+    	//pglx_window[0] = glXCreateWindow(display, fbconfigs, window, 0);
     }
 
     /*	event feed masking	*/
@@ -186,7 +192,8 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int3
    //XIfEvent(display, &event, WaitFormMap)
 
 
-    XFlush(display);
+    //XFlush(display);
+	XSync(display, FALSE);
 	return window;
 }
 
@@ -202,7 +209,7 @@ DECLSPEC int ExSupportOpenGL(void){
 
 
 /*	=============================================================	*/
-
+/*					generic window implementation					*/
 /*	=============================================================	*/
 
 DECLSPEC void ELTAPIENTRY ExShowWindow(ExWin window){
@@ -311,13 +318,14 @@ DECLSPEC void ELTAPIENTRY ExGetWindowPosv(ExWin window, Int32* position){
 	position[1] = xwa.y;
 }
 
-DECLSPEC void ELTAPIENTRY ExSetWindowSize(ExWin window,Int32 width, Int32 height){
+DECLSPEC void ELTAPIENTRY ExSetWindowSize(ExWin window, Int32 width, Int32 height){
 	XResizeWindow(display,window,width,height);
 }
 
-DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window,const ExSize* size){
+DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window, const ExSize* size){
 	XResizeWindow(display,window,size->width,size->height);
 }
+
 DECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, ExSize* size){
 	XWindowAttributes xwa;
 	XGetWindowAttributes(display, window,&xwa);
@@ -359,6 +367,7 @@ DECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, HANDLE hIcon){
     Atom net_wm_icon = XInternAtom(display, "_NET_WM_ICON", False);
     Atom cardinal = XInternAtom(display, "CARDINAL", False);
 
+
     wm_hints.initial_state = AllHints;
     wm_hints.input = True;
     wm_hints.icon_pixmap = hIcon;
@@ -368,8 +377,10 @@ DECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, HANDLE hIcon){
     wm_hints.icon_y = 0x0;
     wm_hints.icon_window = window;
 
+
     XFlush(display);
     XSetWMHints(display, window, &wm_hints);
+
 
 	return TRUE;
 }

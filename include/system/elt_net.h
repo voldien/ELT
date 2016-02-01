@@ -43,6 +43,7 @@ extern "C" {
  *	\ip
  *	\port
  *	\protocol
+ *	@return
 */
 extern DECLSPEC ExSocket ELTAPIENTRY ExOpenSocket(unsigned int protocol);
 
@@ -74,7 +75,8 @@ extern DECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const char* ip, unsigned in
  *    Listen
 */
 #define ExListen    listen
-/**
+
+/*
  *	Read Socket data
  *	\socket
  *	\buffer
@@ -102,6 +104,7 @@ extern DECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const char* ip, unsigned in
 
 /*
  *	Get host name to ip adress.
+ *	@return
  */
 extern DECLSPEC int ELTAPIENTRY ExGetHostIp(char* host);
 

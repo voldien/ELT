@@ -20,7 +20,7 @@
 #define _ELT_POWER_H_ 1
 #include"../EngineEx.h"
 
-#ifdef  __cplusplus	/* C++ Environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
@@ -32,7 +32,7 @@ extern DECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct);
 
 
 
-#ifdef  __cplusplus	/* C++ Environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 

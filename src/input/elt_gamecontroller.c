@@ -3,7 +3,10 @@
 #if defined(EX_WINDOWS)
 	#include<xinput.h>
 	#pragma comment(lib, "xinput.lib")
+
 #elif defined(EX_LINUX)
+
+#include<linux/joystick.h>
 
 #endif
 

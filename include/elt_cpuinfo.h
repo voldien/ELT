@@ -1,4 +1,4 @@
-/**
+/*
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -20,45 +20,53 @@
 #define _ELT_CPUINFO_H_ 1
 #include"EngineAssembly.h"
 
-
 #ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
 /*TODO take a look at which approuch for dealing with cpu information. enum or string?*/
-#define EX_CPU_VENDOR_INTEL	0x1
-#define EX_CPU_VENDOR_AMD	0x2
-#define EX_CPU_VENDOR_ARM	0x4
+#define EX_CPU_UNKNOWN    0x0
+#define EX_CPU_X86        0x1
+#define EX_CPU_PPC        0x2
+#define EX_CPU_ARM        0x3
+#define EX_CPU_MIPS       0x4
+
 
 /*
  *	Get the name of the CPU.
  *	@return
-*/
+ */
 extern DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void);
 
 /*
+ *
  *
  */
 extern DECLSPEC Int32 ELTAPIENTRY ExGetFrequence(void);
 
 /*
  *	Has CPU Support For AVX (Advanced Vector Extension)
-*/
+ *	@return
+ */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExHasAVX(void);
 
 /*
  *	Has CPU Support For AVX2 (Advanced Vector Extension)
-*/
+ *	@return
+ */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExHasAVX2(void);
+
 
 /*
  *	Has CPU Support For 3DNow (AMD feature)
-*/
+ *	@return
+ */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExHas3DNow(void);
 
 /*
  *	Has CPU Support For MMX (Matrix Math eXtension)
-*/
+ *	@return
+ */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExHasMMX(void);
 
 /*
@@ -69,36 +77,43 @@ extern DECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void);
 
 /*
  *
+ *	@return
  */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExGetCPUCacheLineSize(void);
 
 /*
  *	Is SSE ( Streaming SIMD Extensions ) available
+ *	@return
  */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE(void);
 
 /*
  *	Is SSE 2 ( Streaming SIMD Extensions ) available
+ *	@return
  */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE2(void);
 
 /*
  *	Is SSE 3 ( Streaming SIMD Extensions ) available
+ *	@return
  */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE3(void);
 
 /*
  *	Is SSE 41 ( Streaming SIMD Extensions ) available
+ *	@return
  */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE41(void);
 
 /*
  *	Is SSE 41 ( Streaming SIMD Extensions ) available
+ *	@return
  */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void);
 
 /*
  *
+ *	@return
  */
 extern DECLSPEC ExBoolean ELTAPIENTRY ExHasNeon(void);
 

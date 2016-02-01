@@ -62,31 +62,6 @@
 
 
 
-/*  check if extension is supported */
-int isExtensionSupported(const char* extList, const char* extension){
-	const char* start;
-	const char *where;
-	const char*terminator;
-	where = strchr(extension, ' ');
-	if(where || extension[0] == '\0')
-		return 0;
-
-	for(start = extList; ; ){
-		where = strstr(start, extension);
-
-		if(!where)break;
-
-		terminator = where + strlen(extension);
-
-		if(where == start || *(where - 1) == ' ')
-			if(*terminator == ' ' || *terminator == '\0')
-				return 1;
-
-		start  = terminator;
-	}
-	return FALSE;
-}
-
 
 DECLSPEC inline ExWin ELTAPIENTRY ExGetOpenGLContextWindow(OpenGLContext glc){
 #ifdef EX_WINDOWS
@@ -123,8 +98,6 @@ DECLSPEC inline OpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void){
 
 
 
-
-
 DECLSPEC inline int ELTAPIENTRY ExMakeGLCurrent(WindowContext drawable, OpenGLContext glc){
 #ifdef EX_WINDOWS
 	return wglMakeCurrent(drawable,glc);
@@ -134,12 +107,6 @@ DECLSPEC inline int ELTAPIENTRY ExMakeGLCurrent(WindowContext drawable, OpenGLCo
 	return eglMakeCurrent(eglDisplay, drawable, drawable, glc);
 #endif
 }
-
-
-
-/**
-    Create Shared OpenGL Context from a already existing context.
-*/
 
 
 DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
@@ -195,8 +162,6 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 }
 
 
-
-
 DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void){
 #ifndef EX_ANDROID
 	return (Uint32)(atof((const char*)glGetString(GL_SHADING_LANGUAGE_VERSION)) * 100.0f);
@@ -241,6 +206,35 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor){
 
         return ExGetOpenGLShadingVersion();
     }
+}
+
+Uint32 ExIsOpenGLExtensionSupported(const char* extension){
+	return ExIsExtensionSupported(glGetString(GL_EXTENSIONS), extension);
+}
+
+Uint32 ExIsExtensionSupported(const char* extList,const char* extension){
+	const char* start;
+	const char *where;
+	const char*terminator;
+
+	where = strchr(extension, ' ');
+	if(where || extension[0] == '\0')
+		return 0;
+
+	for(start = extList; ; ){
+		where = strstr(start, extension);
+
+		if(!where)break;
+
+		terminator = where + strlen(extension);
+
+		if(where == start || *(where - 1) == ' ')
+			if(*terminator == ' ' || *terminator == '\0')
+				return 1;
+
+		start  = terminator;
+	}
+	return FALSE;
 }
 
 

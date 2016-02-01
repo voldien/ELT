@@ -17,18 +17,18 @@ DECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(ExBoolean enabled){
 #ifdef EX_WINDOWS
 	return (Int32)SetCapture(enabled ? GetFocus() : NULL);
 #elif defined(EX_LINUX)
-	return XGrabPointer(display, 0,False,0,GrabModeSync, GrabModeSync, None, None, CurrentTime);
+	return XGrabPointer(display, 0, False, 0, GrabModeSync, GrabModeSync, None, None, CurrentTime);
 #endif
 	return TRUE;
 }
 
-DECLSPEC Int32 ELTAPIENTRY ExClipCursor(const struct ex_rect* rect){
+DECLSPEC Int32 ELTAPIENTRY ExClipCursor(const ExRect* rect){
 #ifdef EX_WINDOWS
 	const RECT clip_rect = {rect->x,rect->y,rect->x + rect->width,rect->y + rect->height};
 	ExIsWinError(ClipCursor(&clip_rect));
 	return TRUE;
 #elif defined(EX_LINUX)
-	XQueryPointer(display,ExGetKeyboardFocus(),0,0,0,0,0,0,0);
+	return XGrabPointer(display, 0, False, 0, GrabModeSync, GrabModeSync, None, None, CurrentTime);
 	return TRUE;
 #endif
 }
@@ -82,7 +82,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExFreeCursor(ExCursor cursor){
 #ifdef EX_WINDOWS
 	ExIsWinError(!(destroyed = (ExBoolean)DestroyCursor(cursor)));
 #elif defined(EX_LINUX)
-    destroyed = XFreeCursor(display,cursor);
+    destroyed = XFreeCursor(display, cursor);
 #endif
 	return destroyed;
 }
@@ -96,7 +96,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExSetCursor(ExCursor cursor){
     //if(!cursor)
     //   return XUndefinedCursor(display, NULL);
     //else
-        return XDefineCursor(display,NULL, cursor);
+        return XDefineCursor(display, NULL, cursor);
 #endif
 }
 

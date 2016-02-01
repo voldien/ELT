@@ -25,6 +25,9 @@
 #   include<android/input.h>
 #endif
 
+/*	TODO seperate the input implemention to corresponding platform directory!	*/
+
+
 unsigned char KeyBoardState[2][0xFF];
 
 static inline int ExGetKeyCodeInternal(Uint32 keyCode){
@@ -290,6 +293,13 @@ DECLSPEC ExWin ELTAPIENTRY ExGetKeyboardFocus(void){
     return NULL;
 #endif
 }
+
+DECLSPEC void ELTAPIENTRY ExSetKeyboardFocus(ExWin window){
+#ifdef EX_LINUX
+	XSetInputFocus(display,window,RevertToParent,CurrentTime);
+#endif
+}
+
 
 DECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys){
 #ifdef EX_WINDOWS

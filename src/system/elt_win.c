@@ -44,9 +44,7 @@
 
 
 #include"system/elt_icon.h"
-
 #define EX_ENGINE_VERSION_STRING EX_TEXT("ELT Version | %d.%d%d%s | OS : %s : OpenGL %d.%d")
-
 DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, Int32 length){
 	if(!text)
 		return NULL;
@@ -86,7 +84,7 @@ static void* createELTIcon(ExWin window){
     Pixmap icon;
 
 	//icon_pixmap = XCreateBitmapFromData(display, window, ELT_ICON,128,128);
-    icon = XCreateBitmapFromData(display,window, ELT_ICON, 128,128);
+    icon = XCreateBitmapFromData(display, window, ELT_ICON, 128,128);
     //icon_pixmap = XCreatePixmapFromBitmapData(display, window, ELT_ICON, 128,128,0x1,0x0,1);
     return icon;
     #endif
@@ -159,7 +157,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 
 	else if((flag & EX_OPENGL)){
         void* glx_window; //GLXWindow
-		window = ExCreateGLWindow(x,y,width, height,&glx_window);
+		window = ExCreateGLWindow(x, y ,width, height, &glx_window);
         glc = ExCreateGLContext(glx_window != NULL ? glx_window : window, NULL);
 		ExMakeGLCurrent(glx_window != NULL ? glx_window : window,glc);
 		ExInitOpenGLStates();
@@ -182,7 +180,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 	else if(flag & EX_OPENCL){
 		window = ExCreateNativeWindow(x,y,width,height);
 #ifndef DONT_SUPPORT_OPENCL
-		glc = ExCreateCLContext(0);
+		glc = ExCreateCLContext(0,NULL);
 #endif
 
 	}

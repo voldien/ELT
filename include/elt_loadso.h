@@ -21,7 +21,7 @@
 #include"EngineAssembly.h"
 #include"system/elt_win.h"
 
-#ifdef  __cplusplus	/* C++ Environment	*/
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
@@ -61,6 +61,7 @@ extern DECLSPEC void ELTAPIENTRY ExUnLoadObject(HANDLE handle);
  */
 extern DECLSPEC HANDLE ELTAPIENTRY ExIsModuleLoaded(const ExChar* file);
 
+/*	TODO check if ExLoadLibrary should be an individul library for binding with the application depdencnt symbol table. */
 /*
  *    Is Module Loaded
  */
@@ -70,7 +71,7 @@ extern DECLSPEC HANDLE ELTAPIENTRY ExIsModuleLoaded(const ExChar* file);
  */
 #define ExLoadLibrary ExLoadObject
 
-#ifdef  __cplusplus	// C++ Environment
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 

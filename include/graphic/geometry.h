@@ -35,10 +35,24 @@ typedef struct ex_uniform_buffer{
 extern "C"{
 #endif 
 
-
+/*
+ *
+ */
 extern int ExCreateVBO(unsigned int target, unsigned int size, unsigned int mode);
+
+/*
+ *
+ */
 extern int ExCreateVAO(void);
+
+/*
+ *
+ */
 extern int ExCreateUniformBuffer(unsigned int size);
+
+/*
+ *
+ */
 extern int ExDestroyBuffer(unsigned int buffer);
 
 

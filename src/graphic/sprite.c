@@ -33,7 +33,7 @@ DECLSPEC ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* batch){
 	if(!batch)
 		return NULL;
 
-	/*	*/
+	/*	*/	/*	TODO change into opengl core profile by using VAO.	*/
 	batch->vbo = ExCreateVBO(GL_ARRAY_BUFFER, ExGetPageSize() * sizeof(ExSprite) * 10, GL_DYNAMIC_DRAW);
 	batch->num = ExGetPageSize() * 10;
 	batch->sprite = malloc(batch->num * sizeof(ExSprite));
@@ -47,21 +47,20 @@ DECLSPEC ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* batch){
 	}
 
 
-	if(!ExLoadShaderv(&batch->shader,EX_VERTEX_SPRITE, EX_FRAGMENT_SPRITE,NULL, NULL, NULL)){
+	if(!ExLoadShaderv(&batch->shader, EX_VERTEX_SPRITE, EX_FRAGMENT_SPRITE,NULL, NULL, NULL)){
 		/*	failure	*/
 		ExReleaseSpriteBatch(batch);
 		return NULL;
 	}
 
 
-	batch->locationViewMatrix = glGetUniformLocation(batch->shader.program,"gmat");
-	batch->locationScale  = glGetUniformLocation(batch->shader.program,"gscale");
-	batch->locationTexture  = glGetUniformLocation(batch->shader.program,"textures");
-	glUniform1f(batch->locationScale,batch->scale);
+	batch->locationViewMatrix = glGetUniformLocation(batch->shader.program, "gmat");
+	batch->locationScale  = glGetUniformLocation(batch->shader.program, "gscale");
+	batch->locationTexture  = glGetUniformLocation(batch->shader.program, "textures");
+	glUniform1f(batch->locationScale, batch->scale);
 
 
-
-	glUniform1iv(batch->locationTexture,32,texture);
+	glUniform1iv(batch->locationTexture, 32, texture);
 
 
 	/*	enable sprite feature	*/
@@ -120,6 +119,7 @@ DECLSPEC int ELTAPIENTRY ExEndSpriteBatch(ExSpriteBatch* spriteBatch){
 
 	return 1;
 }
+
 
 DECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* batch,ExTexture* texture,float* position,float* rect,float* color, float scale, float angle, float depth){
 	ExTexture* tex;
@@ -351,6 +351,7 @@ DECLSPEC inline  int ELTAPIENTRY ExDisplaySprite(ExSpriteBatch* spriteBatch){
 	mat3x3_scale(matscale,spriteBatch->scale,spriteBatch->scale);
 	mat3x3_multi_mat3x3(matscale,tranmat,spriteBatch->viewmatrix);
 
+	/**/
 	glUniform1fv(spriteBatch->locationScale,1, &spriteBatch->scale);
 	glUniformMatrix3fv(spriteBatch->locationViewMatrix,1,GL_FALSE,spriteBatch->viewmatrix);
 
@@ -361,14 +362,14 @@ DECLSPEC inline  int ELTAPIENTRY ExDisplaySprite(ExSpriteBatch* spriteBatch){
 	glEnableVertexAttribArray(3);
 	glEnableVertexAttribArray(4);
 	glEnableVertexAttribArray(5);
-	glVertexAttribPointer(0,3,GL_FLOAT, GL_FALSE, sizeof(ExSprite), NULL);
-	glVertexAttribPointer(1,1,GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * 3);
-	glVertexAttribPointer(2,4,GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * 4);
-	glVertexAttribPointer(3,1,GL_INT ,  GL_FALSE, sizeof(ExSprite), sizeof(float) * (3 + 4 + 1));
-	glVertexAttribPointer(4,1,GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * (3 + 4 + 1 + 1));
-	glVertexAttribPointer(5,4,GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * (3 + 4 + 1 + 1 + 1));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ExSprite), NULL);
+	glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * 3);
+	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * 4);
+	glVertexAttribPointer(3, 1, GL_INT,   GL_FALSE, sizeof(ExSprite), sizeof(float) * (3 + 4 + 1));
+	glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * (3 + 4 + 1 + 1));
+	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * (3 + 4 + 1 + 1 + 1));
 
-	glDrawArrays(GL_POINTS,0,spriteBatch->numDraw);
+	glDrawArrays(GL_POINTS, 0, spriteBatch->numDraw);
 
 	return TRUE;
 }

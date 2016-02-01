@@ -23,7 +23,7 @@
 #include"ExAssert.h"
 
 
-#ifdef  __cplusplus	/*	C++ Environment	*/
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
@@ -40,6 +40,7 @@ extern DECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName)
  *	@return
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName,...);
+
 
 
 /*
@@ -83,11 +84,13 @@ extern DECLSPEC Int32 ELTAPIENTRY ExGetPrimaryMonitorHz(void);
  */
 extern DECLSPEC int ELTAPIENTRY ExSetScreenSize(Int32 index, Int32 width, Int32 height);
 
-/**
+/*
  *	Get Platform
  *	@return
-*/
+ */
 extern DECLSPEC const char* ELTAPIENTRY ExGetPlatform(void);
+
+
 
 /*
  *	Get Application Name
@@ -95,15 +98,19 @@ extern DECLSPEC const char* ELTAPIENTRY ExGetPlatform(void);
  */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetApplicationName(ExChar* name, Int32 length);
 
+
 /*
  *
+ *	@return
  */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetCurrentDirectory(void);
 
 /*
  *
+ *	@return
  */
 extern DECLSPEC int ELTAPIENTRY ExSetCurrentDirectory(const ExChar* cdirectory);
+
 
 
 /*
@@ -133,11 +140,11 @@ extern DECLSPEC const ExChar* ELTAPIENTRY ExGetOSName(void);
 
 
 
-/**
-	Get Current User Name
-	Has to maintain later!!! TODO<>
-    @return
-*/
+/*
+ *	Get Current User Name
+ *	Has to maintain later!!! TODO<>
+ *	@return
+ */
 extern DECLSPEC const ExChar* ELTAPIENTRY ExGetCurrentUser(void);
 
 
@@ -172,7 +179,7 @@ extern DECLSPEC Int32 ELTAPIENTRY ExGetClipboardData(void* pdata);
 extern DECLSPEC void* ELTAPIENTRY ExDownloadURL(const ExChar* url);
 
 
-#ifdef  __cplusplus	/*	C++ Environment	*/
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 #endif

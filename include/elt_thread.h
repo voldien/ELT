@@ -27,13 +27,13 @@
 	#define ExSleep usleep
 #endif
 
-#ifdef  __cplusplus	/* C++ Environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
 /*
  *	Thread Priority
-*/
+ */
 #define EX_THREAD_PRIORITY_LOW 0x1
 #define EX_THREAD_PRIORITY_MEDIUM 0x2
 #define EX_THREAD_PRIORITY_HIGH 0x3
@@ -44,13 +44,13 @@ extern "C"{
  *	\callback function to invoke
  *	\lpParameter
  *	@return thread handle.
-*/
+ */
 extern DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback, void* lpParamater, Uint32* pid);
 
 /*
  *    Create Thread with affinity mask.
  *    @return thread handle.
-*/
+ */
 extern DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback, HANDLE lpParamater, Uint32* pid, Int32 core);
 
 /*
@@ -120,7 +120,7 @@ extern DECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread, Enum nP
  */
 extern DECLSPEC ERESULT ELTAPIENTRY ExWaitThread(ExThread thread, Int32* status);
 
-#ifdef  __cplusplus	/* C++ Environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 

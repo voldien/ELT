@@ -12,8 +12,9 @@
 #elif defined(EX_MAC)
 #   include<sys/sysctl.h>
 #endif
-#include<setjmp.h>
 
+
+#include<setjmp.h>
 
 #ifdef EX_GNUC
 
@@ -47,18 +48,18 @@
 
 #endif
 
-
-
 //http://stackoverflow.com/questions/1666093/cpuid-implementations-in-c
 
-#ifdef EX_WINDOWS       /** WINDOWS */
+
+
+#ifdef EX_WINDOWS       /*	WINDOWS	*/
 	#define cpuid __cpuid
-#elif defined(EX_LINUX)	/** LINUX   */
+#elif defined(EX_LINUX)	/*	LINUX	*/
     #if defined(EX_X86)
     #   include<cpuid.h>
 	#endif
 
-	/** cpuid for linux  */
+	/*	cpuid for linux	*/
 #if defined(EX_X86) && !defined(EX_CLANG) && !defined(EX_LLVM)
 	#define cpuid(regs,i) 	EX_ASSM  __volatile__ \
 			("cpuid" : "=a" (regs[0]), "=b" (regs[1]), "=c" (regs[2]), "=d" (regs[3])\
@@ -155,6 +156,9 @@ DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
         cpu_name[i++] = (char)(d & 0xff); d >>= 8;
         cpu_name[i++] = (char)(d & 0xff); d >>= 8;
     }
+	#else	/*	get CPU name for ARM.*/
+
+
     #endif
     return cpu_name;
 #elif defined(EX_ANDROID)
@@ -162,14 +166,12 @@ DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
 #endif
 }
 
-/**
-	Has CPU Support For AVX (Advanced Vector Extension)
-*/
 DECLSPEC ExBoolean ELTAPIENTRY ExHasAVX(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,0x1);
 	return (cpuInfo[2] >> 28) &  0x1;
 }
+
 DECLSPEC ExBoolean ELTAPIENTRY ExHasAVX2(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
@@ -191,6 +193,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExHasMMX(void){
 	else
 		return FALSE;
 }
+
 
 DECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void){
 #ifdef EX_WINDOWS
@@ -258,3 +261,9 @@ DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void){
 	else
 		return FALSE;
 }
+
+
+DECLSPEC ExBoolean ELTAPIENTRY ExHasNeon(void){
+	return FALSE;
+}
+

@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _EX_DEF_H_
-#define _EX_DEF_H_ 1
+#ifndef _ELT_DEF_H_
+#define _ELT_DEF_H_ 1
 #include<stddef.h>
 #include<stdint.h>
 
@@ -34,33 +34,33 @@
 
 
 /*
- *	khr group
+ *	khr group.
  */
-#include <KHR/khrplatform.h>
+//#include <KHR/khrplatform.h>
 
 
 /*
- *	Compiler
-*/
+ *	Compiler.
+ */
 #ifdef _MSC_VER 	/*	Visual Studio C++ Compiler.	*/
-	#define EX_VC
+	#define EX_MSVC
 	#define ENGINE_EX_COMPILER 1
 	#if _MSC_VER >= 1900
-		#define EX_V13 _MSC_VER
+		#define EX_MSVC13 _MSC_VER
 	#elif _MSC_VER >= 1800
-		#define EX_V12 _MSC_VER
+		#define EX_MSVC12 _MSC_VER
 	#elif _MSC_VER >= 1700
-		#define EX_VC11 _MSC_VER
+		#define EX_MSVC11 _MSC_VER
 	#elif _MSC_VER >= 1600
-		#define EX_VC10 _MSC_VER
+		#define EX_MSVC10 _MSC_VER
 	#elif _MSC_VER >= 1500
-		#define EX_VC9 _MSC_VER
+		#define EX_MSVC9 _MSC_VER
 	#elif _MSC_VER >= 1400
-		#define EX_VC8 _MSC_VER
+		#define EX_MSVC8 _MSC_VER
 	#elif _MSC_VER >= 1300
-		#define EX_VC7 _MSC_VER
+		#define EX_MSVC7 _MSC_VER
 	#else
-		#define EX_VC6 _MSC_VER
+		#define EX_MSVC6 _MSC_VER
 	#endif
     	#pragma warning(disable : 4201)
 	#define EX_COMPILER_NAME "Visual Studio C++/C"
@@ -73,7 +73,7 @@
 	#define EX_COMPILER_MAJOR_VERSION __clang_major__
 	#define EX_COMPILER_MINOR_VERSION __clang_minor__
 
-#elif defined(__GNUC__) || defined(__SNC__) || defined( __GNUC_MINOR__)	/*  GNU C Compiler*/
+#elif defined(__GNUC__) || defined(__SNC__) || defined( __GNUC_MINOR__)	/*  GNU C Compiler	*/
 	#define EX_GNUC 1
 	#define ENGINE_EX_COMPILER 2
 	#define EX_COMPILER_NAME "GNU C"
@@ -106,10 +106,10 @@
 
 
 /*
- *	Platform define
- *	Architecture!
-*/
-#ifdef EX_VC
+ *	Find platform.
+ */
+#ifdef EX_MSVC
+
 	#if defined(_M_IX86) || defined(_WIN32)
 		#define EX_X86                          /**/
 		#define EX_X32                          /**/
@@ -127,7 +127,9 @@
 		#define EX_ARM                          /**/
 		#define EX_ARM_NEON                     /**/
 	#endif
+
 #elif defined(EX_GNUC) || defined(EX_CLANG)
+
 	#ifdef __CELLOS_LV2__   /**/
         #define EX_PS3                          /*	playstation 3*/
 	#elif defined(__arm__)	/**/
@@ -139,7 +141,8 @@
 		#define EX_X86
 		#define EX_WINDOWS                      /**/
 	#endif
-	#if ( defined(__linux__) || defined(__linux) || defined(linux) ) && (!(__ANDROID__) || !(ANDROID))/* Linux */
+
+	#if ( defined(__linux__) || defined(__linux) || defined(linux) ) && (!(__ANDROID__) || !(ANDROID))	/* Linux */
 		#define EX_LINUX 1                       /**/
 		#if defined(__amd64) || defined(__x86_64__) || defined(__i386__)
             #define EX_X86 1
@@ -195,14 +198,15 @@
 	#elif defined(__CYGWIN) 	/**/
 		#define EX_CYGWIN 1
 		#define EX_LINUX 1
-	#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)   /*  BSD*/
+	#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)   /*  BSD	*/
 		#define EX_BSD
-    	#elif defined(__llvm__) || defined(__clang__)   	/*  llvm    */
-        	#define EX_LLVM 1
+	#elif defined(__llvm__) || defined(__clang__)   	/*  llvm    */
+		#define EX_LLVM 1
+	#elif defined(__MINGW32__)
+
 	#endif
 
 #elif defined(__ICC) || defined(__INTEL_COMPILER)
-
 
 #else
 	#error  Unsupported architecture!   /*  No architecture support implicitly. remove this line to compile anyway*/
@@ -216,6 +220,17 @@
 #endif
 #if defined(__unix__) || defined(__unix) || defined(unix)	/*  Unix    */
 	#   define EX_UNIX 1
+#endif
+
+
+
+/*
+ *	Find the arch type.
+ */
+#if defined(__x86_64__) || defined(_M_X64) || defined(__powerpc64__) || defined(__alpha__) || defined(__ia64__) || defined(__s390__) || defined(__s390x__) || defined(__arm64__) || defined(_aarch64_) || defined(__mips64) || defined(__mips64_)
+	#define EX_ARCHITECTURE_64
+#else
+	#define EX_ARCHITECTURE_32
 #endif
 
 
@@ -238,7 +253,7 @@
 
 
 /*
- *   C Compiler Version
+ *   C Compiler Version.
  */
 #if (__STDC_VERSION__ == 201112L)
 #   define EX_C11
@@ -261,11 +276,12 @@
 #else
 	#define EX_RELEASE
 	#define RELEASEMODE
+	#pragma message("Warning: You'd need to add EX_DEBUG and EX_RELEASE for this compiler.")
 #endif
 
 
 /*
- *	Converting character into a constant string in precompiling stage.
+ *	Converting character into a constant string in the precompiling stage.
  */
 #define STR_HELPER(x) #x
 #define STR(x) STR_HELPER(x)
@@ -277,7 +293,7 @@
 	#define EX_UNICODE
 	#define _EX_TEXT(quote) L##quote
 	#define EX_TEXT(quote)  _EX_TEXT(quote)
-#else           /*  ASCI / UTF-8 */
+#else           /*	ASCII / UTF-8	*/
 	#define EX_ANSI
     #define EX_TEXT(quote) quote
 #endif
@@ -285,16 +301,16 @@
 
 
 /*
- *	Declaration specification
+ *	Declaration specification.
 */
 #if !defined(ENGINE_EX_STATIC_BUILD)
-	#if defined(EX_WINDOWS) || defined(EX_VC)                 /**     Window      */
+	#if defined(EX_WINDOWS) || defined(EX_MSVC)					/*	Window	*/
 		#define EX_IMPORT __declspec(dllimport)
 		#define EX_EXPORT __declspec(dllexport)
-	#elif defined(EX_LINUX)                 /**     Linux       */
+	#elif defined(EX_LINUX)										/*	Linux	*/
 		#define EX_IMPORT	__attribute__ ((__visibility__ ("default")))
 		#define EX_EXPORT	__attribute__ ((__visibility__ ("default")))
-	#elif defined(EX_ANDROID)               /**      Android     */
+	#elif defined(EX_ANDROID)									/*	Android	*/
         #ifndef EX_JINI
             #define EX_IMPORT	__attribute__ ((__visibility__ ("default")))
             #define EX_EXPORT	__attribute__ ((__visibility__ ("default")))
@@ -310,50 +326,61 @@
 		#define EX_IMPORT
 		#define EX_EXPORT PP_EXPORT
 	#else
+		#pragma message("Warning: You'd need to add EX_IMPORT and EX_IMPORT for this compiler.")
 		#define EX_IMPORT
 		#define EX_EXPORT
 	#endif
 #endif
 
 /*
- *   Reserved keyword
-*/
+ *   Reserved keyword.
+ */
 #define EX_EXTERN extern
 #define C_EXTERN extern "C"
-#ifdef EX_VC
+
+/*
+ *
+ */
+#ifdef EX_MSVC
 	#define NORETURN __declspec(noreturn)				// No Return, will loop forever.
 #elif defined(EX_GNUC)
-	#define NORETURN
+	#define NORETURN __attribute__(noreturn)
+#else
+	#pragma message("Warning: You'd need to add EX_NOTHROW for this compiler.")
 #endif
 
 
 /*
- *	No Throw
-*/
-#ifdef EX_VC
-	#define NOTHROW __declspec(nothrow)						// No Throw
+ *	No Throw.
+ */
+#ifdef EX_MSVC
+	#define EX_NOTHROW __declspec(nothrow)						// No Throw
 #elif defined(EX_GNUC)
-	#define NOTHROW
+	#define EX_NOTHROW __attribute__(nothrow)
+#else
+	#pragma message("Warning: You'd need to add EX_NOTHROW for this compiler.")
 #endif
 
 
 
 /*
- *	Internal
-*/
+ *	Internal.
+ */
 #if defined(_ENGINE_INTERNAL) || (EX_ENGINE_VERSION_MAJOR < 1)	// Macro Definition Only Defined in this solution.
 	#define INTERNAL_ENGINEX	// Used for Assembly Data and Include Data structure.
-	#define EX_INTERNAL_DEVELOP_ENVIROMENT
+	//#define EX_INTERNAL_DEVELOP_ENVIROMENT
 #elif defined(EXTERNAL_ENGINE_INTERNAL)
 	#define INTERNAL_ENGINEX	// Used for Assembly Data and Include Data structure.
-	#define EX_INTERNAL_DEVELOP_ENVIROMENT
+	//#define EX_INTERNAL_DEVELOP_ENVIROMENT
 #endif
 
+
 #if (!defined(ENGINE_EX_STATICLIB) && !defined(ENGINE_EX_STATICLIB))
-#ifndef ENGINE_EX_LIB
-	#define ENGINE_EX_LIB
+	#ifndef ENGINE_EX_LIB
+		#define ENGINE_EX_LIB
+	#endif
 #endif
-#endif
+
 
 /*
  *	Calling Convention
@@ -362,7 +389,6 @@
  *	__fastcall	:
  *
 */
-
 #ifdef EX_WINDOWS	        				/* Windows Calling Convention.*/
 	#define ELTAPIENTRY     __cdecl
 	#define ELTAPIFASTENTRY __fastcall
@@ -374,11 +400,12 @@
     #define ELTAPITHISENTRY JNICALL
     #define ELTAPISTDENTRY JNICALL
 #else										/*	GNU	*/
-#   ifndef __cdecl
+#   if !defined(__cdecl) && defined(EX_GNUC)
         #define __cdecl  __attribute__ ((__cdecl__))
         #define __stdcall  __attribute__ ((stdcall))
 		#define __fastcall __attribute__((fastcall))
 #   endif
+
 	#define ELTAPIENTRY     __cdecl
 	#define ELTAPISTDENTRY  __stdcall
 	#define ELTAPIFASTENTRY __fastcall
@@ -389,7 +416,7 @@
 /*
  *	Disable on SPU because they are not supported
  */
-#if defined(EX_VC)
+#if defined(EX_MSVC)
 	#define EX_PUSH_PACK_DEFAULT __pragma(pack(push,8))
 	#define EX_POP_PACK			 __pragma(pack(pop))
 #elif (defined(EX_GNUC) && !defined(__SPU__)) || defined(EX_GHS)
@@ -402,65 +429,70 @@
 
 
 /*
- *	inline
+ *	Inline.
 */
-#if defined(EX_VC)
-	#define INLINE inline
+#if defined(EX_MSVC)
+	#define EX_INLINE inline
 	#pragma inline_depth(255)
 #else
-	#define INLINE inline
+	#define EX_INLINE inline
 #endif
 
 /*
- *	force inline
+ *	force inline.
  */
-#if defined(EX_VC)
+#if defined(EX_MSVC)
 	#define EX_FORCE_INLINE __forceinline
 #elif defined(EX_LINUX)
 	#define EX_FORCE_INLINE inline
 #elif defined(EX_GNUC) || defined(EX_GHS)
 	#define EX_FORCE_INLINE inline __attribute__((always_inline))
 #else
-	#define EX_FORCE_INLINE inline
+	#pragma message("Warning: You'd need to add EX_FORCE_INLINE for this compiler.")
 #endif
 
 /*
- *	No inline
+ *	No inline.
  */
 #if defined EX_WINDOWS || defined EX_XBOX
 	#define EX_NOINLINE __declspec(noinline)
-#elif defined(EX_GNUC)  || defined(EX_GHS)
+#elif defined(EX_GNUC)  || defined(EX_GHS) || defined(EX_CLANG)
 	#define EX_NOINLINE __attribute__ ((oninline))
 #else
-	#define EX_NOINLINE
+	#pragma message("Warning: You'd need to add Ex_NOINLINE for this compiler.")
 #endif
 
 
-/**
-	#define EXDEPRECATED(x) __declspec(deprecated(x))		// Deprecated deceleration (x = Warning Message)
-*/
-#ifdef EX_VC
+/*
+ *	#define EXDEPRECATED(x) __declspec(deprecated(x))		// Deprecated deceleration (x = Warning Message)
+ */
+#ifdef EX_MSVC
 	#define EXDEPRECATED  __declspec(deprecated)		    // Deprecated deceleration (x = Warning Message)
 	#define EXDEPRECATEDMESSAGE(x) __declspec(deprecated(x))
-#elif defined(EX_GNUC)
+#elif defined(EX_GNUC) || defined(EX_CLANG)
 	#define EXDEPRECATED __attribute__(( deprecated ))		    // Deprecated deceleration (x = Warning Message)
     #define EXDEPRECATEDMESSAGE(msg) __attribute__ (( deprecated ( msg ) ))
+#else
+	#pragma message("Warning: You'd need to add EXDEPRECATED for this compiler.")
 #endif
 
 /*
- *	Alignment of data
+ *	Alignment of data.
 */
 #ifndef EX_ALIGN
-	#if defined(EX_VC)
+	#if defined(EX_MSVC)
 		#define EX_ALIGN(alignment, decl) __declspec(align(alignment)) decl
 		#define EX_ALIGN_PREFIX(alignment) __declspec(align(alignment))
+#define EX_ALIGN_VECTOR(alignment)  __declspec ((__vector_size__ (alignment), __may_alias__))
 	#elif defined(EX_GNUC)
 		#define EX_ALIGN(alignment, decl) decl __attribute__ ((aligned(alignment)))
 		#define EX_ALIGN_PREFIX(alignment) __attribute__ ((aligned(alignment)))
+		#define EX_ALIGN_VECTOR(alignment)  __attribute__ ((__vector_size__ (alignment), __may_alias__))
 	#elif defined(EX_CLANG)
 		#define EX_ALIGN(alignment, decl) decl __attribute__ ((aligned(alignment)))
 		#define EX_ALIGN_PREFIX(alignment) __attribute__ ((aligned(alignment)))
 	#else
+		#pragma message("Warning: You'd need to add EX_ALIGN, EX_ALIGN_PREFIX, EX_ALIGN_VECTOR for this compiler.")
 		#define EX_ALIGN(alignment, decl)
 		#define EX_ALIGN_PREFIX(alignment)
 	#endif
@@ -470,13 +502,20 @@
 	#define EX_DLL _DLL
 #endif
 
+
 /*
- *	Function and other predefined macro
+ *	Function and other predefined macro.
  */
-#if defined(EX_VC)
+#if defined(EX_MSVC)
 	#define EX_FUNCNAME __FUNCTION__
 	#define EX_FUNCSIG __FUNCSIG__
 	#define EX_FUNCDNAME __FUNCDNAME__
+	#define __EX_FILE__ __FILE__
+	#define __EX_LINE__ __LINE__
+#elif defined(EX_GNUC)
+	#define EX_FUNCNAME  __FUNCTION__
+	#define EX_FUNCSIG   __FUNCSIG__
+	#define EX_FUNCDNAME ""
 	#define __EX_FILE__ __FILE__
 	#define __EX_LINE__ __LINE__
 #else
@@ -485,26 +524,27 @@
 	#define EX_FUNCDNAME ""
 	#define __EX_FILE__ __FILE__
 	#define __EX_LINE__ __LINE__
-
 #endif
 
 /*
- *	Int max bits size supported by compiler or hardware
+ *	Int max bits size supported by compiler or hardware.
  */
-#if defined(EX_VC)
+#if defined(EX_MSVC)
 	#define EX_INT_MAX_BITS _INTEGRAL_MAX_BITS
 #elif defined(EX_GNUC)
 	#define EX_INT_MAX_BITS _INTEGRAL_MAX_BITS
+#elif defined(EX_CLANG)
+	#define EX_INT_MAX_BITS	64
 #endif
 
 /*
- *	Unused indication. Will make the compiler exclude it from the final binary.
+ *	Unused macro, will make the compiler to exclude it from the final binary.
  */
 #define EX_UNUSED(_p)	((void)(_p))
 
 
 /*
- *	Rendering Software Interface.
+ *	Rendering API interface.
 */
 #ifdef EX_WINDOWS
 	#define EX_SUPPORT_OPENGL
@@ -521,7 +561,7 @@
 #endif
 
 /*
- *	C struct
+ *	C struct.
  */
 #ifdef EX_CPP
 	#define EX_C_STRUCT
@@ -531,9 +571,9 @@
 
 
 /*
- *	Assembly instruction identification
+ *	Compiler assembly instruction identification.
  */
-#if defined(EX_VC)
+#if defined(EX_MSVC)
 	#define EX_ASSM __asm
 #elif defined(EX_GNUC)
 	#define EX_ASSM __asm__
@@ -543,7 +583,7 @@
 
 
 /*
- *	Export & Import of DLL
+ *	Export and import deceleration.
  */
 #ifndef PROCCLASSEXPORT
 	#if defined(INTERNAL_ENGINEX)  && (!defined(ENGINE_EX_STATIC_BUILD))	// Export In DLL Format
@@ -579,7 +619,7 @@
 /*
  *	ELT Version.
  */
-#define EX_ENGINE   "Engine Library Toolkit"
+#define EX_ENGINE EX_TEXT("Engine Library Toolkit")
 
 
 /*
@@ -626,16 +666,16 @@
 #define EX_ENGINE_RELEASE_BETTER EX_TEXT("rc5")		/*          */
 
 /*
- *	ELT Version [8 bit major | 8 bit minor | 8 bit bugfix | 8 bit reserved ]
+ *	ELT Version [8 bit major | 8 bit minor | 8 bit bug fix | 8 bit reserved ]
  */
 #define EX_ENGINE_VERSION ( (EX_VERSION_MAJOR << 16) | (EX_VERSION_MINOR << 8) | (EX_VERSION_REVISION << 0) )
 
-#if defined(EX_VC) && defined(EX_INTERNAL_DEVELOP_ENVIROMENT)
+#if defined(EX_MSVC) && defined(EX_INTERNAL_DEVELOP_ENVIROMENT)
 	#pragma comment(linker,"/VERSION:"STR(EX_VERSION_MAJOR)"[."STR(EX_VERSION_MINOR)STR(EX_VERSION_REVISION)"]")
 #endif
 
 /*
- *	ELT status
+ *	ELT library status.
  */
 #ifdef EX_DEBUG
 	#define EX_ENGINE_STATUS EX_ENGINE_PREALPHA
@@ -661,9 +701,9 @@
 #endif
 
 /*
- *	variable argument list
+ *	variable argument list.
  */
-#ifdef EX_VC
+#ifdef EX_MSVC
 	#define EX_VA_ARGS __VA_ARGS__
 #elif defined(EX_GNUC)
 	#define EX_VA_ARGS __VA_ARGS__
@@ -673,15 +713,11 @@
 
 
 /*
- *	Disable some useless and tedious compiler warning.
+ *	Disable some useless and tedious compiler warning
+ *	for visual studios C++ compiler.
  */
-#ifdef EX_VC
-	#define WIN32_LEAN_AND_MEAN	    /*	ignoring some tedious useless warnings from Windows.*/
-
-	#ifdef INTERNAL_ENGINEX
-		#pragma warning(disable : 4996)		// Disable a warning
-		#pragma warning(disable : 4251) 	// Dll
-	#endif
+#ifdef EX_MSVC
+	 : 4345)
 #endif
 
 

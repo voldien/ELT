@@ -21,7 +21,7 @@
 #include"../EngineAssembly.h"
 #include"texture.h"
 #include"shader.h"
-#ifdef __cplusplus	/* C++ environment	*/
+#ifdef __cplusplus	/*	C++ environment	*/
 extern "C"{
 #endif
 
@@ -38,6 +38,7 @@ typedef struct sprite_batch{
 	unsigned int num;					/**/
 	unsigned int numDraw;				/**/
 	unsigned int vbo;					/**/
+	unsigned int vao;					/**/
 
 	ExShader shader;					/**/
 
@@ -87,17 +88,17 @@ extern DECLSPEC int ELTAPIENTRY ExBeginSpriteBatch(ExSpriteBatch* spriteBatch,fl
 extern DECLSPEC int ELTAPIENTRY ExEndSpriteBatch(ExSpriteBatch* spriteBatch);
 
 /**/
-extern DECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* spritebatch,ExTexture* texture,float* position,float* rect,float* color, float scale, float angle, float depth);
+extern DECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* spritebatch, ExTexture* texture, float* position, float* rect,float* color, float scale, float angle, float depth);
 
 /**/
-extern DECLSPEC int ELTAPIENTRY ExDrawSpriteNormalize(ExSpriteBatch* spritebatch,ExTexture* texture,float* position,float* rect,float* color, float scale, float angle, float depth);
+extern DECLSPEC int ELTAPIENTRY ExDrawSpriteNormalize(ExSpriteBatch* spritebatch, ExTexture* texture,float* position, float* rect, float* color, float scale, float angle, float depth);
 
 
 /**/
-extern DECLSPEC int ELTAPIENTRY ExAddSpriteNormalized(ExSpriteBatch* spritebatch,ExTexture* texture,float* position,float* rect,float* color, float scale, float angle, float depth);
+extern DECLSPEC int ELTAPIENTRY ExAddSpriteNormalized(ExSpriteBatch* spritebatch,ExTexture* texture,float* position,float* rect, float* color, float scale, float angle, float depth);
 
 /**/
-extern DECLSPEC int ELTAPIENTRY ExAddSprite(ExSpriteBatch* spritebatch,ExTexture* texture,float* position,float* rect,float* color, float scale, float angle, float depth);
+extern DECLSPEC int ELTAPIENTRY ExAddSprite(ExSpriteBatch* spritebatch,ExTexture* texture, float* position, float* rect, float* color, float scale, float angle, float depth);
 
 /**/
 extern DECLSPEC int ELTAPIENTRY ExRemoveSprite(ExSpriteBatch* spritebatch,int index);

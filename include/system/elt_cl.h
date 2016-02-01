@@ -20,11 +20,11 @@
 #define _ELT_CL_H_ 1
 #include"./../EngineAssembly.h"
 
-#define ELT_GPU0 0x20                        	/* GPU index 0 + offset*/
-#define ELT_CPU0 0x40                       	/* CPU index 0 + offset*/
-#define ELT_CL_FLOPS_HIGHEST 0x400          	/* Device with most FLOPS */
-#define ELT_CL_AVAILABLE_PLATFORM 0x1000    	/* Get available device */
-//#define EX_CL_GL_SYNC   0x2000    //TODO check if it's needed
+#define ELT_GPU0 0x20                        	/*	GPU index 0 + offset	*/
+#define ELT_CPU0 0x40                       	/*	CPU index 0 + offset	*/
+#define ELT_CL_FLOPS_HIGHEST 0x400          	/*	Device with most FLOPS	*/
+#define ELT_CL_AVAILABLE_PLATFORM 0x1000    	/*	Get available device	*/
+//#define EX_CL_GL_SYNC   0x2000    			//TODO check if it's needed
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
@@ -32,8 +32,8 @@ extern "C"{
 
 
 /*
- *	Get current cl context
- *	@return CL context.
+ *	Get current OpenCL context.
+ *	@return OpenCL context.
  */
 extern DECLSPEC ExOpenCLContext ELTAPIFASTENTRY ExGetCurrentCLContext(void);
 
@@ -63,11 +63,13 @@ extern DECLSPEC void ELTAPIENTRY ExDestroyCLContext(ExOpenCLContext context);
 
 /*
  *
+ *	@return
  */
 extern DECLSPEC void* ExCreateCommandQueue(OpenCLContext context, HANDLE device);
 
 /*
  *
+ *	@return
  */
 extern DECLSPEC void* ExCreateProgram(OpenCLContext context, HANDLE device, const ExChar* cfilename,...);
 
@@ -84,6 +86,7 @@ extern DECLSPEC void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, HANDLE p_cl_de
 
 /*
  *	Get and return device capability
+ *	@return
  */
 extern DECLSPEC Int32 ELTAPIENTRY ExGetClDevCap(void* device);
 

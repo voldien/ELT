@@ -25,8 +25,6 @@
 #include"win_directX.h"
 #include"wnd_common.h"
 
-
-typedef void(ELTAPIENTRY *CallBack)(void);
 typedef void(ELTAPISTDENTRY *CallBackSTD)(void);
 typedef void(ELTAPIENTRY *MotionCallBack)(int x, int y);
 typedef void(ELTAPIENTRY *KeyBoardCallBack)(unsigned int key);

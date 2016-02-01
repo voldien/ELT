@@ -48,7 +48,7 @@
 
 
 /**/
-#ifdef EX_VC
+#ifdef EX_MSVC
 	// debug version
 	#ifdef EX_DEBUG
 		#ifdef EX_X86

@@ -9,12 +9,17 @@
 	//#pragma comment(lib, "dxguid.lib")
 	#pragma comment(lib, "dinput8.lib")
 #elif defined(EX_LINUX)
-#   include<unistd.h>
-#   include<fcntl.h>
-#   include<sys/ioctl.h>
-#   include<stdio.h>
-#   include<linux/joystick.h>
-	Int32 joy_id[4];
+#include <libudev.h>
+#include <linux/joystick.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
+#include<linux/input.h>
+#include<sys/ioctl.h>
+
+Int32 joy_id[4];
+//udev* udevContext = NULL;
+//udev_monitor* udevMonitor = NULL;
 #elif defined(EX_ANDROID)
 #   include<android/input.h>
 #   include<android/keycodes.h>

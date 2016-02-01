@@ -56,7 +56,9 @@
 
 #endif
 
-#ifdef EX_WINDOWS
+
+
+#if  defined(EX_WINDOWS) || defined(EX_MSVC)
 
 HINSTANCE hdllMoudle;   /*  handle instance */
 BOOL WINAPI DllMain(
@@ -78,6 +80,13 @@ _In_  HINSTANCE hinstDLL,
 	// handle instance of the dll.
 	hdllMoudle = hinstDLL;
 	return TRUE;
+}
+#elif defined(EX_GNUC)
+void __attribute__ ((constructor)) my_load(void){
+
+}
+void __attribute__ ((destructor)) my_unload(void){
+
 }
 #endif
 
@@ -173,6 +182,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
     display = XOpenDisplay(getenv("DISPLAY"));
     if(!display){
         ExError("couldn't open Display\n");
+        abort();
     }
 
 

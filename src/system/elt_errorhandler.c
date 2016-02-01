@@ -125,7 +125,7 @@ DECLSPEC void ELTAPIENTRY ExError(const ExChar* error,...){
 
 	//vwfprintf(stderr,error,argptr);
 #else
-	vfprintf(stderr,error,argptr);
+	vfprintf(stderr, error, argptr);
 #endif
 	va_end(argptr);
 #ifdef EX_DEBUG

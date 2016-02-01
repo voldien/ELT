@@ -214,9 +214,9 @@ int ExCompileShaderSourcev(const char** source, unsigned int flag){
 		return -1;
 
 	shader = glCreateShader(flag);
-	glShaderSource(shader,1,source, NULL);
+	glShaderSource(shader, 1, source, NULL);
 	glCompileShader(shader);
-	error = ExShaderCompileLog(shader,flag);
+	error = ExShaderCompileLog(shader, flag);
 
 	return shader;
 }

@@ -20,43 +20,42 @@
 #define _WIN_DIRECTX_H_ 1
 #include"./../../EngineAssembly.h"
 
-#ifdef __cplusplus /* C++ environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
+
+typedef void* ExDX9D;
+typedef void* ExDevice9D;
 
 
 /*
  *	Get 3D Context
  *  @return
  */
-extern DECLSPEC HANDLE ELTAPIFASTENTRY ExGetD3D(void);
+extern DECLSPEC HANDLE ELTAPIFASTENTRY ExGetD3DContext(void);
+
 /*
  *	Get Direct3D Context
  *   @return
  */
-extern DECLSPEC HANDLE ELTAPIFASTENTRY ExGetDirect3D(void);
+extern DECLSPEC HANDLE ELTAPIFASTENTRY ExGetDirect3DContext(void);
 
 /*
  *    @return
  */
-extern DECLSPEC ERESULT ELTAPIENTRY ExCreateDirectXContext(ExWin window);
-
+extern DECLSPEC ExDevice9D ELTAPIENTRY ExCreateDirectXContext(ExWin window);
 
 /*
  *
  */
-extern DECLSPEC void ELTAPIENTRY ExReleaseDirectX(void);
-/*
- *
-*/
-extern DECLSPEC void ELTAPIENTRY ExDestroyDirectXContext(void* d3d);
+extern DECLSPEC void ELTAPIENTRY ExDestroyDirectXContext(ExDevice9D d3d);
 
 /*
  *
-*/
+ */
 extern DECLSPEC void ELTAPIENTRY ExDirectFullScreen(ExBoolean fullscreen);
 
-#ifdef __cplusplus /* C++ environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 

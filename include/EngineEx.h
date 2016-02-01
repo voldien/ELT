@@ -20,7 +20,7 @@
 #define _ENGINE_EX_H_ 1
 #include"EngineAssembly.h"
 
-#ifdef  __cplusplus	/*	C++ Environment	*/
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
@@ -28,8 +28,8 @@ extern "C"{
  *	Initialize ELT Engine Library ToolKit
  *	\engineflag
  *	@return
-*/
-extern DECLSPEC ERESULT ELTAPIENTRY ExInit(Uint32 engineFlag);
+ */
+extern DECLSPEC ERESULT ELTAPIENTRY ExInit(Uint32 engineFlag);/*TODO perhaps add argc,argv*/
 
 /*
  *	Initialize specific subsystems
@@ -64,21 +64,24 @@ extern DECLSPEC void ELTAPIENTRY ExDisable(Enum disable);
 /*
  *	Create interrupt event.
  *	TODO put ExCreateInterrupt somewhere else!
+ *	@return
  */
 extern DECLSPEC int ELTAPIENTRY ExCreateInterrupt(interrupt_routine callback, Uint32 type);
 
 
 /*
  *	Get ELT Version.
+ *	@return
  */
 extern DECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void);
 
 /*
  *	Get compiler compiled with ELT.
+ *	@return
  */
 extern DECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void);
 
-#ifdef  __cplusplus	/* C++ Environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 

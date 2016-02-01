@@ -28,18 +28,20 @@
 
 typedef void* ExSurface;
 
-#ifdef  __cplusplus	/* C++ Environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
 
 /*
  *	Create Surface
+ *	@return
  */
 extern DECLSPEC ExSurface ExCreateSurface(unsigned int width, unsigned height, unsigned int format);
 
 /*
  *	release surface.
+ *	@return
  */
 extern DECLSPEC int ExDestroySurface(ExSurface handle);
 
@@ -76,7 +78,7 @@ extern DECLSPEC ExUnlockSurface(ExSurface surface);
  */
 extern DECLSPEC ExLockSurface(ExSurface surface);
 
-#ifdef  __cplusplus	/* C++ Environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 

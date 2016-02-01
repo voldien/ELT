@@ -64,6 +64,7 @@ extern DECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(ExBoolean enabled);
 
 /*
  *	Clip cursor onto specified rectangle view
+ *	@return
  */
 extern DECLSPEC Int32 ELTAPIENTRY ExClipCursor(const ExRect* rect);
 
@@ -97,11 +98,13 @@ extern DECLSPEC ExCursor ELTAPIENTRY ExGetCursor(void);
 
 /*
  *
+ *	@return
  */
 extern DECLSPEC ExCursor ELTAPIENTRY ExGetDefaultCursor(void);
 
 /*
  *
+ *	@return
  */
 extern DECLSPEC ExWin ELTAPIENTRY ExGetMouseFocus(void);
 
@@ -113,18 +116,20 @@ extern DECLSPEC Uint32 ELTAPIENTRY ExGetGlobalMouseState(Int32* x, Int32* y);
 
 /*
  *
+ *	@return
  */
 extern DECLSPEC Uint32 ELTAPIENTRY ExGetMouseState(Int32* x, Int32* y);
 
 /*
  *	Set cursor in screen space respect to monitor resolution.
-*/
+ */
 extern DECLSPEC void ELTAPIENTRY ExWarpMouseGlobal(Int32 x, Int32 y);
 
 /*
  *	Set Cursor relative to window
  */
 extern DECLSPEC void ELTAPIENTRY ExWarpMouseInWindow(ExWin win, Int32 x, Int32 y);
+
 /*
  *	Show Cursor
  *	@return if successfully then return value is equal to input value.

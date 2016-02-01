@@ -245,8 +245,6 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 #endif
 }
 
-
-
 DECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event){
 #ifdef EX_WINDOWS
 	MSG msg;
