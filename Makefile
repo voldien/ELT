@@ -204,7 +204,7 @@ csharp :
 # make sure that all dependecy are installed. 
 .PHONY : dependency
 dependency :
-	sudo apt-get install mesa-common-dev libx11-dev libx11-xcb-dev libegl1-mesa-dev libxrandr-dev libgles2-mesa-dev libopenal-dev
+	sudo apt-get install mesa-common-dev libx11-dev libx11-xcb-dev libegl1-mesa-dev libxrandr-dev libgles2-mesa-dev libopenal-dev libxi-dev libudev-dev libglu1-mesa-dev libasound2-dev
 
 
 .PHONY : install
