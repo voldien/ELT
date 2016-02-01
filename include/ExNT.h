@@ -35,7 +35,7 @@
 /*
  *	Type declaration
  */
-#if defined(EX_VC)
+#if defined(EX_MSVC)
 	typedef signed __int64 		Int64;
 	typedef signed __int32 		Int32;
 	typedef signed __int16 		Int16;
@@ -205,7 +205,7 @@ typedef union doubleUnion{
 #define EX_HIQWORD(q)			((QWORD)((((DWORD_PTR)(l)) >> 32) & 0xffffffff))
 */
 
-#ifdef EX_VC
+#ifdef EX_MSVC
 	#define EX_DECLARE_HANDLE(name) struct name##__{int unused;}; typedef struct name##__ *name
 #else
 	#define EX_DECLARE_HANDLE(name) struct name##__{int unused;}; typedef struct name##__ *name

@@ -245,10 +245,14 @@ extern DECLSPEC ExWin ELTAPIENTRY ExGetDesktopWindow(void);
 extern DECLSPEC int ELTAPIENTRY ExMessageBox(ExWin window, const ExChar* text, const ExChar* title, unsigned int flags );
 
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC int ELTAPIENTRY ExGetDisplayDPI(int displayIndex, float* ddpi, float* hdpi, float* vdpi);
 
-/**/
+/*
+ *
+ */
 extern DECLSPEC Int32 ELTAPIENTRY ExIsScreenSaverEnable(void);
 
 /**/

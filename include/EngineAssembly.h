@@ -27,7 +27,7 @@
 
 #if defined(EX_WINDOWS)
 	#include<tchar.h>
-	#ifdef EX_VC
+	#ifdef EX_MSVC
 		#include<strsafe.h>
 	#endif
 #elif defined(EX_LINUX)

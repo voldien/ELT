@@ -318,13 +318,14 @@ DECLSPEC void ELTAPIENTRY ExGetWindowPosv(ExWin window, Int32* position){
 	position[1] = xwa.y;
 }
 
-DECLSPEC void ELTAPIENTRY ExSetWindowSize(ExWin window,Int32 width, Int32 height){
+DECLSPEC void ELTAPIENTRY ExSetWindowSize(ExWin window, Int32 width, Int32 height){
 	XResizeWindow(display,window,width,height);
 }
 
-DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window,const ExSize* size){
+DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window, const ExSize* size){
 	XResizeWindow(display,window,size->width,size->height);
 }
+
 DECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, ExSize* size){
 	XWindowAttributes xwa;
 	XGetWindowAttributes(display, window,&xwa);
