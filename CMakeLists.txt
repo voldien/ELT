@@ -4,32 +4,20 @@ project(ELT)
 
 #	build shared/dynamic library option
 OPTION (BUILD_SHARED_LIBS "Build package with shared libraries." ON)
-
 if(NOT BUILD_SHARED_LIBS)
 	set(CMAKE_EXE_LINKER_FLAGS "-static")
 	set(LINK_SEARCH_START_STATIC TRUE)	
 endif(NOT BUILD_SHARED_LIBS)
 
 
-set (ELT_VERSION_MAJOR 0)
-set (ELT_VERSION_MINOR 6)
-set (ELT_VERSION_REVISION 65)
-set (ELT_VERSION ${ELT_VERSION_MAJOR}.${ELT_VERSION_MINOR}.${ELT_VERSION_REVISION})
-
-set (PROJECT_VERSION "${ELT_VERSION}")
-
-set(ELT_PACKAGE_VERSION "0" CACHE STRING "the package-specific version used for uploading the sources.")
 
 
 
-
-
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 INCLUDE_DIRECTORIES(./include)
 
 
-
-OPTION (ELT_OPT_BUILD_PACKAGE "Set to ON to generate CPack configuration files and packaging targets" OFF)
+OPTION (ELT_OPT_BUILD_PACKAGE "Set to ON to generate CPack configuration files and packaging targets" ON)
 
 
 add_definitions(-D_INTERNAL_ENGINE=1)
@@ -48,6 +36,16 @@ execute_process(COMMAND git describe | sed -e 's/[^0-9].[^0-9].[^0-9]*//g' | cut
 	    OUTPUT_VARIABLE _revision_version OUTPUT_STRIP_TRAILING_WHITESPACE
 	    RESULT_VARIABLE _revision_version_failed)
 
+
+set (ELT_VERSION_MAJOR 0)
+set (ELT_VERSION_MINOR 6)
+set (ELT_VERSION_REVISION 65)
+set (ELT_VERSION ${ELT_VERSION_MAJOR}.${ELT_VERSION_MINOR}.${ELT_VERSION_REVISION})
+
+set (PROJECT_VERSION "${ELT_VERSION}")
+
+set(ELT_PACKAGE_VERSION "0" CACHE STRING "the package-specific version used for uploading the sources.")
+
 add_definitions(-DMAJOR_VERSION=${ELT_VERSION_MAJOR})
 add_definitions(-DMINOR_VERSION=${ELT_VERSION_MINOR})
 add_definitions(-DREVISION_VERSION=${ELT_VERSION_REVISION})
@@ -58,8 +56,7 @@ SET(LIBELT-DEV_COMPONENT "libelt${ELT_VERSION_MAJOR}.${ELT_VERSION_MINOR}.${ELT_
 SET(CPACK_COMPONENTS_ALL elt-bin ${LIBELT_COMPONENT} ${LIBELT-DEV_COMPONENT} elt-dev)
 
 
-
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/elt-config.cmake"             "${CMAKE_CURRENT_BINARY_DIR}/elt-config-version.cmake" DESTINATION "${ELT_LIB_INSTALL_DIR}/cmake/elt-${ELT_VERSION_MAJOR}.${ELT_VERSION_MINOR}" COMPONENT ${LIBELT-DEV_COMPONENT})
+#install(FILES "${CMAKE_CURRENT_BINARY_DIR}/elt-config.cmake"             "${CMAKE_CURRENT_BINARY_DIR}/elt-config-version.cmake" DESTINATION "${ELT_LIB_INSTALL_DIR}/cmake/elt-${ELT_VERSION_MAJOR}.${ELT_VERSION_MINOR}" COMPONENT ${LIBELT-DEV_COMPONENT})
 
 #configure_file (
 #	${PROJECT_SOURCE_DIR}/elt.pc.in
@@ -73,20 +70,20 @@ if(CMAKE_COMPILER_IS_MINGW)
 	#ADD_DEFINITIONS(
 endif()
 
-
-FIND_PACKAGE(JNI)
-
+#
+find_package(JNI)
+IF(JNI_FOUND)
+	message (STATUS "JNI_INCLUDE_DIRS=${JNI_INCLUDE_DIRS}")
+	message (STATUS "JNI_LIBRARIES=${JNI_LIBRARIES}")
+ENDIF()
 
 #	gnu compiler
 if((CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX) AND NOT CMAKE_COMPILER_IS_MINGW)
 	IF (BUILD_SHARED_LIBS AND CMAKE_SIZEOF_VOID_P EQUAL 8)
-		#add_definitions(-fPIC)
 		SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC" )
 	endif()
 
-	#add_definitions( -fvisibility=hidden )
-	add_definitions( -Wall )
-	#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden -Wall" )
+	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall" )
 elseif(MSVC)
 	add_definitions(/MP)
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
@@ -104,9 +101,11 @@ SET( ELT_BIN_INSTALL_DIR "bin" CACHE PATH
   "Path the tool executables are installed to." )
 
 IF (CMAKE_BUILD_TYPE STREQUAL "Release")
-  SET(CMAKE_DEBUG_POSTFIX "" CACHE STRING "Debug Postfix for lib, samples and tools")
+	SET(CMAKE_DEBUG_POSTFIX "" CACHE STRING "Debug Postfix for lib, samples and tools")
+	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -s" )
 ELSE()
-  SET(CMAKE_DEBUG_POSTFIX "d" CACHE STRING "Debug Postfix for lib, samples and tools")
+  	SET(CMAKE_DEBUG_POSTFIX "d" CACHE STRING "Debug Postfix for lib, samples and tools")
+	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g" )
 ENDIF()
 
 IF ( NOT TARGET uninstall)
@@ -179,6 +178,10 @@ FILE(GLOB gCore		"${CMAKE_CURRENT_SOURCE_DIR}/src/*.c"
 FILE(GLOB gmaths	"${CMAKE_CURRENT_SOURCE_DIR}/src/math/*.c")
 
 FILE(GLOB gunix		"${CMAKE_CURRENT_SOURCE_DIR}/src/system/unix/*.c")
+FILE(GLOB gwin "")
+FILE(GLOB gandroid	"")
+FILE(GLOB gnacl	"")
+FILE(GLOB gmac	"")
 
 
 SOURCE_GROUP( core 	FILES	"${CMAKE_CURRENT_SOURCE_DIR}/src/*.c"
@@ -224,6 +227,7 @@ target_link_libraries(EngineEx
 				 -lm
 				 -lopenal
 				 -lGL
+				 -lGLU
 				 -lX11
 				 -lOpenCL
 )
@@ -251,7 +255,8 @@ INSTALL( FILES "${PROJECT_BINARY_DIR}/elt.pc" DESTINATION ${ELT_LIB_INSTALL_DIR}
 
 #debian package
 #ELT_OPT_BUILD_PACKAGE
-IF (CMAKE_CPACK_COMMAND AND UNIX )
+
+IF (CMAKE_CPACK_COMMAND AND UNIX AND ELT_OPT_BUILD_PACKAGE)
 
 
 	IF(UNIX)
@@ -318,7 +323,7 @@ IF (CMAKE_CPACK_COMMAND AND UNIX )
 
 	#set(DPUT_HOST "" CACHE STRING "PPA repository to upload the debian source")
 
-	SET(CPACK_COMPONENTS_ALL_IN_ONE_PACKAGE OFF)
+	SET(CPACK_COMPONENTS_ALL_IN_ONE_PACKAGE ON)
 	SET(CPACK_ARCHIVE_COMPONENT_INSTALL ON)
 	INCLUDE(CPack)
  	INCLUDE(DebSourcePPA)
@@ -340,5 +345,4 @@ if(WIN32)
 endif(WIN32)
 
 
-#install(FILES "${CMAKE_CURRENT_BINARY_DIR}/elt-config.
-
+#install(FILES "${CMAKE_CURRENT_BINARY_DIR}/elt-config
