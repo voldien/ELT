@@ -105,6 +105,7 @@ extern Uint64 eltTickTime;
  *
  */
 unsigned long int engineflag = 0;
+#define ELT_DEINIT ((unsigned long int)(-1))
 
 /*
  *
@@ -122,7 +123,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	/*	if all is already initilated return !	*/
     if(engineflag & ELT_INIT_EVERYTHING)
         return 2;
-
+	engineflag = engineflag & ~ELT_DEINIT;
 
     /*	*/
 #ifdef EX_DEBUG || (EX_ENGINE_VERSION_MAJOR <= 0)
@@ -217,6 +218,10 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 	ERESULT hr = 0;
 	HANDLE hmodule;
+
+	/**/
+	engineflag = engineflag & ~ELT_DEINIT;
+
 
 
 	if(ELT_INIT_VIDEO & engineflag){
@@ -328,6 +333,9 @@ DECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag){
 
 }
 DECLSPEC void ELTAPIENTRY ExShutDown(void){
+	if(engineflag & ELT_DEINIT)
+		return;
+
 #ifdef EX_LINUX
     struct mallinfo mi;
 #endif
@@ -404,6 +412,11 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 	#endif
 
 #endif
+
+	/**/
+	engineflag |= ELT_DEINIT;
+	engineflag = engineflag & ~ELT_INIT_EVERYTHING;
+
 
 	//fclose(m_file_log);
 }
