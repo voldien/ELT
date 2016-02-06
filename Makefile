@@ -21,7 +21,7 @@ DEV ?= -s
 ifdef ComSpec
 	CLIBS := 
 else
-	CLIBS :=  -lX11 -lEGL -lXrender -lOpenCL -lpthread -ldl -lrt -lxcb -lX11-xcb -lXrandr -lm -lopenal #-lGL
+	CLIBS :=  -lX11 -lEGL -lXrender -lOpenCL -lpthread -ldl -lrt -lxcb -lX11-xcb -lXrandr -lm -lopenal -lGL
 endif
 INCLUDE := -I"include" 
 CFLAGS := 
