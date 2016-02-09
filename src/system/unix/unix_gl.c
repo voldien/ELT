@@ -51,6 +51,7 @@ int pixAtt[] = {
 	GLX_ACCUM_GREEN_SIZE, 0,
 	GLX_ACCUM_BLUE_SIZE, 0,
 	GLX_ACCUM_ALPHA_SIZE, 0,
+	GLX_VISUAL_ID,0,
 
 	/*	GLX	*/
 	GLX_STEREO, 0,
@@ -114,19 +115,27 @@ int ExChooseFBconfig(GLXFBConfig* pfbconfig){
 
 		pict_format = XRenderFindVisualFormat(display, visual->visual);
 		if(!pict_format)
-			continue;
+			goto end;
 
 
 		pfbconfig[0] = fbconfigs[i];
 		if(ExOpenGLGetAttribute(EX_OPENGL_ALPHA_SIZE, &attr) > 0){
 		    if(pict_format->direct.alphaMask > 0)
 		    	break;
-		}else break;
+		}else
+			break;
 
+		end:
+
+		XFree( visual );	/*TODO fix loop such that is gets properly free.*/
 	}
 #ifdef EX_DEBUG
 	ExDescribeFBbconfig(pfbconfig);
 #endif
+	// Be sure to free the FBConfig list allocated by glXChooseFBConfig()
+	XFree(fbconfigs);
+
+
 	return 1;
 }
 
@@ -134,7 +143,7 @@ ExOpenGLContext ELTAPIENTRY ExCreateTempGLContext(void){
 	ExOpenGLContext glc;
 	GLXFBConfig fbconfig;
 	ExChooseFBconfig(&fbconfig);
-	glc = glXCreateNewContext(display, fbconfig, GLX_RGBA_TYPE,0,1);
+	glc = glXCreateNewContext(display, fbconfig, GLX_RGBA_TYPE, 0, 1);
 	return glc;
 }
 
@@ -241,8 +250,8 @@ OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shareC
 		}break;
     }
 
-
     glcdefault:	/*	default opengl context	*/
+
 	if(!glc){
 		ExPrintf("Failed to create ARB Context.\n");
 		glc = glXCreateNewContext(display, fbconfig, GLX_RGBA_TYPE, shareContext, True);
@@ -251,70 +260,14 @@ OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shareC
 
 
 	if(!glXIsDirect(display, glc))
-        fprintf(stderr,"Indirect GLX rendering context obtained\n");    /*a lose of performance.*/
+        fprintf(stderr,"Indirect GLX rendering context obtained\n");    /*	a lose of performance.*/
+
 	return glc;
 }
 
 
 OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLContext glc){
 	return ExCreateGLContext(window,glc);
-
-    typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
-    int major;
-    int minor;
-	unsigned int contextflag;
-	unsigned int contextprofile;
-
-
-    OpenGLContext shared_glc;
-    GLXFBConfig fbconfig;
-    glXCreateContextAttribsARBProc glXCreateContextAttribsARB;
-
-
-    glGetIntegerv(GL_MAJOR_VERSION, &major);
-	glGetIntegerv(GL_MINOR_VERSION, &minor);
-
-    contextflag = ExOpenGLGetAttribute(EX_OPENGL_CONTEXT_FLAGS, NULL);
-    contextprofile = ExOpenGLGetAttribute(EX_OPENGL_CONTEXT_PROFILE_MASK, NULL);
-
-    /*  query OpenGL context fbconfig id*/
-    glXQueryContext(display, glc, GLX_FBCONFIG_ID, &fbconfig);
-
-
-
-    int contextAttribs[]={
-        GLX_CONTEXT_MAJOR_VERSION_ARB,major,
-        GLX_CONTEXT_MINOR_VERSION_ARB,minor,
-        #ifdef EX_DEBUG
-        GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_DEBUG_BIT_ARB | contextflag,   /*  Debug TODO add hint*/
-        #else
-        GLX_CONTEXT_FLAGS_ARB, contextflag,
-        #endif
-		GLX_CONTEXT_PROFILE_MASK_ARB, contextprofile,
-        None
-    };
-
-
-    switch(ExGetOpenGLVendor()){
-		case EX_AMD:
-
-
-			break;
-		default:
-
-		/*  Get context ARB */
-		glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc)glXGetProcAddress((const GLubyte*)"glXCreateContextAttribsARB");
-
-		if(glXCreateContextAttribsARB)
-			shared_glc = glXCreateContextAttribsARB(display, fbconfig, glc, True, contextAttribs);
-
-
-		break;
-	}
-
-
-
-    return shared_glc;
 }
 
 
@@ -329,9 +282,25 @@ int ELTAPIENTRY ExOpenGLGetAttribute(unsigned int attr, int* value){
 }
 
 void ELTAPIENTRY ExOpenGLResetAttributes(void){
+	ExOpenGLSetAttribute(EX_OPENGL_RED_SIZE,	8);
+	ExOpenGLSetAttribute(EX_OPENGL_GREEN_SIZE,	8);
+	ExOpenGLSetAttribute(EX_OPENGL_BLUE_SIZE,	8);
 
+	ExOpenGLSetAttribute(EX_OPENGL_DEPTH_SIZE,	24);
+	ExOpenGLSetAttribute(EX_OPENGL_ALPHA_SIZE,	8);
 
+	ExOpenGLSetAttribute(EX_OPENGL_DOUBLEBUFFER,		TRUE);
 
+	ExOpenGLSetAttribute(EX_OPENGL_ACCUM_RED_SIZE,		0);
+	ExOpenGLSetAttribute(EX_OPENGL_ACCUM_GREEN_SIZE,	0);
+	ExOpenGLSetAttribute(EX_OPENGL_ACCUM_BLUE_SIZE,		0);
+	ExOpenGLSetAttribute(EX_OPENGL_ACCUM_ALPHA_SIZE,		0);
+
+	ExOpenGLSetAttribute(EX_OPENGL_ACCELERATED_VISUAL,		0);
+	ExOpenGLSetAttribute(EX_OPENGL_STEREO,					0);
+	ExOpenGLSetAttribute(EX_OPENGL_MULTISAMPLEBUFFERS,		0);
+	ExOpenGLSetAttribute(EX_OPENGL_MULTISAMPLESAMPLES,		0);
+	ExOpenGLSetAttribute(EX_OPENGL_FRAMEBUFFER_SRGB_CAPABLE,0);
 }
 
 DECLSPEC ExBoolean ELTAPIENTRY ExDestroyGLContext(WindowContext drawable, ExOpenGLContext glc){
@@ -349,10 +318,22 @@ DECLSPEC ExBoolean ELTAPIENTRY ExDestroyGLContext(WindowContext drawable, ExOpen
 DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes){
     int one = 1;
 	XEvent xev = {0};
+	ExSize size  = {0};
     XWindowAttributes xwa;
     XSetWindowAttributes xattr;
     Atom fullscreen;
     Atom wmState;
+
+    /*	get resolution.	*/
+    if(!screenRes){
+    	size.width = screenRes[0];
+    	size.height = screenRes[1];
+    }else{
+    	if(cdsfullscreen)
+    		ExGetScreenSize(screenIndex,&size);
+    	else
+    		ExGetScreenSize(screenIndex,&size);
+    }
 
     xattr.override_redirect = False;
     XChangeWindowAttributes(display, window, CWOverrideRedirect, &xattr);
@@ -362,12 +343,16 @@ DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin win
     fullscreen = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", FALSE);
 
     /**/
-    XChangeProperty(display,window,  XInternAtom(display,"_NET_WM_STATE", True), XA_ATOM, 32, PropModeReplace,&fullscreen, 1);
+    XChangeProperty(display,window,  XInternAtom(display,"_NET_WM_STATE", True), XA_ATOM, 32, PropModeReplace, &fullscreen, 1);
     /**/
     XChangeProperty (display, window,
       XInternAtom ( display, "_HILDON_NON_COMPOSITED_WINDOW", True ),
       XA_INTEGER,  32,  PropModeReplace,
       (unsigned char*) &one,  1);
+
+
+    /*	Set fullscreen resolution.	*/	/*TODO	fix	*/
+    //ExSetScreenSize(screenIndex, size.width, size.height);
 
 
 	//XF86VideoModeSwitchToMode(display, screenIndex, modes[bestMode]);
@@ -390,6 +375,8 @@ DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin win
             SubstructureNotifyMask
 			|SubstructureRedirectMask
 			,&xev);
+
+
 	//XSendEvent(display,DefaultRootWindow(window,False,
 	//	SubstructureRedirectMask | SubstructureNotifyMask, &xev);
 
@@ -422,6 +409,7 @@ DECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window,Enum ienum){
 			&hints,
 			startup_state,
 			NULL);
+
     XFree(startup_state);
 }
 
