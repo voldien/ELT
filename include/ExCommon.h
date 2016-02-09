@@ -29,15 +29,15 @@ extern "C"{
 
 
 /*
- * 	create process
- *	@return if successfully
+ *	create process
+ *	@Return if successfully
  */
 extern DECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName);
 
 /*
  *	create process with variable argument list
  *	Remark :last argument should be null to prevent system error.
- *	@return
+ *	@Return
 */
 extern DECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName,...);
 
@@ -51,12 +51,13 @@ extern DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(ExSize* size);
 /*
  *	Get system monitor resolution by its index.
  */
-extern DECLSPEC void ELTAPIENTRY ExGetMonitorSize(Uint32 index, ExSize* size);
+extern DECLSPEC void ELTAPIENTRY ExGetScreenSize(Uint32 index, ExSize* size);
 
 /*
  *	Get possible resolutions for a given monitor.
+ *	@Return
  */
-extern DECLSPEC Int32 ELTAPIENTRY ExGetMonitorSizes(Uint index, Uint* num, ExSize* sizes);
+extern DECLSPEC Int32 ELTAPIENTRY ExGetScreenSizes(Uint index, Uint* num, ExSize* sizes);
 
 /*
  *
@@ -66,27 +67,33 @@ extern DECLSPEC void ELTAPIENTRY ExGetPrimaryScreenRect(ExRect* rect);
 /*
  *
  */
-extern DECLSPEC void ELTAPIENTRY ExGetMonitorRect(Uint32 index, ExRect* rect);
+extern DECLSPEC void ELTAPIENTRY ExGetScreenRect(Uint32 index, ExRect* rect);
 
 /*
  *	Get monitor hz by its index.
- *	@return
+ *	@Return
  */
-extern DECLSPEC Int32 ELTAPIENTRY ExGetMonitorHz(Uint32 index);
+extern DECLSPEC Int32 ELTAPIENTRY ExGetScreenRefreshRate(Uint32 index);
 
 /*
  *
+ *	@Return
  */
-extern DECLSPEC Int32 ELTAPIENTRY ExGetPrimaryMonitorHz(void);
+extern DECLSPEC Int32 ELTAPIENTRY ExGetPrimaryScreenRefreshRate(void);
 
 /*
  *
+ *	@Return
  */
 extern DECLSPEC int ELTAPIENTRY ExSetScreenSize(Int32 index, Int32 width, Int32 height);
 
+
+
+
+
 /*
  *	Get Platform
- *	@return
+ *	@Return
  */
 extern DECLSPEC const char* ELTAPIENTRY ExGetPlatform(void);
 
@@ -94,20 +101,20 @@ extern DECLSPEC const char* ELTAPIENTRY ExGetPlatform(void);
 
 /*
  *	Get Application Name
- *	@return
+ *	@Return
  */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetApplicationName(ExChar* name, Int32 length);
 
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetCurrentDirectory(void);
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern DECLSPEC int ELTAPIENTRY ExSetCurrentDirectory(const ExChar* cdirectory);
 
@@ -143,7 +150,7 @@ extern DECLSPEC const ExChar* ELTAPIENTRY ExGetOSName(void);
 /*
  *	Get Current User Name
  *	Has to maintain later!!! TODO<>
- *	@return
+ *	@Return
  */
 extern DECLSPEC const ExChar* ELTAPIENTRY ExGetCurrentUser(void);
 
@@ -153,28 +160,34 @@ extern DECLSPEC const ExChar* ELTAPIENTRY ExGetCurrentUser(void);
 
 
 
+
 /*
  *	Set clipboard text.
+ *	@Return
  */
 extern DECLSPEC Int32 ELTAPIENTRY ExSetClipboardText(const ExChar* text);
 
 /*
  *	Set clipboard data.
+ *	@Return
  */
 extern DECLSPEC Int32 ELTAPIENTRY ExSetClipboardData(void* pdata,Uint32 csize);
 
 /*
  *	Get clipboard text.
+ *	@Return
  */
 extern DECLSPEC ExChar* ELTAPIENTRY ExGetClipboardText(void);
 
 /*
  *	Get clipboard data.
+ *	@Return
  */
 extern DECLSPEC Int32 ELTAPIENTRY ExGetClipboardData(void* pdata);
 
 /*
  *	InternetOpenUrl
+ *	@Return
  */
 extern DECLSPEC void* ELTAPIENTRY ExDownloadURL(const ExChar* url);
 

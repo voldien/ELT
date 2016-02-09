@@ -276,7 +276,7 @@
 #else
 	#define EX_RELEASE
 	#define RELEASEMODE
-	#pragma message("Warning: You'd need to add EX_DEBUG and EX_RELEASE for this compiler.")
+	#pragma message("Warning: You'd need to add _DEBUG and DEBUG for this compiler.")
 #endif
 
 
