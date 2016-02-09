@@ -33,6 +33,7 @@ extern int* pixAtt;
 extern int ExChooseFBconfig(GLXFBConfig* pfbconfig);
 
 
+
 DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){
 	Visual* visual;
 	Int depth;
@@ -56,7 +57,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, I
 	screen = DefaultScreen(display);
     winmask = CWEventMask;
 
-    if(!XMatchVisualInfo(display, screen , depth, TrueColor,&visInfo)){
+    if(!XMatchVisualInfo(display, screen , depth, TrueColor, &visInfo)){
 
 
     }
@@ -94,7 +95,8 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, I
     xattr.override_redirect = False;
     XChangeWindowAttributes (display, window, CWOverrideRedirect, &xattr );
 
-	XFlush(display);
+
+	XSync(display, FALSE);
 	return window;
 }
 
@@ -113,16 +115,18 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int3
 	Colormap cmap;
     Atom delMsg;
 	GLXFBConfig fbconfigs;
+	ExRect rect = {0};
 
 
 	screen = DefaultScreen(display);
-	root = RootWindow(display,screen);
+	root = RootWindow(display, screen);
+
+
 	if(!ExSupportOpenGL())
 		return NULL;
 
-	/*	*/
-	if(!glXQueryVersion(display,&major,&minor))
-        fprintf(stderr,"could not");
+
+	glXQueryVersion(display, &major, &minor);
 
 	/*	choose visualinfo */
 	ExChooseFBconfig(&fbconfigs);
@@ -143,23 +147,24 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int3
 	        CWEventMask;
 
 	/*	TODO resolve why x and y position is bad. probarly because of multi screencd .	*/
+	ExGetPrimaryScreenRect(&rect);
 	window = XCreateWindow(display,
                               root,
-                              x, y, width, height,
+                              rect.x + x, rect.y + y, width, height,
                               0,
                               vi->depth,
                               InputOutput,
                               vi->visual,
-                                winmask,&winAttribs);
+                                winmask, &winAttribs);
 
-	XSync(display, FALSE);
+
 
 
 	/*	problems was it was a random pointer as a value....	*/
-    if(major >= 1 && minor >= 3 && pglx_window){
+    if( ( major >= 1 && minor >= 3 && pglx_window) ){
 
     	/*glXCreateWindow create opengl for window that might not have capability for OpenGL	*/
-    	pglx_window[0] = 0;
+    	pglx_window[0] = NULL;
     	//pglx_window[0] = glXCreateWindow(display, fbconfigs, window, 0);
     }
 
@@ -186,20 +191,24 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int3
 	gr_values.foreground = XBlackPixel(display,0);
 	gr_values.background = WhitePixel(display,0);
 	graphical_context = XCreateGC(display,window, GCFont + GCForeground, &gr_values);
-	XSetFont(display,graphical_context,gr_values.font);
+	XSetFont(display, graphical_context, gr_values.font);
 
 
    //XIfEvent(display, &event, WaitFormMap)
 
 
-    //XFlush(display);
+	XFree(vi);
+	XFree(graphical_context);
+	XFree(fontinfo);
 	XSync(display, FALSE);
 	return window;
 }
 
 DECLSPEC int ExSupportOpenGL(void){
-    int major,minor;
-	if(!glXQueryVersion(display,&major,&minor)){
+    int major;
+    int minor;
+
+	if(!glXQueryVersion(display, &major, &minor)){
         fprintf(stderr,"could not");
         return FALSE;
     }
