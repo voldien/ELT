@@ -63,7 +63,7 @@
 
 
 
-DECLSPEC inline ExWin ELTAPIENTRY ExGetOpenGLContextWindow(OpenGLContext glc){
+ELTDECLSPEC inline ExWin ELTAPIENTRY ExGetOpenGLContextWindow(ExOpenGLContext glc){
 #ifdef EX_WINDOWS
 	return WindowFromDC(wglGetCurrentDC());
 #elif defined(EX_LINUX)
@@ -74,7 +74,7 @@ DECLSPEC inline ExWin ELTAPIENTRY ExGetOpenGLContextWindow(OpenGLContext glc){
 }
 
 
-DECLSPEC inline WindowContext ELTAPIFASTENTRY ExGetCurrentGLDC(void){
+ELTDECLSPEC inline ExWindowContext ELTAPIFASTENTRY ExGetCurrentGLDC(void){
 #ifdef EX_WINDOWS
 	return wglGetCurrentDC();
 #elif defined(EX_LINUX)
@@ -84,7 +84,7 @@ DECLSPEC inline WindowContext ELTAPIFASTENTRY ExGetCurrentGLDC(void){
 #endif
 }
 
-DECLSPEC inline OpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void){
+ELTDECLSPEC inline ExOpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void){
 #ifdef EX_WINDOWS
 	return wglGetCurrentContext();
 #elif defined(EX_LINUX)
@@ -98,18 +98,18 @@ DECLSPEC inline OpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void){
 
 
 
-DECLSPEC inline int ELTAPIENTRY ExMakeGLCurrent(WindowContext drawable, OpenGLContext glc){
+ELTDECLSPEC inline int ELTAPIENTRY ExMakeGLCurrent(ExWindowContext drawable, ExOpenGLContext glc){
 #ifdef EX_WINDOWS
 	return wglMakeCurrent(drawable,glc);
 #elif defined(EX_LINUX)
-	return glXMakeCurrent(display,(GLXDrawable)drawable,(OpenGLContext)glc);
+	return glXMakeCurrent(display,(GLXDrawable)drawable,(ExOpenGLContext)glc);
 #elif defined(EX_ANDROID)
 	return eglMakeCurrent(eglDisplay, drawable, drawable, glc);
 #endif
 }
 
 
-DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
+ELTDECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 	int value;
     int sampleSupport;
 
@@ -122,26 +122,28 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 
 	// depth
 	//glClearDepth(1.0f);
+
 	// color mask
 #if  !( defined(EX_ANDROID) ^ defined(EX_PNACL) )
 	glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
 
 
 
-	if(ExOpenGLGetAttribute(EX_OPENGL_ALPHA_SIZE,&value) > 0)
+	if(ExOpenGLGetAttribute(EX_OPENGL_ALPHA_SIZE, &value) > 0)
 		glEnable(GL_ALPHA_TEST);
 	else glDisable(GL_ALPHA_TEST);
 
-	if(ExOpenGLGetAttribute(EX_OPENGL_MULTISAMPLEBUFFERS,&value) > 0){
+	if(ExOpenGLGetAttribute(EX_OPENGL_MULTISAMPLEBUFFERS, &value) > 0){
         glEnable(GL_MULTISAMPLE_ARB);
         	glGetIntegerv(GL_SAMPLE_BUFFERS,&sampleSupport);
         	if(sampleSupport){
 
         	}
 	}
-	glDepthRange(0.0, 1.0);
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glDepthRange(0.0, 1.0);
+    glClearDepth(1.0);
+
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
@@ -149,20 +151,20 @@ DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
-
 	glDepthMask(GL_TRUE);
-	glPolygonOffset(0.0f, 0.0f);
 
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_FRONT);
+	glPolygonOffset(0.0, 0.0);
+
 	glFrontFace(GL_CW);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 
 #endif
 
 }
 
 
-DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void){
+ELTDECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void){
 #ifndef EX_ANDROID
 	return (Uint32)(atof((const char*)glGetString(GL_SHADING_LANGUAGE_VERSION)) * 100.0f);
 #else
@@ -170,12 +172,12 @@ DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void){
 #endif
 }
 
-DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor){
+ELTDECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor){
     if(!ExGetCurrentOpenGLContext()){
 		/*	create temp*/
 		ExWin win;
 		unsigned int version;
-		OpenGLContext glc;
+		ExOpenGLContext glc;
 
 #if !(defined(EX_ANDROID) ^ defined(EX_WINDOWS)  ^ defined(EX_PNACL))
 		win = ExCreateGLWindow(0,0,1,1,0);
@@ -239,24 +241,24 @@ Uint32 ExIsExtensionSupported(const char* extList,const char* extension){
 
 
 #ifndef EX_LINUX
-DECLSPEC Int32 ELTAPIENTRY ExIsVendorAMD(void){
+ELTDECLSPEC Int32 ELTAPIENTRY ExIsVendorAMD(void){
 #ifndef EX_ANDROID
 	return strstr((const char*)glGetString(GL_VENDOR), "AMD") ? TRUE : FALSE;
 #endif
 }
-DECLSPEC Int32 ELTAPIENTRY ExIsVendorNvidia(void){
+ELTDECLSPEC Int32 ELTAPIENTRY ExIsVendorNvidia(void){
 #ifndef EX_ANDROID
 	return strstr((const char*)glGetString(GL_VENDOR), "NVIDIA") ? TRUE : FALSE;
 #endif
 }
-DECLSPEC Int32 ELTAPIENTRY ExIsVendorIntel(void){
+ELTDECLSPEC Int32 ELTAPIENTRY ExIsVendorIntel(void){
 #ifndef EX_ANDROID
 	return strstr((const char*)glGetString(GL_VENDOR), "INTEL") ? TRUE : FALSE;
 #endif
 }
 #endif
 
-DECLSPEC Enum ELTAPIENTRY ExGetOpenGLVendor(void){
+ELTDECLSPEC Enum ELTAPIENTRY ExGetOpenGLVendor(void){
 	if(ExIsVendorNvidia())return EX_NVIDIA;
 	else if(ExIsVendorAMD())return EX_AMD;
 	else if(ExIsVendorIntel())return EX_INTEL;

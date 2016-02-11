@@ -25,11 +25,11 @@ extern FILE* m_file_log;
 /*
  *
  */
-extern DECLSPEC void ELTAPIENTRY ExLog(const ExChar* format,...);
+extern ELTDECLSPEC void ELTAPIENTRY ExLog(const ExChar* format,...);
 
 /*
  *
  */
-extern DECLSPEC void ELTAPIENTRY ExErrorLog(const ExChar* format,...);
+extern ELTDECLSPEC void ELTAPIENTRY ExErrorLog(const ExChar* format,...);
 
 #endif

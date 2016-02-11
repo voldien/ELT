@@ -28,7 +28,7 @@ Int32 joy_id[4];
 #endif
 
 
-DECLSPEC Uint32 ELTAPIENTRY ExJoysticksNum(void){
+ELTDECLSPEC Uint32 ELTAPIENTRY ExJoysticksNum(void){
 #ifdef EX_WINDOWS
 	Int32 num = 0;
 	Uint32 i,count;
@@ -60,7 +60,7 @@ DECLSPEC Uint32 ELTAPIENTRY ExJoysticksNum(void){
 #endif
 }
 
-DECLSPEC void* ELTAPIENTRY ExJoystickOpen(Int32 index){
+ELTDECLSPEC ExHandle ELTAPIENTRY ExJoystickOpen(Int32 index){
 #ifdef EX_WINDOWS
 	JOYCAPS caps;
 	joyGetDevCaps(index,&caps,sizeof(caps));
@@ -79,7 +79,7 @@ DECLSPEC void* ELTAPIENTRY ExJoystickOpen(Int32 index){
 #endif
 }
 
-DECLSPEC int ELTAPIENTRY ExJoyStickClose(Int32 device_index){
+ELTDECLSPEC int ELTAPIENTRY ExJoyStickClose(Int32 device_index){
     #ifdef EX_WINDOWS
 
 	return 0;
@@ -88,7 +88,7 @@ DECLSPEC int ELTAPIENTRY ExJoyStickClose(Int32 device_index){
     #endif
 }
 
-DECLSPEC ExGUID ELTAPIENTRY ExJoystickGetDeviceGUID(Int32 device_index){
+ELTDECLSPEC ExGUID ELTAPIENTRY ExJoystickGetDeviceGUID(Int32 device_index){
 	ExGUID guid;
 #if defined(EX_WINDOWS)
 	JOYCAPS2W caps2;
@@ -101,7 +101,7 @@ DECLSPEC ExGUID ELTAPIENTRY ExJoystickGetDeviceGUID(Int32 device_index){
 	return guid;
 }
 
-DECLSPEC const ExChar* ELTAPIENTRY ExJoyStickName(Uint32 ptr){
+ELTDECLSPEC const ExChar* ELTAPIENTRY ExJoyStickName(Uint32 ptr){
 #ifdef EX_WINDOWS
 	JOYCAPS caps;
 	joyGetDevCaps(ptr,&caps,sizeof(caps));
@@ -117,7 +117,7 @@ DECLSPEC const ExChar* ELTAPIENTRY ExJoyStickName(Uint32 ptr){
 #endif
 }
 
-DECLSPEC Int32 ELTAPIENTRY ExJoystickNumButtons(Uint32 ptr){
+ELTDECLSPEC Int32 ELTAPIENTRY ExJoystickNumButtons(Uint32 ptr){
 #ifdef EX_WINDOWS
 	JOYCAPS caps;
 	joyGetDevCaps(ptr,&caps, sizeof(caps));
@@ -130,7 +130,7 @@ DECLSPEC Int32 ELTAPIENTRY ExJoystickNumButtons(Uint32 ptr){
         return -1;
 #endif
 }
-DECLSPEC Int32 ELTAPIENTRY ExJoystickNumAxis(Int32 device_index){
+ELTDECLSPEC Int32 ELTAPIENTRY ExJoystickNumAxis(Int32 device_index){
     #ifdef EX_WINDOWS
 	JOYCAPS caps;
 	joyGetDevCaps(device_index,&caps, sizeof(caps));
@@ -144,7 +144,7 @@ DECLSPEC Int32 ELTAPIENTRY ExJoystickNumAxis(Int32 device_index){
     #endif
 }
 
-DECLSPEC Int16 ELTAPIENTRY ExJoystickGetAxis(Int32 index,int axis){
+ELTDECLSPEC Int16 ELTAPIENTRY ExJoystickGetAxis(Int32 index,int axis){
     #ifdef EX_WINDOWS
     JOYINFO  pji;
     joyGetPos(index,&pji);
@@ -160,7 +160,7 @@ DECLSPEC Int16 ELTAPIENTRY ExJoystickGetAxis(Int32 index,int axis){
 /**
     \Button Get joystick button
 */
-DECLSPEC Uint8 ELTAPIENTRY ExJoyStickGetButton(Int32 device_index, int button){
+ELTDECLSPEC Uint8 ELTAPIENTRY ExJoyStickGetButton(Int32 device_index, int button){
     #ifdef EX_WINDOWS
     JOYINFO  pji;
     joyGetPos(device_index,&pji);

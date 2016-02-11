@@ -44,49 +44,50 @@ extern "C"{
  *	Add timer thread routine
  *	@return timer handle
  */
-extern DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback, void* param);
+extern ELTDECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback, void* param);
 
 /*
  *	Remove timer thread routine
  *	@return if successfully removed
  */
-extern DECLSPEC ExBoolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id);
 /*
  *	Delay current thread in milliseconds.
  *	\ms milliseconds.
  */
-extern DECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms);
+extern ELTDECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms);
 
 /*
  *	Delay current thread in nano seconds.
  */
-extern DECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nanosec);
+extern ELTDECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nanosec);
 
 /*
  *	Get performance counter
  *	@return
  */
-extern DECLSPEC Uint64 ELTAPIENTRY ExGetPerformanceCounter(void);
+extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetPerformanceCounter(void);
 
 /*
  *	Get Performance frequency
  *	@return
  */
-extern DECLSPEC Uint64 ELTAPIENTRY ExGetPerformanceFrequency(void);
+extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetPerformanceFrequency(void);
 
 /*
  *	Get numbers Ticks sense ELT_TIMER was initialize
  *	@return
  */
-extern DECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void);
+extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void);
 
 /*
  *	Get numbers Ticks sense ELT_TIMER was initialize
  *	@return get number of ticks.
  */
-extern DECLSPEC long int ELTAPIENTRY ExGetHiResTime(void);
+extern ELTDECLSPEC long int ELTAPIENTRY ExGetHiResTime(void);
 
-//extern DECLSPEC long int ELTAPIENTRY ExGetTimeMil
+//extern ELTDECLSPEC long int ELTAPIENTRY ExGetTimeMil
+
 
 /**
     Get in seconds in float. where 1.0 is a second.

@@ -66,48 +66,48 @@ typedef struct sprite_batch{
 /*
  *	Create
  */
-extern DECLSPEC ExSpriteBatch* ELTAPIENTRY ExCreateSpriteBatch(ExSpriteBatch* spriteBatch);
+extern ELTDECLSPEC ExSpriteBatch* ELTAPIENTRY ExCreateSpriteBatch(ExSpriteBatch* spriteBatch);
 
 /*
  *
  */
-extern DECLSPEC int	ELTAPIENTRY ExReleaseSpriteBatch(ExSpriteBatch* spritebatch);
+extern ELTDECLSPEC int	ELTAPIENTRY ExReleaseSpriteBatch(ExSpriteBatch* spritebatch);
 
 
 
-//extern DECLSPEC int ELTAPIENTRY ExGetSpriteBatchUniform(ExSpriteBatch* spritebatch);
-
-/*
- *
- */
-extern DECLSPEC int ELTAPIENTRY ExBeginSpriteBatch(ExSpriteBatch* spriteBatch,float* camerapos, float scale);
+//extern ELTDECLSPEC int ELTAPIENTRY ExGetSpriteBatchUniform(ExSpriteBatch* spritebatch);
 
 /*
  *
  */
-extern DECLSPEC int ELTAPIENTRY ExEndSpriteBatch(ExSpriteBatch* spriteBatch);
+extern ELTDECLSPEC int ELTAPIENTRY ExBeginSpriteBatch(ExSpriteBatch* spriteBatch,float* camerapos, float scale);
+
+/*
+ *
+ */
+extern ELTDECLSPEC int ELTAPIENTRY ExEndSpriteBatch(ExSpriteBatch* spriteBatch);
 
 /**/
-extern DECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* spritebatch, ExTexture* texture, float* position, float* rect,float* color, float scale, float angle, float depth);
+extern ELTDECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* spritebatch, ExTexture* texture, float* position, float* rect,float* color, float scale, float angle, float depth);
 
 /**/
-extern DECLSPEC int ELTAPIENTRY ExDrawSpriteNormalize(ExSpriteBatch* spritebatch, ExTexture* texture,float* position, float* rect, float* color, float scale, float angle, float depth);
+extern ELTDECLSPEC int ELTAPIENTRY ExDrawSpriteNormalize(ExSpriteBatch* spritebatch, ExTexture* texture,float* position, float* rect, float* color, float scale, float angle, float depth);
 
 
 /**/
-extern DECLSPEC int ELTAPIENTRY ExAddSpriteNormalized(ExSpriteBatch* spritebatch,ExTexture* texture,float* position,float* rect, float* color, float scale, float angle, float depth);
+extern ELTDECLSPEC int ELTAPIENTRY ExAddSpriteNormalized(ExSpriteBatch* spritebatch,ExTexture* texture,float* position,float* rect, float* color, float scale, float angle, float depth);
 
 /**/
-extern DECLSPEC int ELTAPIENTRY ExAddSprite(ExSpriteBatch* spritebatch,ExTexture* texture, float* position, float* rect, float* color, float scale, float angle, float depth);
+extern ELTDECLSPEC int ELTAPIENTRY ExAddSprite(ExSpriteBatch* spritebatch,ExTexture* texture, float* position, float* rect, float* color, float scale, float angle, float depth);
 
 /**/
-extern DECLSPEC int ELTAPIENTRY ExRemoveSprite(ExSpriteBatch* spritebatch,int index);
+extern ELTDECLSPEC int ELTAPIENTRY ExRemoveSprite(ExSpriteBatch* spritebatch,int index);
 
 /**/
-extern DECLSPEC int ELTAPIENTRY ExFlushSpriteBatch(ExSpriteBatch* spritebatch);
+extern ELTDECLSPEC int ELTAPIENTRY ExFlushSpriteBatch(ExSpriteBatch* spritebatch);
 
 /*	*/
-extern DECLSPEC int ELTAPIENTRY ExDisplaySprite(ExSpriteBatch* spritebatch);
+extern ELTDECLSPEC int ELTAPIENTRY ExDisplaySprite(ExSpriteBatch* spritebatch);
 
 
 #ifdef __cplusplus	/* C++ environment	*/

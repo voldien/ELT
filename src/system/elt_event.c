@@ -24,7 +24,7 @@
 #endif
 
 
-DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
+ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 #ifdef EX_WINDOWS
 	assert(event);
 	MSG msg;
@@ -245,7 +245,7 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 #endif
 }
 
-DECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event){
+ELTDECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event){
 #ifdef EX_WINDOWS
 	MSG msg;
 	//event->event = 0;
@@ -356,7 +356,7 @@ DECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event)
 
 
 
-DECLSPEC Int32 ELTAPIENTRY ExForwardEvent(Uint32 event, HANDLE data, Uint32 size){
+ELTDECLSPEC Int32 ELTAPIENTRY ExForwardEvent(Uint32 event, ExHandle data, Uint32 size){
 #ifdef EX_LINUX
 
 	XSendEvent(display,0,True,event,data);

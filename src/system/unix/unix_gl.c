@@ -149,8 +149,8 @@ ExOpenGLContext ELTAPIENTRY ExCreateTempGLContext(void){
 
 
 
-OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shareContext){
-	OpenGLContext glc = NULL;
+ExOpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shareContext){
+	ExOpenGLContext glc = NULL;
 	unsigned int vendor;
 	unsigned int glxmaj,glxmin;
 	unsigned int major;
@@ -266,7 +266,7 @@ OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shareC
 }
 
 
-OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, OpenGLContext glc){
+ExOpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, ExOpenGLContext glc){
 	return ExCreateGLContext(window,glc);
 }
 
@@ -296,14 +296,14 @@ void ELTAPIENTRY ExOpenGLResetAttributes(void){
 	ExOpenGLSetAttribute(EX_OPENGL_ACCUM_BLUE_SIZE,		0);
 	ExOpenGLSetAttribute(EX_OPENGL_ACCUM_ALPHA_SIZE,		0);
 
-	ExOpenGLSetAttribute(EX_OPENGL_ACCELERATED_VISUAL,		0);
-	ExOpenGLSetAttribute(EX_OPENGL_STEREO,					0);
-	ExOpenGLSetAttribute(EX_OPENGL_MULTISAMPLEBUFFERS,		0);
-	ExOpenGLSetAttribute(EX_OPENGL_MULTISAMPLESAMPLES,		0);
-	ExOpenGLSetAttribute(EX_OPENGL_FRAMEBUFFER_SRGB_CAPABLE,0);
+	ExOpenGLSetAttribute(EX_OPENGL_ACCELERATED_VISUAL,			0);
+	ExOpenGLSetAttribute(EX_OPENGL_STEREO,						0);
+	ExOpenGLSetAttribute(EX_OPENGL_MULTISAMPLEBUFFERS,			0);
+	ExOpenGLSetAttribute(EX_OPENGL_MULTISAMPLESAMPLES,			0);
+	ExOpenGLSetAttribute(EX_OPENGL_FRAMEBUFFER_SRGB_CAPABLE,	0);
 }
 
-DECLSPEC ExBoolean ELTAPIENTRY ExDestroyGLContext(WindowContext drawable, ExOpenGLContext glc){
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExDestroyGLContext(ExWindowContext drawable, ExOpenGLContext glc){
 	ExBoolean hr = 1;
 
     if(!ExMakeGLCurrent(NULL,NULL)){
@@ -315,7 +315,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExDestroyGLContext(WindowContext drawable, ExOpen
 }
 
 
-DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes){
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes){
     int one = 1;
 	XEvent xev = {0};
 	ExSize size  = {0};
@@ -385,7 +385,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin win
 
 }
 
-DECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window,Enum ienum){
+ELTDECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window,Enum ienum){
 
 	XTextProperty textprop = {0};
 	XWMHints *startup_state;
@@ -414,19 +414,19 @@ DECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window,Enum ienum){
 }
 
 
-DECLSPEC Int32 ELTAPIENTRY ExIsVendorAMD(void){
+ELTDECLSPEC Int32 ELTAPIENTRY ExIsVendorAMD(void){
 	return strstr((const char*)glXGetClientString(display,GLX_VENDOR), "AMD") ? TRUE : FALSE;
 }
 
-DECLSPEC Int32 ELTAPIENTRY ExIsVendorNvidia(void){
+ELTDECLSPEC Int32 ELTAPIENTRY ExIsVendorNvidia(void){
 	return (strstr((const char*)glXGetClientString(display,GLX_VENDOR), "NVIDIA")) ? TRUE : FALSE;
 }
 
-DECLSPEC Int32 ELTAPIENTRY ExIsVendorIntel(void){
+ELTDECLSPEC Int32 ELTAPIENTRY ExIsVendorIntel(void){
 	return strstr((const char*)glXGetClientString(display,GLX_VENDOR), "INTEL") ? TRUE : FALSE;
 }
 
-DECLSPEC ERESULT ELTAPIENTRY ExOpenGLSetVSync(ExBoolean enabled, ExWin window){
+ELTDECLSPEC ERESULT ELTAPIENTRY ExOpenGLSetVSync(ExBoolean enabled, ExWin window){
 	//glXSwapIntervalEXT
 	//sf_ptrc_glXSwapIntervalMESA
 	//glXSwapIntervalSGI

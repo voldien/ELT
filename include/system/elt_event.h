@@ -204,7 +204,7 @@ typedef struct elt_poll_events{
  *	\event
  *	@return
 */
-extern DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
 
 /*
  *	Poll event from specifed window.
@@ -224,14 +224,14 @@ extern DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
  *	#return if PeekMessage was success.
  *	PeekMessage : http://msdn.microsoft.com/en-us/library/windows/desktop/ms644943(v=vs.85).aspx
 */
-extern DECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event);
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event);
 
 
 /*
  *
  *	@return
  */
-extern DECLSPEC Int32 ELTAPIENTRY ExForwardEvent(Uint32 event, HANDLE data, Uint32 size);
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExForwardEvent(Uint32 event, ExHandle data, Uint32 size);
 
 
 #ifdef __cplusplus	/*	C++ Environment	*/

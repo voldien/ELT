@@ -44,9 +44,18 @@
 #endif
 
 
+EGLint configAttribList[] ={
+	EGL_BUFFER_SIZE, 16,
+	EGL_RENDERABLE_TYPE,
+	EGL_OPENGL_ES2_BIT,
+	EGL_NONE
+};
+
+
+
 EGLDisplay eglDisplay;
 
-OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
+ExEGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
 	/*	TODO resolve later!!*/
 
 	int major ,minor ;
@@ -57,6 +66,7 @@ OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
 	EGLSurface eglSurface;
 	EGLContext eglContext;
 	ERESULT hr;
+
 
 	/*	load dynamic library dependency.	*/
 	if(!ExIsModuleLoaded(EX_EGL_LIB_MOUDLE_NAME))
@@ -89,6 +99,7 @@ OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
 #elif defined(EX_LINUX)
 	if(eglBindAPI(EGL_OPENGL_API) != EGL_TRUE)
         ExError("Bind API!");
+
 	eglDisplay = eglGetDisplay((EGLNativeDisplayType)display);
     EGLint ctxattr[] = {
       EGL_CONTEXT_CLIENT_VERSION, 2,
@@ -109,16 +120,18 @@ OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
 
 	/*	Choose Config	*/
 	if((hr = eglChooseConfig(eglDisplay, configAttribList, &eglConfig, 1, &numConfig)) != EGL_TRUE)
-        ExError(EX_TEXT("failed to Choose Config for EGL.\n"));
+        ExError(EX_TEXT("failed to Choose config for EGL.\n"));
 
-	if(!(eglSurface = eglCreateWindowSurface(eglDisplay,eglConfig,(EGLNativeWindowType)window,NULL)))
+	if(!(eglSurface = eglCreateWindowSurface(eglDisplay, eglConfig, (EGLNativeWindowType)window, NULL)))
         ExError(EX_TEXT("error"));
 
-	if(!(eglContext = eglCreateContext(eglDisplay,eglConfig,EGL_NO_CONTEXT,ctxattr)))
+	if(!(eglContext = eglCreateContext(eglDisplay, eglConfig, EGL_NO_CONTEXT, ctxattr)))
         ExError(EX_TEXT("Error"));
 
 	if((hr = eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext)) != EGL_TRUE)
         ExError(EX_TEXT("OpenGL ES Error"));
+
+
 
 	ExInitOpenGLStates();
 
@@ -128,12 +141,11 @@ OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
 
 int ExCreateEGLContextAttrib(ExWin window, int* attrib, unsigned int* size){
 
-
 	return 1;
 }
 
 
-DECLSPEC void ELTAPIENTRY ExDestroyEGLContext(OpenGLContext context){
+ELTDECLSPEC void ELTAPIENTRY ExDestroyEGLContext(ExEGLContext context){
 	eglDestroyContext(eglGetCurrentDisplay(),context);
 }
 
