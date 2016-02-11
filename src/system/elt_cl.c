@@ -53,7 +53,7 @@
 //#define ExIsCLError(x)  { if( ( x ) != CL_SUCCESS ){ ExDevPrintfc("Error | %s",EX_CONSOLE_RED,ExGetErrorMessage( ( x ) )); } }
 
 
-#define ELT_CL_GPU_INDEX(x) ((x & (EX_GPU0 >> (EX_GPU0 / 2))))
+#define ELT_CL_GPU_INDEX(x) ((x & (EX_CL_GPU0 >> (EX_CL_GPU0 / 2))))
 #define ELT_CL_CPU_INDEX(x) ((x & 0x0000ff00))
 
 
@@ -121,10 +121,10 @@ ExOpenCLContext ELTAPIENTRY ExCreateCLContext(Enum flag, ExOpenCLContext sharedC
 
 
 
-	if(flag & EX_GPU0){
+	if(flag & EX_CL_GPU0){
 		uiDevCount = ELT_CL_GPU_INDEX(flag);
 	}
-	else if(flag & EX_CPU0){
+	else if(flag & EX_CL_CPU0){
 		uiDevCount = ELT_CL_CPU_INDEX(flag);
 	}
 	else if(flag & EX_CL_AVAILABLE_PLATFORM){

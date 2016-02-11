@@ -131,7 +131,8 @@ ELTDECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 
 	if(ExOpenGLGetAttribute(EX_OPENGL_ALPHA_SIZE, &value) > 0)
 		glEnable(GL_ALPHA_TEST);
-	else glDisable(GL_ALPHA_TEST);
+	else
+		glDisable(GL_ALPHA_TEST);
 
 	if(ExOpenGLGetAttribute(EX_OPENGL_MULTISAMPLEBUFFERS, &value) > 0){
         glEnable(GL_MULTISAMPLE_ARB);

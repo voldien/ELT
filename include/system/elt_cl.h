@@ -20,8 +20,8 @@
 #define _ELT_CL_H_ 1
 #include"./../EngineAssembly.h"
 
-#define EX_GPU0 0x20                        	/*	GPU index 0 + offset	*/
-#define EX_CPU0 0x40                       	/*	CPU index 0 + offset	*/
+#define EX_CL_GPU0 0x20                        	/*	GPU index 0 + offset	*/
+#define EX_CL_CPU0 0x40                       	/*	CPU index 0 + offset	*/
 #define EX_CPU_REGION
 #define EX_GPU_REGION
 #define EX_CL_FLOPS_HIGHEST 0x400          	/*	Device with most FLOPS	*/
@@ -50,6 +50,8 @@ extern ELTDECLSPEC ExOpenCLContext ELTAPIENTRY ExCreateCLContext(Enum eEnumFlag,
  *	@return CL context.
  */
 extern ELTDECLSPEC ExOpenCLContext ELTAPIENTRY ExCreateCLSharedContext(ExOpenGLContext glc, ExWindowContext window, Enum erenderingFlag);
+
+//extern ELTDECLSPEC ExOpenCLContext ELTAPIENTRY ExCreateXDCLSharedContext(ExOpenGLContext glc, ExWindowContext window, Enum erenderingFlag);
 
 /*
  *	Query Context information
