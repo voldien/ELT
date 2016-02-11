@@ -98,7 +98,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExUnRegisterClasses(void);
 
 /*
  *	Create Window dedicated for DirectX
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateDirectXWindow(int x, int y, int width, int height);
 
@@ -108,18 +108,18 @@ extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateDirectXWindow(int x, int y, int wid
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateOpenGLWindow(int x, int y, int width, int height);
 
 /*
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(int x, int y, int width, int height);
 
 /*
- *	@return
+ *	@Return
 */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateDesktopWindow(int x, int y, int width, int height);
 
 /*
  *	Create MID Window
- *	@return
+ *	@Return
 */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateMIDWindow(int x, int y, int width , int height);
 
@@ -166,14 +166,14 @@ extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateSubWindow(Int32 x,Int32 y, Int32 wi
 /*
  *	Update windows for all given windows on the process.
  *	\hwnd if update a particular window.
- *	@return
+ *	@Return
 */
 extern ELTDECLSPEC int ELTAPIENTRY ExGetWindowMessage(ExWin hwnd);
 
 /*
  *	Update windows for all given windows on the process.
  *	\hwnd
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExGetWindowPeekMessage(ExWin hwnd);
 

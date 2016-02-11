@@ -5,16 +5,13 @@
 #include<X11/keysym.h>
 #include<X11/extensions/XInput.h>
 #include<X11/extensions/XKB.h>
-#include <X11/XKBlib.h>
-#include <X11/Xatom.h>
+#include<X11/XKBlib.h>
+#include<X11/Xatom.h>
 #include<X11/extensions/XInput.h>
 #include"system/unix/unix_win.h"
-#include <linux/input.h>
+#include<linux/input.h>
 #include<X11/Xlib-xcb.h>
 
-
-
-//unsigned char KeyBoardState[2][0xFF];
 
 static inline int ExGetKeyCodeInternal(Uint32 keyCode){
     int keysym;
@@ -86,6 +83,7 @@ static inline int ExGetKeyCodeInternal(Uint32 keyCode){
         case EXK_Dash:       keysym = XK_minus;        break;
         */
         case EXK_SPACE:      keysym = XK_space;        break;
+
         /*
         case EXK_Return:     keysym = XK_Return;       break;
         case EXK_BackSpace:  keysym = XK_BackSpace;    break;
@@ -93,6 +91,7 @@ static inline int ExGetKeyCodeInternal(Uint32 keyCode){
         case EXK_PageUp:     keysym = XK_Prior;        break;
 		case EXK_PageDown:   keysym = XK_Next;         break;
 		*/
+
         case EXK_End:        keysym = XK_End;          break;
         case EXK_Home:       keysym = XK_Home;         break;
         case EXK_Insert:     keysym = XK_Insert;       break;
@@ -132,8 +131,6 @@ static inline int ExGetKeyCodeInternal(Uint32 keyCode){
     }
     return keysym;
 }
-
-
 
 
 ELTDECLSPEC ExKeycode ELTAPIENTRY ExGetKeyFromName(const char* name){

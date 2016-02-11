@@ -17,9 +17,8 @@ ELTDECLSPEC Int32 ELTAPIENTRY ExClipCursor(const ExRect* rect){
 }
 
 ELTDECLSPEC ExCursor ELTAPIENTRY ExCreateCursor(const Uint8* data, const Uint8* mask, Int32 width,Int32 height, Int32 hot_x, Int32 hot_y){
-    return XCreatePixmap(display, 0, width,height,8);
+    return XCreatePixmap(display, 0, width, height, 8);
 }
-
 
 ELTDECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(Enum system_id){
 	ExChar* arrow;

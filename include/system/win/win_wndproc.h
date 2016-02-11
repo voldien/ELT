@@ -51,7 +51,7 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExEnableDeviceNotification(ExWin hWnd);
  *	\uMsg
  *	\wParam
  *	\lParam
- *	@return
+ *	@Return
 */
 extern ELTDECLSPEC ERESULT ELTAPISTDENTRY ExMainWndProc(ExWin hWnd, Uint uMsg, WPARAM wParam, LPARAM lParam);
 

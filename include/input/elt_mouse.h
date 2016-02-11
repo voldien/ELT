@@ -58,65 +58,66 @@ extern "C"{
 
 /*
  *	Capture mouse
- *	@return
+ *	@Return
 */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(ExBoolean enabled);
 
 /*
  *	Clip cursor onto specified rectangle view
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExClipCursor(const ExRect* rect);
 
 /*
  *	Create Cursor
- *	@return
+ *	@Return
 */
 extern ELTDECLSPEC ExCursor ELTAPIENTRY ExCreateCursor(const Uint8* data, const Uint8* mask, Int32 width, Int32 height, Int32 hot_x, Int32 hot_y);
+
 /*
  *	Create System Cursor
- *	@return
+ *	@Return
 */
 extern ELTDECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(Enum system_id);
 /*
  *	Free cursor
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExFreeCursor(ExCursor cursor);
 
 /*
  *	Set Cursor
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExSetCursor(ExCursor cursor);
 
 /*
  *	Get Cursor
- *	@return
+ *	@Return
 */
 extern ELTDECLSPEC ExCursor ELTAPIENTRY ExGetCursor(void);
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExCursor ELTAPIENTRY ExGetDefaultCursor(void);
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetMouseFocus(void);
 
 /*
  *	Get Global Mouse State
- *	@return button pressed.
+ *	@Return button pressed.
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetGlobalMouseState(Int32* x, Int32* y);
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetMouseState(Int32* x, Int32* y);
 
@@ -132,7 +133,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExWarpMouseInWindow(ExWin win, Int32 x, Int3
 
 /*
  *	Show Cursor
- *	@return if successfully then return value is equal to input value.
+ *	@Return if successfully then return value is equal to input value.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExShowCursor(ExBoolean enabled);
 
@@ -140,12 +141,12 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExShowCursor(ExBoolean enabled);
 
 /**
 
-	@return
+	@Return
 */
 extern ELTDECLSPEC int ELTAPIENTRY ExGetTouchDown(unsigned int fingerid);
 /**
 
-	@return
+	@Return
 */
 extern ELTDECLSPEC int ELTAPIENTRY ExGetTouchPosition(unsigned int fingerid, float* pos);
 

@@ -122,7 +122,7 @@ extern ELTDECLSPEC int ELTAPIENTRY ExSetCurrentDirectory(const ExChar* cdirector
 
 /*
  *  Get Application Execute global Path.
- *   @return
+ *   @Return
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExGetExecutePath(ExChar* wChar, Int32 lengthSize);
 

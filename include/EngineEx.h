@@ -27,14 +27,14 @@ extern "C"{
 /*
  *	Initialize ELT Engine Library ToolKit
  *	\engineflag
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInit(Uint32 engineFlag);/*TODO perhaps add argc,argv*/
 
 /*
  *	Initialize specific subsystems
  *	\engineflag
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineFlag);
 
@@ -64,20 +64,20 @@ extern ELTDECLSPEC void ELTAPIENTRY ExDisable(Enum disable);
 /*
  *	Create interrupt event.
  *	TODO put ExCreateInterrupt somewhere else!
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExCreateInterrupt(interrupt_routine callback, Uint32 type);
 
 
 /*
  *	Get ELT Version.
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void);
 
 /*
  *	Get compiler compiled with ELT.
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void);
 

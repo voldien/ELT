@@ -60,9 +60,7 @@
 	#include<GL/glext.h>
 #endif
 
-
-
-
+/*	TODO perhaps relocate later to their coresponding platform source code files.*/
 ELTDECLSPEC inline ExWin ELTAPIENTRY ExGetOpenGLContextWindow(ExOpenGLContext glc){
 #ifdef EX_WINDOWS
 	return WindowFromDC(wglGetCurrentDC());
@@ -74,7 +72,7 @@ ELTDECLSPEC inline ExWin ELTAPIENTRY ExGetOpenGLContextWindow(ExOpenGLContext gl
 }
 
 
-ELTDECLSPEC inline ExWindowContext ELTAPIFASTENTRY ExGetCurrentGLDC(void){
+ELTDECLSPEC inline ExWindowContext ELTAPIFASTENTRY ExGetCurrentGLDrawable(void){
 #ifdef EX_WINDOWS
 	return wglGetCurrentDC();
 #elif defined(EX_LINUX)
@@ -113,17 +111,8 @@ ELTDECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 	int value;
     int sampleSupport;
 
-
-#if (EX_ENGINE_VERSION_MAJOR < 1 )
-	//ExOpenGLSetVSync(0,ExGetCurrentGLDrawable());
-#endif
-
-
-
 	// depth
 	//glClearDepth(1.0f);
-
-	// color mask
 #if  !( defined(EX_ANDROID) ^ defined(EX_PNACL) )
 	glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
 

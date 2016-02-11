@@ -49,11 +49,14 @@ EGLint configAttribList[] ={
 	EGL_RENDERABLE_TYPE,
 	EGL_OPENGL_ES2_BIT,
 	EGL_NONE
+
+
 };
 
+ExHandle egl_libhandle	=	NULL;
+EGLDisplay eglDisplay	=	NULL;
 
 
-EGLDisplay eglDisplay;
 
 ExEGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
 	/*	TODO resolve later!!*/

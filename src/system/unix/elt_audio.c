@@ -1,5 +1,5 @@
 #include"system/elt_audio.h"
-#ifdef ELT_LINUX
+#ifdef EX_LINUX
 
 #include<AL/al.h>
 #include<AL/alc.h>

@@ -33,43 +33,43 @@ extern "C"{
 
 /*
  *	Number of joystick
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExJoysticksNum(void);
 
 /*
  *	Open joystick by device index
- *	@return
+ *	@Return
 */
 extern ELTDECLSPEC ExHandle ELTAPIENTRY ExJoystickOpen(Int32 index);
 
 /*
  *   Close Joystick by device index
- *	@return
+ *	@Return
 */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExJoyStickClose(Int32 index);
 
 /*
  *	Get Joystick Device GUID
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExGUID ELTAPIENTRY ExJoystickGetDeviceGUID(Int32 index);
 
 /*
  *	Get Joystick name
- *	@return
+ *	@Return
 */
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExJoyStickName(Uint32 ptr);
 
 /*
  *	Get number of buttons on a joystick
- *	@return
+ *	@Return
 */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExJoystickNumButtons(Uint32 ptr);
 
 /*
  *	Axis Get number of axis on joystick
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExJoystickNumAxis(Int ptr);
 

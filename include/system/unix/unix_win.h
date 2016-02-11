@@ -26,14 +26,14 @@ extern "C"{
 
 /*
  *
- *	@return
+ *	@Return
 */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(int x, int y, int width, int height);
 
 
 /*
  *
- *   @return
+ *   @Return
  */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(int x , int y, int width, int height, void** glx_window);
 

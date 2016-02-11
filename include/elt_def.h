@@ -34,12 +34,6 @@
 
 
 /*
- *	khr group.
- */
-//#include <KHR/khrplatform.h>
-
-
-/*
  *	Compiler.
  */
 #ifdef _MSC_VER 	/*	Visual Studio C++ Compiler.	*/

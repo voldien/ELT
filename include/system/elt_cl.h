@@ -35,19 +35,19 @@ extern "C"{
 
 /*
  *	Get current OpenCL context.
- *	@return OpenCL context.
+ *	@Return OpenCL context.
  */
 extern ELTDECLSPEC ExOpenCLContext ELTAPIFASTENTRY ExGetCurrentCLContext(void);
 
 /*
  *	Create OpenCL Context
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExOpenCLContext ELTAPIENTRY ExCreateCLContext(Enum eEnumFlag, ExOpenCLContext sharedCLContext);
 
 /*
  *	Create shared CL context with OpenGL context
- *	@return CL context.
+ *	@Return CL context.
  */
 extern ELTDECLSPEC ExOpenCLContext ELTAPIENTRY ExCreateCLSharedContext(ExOpenGLContext glc, ExWindowContext window, Enum erenderingFlag);
 
@@ -55,7 +55,7 @@ extern ELTDECLSPEC ExOpenCLContext ELTAPIENTRY ExCreateCLSharedContext(ExOpenGLC
 
 /*
  *	Query Context information
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(ExOpenCLContext context, ExHandle param_value, Enum param_name);
 
@@ -67,19 +67,19 @@ extern ELTDECLSPEC void ELTAPIENTRY ExDestroyCLContext(ExOpenCLContext context);
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC void* ExCreateCommandQueue(ExOpenCLContext context, ExHandle device);
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC void* ExCreateProgram(ExOpenCLContext context, ExHandle device, const ExChar* cfilename,...);
 
 /*
  *	Get CL platform identification
- *	@return current CL context.
+ *	@Return current CL context.
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID, Enum flag);
 
@@ -90,7 +90,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, ExHandle p_
 
 /*
  *	Get and return device capability
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetClDevCap(void* device);
 

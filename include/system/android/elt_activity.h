@@ -31,13 +31,13 @@ extern "C"{
 
 /*
  *	Get native Activity pointer
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC void* ELTAPIENTRY ExGetNativeActivity(void);
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC void* ELTAPIENTRY ExGetNativeLooper(void);
 

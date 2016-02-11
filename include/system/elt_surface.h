@@ -35,13 +35,13 @@ extern "C"{
 
 /*
  *	Create Surface
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExSurface ELTAPIENTRY ExCreateSurface(unsigned int width, unsigned height, unsigned int format);
 
 /*
  *	release surface.
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExDestroySurface(ExSurface handle);
 

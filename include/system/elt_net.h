@@ -43,14 +43,14 @@ extern "C" {
  *	\ip
  *	\port
  *	\protocol
- *	@return
+ *	@Return
 */
 extern ELTDECLSPEC ExSocket ELTAPIENTRY ExOpenSocket(unsigned int protocol);
 
 /*
  *	Close socket
  *	\socket
- *	@return
+ *	@Return
 */
 extern ELTDECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(ExSocket socket);
 
@@ -59,7 +59,7 @@ extern ELTDECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(ExSocket socket);
  *	\ip
  *	\port
  *	\socket
- *	@return
+ *	@Return
 */
 extern ELTDECLSPEC ExSocket ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port, ExSocket socket);
 
@@ -67,7 +67,7 @@ extern ELTDECLSPEC ExSocket ELTAPIENTRY ExBindSocket(const char* ip, unsigned in
  *	Connect to socket
  *	\ip
  *	\port
- *	@return socket
+ *	@Return socket
 */
 extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int port);
 
@@ -81,7 +81,7 @@ extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const char* ip, unsigned
  *	\socket
  *	\buffer
  *	\size
- *	@return
+ *	@Return
  */
 #ifdef EX_LINUX
 	#define ExReadSocket read
@@ -94,7 +94,7 @@ extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const char* ip, unsigned
  *	\socket
  *	\buffer
  *	\size
- *	@return
+ *	@Return
  */
 #ifdef EX_LINUX
 	#define ExWriteSocket read
@@ -104,7 +104,7 @@ extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const char* ip, unsigned
 
 /*
  *	Get host name to ip adress.
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExGetHostIp(char* host);
 

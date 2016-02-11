@@ -42,7 +42,7 @@ extern ExDisplay display;
 
 /*
  *	Get ELT Window default Title!
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, Int32 length);
 
@@ -53,7 +53,7 @@ extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, Int
  *	\width : width of the window
  *	\height : height of the window
  *	\flag : window type
- *	@return window handle
+ *	@Return window handle
  */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height, Enum flag);
 
@@ -93,7 +93,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowMode(ExWin window, Enum mode);
 
 /*
  *	Destroy Window
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExDestroyWindow(ExWin window);
 
@@ -101,7 +101,7 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExDestroyWindow(ExWin window);
  *	Set Window Title
  *	\window
  *	\title window title
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowTitle(ExWin window, const ExChar* title);
 
@@ -109,7 +109,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowTitle(ExWin window, const ExChar*
  *	Get Windows Title
  *	\window
  *	\title
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title);
 
@@ -203,44 +203,44 @@ extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowUserData(ExWin window, ExHandle u
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExSetWindowParent(ExWin parent,ExWin window);
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetWindowParent(ExWin window);
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExSetWindowChild(ExWin window, ExWin child);
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetWindowChild(ExWin window, Uint32 index);
 
 /*
  *	Get number of window children.
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetWindowNumChildren(ExWin window);
 
 /*
  *	Get desktop window handle.
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetDesktopWindow(void);
 
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExMessageBox(ExWin window, const ExChar* text, const ExChar* title, unsigned int flags );
 

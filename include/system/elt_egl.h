@@ -28,19 +28,19 @@ extern "C"{
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExCreateEGLContextAttrib(ExWin window, int* attrib, unsigned int* size);
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExEGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window);
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExCreateEGLContextAttrib(ExWin window, int* attrib, unsigned int* size);
 
