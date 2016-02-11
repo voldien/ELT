@@ -1,4 +1,4 @@
-/**
+/*
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -20,65 +20,110 @@
 #define _ELT_CPUINFO_H_ 1
 #include"EngineAssembly.h"
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
-/**
-	Get CPU Name
-	@return
-*/
-extern DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void);
+
+/*TODO take a look at which approuch for dealing with cpu information. enum or string?*/
+#define EX_CPU_UNKNOWN    0x0
+#define EX_CPU_X86        0x1
+#define EX_CPU_PPC        0x2
+#define EX_CPU_ARM        0x3
+#define EX_CPU_MIPS       0x4
 
 
-extern DECLSPEC Int32 ELTAPIENTRY ExGetFrequence(void);
-/**
-	// Has CPU Support For AVX (Advanced Vector Extension)
-*/
-extern DECLSPEC ExBoolean ELTAPIENTRY ExHasAVX(void);
-/**
-	// Has CPU Support For AVX2 (Advanced Vector Extension)
-*/
-extern DECLSPEC ExBoolean ELTAPIENTRY ExHasAVX2(void);
-/**
-	// Has CPU Support For 3DNow (AMD feature)
-*/
-extern DECLSPEC ExBoolean ELTAPIENTRY ExHas3DNow(void);
-/**
-	// Has CPU Support For MMX (Matrix Math eXtension)
-*/
-extern DECLSPEC ExBoolean ELTAPIENTRY ExHasMMX(void);
-/**
-	Get CPU number of cpu cores
-    @return number of cpu cores.
-*/
-extern DECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void);
 /*
-	//
-*/
-extern DECLSPEC ExBoolean ELTAPIENTRY ExGetCPUCacheLineSize(void);
-/**
-	Is SSE ( Streaming SIMD Extensions ) available
-*/
-extern DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE(void);
-/**
-	Is SSE 2 ( Streaming SIMD Extensions ) available
-*/
-extern DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE2(void);
-/**
-	Is SSE 3 ( Streaming SIMD Extensions ) available
-*/
-extern DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE3(void);
-/**
-	Is SSE 41 ( Streaming SIMD Extensions ) available
-*/
-extern DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE41(void);
-/**
-	Is SSE 41 ( Streaming SIMD Extensions ) available
-*/
-extern DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void);
+ *	Get the name of the CPU.
+ *	@return
+ */
+extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void);
+
+/*
+ *
+ *
+ */
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetFrequence(void);
+
+/*
+ *	Has CPU Support For AVX (Advanced Vector Extension)
+ *	@return
+ */
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasAVX(void);
+
+/*
+ *	Has CPU Support For AVX2 (Advanced Vector Extension)
+ *	@return
+ */
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasAVX2(void);
 
 
-#ifdef __cplusplus	// C++ Environment
+/*
+ *	Has CPU Support For 3DNow (AMD feature)
+ *	@return
+ */
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHas3DNow(void);
+
+/*
+ *	Has CPU Support For MMX (Matrix Math eXtension)
+ *	@return
+ */
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasMMX(void);
+
+/*
+ *	Get number of cpu's cores.
+ *	@return number of cpu cores.
+ */
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void);
+
+/*
+ *
+ *	@return
+ */
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExGetCPUCacheLineSize(void);
+
+/*
+ *	Is SSE ( Streaming SIMD Extensions ) available
+ *	@return
+ */
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE(void);
+
+/*
+ *	Is SSE 2 ( Streaming SIMD Extensions ) available
+ *	@return
+ */
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE2(void);
+
+/*
+ *	Is SSE 3 ( Streaming SIMD Extensions ) available
+ *	@return
+ */
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE3(void);
+
+/*
+ *	Is SSE 41 ( Streaming SIMD Extensions ) available
+ *	@return
+ */
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE41(void);
+
+/*
+ *	Is SSE 41 ( Streaming SIMD Extensions ) available
+ *	@return
+ */
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void);
+
+/*
+ *
+ *	@return
+ */
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasNeon(void);
+
+/**/
+extern ELTDECLSPEC Enum ELTAPIENTRY ExGetCpuVendor(void);
+
+/**/
+extern ELTDECLSPEC Enum ELTAPIENTRY ExGetCPUInstructionArchecture(void);
+
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 

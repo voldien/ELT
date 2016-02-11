@@ -20,38 +20,90 @@
 #define _ELT_ALLOC_H_ 1
 #include"EngineAssembly.h"
 
-#define DATABLOCK 0x1000    /* 4096 |   4 kbyte */
-#define ExMallocBlock(size) (malloc((( ( size ) / DATABLOCK) + 1) * DATABLOCK))
-#define ExMalloc malloc
-#define ExCalloc calloc
-#define ExReAlloc realloc
-#define ExFree(p_pointer) {free(p_pointer);p_pointer = NULL;}
-
-#ifdef __cplusplus	// C++ Environment
+#ifdef  __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
 
-/**
-    Get Page size
-    @return number of bytes per page.
-*/
-extern DECLSPEC int ELTAPIENTRY ExGetPageSize(void);
+/*
+ *	Get Page size.
+ *	@Return number of bytes per page.
+ */
+extern ELTDECLSPEC int ELTAPIENTRY ExGetPageSize(void);
 
 
-typedef struct ex_pool_allactor{
+/*
+ *	Get total system memory on the system.
+ *	@Return
+ */
+extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalSystemMemory(void);
+
+/*
+ *	Get total virtual memory on the system.
+ *	@Return
+ */
+extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalVirtualMemory(void);
+
+
+
+/*	TODO move to a header with data structure!	*/
+
+EX_ALIGN_PREFIX(4)
+typedef struct ex_pool_allocator{
 	void* next;
-	//void* data[0];
-}ExPoolAllactor;
-/*	poll allocator	*/
-extern DECLSPEC ExPoolAllactor* ELTAPIENTRY ExPoolCreate(unsigned int num, unsigned int itemsize);
-extern DECLSPEC void* ELTAPIENTRY ExPoolObtain(ExPoolAllactor* allactor);
-extern DECLSPEC void* ELTAPIENTRY ExPoolReturn(ExPoolAllactor* allactor, void* data, unsigned int len);
-extern DECLSPEC void* ELTAPIENTRY ExPoolResize(ExPoolAllactor* allcotor, unsigned num, unsigned int itemsize);
-extern DECLSPEC void  ELTAPIENTRY ExPoolFree(ExPoolAllactor* allactor);
+}ExPoolAllocator;
+
+
+/*
+ *	Poll allocator
+ *	@Return
+ */
+extern ELTDECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolCreate(unsigned int num, unsigned int itemsize);
+
+/*
+ *	obtain next item
+ *	If return value is null, then the allocator
+ *	is full
+ *	@Return
+ */
+extern ELTDECLSPEC void* ELTAPIENTRY ExPoolObtain(ExPoolAllocator* allactor);
+
+/*
+ *
+ *	@Return
+ */
+extern ELTDECLSPEC void* ELTAPIENTRY ExPoolReturn(ExPoolAllocator* allactor, void* data, unsigned int len);
+
+/*
+ *
+ *	@Return
+ */
+extern ELTDECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolResize(ExPoolAllocator* allcotor, unsigned num, unsigned int itemsize);
+
+/*
+ *
+ */
+extern ELTDECLSPEC void  ELTAPIENTRY ExPoolFree(ExPoolAllocator* allactor);
 
 #define ExPoolIndex(alloc,index,len)	( ( alloc ) + (( index ) * ( len )  + ( index )) )
 #define ExPoolDataIndex(alloc,data,len)	((data - alloc)
 
+
+typedef struct ex_quad_tree{
+	struct ex_quad_tree* t0;
+	struct ex_quad_tree* t1;
+	struct ex_quad_tree* t2;
+	struct ex_quad_tree* t3;
+	void* data[0];
+}ExQuadTree;
+
+typedef struct ex_octree_tree{
+
+}ExOctreTree;
+
+
+typedef struct ex_hash_table{
+
+}ExHashTable;
 
 #ifdef __cplusplus
 }

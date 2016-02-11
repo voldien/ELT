@@ -20,63 +20,69 @@
 #define _ENGINE_EX_H_ 1
 #include"EngineAssembly.h"
 
-
-
-
-#ifdef __cplusplus // C++ environment
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
-/**
-	Initialization of ELT Engine Library ToolKit
-	\engineflag
-	@return
-*/
-extern DECLSPEC ERESULT ELTAPIENTRY ExInit(Uint32 engineFlag);
-/**
-	Initialize specific subsystems
-	\engineflag
-	@return
-*/
-extern DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineFlag);
-/**
-	Shut Down Function ELT
-*/
-extern DECLSPEC void ELTAPIENTRY ExShutDown(void);
+/*
+ *	Initialize ELT Engine Library ToolKit
+ *	\engineflag
+ *	@return
+ */
+extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInit(Uint32 engineFlag);/*TODO perhaps add argc,argv*/
+
+/*
+ *	Initialize specific subsystems
+ *	\engineflag
+ *	@return
+ */
+extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineFlag);
+
+/*
+ *	Shut Down Function ELT.
+ */
+extern ELTDECLSPEC void ELTAPIENTRY ExShutDown(void);
 #define ExQuit ExShutDown
-/**
-	Quit Sub System
-	\engineflag
-*/
-extern DECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag);
-/**
-	EngineEx Enable
-*/
-extern DECLSPEC void ELTAPIENTRY ExEnable(Enum enable);
-/**
-	EngineEx Disable
-*/
-extern DECLSPEC void ELTAPIENTRY ExDisable(Enum disable);
+
+/*
+ *	Quit Sub System
+ *	\engineflag
+ */
+extern ELTDECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag);
+
+/*
+ *	Enable.
+ */
+extern ELTDECLSPEC void ELTAPIENTRY ExEnable(Enum enable);
+
+/*
+ *	Disable.
+ */
+extern ELTDECLSPEC void ELTAPIENTRY ExDisable(Enum disable);
 
 
+/*
+ *	Create interrupt event.
+ *	TODO put ExCreateInterrupt somewhere else!
+ *	@return
+ */
+extern ELTDECLSPEC int ELTAPIENTRY ExCreateInterrupt(interrupt_routine callback, Uint32 type);
 
 
+/*
+ *	Get ELT Version.
+ *	@return
+ */
+extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void);
 
-extern DECLSPEC int ELTAPIENTRY ExCreateInterrupt(interrupt_routine callback,unsigned int etype);
+/*
+ *	Get compiler compiled with ELT.
+ *	@return
+ */
+extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void);
 
-/**
-	Get ELT Version
-*/
-extern DECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void);
-/**
-    Get Compiler compiled with ELT.
-*/
-extern DECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void);
-
-
-
-extern char* Developer;
-#ifdef __cplusplus // C++ environment
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
+
 #endif

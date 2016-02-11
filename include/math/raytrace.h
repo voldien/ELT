@@ -26,7 +26,7 @@ struct ray{
 	vec3_t dir;
 };
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus /* C++ environment */
 extern "C"{
 #endif
 
@@ -36,7 +36,9 @@ extern int ray_intersect_ray(const vec3_t origin1, const vec3_t dir1, const vec3
 
 extern int line_intersec_box(const vec3_t pos,const vec3_t dir,const vec3_t size,const vec3_t center);
 
-extern int line_intersec_sphere(const vec3_t pos,const  vec3_t dir, const vec3_t center, float radius);
+extern float ray_intersec_box(const vec3_t pos,const vec3_t dir,const vec3_t size,const vec3_t center);
+
+extern float ray_intersec_sphere(const vec3_t pos,const  vec3_t dir, const vec3_t center, float radius);
 
 #ifdef __cplusplus	// C++ Environment
 }

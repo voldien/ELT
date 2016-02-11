@@ -20,16 +20,23 @@
 #define _ELT_RENDER_TEXTURE_H_ 1
 #include"texture.h"
 
-#ifdef __cplusplus	/* C++ environment	*/
+#ifdef __cplusplus	/*	C++ environment	*/
 extern "C"{
 #endif
 
+typedef struct ex_frame_buffer{
+	ExTexture texture;
+	unsigned int framebuffer;
+	unsigned int attachment;
+}ExFrameBuffer,ExRenderTexture;
 
-extern ExTexture* ExCreateRenderTexture(unsigned int width, unsigned int height,unsigned int attachment);
 
+extern ExFrameBuffer* ExCreateRenderTexture2D(ExFrameBuffer* texture,unsigned int width, unsigned int height,unsigned int attachment);
+extern ExFrameBuffer* ExCreateRenderTexture3D(ExFrameBuffer* texture,unsigned int width, unsigned int height,unsigned int attachment);
+extern ExFrameBuffer* ExFrameBufferAddAttachment(ExFrameBuffer* framebuffer, ExTexture* texture);
+extern void ExBindRenderTexture(ExFrameBuffer* framebuffer);
 
-
-
+extern void ExDestroyRenderTexture(ExFrameBuffer* texture);
 
 
 #ifdef __cplusplus	/* C++ environment	*/

@@ -20,30 +20,30 @@
 #define _UNIX_WIN_H_ 1
 #include"./../../EngineAssembly.h"
 
-#ifdef EX_LINUX
 #ifdef __cplusplus /* C++ environment */
 extern "C"{
 #endif
 
-
-/**
-
-    @return
+/*
+ *
+ *	@return
 */
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(int x, int y, int width, int height);
-/**
-
-    @return
-*/
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(int x , int y, int width, int height, void** glx_window);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(int x, int y, int width, int height);
 
 
-extern DECLSPEC int ExSupportOpenGL(void);
+/*
+ *
+ *   @return
+ */
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(int x , int y, int width, int height, void** glx_window);
 
+/*
+ *
+ */
+extern ELTDECLSPEC int ExSupportOpenGL(void);
 
 #ifdef __cplusplus /* C++ environment */
 };
 #endif
 
-#endif
 #endif

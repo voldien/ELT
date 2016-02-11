@@ -12,8 +12,9 @@
 #elif defined(EX_MAC)
 #   include<sys/sysctl.h>
 #endif
-#include<setjmp.h>
 
+
+#include<setjmp.h>
 
 #ifdef EX_GNUC
 
@@ -43,30 +44,29 @@
 
 #else
 
-#include <wmmintrin.h>
+//#include <wmmintrin.h>
 
 #endif
 
-
-
 //http://stackoverflow.com/questions/1666093/cpuid-implementations-in-c
 
-#ifdef EX_WINDOWS       /** WINDOWS */
+
+
+#ifdef EX_WINDOWS       /*	WINDOWS	*/
 	#define cpuid __cpuid
-#elif defined(EX_LINUX) /** LINUX   */
-#   include <unistd.h>
+#elif defined(EX_LINUX)	/*	LINUX	*/
     #if defined(EX_X86)
     #   include<cpuid.h>
-    #endif
+	#endif
 
-	/** cpuid for linux  */
-#ifdef EX_X86
-	#define cpuid(regs,i) 	__asm__  __volatile__ \
+	/*	cpuid for linux	*/
+#if defined(EX_X86) && !defined(EX_CLANG) && !defined(EX_LLVM)
+	#define cpuid(regs,i) 	EX_ASSM  __volatile__ \
 			("cpuid" : "=a" (regs[0]), "=b" (regs[1]), "=c" (regs[2]), "=d" (regs[3])\
 			: "a" (i), "c" (0))
 
     #define cpuid2(func,a,b,c,d)\
-    __asm__ __volatile__ ( 		\
+    EX_ASSM __volatile__ ( 		\
 "        pushq %%rbx        \n" \
 "        cpuid              \n" \
 "        movq %%rbx, %%rsi  \n" \
@@ -82,10 +82,15 @@
 
 #   define cpuid(regs, i)
 
-
+#else
+	#define cpuid(regs,i)	regs
+	#define cpuid2(func,a,b,c,d)	func
 #endif
 
-DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
+
+
+
+ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
 #ifdef EX_WINDOWS
 	ExChar cpu_name[0xff];
 	ExGetRegValuec(HKEY_LOCAL_MACHINE,EX_TEXT("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0\\"),EX_TEXT("ProcessorNameString"),cpu_name);
@@ -96,7 +101,7 @@ DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
     int a,b,c,d;
 //https://github.com/soreau/SDL/blob/master/src/cpuinfo/SDL_cpuinfo.c
 
-    #ifndef EX_ARM
+    #if  !defined(EX_ARM)
     cpuid2(0x80000000,a,b,c,d);
     if(a >= 0x80000004){
         cpuid2(0x80000002, a, b, c, d);
@@ -151,6 +156,9 @@ DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
         cpu_name[i++] = (char)(d & 0xff); d >>= 8;
         cpu_name[i++] = (char)(d & 0xff); d >>= 8;
     }
+	#else	/*	get CPU name for ARM.*/
+
+
     #endif
     return cpu_name;
 #elif defined(EX_ANDROID)
@@ -158,28 +166,26 @@ DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
 #endif
 }
 
-/**
-	Has CPU Support For AVX (Advanced Vector Extension)
-*/
-DECLSPEC ExBoolean ELTAPIENTRY ExHasAVX(void){
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasAVX(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,0x1);
 	return (cpuInfo[2] >> 28) &  0x1;
 }
-DECLSPEC ExBoolean ELTAPIENTRY ExHasAVX2(void){
+
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasAVX2(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	return 0;
 }
 
-DECLSPEC ExBoolean ELTAPIENTRY ExHas3DNow(void){
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExHas3DNow(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,0x80000001);
 	if((cpuInfo[3] >> 30) & 0x1)return TRUE;
 	else return FALSE;
 }
 
-DECLSPEC ExBoolean ELTAPIENTRY ExHasMMX(void){
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasMMX(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	if((cpuInfo[3] >> 23) & 0x1)
@@ -187,20 +193,31 @@ DECLSPEC ExBoolean ELTAPIENTRY ExHasMMX(void){
 	else
 		return FALSE;
 }
-/**
-	Get number of CPU cores
-*/
-DECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void){
+
+
+ELTDECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void){
 #ifdef EX_WINDOWS
 	SYSTEM_INFO info;
 	GetSystemInfo(&info);
 	return info.dwNumberOfProcessors;
 #elif defined(EX_LINUX) || defined(EX_ANDROID)
+
+
 	return sysconf(_SC_NPROCESSORS_ONLN);
+//#elif defined(__IRIX__)
+//	   num_cpus = sysconf(_SC_NPROC_ONLN);
+//#elif defined(_SC_NPROCESSORS_ONLN)
+//	   /* number of processors online (SVR4.0MP compliant machines) */
+//          num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
+//#elif defined(_SC_NPROCESSORS_CONF)
+	   /* number of processors configured (SVR4.0MP compliant machines) */
+//          num_cpus = sysconf(_SC_NPROCESSORS_CONF);
+//#endif
+
 #endif
 }
 
-DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE(void){
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	if((cpuInfo[3] >> 25) & 0x1)
@@ -208,7 +225,8 @@ DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE(void){
 	else
 		return FALSE;
 }
-DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE2(void){
+
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE2(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	if((cpuInfo[3] >> 26) & 0x1)
@@ -216,7 +234,8 @@ DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE2(void){
 	else
 		return FALSE;
 }
-DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE3(void){
+
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE3(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	if((cpuInfo[2] >> 9) & 0x1)
@@ -224,7 +243,8 @@ DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE3(void){
 	else
 		return FALSE;
 }
-DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE41(void){
+
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE41(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	if((cpuInfo[2] >> 19) & 0x1)
@@ -232,7 +252,8 @@ DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE41(void){
 	else
 		return FALSE;
 }
-DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void){
+
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	if((cpuInfo[2] >> 20) & 0x1)
@@ -240,3 +261,9 @@ DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void){
 	else
 		return FALSE;
 }
+
+
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasNeon(void){
+	return FALSE;
+}
+

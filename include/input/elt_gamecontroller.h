@@ -21,28 +21,58 @@
 #include"./../EngineAssembly.h"
 #include"elt_joystick.h"
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus /* C++ environment */
 extern "C"{
 #endif
 
-extern DECLSPEC Int32 ELTAPIENTRY ExGameControllerAddMapping(const char* mappingString);
-extern DECLSPEC Int32 ELTAPIENTRY ExGameControllerAddMappinFromFile(const char* filename);
-extern DECLSPEC Int32 ELTAPIENTRY ExGameControllerEventState(Int32 state);
-extern DECLSPEC Int32 ELTAPIENTRY ExGameControllerEventState(Int32 state);
+/*
+ *
+ */
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExGameControllerAddMapping(const char* mappingString);
 
-extern DECLSPEC ExBoolean ELTAPIENTRY ExGameControllerClose(Int32 index);
-extern DECLSPEC const char* ELTAPIENTRY ExGameControlerNameForIndex(Int32 index);
-extern DECLSPEC ExBoolean ELTAPIENTRY ExGameControllerOpen(Int32 index);
-extern DECLSPEC ExBoolean ELTAPIENTRY ExIsGameController(Int32 joystick_index);
+/*
+ *
+ */
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExGameControllerAddMappinFromFile(const char* filename);
 
-extern DECLSPEC Uint16 ELTAPIENTRY ExGameControllerGetAxis(int index, int* axis);
+/*
+ *
+ */
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExGameControllerEventState(Int32 state);
+
+/*
+ *
+ */
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExGameControllerEventState(Int32 state);
+
+/*
+ *
+ */
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExGameControllerClose(Int32 index);
+
+/*
+ *
+ */
+extern ELTDECLSPEC const char* ELTAPIENTRY ExGameControlerNameForIndex(Int32 index);
+
+/*
+ *
+ */
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExGameControllerOpen(Int32 index);
+
+/*
+ *
+ */
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExIsGameController(Int32 joystick_index);
+
+extern ELTDECLSPEC Uint16 ELTAPIENTRY ExGameControllerGetAxis(int index, int* axis);
 
 
-extern DECLSPEC void ELTAPIENTRY ExGameControllerVibration(Int32 index, Int16 LeftMotorSpeed, Int16 RightMotorSpeed);
+extern ELTDECLSPEC void ELTAPIENTRY ExGameControllerVibration(Int32 index, Int16 LeftMotorSpeed, Int16 RightMotorSpeed);
 
-extern DECLSPEC void ELTAPIENTRY ExGameControllerBattery(Int32 index,Int32 );
+extern ELTDECLSPEC void ELTAPIENTRY ExGameControllerBattery(Int32 index,Int32 );
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus /* C++ environment */
 }
 #endif
 #endif

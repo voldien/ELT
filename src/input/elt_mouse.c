@@ -13,38 +13,38 @@
 #endif
 
 
-DECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(ExBoolean enabled){
+ELTDECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(ExBoolean enabled){
 #ifdef EX_WINDOWS
 	return (Int32)SetCapture(enabled ? GetFocus() : NULL);
 #elif defined(EX_LINUX)
-	return XGrabPointer(display, 0,False,0,GrabModeSync, GrabModeSync, None, None, CurrentTime);
+	return XGrabPointer(display, 0, False, 0, GrabModeSync, GrabModeSync, None, None, CurrentTime);
 #endif
 	return TRUE;
 }
-DECLSPEC Int32 ELTAPIENTRY ExClipCursor(const struct exrect* rect){
+
+ELTDECLSPEC Int32 ELTAPIENTRY ExClipCursor(const ExRect* rect){
 #ifdef EX_WINDOWS
 	const RECT clip_rect = {rect->x,rect->y,rect->x + rect->width,rect->y + rect->height};
 	ExIsWinError(ClipCursor(&clip_rect));
 	return TRUE;
 #elif defined(EX_LINUX)
-	XQueryPointer(display,ExGetKeyboardFocus(),0,0,0,0,0,0,0);
+	return XGrabPointer(display, 0, False, 0, GrabModeSync, GrabModeSync, None, None, CurrentTime);
 	return TRUE;
 #endif
 }
 
-DECLSPEC ExCursor ELTAPIENTRY ExCreateCursor(const Uint8* data, const Uint8* mask, Int32 width,Int32 height, Int32 hot_x, Int32 hot_y){
+ELTDECLSPEC ExCursor ELTAPIENTRY ExCreateCursor(const Uint8* data, const Uint8* mask, Int32 width,Int32 height, Int32 hot_x, Int32 hot_y){
 #ifdef EX_WINDOWS
 	ExCursor cursor;
-	ExIsWinError(!(cursor = CreateCursor(GetModuleHandle(NULL),hot_x, hot_y,width, height, data, mask)));
+	//ExIsWinError(!(cursor = CreateCursor(GetModuleHandle(NULL), hot_x, hot_y, width, height, pair, mask)));
 	return cursor;
 #elif defined(EX_LINUX)
     return XCreatePixmap(display, 0, width,height,8);
 #endif
 }
-/**
-	Create System Cursor
-*/
-DECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(Enum system_id){
+
+
+ELTDECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(Enum system_id){
 	ExChar* arrow;
 #ifdef EX_WINDOWS
 	switch(system_id){
@@ -61,9 +61,9 @@ DECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(Enum system_id){
 	case EXC_SIZENS: arrow = IDC_ARROW;
 	case EXC_SIZEALL: arrow = IDC_ARROW;
 	case EXC_NO: arrow = IDC_ARROW;
-	case EXC_HAND: arrow = IDC_ARROW;
+	//case EXC_HAND: arrow = IDC_ARROW;
 	case EXC_APPSTART: arrow = IDC_ARROW;
-	case EXC_HELP: arrow = IDC_ARROW;
+	//case EXC_HELP: arrow = IDC_ARROW;
 	}
 	return LoadCursor(GetModuleHandle(NULL), arrow);
 #elif defined(EX_LINUX)
@@ -77,17 +77,18 @@ DECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(Enum system_id){
 #endif
 }
 
-DECLSPEC ExBoolean ELTAPIENTRY ExFreeCursor(ExCursor cursor){
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExFreeCursor(ExCursor cursor){
 	ExBoolean destroyed;
 #ifdef EX_WINDOWS
 	ExIsWinError(!(destroyed = (ExBoolean)DestroyCursor(cursor)));
 #elif defined(EX_LINUX)
-    destroyed = XFreeCursor(display,cursor);
+    destroyed = XFreeCursor(display, cursor);
 #endif
 	return destroyed;
 }
 
-DECLSPEC ExBoolean ELTAPIENTRY ExSetCursor(ExCursor cursor){
+
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExSetCursor(ExCursor cursor){
 #if defined(EX_WINDOWS)
 	return (SetCursor(cursor) == cursor);
 #elif defined(EX_LINUX)
@@ -95,11 +96,11 @@ DECLSPEC ExBoolean ELTAPIENTRY ExSetCursor(ExCursor cursor){
     //if(!cursor)
     //   return XUndefinedCursor(display, NULL);
     //else
-        return XDefineCursor(display,NULL, cursor);
+        return XDefineCursor(display, NULL, cursor);
 #endif
 }
 
-DECLSPEC Uint32 ELTAPIENTRY ExGetGlobalMouseState(Int32* x, Int32* y){
+ELTDECLSPEC Uint32 ELTAPIENTRY ExGetGlobalMouseState(Int32* x, Int32* y){
 #if defined(EX_WINDOWS)
 	return GetCursorPos((LPPOINT)x);
 #elif defined(EX_LINUX)
@@ -110,7 +111,7 @@ DECLSPEC Uint32 ELTAPIENTRY ExGetGlobalMouseState(Int32* x, Int32* y){
 #endif
 }
 
-DECLSPEC Uint32 ELTAPIENTRY ExGetMouseState(Int32* x, Int32* y){
+ELTDECLSPEC Uint32 ELTAPIENTRY ExGetMouseState(Int32* x, Int32* y){
 #if defined(EX_WINDOWS)
 	return GetCursorPos((LPPOINT)x);    /*y is next to x in address memory.*/
 #elif defined(EX_LINUX)
@@ -121,7 +122,7 @@ DECLSPEC Uint32 ELTAPIENTRY ExGetMouseState(Int32* x, Int32* y){
 #endif
 }
 
-DECLSPEC ExBoolean ELTAPIENTRY ExShowCursor(ExBoolean enabled){
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExShowCursor(ExBoolean enabled){
 #ifdef EX_WINDOWS
 	return (ExBoolean)ShowCursor(enabled);
 #elif defined(EX_LINUX)
@@ -133,7 +134,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExShowCursor(ExBoolean enabled){
 #endif
 }
 
-DECLSPEC void ELTAPIENTRY ExWarpMouseGlobal(int x, int y){
+ELTDECLSPEC void ELTAPIENTRY ExWarpMouseGlobal(int x, int y){
 #ifdef EX_WINDOWS
 
 #elif defined(EX_LINUX)
@@ -143,25 +144,3 @@ DECLSPEC void ELTAPIENTRY ExWarpMouseGlobal(int x, int y){
     xcb_flush(connection);
 #endif // EX_WINDOWS
 }
-
-DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButton(Uint32 keyCode){
-#ifdef EX_WINDOWS
-	//return (MouseState[0].rgbButtons[keyCode] & 0x80) ? TRUE : FALSE;
-#endif
-	return 0;
-}
-DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButtonDown(Uint32 keyCode){
-#ifdef EX_WINDOWS
-	//return (MouseState[0].rgbButtons[keyCode] & 0x80) ? TRUE : FALSE;
-#endif
-	return 0;
-}
-DECLSPEC const ExBoolean ELTAPIFASTENTRY ExGetButtonUp(Uint32 keyCode){
-#ifdef EX_WINDOWS
-	//return !(MouseState[0].rgbButtons[keyCode]  & 0x80) &&
-	//	(MouseState[1].rgbButtons[keyCode]  & 0x80) != FALSE ? TRUE : FALSE;
-#endif
-	return 0;
-}
-
-

@@ -1,4 +1,4 @@
-/**
+/*
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -18,20 +18,47 @@
 */
 #ifndef _ELT_EGL_H_ 
 #define _ELT_EGL_H_ 1
+#include"./../EngineAssembly.h"
 #include"elt_gl.h"
 
-#ifdef  __cplusplus	/** C++ Environment */
+
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
-DECLSPEC extern OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window);
+/*
+ *
+ *	@return
+ */
+extern ELTDECLSPEC int ELTAPIENTRY ExCreateEGLContextAttrib(ExWin window, int* attrib, unsigned int* size);
+
+/*
+ *
+ *	@return
+ */
+extern ELTDECLSPEC ExEGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window);
+
+/*
+ *
+ *	@return
+ */
+extern ELTDECLSPEC int ELTAPIENTRY ExCreateEGLContextAttrib(ExWin window, int* attrib, unsigned int* size);
+
+/*
+ *
+ */
+extern ELTDECLSPEC void ELTAPIENTRY ExDestroyEGLContext(ExEGLContext context);
 
 
 
-DECLSPEC extern int ExCreateEGLContextAttrib(int* attrib, unsigned int* size);
+extern ELTDECLSPEC void ELTAPIENTRY ExEGLSetVSync(void);
 
 
-#ifdef  __cplusplus	/** C++ Environment */
+extern ELTDECLSPEC void ELTAPIENTRY ExSwapEGLBuffer(ExWin context);
+
+
+
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 

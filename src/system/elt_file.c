@@ -1,7 +1,13 @@
-#include"system/eltfile.h"
+#include"system/elt_file.h"
+#ifdef EX_WINDOWS
+	#include<windows.h>
+#endif
+#ifdef EX_UNIX
+	#include<unistd.h>
+#endif
 #include<stdio.h>
 
-static inline long ExGetFileStreamSize(FILE* file){
+static long int ExGetFileStreamSize(FILE* file){
     unsigned int pos;
     long size;
     pos = ftell(file);
@@ -11,52 +17,86 @@ static inline long ExGetFileStreamSize(FILE* file){
     return size;
 }
 
-DECLSPEC long ELTAPIENTRY ExGetFileSize(const char* cfilname){
+ELTDECLSPEC long int ELTAPIENTRY ExGetFileSize(const char* cfilname){
     FILE* file;
     fpos_t pos;
     long size;
     file = fopen(cfilname,"rb");
-    fseek(file, 0,SEEK_END);
-    size = ftell(file);
-    fclose(file);
-    return size;
-}
-
-DECLSPEC int ELTAPIENTRY ExLoadFile(const char* cfilename, void** data){
-    FILE* file;
-    unsigned long size;
-    file = fopen(cfilename,"rb");
-    if(!file)
-        return 0;
     size = ExGetFileStreamSize(file);
-
-    data[0] = malloc(size);
-    memset(data[0],0,size);
-    if(fread(data[0], 1, size,file) != size)
-        return 0;
-
     fclose(file);
     return size;
 }
 
+ELTDECLSPEC int ELTAPIENTRY ExLoadFile(const char* cfilename, void** bufferptr){
+	FILE*f;
+	void* buffer;
+	long length;
+	*bufferptr = NULL;
 
-DECLSPEC int ELTAPIENTRY ExSaveFile(const char* cfilename, void* data, unsigned int csize){
-    FILE* file;
-    file = fopen(cfilename,"wb");
-    unsigned long size;
-    if(!file)
-        return 0;
+	if(!cfilename || strlen(cfilename) == 0){
+		return -1;
+	}
 
-    if(fwrite(data, 1, csize, file) != csize)
-        return 0;
-    fclose(file);
-    return TRUE;
+	f = fopen(cfilename,"rb");
+	if(!f){
+		return -1;
+	}
+	length = ExGetFileStreamSize(f);
+	buffer = malloc(length + 1);
+	((char*)buffer)[length] = 0;
+	ExSafeRead(f,buffer,length);
+	fclose(f);
+	*bufferptr = buffer;
+	return length;
 }
 
-DECLSPEC int ELTAPIENTRY ExCreateDirectory(const char* directory){
+int ELTAPIENTRY ExSaveFile(const char* cfilename, void* racBuffer, unsigned int riSize){
+	FILE *f;
+	f = ExSafeOpenWrite(cfilename);
+	ExSafeWrite(f,racBuffer,riSize);
+	fclose(f);
+	return f ? TRUE : FALSE;
+}
+
+FILE* ExSafeOpenWrite(const char *cfilename){
+	FILE* f;
+	f = fopen(cfilename, "wb");
+	if(!f){
+		printf ("Error opening file %s: %s\n", cfilename, strerror(errno));
+	}
+	return f;
+}
+
+FILE* ExSafeOpenRead(const char *cfilename){
+	FILE* f;
+	f = fopen(cfilename,"rb");
+	if(!f){
+		printf ("Error opening file %s : %s\n", cfilename, strerror(errno));
+	}
+	return f;
+}
+
+void ExSafeWrite(FILE *f, void* buffer, unsigned int count){
+	if((int)fwrite(buffer,1, count, f) != count){
+		printf("File write failure : %s \n", strerror(errno));
+	}
+}
+
+void ExSafeRead(FILE*f, void* buffer, int count){
+	if((int)fread(buffer,1,count,f) != count){
+		printf("File read failure : %s\n", strerror(errno));
+	}
+}
+
+
+int ELTAPIENTRY ExCreateDirectory(const char* directory){
 #ifdef EX_UNIX
 	return mkdir(directory,644);
 #elif defined(EX_WINDOWS)
 	return CreateDirectory(directory,NULL);
 #endif
+}
+
+int ExExistFile(const char* cfilename){
+	return !access(cfilename, F_OK);
 }

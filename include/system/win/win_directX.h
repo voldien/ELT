@@ -19,56 +19,46 @@
 #ifndef _WIN_DIRECTX_H_
 #define _WIN_DIRECTX_H_ 1
 #include"./../../EngineAssembly.h"
-#if defined(EX_WINDOWS) && defined(EX_INCLUDE_DIRECTX)
 
-#ifdef __cplusplus /* C++ environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
-/**
-	Get 3D Context
-    @return
-*/
-extern DECLSPEC HANDLE ELTAPIFASTENTRY ExGetD3D(void);
-/**
-	Get Direct3D Context
-    @return
-*/
-extern DECLSPEC HANDLE ELTAPIFASTENTRY ExGetDirect3D(void);
 
-/**
-    @return
-*/
-extern DECLSPEC ERESULT ELTAPIENTRY ExInitDirectX(ExWin hWnd);
+typedef void* ExDX9D;
+typedef void* ExDevice9D;
 
-/**
 
-*/
-extern DECLSPEC void ELTAPIFASTENTRY ExDirectXBegin(void);
-/**
-	//
-*/
-extern DECLSPEC void ELTAPIFASTENTRY ExDirectXEnd(void);
-/**
+/*
+ *	Get 3D Context
+ *  @return
+ */
+extern ELTDECLSPEC ExHandle ELTAPIFASTENTRY ExGetD3DContext(void);
 
-*/
-extern DECLSPEC void ELTAPIFASTENTRY ExDirectXPresent(void);
-/**
+/*
+ *	Get Direct3D Context
+ *   @return
+ */
+extern ELTDECLSPEC ExHandle ELTAPIFASTENTRY ExGetDirect3DContext(void);
 
-*/
-extern DECLSPEC void ELTAPIENTRY ExReleaseDirectX(void);
-/**
+/*
+ *    @return
+ */
+extern ELTDECLSPEC ExDevice9D ELTAPIENTRY ExCreateDirectXContext(ExWin window);
 
-*/
-extern DECLSPEC void ELTAPIENTRY ExReleaseDirectXContext(void* d3d);
-/**
+/*
+ *
+ */
+extern ELTDECLSPEC void ELTAPIENTRY ExDestroyDirectXContext(ExDevice9D d3d);
 
-*/
-extern DECLSPEC void ELTAPIENTRY ExDirectFullScreen(ExBoolean fullscreen);
+/*
+ *
+ */
+extern ELTDECLSPEC void ELTAPIENTRY ExDirectFullScreen(ExBoolean fullscreen);
 
-#ifdef __cplusplus /* C++ environment */
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
-#endif
+
 
 #if !defined(EX_WINDOWS) || !defined(EX_INCLUDE_DIRECTX)
 	#define ExInitDirectX(x,y) EX_UNUSED(0)
@@ -80,4 +70,5 @@ extern DECLSPEC void ELTAPIENTRY ExDirectFullScreen(ExBoolean fullscreen);
 	#define ExReleaseDirectContext(x) EX_UNUSED(0)
 	#define ExDirectFullScreen(x)	EX_UNUSED(0)
 #endif
+
 #endif

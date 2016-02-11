@@ -1,5 +1,4 @@
-/*
-========================================================================
+/**
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -21,38 +20,65 @@
 #define _ElT_SURFACE_H_ 1
 #include"elt_win.h"
 
-#define RGB_COLOR(r,g,b)	(r << 24) | (g << 16) | (b << 8)
-#define RGB_COLOR(r,g,b)	((r << 24) | (g << 16) | (b << 8) | a)
+#define EXRGB_COLOR(r,g,b)	(r << 24) | (g << 16) | (b << 8)
+#define EXRGBA_COLOR(r,g,b,a)	((r << 24) | (g << 16) | (b << 8) | a)
 
 #define EX_RGB 0x20
 #define EX_RGBA 0x40
 
-#ifdef __cplusplus // C++ environment
+typedef void* ExSurface;
+
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
-/**
-    Create Surface
-*/
-extern DECLSPEC void* ExCreatSurface(unsigned int width, unsigned height, unsigned int format);
-/**
-    release surface.
-*/
-extern DECLSPEC int ExDestroySurface(void* handle);
-/**
-    resize surface handle
-*/
-extern DECLSPEC int ExResizeSurface(void* handle, unsigned int width, unsigned height);
-/**
-    set surface window
-*/
-extern DECLSPEC int ExSetSurfacePixel(void* handle, unsigned int x, unsigned int y, long pixel);
-/**
-    set fill color..
-*/
-extern DECLSPEC int ExFillRect(void* handle,struct exrect* rect, Uint32 color);
 
 
-#ifdef __cplusplus // C++ environment
+/*
+ *	Create Surface
+ *	@return
+ */
+extern ELTDECLSPEC ExSurface ExCreateSurface(unsigned int width, unsigned height, unsigned int format);
+
+/*
+ *	release surface.
+ *	@return
+ */
+extern ELTDECLSPEC int ExDestroySurface(ExSurface handle);
+
+/*
+ *
+ */
+extern ELTDECLSPEC void ExDisplaySurfaceToWindow(ExWin window,ExSurface surface);
+
+/*
+ *	resize surface handle
+ */
+extern ELTDECLSPEC int ExResizeSurface(ExSurface handle, unsigned int width, unsigned height);
+
+/*	*/
+extern ELTDECLSPEC int ExGetSurfaceRect(ExSurface surface, ExRect* rect);
+
+/*	set surface window	*/
+extern ELTDECLSPEC int ExSetSurfacePixel(ExSurface handle, unsigned int x, unsigned int y, unsigned long pixel);
+
+
+
+/*
+ *	set fill color..
+ */
+extern ELTDECLSPEC void ExFillRect(ExSurface handle, ExRect* rect, Uint32 color);
+
+/*
+ *
+ */
+extern ELTDECLSPEC ExUnlockSurface(ExSurface surface);
+
+/*
+ *
+ */
+extern ELTDECLSPEC ExLockSurface(ExSurface surface);
+
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 

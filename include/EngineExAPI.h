@@ -1,4 +1,4 @@
-/**
+/*
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     designed for OpenGL and OpenCL.
     Copyright (C) 2014  Valdemar Lindberg
@@ -40,43 +40,36 @@
 #define _ENGINE_EX_API_ 1
 
 
-#include"ExPreProcessor.h"
-// Library Import
-//define EX_AUTO_LINKER
-#ifdef ENGINE_EX_STATIC
-#ifdef EX_VC
+#include"elt_def.h"
+#include"window.h"
+#include"graphic.h"
+#include"system.h"
+#include"audio.h"
+
+
+/**/
+#ifdef EX_MSVC
 	// debug version
 	#ifdef EX_DEBUG
 		#ifdef EX_X86
-			#pragma comment(lib, "EngineEx.lib")
+			#pragma comment(lib, "EngineExD.lib")
 
 		#elif EX_X64
-			#pragma comment(lib, "EngineEx_64.lib")
+			#pragma comment(lib, "EngineEx64D.lib")
 		#endif
 	// release version
 	#elif defined(EX_RELEASE)
 		#ifdef EX_X86
 			#pragma comment(lib, "EngineEx.lib")
 		#elif EX_X64
-			#pragma comment(lib, "EngineEx_64.lib")
-		#endif
-	#endif
-#elif defined(EX_BORDERLAND)
-#elif defined(EX_LCC)
-#elif defined(EX_LINUX)
-	#ifdef EX_DEBUG
-		#ifdef EX_X86
-			#pragma comment(lib, "EngineExUnix.lib")
+			#pragma comment(lib, "EngineEx64.lib")
 		#endif
 	#endif
 #elif defined(EX_APPLE)
 	#pragma comment(lib, "EngineEx.lib")
 #endif
-#endif
 
-#include"EngineAssembly.h"
-#include"EngineEx.h"
-#include"elt_thread.h"
+
 
 #if defined(EX_WINDOWS)
 
@@ -94,10 +87,12 @@
 
 #elif defined(EX_WEB)
 
+#elif defined(EX_PNACL)
+
+#elif defined(EX_NACL)
+
 #else
 	#error "Error! no supporting Devices"   /**/
 #endif
-
-#include"ExCommon.h"
 
 #endif

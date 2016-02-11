@@ -33,6 +33,8 @@
 
 main	# sample binary files
 #
+build
 Proj
 port/android/obj
 port/android/libs
+*.tar.*

@@ -18,7 +18,7 @@
 */
 #ifndef _GUIDS_H_
 #define _GUIDS_H_
-#include"./../ExPreProcessor.h"
+#include"./../elt_def.h"
 #ifdef EX_WINDOWS
 #include<Guiddef.h>
 #ifdef __cplusplus

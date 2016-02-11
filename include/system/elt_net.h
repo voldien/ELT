@@ -18,81 +18,98 @@
 */
 #ifndef _ELT_NET_H_
 #define _ELT_NET_H_ 1
+#include <stdio.h>
+#include <stdlib.h>
 #include"./../EngineAssembly.h"
 
-#define ELT_CLIENT 0x1  /*  Client socket*/
-#define ELT_TCP 0x2     /*  reliable,  two-way  */
-#define ELT_UDP 0x4     /*  UDP protocol */
-#define ELT_LOCAL 0x8   /*  Local internal communication */
+typedef signed int ExSocket;
 
 
-#ifdef __cplusplus  //  C++ Environment
+/*TODO rename ELT to EX.	*/
+#define ELT_CLIENT 0x1  	/*  Client socket*/
+#define ELT_TCP 0x2     	/*  reliable,  two-way  */
+#define ELT_UDP 0x4     	/*  UDP protocol */
+#define ELT_LOCAL 0x8   	/*  Local internal communication */
+#define ELT_STREAM 0x10		/**/
+#define ELT_DGRAM 0x20		/**/
+
+#ifdef  __cplusplus	/*	C++ Environment	*/
 extern "C" {
 #endif
 
 
-/**
-    Open socket
-    \ip
-    \port
-    \protocol
+/*
+ *	Open socket
+ *	\ip
+ *	\port
+ *	\protocol
+ *	@return
 */
-extern DECLSPEC unsigned int ELTAPIENTRY ExOpenSocket(const char* ip, unsigned int port,unsigned int protocol);
+extern ELTDECLSPEC ExSocket ELTAPIENTRY ExOpenSocket(unsigned int protocol);
 
-/**
-	Close socket
-	\socket
-	@return
+/*
+ *	Close socket
+ *	\socket
+ *	@return
 */
-extern DECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(unsigned int socket);
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(ExSocket socket);
 
-/**
-	Bind socket to ip and port address
-	\ip
-	\port
-	\socket
-	@return
+/*
+ *	Bind socket to ip and port address
+ *	\ip
+ *	\port
+ *	\socket
+ *	@return
 */
-extern DECLSPEC unsigned int ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port,unsigned int socket);
+extern ELTDECLSPEC ExSocket ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port, ExSocket socket);
 
-/**
-	Connect to socket
-	\ip
-	\port
-	@return socket
+/*
+ *	Connect to socket
+ *	\ip
+ *	\port
+ *	@return socket
 */
-extern DECLSPEC unsigned int ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int port);
+extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int port);
 
-/**
-    Listen
+/*
+ *    Listen
 */
 #define ExListen    listen
-/**
-	Read Socket data
-	\socket
-	\buffer
-	\size
-	@return
-*/
-extern DECLSPEC int ELTAPIENTRY ExReadSocket(unsigned int socket, unsigned char* buffer,unsigned size);
-//#define ExReadSocket read
-/**
-	Write Socket data
-	\socket
-	\buffer
-	\size
-	@return
-*/
-extern DECLSPEC int ELTAPIENTRY ExWriteSocket(unsigned int socket, unsigned char* data,unsigned size);
-//#define ExWriteSocket write
 
-/**
-	Get host ip adress.
-*/
-extern DECLSPEC int ELTAPIENTRY ExGetHostIp(char ip[16]);
+/*
+ *	Read Socket data
+ *	\socket
+ *	\buffer
+ *	\size
+ *	@return
+ */
+#ifdef EX_LINUX
+	#define ExReadSocket read
+#elif defined(EX_WINDOWS)
+	#define ExReadSocket recive
+#endif
+
+/*
+ *	Write Socket data
+ *	\socket
+ *	\buffer
+ *	\size
+ *	@return
+ */
+#ifdef EX_LINUX
+	#define ExWriteSocket read
+#elif defined(EX_WINDOWS)
+	#define ExWriteSocket send
+#endif
+
+/*
+ *	Get host name to ip adress.
+ *	@return
+ */
+extern ELTDECLSPEC int ELTAPIENTRY ExGetHostIp(char* host);
 
 
-#ifdef __cplusplus
+#ifdef  __cplusplus	/* C++ Environment */
 }
 #endif
 

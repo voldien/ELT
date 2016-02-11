@@ -20,13 +20,31 @@
 #define _ELT_EVENT_H_ 1
 #include"./../ExNT.h"
 
-
-#ifdef  __cplusplus	// C++ Environment
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
-struct expoint{
+
+
+EX_ALIGN_PREFIX(4)
+typedef struct ex_point{
 	int x,y;
-};
+}ExPoint;
+
+EX_ALIGN_PREFIX(4)
+typedef struct ex_size{
+	unsigned int width;
+	unsigned int height;
+}ExSize;
+
+EX_ALIGN_PREFIX(4)
+typedef struct ex_rect{
+	int x;
+	int y;
+	int width;
+	int height;
+}ExRect;
+
+
 
 #define EX_EVENT_MOUSE 0x1
 #define EX_EVENT_KEY 0x2
@@ -43,34 +61,52 @@ struct expoint{
 #define EX_EVENT_ON_FOCUSE	0x1000
 #define EX_EVENT_ON_UNFOCUSE 0x2000
 #define EX_EVENT_WINDOW_MOVE 0x4000
+#define EX_EVENT_WINDOW_DESTROYED 0x8000
 
 
+
+
+
+
+EX_ALIGN_PREFIX(4)
 typedef struct ex_system_event{
-	unsigned int message;		/**/
+	/*
+	 *
+	 */
+	unsigned int message;
 }ExSystemEvent;
 
-typedef struct ex_size_event{
-	int width;					/**/
-	int height;					/**/
-}ExSizeEvent;
-
+EX_ALIGN_PREFIX(4)
 typedef struct ex_joy_stick_event{
-	Uint8 button[5];			/**/
+	/*
+	 *
+	 */
+	Uint8 button[5];
 }ExJoyStickEvent;
 
+EX_ALIGN_PREFIX(4)
 typedef struct ex_joystick_move_event{
-	Uint32 x[3];				/**/
+	/*
+	 *
+	 */
+	Uint32 x[3];
 }ExJoySticMoveEvent;
 
+EX_ALIGN_PREFIX(4)
 typedef struct ex_joystick_button_event{
-	Uint8 button[5];			/**/
+	/*
+	 *
+	 */
+	Uint8 button[8];
 }ExJoySticButtonEvent;
 
+EX_ALIGN_PREFIX(4)
 typedef struct ex_mouse_move_event{
 	int x;						/**/
 	int y;						/**/
 }ExMouseMoveEvent;
 
+EX_ALIGN_PREFIX(4)
 typedef struct ex_mouse_motion_event{
 	int x;						/**/
 	int y;						/**/
@@ -78,15 +114,18 @@ typedef struct ex_mouse_motion_event{
 	int ydelta;					/**/
 }MouseMotionEvent;
 
+EX_ALIGN_PREFIX(4)
 typedef struct elt_win_button_event{
 	Uint8 button;				/**/
 }ExWinButtonEvent;
 
+EX_ALIGN_PREFIX(4)
 typedef struct ex_mouse_wheel_event{
 	int delta;					/**/
 	int x,y;					/**/
 }ExMouseWheelEvent;
 
+EX_ALIGN_PREFIX(4)
 typedef struct ex_key_event{
 	Uint8 code;					/**/
 	Uint8 alt;					/**/
@@ -95,11 +134,14 @@ typedef struct ex_key_event{
 	Uint8 ctrl;					/**/
 }ExKeyEvent;
 
+EX_ALIGN_PREFIX(4)
 typedef struct ex_drop_event{
-	int number;
-	int cize;
+	int number;					/**/
+	int cize;					/**/
 }ExDropEvent;
 
+
+EX_ALIGN_PREFIX(4)
 typedef struct ex_touch_finger_event{
     unsigned int type;          /*              */
     unsigned int touchid;       /*              */
@@ -112,62 +154,87 @@ typedef struct ex_touch_finger_event{
 }ExTouchFingerEvent;
 
 
+EX_ALIGN_PREFIX(4)
+typedef struct ex_window_destroy{
+	ExWin window;
+
+}ExEventDestroyedWindow;
+
+
+EX_ALIGN_PREFIX(4)
 typedef struct window_poll_events{
 	Enum event;                                     /*      */
 	ExKeyEvent key;                                 /*      */
-	ExSizeEvent size;                               /*      */
+	ExSize size;                               		/*      */
 	ExMouseMoveEvent mouse;                         /*      */
 	ExMouseWheelEvent mouseWheelEvent;              /*      */
-	EX_C_STRUCT elt_win_button_event button;        /*      */
-	EX_C_STRUCT ex_drop_event drop;                 /*      */
-	unsigned long int time;							/*			*/
+	ExWinButtonEvent button;        				/*      */
+	ExDropEvent drop;                 				/*      */
+	unsigned long int time;							/*		*/
+	void* display;									/*		*/
+	ExWin window;
 }ExWindowEvent;
 
 
 EX_ALIGN_PREFIX(4)
 typedef struct elt_poll_events{
 	Enum event;									/*			*/
-	 ExKeyEvent key;                            /*          */
-	 ExMouseMoveEvent mouse;                    /*          */
-	 ExMouseWheelEvent mouseWheelEvent;         /*          */
-	EX_C_STRUCT elt_win_button_event button;    /*          */
-	 ExSystemEvent sys;                         /*          */
-	ExDropEvent drop;             /*          */
-	 ExSizeEvent size;                          /*          */
-	 ExSystemEvent system;                      /*          */
-	 ExTouchFingerEvent touch;                  /*          */
-	 MouseMotionEvent motion;					/*			*/
+	ExKeyEvent key;                            	/*          */
+	ExMouseMoveEvent mouse;                    	/*          */
+	ExMouseWheelEvent mouseWheelEvent;         	/*          */
+	ExWinButtonEvent button;    				/*          */
+	ExSystemEvent sys;                         	/*          */
+	ExDropEvent drop;            				/*          */
+	ExSize size;                          		/*          */
+	ExSystemEvent system;                      	/*          */
+	ExTouchFingerEvent touch;                  	/*          */
+	MouseMotionEvent motion;					/*			*/
+	ExEventDestroyedWindow destroy;				/*			*/
 	unsigned long int time;						/*			*/
 	void* display;								/*			*/
+	/*ExPoint location;	*/
 	ExWin window;
 }ExEvent;
-/**
-	Poll Event from process.
-	\event
-	@return
-*/
-extern DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
 
-/**
-	Poll event from specifed window.
-	\window
-	\event
-	@return
-*/
+
+
+
 /*
-// Poll Window Event information
-// *[HWND] which window to poll event information.
-//	Remark: message feed will only be apply to given HWND paramter
-//	if HWND is null all window create on this application will be update
-//	read more at MSDN for more specific information regarding PeekMessage with null HWND.
-// *[ExWindowEvent] pointer to event struct. all event will be stored in it.
-//	#return if PeekMessage was success.
-// PeekMessage : http://msdn.microsoft.com/en-us/library/windows/desktop/ms644943(v=vs.85).aspx
+ *	Poll Event from process.
+ *	\event
+ *	@return
 */
-extern DECLSPEC ExBoolean ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event);
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
+
+/*
+ *	Poll event from specifed window.
+ *	\window
+ *	\event
+ *	@return
+*/
 
 
-#ifdef __cplusplus	// C++ Environment
+/*
+ * Poll Window Event information
+ * *[HWND] which window to poll event information.
+ *	Remark: message feed will only be apply to given HWND paramter
+ *	if HWND is null all window create on this application will be update
+ *	read more at MSDN for more specific information regarding PeekMessage with null HWND.
+ *	[ExWindowEvent] pointer to event struct. all event will be stored in it.
+ *	#return if PeekMessage was success.
+ *	PeekMessage : http://msdn.microsoft.com/en-us/library/windows/desktop/ms644943(v=vs.85).aspx
+*/
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event);
+
+
+/*
+ *
+ *	@return
+ */
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExForwardEvent(Uint32 event, ExHandle data, Uint32 size);
+
+
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 #endif

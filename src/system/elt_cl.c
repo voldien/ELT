@@ -1,6 +1,7 @@
 #include"system/elt_cl.h"
-#include"ExPreProcessor.h"
-#include"system/eltfile.h"
+#include"elt_def.h"
+#include"system/elt_file.h"
+
 #if defined(EX_WINDOWS)
 #   define OPENCL_LIBRARY_NAME EX_TEXT("OpenCL.dll")
 	#include<CL/cl.h>
@@ -8,8 +9,9 @@
 	#include<CL/cl_gl_ext.h>
 	#include<CL/cl_platform.h>
 	#include<CL/cl_ext.h>
+	#include<CL/cl_d3d10.h>
+	#include<CL/cl_dx9_media_sharing.h>
 
-	//#include<CL/cl_dx9_media_sharing.h>
 	#pragma comment(lib,"OpenCL.lib")
 
 #elif defined(EX_LINUX)
@@ -19,6 +21,7 @@
 #   include<CL/cl_gl.h>
 #   include<GL/gl.h>
 #   include<GL/glext.h>
+
 #elif defined(EX_ANDROID)
 #   define OPENCL_LIBRARY_NAME EX_TEXT("libOpenCL.so")
 #   include<jni.h>
@@ -35,94 +38,60 @@
 #   endif
 #else
 	/*	not supported!	*/
+	//#pragma message
 #endif
 
 
-#define GL_SHARING_EXTENSION "cl_khr_gl_sharing"        /**/
-#define DX_SHARING_EXTENSION "cl_khr_d3d10_sharing"     /**/
-
-/**
-	OpenCL Error
-*/
-#define ExIsCLError(x)  { if( ( x ) != CL_SUCCESS ){ ExDevPrintfc("Error | %s",EX_CONSOLE_RED,ExGetErrorMessage( ( x ) )); } }
 
 
-#define ELT_CL_GPU_INDEX(x) ((x & (ELT_GPU0 >> (ELT_GPU0 / 2))))
+/**/
+#define GL_SHARING_EXTENSION "cl_khr_gl_sharing"
+/**/
+#define DX_SHARING_EXTENSION "cl_khr_d3d10_sharing"
+
+
+//#define ExIsCLError(x)  { if( ( x ) != CL_SUCCESS ){ ExDevPrintfc("Error | %s",EX_CONSOLE_RED,ExGetErrorMessage( ( x ) )); } }
+
+
+#define ELT_CL_GPU_INDEX(x) ((x & (EX_CL_GPU0 >> (EX_CL_GPU0 / 2))))
 #define ELT_CL_CPU_INDEX(x) ((x & 0x0000ff00))
 
 
-#define KNRM  "\x1B[0m"
-#define KRED  "\x1B[31m"
-#define KGRN  "\x1B[32m"
-#define KYEL  "\x1B[33m"
-#define KBLU  "\x1B[34m"
-#define KMAG  "\x1B[35m"
-#define KCYN  "\x1B[36m"
-#define KWHT  "\x1B[37m"
-#define RESET "\033[0m"
-
-#define EX_CONSOLE_BLACK 0x0
-#define EX_CONSOLE_BLUE 0x1
-#define EX_CONSOLE_GREEN 0x2
-#define EX_CONSOLE_AQUA 0x3
-#define EX_CONSOLE_RED 0x4
-#define EX_CONSOLE_PURPLE 0x5
-#define EX_CONSOLE_YELLOW  0x6
-#define EX_CONSOLE_WHITE 0x7
-#define EX_CONSOLE_GRAY 0x8
-#define EX_CONSOLE_LIGHT_BLUE 0x9
-#define EX_CONSOLE_LIGHT_GREEN 0xA
-#define EX_CONSOLE_LIGHT_AQUA 0xB
-#define EX_CONSOLE_LIGHT_RED 0xC
-#define EX_CONSOLE_LIGHT_PURPLE 0xD
-#define EX_CONSOLE_LIGHT_YELLOW 0xE
-#define EX_CONSOLE_LIGHT_WHITE 0xF
-#define EX_CONSOLE_COLOR_RESET 0x10
+#if !(defined(EX_ANDROID) || defined(DONT_SUPPORT_OPENCL))  /*  TODO resolve this provisional approach to solve the problem*/
 
 
-#if !(defined(EX_ANDROID) ^ defined(DONT_SUPPORT_OPENCL))  /*  TODO resolve this provisional approach to solve the problem*/
 /**handle to OpenCL Library */
-HANDLE cl_libhandle=NULL;
+ExHandle cl_libhandle =	NULL;
 /** opencl context of current */
 cl_context hClContext = NULL;
 
 
 /**/
-extern DECLSPEC int ELTAPIENTRY ExGetOpenCLDevice(cl_platform_id platform,cl_device_id* device,unsigned int flag);
+extern ELTDECLSPEC int ELTAPIENTRY ExGetOpenCLDevice(cl_platform_id platform, cl_device_id* device, unsigned int flag);
 static char* ELTAPIENTRY ExGetCLErrorMessage(cl_int error);
 
 
 static char* get_device_extension(cl_device_id device){
     unsigned int extension_size;
     char* extension;
-    clGetDeviceInfo(device,CL_DEVICE_EXTENSIONS, NULL, NULL,&extension_size);
+    clGetDeviceInfo(device, CL_DEVICE_EXTENSIONS, NULL, NULL, &extension_size);
     extension = (char*)malloc(extension_size);
     clGetDeviceInfo(device, CL_DEVICE_EXTENSIONS, extension_size,extension, NULL);
     return extension;
 }
-/*
 
-*/
+
 static inline void loadOpenClLibrary(void){
     if(!ExIsModuleLoaded(OPENCL_LIBRARY_NAME))
-        #ifdef EX_LINUX
-        ExLoadLibrary(OPENCL_LIBRARY_NAME);
-        #elif defined(EX_WINDOWS)
         cl_libhandle = ExLoadLibrary(OPENCL_LIBRARY_NAME);
-        #elif defined(EX_ANDROID)
-        ExLoadLibrary(OPENCL_LIBRARY_NAME);
-        #endif
 }
 
 
-DECLSPEC void* ELTAPIFASTENTRY ExGetCLContext(void){return hClContext;}
+ExOpenCLContext ELTAPIFASTENTRY ExGetCurrentCLContext(void){
+	return hClContext;
+}
 
-DECLSPEC void* ELTAPIFASTENTRY ExGetCurrentCLContext(void){return hClContext;}
-
-
-
-
-DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLContext(Enum flag){
+ExOpenCLContext ELTAPIENTRY ExCreateCLContext(Enum flag, ExOpenCLContext sharedCLContext){
 	cl_int cpPlatform;
 	cl_int ciErrNum;
 	Uint32 uiDevCount = 0;
@@ -131,34 +100,38 @@ DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLContext(Enum flag){
     Uint32 errNum;              /*  */
     cl_context hClContext;      /*  */
     size_t size=0;
-    Uint32 uiDeviceUsed = 0,uiEndDev = 0;
+    Uint32 uiDeviceUsed = 0, uiEndDev = 0;
 
-    /**
-        TODO check if needed or logic is accepted
-    */
+
+
+    /*	TODO check if needed or logic is accepted*/
     loadOpenClLibrary();
 
-    /*	Get platform id	*/
-	if(!ExGetCLPlatformID(&cpPlatform,flag))
-		ExDevPrint("Failed to Get CL Platform ID");
 
+    /*	Get platform ID	*/
+	if(ExGetCLPlatformID(&cpPlatform, flag) != CL_SUCCESS){
+		/**/
+		return NULL;
+	}
 
 	cl_context_properties props[] = {
-        CL_CONTEXT_PLATFORM,cpPlatform,
+        CL_CONTEXT_PLATFORM, cpPlatform,
 		NULL
 	};
 
 
 
-	if(flag & ELT_GPU0){
+	if(flag & EX_CL_GPU0){
 		uiDevCount = ELT_CL_GPU_INDEX(flag);
 	}
-	else if(flag & ELT_CPU0){
+	else if(flag & EX_CL_CPU0){
 		uiDevCount = ELT_CL_CPU_INDEX(flag);
 	}
-	else if(flag & ELT_CL_AVAILABLE_PLATFORM){
+	else if(flag & EX_CL_AVAILABLE_PLATFORM){
 
 	}
+
+
 
     // Get Device ID
     if(!(ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_GPU, 0, NULL, &uiDevCount))){
@@ -175,15 +148,16 @@ DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLContext(Enum flag){
     }
 
 
-	hClContext = clCreateContext(props,size, cdDevices,NULL,NULL,&ciErrNum);
+	hClContext = clCreateContext(props, size, cdDevices, NULL, NULL, &ciErrNum);
+    if(!hClContext){
 
-    if(!hClContext)
-        ExIsCLError(ciErrNum);
+    }
+    //    ExIsCLError(ciErrNum);
 
-	return (ERESULT)hClContext;
+	return (ExOpenCLContext)hClContext;
 }
 
-DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowContext window,Enum flag){
+ExOpenCLContext ELTAPIENTRY ExCreateCLSharedContext(ExOpenGLContext glc, ExWindowContext window, Enum flag){
     Int32 cpPlatform,ciErrNum;Uint32 uiDevCount = 0;
     // device ids
     cl_device_id *cdDevices;
@@ -195,46 +169,48 @@ DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, Wi
     /**
     TODO check if needed or logic is accepted*/
     loadOpenClLibrary();
-	/**
-        Get platform id
-	*/
-	if(!ExGetCLPlatformID(&cpPlatform,flag))
-		ExDevPrint("Failed to Get CL Platform ID");
 
-    // Get Device ID
+    /*Get platform ID	*/
+	if(ExGetCLPlatformID(&cpPlatform,flag) != CL_SUCCESS){
+		return NULL;
+	}
+
+    /* Get Device ID from GPU	*/
     if(!(ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_GPU, 0, NULL, &uiDevCount))){
         // create OpenCL Devices on the GPU
         cdDevices = (cl_device_id*)malloc(sizeof(cl_device_id) *uiDevCount);
         ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_GPU, uiDevCount, cdDevices, NULL);
         size+=uiDevCount;
     }
-    // if gpu failure. check CPU
+
+    /* Get Device ID from CPU	*/
     else if(!(ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_CPU, 0, NULL, &uiDevCount))){
         // create OpenCL Devices on the CPU
         cdDevices = (cl_device_id*)realloc(cdDevices, size  + sizeof(cl_device_id) *uiDevCount);
-        ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_CPU, uiDevCount, cdDevices + size * sizeof(cl_device_id), NULL);
+        ciErrNum = clGetDeviceIDs((cl_platform_id)cpPlatform, CL_DEVICE_TYPE_CPU, uiDevCount, &cdDevices[size] , NULL);
     }
 
-    /**
-        Check witch device support gl sharing TODO add for DIRECTX
-    */
+
+
+    /*	Check witch device support gl sharing TODO add for DIRECTX	*/
 #ifdef _DIRECTX
 
 #endif
     for(i = 0; i < uiDevCount; i++){
         extension = get_device_extension(cdDevices[i]);
         if(strstr(extension,GL_SHARING_EXTENSION)){
-
+        	/*	found shareable context*/
+        	uiDeviceUsed = i;
         }else{
             size--;
         }
         free(extension);
     }
-    //if(clGetDeviceInfo(cdDevices[0],CL_DEVICE_EXTENSIONS,))
 
-    // print developing info of the CL
+
+
     ExPrintCLDevInfo(0, &cdDevices[uiDeviceUsed]);
-    uiDeviceUsed = CLAMP(uiDeviceUsed, 0, uiDevCount - 1);
+
 
 #ifdef EX_WINDOWS
     /*  get Device Context*/
@@ -242,7 +218,7 @@ DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, Wi
         window = ExGetCurrentGLDC();
 #endif
 
-    /**
+    /*
         Context Properties
     */
     cl_context_properties props[] = {
@@ -266,7 +242,7 @@ DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, Wi
 #elif defined(EX_LINUX)
     if(flag & EX_OPENGL){props[2] = CL_GLX_DISPLAY_KHR;}
 #elif defined(EX_ANDROID)
-    if(flag & EX_OPENGL || erenderingFlag & EX_OPENGLES){props[2] = CL_EGL_DISPLAY_KHR;}
+    if(layer & EX_OPENGL || erenderingFlag & EX_OPENGLES){props[2] = CL_EGL_DISPLAY_KHR;}
 #endif
     else if(flag & EX_OPENCL){props[2] = CL_CGL_SHAREGROUP_KHR;}
     else if(flag & EX_OPENGLES){props[2] = CL_EGL_DISPLAY_KHR;}
@@ -277,10 +253,13 @@ DECLSPEC OpenCLContext ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, Wi
     }
 
     free(cdDevices);
-    return (void*)hClContext;
+    return (ExOpenCLContext)hClContext;
 }
 
-DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(void* context,void* param_value,Enum param_name){
+
+
+
+ERESULT ELTAPIENTRY ExQueryCLContext(ExOpenCLContext context, ExHandle param_value, Enum param_name){
     cl_int ciErrNum;
 	size_t size;
 	if(!context)return -1;
@@ -337,18 +316,13 @@ DECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(void* context,void* param_value,En
     return ciErrNum;
 }
 
-DECLSPEC void ELTAPIENTRY ExReleaseCL(void){
-	if(hClContext)
-		if(clReleaseContext(hClContext) != CL_FALSE)
-			ExDevPrint("Failed to release context.");
-}
-DECLSPEC void ELTAPIENTRY ExReleaseCLContext(void* context){
-	ExIsCLError(clReleaseContext((cl_context)context));
+
+
+void ELTAPIENTRY ExDestroyCLContext(ExOpenCLContext context){
+	clReleaseContext((cl_context)context);
 }
 
-/**
-    evaluate which device has the highest flops.
-*/
+
 static int ExCLHighestFLOPS(Int32* clSelectedPlatformID){
     int i,ciErrNum;
     unsigned int num_device;
@@ -365,21 +339,22 @@ static int ExCLHighestFLOPS(Int32* clSelectedPlatformID){
     return 1;
 }
 
-DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum flag){
+Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID, Enum flag){
     char chBuffer[1024];
-    cl_uint num_platforms,num_device;
-    cl_uint num_gpu,num_cpu;
+    cl_uint num_platforms;
+    cl_uint num_device;
+    cl_uint num_gpu;
+    cl_uint num_cpu;
     cl_device_id device_id[16];
     cl_device_info device_info;
+	cl_uint i,j;
 
-    cl_platform_id temp_clPlatformIDs;
     cl_platform_id* clPlatformIDs;
     cl_int ciErrNum;
     *clSelectedPlatformID = NULL;
 
-    /**
-        Get number of platform identification
-    */
+
+    /*	Get number of platform identification	*/
     ciErrNum = clGetPlatformIDs (NULL, NULL, &num_platforms);
 
     if (ciErrNum != CL_SUCCESS){
@@ -391,17 +366,20 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum fl
             ExDevPrint("No OpenCL platform found!");
 			return -2000;
 		}
-		else{
-			cl_uint i,j;
+		else{	/*	determine platform*/
+		    cl_platform_id temp_clPlatformIDs[num_platforms];
 
+
+			/*	*/
             ciErrNum = clGetPlatformIDs (num_platforms, &temp_clPlatformIDs, NULL);
 			if(ciErrNum == CL_DEVICE_NOT_FOUND)
                 ExDevPrint("Couldn't find");
 
 
-
+			/*	get number of gpu device.s	*/
 			ciErrNum = clGetDeviceIDs(temp_clPlatformIDs,CL_DEVICE_TYPE_GPU, NULL,NULL,&num_gpu);
 
+			/*	get number of cpu devices.	*/
 			ciErrNum = clGetDeviceIDs(temp_clPlatformIDs,CL_DEVICE_TYPE_CPU, NULL,NULL,&num_cpu);
 
 
@@ -431,7 +409,6 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum fl
 
                     //ciErrNum = clGetDeviceInfo(device_id[j],device_info,sizeof(device_info), )
 
-                    continue;
                 }
 
 
@@ -440,7 +417,7 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum fl
 
 
                 if(ciErrNum == CL_SUCCESS){
-                    if(!strstr(chBuffer, "NVIDIA CUDA")){	// nvidia exists
+                    if(!strstr(chBuffer, "NVIDIA CUDA")){
                         *clSelectedPlatformID = (Int)clPlatformIDs[i];
                         break;
                     }else if(!strstr(chBuffer,"AMD")){
@@ -452,7 +429,6 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum fl
                         break;
                     }
                 }
-				continue;
             }
 
             #ifdef EX_DEBUG
@@ -473,8 +449,8 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum fl
 	return FALSE;
 }
 
-/**/
-DECLSPEC void* ExCreateCommandQueue(void* context, void*device){
+
+void* ExCreateCommandQueue(ExOpenCLContext context, ExHandle device){
     cl_int errNum;
     cl_device_id* devices;
     cl_command_queue commandQueue = NULL;
@@ -508,12 +484,13 @@ DECLSPEC void* ExCreateCommandQueue(void* context, void*device){
     return commandQueue;
 
 }
+
 /**/
-DECLSPEC void* ExCreateProgram(void* context, void* device, const char* cfilename, ...){
+void* ExCreateProgram(ExOpenCLContext context, ExHandle device, const ExChar* cfilename, ...){
 	va_list list;
 	cl_int errNum = 0;
     cl_program program;
-    void* data;
+    char* data;
     size_t length = 0;
     char buffer[1024*4] = {'\0'};
     char* pbuffer = &buffer[0];
@@ -536,6 +513,7 @@ DECLSPEC void* ExCreateProgram(void* context, void* device, const char* cfilenam
     /*	read file*/
     if(!ExLoadFile(cfilename,&data))
     	return NULL;
+    data[strlen(data)] =  '\0';
 
     /*  error was length was wrong size....*/
     program = clCreateProgramWithSource(context, 1, (const char**)&data, &length,&errNum);
@@ -556,7 +534,7 @@ DECLSPEC void* ExCreateProgram(void* context, void* device, const char* cfilenam
 
 
 
-DECLSPEC void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, void* p_cl_device_id){
+void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, ExHandle p_cl_device_id){
 #ifdef EX_DEBUG
 
     if(!p_cl_device_id)
@@ -787,7 +765,7 @@ DECLSPEC void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, void* p_cl_device_id)
 #endif
 }
 
-DECLSPEC Int32 ELTAPIENTRY ExGetClDevCap(void* device){
+Int32 ELTAPIENTRY ExGetClDevCap(void* device){
     char cDevString[1024];
     int bDevAttributeQuery = FALSE;
     int iDevArch = -1;

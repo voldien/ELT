@@ -19,10 +19,15 @@
 #ifndef _ELT_KEYCODE_H_
 #define _ELT_KEYCODE_H_ 1
 
-enum KeyCodes {
-    EX_UNKNOWN = 0,
+
+/*
+ *
+ */
+enum ExKeyCodes {
+    EXK_UNKNOWN = 0,
 
     EXK_RETURN = '\r',
+	EXK_ENTER = '\r',
     EXK_ESCAPE = '\033',
     EXK_BACKSPACE = '\b',
     EXK_TAB = '\t',
@@ -125,6 +130,23 @@ enum KeyCodes {
     EXK_F14,
     EXK_F15,
     EXK_Pause,
+	EXK_Add,
+	EXK_Subtract,
+	EXK_Multiply,
+	EXK_Divide,
+	EXK_End,
+	EXK_Home,
+	EXK_Insert,
+	EXK_Delete,
+	EXK_LControl,
+	EXK_LShift,
+	EXK_LAlt,
+	EXK_LSystem,
+	EXK_RControl,
+	EXK_RShift,
+	EXK_RAlt,
+	EXK_RSystem,
+
     };
 
 

@@ -20,73 +20,75 @@
 #define _ELT_JOYSTICK_H_ 1
 #include"./../EngineAssembly.h"
 
+typedef int ExJoyStick;
 
+EX_ALIGN_PREFIX(4)
 typedef struct ex_GUID{
 	Uint8 data[16];
 }ExGUID;
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus	/*	C++ environment	*/
 extern "C"{
 #endif
-/**
-	Number of joystick
-	@return
+
+/*
+ *	Number of joystick
+ *	@return
+ */
+extern ELTDECLSPEC Uint32 ELTAPIENTRY ExJoysticksNum(void);
+
+/*
+ *	Open joystick by device index
+ *	@return
 */
-extern DECLSPEC Uint32 ELTAPIENTRY ExNumJoysticks(void);
-/**
-    Open joystick by device index
-	@return
+extern ELTDECLSPEC ExHandle ELTAPIENTRY ExJoystickOpen(Int32 index);
+
+/*
+ *   Close Joystick by device index
+ *	@return
 */
-extern DECLSPEC void* ELTAPIENTRY ExJoystickOpen(Int32  device_index);
-/**
-    Close Joystick by device index
-	@return
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExJoyStickClose(Int32 index);
+
+/*
+ *	Get Joystick Device GUID
+ *	@return
+ */
+extern ELTDECLSPEC ExGUID ELTAPIENTRY ExJoystickGetDeviceGUID(Int32 index);
+
+/*
+ *	Get Joystick name
+ *	@return
 */
-extern DECLSPEC Int32 ELTAPIENTRY ExJoyStickClose(Int32 device_index);
+extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExJoyStickName(Uint32 ptr);
 
-/**
-	Get Joystick Device GUID
-    	@return
+/*
+ *	Get number of buttons on a joystick
+ *	@return
 */
-extern DECLSPEC ExGUID ELTAPIENTRY ExJoystickGetDeviceGUID(Int32 device_index);
-/**
-	Get Joystick name
-	@return
-*/
-extern DECLSPEC const ExChar* ELTAPIENTRY ExJoyStickName(Uint32 ptr);
-/**
-	Get number of buttons on a joystick
-	@return
-*/
-extern DECLSPEC Int32 ELTAPIENTRY ExJoystickNumButtons(Uint32 ptr);
-/**
-    \Axis Get number of axis on joystick
-	@return
-*/
-extern DECLSPEC Int32 ELTAPIENTRY ExJoystickNumAxis(Int ptr);
-/**
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExJoystickNumButtons(Uint32 ptr);
 
-*/
-extern DECLSPEC Int16 ELTAPIENTRY ExJoystickGetAxis(Int32 device_ptr,int axis);
-/**
-    \Button
-*/
-extern DECLSPEC Uint8 ELTAPIENTRY ExJoyStickGetButton(Int32 device_index, int button);
+/*
+ *	Axis Get number of axis on joystick
+ *	@return
+ */
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExJoystickNumAxis(Int ptr);
 
+/*
+ *
+ */
+extern ELTDECLSPEC Int16 ELTAPIENTRY ExJoystickGetAxis(Int32 device_ptr,int axis);
 
-extern DECLSPEC ERESULT ELTAPIENTRY ExInitJoyStick(ExWin hwnd);
+/*
+ *   \Button
+ */
+extern ELTDECLSPEC Uint8 ELTAPIENTRY ExJoyStickGetButton(Int32 device_index, int button);
 
+/*
+ *
+ */
+extern ELTDECLSPEC void ELTAPIENTRY ExSetJoyStickState(Enum bitFlag, Uint32 userIndex);
 
-DECLSPEC void* ELTAPIENTRY GetJoyStickDeviceContext(Uint32 userIndex);
-
-
-DECLSPEC void ELTAPIENTRY ExSetJoyStickState(Enum bitFlag, const Uint32 userIndex);
-
-DECLSPEC void ELTAPIENTRY ExJoyStickShutDown(void);
-DECLSPEC void ELTAPIENTRY ExJoyStickDisConnected(void);		// check which index the disconneted XBox has, to applyed to it later, if it gets connected again.
-DECLSPEC void ELTAPIENTRY ExUpdateJoyStickController(void);
-
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus /* C++ environment */
 };
 #endif
 #include"elt_gamecontroller.h"

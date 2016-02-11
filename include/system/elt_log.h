@@ -1,5 +1,4 @@
 /*
-========================================================================
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -17,10 +16,20 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef ELT_LOG_H_
-#define ELT_LOG_H_
+#ifndef _ELT_LOG_H_
+#define _ELT_LOG_H_ 1
 #include"./../EngineAssembly.h"
 extern FILE* m_file_log;
 
+
+/*
+ *
+ */
+extern ELTDECLSPEC void ELTAPIENTRY ExLog(const ExChar* format,...);
+
+/*
+ *
+ */
+extern ELTDECLSPEC void ELTAPIENTRY ExErrorLog(const ExChar* format,...);
 
 #endif
