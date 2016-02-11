@@ -26,7 +26,7 @@ extern "C"{
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExAudioContext ELTAPIENTRY ExAudioInit(const char* driverName);
 

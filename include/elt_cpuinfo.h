@@ -34,7 +34,7 @@ extern "C"{
 
 /*
  *	Get the name of the CPU.
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void);
 
@@ -46,74 +46,74 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetFrequence(void);
 
 /*
  *	Has CPU Support For AVX (Advanced Vector Extension)
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasAVX(void);
 
 /*
  *	Has CPU Support For AVX2 (Advanced Vector Extension)
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasAVX2(void);
 
 
 /*
  *	Has CPU Support For 3DNow (AMD feature)
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHas3DNow(void);
 
 /*
  *	Has CPU Support For MMX (Matrix Math eXtension)
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasMMX(void);
 
 /*
  *	Get number of cpu's cores.
- *	@return number of cpu cores.
+ *	@Return number of cpu cores.
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void);
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExGetCPUCacheLineSize(void);
 
 /*
  *	Is SSE ( Streaming SIMD Extensions ) available
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE(void);
 
 /*
  *	Is SSE 2 ( Streaming SIMD Extensions ) available
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE2(void);
 
 /*
  *	Is SSE 3 ( Streaming SIMD Extensions ) available
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE3(void);
 
 /*
  *	Is SSE 41 ( Streaming SIMD Extensions ) available
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE41(void);
 
 /*
  *	Is SSE 41 ( Streaming SIMD Extensions ) available
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void);
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasNeon(void);
 

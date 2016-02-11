@@ -75,7 +75,7 @@ extern "C"{
 
 /*
  *	Initialize Error Handler
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExInitErrorHandler(void);
 
@@ -94,7 +94,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...);
 
 /*
  *	Get Error
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ERESULT ELTAPIFASTENTRY ExGetError(void);
 
@@ -110,7 +110,7 @@ extern ELTDECLSPEC void ELTAPIFASTENTRY ExClearError(void);
 
 /*
  *	Get ELT Error String.
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode);
 

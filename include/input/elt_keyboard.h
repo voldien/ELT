@@ -21,8 +21,7 @@
 #include"./../EngineAssembly.h"
 #include"eltkeycode.h"
 
-typedef Keycode ExScancode;
-
+typedef ExKeycode ExScancode;
 #ifdef __cplusplus /* C++ environment */
 extern "C"{
 #endif
@@ -32,25 +31,25 @@ extern "C"{
 
 /*
  *	Get KeyCode name identification index
- *	@return
+ *	@Return
  */
-extern ELTDECLSPEC Keycode ELTAPIENTRY ExGetKeyFromName(const char* name);
+extern ELTDECLSPEC ExKeycode ELTAPIENTRY ExGetKeyFromName(const char* name);
 
 /*
  *	Get Key from Scancode
- *	@return
+ *	@Return
  */
-extern ELTDECLSPEC Keycode ELTAPIENTRY ExGetKeyFromScancode(ExScancode scancode);
+extern ELTDECLSPEC ExKeycode ELTAPIENTRY ExGetKeyFromScancode(ExScancode scancode);
 
 /*
  *	Get KeyCode name
- *	@return
+ *	@Return
  */
-extern ELTDECLSPEC const char* ELTAPIENTRY ExGetKeyName(Keycode keycode);
+extern ELTDECLSPEC const char* ELTAPIENTRY ExGetKeyName(ExKeycode keycode);
 
 /*
  *	Get Window that is keyboard is focus to
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetKeyboardFocus(void);
 
@@ -61,44 +60,44 @@ extern ELTDECLSPEC void ELTAPIENTRY ExSetKeyboardFocus(ExWin window);
 
 /*
  *	Get keyboard state.
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys);
 
 /*
- *	@return
+ *	@Return
  */
-extern ELTDECLSPEC Keycode ELTAPIENTRY ExGetModeState(void);
+extern ELTDECLSPEC ExKeycode ELTAPIENTRY ExGetModeState(void);
 
 /*
  *	Is any key pressed
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKey(void);
 
 /*
- *	@return
+ *
+ *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void);
 
 /*
- *	@return
+ *
+ *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(Uint32 keyCode);
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode);
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyReleased(Uint32 keyCode);
-
-
 
 
 #ifdef __cplusplus /* C++ environment */

@@ -3,6 +3,7 @@
 #ifdef EX_WINDOWS
 	#include<windef.h>
 	#include<windows.h>
+#	include <sys/time.h>
 #elif defined(EX_UNIX)
 #	include<errno.h>
 #	include<unistd.h>
@@ -97,7 +98,7 @@ ELTDECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms){
 
 ELTDECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nanosec){
     #ifdef EX_WINDOWS
-    struct timeval tv;  // TODO Does this nano sleep work ?
+    struct timeval tv;  	// TODO Does this nano sleep work ?
     tv.tv_sec = nanosec / 1000000000;
     tv.tv_usec = nanosec;
     select(0,0,0,0,&tv);

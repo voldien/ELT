@@ -8,6 +8,7 @@
 #	include<windows.h>
 #	include <winuser.h>
 #	include<windowsx.h>
+#	include<ws2dnet.h>
 #elif defined(EX_LINUX)
 #	include"system/unix/unix_win.h"
 #	include<X11/X.h>
@@ -93,10 +94,14 @@ ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 				break;
 			}
 			switch(msg.lParam){ /*  network */
-				case FD_ACCEPT:break;
-				case FD_CONNECT:break;
-				case FD_READ:break;
-				case FD_CLOSE:break;
+				case FD_ACCEPT:
+					break;
+				case FD_CONNECT:
+					break;
+				case FD_READ:
+					break;
+				case FD_CLOSE:
+					break;
 			}
 			default:break;
 		}

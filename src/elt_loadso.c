@@ -1,7 +1,7 @@
 #include"elt_loadso.h"
 
 
-#if defined(EX_UNIX) || defined(EX_ANDROID)
+#if defined(EX_LINUX) || defined(EX_ANDROID)
 
 #   include<stdio.h>
 #	include<stdlib.h>

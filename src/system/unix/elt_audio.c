@@ -1,4 +1,6 @@
 #include"system/elt_audio.h"
+#ifdef EX_LINUX
+
 #include<AL/al.h>
 #include<AL/alc.h>
 
@@ -112,5 +114,7 @@ ELTDECLSPEC int ELTAPIENTRY ExGetNumAudioDriver(void){
 
 }
 
+
+#endif
 
 

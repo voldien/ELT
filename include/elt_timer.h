@@ -42,13 +42,13 @@ extern "C"{
 
 /*
  *	Add timer thread routine
- *	@return timer handle
+ *	@Return timer handle
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback, void* param);
 
 /*
  *	Remove timer thread routine
- *	@return if successfully removed
+ *	@Return if successfully removed
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id);
 /*
@@ -64,25 +64,25 @@ extern ELTDECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nanosec);
 
 /*
  *	Get performance counter
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetPerformanceCounter(void);
 
 /*
  *	Get Performance frequency
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetPerformanceFrequency(void);
 
 /*
  *	Get numbers Ticks sense ELT_TIMER was initialize
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void);
 
 /*
  *	Get numbers Ticks sense ELT_TIMER was initialize
- *	@return get number of ticks.
+ *	@Return get number of ticks.
  */
 extern ELTDECLSPEC long int ELTAPIENTRY ExGetHiResTime(void);
 

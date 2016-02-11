@@ -117,7 +117,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32
 	}
 	else if(flag & EX_OPENGLES){
 		window = (ExWin)ExCreateNativeWindow(x,y,width,height);
-		glc = (OpenGLContext)ExCreateEGLContext(window);
+		glc = (ExOpenGLContext)ExCreateEGLContext(window);
 		ExMakeGLCurrent(GetDC(window),glc);
 #ifndef DONT_SUPPORT_OPENCL
 		if(flag & EX_OPENCL)
@@ -127,7 +127,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32
 	else if(flag & EX_OPENCL){
 		window = ExCreateNativeWindow(x,y,width,height);
 #ifndef DONT_SUPPORT_OPENCL
-		glc = (OpenGLContext)ExCreateCLContext(ELT_GPU0);
+		glc = (ExOpenCLContext)ExCreateCLContext(EX_GPU0, NULL);
 #endif
 	}
 	/**
@@ -142,7 +142,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32
 		directx = (void*)ExCreateDirectXContext(window);
 #ifndef DONT_SUPPORT_OPENCL
 		if(flag & EX_OPENCL)
-            ExCreateCLSharedContext((OpenGLContext)directx,GetDC(window),EX_DIRECTX);
+            ExCreateCLSharedContext((OpenGLContext)directx, GetDC(window), EX_DIRECTX);
 #endif
 	}
 #endif

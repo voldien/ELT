@@ -60,9 +60,7 @@
 	#include<GL/glext.h>
 #endif
 
-
-
-
+/*	TODO perhaps relocate later to their coresponding platform source code files.*/
 ELTDECLSPEC inline ExWin ELTAPIENTRY ExGetOpenGLContextWindow(ExOpenGLContext glc){
 #ifdef EX_WINDOWS
 	return WindowFromDC(wglGetCurrentDC());
@@ -74,7 +72,7 @@ ELTDECLSPEC inline ExWin ELTAPIENTRY ExGetOpenGLContextWindow(ExOpenGLContext gl
 }
 
 
-ELTDECLSPEC inline ExWindowContext ELTAPIFASTENTRY ExGetCurrentGLDC(void){
+ELTDECLSPEC inline ExWindowContext ELTAPIFASTENTRY ExGetCurrentGLDrawable(void){
 #ifdef EX_WINDOWS
 	return wglGetCurrentDC();
 #elif defined(EX_LINUX)
@@ -113,17 +111,8 @@ ELTDECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 	int value;
     int sampleSupport;
 
-
-#if (EX_ENGINE_VERSION_MAJOR < 1 )
-	//ExOpenGLSetVSync(0,ExGetCurrentGLDrawable());
-#endif
-
-
-
 	// depth
 	//glClearDepth(1.0f);
-
-	// color mask
 #if  !( defined(EX_ANDROID) ^ defined(EX_PNACL) )
 	glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
 
@@ -131,7 +120,8 @@ ELTDECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 
 	if(ExOpenGLGetAttribute(EX_OPENGL_ALPHA_SIZE, &value) > 0)
 		glEnable(GL_ALPHA_TEST);
-	else glDisable(GL_ALPHA_TEST);
+	else
+		glDisable(GL_ALPHA_TEST);
 
 	if(ExOpenGLGetAttribute(EX_OPENGL_MULTISAMPLEBUFFERS, &value) > 0){
         glEnable(GL_MULTISAMPLE_ARB);
@@ -144,9 +134,7 @@ ELTDECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 	glDepthRange(0.0, 1.0);
     glClearDepth(1.0);
 
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(GL_ONE, GL_ZERO);
 
 
 	glEnable(GL_DEPTH_TEST);
@@ -156,7 +144,6 @@ ELTDECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 	glPolygonOffset(0.0, 0.0);
 
 	glFrontFace(GL_CW);
-	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
 #endif

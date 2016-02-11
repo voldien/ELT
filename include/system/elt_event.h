@@ -202,7 +202,7 @@ typedef struct elt_poll_events{
 /*
  *	Poll Event from process.
  *	\event
- *	@return
+ *	@Return
 */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
 
@@ -210,7 +210,7 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
  *	Poll event from specifed window.
  *	\window
  *	\event
- *	@return
+ *	@Return
 */
 
 
@@ -229,7 +229,7 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEve
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExForwardEvent(Uint32 event, ExHandle data, Uint32 size);
 

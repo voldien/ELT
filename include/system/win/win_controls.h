@@ -106,10 +106,10 @@ extern ELTDECLSPEC HMENU ELTAPIENTRY ExCreateMainMenu(ExWin hwnd);
 extern ELTDECLSPEC HMENU ELTAPIENTRY ExCreatePopupMenu(HMENU hMenu, const ExChar* string);
 extern ELTDECLSPEC HMENU ELTAPIENTRY ExCreatePopupMenuB(HMENU hMenu, HBITMAP bitmap);
 
-extern ELTDECLSPEC HMENU ELTAPIENTRY ExCreatePopUpMenuItem2(HMENU hpopupMenu, const ExChar* string, CallBack callback);
+extern ELTDECLSPEC HMENU ELTAPIENTRY ExCreatePopUpMenuItem2(HMENU hpopupMenu, const ExChar* string, ExCallBack callback);
 extern ELTDECLSPEC HMENU ELTAPIENTRY ExCreatePopUpMenuItem(HMENU hpopupMenu, const ExChar* string, Uint32 ID);
 /**/
-extern ELTDECLSPEC HMENU ELTAPIENTRY ExCreateMenuItemB(HMENU hpopupMenu, HBITMAP bitmap,  CallBack callback);
+extern ELTDECLSPEC HMENU ELTAPIENTRY ExCreateMenuItemB(HMENU hpopupMenu, HBITMAP bitmap,  ExCallBack callback);
 
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExCreateMenuSeparator(HMENU hMenu);
 
@@ -131,7 +131,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExSetStatusBarParts(ExWin statusHwnd,Int32 c
 /*
 	// Button
 */
-extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateButton(ExWin parentHwnd,CallBack callback);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateButton(ExWin parentHwnd,ExCallBack callback);
 
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateRadioButton(ExWin parentHwnd);
 
@@ -192,7 +192,7 @@ extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateTextInput(ExWin parentHwnd);
 	// Static Control
 */
 // Create Static Control window
-extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateStaticControl(ExWin parenthWnd,CallBack callback);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateStaticControl(ExWin parenthWnd,ExCallBack callback);
 // Set Static control window bitmap texture.
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExSetStaticControlBitMap(ExWin staticControl, HBITMAP hBitMap);
 

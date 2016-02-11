@@ -27,31 +27,31 @@ extern "C"{
 
 /*
  *	Get file size in byte.
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC long int ELTAPIENTRY ExGetFileSize(const ExChar* cfilname);
 
 /*
  *	Load data by specified pathname.
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExLoadFile(const ExChar* cfilename, void** data);
 
 /*
  *	Save File by specified file name.
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExSaveFile(const ExChar* cfilename, void* data, unsigned int csize);
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC FILE* ELTAPIENTRY ExSafeOpenWrite(const ExChar* cfilename);
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC FILE* ELTAPIENTRY ExSafeOpenRead(const ExChar* cfilename);
 
@@ -67,25 +67,25 @@ extern ELTDECLSPEC void ELTAPIENTRY ExSafeRead(FILE*f, void* buffer, int count);
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExCreateDirectory(const ExChar* directory);
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExRemoveDirectory(const ExChar* directory);
 
 /*
  *	Remove file by given name.
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExRemoveFile(const ExChar* cfilename);
 
 /*
  *	Return true if file exist.
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExExistFile(const ExChar* cfilename);
 

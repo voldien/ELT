@@ -20,8 +20,8 @@
 #define _ELT_CL_H_ 1
 #include"./../EngineAssembly.h"
 
-#define EX_GPU0 0x20                        	/*	GPU index 0 + offset	*/
-#define EX_CPU0 0x40                       	/*	CPU index 0 + offset	*/
+#define EX_CL_GPU0 0x20                        	/*	GPU index 0 + offset	*/
+#define EX_CL_CPU0 0x40                       	/*	CPU index 0 + offset	*/
 #define EX_CPU_REGION
 #define EX_GPU_REGION
 #define EX_CL_FLOPS_HIGHEST 0x400          	/*	Device with most FLOPS	*/
@@ -35,25 +35,27 @@ extern "C"{
 
 /*
  *	Get current OpenCL context.
- *	@return OpenCL context.
+ *	@Return OpenCL context.
  */
 extern ELTDECLSPEC ExOpenCLContext ELTAPIFASTENTRY ExGetCurrentCLContext(void);
 
 /*
  *	Create OpenCL Context
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ExOpenCLContext ELTAPIENTRY ExCreateCLContext(Enum eEnumFlag, ExOpenCLContext sharedCLContext);
 
 /*
  *	Create shared CL context with OpenGL context
- *	@return CL context.
+ *	@Return CL context.
  */
 extern ELTDECLSPEC ExOpenCLContext ELTAPIENTRY ExCreateCLSharedContext(ExOpenGLContext glc, ExWindowContext window, Enum erenderingFlag);
 
+//extern ELTDECLSPEC ExOpenCLContext ELTAPIENTRY ExCreateXDCLSharedContext(ExOpenGLContext glc, ExWindowContext window, Enum erenderingFlag);
+
 /*
  *	Query Context information
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(ExOpenCLContext context, ExHandle param_value, Enum param_name);
 
@@ -65,19 +67,19 @@ extern ELTDECLSPEC void ELTAPIENTRY ExDestroyCLContext(ExOpenCLContext context);
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC void* ExCreateCommandQueue(ExOpenCLContext context, ExHandle device);
 
 /*
  *
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC void* ExCreateProgram(ExOpenCLContext context, ExHandle device, const ExChar* cfilename,...);
 
 /*
  *	Get CL platform identification
- *	@return current CL context.
+ *	@Return current CL context.
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID, Enum flag);
 
@@ -88,7 +90,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, ExHandle p_
 
 /*
  *	Get and return device capability
- *	@return
+ *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetClDevCap(void* device);
 

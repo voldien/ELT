@@ -30,18 +30,18 @@ typedef void* ExDevice9D;
 
 /*
  *	Get 3D Context
- *  @return
+ *  @Return
  */
 extern ELTDECLSPEC ExHandle ELTAPIFASTENTRY ExGetD3DContext(void);
 
 /*
  *	Get Direct3D Context
- *   @return
+ *   @Return
  */
 extern ELTDECLSPEC ExHandle ELTAPIFASTENTRY ExGetDirect3DContext(void);
 
 /*
- *    @return
+ *    @Return
  */
 extern ELTDECLSPEC ExDevice9D ELTAPIENTRY ExCreateDirectXContext(ExWin window);
 
