@@ -32,6 +32,7 @@
 #   define LOGI(...)   __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
 #   define LOGE(...)   __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
 #endif
+
 #include<signal.h>
 #include<limits.h>
 
@@ -244,8 +245,8 @@ int ELTAPIENTRY ExInitErrorHandler(void){
 	/*	interrupt	*/
 	ExSetSignal(SIGINT,ExSignalCatch);
 #ifdef EX_WINDOWS
-	/**Sudden Abort*/
-	ExSetSignal(SIGABRT_COMPAT,ExSignalCatch);
+	/*	Sudden Abort	*/
+	//ExSetSignal(SIGABRT_COMPAT, ExSignalCatch);
 #elif defined(EX_LINUX)
 	/* Stack fault.  */
 	ExSetSignal(SIGSTKFLT,ExSignalCatch);

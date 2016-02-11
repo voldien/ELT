@@ -119,6 +119,10 @@
 		#define EX_X64                          /**/
 		#define EX_WIN64                        /**/
 		#define EX_WINDOWS                      /**/
+	#elif defined(__WIN32__)
+		#define EX_WINDOWS
+	#elif defined(__WINDOWS__)
+		#define EX_WINDOWS
 	#elif defined(_M_PPC)
 		#define EX_PPC                          /**/
 		#define EX_X360                         /**/
@@ -137,9 +141,11 @@
         #define EX_PSP2                         /*	playstation portable 2*/
         #define EX_RAS_PI                       /*	rasberry pi	*/
 	#endif
-	#if defined(_WIN32) /**  Window*/
+
+	#if defined(_WIN32) || defined(WIN32) || defined(OS_WINDOWS) || defined(_WIN64) /**  Window*/
 		#define EX_X86
 		#define EX_WINDOWS                      /**/
+		#define __WIN32__
 	#endif
 
 	#if ( defined(__linux__) || defined(__linux) || defined(linux) ) && (!(__ANDROID__) || !(ANDROID))	/* Linux */
@@ -195,9 +201,13 @@
 		#elif defined(MACOSX) || defined(macintosh) || defined(Macintosh)
 			#define EX_MAC 1
 		#endif
-	#elif defined(__CYGWIN) 	/**/
+	#elif defined(__CYGWIN__) 	/*	windows*/
 		#define EX_CYGWIN 1
-		#define EX_LINUX 1
+		#ifdef EX_UNIX
+
+		#else
+				#define EX_WINDOWS 1
+		#endif
 	#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)   /*  BSD	*/
 		#define EX_BSD
 	#elif defined(__llvm__) || defined(__clang__)   	/*  llvm    */

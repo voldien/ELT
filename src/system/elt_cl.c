@@ -74,7 +74,7 @@ static char* ELTAPIENTRY ExGetCLErrorMessage(cl_int error);
 static char* get_device_extension(cl_device_id device){
     unsigned int extension_size;
     char* extension;
-    clGetDeviceInfo(device,CL_DEVICE_EXTENSIONS, NULL, NULL,&extension_size);
+    clGetDeviceInfo(device, CL_DEVICE_EXTENSIONS, NULL, NULL, &extension_size);
     extension = (char*)malloc(extension_size);
     clGetDeviceInfo(device, CL_DEVICE_EXTENSIONS, extension_size,extension, NULL);
     return extension;
@@ -235,9 +235,9 @@ ExOpenCLContext ELTAPIENTRY ExCreateCLSharedContext(ExOpenGLContext glc, ExWindo
         NULL
     };
 #ifdef EX_WINDOWS
-    if(layer & EX_OPENGL){props[2] = CL_WGL_HDC_KHR;}
+    if(flag & EX_OPENGL){props[2] = CL_WGL_HDC_KHR;}
 #	ifdef EX_INCLUDE_DIRECTX
-    else if(layer & EX_DIRECTX){props[0] = CL_CONTEXT_ADAPTER_D3D9_KHR;}
+    else if(flag & EX_DIRECTX){props[0] = CL_CONTEXT_ADAPTER_D3D9_KHR;}
 #	endif 
 #elif defined(EX_LINUX)
     if(flag & EX_OPENGL){props[2] = CL_GLX_DISPLAY_KHR;}

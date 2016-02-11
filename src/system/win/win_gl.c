@@ -167,7 +167,7 @@ PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointer;
 PFNGLBINDATTRIBLOCATIONPROC glBindAttribLocation;
 PFNGLGETUNIFORMLOCATIONPROC glGetUniformLocation;
 PFNGLUNIFORMMATRIX4FVPROC glUniformMatrix4fv;
-PFNGLACTIVETEXTUREPROC glActiveTexture;
+//PFNGLACTIVETEXTUREPROC glActiveTexture;
 PFNGLUNIFORM1IPROC glUniform1i;
 PFNGLGENERATEMIPMAPPROC glGenerateMipmap;
 PFNGLDISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArray;
@@ -213,9 +213,9 @@ static void ELTAPIENTRY ExCreatePFD2( void *pPFD){
 }
 
 
-static OpenGLContext create_temp_gl_context(HWND window){
+static ExOpenGLContext create_temp_gl_context(HWND window){
 	PIXELFORMATDESCRIPTOR pfd;
-	OpenGLContext gl_context,hrc;
+	ExOpenGLContext gl_context,hrc;
 	int npixelFormat;
 	HDC hDC;
 	/*	Create Pixel Description	*/
@@ -263,7 +263,7 @@ static OpenGLContext create_temp_gl_context(HWND window){
 
 static HWND create_temp_gl_win(ExOpenGLContext* pglc_context){
     ExWin hwnd;
-    OpenGLContext glc;
+    ExOpenGLContext glc;
     WNDCLASSEX  wc= {0};
     #define TEMP_WINDOW_CLASS EX_TEXT("temp")
     wc.cbSize = sizeof(wc);
@@ -301,7 +301,7 @@ static HWND create_temp_gl_win(ExOpenGLContext* pglc_context){
 }
 
 
-OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shared){
+ExOpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shared){
 	ExOpenGLContext glc = NULL;
 	unsigned int render_vendor;
 
@@ -442,7 +442,7 @@ OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shared
 
 
 
-void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* size){
+void ELTAPIENTRY ExCreateContextAttrib(ExWindowContext hDc, Int32* attribs,Int32* size){
 	if(!attribs)	/* error */
 		ExSetError(EINVAL);
 
@@ -462,7 +462,7 @@ void ELTAPIENTRY ExCreateContextAttrib(WindowContext hDc, Int32* attribs,Int32* 
 }
 
 
-OpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, ExOpenGLContext glc){
+ExOpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, ExOpenGLContext glc){
 	return ExCreateGLContext(window,glc);
 
 }
@@ -542,7 +542,7 @@ DECLSPEC void ELTAPIENTRY ExInitExtension(ExWin hWnd,WindowContext deviContext,H
 
 
 
-DECLSPEC ExBoolean ELTAPIENTRY ExDestroyGLContext(WindowContext drawable, ExOpenGLContext glc){
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExDestroyGLContext(ExWindowContext drawable, ExOpenGLContext glc){
 	ExBoolean hr;
 	// if hDC is null
 	if(!drawable)
@@ -554,7 +554,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExDestroyGLContext(WindowContext drawable, ExOpen
 	return hr;
 }
 
-ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int32* screenRes){
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int32* screenRes){
 
 	RECT rect;
 	DEVMODE dm;
@@ -590,7 +590,7 @@ ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint
 				ExOpenGLGetAttribute(EX_OPENGL_BLUE_SIZE,NULL) +
 				ExOpenGLGetAttribute(EX_OPENGL_BLUE_SIZE,NULL);
 		dm.dmFields |= DM_BITSPERPEL;
-		ExPrintf("Using colorbits of %d\n", engineDescription.ColorBits);
+		//ExPrintf("Using colorbits of %d\n", engineDescription.ColorBits);
 		SetWindowLong(window, GWL_STYLE, GetWindowLong(window,GWL_STYLE) | WS_VISIBLE);		//Change Window Class Style.
 		//SetWindowLongPtr(hWnd,GWL_EXSTYLE, WS_EX_APPWINDOW);							//Change Extened Window Class Style.
 		ShowWindow(window, SW_MAXIMIZE);
@@ -693,17 +693,17 @@ DECLSPEC Int32 ELTAPIFASTENTRY ExMaxTextureUints(void){
 
 */
 
-DECLSPEC void ELTAPIENTRY ExOpenGLSetAttribute(unsigned int attr, int value){
+ELTDECLSPEC void ELTAPIENTRY ExOpenGLSetAttribute(unsigned int attr, int value){
 	pixAtt[PIXATTOFFSET + (2 * attr) + 1] = value;
 }
 
-DECLSPEC int ELTAPIENTRY ExOpenGLGetAttribute(unsigned int attr, int* value){
+ELTDECLSPEC int ELTAPIENTRY ExOpenGLGetAttribute(unsigned int attr, int* value){
 	if(value)
 		value = (unsigned int)pixAtt[PIXATTOFFSET + (2 * attr) + 1];
 	return pixAtt[PIXATTOFFSET + (2 * attr) + 1];
 }
 
-DECLSPEC void ELTAPIENTRY ExOpenGLResetAttributes(void){
+ELTDECLSPEC void ELTAPIENTRY ExOpenGLResetAttributes(void){
 
 
 
@@ -711,7 +711,7 @@ DECLSPEC void ELTAPIENTRY ExOpenGLResetAttributes(void){
 }
 
 
-DECLSPEC ERESULT ELTAPIENTRY ExOpenGLSetVSync(ExBoolean enabled, ExWin window){
+ELTDECLSPEC ERESULT ELTAPIENTRY ExOpenGLSetVSync(ExBoolean enabled, ExWin window){
 	WGLSWAPINTERVALEXT_T wglSwapIntervalEXT = (WGLSWAPINTERVALEXT_T)GL_GET_PROC("wglSwapIntervalEXT");
     if(wglSwapIntervalEXT){
         glXSwapIntervalEXT( enabled);

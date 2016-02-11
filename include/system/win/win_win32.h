@@ -87,8 +87,8 @@ typedef struct WindowEvent{
 	MSG msg;
 }Wevent, *Hevent;
 
-extern CallBack ExOnFocus;
-extern CallBack ExOnUnFocus;
+extern ExCallBack ExOnFocus;
+extern ExCallBack ExOnUnFocus;
 
 
 /*
