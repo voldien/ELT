@@ -156,7 +156,6 @@ ELTDECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 	glPolygonOffset(0.0, 0.0);
 
 	glFrontFace(GL_CW);
-	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
 #endif
