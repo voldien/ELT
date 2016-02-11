@@ -20,8 +20,8 @@
 #define _ElT_SURFACE_H_ 1
 #include"elt_win.h"
 
-#define EXRGB_COLOR(r,g,b)	(r << 24) | (g << 16) | (b << 8)
-#define EXRGBA_COLOR(r,g,b,a)	((r << 24) | (g << 16) | (b << 8) | a)
+#define EX_RGB_COLOR(r,g,b)	(r << 24) | (g << 16) | (b << 8)
+#define EX_RGBA_COLOR(r,g,b,a)	((r << 24) | (g << 16) | (b << 8) | a)
 
 #define EX_RGB 0x20
 #define EX_RGBA 0x40
@@ -37,13 +37,13 @@ extern "C"{
  *	Create Surface
  *	@return
  */
-extern ELTDECLSPEC ExSurface ExCreateSurface(unsigned int width, unsigned height, unsigned int format);
+extern ELTDECLSPEC ExSurface ELTAPIENTRY ExCreateSurface(unsigned int width, unsigned height, unsigned int format);
 
 /*
  *	release surface.
  *	@return
  */
-extern ELTDECLSPEC int ExDestroySurface(ExSurface handle);
+extern ELTDECLSPEC int ELTAPIENTRY ExDestroySurface(ExSurface handle);
 
 /*
  *
@@ -53,7 +53,7 @@ extern ELTDECLSPEC void ExDisplaySurfaceToWindow(ExWin window,ExSurface surface)
 /*
  *	resize surface handle
  */
-extern ELTDECLSPEC int ExResizeSurface(ExSurface handle, unsigned int width, unsigned height);
+extern ELTDECLSPEC int ELTAPIENTRY ExResizeSurface(ExSurface handle, unsigned int width, unsigned height);
 
 /*	*/
 extern ELTDECLSPEC int ExGetSurfaceRect(ExSurface surface, ExRect* rect);

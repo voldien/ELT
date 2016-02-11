@@ -215,7 +215,6 @@ ELTDECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	return result;
 }
 
-
 ELTDECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 	ERESULT hr = 0;
 	ExHandle hmodule;

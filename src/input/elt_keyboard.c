@@ -257,7 +257,7 @@ static inline int ExGetKeyCodeInternal(Uint32 keyCode){
 
 
 
-ELTDECLSPEC Keycode ELTAPIENTRY ExGetKeyFromName(const char* name){
+ELTDECLSPEC ExKeycode ELTAPIENTRY ExGetKeyFromName(const char* name){
 #if defined(EX_WINDOWS)
 	switch(name[0]){
 	case ' ':return 0;
@@ -268,7 +268,7 @@ ELTDECLSPEC Keycode ELTAPIENTRY ExGetKeyFromName(const char* name){
 #endif
 }
 
-ELTDECLSPEC const char* ELTAPIENTRY ExGetKeyName(Keycode keycode){
+ELTDECLSPEC const char* ELTAPIENTRY ExGetKeyName(ExKeycode keycode){
 #ifdef EX_WINDOWS
 	char text[20];
 	GetKeyNameTextA((keycode << 16),text,sizeof(text));
@@ -320,7 +320,7 @@ ELTDECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys){
 /**
 
 */
-ELTDECLSPEC Keycode ELTAPIENTRY ExGetModeState(void){
+ELTDECLSPEC ExKeycode ELTAPIENTRY ExGetModeState(void){
 #ifdef EX_WINDOWS
 	return 0;
 #elif defined(EX_LINUX)

@@ -21,7 +21,7 @@
 #include"./../EngineAssembly.h"
 #include"eltkeycode.h"
 
-typedef Keycode ExScancode;
+typedef ExKeycode ExScancode;
 
 #ifdef __cplusplus /* C++ environment */
 extern "C"{
@@ -34,19 +34,19 @@ extern "C"{
  *	Get KeyCode name identification index
  *	@return
  */
-extern ELTDECLSPEC Keycode ELTAPIENTRY ExGetKeyFromName(const char* name);
+extern ELTDECLSPEC ExKeycode ELTAPIENTRY ExGetKeyFromName(const char* name);
 
 /*
  *	Get Key from Scancode
  *	@return
  */
-extern ELTDECLSPEC Keycode ELTAPIENTRY ExGetKeyFromScancode(ExScancode scancode);
+extern ELTDECLSPEC ExKeycode ELTAPIENTRY ExGetKeyFromScancode(ExScancode scancode);
 
 /*
  *	Get KeyCode name
  *	@return
  */
-extern ELTDECLSPEC const char* ELTAPIENTRY ExGetKeyName(Keycode keycode);
+extern ELTDECLSPEC const char* ELTAPIENTRY ExGetKeyName(ExKeycode keycode);
 
 /*
  *	Get Window that is keyboard is focus to
@@ -68,7 +68,7 @@ extern ELTDECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys);
 /*
  *	@return
  */
-extern ELTDECLSPEC Keycode ELTAPIENTRY ExGetModeState(void);
+extern ELTDECLSPEC ExKeycode ELTAPIENTRY ExGetModeState(void);
 
 /*
  *	Is any key pressed

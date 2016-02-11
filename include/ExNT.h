@@ -25,6 +25,7 @@
 #include <ctype.h>
 #include <stdarg.h>
 
+
 #ifndef TRUE
 #	define TRUE 1
 #endif
@@ -33,7 +34,7 @@
 #endif
 
 /*
- *	Type declaration
+ *	Type declaration	TODO check in respect to compiler.
  */
 #if defined(EX_MSVC)
 	typedef signed __int64 		Int64;
@@ -114,7 +115,7 @@ typedef Uint32 ClearFlag;
 typedef long Long;
 
 /* 64 bits [0 to 18,446,744,073,709,551,615] */
-typedef Uint8 Keycode;
+typedef Uint8 ExKeycode;
 
 /*	*/
 typedef Uint8 ExBoolean;
