@@ -32,28 +32,28 @@ typedef void* ExDevice9D;
  *	Get 3D Context
  *  @return
  */
-extern DECLSPEC HANDLE ELTAPIFASTENTRY ExGetD3DContext(void);
+extern ELTDECLSPEC ExHandle ELTAPIFASTENTRY ExGetD3DContext(void);
 
 /*
  *	Get Direct3D Context
  *   @return
  */
-extern DECLSPEC HANDLE ELTAPIFASTENTRY ExGetDirect3DContext(void);
+extern ELTDECLSPEC ExHandle ELTAPIFASTENTRY ExGetDirect3DContext(void);
 
 /*
  *    @return
  */
-extern DECLSPEC ExDevice9D ELTAPIENTRY ExCreateDirectXContext(ExWin window);
+extern ELTDECLSPEC ExDevice9D ELTAPIENTRY ExCreateDirectXContext(ExWin window);
 
 /*
  *
  */
-extern DECLSPEC void ELTAPIENTRY ExDestroyDirectXContext(ExDevice9D d3d);
+extern ELTDECLSPEC void ELTAPIENTRY ExDestroyDirectXContext(ExDevice9D d3d);
 
 /*
  *
  */
-extern DECLSPEC void ELTAPIENTRY ExDirectFullScreen(ExBoolean fullscreen);
+extern ELTDECLSPEC void ELTAPIENTRY ExDirectFullScreen(ExBoolean fullscreen);
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 }

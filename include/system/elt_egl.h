@@ -30,24 +30,32 @@ extern "C"{
  *
  *	@return
  */
-extern DECLSPEC int ELTAPIENTRY ExCreateEGLContextAttrib(ExWin window, int* attrib, unsigned int* size);
+extern ELTDECLSPEC int ELTAPIENTRY ExCreateEGLContextAttrib(ExWin window, int* attrib, unsigned int* size);
 
 /*
  *
  *	@return
  */
-extern DECLSPEC OpenGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window);
+extern ELTDECLSPEC ExEGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window);
 
 /*
  *
  *	@return
  */
-extern DECLSPEC int ELTAPIENTRY ExCreateEGLContextAttrib(ExWin window, int* attrib, unsigned int* size);
+extern ELTDECLSPEC int ELTAPIENTRY ExCreateEGLContextAttrib(ExWin window, int* attrib, unsigned int* size);
 
 /*
  *
  */
-extern DECLSPEC void ELTAPIENTRY ExDestroyEGLContext(OpenGLContext context);
+extern ELTDECLSPEC void ELTAPIENTRY ExDestroyEGLContext(ExEGLContext context);
+
+
+
+extern ELTDECLSPEC void ELTAPIENTRY ExEGLSetVSync(void);
+
+
+extern ELTDECLSPEC void ELTAPIENTRY ExSwapEGLBuffer(ExWin context);
+
 
 
 #ifdef __cplusplus	/*	C++ Environment	*/

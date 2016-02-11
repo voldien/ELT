@@ -37,46 +37,46 @@ extern "C"{
  *	Create Surface
  *	@return
  */
-extern DECLSPEC ExSurface ExCreateSurface(unsigned int width, unsigned height, unsigned int format);
+extern ELTDECLSPEC ExSurface ExCreateSurface(unsigned int width, unsigned height, unsigned int format);
 
 /*
  *	release surface.
  *	@return
  */
-extern DECLSPEC int ExDestroySurface(ExSurface handle);
+extern ELTDECLSPEC int ExDestroySurface(ExSurface handle);
 
 /*
  *
  */
-extern DECLSPEC void ExDisplaySurfaceToWindow(ExWin window,ExSurface surface);
+extern ELTDECLSPEC void ExDisplaySurfaceToWindow(ExWin window,ExSurface surface);
 
 /*
  *	resize surface handle
  */
-extern DECLSPEC int ExResizeSurface(ExSurface handle, unsigned int width, unsigned height);
+extern ELTDECLSPEC int ExResizeSurface(ExSurface handle, unsigned int width, unsigned height);
 
 /*	*/
-extern DECLSPEC int ExGetSurfaceRect(ExSurface surface, ExRect* rect);
+extern ELTDECLSPEC int ExGetSurfaceRect(ExSurface surface, ExRect* rect);
 
 /*	set surface window	*/
-extern DECLSPEC int ExSetSurfacePixel(ExSurface handle, unsigned int x, unsigned int y, unsigned long pixel);
+extern ELTDECLSPEC int ExSetSurfacePixel(ExSurface handle, unsigned int x, unsigned int y, unsigned long pixel);
 
 
 
 /*
  *	set fill color..
  */
-extern DECLSPEC void ExFillRect(ExSurface handle, ExRect* rect, Uint32 color);
+extern ELTDECLSPEC void ExFillRect(ExSurface handle, ExRect* rect, Uint32 color);
 
 /*
  *
  */
-extern DECLSPEC ExUnlockSurface(ExSurface surface);
+extern ELTDECLSPEC ExUnlockSurface(ExSurface surface);
 
 /*
  *
  */
-extern DECLSPEC ExLockSurface(ExSurface surface);
+extern ELTDECLSPEC ExLockSurface(ExSurface surface);
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 }

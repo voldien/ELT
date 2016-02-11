@@ -29,36 +29,36 @@ extern "C"{
  *	\engineflag
  *	@return
  */
-extern DECLSPEC ERESULT ELTAPIENTRY ExInit(Uint32 engineFlag);/*TODO perhaps add argc,argv*/
+extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInit(Uint32 engineFlag);/*TODO perhaps add argc,argv*/
 
 /*
  *	Initialize specific subsystems
  *	\engineflag
  *	@return
  */
-extern DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineFlag);
+extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineFlag);
 
 /*
  *	Shut Down Function ELT.
  */
-extern DECLSPEC void ELTAPIENTRY ExShutDown(void);
+extern ELTDECLSPEC void ELTAPIENTRY ExShutDown(void);
 #define ExQuit ExShutDown
 
 /*
  *	Quit Sub System
  *	\engineflag
  */
-extern DECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag);
+extern ELTDECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag);
 
 /*
  *	Enable.
  */
-extern DECLSPEC void ELTAPIENTRY ExEnable(Enum enable);
+extern ELTDECLSPEC void ELTAPIENTRY ExEnable(Enum enable);
 
 /*
  *	Disable.
  */
-extern DECLSPEC void ELTAPIENTRY ExDisable(Enum disable);
+extern ELTDECLSPEC void ELTAPIENTRY ExDisable(Enum disable);
 
 
 /*
@@ -66,20 +66,20 @@ extern DECLSPEC void ELTAPIENTRY ExDisable(Enum disable);
  *	TODO put ExCreateInterrupt somewhere else!
  *	@return
  */
-extern DECLSPEC int ELTAPIENTRY ExCreateInterrupt(interrupt_routine callback, Uint32 type);
+extern ELTDECLSPEC int ELTAPIENTRY ExCreateInterrupt(interrupt_routine callback, Uint32 type);
 
 
 /*
  *	Get ELT Version.
  *	@return
  */
-extern DECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void);
+extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void);
 
 /*
  *	Get compiler compiled with ELT.
  *	@return
  */
-extern DECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void);
+extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void);
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 }

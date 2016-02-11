@@ -13,7 +13,7 @@ static int surface_bits_per_pixel(unsigned int format){
 }
 
 
-DECLSPEC void* ExCreateSurface(unsigned int width, unsigned height, unsigned int format){
+ELTDECLSPEC void* ExCreateSurface(unsigned int width, unsigned height, unsigned int format){
     XImage* image;
     char* buffer;
 
@@ -47,11 +47,11 @@ DECLSPEC void* ExCreateSurface(unsigned int width, unsigned height, unsigned int
     return image;
 }
 
-DECLSPEC int ExDestroySurface(void* handle){
+ELTDECLSPEC int ExDestroySurface(void* handle){
     return XDestroyImage((XImage*)handle);
 }
 
-DECLSPEC void ExDisplaySurfaceToWindow(ExWin window,ExSurface surface){
+ELTDECLSPEC void ExDisplaySurfaceToWindow(ExWin window,ExSurface surface){
 	ExRect rect;
 	GC gc;
 
@@ -67,7 +67,7 @@ DECLSPEC void ExDisplaySurfaceToWindow(ExWin window,ExSurface surface){
     XPutImage(display, window, gc,surface , 0,0,0,0,rect.width,rect.height);
 }
 
-DECLSPEC int ExResizeSurface(ExSurface surface, unsigned int width, unsigned height){
+ELTDECLSPEC int ExResizeSurface(ExSurface surface, unsigned int width, unsigned height){
 	((XImage*)surface)->data = realloc( ((XImage*)surface)->data,width * height * ((XImage*)surface)->bitmap_pad);
 	if( ((XImage*)surface)->data){
 		((XImage*)surface)->width = width;
@@ -78,7 +78,7 @@ DECLSPEC int ExResizeSurface(ExSurface surface, unsigned int width, unsigned hei
 }
 
 
-DECLSPEC int ExGetSurfaceRect(ExSurface surface, ExRect* rect){
+ELTDECLSPEC int ExGetSurfaceRect(ExSurface surface, ExRect* rect){
 	if(!rect)
 		return 0;
 
@@ -90,11 +90,11 @@ DECLSPEC int ExGetSurfaceRect(ExSurface surface, ExRect* rect){
 }
 
 
-DECLSPEC int ExSetSurfacePixel(void* surface, unsigned int x, unsigned int y, unsigned long pixel){
+ELTDECLSPEC int ExSetSurfacePixel(void* surface, unsigned int x, unsigned int y, unsigned long pixel){
     return XPutPixel((XImage*)surface, x,y, pixel);
 }
 
-DECLSPEC void ExFillRect(ExSurface surface, ExRect* rect, unsigned int color){
+ELTDECLSPEC void ExFillRect(ExSurface surface, ExRect* rect, unsigned int color){
 	GC gc;
 	ExRect mrect;
 	if(!rect){

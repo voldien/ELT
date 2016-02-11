@@ -129,17 +129,20 @@ typedef int ExAtom;
  */
 typedef long ERESULT;
 
-#ifndef EX_WIN32
-	typedef void* ExHandle;
-	typedef void* HANDLE;
-	//EX_DECLARE_HANDLE(HANDLE);
+
+#ifdef EX_MSVC
+	#define EX_DECLARE_HANDLE(name) struct name##__{int unused;}; typedef struct name##__ *name
+#else
+	#define EX_DECLARE_HANDLE(name) typedef struct name##__ { int unused; } *name
 #endif
-#define ELT_DECLARE_HANDLE(name) typedef struct name##__ { int unused; } *name
-ELT_DECLARE_HANDLE(EXHANDLE);
+EX_DECLARE_HANDLE(ExHandle);
+
+
 
 /*
  *	ELT Character data type.
  */
+typedef wchar_t ExWide;
 #ifdef EX_UNICODE
 	typedef wchar_t ExChar;
 	#define EX_STR_LEN wcslen	/*	length of character of ExChar	*/
@@ -148,18 +151,14 @@ ELT_DECLARE_HANDLE(EXHANDLE);
 	#define EX_STR_LEN strlen	/*	length of character of ExChar	*/
 #endif
 
-typedef wchar_t ExWide;
 
-// TODO change location later on!!
-/*
-	// window platform...
-*/
 
 typedef union floatUnion{
 	float fv;
 	Uint32 uv;
 	Uint8 ub[4];
-} FloatUnion,UintUnion;
+}FloatUnion, UintUnion;
+
 typedef union doubleUnion{
 	double Ddata;
 	Uint64 Uldata;
@@ -170,8 +169,8 @@ typedef union doubleUnion{
 /*
  *	16 bits high and low value
  */
-#define EX_MAKEHIWORD(a,b)   {a = ( ( a ) | (( ( b ) << 8) & 0xff00));}
-#define EX_MAKELOWORD(a,b)	  {a = ( ( a )  | ( ( b ) & 0x00ff));}
+#define EX_MAKEHIWORD(a,b)	{a = ( ( a ) | (( ( b ) << 8) & 0xff00));}
+#define EX_MAKELOWORD(a,b)	{a = ( ( a )  | ( ( b ) & 0x00ff));}
 
 /*
  *	32 bits
@@ -185,13 +184,6 @@ typedef union doubleUnion{
 #define EX_MAKEHIQWORD(a,b)	{a = ( ( a ) | (( ( b ) << 32) & 0xffffffff00000000));}
 #define EX_MAKELOQWORD(a,b) {a = ( ( a ) | ( ( b ) & 0xffffffff00000000));}
 
-/*
- *	128 bits high and low value
- */
-#define MAKEHIDQWORD(a,b)
-#define MAKELODQWORD(a,b)
-
-
 #define EX_MAKELONG(a, b)      ((long)(((Uint16)(((Uint32)(a)) & 0xffff)) | ((Uint32)((Uint16)(((Uint32)(b)) & 0xffff))) << 16))
 
 
@@ -200,26 +192,21 @@ typedef union doubleUnion{
 #define EX_LOBYTE(w)        ((Uint8)(((Uint16)(w)) & 0xff))
 #define EX_HIBYTE(w)        ((Uint8)((((Uint16)(w)) >> 8) & 0xff))
 
+
 /*
 #define EX_LOQWORD(q)			((QWORD)(((DWORD_PTR)(l)) & 0xffffffff))
 #define EX_HIQWORD(q)			((QWORD)((((DWORD_PTR)(l)) >> 32) & 0xffffffff))
 */
 
-#ifdef EX_MSVC
-	#define EX_DECLARE_HANDLE(name) struct name##__{int unused;}; typedef struct name##__ *name
-#else
-	#define EX_DECLARE_HANDLE(name) struct name##__{int unused;}; typedef struct name##__ *name
-#endif
+
 
 /*
  *	platform specific type.
 */
 typedef void* ExWin;
-typedef void* OpenGLContext;
 typedef void* ExOpenGLContext;
-typedef void* OpenCLContext;
 typedef void* ExOpenCLContext;
-typedef void* WindowContext;
+typedef void* ExEGLContext;
 typedef void* ExWindowContext;
 typedef void* ExAudioContext;
 

@@ -77,7 +77,7 @@ extern "C"{
  *	Initialize Error Handler
  *	@return
  */
-extern DECLSPEC int ELTAPIENTRY ExInitErrorHandler(void);
+extern ELTDECLSPEC int ELTAPIENTRY ExInitErrorHandler(void);
 
 
 /*
@@ -85,60 +85,60 @@ extern DECLSPEC int ELTAPIENTRY ExInitErrorHandler(void);
  *	application will terminate with error failure message.
  *	printout of error messages.
  */
-extern DECLSPEC void ELTAPIENTRY ExError(const ExChar* error,...);
+extern ELTDECLSPEC void ELTAPIENTRY ExError(const ExChar* error,...);
 
 /*
  *	Error with argument of how the error will be treated
  */
-extern DECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...);
+extern ELTDECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...);
 
 /*
  *	Get Error
  *	@return
  */
-extern DECLSPEC ERESULT ELTAPIFASTENTRY ExGetError(void);
+extern ELTDECLSPEC ERESULT ELTAPIFASTENTRY ExGetError(void);
 
 /*
  *	Set Error
  */
-extern DECLSPEC void ELTAPIFASTENTRY ExSetError(ERESULT error);
+extern ELTDECLSPEC void ELTAPIFASTENTRY ExSetError(ERESULT error);
 
 /*
  *	Clear Errors.
  */
-extern DECLSPEC void ELTAPIFASTENTRY ExClearError(void);
+extern ELTDECLSPEC void ELTAPIFASTENTRY ExClearError(void);
 
 /*
  *	Get ELT Error String.
  *	@return
  */
-extern DECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode);
+extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode);
 
 
 /*
  *	Get Error Code In Character out of Error.
  */
-extern DECLSPEC ExChar* ELTAPIENTRY ExGetErrorMessageW(ULong dw);
+extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetErrorMessageW(ULong dw);
 
 /*
  *	Get Error Code In Character out of HRESULT.
  */
-extern DECLSPEC ExChar* ELTAPIENTRY ExGetHResultErrorMessageW(ERESULT hresult);
+extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetHResultErrorMessageW(ERESULT hresult);
 
 /*
  *	Get Error Code Of HModule
  */
-extern DECLSPEC ExChar* ELTAPIENTRY ExGetHModuleErrorMessageW(ERESULT dw);
+extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetHModuleErrorMessageW(ERESULT dw);
 
 /*
  *	Signal Catch.
  */
-extern DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal);
+extern ELTDECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal);
 
 /*
  *	Set Signal callback.
  */
-extern DECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal, singalcallback signal_callback);
+extern ELTDECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal, singalcallback signal_callback);
 
 
 /*

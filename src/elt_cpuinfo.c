@@ -90,7 +90,7 @@
 
 
 
-DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
+ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
 #ifdef EX_WINDOWS
 	ExChar cpu_name[0xff];
 	ExGetRegValuec(HKEY_LOCAL_MACHINE,EX_TEXT("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0\\"),EX_TEXT("ProcessorNameString"),cpu_name);
@@ -166,26 +166,26 @@ DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
 #endif
 }
 
-DECLSPEC ExBoolean ELTAPIENTRY ExHasAVX(void){
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasAVX(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,0x1);
 	return (cpuInfo[2] >> 28) &  0x1;
 }
 
-DECLSPEC ExBoolean ELTAPIENTRY ExHasAVX2(void){
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasAVX2(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	return 0;
 }
 
-DECLSPEC ExBoolean ELTAPIENTRY ExHas3DNow(void){
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExHas3DNow(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,0x80000001);
 	if((cpuInfo[3] >> 30) & 0x1)return TRUE;
 	else return FALSE;
 }
 
-DECLSPEC ExBoolean ELTAPIENTRY ExHasMMX(void){
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasMMX(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	if((cpuInfo[3] >> 23) & 0x1)
@@ -195,7 +195,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExHasMMX(void){
 }
 
 
-DECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void){
+ELTDECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void){
 #ifdef EX_WINDOWS
 	SYSTEM_INFO info;
 	GetSystemInfo(&info);
@@ -217,7 +217,7 @@ DECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void){
 #endif
 }
 
-DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE(void){
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	if((cpuInfo[3] >> 25) & 0x1)
@@ -226,7 +226,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE(void){
 		return FALSE;
 }
 
-DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE2(void){
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE2(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	if((cpuInfo[3] >> 26) & 0x1)
@@ -235,7 +235,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE2(void){
 		return FALSE;
 }
 
-DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE3(void){
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE3(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	if((cpuInfo[2] >> 9) & 0x1)
@@ -244,7 +244,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE3(void){
 		return FALSE;
 }
 
-DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE41(void){
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE41(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	if((cpuInfo[2] >> 19) & 0x1)
@@ -253,7 +253,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE41(void){
 		return FALSE;
 }
 
-DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void){
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	if((cpuInfo[2] >> 20) & 0x1)
@@ -263,7 +263,7 @@ DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void){
 }
 
 
-DECLSPEC ExBoolean ELTAPIENTRY ExHasNeon(void){
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasNeon(void){
 	return FALSE;
 }
 

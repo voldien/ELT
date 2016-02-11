@@ -44,7 +44,7 @@ extern ExDisplay display;
  *	Get ELT Window default Title!
  *	@return
  */
-extern DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, Int32 length);
+extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, Int32 length);
 
 /*
  *	Create Window
@@ -55,39 +55,39 @@ extern DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, Int32 
  *	\flag : window type
  *	@return window handle
  */
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height, Enum flag);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height, Enum flag);
 
 /*
  *	Show window
  *	\window window handle
  */
-extern DECLSPEC void ELTAPIENTRY ExShowWindow(ExWin window);
+extern ELTDECLSPEC void ELTAPIENTRY ExShowWindow(ExWin window);
 
 /*
  *	Hide Window
  *	\window Window handle
  */
-extern DECLSPEC void ELTAPIENTRY ExHideWindow(ExWin window);
+extern ELTDECLSPEC void ELTAPIENTRY ExHideWindow(ExWin window);
 
 /*
  *
  */
-extern DECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin window);
+extern ELTDECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin window);
 
 /*
  *
  */
-extern DECLSPEC void ELTAPIENTRY ExMaximizeWindow(ExWin window);
+extern ELTDECLSPEC void ELTAPIENTRY ExMaximizeWindow(ExWin window);
 
 /*
  *
  */
-extern DECLSPEC void ELTAPIENTRY ExMinimizeWindow(ExWin window);
+extern ELTDECLSPEC void ELTAPIENTRY ExMinimizeWindow(ExWin window);
 
 /*
  *	Set window mode
  */
-extern DECLSPEC void ELTAPIENTRY ExSetWindowMode(ExWin window, Enum mode);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowMode(ExWin window, Enum mode);
 
 
 
@@ -95,7 +95,7 @@ extern DECLSPEC void ELTAPIENTRY ExSetWindowMode(ExWin window, Enum mode);
  *	Destroy Window
  *	@return
  */
-extern DECLSPEC ExBoolean ELTAPIENTRY ExDestroyWindow(ExWin window);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExDestroyWindow(ExWin window);
 
 /*
  *	Set Window Title
@@ -103,7 +103,7 @@ extern DECLSPEC ExBoolean ELTAPIENTRY ExDestroyWindow(ExWin window);
  *	\title window title
  *	@return
  */
-extern DECLSPEC void ELTAPIENTRY ExSetWindowTitle(ExWin window, const ExChar* title);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowTitle(ExWin window, const ExChar* title);
 
 /*
  *	Get Windows Title
@@ -111,7 +111,7 @@ extern DECLSPEC void ELTAPIENTRY ExSetWindowTitle(ExWin window, const ExChar* ti
  *	\title
  *	@return
  */
-extern DECLSPEC ExChar* ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title);
+extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title);
 
 /*
  *	Set Windows Position
@@ -119,147 +119,147 @@ extern DECLSPEC ExChar* ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title
  *	\x
  *	\y
  */
-extern DECLSPEC void ELTAPIENTRY ExSetWindowPos(ExWin window, Int32 x, Int32 y);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowPos(ExWin window, Int32 x, Int32 y);
 
 /*
  *	Set Windows Position
  */
-extern DECLSPEC void ELTAPIENTRY ExSetWindowPosv(ExWin window, const Int32* position);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowPosv(ExWin window, const Int32* position);
 
 /*
  *
  */
-extern DECLSPEC void ELTAPIENTRY ExGetWindowPosv(ExWin window, Int32* position);
+extern ELTDECLSPEC void ELTAPIENTRY ExGetWindowPosv(ExWin window, Int32* position);
 
 /*
  *	Set Window size
  */
-extern DECLSPEC void ELTAPIENTRY ExSetWindowSize(ExWin window,Int32 width, Int32 height);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowSize(ExWin window,Int32 width, Int32 height);
 
 /*
  *	Set Window Size
  */
-extern DECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window, const ExSize* size);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window, const ExSize* size);
 
 /*
  *   Get Window Size
  */
-extern DECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, ExSize* size);
+extern ELTDECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, ExSize* size);
 
 /*
  *	Set Window Rect
  */
-extern DECLSPEC void ELTAPIENTRY ExSetWindowRect(ExWin window, const ExRect* rect);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowRect(ExWin window, const ExRect* rect);
 
 /*
  *	Get Window Rect
  */
-extern DECLSPEC void ELTAPIENTRY ExGetWindowRect(ExWin window, ExRect* rect);
+extern ELTDECLSPEC void ELTAPIENTRY ExGetWindowRect(ExWin window, ExRect* rect);
 
 /*
  *	Get Window mode
- *	@return
+ *	@Return
  */
-extern DECLSPEC Uint32 ELTAPIENTRY ExGetWindowFlag(ExWin window);
+extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetWindowFlag(ExWin window);
 
 /*
  *	Set Window Flag
  */
-extern DECLSPEC void ELTAPIENTRY ExSetWindowFlag(ExWin window, Enum flag);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowFlag(ExWin window, Enum flag);
 
 /*
  *
  */
-extern DECLSPEC void ELTAPIENTRY ExSetWindowFlagv(ExWin window, Enum flag, Int32 value);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowFlagv(ExWin window, Enum flag, Int32 value);
 
 /*
  *	Assign Icon Handle onto window
- *	@return
+ *	@Return
  */
-extern DECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, HANDLE hIcon);
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, ExHandle hIcon);
 
 /*
  *	Get Window Icon Handle
- *	@return
+ *	@Return
  */
-extern DECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window);
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window);
 
 /*
  *
- *	@return
+ *	@Return
  */
-extern DECLSPEC Int32 ELTAPIENTRY ExSetWindowFullScreen(ExWin window, ExBoolean flag);
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExSetWindowFullScreen(ExWin window, ExBoolean flag);
 
 /*
  *	Get user-data associated with window handle.
- *	@return
+ *	@Return
  */
-extern DECLSPEC HANDLE ELTAPIENTRY ExGetWindowUserData(ExWin window);
+extern ELTDECLSPEC ExHandle ELTAPIENTRY ExGetWindowUserData(ExWin window);
 
 /*
  *	Set user-data associated with window handle.
  */
-extern DECLSPEC void ELTAPIENTRY ExSetWindowUserData(ExWin window, HANDLE userdata);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowUserData(ExWin window, ExHandle userdata);
 
 /*
  *
  *	@return
  */
-extern DECLSPEC Int32 ELTAPIENTRY ExSetWindowParent(ExWin parent,ExWin window);
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExSetWindowParent(ExWin parent,ExWin window);
 
 /*
  *
  *	@return
  */
-extern DECLSPEC ExWin ELTAPIENTRY ExGetWindowParent(ExWin window);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetWindowParent(ExWin window);
 
 /*
  *
  *	@return
  */
-extern DECLSPEC Int32 ELTAPIENTRY ExSetWindowChild(ExWin window, ExWin child);
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExSetWindowChild(ExWin window, ExWin child);
 
 /*
  *
  *	@return
  */
-extern DECLSPEC ExWin ELTAPIENTRY ExGetWindowChild(ExWin window, Uint32 index);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetWindowChild(ExWin window, Uint32 index);
 
 /*
  *	Get number of window children.
  *	@return
  */
-extern DECLSPEC Int32 ELTAPIENTRY ExGetWindowNumChildren(ExWin window);
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetWindowNumChildren(ExWin window);
 
 /*
  *	Get desktop window handle.
  *	@return
  */
-extern DECLSPEC ExWin ELTAPIENTRY ExGetDesktopWindow(void);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetDesktopWindow(void);
 
 
 /*
  *
  *	@return
  */
-extern DECLSPEC int ELTAPIENTRY ExMessageBox(ExWin window, const ExChar* text, const ExChar* title, unsigned int flags );
+extern ELTDECLSPEC int ELTAPIENTRY ExMessageBox(ExWin window, const ExChar* text, const ExChar* title, unsigned int flags );
 
 
 /*
  *
  */
-extern DECLSPEC int ELTAPIENTRY ExGetDisplayDPI(int displayIndex, float* ddpi, float* hdpi, float* vdpi);
+extern ELTDECLSPEC int ELTAPIENTRY ExGetDisplayDPI(int displayIndex, float* ddpi, float* hdpi, float* vdpi);
 
 /*
  *
  */
-extern DECLSPEC Int32 ELTAPIENTRY ExIsScreenSaverEnable(void);
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExIsScreenSaverEnable(void);
 
 /**/
-extern DECLSPEC int ExEnableScreenSaver(void);
+extern ELTDECLSPEC int ExEnableScreenSaver(void);
 
 /**/
-extern DECLSPEC int ExDisableScreenSaver(void);
+extern ELTDECLSPEC int ExDisableScreenSaver(void);
 
 
 #ifdef  __cplusplus	/** C++ Environment */

@@ -35,57 +35,58 @@ extern "C"{
  *	Number of joystick
  *	@return
  */
-extern DECLSPEC Uint32 ELTAPIENTRY ExJoysticksNum(void);
+extern ELTDECLSPEC Uint32 ELTAPIENTRY ExJoysticksNum(void);
 
 /*
  *	Open joystick by device index
  *	@return
 */
-extern DECLSPEC HANDLE ELTAPIENTRY ExJoystickOpen(Int32 index);
+extern ELTDECLSPEC ExHandle ELTAPIENTRY ExJoystickOpen(Int32 index);
+
 /*
  *   Close Joystick by device index
  *	@return
 */
-extern DECLSPEC Int32 ELTAPIENTRY ExJoyStickClose(Int32 index);
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExJoyStickClose(Int32 index);
 
 /*
  *	Get Joystick Device GUID
  *	@return
  */
-extern DECLSPEC ExGUID ELTAPIENTRY ExJoystickGetDeviceGUID(Int32 index);
+extern ELTDECLSPEC ExGUID ELTAPIENTRY ExJoystickGetDeviceGUID(Int32 index);
 
 /*
  *	Get Joystick name
  *	@return
 */
-extern DECLSPEC const ExChar* ELTAPIENTRY ExJoyStickName(Uint32 ptr);
+extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExJoyStickName(Uint32 ptr);
 
 /*
  *	Get number of buttons on a joystick
  *	@return
 */
-extern DECLSPEC Int32 ELTAPIENTRY ExJoystickNumButtons(Uint32 ptr);
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExJoystickNumButtons(Uint32 ptr);
 
 /*
  *	Axis Get number of axis on joystick
  *	@return
  */
-extern DECLSPEC Int32 ELTAPIENTRY ExJoystickNumAxis(Int ptr);
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExJoystickNumAxis(Int ptr);
 
 /*
  *
  */
-extern DECLSPEC Int16 ELTAPIENTRY ExJoystickGetAxis(Int32 device_ptr,int axis);
+extern ELTDECLSPEC Int16 ELTAPIENTRY ExJoystickGetAxis(Int32 device_ptr,int axis);
 
 /*
  *   \Button
  */
-extern DECLSPEC Uint8 ELTAPIENTRY ExJoyStickGetButton(Int32 device_index, int button);
+extern ELTDECLSPEC Uint8 ELTAPIENTRY ExJoyStickGetButton(Int32 device_index, int button);
 
 /*
  *
  */
-extern DECLSPEC void ELTAPIENTRY ExSetJoyStickState(Enum bitFlag, Uint32 userIndex);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetJoyStickState(Enum bitFlag, Uint32 userIndex);
 
 #ifdef __cplusplus /* C++ environment */
 };

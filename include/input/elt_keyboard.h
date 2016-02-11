@@ -34,69 +34,69 @@ extern "C"{
  *	Get KeyCode name identification index
  *	@return
  */
-extern DECLSPEC Keycode ELTAPIENTRY ExGetKeyFromName(const char* name);
+extern ELTDECLSPEC Keycode ELTAPIENTRY ExGetKeyFromName(const char* name);
 
 /*
  *	Get Key from Scancode
  *	@return
  */
-extern DECLSPEC Keycode ELTAPIENTRY ExGetKeyFromScancode(ExScancode scancode);
+extern ELTDECLSPEC Keycode ELTAPIENTRY ExGetKeyFromScancode(ExScancode scancode);
 
 /*
  *	Get KeyCode name
  *	@return
  */
-extern DECLSPEC const char* ELTAPIENTRY ExGetKeyName(Keycode keycode);
+extern ELTDECLSPEC const char* ELTAPIENTRY ExGetKeyName(Keycode keycode);
 
 /*
  *	Get Window that is keyboard is focus to
  *	@return
  */
-extern DECLSPEC ExWin ELTAPIENTRY ExGetKeyboardFocus(void);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetKeyboardFocus(void);
 
 /*
  *
  */
-extern DECLSPEC void ELTAPIENTRY ExSetKeyboardFocus(ExWin window);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetKeyboardFocus(ExWin window);
 
 /*
  *	Get keyboard state.
  *	@return
  */
-extern DECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys);
+extern ELTDECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys);
 
 /*
  *	@return
  */
-extern DECLSPEC Keycode ELTAPIENTRY ExGetModeState(void);
+extern ELTDECLSPEC Keycode ELTAPIENTRY ExGetModeState(void);
 
 /*
  *	Is any key pressed
  *	@return
  */
-extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKey(void);
+extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKey(void);
 
 /*
  *	@return
  */
-extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void);
+extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void);
 
 /*
  *	@return
  */
-extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(Uint32 keyCode);
-
-/*
- *
- *	@return
- */
-extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode);
+extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(Uint32 keyCode);
 
 /*
  *
  *	@return
  */
-extern DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyReleased(Uint32 keyCode);
+extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode);
+
+/*
+ *
+ *	@return
+ */
+extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyReleased(Uint32 keyCode);
 
 
 

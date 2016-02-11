@@ -27,7 +27,7 @@
 
 
 
-DECLSPEC ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* batch){
+ELTDECLSPEC ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* batch){
 	int x;
 	int texture[256];
 	if(!batch)
@@ -78,14 +78,17 @@ DECLSPEC ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* batch){
 	return batch;
 }
 
-DECLSPEC int ELTAPIENTRY ExReleaseSpriteBatch(ExSpriteBatch* spritebatch){
+ELTDECLSPEC int ELTAPIENTRY ExReleaseSpriteBatch(ExSpriteBatch* spritebatch){
+	int status;
 	glDeleteBuffers(1,&spritebatch->vbo);
 	ExDeleteShaderProgram(&spritebatch->shader);
 	free(spritebatch->sprite);
-	return 	!glIsBuffer(spritebatch->vbo);
+	status = !glIsBuffer(spritebatch->vbo);
+	memset(spritebatch, 0, sizeof(*spritebatch));
+	return status;
 }
 
-DECLSPEC int ELTAPIENTRY ExBeginSpriteBatch(ExSpriteBatch* spriteBatch,float* camerapos, float scale){
+ELTDECLSPEC int ELTAPIENTRY ExBeginSpriteBatch(ExSpriteBatch* spriteBatch,float* camerapos, float scale){
 	int i;
 	int rect[4];
 	spriteBatch->numDraw = 0;
@@ -109,7 +112,7 @@ DECLSPEC int ELTAPIENTRY ExBeginSpriteBatch(ExSpriteBatch* spriteBatch,float* ca
 	return TRUE;
 }
 
-DECLSPEC int ELTAPIENTRY ExEndSpriteBatch(ExSpriteBatch* spriteBatch){
+ELTDECLSPEC int ELTAPIENTRY ExEndSpriteBatch(ExSpriteBatch* spriteBatch){
 
 	/*	send buffer	*/
 	glBindBuffer(GL_ARRAY_BUFFER,spriteBatch->vbo);
@@ -121,7 +124,7 @@ DECLSPEC int ELTAPIENTRY ExEndSpriteBatch(ExSpriteBatch* spriteBatch){
 }
 
 
-DECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* batch,ExTexture* texture,float* position,float* rect,float* color, float scale, float angle, float depth){
+ELTDECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* batch,ExTexture* texture,float* position,float* rect,float* color, float scale, float angle, float depth){
 	ExTexture* tex;
 	int i;
 	int index;
@@ -193,7 +196,7 @@ DECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* batch,ExTexture* texture,fl
 
 
 
-DECLSPEC int ELTAPIENTRY ExAddSpriteNormalized(ExSpriteBatch* batch,ExTexture* texture,float* position,float* rect,float* color, float scale, float angle, float depth){
+ELTDECLSPEC int ELTAPIENTRY ExAddSpriteNormalized(ExSpriteBatch* batch,ExTexture* texture,float* position,float* rect,float* color, float scale, float angle, float depth){
 	ExTexture* tex;
 	int i;
 	int index;
@@ -256,7 +259,7 @@ DECLSPEC int ELTAPIENTRY ExAddSpriteNormalized(ExSpriteBatch* batch,ExTexture* t
 }
 
 
-DECLSPEC int ELTAPIENTRY ExAddSprite(ExSpriteBatch* batch,ExTexture* texture,float* position,float* rect,float* color, float scale, float angle, float depth){
+ELTDECLSPEC int ELTAPIENTRY ExAddSprite(ExSpriteBatch* batch,ExTexture* texture,float* position,float* rect,float* color, float scale, float angle, float depth){
 	ExTexture* tex;
 	int i;
 	int index;
@@ -319,7 +322,7 @@ DECLSPEC int ELTAPIENTRY ExAddSprite(ExSpriteBatch* batch,ExTexture* texture,flo
 }
 
 
-DECLSPEC int ELTAPIENTRY ExRemoveSprite(ExSpriteBatch* spritebatch, int index){
+ELTDECLSPEC int ELTAPIENTRY ExRemoveSprite(ExSpriteBatch* spritebatch, int index){
 	/*	set last element in the index that going to be removed.*/
 	memcpy(&spritebatch->sprite[index],&spritebatch->sprite[spritebatch->numDraw],sizeof(ExSprite));
 	spritebatch->numDraw--;
@@ -329,7 +332,7 @@ DECLSPEC int ELTAPIENTRY ExRemoveSprite(ExSpriteBatch* spritebatch, int index){
 
 
 
-DECLSPEC inline  int ELTAPIENTRY ExDisplaySprite(ExSpriteBatch* spriteBatch){
+ELTDECLSPEC inline  int ELTAPIENTRY ExDisplaySprite(ExSpriteBatch* spriteBatch){
 	int i;
 	float matscale[3][3];
 	float rotmat[3][3];

@@ -85,6 +85,7 @@ _In_  HINSTANCE hinstDLL,
 void __attribute__ ((constructor)) my_load(void){
 
 }
+
 void __attribute__ ((destructor)) my_unload(void){
 
 }
@@ -113,9 +114,9 @@ unsigned long int engineflag = 0;
 void* xcbConnection;
 
 
-DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
+ELTDECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	ERESULT result = E_OK;
-	HANDLE hmodule;
+	ExHandle hmodule;
 	Int32 hConHandle;
 	Long lStdHandle;
 
@@ -215,9 +216,9 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 }
 
 
-DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
+ELTDECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 	ERESULT hr = 0;
-	HANDLE hmodule;
+	ExHandle hmodule;
 
 	/**/
 	engineflag = engineflag & ~ELT_DEINIT;
@@ -279,7 +280,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 }
 
 
-DECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag){
+ELTDECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag){
 
 	if(ELT_INIT_TIMER & engineflag){
         #ifdef EX_WINDOWS   // EX_WINDOWS
@@ -332,7 +333,7 @@ DECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag){
 
 
 }
-DECLSPEC void ELTAPIENTRY ExShutDown(void){
+ELTDECLSPEC void ELTAPIENTRY ExShutDown(void){
 	if(engineflag & ELT_DEINIT)
 		return;
 
@@ -424,7 +425,7 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 
 
 
-DECLSPEC void ELTAPIENTRY ExEnable(Enum enable){
+ELTDECLSPEC void ELTAPIENTRY ExEnable(Enum enable){
 #ifdef EX_WINDOWS
 #endif
 	switch(enable){
@@ -449,7 +450,7 @@ DECLSPEC void ELTAPIENTRY ExEnable(Enum enable){
 	}
 }
 
-DECLSPEC void ELTAPIENTRY ExDisable(Enum disable){
+ELTDECLSPEC void ELTAPIENTRY ExDisable(Enum disable){
 #ifdef EX_WINDOWS
 #endif
 	switch(disable){
@@ -474,10 +475,10 @@ DECLSPEC void ELTAPIENTRY ExDisable(Enum disable){
 
 
 #define EX_COMPILER_VERSION(major, minor, revision) EX_TEXT("ELT-")STR(major)EX_TEXT(".")STR(minor)EX_TEXT(".")STR(revision)
-DECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void){
+ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void){
 	return EX_COMPILER_VERSION(EX_VERSION_MAJOR, EX_VERSION_MINOR, EX_VERSION_REVISION);
 }
 
-DECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void){
+ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void){
     return EX_TEXT(EX_COMPILER_NAME);
 }

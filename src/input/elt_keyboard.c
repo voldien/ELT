@@ -257,7 +257,7 @@ static inline int ExGetKeyCodeInternal(Uint32 keyCode){
 
 
 
-DECLSPEC Keycode ELTAPIENTRY ExGetKeyFromName(const char* name){
+ELTDECLSPEC Keycode ELTAPIENTRY ExGetKeyFromName(const char* name){
 #if defined(EX_WINDOWS)
 	switch(name[0]){
 	case ' ':return 0;
@@ -268,7 +268,7 @@ DECLSPEC Keycode ELTAPIENTRY ExGetKeyFromName(const char* name){
 #endif
 }
 
-DECLSPEC const char* ELTAPIENTRY ExGetKeyName(Keycode keycode){
+ELTDECLSPEC const char* ELTAPIENTRY ExGetKeyName(Keycode keycode){
 #ifdef EX_WINDOWS
 	char text[20];
 	GetKeyNameTextA((keycode << 16),text,sizeof(text));
@@ -279,7 +279,7 @@ DECLSPEC const char* ELTAPIENTRY ExGetKeyName(Keycode keycode){
 
 }
 
-DECLSPEC ExWin ELTAPIENTRY ExGetKeyboardFocus(void){
+ELTDECLSPEC ExWin ELTAPIENTRY ExGetKeyboardFocus(void){
 #ifdef EX_WINDOWS
 	return GetFocus();
 #elif defined(EX_LINUX)
@@ -294,14 +294,14 @@ DECLSPEC ExWin ELTAPIENTRY ExGetKeyboardFocus(void){
 #endif
 }
 
-DECLSPEC void ELTAPIENTRY ExSetKeyboardFocus(ExWin window){
+ELTDECLSPEC void ELTAPIENTRY ExSetKeyboardFocus(ExWin window){
 #ifdef EX_LINUX
 	XSetInputFocus(display,window,RevertToParent,CurrentTime);
 #endif
 }
 
 
-DECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys){
+ELTDECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys){
 #ifdef EX_WINDOWS
 	if(numkeys)*numkeys=0xff;
 	unsigned char ispressed = GetKeyboardState(&KeyBoardState[0][0]);
@@ -320,25 +320,25 @@ DECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys){
 /**
 
 */
-DECLSPEC Keycode ELTAPIENTRY ExGetModeState(void){
+ELTDECLSPEC Keycode ELTAPIENTRY ExGetModeState(void){
 #ifdef EX_WINDOWS
 	return 0;
 #elif defined(EX_LINUX)
-    return XGrabKey(display,AnyKey, ControlMask | ShiftMask,ExGetKeyboardFocus(), True, GrabModeAsync,GrabModeSync);
+    return XGrabKey(display,AnyKey, ControlMask | ShiftMask, ExGetKeyboardFocus(), True, GrabModeAsync, GrabModeSync);
 #endif
 }
 
-DECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKey(void){
+ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKey(void){
 
 	return FALSE;
 }
-DECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void){
+ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void){
 
 	return FALSE;
 }
 
 
-DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(Uint32 keyCode){
+ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(Uint32 keyCode){
 #if defined(EX_WINDOWS)
 	return (ExBoolean)GetAsyncKeyState(keyCode);
 #elif defined(EX_LINUX)
@@ -351,7 +351,7 @@ DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(Uint32 keyCode){
 	extern xcb_connection_t* xcbConnection;
 #endif
 
-DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode){
+ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode){
 #if defined(EX_WINDOWS)
 	return (ExBoolean)GetAsyncKeyState(keyCode);
 #elif defined(EX_LINUX)
@@ -377,7 +377,7 @@ DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode){
 #endif
 }
 
-DECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyUp(Uint32 keyCode){
+ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyUp(Uint32 keyCode){
 #if defined(EX_WINDOWS)
 	return GetAsyncKeyState(keyCode);
 #elif defined(EX_LINUX)

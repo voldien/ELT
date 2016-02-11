@@ -108,7 +108,7 @@ all: $(TARGET)
 
 
 
-$(TARGET) : CFLAGS += -O3
+$(TARGET) : CFLAGS += -O3 -msse -msse2
 $(TARGET) : $(objects)  $(notdir $(subst .c,.o, $(wildcard src/system/unix/*.c) ) ) 
 	$(MKDIR) build
 	$(CC) $(CFLAGS) -shared $^ -o build/$@  $(CLIBS)

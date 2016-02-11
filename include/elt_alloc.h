@@ -26,22 +26,22 @@ extern "C"{
 
 /*
  *	Get Page size.
- *  @return number of bytes per page.
+ *	@Return number of bytes per page.
  */
-extern DECLSPEC int ELTAPIENTRY ExGetPageSize(void);
+extern ELTDECLSPEC int ELTAPIENTRY ExGetPageSize(void);
 
 
 /*
  *	Get total system memory on the system.
- *	@return
+ *	@Return
  */
-extern DECLSPEC Uint64 ELTAPIENTRY ExGetTotalSystemMemory(void);
+extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalSystemMemory(void);
 
 /*
  *	Get total virtual memory on the system.
- *	@return
+ *	@Return
  */
-extern DECLSPEC Uint64 ELTAPIENTRY ExGetTotalVirtualMemory(void);
+extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalVirtualMemory(void);
 
 
 
@@ -55,30 +55,34 @@ typedef struct ex_pool_allocator{
 
 /*
  *	Poll allocator
+ *	@Return
  */
-extern DECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolCreate(unsigned int num, unsigned int itemsize);
+extern ELTDECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolCreate(unsigned int num, unsigned int itemsize);
 
 /*
  *	obtain next item
  *	If return value is null, then the allocator
  *	is full
+ *	@Return
  */
-extern DECLSPEC void* ELTAPIENTRY ExPoolObtain(ExPoolAllocator* allactor);
+extern ELTDECLSPEC void* ELTAPIENTRY ExPoolObtain(ExPoolAllocator* allactor);
+
+/*
+ *
+ *	@Return
+ */
+extern ELTDECLSPEC void* ELTAPIENTRY ExPoolReturn(ExPoolAllocator* allactor, void* data, unsigned int len);
+
+/*
+ *
+ *	@Return
+ */
+extern ELTDECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolResize(ExPoolAllocator* allcotor, unsigned num, unsigned int itemsize);
 
 /*
  *
  */
-extern DECLSPEC void* ELTAPIENTRY ExPoolReturn(ExPoolAllocator* allactor, void* data, unsigned int len);
-
-/*
- *
- */
-extern DECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolResize(ExPoolAllocator* allcotor, unsigned num, unsigned int itemsize);
-
-/*
- *
- */
-extern DECLSPEC void  ELTAPIENTRY ExPoolFree(ExPoolAllocator* allactor);
+extern ELTDECLSPEC void  ELTAPIENTRY ExPoolFree(ExPoolAllocator* allactor);
 
 #define ExPoolIndex(alloc,index,len)	( ( alloc ) + (( index ) * ( len )  + ( index )) )
 #define ExPoolDataIndex(alloc,data,len)	((data - alloc)

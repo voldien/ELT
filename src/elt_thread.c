@@ -24,7 +24,7 @@
 //http://pubs.opengroup.org/onlinepubs/7908799/xsh/pthread.h.html
 
 
-DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpParamater,Uint32* pid){
+ELTDECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback, void* lpParamater, Uint32* pid){
 #ifdef EX_WINDOWS
 	DWORD p_id;
 	HANDLE t0;
@@ -55,7 +55,7 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpPar
 }
 
 
-DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback, HANDLE lpParamater, Uint32* pid, Int32 ncore){
+ELTDECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback, ExHandle lpParamater, Uint32* pid, Int32 ncore){
 #if defined(EX_WINDOWS)
 	DWORD p_id;
 	HANDLE t0;
@@ -97,7 +97,7 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback, HA
 
 }
 
-DECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread){
+ELTDECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread){
 #ifdef EX_WINDOWS
 	return TerminateThread(thread,0);
 #elif defined(EX_UNIX)
@@ -109,7 +109,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread){
 #endif
 }
 
-DECLSPEC void ELTAPIENTRY ExTerminateThread(ExThread thread){
+ELTDECLSPEC void ELTAPIENTRY ExTerminateThread(ExThread thread){
 #ifdef EX_UNIX
 	#ifdef EX_ANDROID
 	//pthread_ cancel(thread);
@@ -121,7 +121,7 @@ DECLSPEC void ELTAPIENTRY ExTerminateThread(ExThread thread){
 }
 
 
-DECLSPEC ERESULT ELTAPIENTRY ExExitThread(ExThread thread){
+ELTDECLSPEC ERESULT ELTAPIENTRY ExExitThread(ExThread thread){
 #ifdef EX_WINDOWS
 	return TerminateThread(thread,NULL);
 #elif defined(EX_UNIX)
@@ -130,36 +130,36 @@ DECLSPEC ERESULT ELTAPIENTRY ExExitThread(ExThread thread){
 }
 
 
-DECLSPEC void ELTAPIENTRY ExLockThread(ExThread thread){
+ELTDECLSPEC void ELTAPIENTRY ExLockThread(ExThread thread){
 #ifdef EX_UNIX
 	//pthread_mutex_lock()
 #endif
 }
 
-DECLSPEC void ELTAPIENTRY ExUnLockThread(ExThread thread){
+ELTDECLSPEC void ELTAPIENTRY ExUnLockThread(ExThread thread){
 #ifdef EX_UNIX
 
 #endif
 }
 
 
-DECLSPEC void ELTAPIENTRY ExSuspendThread(ExThread thread){
-#ifdef EX_UNIX
-	//pthread_mutex_lock(&thread);
-	//pthread_mutex_unlock(&thread);
-#endif
-
-}
-DECLSPEC void ELTAPIENTRY ExResumeThread(ExThread thread){
-
+ELTDECLSPEC void ELTAPIENTRY ExSuspendThread(ExThread thread){
 #ifdef EX_UNIX
 	//pthread_mutex_lock(&thread);
 	//pthread_mutex_unlock(&thread);
 #endif
+
+}
+ELTDECLSPEC void ELTAPIENTRY ExResumeThread(ExThread thread){
+
+#ifdef EX_UNIX
+	//pthread_mutex_lock(&thread);
+	//pthread_mutex_unlock(&thread);
+#endif
 }
 
 
-DECLSPEC ExThread ELTAPIENTRY ExGetCurrentThread(void){
+ELTDECLSPEC ExThread ELTAPIENTRY ExGetCurrentThread(void){
 #ifdef EX_WINDOWS
     return GetCurrentThread();
 #elif defined(EX_UNIX)
@@ -169,7 +169,7 @@ DECLSPEC ExThread ELTAPIENTRY ExGetCurrentThread(void){
 }
 
 // Thread
-DECLSPEC Uint32 ELTAPIENTRY ExGetThreadID(ExThread thread){
+ELTDECLSPEC Uint32 ELTAPIENTRY ExGetThreadID(ExThread thread){
 #ifdef EX_WINDOWS
 	return GetThreadId(thread);
 #elif defined(EX_UNIX)
@@ -177,7 +177,7 @@ DECLSPEC Uint32 ELTAPIENTRY ExGetThreadID(ExThread thread){
 #endif
 }
 
-DECLSPEC const char* ELTAPIENTRY ExGetThreadName(ExThread thread){
+ELTDECLSPEC const char* ELTAPIENTRY ExGetThreadName(ExThread thread){
 
 #ifdef EX_WINDOWS
 	return NULL;
@@ -189,7 +189,7 @@ DECLSPEC const char* ELTAPIENTRY ExGetThreadName(ExThread thread){
 
 }
 
-DECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread,Enum nPriority){
+ELTDECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread,Enum nPriority){
 	if(!thread)return FALSE;
 #ifdef EX_WINDOWS
 	switch(nPriority){
@@ -219,7 +219,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread,Enum nPriority)
 }
 
 
-DECLSPEC ERESULT ELTAPIENTRY ExWaitThread(ExThread thread, Int32* status){
+ELTDECLSPEC ERESULT ELTAPIENTRY ExWaitThread(ExThread thread, Int32* status){
     if(pthread_join(thread,NULL) == -1){
         ExPrintfError(strerror(errno));
         return FALSE;

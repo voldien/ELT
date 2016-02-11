@@ -28,7 +28,7 @@ extern "C"{
  *	Get Power Info
  *	@return
  */
-extern DECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct);
+extern ELTDECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct);
 
 
 

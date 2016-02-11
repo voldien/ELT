@@ -45,7 +45,7 @@
 
 #include"system/elt_icon.h"
 #define EX_ENGINE_VERSION_STRING EX_TEXT("ELT Version | %d.%d%d%s | OS : %s : OpenGL %d.%d")
-DECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, Int32 length){
+ELTDECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, Int32 length){
 	if(!text)
 		return NULL;
 
@@ -92,10 +92,10 @@ static void* createELTIcon(ExWin window){
 
 
 
-DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 height, Enum flag){
+ELTDECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 height, Enum flag){
 	ExWin window = NULL;
-	OpenGLContext glc = NULL;
-	OpenCLContext clc = NULL;
+	ExOpenGLContext glc = NULL;
+	ExOpenCLContext clc = NULL;
 	char title[256];
 
 #ifdef EX_WINDOWS
@@ -254,7 +254,7 @@ DECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 he
 
 
 
-DECLSPEC Int32 ELTAPIENTRY ExIsScreenSaverEnable(void){
+ELTDECLSPEC Int32 ELTAPIENTRY ExIsScreenSaverEnable(void){
 #ifdef EX_WINDOWS
     if(ExIsModuleLoaded(""))
         return TRUE;

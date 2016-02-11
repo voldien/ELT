@@ -33,13 +33,13 @@ extern "C"{
  *	Get native Activity pointer
  *	@return
  */
-extern DECLSPEC void* ELTAPIENTRY ExGetNativeActivity(void);
+extern ELTDECLSPEC void* ELTAPIENTRY ExGetNativeActivity(void);
 
 /*
  *
  *	@return
  */
-extern DECLSPEC void* ELTAPIENTRY ExGetNativeLooper(void);
+extern ELTDECLSPEC void* ELTAPIENTRY ExGetNativeLooper(void);
 
 
 #ifdef EX_ANDROID
