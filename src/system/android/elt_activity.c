@@ -38,7 +38,7 @@ AConfiguration* config = NULL;
 
 
 
-DECLSPEC void* ELTAPIENTRY ExGetNativeActivity(void){
+ELTDECLSPEC void* ELTAPIENTRY ExGetNativeActivity(void){
 #ifdef EX_ANDROID
     return elt_activity;
 #else
@@ -58,7 +58,7 @@ static void initMain(void){
 /**
     Initialization of Android Native
 */
-DECLSPEC int ELTAPIENTRY main(int argc,char** argv);
+ELTDECLSPEC int ELTAPIENTRY main(int argc,char** argv);
 
 
 void* elt_main(void* states){

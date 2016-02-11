@@ -4,6 +4,8 @@
 #include<SLES/OpenSLES_Android.h>
 #include<SLES/OpenSLES_Platform.h>
 
-DECLSPEC ExAudioContext ELTAPIENTRY ExAudioInit(const char* driverName){
+
+
+ELTDECLSPEC ExAudioContext ELTAPIENTRY ExAudioInit(const char* driverName){
 
 }

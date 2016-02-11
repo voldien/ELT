@@ -71,6 +71,8 @@ ELTDECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, Int32 leng
 	return text;
 }
 
+
+
 static void* createELTIcon(ExWin window){
 	if(!window)
 		return NULL;
