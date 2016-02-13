@@ -38,7 +38,7 @@
 /*
  *	GPU Vendors constant of.
  */
-#define EX_UNKNOWN		0x0				/**/
+#define EX_GPU_VENDOR_UNKNOWN		0x0				/**/
 #define EX_NVIDIA		0x1				/**/
 #define EX_INTEL		0x2				/**/
 #define EX_AMD			0x4				/**/
@@ -111,7 +111,7 @@ extern ELTDECLSPEC ExWindowContext ELTAPIFASTENTRY ExGetCurrentGLDrawable(void);
  *	Get OpenGL context on the current thread
  *	@Return
  */
-extern ELTDECLSPEC ExOpenGLContext ELTAPIFASTENTRY ExGetCurrenOpenGLContext(void);
+extern ELTDECLSPEC ExOpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void);
 
 /*
  *	Make current OpenGL context.
@@ -210,7 +210,7 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen,
  *  ExSetHint(EX_ALPHA, x > 0);
  *  read more about DwmEnableBlurBehindWindow : http://msdn.microsoft.com/en-us/library/windows/desktop/aa969508(v=vs.85).aspx
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin hWnd, Enum ienum);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window, Enum ienum);
 
 /*
  *	Get Hardware OpenGL shading Version
@@ -235,8 +235,7 @@ extern ELTDECLSPEC Uint32 ELTAPIENTRY ExIsOpenGLExtensionSupported(const char* e
  *	TODO perhaps move it somewhere else, as some other API may use the same
  *	extension parsing convention.
  */
-extern ELTDECLSPEC Uint32 ELTAPIENTRY ExIsExtensionSupported(const char* extList,const char* extension);
-
+extern ELTDECLSPEC Uint32 ELTAPIENTRY ExIsExtensionSupported(const char* extList, const char* extension);
 
 /*
  *	Check if graphic card is AMD GPU

@@ -25,13 +25,13 @@
 typedef signed int ExSocket;
 
 
-/*TODO rename ELT to EX.	*/
-#define ELT_CLIENT 0x1  	/*  Client socket*/
-#define ELT_TCP 0x2     	/*  reliable,  two-way  */
-#define ELT_UDP 0x4     	/*  UDP protocol */
-#define ELT_LOCAL 0x8   	/*  Local internal communication */
-#define ELT_STREAM 0x10		/**/
-#define ELT_DGRAM 0x20		/**/
+
+#define EX_CLIENT 	0x1  		/*  Client socket*/
+#define EX_TCP 		0x2     	/*  reliable,  two-way  */
+#define EX_UDP 		0x4     	/*  UDP protocol */
+#define EX_LOCAL 	0x8   		/*  Local internal communication */
+#define EX_STREAM 	0x10		/*	*/
+#define EX_DGRAM 	0x20		/*	*/
 
 #ifdef  __cplusplus	/*	C++ Environment	*/
 extern "C" {

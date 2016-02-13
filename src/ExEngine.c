@@ -82,6 +82,7 @@ _In_  HINSTANCE hinstDLL,
 	return TRUE;
 }
 #elif defined(EX_GNUC)
+
 void __attribute__ ((constructor)) my_load(void){
 
 }
@@ -89,10 +90,9 @@ void __attribute__ ((constructor)) my_load(void){
 void __attribute__ ((destructor)) my_unload(void){
 
 }
+
+
 #endif
-
-#define OPENGL_SHARE_NAME ""
-
 
 
 
@@ -167,14 +167,6 @@ ELTDECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
     dup2(stdout,stderr);  //redirects stderr to stdout below this line.
 
 
-/*	unicode		*/
-#ifdef UNICODE
-	printf(EX_TEXT("Initialize engine version: %d.%d.%d\n"),EX_VERSION_MAJOR,EX_VERSION_MINOR,EX_VERSION_REVISION);
-	wprintf(EX_TEXT("Operating System : %s\n"),ExGetOSName());
-#endif
-
-
-
 #if defined(EX_WINDOWS)
 
 
@@ -209,7 +201,7 @@ ELTDECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 
 	engineflag |= engineFlag;
 
-	/* release resources even if application exit unexpected */
+	/* release resources even if application exit unexpected or exit without calling ExShutDown */
 	atexit(ExShutDown);
 
 	return result;
@@ -241,6 +233,8 @@ ELTDECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 	}
 	if(ELT_INIT_AUDIO & engineflag){
 		//ExAudioInit(0);
+
+
 	}
 	if(ELT_INIT_GAMECONTROLLER & engineflag){
 #ifdef EX_WINDOWS
@@ -261,7 +255,7 @@ ELTDECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 #endif
 	}
 	if(ELT_INIT_TIMER & engineflag){
-		eltTickTime = clock();
+		eltTickTime = ExCurrentTime();
 	}
 	if(ELT_INIT_NET & engineflag){
 
@@ -416,7 +410,6 @@ ELTDECLSPEC void ELTAPIENTRY ExShutDown(void){
 	/**/
 	engineflag |= ELT_DEINIT;
 	engineflag = engineflag & ~ELT_INIT_EVERYTHING;
-
 
 	//fclose(m_file_log);
 }

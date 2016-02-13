@@ -197,7 +197,6 @@ ELTDECLSPEC void ELTAPIFASTENTRY ExClearError(void){
 
 
 ELTDECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode){
-#ifdef EX_DEBUG
 	switch(errorcode){
 	case E_OK:return EX_TEXT("Sucess");
 	case E_FAILURE:return EX_TEXT("failure");
@@ -207,7 +206,6 @@ ELTDECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode){
 	case E_INVALID_ENUM:return EX_TEXT("Invalid enum");
 	default:return EX_TEXT("Unknown");
 	}
-#endif
 	return NULL;
 }
 
@@ -215,7 +213,6 @@ ELTDECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode){
 
 
 static int ctxErrorHandler(Display* dpy, XErrorEvent* error){
-    #ifdef EX_DEBUG
     char error_buffer[1024];
     XGetErrorText(dpy, error->error_code, error_buffer, sizeof(error_buffer));
     fprintf(stderr,
@@ -227,7 +224,6 @@ static int ctxErrorHandler(Display* dpy, XErrorEvent* error){
             error->request_code,
             error->serial
             );
-    #endif
     return NULL;
 }
 #endif
@@ -238,8 +234,9 @@ static int ctxErrorHandler(Display* dpy, XErrorEvent* error){
 int ELTAPIENTRY ExInitErrorHandler(void){
 #if defined(EX_LINUX)
     /*	enable X window error message handler.	*/
-	if(!XSetErrorHandler(ctxErrorHandler))
+	if(!XSetErrorHandler(ctxErrorHandler)){
         ExDevPrintf("error");
+	}
 #endif
 
 	/*	interrupt	*/

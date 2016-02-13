@@ -321,7 +321,7 @@ ELTDECLSPEC ExChar* ELTAPIENTRY ExGetClipboardText(void){
 
 
 ELTDECLSPEC void* ELTAPIENTRY ExDownloadURL(const ExChar* url){
-	ExSocket sock = ExOpenSocket(ELT_TCP);
+	ExSocket sock = ExOpenSocket(EX_TCP);
 
 	if(ExConnectSocket(ExGetHostIp(url),80)){
 

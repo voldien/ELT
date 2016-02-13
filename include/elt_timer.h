@@ -31,7 +31,8 @@
 	#define ExCurrentTime(x) time(NULL)	// Get Current Time
 #endif
 
-#define ExGetCurrentTimeHiRes clock
+
+#define ExCurrentTime clock
 #define EX_TICKS_PER_SECOND CLOCKS_PER_SEC
 
 
@@ -41,14 +42,14 @@ extern "C"{
 #endif
 
 /*
- *	Add timer thread routine
- *	@Return timer handle
+ *	Add timer thread routine.
+ *	@Return .
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback, void* param);
 
 /*
- *	Remove timer thread routine
- *	@Return if successfully removed
+ *	Remove timer thread routine.
+ *	@Return TRUE if successful.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id);
 /*

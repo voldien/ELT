@@ -325,7 +325,7 @@ ELTDECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin 
     Atom wmState;
 
     /*	get resolution.	*/
-    if(!screenRes){
+    if(screenRes){
     	size.width = screenRes[0];
     	size.height = screenRes[1];
     }else{
@@ -385,7 +385,7 @@ ELTDECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin 
 
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window,Enum ienum){
+ELTDECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window, Enum ienum){
 
 	XTextProperty textprop = {0};
 	XWMHints *startup_state;

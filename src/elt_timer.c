@@ -3,11 +3,11 @@
 #ifdef EX_WINDOWS
 	#include<windef.h>
 	#include<windows.h>
-#	include <sys/time.h>
+#	include<sys/time.h>
 #elif defined(EX_UNIX)
 #	include<errno.h>
 #	include<unistd.h>
-#	include <sys/time.h>
+#	include<sys/time.h>
 #endif
 
 #include<time.h>
@@ -17,6 +17,7 @@ Uint64 eltTickTime = 0;
 
 #define CLOCKID CLOCK_REALTIME
 #define SIG SIGUSR2
+
 
 ELTDECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback, void* param){
 	Uint32 pid;
@@ -46,7 +47,8 @@ ELTDECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callba
 	sev.sigev_notify = SIGEV_SIGNAL;
 	sev.sigev_signo = SIGUSR1;
 	sev.sigev_value.sival_ptr = &timerid;
-	timer_create(CLOCKID, &sev, &timerid);
+	if(timer_create(CLOCKID, &sev, &timerid) < -1)
+		return FALSE;
 
 	/* Start the timer */
 	its.it_value.tv_sec = 0;
@@ -72,9 +74,11 @@ ELTDECLSPEC ExBoolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id){
 	ExIsWinError(error = DeleteTimerQueueTimer(NULL,(HANDLE)timer_id, NULL));
 	return error;
 #elif defined(EX_UNIX)
-    if(timer_delete(timer_id) == -1)
+    if(timer_delete(timer_id) < -1){
         fprintf(stderr,strerror(errno));
-	return 0;
+        return FALSE;
+    }
+	return TRUE;
 #endif
 }
 

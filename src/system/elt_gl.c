@@ -249,5 +249,5 @@ ELTDECLSPEC Enum ELTAPIENTRY ExGetOpenGLVendor(void){
 	if(ExIsVendorNvidia())return EX_NVIDIA;
 	else if(ExIsVendorAMD())return EX_AMD;
 	else if(ExIsVendorIntel())return EX_INTEL;
-	else return EX_UNKNOWN;
+	else return EX_GPU_VENDOR_UNKNOWN;
 }
