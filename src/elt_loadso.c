@@ -1,7 +1,7 @@
 #include"elt_loadso.h"
 
 
-#if defined(EX_UNIX) || defined(EX_ANDROID)
+#if defined(EX_LINUX) || defined(EX_ANDROID)
 
 #   include<stdio.h>
 #	include<stdlib.h>
@@ -54,7 +54,7 @@ static int dlSymbolcallback(struct dl_phdr_info *info, size_t size, ExSymbolFetc
 
 
 
-int ELTAPIENTRY ExLoadNumSymbol(HANDLE handle){
+int ELTAPIENTRY ExLoadNumSymbol(ExHandle handle){
 #if defined(EX_LINUX) && !defined(EX_ANDROID)
 	int num = 0;
 	dl_iterate_phdr(dlNumSymbolcallback, &num);
@@ -62,7 +62,8 @@ int ELTAPIENTRY ExLoadNumSymbol(HANDLE handle){
 #endif
 }
 
-char* ELTAPIENTRY ExLoadSymbol(HANDLE handle, int index, char* symbol, int len){
+
+char* ELTAPIENTRY ExLoadSymbol(ExHandle handle, int index, char* symbol, int len){
 #if defined(EX_LINUX) && !defined(EX_ANDROID)
 	ExSymbolFetch fetchSymbol;
 	fetchSymbol.index = index;
@@ -73,7 +74,7 @@ char* ELTAPIENTRY ExLoadSymbol(HANDLE handle, int index, char* symbol, int len){
 }
 
 
-DECLSPEC inline HANDLE ELTAPIENTRY ExLoadFunction(HANDLE handle,const char* pProcName){
+ELTDECLSPEC inline ExHandle ELTAPIENTRY ExLoadFunction(ExHandle handle,const char* pProcName){
 #ifdef EX_WINDOWS
 	return GetProcAddress((HMODULE)handle,pProcName);
 #elif defined(EX_UNIX)
@@ -81,8 +82,8 @@ DECLSPEC inline HANDLE ELTAPIENTRY ExLoadFunction(HANDLE handle,const char* pPro
 #endif
 }
 
-DECLSPEC inline HANDLE ELTAPIENTRY ExLoadObject(const ExChar* sofile){
-	HANDLE handle;
+ELTDECLSPEC inline ExHandle ELTAPIENTRY ExLoadObject(const ExChar* sofile){
+	ExHandle handle;
 #ifdef EX_WINDOWS
 	ExIsError((handle = LoadLibrary(sofile)));
 	return handle;
@@ -96,7 +97,7 @@ DECLSPEC inline HANDLE ELTAPIENTRY ExLoadObject(const ExChar* sofile){
 #endif
 }
 
-DECLSPEC inline void ELTAPIENTRY ExUnLoadObject(HANDLE handle){
+ELTDECLSPEC inline void ELTAPIENTRY ExUnLoadObject(ExHandle handle){
 #ifdef EX_WINDOWS
 	ExIsWinError(FreeLibrary((HMODULE)handle));
 #elif defined(EX_UNIX)
@@ -110,7 +111,7 @@ DECLSPEC inline void ELTAPIENTRY ExUnLoadObject(HANDLE handle){
 #endif
 }
 
-DECLSPEC inline HANDLE ELTAPIENTRY ExIsModuleLoaded(const ExChar* file){
+ELTDECLSPEC inline ExHandle ELTAPIENTRY ExIsModuleLoaded(const ExChar* file){
 #ifdef EX_WINDOWS
 	return GetModuleHandle(file);
 #elif defined(EX_UNIX) && !(EX_PNACL) && !(EX_ANDROID)	/*	TODO resolve link_map problem with android*/

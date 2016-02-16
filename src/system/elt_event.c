@@ -8,6 +8,7 @@
 #	include<windows.h>
 #	include <winuser.h>
 #	include<windowsx.h>
+#	include<ws2dnet.h>
 #elif defined(EX_LINUX)
 #	include"system/unix/unix_win.h"
 #	include<X11/X.h>
@@ -24,7 +25,7 @@
 #endif
 
 
-DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
+ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 #ifdef EX_WINDOWS
 	assert(event);
 	MSG msg;
@@ -93,10 +94,14 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 				break;
 			}
 			switch(msg.lParam){ /*  network */
-				case FD_ACCEPT:break;
-				case FD_CONNECT:break;
-				case FD_READ:break;
-				case FD_CLOSE:break;
+				case FD_ACCEPT:
+					break;
+				case FD_CONNECT:
+					break;
+				case FD_READ:
+					break;
+				case FD_CLOSE:
+					break;
 			}
 			default:break;
 		}
@@ -245,7 +250,7 @@ DECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 #endif
 }
 
-DECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event){
+ELTDECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event){
 #ifdef EX_WINDOWS
 	MSG msg;
 	//event->event = 0;
@@ -356,7 +361,7 @@ DECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event)
 
 
 
-DECLSPEC Int32 ELTAPIENTRY ExForwardEvent(Uint32 event, HANDLE data, Uint32 size){
+ELTDECLSPEC Int32 ELTAPIENTRY ExForwardEvent(Uint32 event, ExHandle data, Uint32 size){
 #ifdef EX_LINUX
 
 	XSendEvent(display,0,True,event,data);

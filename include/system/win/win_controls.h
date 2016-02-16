@@ -64,37 +64,37 @@ typedef struct ex_text_input_event{
 /*
 	//Assign the event control
 */
-extern DECLSPEC void ELTAPIENTRY ExSetControlEvent(ExWin hWnd, const HANDLE eventHandle);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetControlEvent(ExWin hWnd, const ExHandle eventHandle);
 /*
 
 */
-extern DECLSPEC void ELTAPIENTRY ExSetControlEventv(ExWin hWnd, const HANDLE eventHandle, Uint32 size);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetControlEventv(ExWin hWnd, const ExHandle eventHandle, Uint32 size);
 
 /*	Get Control Event of the Window*/
-extern DECLSPEC void* ELTAPIENTRY ExGetControlEvent(ExWin hWnd);
+extern ELTDECLSPEC void* ELTAPIENTRY ExGetControlEvent(ExWin hWnd);
 /*	Destroy Window */
-extern DECLSPEC void ELTAPIENTRY ExDestroyControl(ExWin hwnd);
+extern ELTDECLSPEC void ELTAPIENTRY ExDestroyControl(ExWin hwnd);
 
 /* Set Menu Event Handle */
-extern DECLSPEC void ELTAPIENTRY ExSetMenuEvent(ExWin hMenu, HANDLE eventHandle);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetMenuEvent(ExWin hMenu, ExHandle eventHandle);
 
 /* Get Menu Event Handle */
-extern DECLSPEC void* ELTAPIENTRY ExGetMenuEvent(HMENU hMenu);
+extern ELTDECLSPEC void* ELTAPIENTRY ExGetMenuEvent(HMENU hMenu);
 /*	Remove */
-extern DECLSPEC void ELTAPIENTRY ExReleaseMenuEvent(HMENU hMenu);
+extern ELTDECLSPEC void ELTAPIENTRY ExReleaseMenuEvent(HMENU hMenu);
 
 /*
 	// Menu
 */
 /*	Set menu Item Event*/
-extern DECLSPEC void ELTAPIENTRY SetMenuItemEvent(HMENU subMenu, Uint32 pos, HANDLE eventHandle);
+extern ELTDECLSPEC void ELTAPIENTRY SetMenuItemEvent(HMENU subMenu, Uint32 pos, ExHandle eventHandle);
 /*	Get menu Item Event*/
-extern DECLSPEC void* ELTAPIENTRY GetMenuItemEvent(HMENU subMenu, Uint32 pos);
+extern ELTDECLSPEC void* ELTAPIENTRY GetMenuItemEvent(HMENU subMenu, Uint32 pos);
 
-extern DECLSPEC void ELTAPIENTRY ExRemoveMenuItemEvent(HMENU subMenu, Uint32 pos);
+extern ELTDECLSPEC void ELTAPIENTRY ExRemoveMenuItemEvent(HMENU subMenu, Uint32 pos);
 
 /*	Create Main Menu */
-extern DECLSPEC HMENU ELTAPIENTRY ExCreateMainMenu(ExWin hwnd);
+extern ELTDECLSPEC HMENU ELTAPIENTRY ExCreateMainMenu(ExWin hwnd);
 
 #define ADDPOPUPMENU(hmenu, string) \
     HMENU hSubMenu = CreatePopupMenu(); \
@@ -103,103 +103,103 @@ extern DECLSPEC HMENU ELTAPIENTRY ExCreateMainMenu(ExWin hwnd);
 	AppendMenu(hsubMenu,MF_STRING,ID, string);
 
 
-extern DECLSPEC HMENU ELTAPIENTRY ExCreatePopupMenu(HMENU hMenu, const ExChar* string);
-extern DECLSPEC HMENU ELTAPIENTRY ExCreatePopupMenuB(HMENU hMenu, HBITMAP bitmap);
+extern ELTDECLSPEC HMENU ELTAPIENTRY ExCreatePopupMenu(HMENU hMenu, const ExChar* string);
+extern ELTDECLSPEC HMENU ELTAPIENTRY ExCreatePopupMenuB(HMENU hMenu, HBITMAP bitmap);
 
-extern DECLSPEC HMENU ELTAPIENTRY ExCreatePopUpMenuItem2(HMENU hpopupMenu, const ExChar* string, CallBack callback);
-extern DECLSPEC HMENU ELTAPIENTRY ExCreatePopUpMenuItem(HMENU hpopupMenu, const ExChar* string, Uint32 ID);
+extern ELTDECLSPEC HMENU ELTAPIENTRY ExCreatePopUpMenuItem2(HMENU hpopupMenu, const ExChar* string, ExCallBack callback);
+extern ELTDECLSPEC HMENU ELTAPIENTRY ExCreatePopUpMenuItem(HMENU hpopupMenu, const ExChar* string, Uint32 ID);
 /**/
-extern DECLSPEC HMENU ELTAPIENTRY ExCreateMenuItemB(HMENU hpopupMenu, HBITMAP bitmap,  CallBack callback);
+extern ELTDECLSPEC HMENU ELTAPIENTRY ExCreateMenuItemB(HMENU hpopupMenu, HBITMAP bitmap,  ExCallBack callback);
 
-extern DECLSPEC ExBoolean ELTAPIENTRY ExCreateMenuSeparator(HMENU hMenu);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExCreateMenuSeparator(HMENU hMenu);
 
-extern DECLSPEC void ELTAPIENTRY ExMenuItemID(HMENU item, Uint32 id);
+extern ELTDECLSPEC void ELTAPIENTRY ExMenuItemID(HMENU item, Uint32 id);
 /*
 	// Status Bar
 */
 /*	Create Status bar*/
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateStatusBar(ExWin parenthWnd);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateStatusBar(ExWin parenthWnd);
 /*	Set Status Bar Text	*/
-extern DECLSPEC void ELTAPIENTRY ExSetStatusBarText(ExWin statusHwnd,const ExChar* string);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetStatusBarText(ExWin statusHwnd,const ExChar* string);
 /* */
-extern DECLSPEC void ELTAPIENTRY ExSetStatusBarTexti(ExWin statusHwnd,Int32 index,const ExChar* string);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetStatusBarTexti(ExWin statusHwnd,Int32 index,const ExChar* string);
 /*	Set Status Bar Icon	*/
-extern DECLSPEC void ELTAPIENTRY ExSetStatusBarIcon(ExWin statusHwnd,HICON icon);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetStatusBarIcon(ExWin statusHwnd,HICON icon);
 /**/
-extern DECLSPEC void ELTAPIENTRY ExSetStatusBarParts(ExWin statusHwnd,Int32 count);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetStatusBarParts(ExWin statusHwnd,Int32 count);
 
 /*
 	// Button
 */
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateButton(ExWin parentHwnd,CallBack callback);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateButton(ExWin parentHwnd,ExCallBack callback);
 
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateRadioButton(ExWin parentHwnd);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateRadioButton(ExWin parentHwnd);
 
 
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateComboBox(ExWin parenthWnd);
-extern DECLSPEC void ELTAPIENTRY ExAddComboxString(ExWin parenthWnd);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateComboBox(ExWin parenthWnd);
+extern ELTDECLSPEC void ELTAPIENTRY ExAddComboxString(ExWin parenthWnd);
 
 /*
 	// track bar
 	// begin-value |----------[]--------| end-value
 */
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateTrackBar(ExWin parenthWnd,Uint32 imin, Uint32 imax, Uint32 iselected);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateTrackBar(ExWin parenthWnd,Uint32 imin, Uint32 imax, Uint32 iselected);
 
 /*
 	// progress bar
 	// [|||||||||||---------------]
 */
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateProgressBar(ExWin parentWnd);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateProgressBar(ExWin parentWnd);
 
 /*
 	List View
 */
 /*	Create List View	*/
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateListView(ExWin parenthWnd);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateListView(ExWin parenthWnd);
 
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateHeader(ExWin parenthWnd, Int32 x, Int32 y, Int32 width, Int32 height);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateHeader(ExWin parenthWnd, Int32 x, Int32 y, Int32 width, Int32 height);
 
 /*
 	// Toolbar
 */
 /*	Create a toolBar	*/
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateToolBar(ExWin parenthWnd);
-extern DECLSPEC ExBoolean ELTAPIENTRY ExAddToolBarTemplate(ExWin hWndToolbar, ExChar* text, Uint32 templates,ExButtonPushed buttoncallback);
-extern DECLSPEC void ELTAPIENTRY ExAddToolBarButton(ExWin hWndToolbar,ExChar* text,HBITMAP bitmap,Uint32 templates,ExButtonPushed buttoncallback);
-extern DECLSPEC void ELTAPIENTRY ExAddToolBarButtonT(ExWin hWndToolbar,ExChar* text);
-extern DECLSPEC void ELTAPIENTRY ExAddToolBarButtonB(ExWin hWndToolbar,HBITMAP bitmap);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateToolBar(ExWin parenthWnd);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExAddToolBarTemplate(ExWin hWndToolbar, ExChar* text, Uint32 templates,ExButtonPushed buttoncallback);
+extern ELTDECLSPEC void ELTAPIENTRY ExAddToolBarButton(ExWin hWndToolbar,ExChar* text,HBITMAP bitmap,Uint32 templates,ExButtonPushed buttoncallback);
+extern ELTDECLSPEC void ELTAPIENTRY ExAddToolBarButtonT(ExWin hWndToolbar,ExChar* text);
+extern ELTDECLSPEC void ELTAPIENTRY ExAddToolBarButtonB(ExWin hWndToolbar,HBITMAP bitmap);
 
 /*
 	// Tab bar
 */
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateTabControl(ExWin parenthWnd);
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateTab(ExWin tabhWnd);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateTabControl(ExWin parenthWnd);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateTab(ExWin tabhWnd);
 
 /*
 	List Box
 */
 
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateListBox(ExWin parentHwnd);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateListBox(ExWin parentHwnd);
 
 /*
 	// Edit Control
 */
 
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateTextInput(ExWin parentHwnd);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateTextInput(ExWin parentHwnd);
 
 
 /*
 	// Static Control
 */
 // Create Static Control window
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateStaticControl(ExWin parenthWnd,CallBack callback);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateStaticControl(ExWin parenthWnd,ExCallBack callback);
 // Set Static control window bitmap texture.
-extern DECLSPEC ExWin ELTAPIENTRY ExSetStaticControlBitMap(ExWin staticControl, HBITMAP hBitMap);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExSetStaticControlBitMap(ExWin staticControl, HBITMAP hBitMap);
 
 /*
 	// Ex Create Property Sheet
 */
-extern DECLSPEC ExWin ELTAPIENTRY ExCreatePropertySheet(ExWin parenthWnd);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreatePropertySheet(ExWin parenthWnd);
 
 #ifdef  __cplusplus	/* C++ Environment */
 }

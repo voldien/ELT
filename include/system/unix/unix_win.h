@@ -26,21 +26,21 @@ extern "C"{
 
 /*
  *
- *	@return
+ *	@Return
 */
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(int x, int y, int width, int height);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(int x, int y, int width, int height);
 
 
 /*
  *
- *   @return
+ *   @Return
  */
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(int x , int y, int width, int height, void** glx_window);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(int x , int y, int width, int height, void** glx_window);
 
 /*
  *
  */
-extern DECLSPEC int ExSupportOpenGL(void);
+extern ELTDECLSPEC int ExSupportOpenGL(void);
 
 #ifdef __cplusplus /* C++ environment */
 };

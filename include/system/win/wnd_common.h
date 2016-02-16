@@ -16,11 +16,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _WND_COMMON_H_
-#define _WND_COMMON_H_ 1
+#ifndef _ELT_WND_COMMON_H_
+#define _ELT_WND_COMMON_H_ 1
 #include"./../../EngineAssembly.h"
-#include"./../../elt_console.h"
-#include<Windows.h>
+#include<windows.h>
 
 #ifdef __cplusplus /* C++ environment */
 extern "C"{
@@ -29,49 +28,49 @@ extern "C"{
 /**
 	//Set Monitor Sleep
 */
-//extern DECLSPEC void ELTAPIENTRY ExSleepMonitor(void){SendMessage(HWND_BROADCAST, WM_SYSCOMMAND,SC_SCREENSAVE, (LPARAM)2);}
+//extern ELTDECLSPEC void ELTAPIENTRY ExSleepMonitor(void){SendMessage(HWND_BROADCAST, WM_SYSCOMMAND,SC_SCREENSAVE, (LPARAM)2);}
 
 
 
 /*
  *	Get Monitor Display Device
  */
-extern DECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetMonitor(Uint32 index);
+extern ELTDECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetMonitor(Uint32 index);
 
 /*
  *	Get Monitor Display Device. if index isn't value. then it will decriment intill a valid monitor Index
  */
-extern DECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetSafeMonitor(Uint32 index);
+extern ELTDECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetSafeMonitor(Uint32 index);
 
 /* Get Primary Montior Display Device.*/
-extern DECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetPrimaryMontior(void);
+extern ELTDECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetPrimaryMontior(void);
 
 /*	Get Count of Children Window */
-extern DECLSPEC Uint32 ELTAPIENTRY ExGetWindowChildCount(ExWin hwnd);
+extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetWindowChildCount(ExWin hwnd);
 
 /*		*/
-extern DECLSPEC ExWin ELTAPIENTRY ExShellDef(void);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExShellDef(void);
 /*		*/
-extern DECLSPEC ExWin ELTAPIENTRY ExhShell(void);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExhShell(void);
 /*		*/
-extern DECLSPEC ExWin ELTAPIENTRY ExprograMan(void);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExprograMan(void);
 /*	Parent of	*/
-extern DECLSPEC ExWin ELTAPIENTRY ExListView(void);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExListView(void);
 /*	Lowest Child	*/
-extern DECLSPEC ExWin ELTAPIENTRY ExSysHeader32(void);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExSysHeader32(void);
 
 /*
 	// Convert Ascii Character into Wide-character
 */
-extern DECLSPEC void ELTAPIENTRY ExAsciiToUnicode(const char* cchar, WCHAR** wchar);
-extern DECLSPEC WCHAR* ELTAPIENTRY ExConvertToUnicode(const char* cchar);
+extern ELTDECLSPEC void ELTAPIENTRY ExAsciiToUnicode(const char* cchar, WCHAR** wchar);
+extern ELTDECLSPEC WCHAR* ELTAPIENTRY ExConvertToUnicode(const char* cchar);
 /*
 	// Convert Wide-character Character into Ascii
 	// remark: if char pointer is null. then it will malloc its size. otherwise
 	// the function will use char* current size
 */
-extern DECLSPEC void ELTAPIENTRY ExUnicodeToAscii(const WCHAR* wchar, char** cchar);
-extern DECLSPEC char* ELTAPIENTRY ExConvertAscii(const WCHAR* wwchar);
+extern ELTDECLSPEC void ELTAPIENTRY ExUnicodeToAscii(const WCHAR* wchar, char** cchar);
+extern ELTDECLSPEC char* ELTAPIENTRY ExConvertAscii(const WCHAR* wwchar);
 
 /*
 	// registry window
@@ -79,29 +78,29 @@ extern DECLSPEC char* ELTAPIENTRY ExConvertAscii(const WCHAR* wwchar);
 /*
 	// exist
 */
-extern DECLSPEC ExBoolean ELTAPIENTRY ExExistRegKey(HKEY hKey, const ExChar* directory);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExExistRegKey(HKEY hKey, const ExChar* directory);
 // get value
-extern DECLSPEC Uint32 ELTAPIENTRY ExGetRegValuei(HKEY hKey, const ExChar* directory, const ExChar* cregname);
-extern DECLSPEC Uint64 ELTAPIENTRY ExGetRegValuel(HKEY hKey, const ExChar* directory, const ExChar* cregname);
-extern DECLSPEC Uint32 ELTAPIENTRY ExGetRegValuec(HKEY hKey, const ExChar* directory, const ExChar* cregname, WCHAR* character_string);
-extern DECLSPEC Uint32 ELTAPIENTRY ExGetRegValuecv(HKEY hKey, const ExChar* directory, const ExChar* cregname, WCHAR* character_string);
+extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetRegValuei(HKEY hKey, const ExChar* directory, const ExChar* cregname);
+extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetRegValuel(HKEY hKey, const ExChar* directory, const ExChar* cregname);
+extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetRegValuec(HKEY hKey, const ExChar* directory, const ExChar* cregname, WCHAR* character_string);
+extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetRegValuecv(HKEY hKey, const ExChar* directory, const ExChar* cregname, WCHAR* character_string);
 // get registry value
-extern DECLSPEC Uint32 ELTAPIENTRY ExGetRegValueType(HKEY hKey, const ExChar* directory, const ExChar* cregname);
+extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetRegValueType(HKEY hKey, const ExChar* directory, const ExChar* cregname);
 
-extern DECLSPEC void ELTAPIENTRY ExSetRegValuei(HKEY hKey, const ExChar* directory, const ExChar* cregname,Int32 iint);
-extern DECLSPEC void ELTAPIENTRY ExSetRegValuel(HKEY hKey, const ExChar* directory, const ExChar* cregname,Long ilong);
-extern DECLSPEC void ELTAPIENTRY ExSetRegValuec(HKEY hKey, const ExChar* directory, const ExChar* cregname,LPCWSTR character);
-extern DECLSPEC Uint32 ELTAPIENTRY ExSetRegValuecv(HKEY hKey, const ExChar* directory, const ExChar* cregname, WCHAR* character_string);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetRegValuei(HKEY hKey, const ExChar* directory, const ExChar* cregname,Int32 iint);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetRegValuel(HKEY hKey, const ExChar* directory, const ExChar* cregname,Long ilong);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetRegValuec(HKEY hKey, const ExChar* directory, const ExChar* cregname,LPCWSTR character);
+extern ELTDECLSPEC Uint32 ELTAPIENTRY ExSetRegValuecv(HKEY hKey, const ExChar* directory, const ExChar* cregname, WCHAR* character_string);
 
-extern DECLSPEC void ELTAPIENTRY ExCreateRegKey(HKEY hKey, const ExChar* directory);
+extern ELTDECLSPEC void ELTAPIENTRY ExCreateRegKey(HKEY hKey, const ExChar* directory);
 
 /*
 	// file exts for desktop
 	http://msdn.microsoft.com/en-us/library/windows/desktop/cc144148(v=vs.85).aspx
 */
-extern DECLSPEC void ELTAPIENTRY ExCreateFileExts(const ExChar* filetype);
-extern DECLSPEC void ELTAPIENTRY ExCreateFileExtsDesc(const ExChar* filetype,const ExChar* description);
-extern DECLSPEC ExBoolean ELTAPIENTRY ExRemoveFileExts(const ExChar* filetype);
+extern ELTDECLSPEC void ELTAPIENTRY ExCreateFileExts(const ExChar* filetype);
+extern ELTDECLSPEC void ELTAPIENTRY ExCreateFileExtsDesc(const ExChar* filetype,const ExChar* description);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExRemoveFileExts(const ExChar* filetype);
 
 #ifdef __cplusplus	/*	C++ environment	*/
 }

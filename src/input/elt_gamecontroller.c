@@ -10,17 +10,17 @@
 
 #endif
 
-DECLSPEC ExBoolean ELTAPIENTRY ExIsGameController(Int32 joystick_index){
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExIsGameController(Int32 joystick_index){
 	return (ExBoolean)0;
 }
 
-DECLSPEC Uint16 ELTAPIENTRY ExGameControllerGetAxis(int index, int* axis){
+ELTDECLSPEC Uint16 ELTAPIENTRY ExGameControllerGetAxis(int index, int* axis){
 	//XInputGetState(index,axis);
 	return (Uint16)0;
 }
 
 
-DECLSPEC void ELTAPIENTRY ExGameControllerVibration(Int32 index, Int16 LeftMotorSpeed, Int16 RightMotorSpeed){
+ELTDECLSPEC void ELTAPIENTRY ExGameControllerVibration(Int32 index, Int16 LeftMotorSpeed, Int16 RightMotorSpeed){
 	//XINPUT_VIBRATION vib = {LeftMotorSpeed,RightMotorSpeed};
 	//XInputSetState(index,&vib);
 }

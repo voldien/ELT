@@ -87,95 +87,95 @@ typedef struct WindowEvent{
 	MSG msg;
 }Wevent, *Hevent;
 
-extern CallBack ExOnFocus;
-extern CallBack ExOnUnFocus;
+extern ExCallBack ExOnFocus;
+extern ExCallBack ExOnUnFocus;
 
 
 /*
  *	UnRegister all Windows
  */
-extern DECLSPEC void ELTAPIENTRY ExUnRegisterClasses(void);
+extern ELTDECLSPEC void ELTAPIENTRY ExUnRegisterClasses(void);
 
 /*
  *	Create Window dedicated for DirectX
- *	@return
+ *	@Return
  */
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateDirectXWindow(int x, int y, int width, int height);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateDirectXWindow(int x, int y, int width, int height);
 
 /*
  *
  */
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateOpenGLWindow(int x, int y, int width, int height);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateOpenGLWindow(int x, int y, int width, int height);
 
 /*
- *	@return
+ *	@Return
  */
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(int x, int y, int width, int height);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(int x, int y, int width, int height);
 
 /*
- *	@return
+ *	@Return
 */
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateDesktopWindow(int x, int y, int width, int height);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateDesktopWindow(int x, int y, int width, int height);
 
 /*
  *	Create MID Window
- *	@return
+ *	@Return
 */
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateMIDWindow(int x, int y, int width , int height);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateMIDWindow(int x, int y, int width , int height);
 
 
 /*
  *	Set Window Processor [ HWND hwnd, WNDPROC procPointer]
  */
-extern DECLSPEC DWORD ELTAPIENTRY ExSetWindowProc(ExWin hwnd, WNDPROC procPointer);
+extern ELTDECLSPEC DWORD ELTAPIENTRY ExSetWindowProc(ExWin hwnd, WNDPROC procPointer);
 
 
 /*
  *	Get Window Processsor [HWND hwnd]
  */
-extern DECLSPEC WNDPROC ELTAPIENTRY ExGetWindowProc(ExWin hwnd);
+extern ELTDECLSPEC WNDPROC ELTAPIENTRY ExGetWindowProc(ExWin hwnd);
 
 /*
  *	Window Style
  */
-extern DECLSPEC void ELTAPIENTRY ExSetWindowStyle(ExWin hwnd, Long lstyle);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowStyle(ExWin hwnd, Long lstyle);
 /*
  *
  */
-extern DECLSPEC void ELTAPIENTRY ExSetAddiWindowStyle(ExWin hWnd, Long lstyle);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetAddiWindowStyle(ExWin hWnd, Long lstyle);
 /*
  *
  */
-extern DECLSPEC Long ELTAPIENTRY ExGetWindowStyle(ExWin hwnd);
+extern ELTDECLSPEC Long ELTAPIENTRY ExGetWindowStyle(ExWin hwnd);
 /*
  *
  */
-extern DECLSPEC void ELTAPIENTRY ExSetWindowStyleEx(ExWin hwnd, Long ExStyle);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowStyleEx(ExWin hwnd, Long ExStyle);
 /*
  *
  */
-extern DECLSPEC Long ELTAPIENTRY ExGetWindowStyleEx(ExWin hwnd);
+extern ELTDECLSPEC Long ELTAPIENTRY ExGetWindowStyleEx(ExWin hwnd);
 
 
 /*
  *	Create Sub  Window Based the prevously created one.
  */
-extern DECLSPEC ExWin ELTAPIENTRY ExCreateSubWindow(Int32 x,Int32 y, Int32 width, Int32 height);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateSubWindow(Int32 x,Int32 y, Int32 width, Int32 height);
 
 
 /*
  *	Update windows for all given windows on the process.
  *	\hwnd if update a particular window.
- *	@return
+ *	@Return
 */
-extern DECLSPEC int ELTAPIENTRY ExGetWindowMessage(ExWin hwnd);
+extern ELTDECLSPEC int ELTAPIENTRY ExGetWindowMessage(ExWin hwnd);
 
 /*
  *	Update windows for all given windows on the process.
  *	\hwnd
- *	@return
+ *	@Return
  */
-extern DECLSPEC int ELTAPIENTRY ExGetWindowPeekMessage(ExWin hwnd);
+extern ELTDECLSPEC int ELTAPIENTRY ExGetWindowPeekMessage(ExWin hwnd);
 
 #ifdef  __cplusplus	/* C++ Environment */
 }

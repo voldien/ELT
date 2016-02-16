@@ -1,11 +1,11 @@
 #include"elt_thread.h"
+#include<windows.h>
 
 
-
-DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpParamater,Uint32* pid){
+ELTDECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback, void* lpParamater, Uint32* pid){
 	DWORD p_id;
-	HANDLE t0;
-	if(!(t0 = CreateThread(0,128,(LPTHREAD_START_ROUTINE)callback,lpParamater,0,&p_id))){
+	ExHandle t0;
+	if(!(t0 = CreateThread(0,128,(LPTHREAD_START_ROUTINE)callback, (LPVOID)lpParamater, 0, &p_id))){
 		ExIsError(t0);
 		return NULL;
 	}
@@ -16,10 +16,10 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback,void* lpPar
 }
 
 
-DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback,void* lpParamater,Uint32* pid, Int32 ncore){
+ELTDECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback, ExHandle lpParamater, Uint32* pid, Int32 ncore){
 	DWORD p_id;
-	HANDLE t0;
-	if(!(t0 = CreateThread(0,128,(LPTHREAD_START_ROUTINE)callback,lpParamater,0,&p_id))){
+	ExHandle t0;
+	if(!(t0 = CreateThread(0,128,(LPTHREAD_START_ROUTINE)callback, (LPVOID)lpParamater, 0, &p_id))){
 		ExIsError(t0);
 		return NULL;
 	}
@@ -30,7 +30,7 @@ DECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback,voi
 	return t0;
 }
 
-DECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread){
+ELTDECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread){
 	return TerminateThread(thread,0);
 }
 
@@ -43,6 +43,6 @@ DECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread){
 
 
 
-DECLSPEC ERESULT ELTAPIENTRY ExWaitThread(ExThread thread, Int32* status){
+ELTDECLSPEC ERESULT ELTAPIENTRY ExWaitThread(ExThread thread, Int32* status){
     return WaitForSingleObject(thread, INFINITE);
 }

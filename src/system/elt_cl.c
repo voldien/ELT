@@ -1,6 +1,7 @@
 #include"system/elt_cl.h"
 #include"elt_def.h"
 #include"system/elt_file.h"
+
 #if defined(EX_WINDOWS)
 #   define OPENCL_LIBRARY_NAME EX_TEXT("OpenCL.dll")
 	#include<CL/cl.h>
@@ -37,7 +38,10 @@
 #   endif
 #else
 	/*	not supported!	*/
+	//#pragma message
 #endif
+
+
 
 
 /**/
@@ -49,7 +53,7 @@
 //#define ExIsCLError(x)  { if( ( x ) != CL_SUCCESS ){ ExDevPrintfc("Error | %s",EX_CONSOLE_RED,ExGetErrorMessage( ( x ) )); } }
 
 
-#define ELT_CL_GPU_INDEX(x) ((x & (ELT_GPU0 >> (ELT_GPU0 / 2))))
+#define ELT_CL_GPU_INDEX(x) ((x & (EX_CL_GPU0 >> (EX_CL_GPU0 / 2))))
 #define ELT_CL_CPU_INDEX(x) ((x & 0x0000ff00))
 
 
@@ -57,20 +61,20 @@
 
 
 /**handle to OpenCL Library */
-HANDLE cl_libhandle=NULL;
+ExHandle cl_libhandle =	NULL;
 /** opencl context of current */
 cl_context hClContext = NULL;
 
 
 /**/
-extern DECLSPEC int ELTAPIENTRY ExGetOpenCLDevice(cl_platform_id platform,cl_device_id* device,unsigned int flag);
+extern ELTDECLSPEC int ELTAPIENTRY ExGetOpenCLDevice(cl_platform_id platform, cl_device_id* device, unsigned int flag);
 static char* ELTAPIENTRY ExGetCLErrorMessage(cl_int error);
 
 
 static char* get_device_extension(cl_device_id device){
     unsigned int extension_size;
     char* extension;
-    clGetDeviceInfo(device,CL_DEVICE_EXTENSIONS, NULL, NULL,&extension_size);
+    clGetDeviceInfo(device, CL_DEVICE_EXTENSIONS, NULL, NULL, &extension_size);
     extension = (char*)malloc(extension_size);
     clGetDeviceInfo(device, CL_DEVICE_EXTENSIONS, extension_size,extension, NULL);
     return extension;
@@ -79,21 +83,15 @@ static char* get_device_extension(cl_device_id device){
 
 static inline void loadOpenClLibrary(void){
     if(!ExIsModuleLoaded(OPENCL_LIBRARY_NAME))
-        #ifdef EX_LINUX
-        ExLoadLibrary(OPENCL_LIBRARY_NAME);
-        #elif defined(EX_WINDOWS)
         cl_libhandle = ExLoadLibrary(OPENCL_LIBRARY_NAME);
-        #elif defined(EX_ANDROID)
-        ExLoadLibrary(OPENCL_LIBRARY_NAME);
-        #endif
 }
 
 
-OpenCLContext ELTAPIFASTENTRY ExGetCurrentCLContext(void){
+ExOpenCLContext ELTAPIFASTENTRY ExGetCurrentCLContext(void){
 	return hClContext;
 }
 
-OpenCLContext ELTAPIENTRY ExCreateCLContext(Enum flag, ExOpenCLContext clc){
+ExOpenCLContext ELTAPIENTRY ExCreateCLContext(Enum flag, ExOpenCLContext sharedCLContext){
 	cl_int cpPlatform;
 	cl_int ciErrNum;
 	Uint32 uiDevCount = 0;
@@ -102,33 +100,34 @@ OpenCLContext ELTAPIENTRY ExCreateCLContext(Enum flag, ExOpenCLContext clc){
     Uint32 errNum;              /*  */
     cl_context hClContext;      /*  */
     size_t size=0;
-    Uint32 uiDeviceUsed = 0,uiEndDev = 0;
+    Uint32 uiDeviceUsed = 0, uiEndDev = 0;
 
 
-    /**
-    TODO check if needed or logic is accepted*/
+
+    /*	TODO check if needed or logic is accepted*/
     loadOpenClLibrary();
 
 
     /*	Get platform ID	*/
-	if(ExGetCLPlatformID(&cpPlatform,flag) != CL_SUCCESS){
+	if(ExGetCLPlatformID(&cpPlatform, flag) != CL_SUCCESS){
+		/**/
 		return NULL;
 	}
 
 	cl_context_properties props[] = {
-        CL_CONTEXT_PLATFORM,cpPlatform,
+        CL_CONTEXT_PLATFORM, cpPlatform,
 		NULL
 	};
 
 
 
-	if(flag & ELT_GPU0){
+	if(flag & EX_CL_GPU0){
 		uiDevCount = ELT_CL_GPU_INDEX(flag);
 	}
-	else if(flag & ELT_CPU0){
+	else if(flag & EX_CL_CPU0){
 		uiDevCount = ELT_CL_CPU_INDEX(flag);
 	}
-	else if(flag & ELT_CL_AVAILABLE_PLATFORM){
+	else if(flag & EX_CL_AVAILABLE_PLATFORM){
 
 	}
 
@@ -149,16 +148,16 @@ OpenCLContext ELTAPIENTRY ExCreateCLContext(Enum flag, ExOpenCLContext clc){
     }
 
 
-	hClContext = clCreateContext(props,size, cdDevices,NULL,NULL,&ciErrNum);
+	hClContext = clCreateContext(props, size, cdDevices, NULL, NULL, &ciErrNum);
+    if(!hClContext){
 
-    //if(!hClContext)
+    }
     //    ExIsCLError(ciErrNum);
 
-	return (ERESULT)hClContext;
+	return (ExOpenCLContext)hClContext;
 }
 
-
-OpenCLContext ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowContext window,Enum flag){
+ExOpenCLContext ELTAPIENTRY ExCreateCLSharedContext(ExOpenGLContext glc, ExWindowContext window, Enum flag){
     Int32 cpPlatform,ciErrNum;Uint32 uiDevCount = 0;
     // device ids
     cl_device_id *cdDevices;
@@ -236,9 +235,9 @@ OpenCLContext ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowConte
         NULL
     };
 #ifdef EX_WINDOWS
-    if(layer & EX_OPENGL){props[2] = CL_WGL_HDC_KHR;}
+    if(flag & EX_OPENGL){props[2] = CL_WGL_HDC_KHR;}
 #	ifdef EX_INCLUDE_DIRECTX
-    else if(layer & EX_DIRECTX){props[0] = CL_CONTEXT_ADAPTER_D3D9_KHR;}
+    else if(flag & EX_DIRECTX){props[0] = CL_CONTEXT_ADAPTER_D3D9_KHR;}
 #	endif 
 #elif defined(EX_LINUX)
     if(flag & EX_OPENGL){props[2] = CL_GLX_DISPLAY_KHR;}
@@ -254,13 +253,13 @@ OpenCLContext ELTAPIENTRY ExCreateCLSharedContext(OpenGLContext glc, WindowConte
     }
 
     free(cdDevices);
-    return (void*)hClContext;
+    return (ExOpenCLContext)hClContext;
 }
 
 
 
 
-ERESULT ELTAPIENTRY ExQueryCLContext(ExOpenCLContext context, HANDLE param_value, Enum param_name){
+ERESULT ELTAPIENTRY ExQueryCLContext(ExOpenCLContext context, ExHandle param_value, Enum param_name){
     cl_int ciErrNum;
 	size_t size;
 	if(!context)return -1;
@@ -323,9 +322,7 @@ void ELTAPIENTRY ExDestroyCLContext(ExOpenCLContext context){
 	clReleaseContext((cl_context)context);
 }
 
-/**
-    evaluate which device has the highest flops.
-*/
+
 static int ExCLHighestFLOPS(Int32* clSelectedPlatformID){
     int i,ciErrNum;
     unsigned int num_device;
@@ -342,14 +339,16 @@ static int ExCLHighestFLOPS(Int32* clSelectedPlatformID){
     return 1;
 }
 
-Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum flag){
+Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID, Enum flag){
     char chBuffer[1024];
-    cl_uint num_platforms,num_device;
-    cl_uint num_gpu,num_cpu;
+    cl_uint num_platforms;
+    cl_uint num_device;
+    cl_uint num_gpu;
+    cl_uint num_cpu;
     cl_device_id device_id[16];
     cl_device_info device_info;
+	cl_uint i,j;
 
-    cl_platform_id temp_clPlatformIDs;
     cl_platform_id* clPlatformIDs;
     cl_int ciErrNum;
     *clSelectedPlatformID = NULL;
@@ -367,17 +366,20 @@ Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum flag){
             ExDevPrint("No OpenCL platform found!");
 			return -2000;
 		}
-		else{
-			cl_uint i,j;
+		else{	/*	determine platform*/
+		    cl_platform_id temp_clPlatformIDs[num_platforms];
 
+
+			/*	*/
             ciErrNum = clGetPlatformIDs (num_platforms, &temp_clPlatformIDs, NULL);
 			if(ciErrNum == CL_DEVICE_NOT_FOUND)
                 ExDevPrint("Couldn't find");
 
 
-
+			/*	get number of gpu device.s	*/
 			ciErrNum = clGetDeviceIDs(temp_clPlatformIDs,CL_DEVICE_TYPE_GPU, NULL,NULL,&num_gpu);
 
+			/*	get number of cpu devices.	*/
 			ciErrNum = clGetDeviceIDs(temp_clPlatformIDs,CL_DEVICE_TYPE_CPU, NULL,NULL,&num_cpu);
 
 
@@ -407,7 +409,6 @@ Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum flag){
 
                     //ciErrNum = clGetDeviceInfo(device_id[j],device_info,sizeof(device_info), )
 
-                    continue;
                 }
 
 
@@ -416,7 +417,7 @@ Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum flag){
 
 
                 if(ciErrNum == CL_SUCCESS){
-                    if(!strstr(chBuffer, "NVIDIA CUDA")){	// nvidia exists
+                    if(!strstr(chBuffer, "NVIDIA CUDA")){
                         *clSelectedPlatformID = (Int)clPlatformIDs[i];
                         break;
                     }else if(!strstr(chBuffer,"AMD")){
@@ -428,7 +429,6 @@ Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum flag){
                         break;
                     }
                 }
-				continue;
             }
 
             #ifdef EX_DEBUG
@@ -450,7 +450,7 @@ Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID,Enum flag){
 }
 
 
-void* ExCreateCommandQueue(ExOpenCLContext context, HANDLE device){
+void* ExCreateCommandQueue(ExOpenCLContext context, ExHandle device){
     cl_int errNum;
     cl_device_id* devices;
     cl_command_queue commandQueue = NULL;
@@ -486,7 +486,7 @@ void* ExCreateCommandQueue(ExOpenCLContext context, HANDLE device){
 }
 
 /**/
-void* ExCreateProgram(ExOpenCLContext context, HANDLE device, const ExChar* cfilename, ...){
+void* ExCreateProgram(ExOpenCLContext context, ExHandle device, const ExChar* cfilename, ...){
 	va_list list;
 	cl_int errNum = 0;
     cl_program program;
@@ -534,7 +534,7 @@ void* ExCreateProgram(ExOpenCLContext context, HANDLE device, const ExChar* cfil
 
 
 
-void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, void* p_cl_device_id){
+void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, ExHandle p_cl_device_id){
 #ifdef EX_DEBUG
 
     if(!p_cl_device_id)

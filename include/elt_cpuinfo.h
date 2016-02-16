@@ -34,94 +34,94 @@ extern "C"{
 
 /*
  *	Get the name of the CPU.
- *	@return
+ *	@Return
  */
-extern DECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void);
+extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void);
 
 /*
  *
  *
  */
-extern DECLSPEC Int32 ELTAPIENTRY ExGetFrequence(void);
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetFrequence(void);
 
 /*
  *	Has CPU Support For AVX (Advanced Vector Extension)
- *	@return
+ *	@Return
  */
-extern DECLSPEC ExBoolean ELTAPIENTRY ExHasAVX(void);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasAVX(void);
 
 /*
  *	Has CPU Support For AVX2 (Advanced Vector Extension)
- *	@return
+ *	@Return
  */
-extern DECLSPEC ExBoolean ELTAPIENTRY ExHasAVX2(void);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasAVX2(void);
 
 
 /*
  *	Has CPU Support For 3DNow (AMD feature)
- *	@return
+ *	@Return
  */
-extern DECLSPEC ExBoolean ELTAPIENTRY ExHas3DNow(void);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHas3DNow(void);
 
 /*
  *	Has CPU Support For MMX (Matrix Math eXtension)
- *	@return
+ *	@Return
  */
-extern DECLSPEC ExBoolean ELTAPIENTRY ExHasMMX(void);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasMMX(void);
 
 /*
  *	Get number of cpu's cores.
- *	@return number of cpu cores.
+ *	@Return number of cpu cores.
  */
-extern DECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void);
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void);
 
 /*
  *
- *	@return
+ *	@Return
  */
-extern DECLSPEC ExBoolean ELTAPIENTRY ExGetCPUCacheLineSize(void);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExGetCPUCacheLineSize(void);
 
 /*
  *	Is SSE ( Streaming SIMD Extensions ) available
- *	@return
+ *	@Return
  */
-extern DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE(void);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE(void);
 
 /*
  *	Is SSE 2 ( Streaming SIMD Extensions ) available
- *	@return
+ *	@Return
  */
-extern DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE2(void);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE2(void);
 
 /*
  *	Is SSE 3 ( Streaming SIMD Extensions ) available
- *	@return
+ *	@Return
  */
-extern DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE3(void);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE3(void);
 
 /*
  *	Is SSE 41 ( Streaming SIMD Extensions ) available
- *	@return
+ *	@Return
  */
-extern DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE41(void);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE41(void);
 
 /*
  *	Is SSE 41 ( Streaming SIMD Extensions ) available
- *	@return
+ *	@Return
  */
-extern DECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void);
 
 /*
  *
- *	@return
+ *	@Return
  */
-extern DECLSPEC ExBoolean ELTAPIENTRY ExHasNeon(void);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasNeon(void);
 
 /**/
-extern DECLSPEC Enum ELTAPIENTRY ExGetCpuVendor(void);
+extern ELTDECLSPEC Enum ELTAPIENTRY ExGetCpuVendor(void);
 
 /**/
-extern DECLSPEC Enum ELTAPIENTRY ExGetCPUInstructionArchecture(void);
+extern ELTDECLSPEC Enum ELTAPIENTRY ExGetCPUInstructionArchecture(void);
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 }

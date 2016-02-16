@@ -1,4 +1,6 @@
 #include"system/elt_audio.h"
+#ifdef EX_LINUX
+
 #include<AL/al.h>
 #include<AL/alc.h>
 
@@ -13,7 +15,7 @@
 ALCcontext *alContext;
 ALCdevice *alDevice;
 
-DECLSPEC ExAudioContext ELTAPIENTRY ExAudioInit(const char* cDriverName){
+ELTDECLSPEC ExAudioContext ELTAPIENTRY ExAudioInit(const char* cDriverName){
 	ERESULT hr;
 
 	alDevice = alcOpenDevice(cDriverName);
@@ -95,7 +97,7 @@ DECLSPEC ExAudioContext ELTAPIENTRY ExAudioInit(const char* cDriverName){
 	return alContext;
 }
 
-DECLSPEC ERESULT ELTAPIENTRY ExAudioQuit(void){
+ELTDECLSPEC ERESULT ELTAPIENTRY ExAudioQuit(void){
 
 	alcMakeContextCurrent(NULL);
 	alcDestroyContext(alContext);
@@ -104,13 +106,15 @@ DECLSPEC ERESULT ELTAPIENTRY ExAudioQuit(void){
 }
 
 
-DECLSPEC int ELTAPIENTRY ExGetNumAudioDevices(void){
+ELTDECLSPEC int ELTAPIENTRY ExGetNumAudioDevices(void){
 	const ALCchar *devices  = alcGetString(NULL, ALC_DEVICE_SPECIFIER);
 
 }
-DECLSPEC int ELTAPIENTRY ExGetNumAudioDriver(void){
+ELTDECLSPEC int ELTAPIENTRY ExGetNumAudioDriver(void){
 
 }
 
+
+#endif
 
 

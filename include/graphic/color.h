@@ -1,6 +1,6 @@
 /**
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
-    Copyright (C) 2014  Valdemar Lindberg
+    Copyright (C) 2016  Valdemar Lindberg
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,12 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _ELT_WINDOW_H_ 
-#define _ELT_WINDOW_H_ 1
-#include"elt_def.h"
+#ifndef _ELT_COLOR_H_
+#define _ELT_COLOR_H_ 1
 
-#include"system/elt_win.h"
-#include"system/elt_event.h"
-#include"system/elt_surface.h"
 
-#endif 
+
+#endif

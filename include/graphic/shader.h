@@ -18,16 +18,17 @@
 */
 #ifndef _ELT_SHADER_H_
 #define _ELT_SHADER_H_ 1
+#include"./../elt_def.h"
 #include<stdio.h>
 
 typedef struct ex_shader{
-	int ver;
-	int fra;
-	int geo;
-	int tesc;
-	int tese;
-	int program;
-	int flag;
+	unsigned int ver;		/**/
+	unsigned int fra;		/**/
+	unsigned int geo;		/**/
+	unsigned int tesc;		/**/
+	unsigned int tese;		/**/
+	unsigned int program;	/**/
+	unsigned int flag;		/**/
 }ExShader,ShaderHeaderr;
 
 #ifdef __cplusplus	/*	C++ environment	*/
@@ -36,41 +37,62 @@ extern "C"{
 
 /*
  *
+ *	@Return
  */
-extern int ExGetShaderProgramSize(unsigned int program);
-/*
- *
- */
-extern int ExGetShaderSourceSize(unsigned int shader);
+extern ELTDECLSPEC int ExGetShaderProgramSize(unsigned int program);
 
 /*
  *
+ *	@Return
  */
-extern int ExSetProgramShader(int program, int shader);
-
+extern ELTDECLSPEC int ExGetShaderSourceSize(unsigned int shader);
 
 /*
  *
  */
-extern int ExLoadShader(ExShader* shad,const char* cvertexfilename, const char* cfragmentfilename, const char* cgeometryfilename, const char* ctesscfilename, const char* ctessefilename);
+extern ELTDECLSPEC int ExSetProgramShader(int program, int shader);
+
 /*
+ *
+ *	@Return
  */
-extern int ExLoadShaderv(ExShader* shad, const char* cvertexSource,const char* cfragmentSource,const char* cgeometry_source,const char* ctess_c_source, const char* ctess_e_source);
+extern ELTDECLSPEC int ELTAPIENTRY ExLoadShader(ExShader* shad, const char* cvertexfilename, const char* cfragmentfilename, const char* cgeometryfilename, const char* ctesscfilename, const char* ctessefilename);
 
-/**/
-extern int ExDeleteShaderProgram(ExShader* header);
+/*
+ *
+ *	@Return 0 if failed.
+ */
+extern ELTDECLSPEC int ELTAPIENTRY ExLoadShaderv(ExShader* shad, const char* cvertexSource, const char* cfragmentSource, const char* cgeometry_source, const char* ctess_c_source, const char* ctess_e_source);
 
-/**/
-extern int ExCompileShaderSource(const char* strPath,char** source, unsigned int flag);
+/*
+ *
+ *	@Return 0 if failed
+ */
+extern ELTDECLSPEC int ExDeleteShaderProgram(ExShader* header);
 
-/*	*/
-extern int ExCompileShaderSourcev(const char** source, unsigned int flag);
+/*
+ *
+ *	@Return
+ */
+extern ELTDECLSPEC int ExCompileShaderSource(const char* strPath, char** source, unsigned int flag);
 
-extern int ExShaderCompileLog(unsigned int program,unsigned int shaderflag);
+/*
+ *
+ *	@Return
+ */
+extern ELTDECLSPEC int ExCompileShaderSourcev(const char** source, unsigned int flag);
 
-extern int ExShaderCompileLogv(unsigned int program,unsigned int shaderflag, char* log);
+/*
+ *
+ */
+extern ELTDECLSPEC int ExShaderCompileLog(unsigned int program,unsigned int shaderflag);
 
-extern int ExGetShaderSource(unsigned int shader, char** source);
+/*
+ *
+ */
+extern ELTDECLSPEC int ExShaderCompileLogv(unsigned int program,unsigned int shaderflag, char* log);
+
+extern ELTDECLSPEC int ExGetShaderSource(unsigned int shader, char** source);
 
 /* */
 extern int ExGetShaderSourcev(unsigned int shader, char* source);

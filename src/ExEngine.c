@@ -82,16 +82,17 @@ _In_  HINSTANCE hinstDLL,
 	return TRUE;
 }
 #elif defined(EX_GNUC)
+
 void __attribute__ ((constructor)) my_load(void){
 
 }
+
 void __attribute__ ((destructor)) my_unload(void){
 
 }
+
+
 #endif
-
-#define OPENGL_SHARE_NAME ""
-
 
 
 
@@ -105,6 +106,7 @@ extern Uint64 eltTickTime;
  *
  */
 unsigned long int engineflag = 0;
+#define ELT_DEINIT ((unsigned long int)(-1))
 
 /*
  *
@@ -112,9 +114,9 @@ unsigned long int engineflag = 0;
 void* xcbConnection;
 
 
-DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
+ELTDECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	ERESULT result = E_OK;
-	HANDLE hmodule;
+	ExHandle hmodule;
 	Int32 hConHandle;
 	Long lStdHandle;
 
@@ -122,7 +124,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	/*	if all is already initilated return !	*/
     if(engineflag & ELT_INIT_EVERYTHING)
         return 2;
-
+	engineflag = engineflag & ~ELT_DEINIT;
 
     /*	*/
 #ifdef EX_DEBUG || (EX_ENGINE_VERSION_MAJOR <= 0)
@@ -165,14 +167,6 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
     dup2(stdout,stderr);  //redirects stderr to stdout below this line.
 
 
-/*	unicode		*/
-#ifdef UNICODE
-	printf(EX_TEXT("Initialize engine version: %d.%d.%d\n"),EX_VERSION_MAJOR,EX_VERSION_MINOR,EX_VERSION_REVISION);
-	wprintf(EX_TEXT("Operating System : %s\n"),ExGetOSName());
-#endif
-
-
-
 #if defined(EX_WINDOWS)
 
 
@@ -207,16 +201,19 @@ DECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 
 	engineflag |= engineFlag;
 
-	/* release resources even if application exit unexpected */
+	/* release resources even if application exit unexpected or exit without calling ExShutDown */
 	atexit(ExShutDown);
 
 	return result;
 }
 
-
-DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
+ELTDECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 	ERESULT hr = 0;
-	HANDLE hmodule;
+	ExHandle hmodule;
+
+	/**/
+	engineflag = engineflag & ~ELT_DEINIT;
+
 
 
 	if(ELT_INIT_VIDEO & engineflag){
@@ -236,6 +233,8 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 	}
 	if(ELT_INIT_AUDIO & engineflag){
 		//ExAudioInit(0);
+
+
 	}
 	if(ELT_INIT_GAMECONTROLLER & engineflag){
 #ifdef EX_WINDOWS
@@ -256,7 +255,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 #endif
 	}
 	if(ELT_INIT_TIMER & engineflag){
-		eltTickTime = clock();
+		eltTickTime = ExCurrentTime();
 	}
 	if(ELT_INIT_NET & engineflag){
 
@@ -274,7 +273,7 @@ DECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 }
 
 
-DECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag){
+ELTDECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag){
 
 	if(ELT_INIT_TIMER & engineflag){
         #ifdef EX_WINDOWS   // EX_WINDOWS
@@ -327,7 +326,10 @@ DECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag){
 
 
 }
-DECLSPEC void ELTAPIENTRY ExShutDown(void){
+ELTDECLSPEC void ELTAPIENTRY ExShutDown(void){
+	if(engineflag & ELT_DEINIT)
+		return;
+
 #ifdef EX_LINUX
     struct mallinfo mi;
 #endif
@@ -405,13 +407,17 @@ DECLSPEC void ELTAPIENTRY ExShutDown(void){
 
 #endif
 
+	/**/
+	engineflag |= ELT_DEINIT;
+	engineflag = engineflag & ~ELT_INIT_EVERYTHING;
+
 	//fclose(m_file_log);
 }
 
 
 
 
-DECLSPEC void ELTAPIENTRY ExEnable(Enum enable){
+ELTDECLSPEC void ELTAPIENTRY ExEnable(Enum enable){
 #ifdef EX_WINDOWS
 #endif
 	switch(enable){
@@ -436,7 +442,7 @@ DECLSPEC void ELTAPIENTRY ExEnable(Enum enable){
 	}
 }
 
-DECLSPEC void ELTAPIENTRY ExDisable(Enum disable){
+ELTDECLSPEC void ELTAPIENTRY ExDisable(Enum disable){
 #ifdef EX_WINDOWS
 #endif
 	switch(disable){
@@ -461,10 +467,10 @@ DECLSPEC void ELTAPIENTRY ExDisable(Enum disable){
 
 
 #define EX_COMPILER_VERSION(major, minor, revision) EX_TEXT("ELT-")STR(major)EX_TEXT(".")STR(minor)EX_TEXT(".")STR(revision)
-DECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void){
+ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void){
 	return EX_COMPILER_VERSION(EX_VERSION_MAJOR, EX_VERSION_MINOR, EX_VERSION_REVISION);
 }
 
-DECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void){
+ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void){
     return EX_TEXT(EX_COMPILER_NAME);
 }

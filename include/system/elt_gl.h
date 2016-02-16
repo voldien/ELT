@@ -22,56 +22,56 @@
 #include"elt_egl.h"
 
 #ifdef EX_WINDOWS
-	#define ExSwapBuffers SwapBuffers
+	#define ExSwapBuffers(surface) SwapBuffers(surface)
 #elif defined(EX_LINUX)
 	#define ExSwapBuffers(window) glXSwapBuffers(display,window)
 #elif defined(EX_MAC)
 	#define ExSwapBuffers glSwapBuffers
 #elif defined(EX_ANDROID)
-	#define ExSwapBuffers(surface) eglSwapBuffers(eglGetDisplay(EGL_DEFAULT_DISPLAY),surface)
+	extern EGLDisplay eglDisplay;
+	#define ExSwapBuffers(surface) eglSwapBuffers(eglDisplay, surface)
 #else
-	extern DECLSPEC void ExSwapBuffers(void* surface);
+	extern ELTDECLSPEC void ExSwapBuffers(void* surface);
 #endif
 
 
 /*
  *	GPU Vendors constant of.
  */
-#define EX_UNKNOWN	0x0				/**/
-#define EX_NVIDIA	0x1				/**/
-#define EX_INTEL	0x2				/**/
-#define EX_AMD		0x4				/**/
+#define EX_GPU_VENDOR_UNKNOWN		0x0				/**/
+#define EX_NVIDIA		0x1				/**/
+#define EX_INTEL		0x2				/**/
+#define EX_AMD			0x4				/**/
 
 
 /*
  *	context attributes.
  */
-#define EX_OPENGL_RED_SIZE				0
-#define EX_OPENGL_GREEN_SIZE			1
-#define EX_OPENGL_BLUE_SIZE				2
-#define EX_OPENGL_DEPTH_SIZE			3
-#define EX_OPENGL_ALPHA_SIZE			4
-#define EX_OPENGL_DOUBLEBUFFER			5
-#define EX_OPENGL_STENCIL_SIZE			6
-#define EX_OPENGL_ACCUM_RED_SIZE		7
-#define EX_OPENGL_ACCUM_GREEN_SIZE		8
-#define EX_OPENGL_ACCUM_BLUE_SIZE		9
-#define EX_OPENGL_ACCUM_ALPHA_SIZE		9
-#define EX_OPENGL_ACCELERATED_VISUAL	10
-#define EX_OPENGL_STEREO				11
-#define EX_OPENGL_MULTISAMPLEBUFFERS	12
-#define EX_OPENGL_MULTISAMPLESAMPLES	13
-#define EX_OPENGL_FRAMEBUFFER_SRGB_CAPABLE	14
+#define EX_OPENGL_RED_SIZE					0
+#define EX_OPENGL_GREEN_SIZE				1
+#define EX_OPENGL_BLUE_SIZE					2
+#define EX_OPENGL_DEPTH_SIZE				3
+#define EX_OPENGL_ALPHA_SIZE				4
+#define EX_OPENGL_DOUBLEBUFFER				5
+#define EX_OPENGL_STENCIL_SIZE				6
+#define EX_OPENGL_ACCUM_RED_SIZE			7
+#define EX_OPENGL_ACCUM_GREEN_SIZE			8
+#define EX_OPENGL_ACCUM_BLUE_SIZE			9
+#define EX_OPENGL_ACCUM_ALPHA_SIZE			10
+#define EX_OPENGL_ACCELERATED_VISUAL		11
+#define EX_OPENGL_STEREO					12
+#define EX_OPENGL_MULTISAMPLEBUFFERS		13
+#define EX_OPENGL_MULTISAMPLESAMPLES		14
+#define EX_OPENGL_FRAMEBUFFER_SRGB_CAPABLE	15
 
 
 /*
  *	Context flag attributes.
  */
-#define EX_OPENGL_MAJOR_VERSION			16
-#define EX_OPENGL_MINOR_VERSION			17
-#define EX_OPENGL_CONTEXT_FLAGS			18
-#define EX_OPENGL_CONTEXT_PROFILE_MASK	19
-#define EX_OPENGL_EGL
+#define EX_OPENGL_MAJOR_VERSION			17
+#define EX_OPENGL_MINOR_VERSION			18
+#define EX_OPENGL_CONTEXT_FLAGS			19
+#define EX_OPENGL_CONTEXT_PROFILE_MASK	20
 
 
 /*
@@ -79,16 +79,16 @@
  */
 #define EX_GL_CONTEXT_PROFILE_CORE           	0x00000001	/*	*/
 #define EX_GL_CONTEXT_PROFILE_COMPATIBILITY  	0x00000002	/*	*/
-#define EX_GL_CONTEXT_PROFILE_ES             	0x00000004 	/* GLX_CONTEXT_ES2_PROFILE_BIT_EXT */
-#define EX_GL_CONTEXT_PROFILE_ES2				0x00000008	/*	*/
+#define EX_GL_CONTEXT_PROFILE_ES             	0x00000004 	/*  */
+#define EX_GL_CONTEXT_PROFILE_ES2				0x00000004	/*	*/
 
 /*
  *	Context flag attributes bit.
  */
-#define EX_GL_CONTEXT_DEBUG_FLAG              	0x00001
-#define EX_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG 	0x00002
-#define EX_GL_CONTEXT_ROBUST_ACCESS_FLAG      	0x00004
-#define EX_GL_CONTEXT_RESET_ISOLATION_FLAG    	0x00008
+#define EX_GL_CONTEXT_DEBUG_FLAG              	0x00001		/*	*/
+#define EX_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG 	0x00002		/*	*/
+#define EX_GL_CONTEXT_ROBUST_ACCESS_FLAG      	0x00004		/*	*/
+#define EX_GL_CONTEXT_RESET_ISOLATION_FLAG    	0x00008		/*	*/
 
 
 #ifdef __cplusplus	/*	C++ environment	*/
@@ -97,93 +97,94 @@ extern "C"{
 
 /*
  *	Get Window associated with OpenGL Context.
- *	@return
+ *	@Return
  */
-extern DECLSPEC ExWin ELTAPIENTRY ExGetOpenGLContextWindow(ExOpenGLContext glc);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetOpenGLContextWindow(ExOpenGLContext glc);
 
 /*
  * 	Get device context of current openGL context on current thread
- *	@return current device context on current thread.
+ *	@Return current device context on current thread.
  */
-extern DECLSPEC WindowContext ELTAPIFASTENTRY ExGetCurrentGLDC(void);
-#define ExGetCurrentGLDrawable ExGetCurrentGLDC
+extern ELTDECLSPEC ExWindowContext ELTAPIFASTENTRY ExGetCurrentGLDrawable(void);
 
 /*
  *	Get OpenGL context on the current thread
- *	@return
+ *	@Return
  */
-extern DECLSPEC ExOpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void);
-
-/*
- *	Get OpenGL context from given window.
- *	@return
- */
-extern DECLSPEC ExOpenGLContext ELTAPIENTRY ExGetOpenGLCFromWindow(ExWin window);
+extern ELTDECLSPEC ExOpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void);
 
 /*
  *	Make current OpenGL context.
  *	\hDC
  *	\glc
- *	@return
+ *	@Return
  */
-extern DECLSPEC int ELTAPIENTRY ExMakeGLCurrent(ExWindowContext hDC, ExOpenGLContext glc);
+extern ELTDECLSPEC int ELTAPIENTRY ExMakeGLCurrent(ExWindowContext hDC, ExOpenGLContext glc);
+
+
+/*	//TODO rename
+ *
+ *	@Return
+ */
+extern ELTDECLSPEC ExHandle ELTAPIENTRY ExGetOpenGLProc(const ExChar* cprocName);
+
 
 /*
  *  Create Context Attribute Based on Internal Hardware and engine description.
 */
-extern DECLSPEC void ELTAPIENTRY ExCreateContextAttrib(ExWindowContext hDC,Int32* attrib, Int32* size);
+extern ELTDECLSPEC void ELTAPIENTRY ExCreateContextAttrib(ExWindowContext hDC, Int32* attrib, Int32* size);
 
 /*
  *	Create OpenGL context for given window
- *	@return
+ *	@Return
  */
-extern DECLSPEC ExOpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shareContext);
+extern ELTDECLSPEC ExOpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shareContext);
 
 /*
  *
- *	@return
+ *	@Return
  */
-extern DECLSPEC ExOpenGLContext ELTAPIENTRY ExCreateTempGLContext(void);
+extern ELTDECLSPEC ExOpenGLContext ELTAPIENTRY ExCreateTempGLContext(void);
 
 /*
  *	Create Shared OpenGL Context from a already existing context.
- *	@return
+ *	@Return
  */
-extern DECLSPEC ExOpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, ExOpenGLContext context);
+extern ELTDECLSPEC ExOpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, ExOpenGLContext context);
 
 /*
  *	Set OpenGL context attribute.
  */
-extern DECLSPEC void ELTAPIENTRY ExOpenGLSetAttribute(unsigned int attr, int value);
+extern ELTDECLSPEC void ELTAPIENTRY ExOpenGLSetAttribute(unsigned int attr, int value);
 
 /*
  *	Get OpenGL context attribute.
- *	@return
+ *	@Return
  */
-extern DECLSPEC int ELTAPIENTRY ExOpenGLGetAttribute(unsigned int attr, int* value);
+extern ELTDECLSPEC int ELTAPIENTRY ExOpenGLGetAttribute(unsigned int attr, int* value);
 
 
 /*
  *	Reset OpenGL context attributes to default.
  */
-extern DECLSPEC void ELTAPIENTRY ExOpenGLResetAttributes(void);
+extern ELTDECLSPEC void ELTAPIENTRY ExOpenGLResetAttributes(void);
 
 /*
- *	Initialize OpenGL States
+ *	Initialize OpenGL States 	 TODO perhaps remove.
  */
-extern DECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void);
+extern ELTDECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void);
 
 /*
  *	Destroy OpenGL Context.
- *	@return
+ *	@Return
  */
-extern DECLSPEC ExBoolean ELTAPIENTRY ExDestroyGLContext(ExWindowContext drawable, ExOpenGLContext glc);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExDestroyGLContext(ExWindowContext drawable, ExOpenGLContext glc);
 
 /*
  *	Destroy and release current OpenGL Context attached to current thread
- *	@return
+ *	@Return
  */
-extern DECLSPEC ExBoolean ELTAPIENTRY ExDestroyCurrentGLContext(void);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExDestroyCurrentGLContext(void);
 
 /*
  *	Set Window associated with OpenGL context fullScreen.
@@ -192,9 +193,9 @@ extern DECLSPEC ExBoolean ELTAPIENTRY ExDestroyCurrentGLContext(void);
  *	\
  *	\
  *
- *	@return TRUE if sucesful.
+ *	@Return TRUE if sucesful.
  */
-extern DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes);
 
 
 #define EX_GLTRANSPARENT_ENABLE 0x1
@@ -209,64 +210,63 @@ extern DECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, Ex
  *  ExSetHint(EX_ALPHA, x > 0);
  *  read more about DwmEnableBlurBehindWindow : http://msdn.microsoft.com/en-us/library/windows/desktop/aa969508(v=vs.85).aspx
  */
-extern DECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin hWnd, Enum ienum);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window, Enum ienum);
 
 /*
  *	Get Hardware OpenGL shading Version
- *	@return
+ *	@Return
  */
-extern DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void);
+extern ELTDECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void);
 
 /*
  *	Get OpenGL Version
- *	@return
+ *	@Return
  */
-extern DECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor);
+extern ELTDECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor);
 
 
 /*
  *	Get if OpenGL extension is supported on current binded machine.
- *	@return TRUE is supported. Otherwise FALSE.
+ *	@Return TRUE is supported. Otherwise FALSE.
  */
-extern DECLSPEC Uint32 ELTAPIENTRY ExIsOpenGLExtensionSupported(const char* extension);
+extern ELTDECLSPEC Uint32 ELTAPIENTRY ExIsOpenGLExtensionSupported(const char* extension);
 
 /*
  *	TODO perhaps move it somewhere else, as some other API may use the same
  *	extension parsing convention.
  */
-extern DECLSPEC Uint32 ELTAPIENTRY ExIsExtensionSupported(const char* extList,const char* extension);
-
+extern ELTDECLSPEC Uint32 ELTAPIENTRY ExIsExtensionSupported(const char* extList, const char* extension);
 
 /*
  *	Check if graphic card is AMD GPU
- *	@return
+ *	@Return
  */
-extern DECLSPEC Int32 ELTAPIENTRY ExIsVendorAMD(void);
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExIsVendorAMD(void);
 
 /*
  *	Check if graphic card is Nvidia GPU
- *	@return if Nvidia vendor
+ *	@Return if Nvidia vendor
  */
-extern DECLSPEC Int32 ELTAPIENTRY ExIsVendorNvidia(void);
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExIsVendorNvidia(void);
 
 /*
  *	Check if graphic card is Intel GPU
- *	@return
+ *	@Return
  */
-extern DECLSPEC Int32 ELTAPIENTRY ExIsVendorIntel(void);
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExIsVendorIntel(void);
 
 /*
  *	Get graphic vendor enumerator
- *	@return
+ *	@Return
  */
-extern DECLSPEC Enum ELTAPIENTRY ExGetOpenGLVendor(void);
+extern ELTDECLSPEC Enum ELTAPIENTRY ExGetOpenGLVendor(void);
 
 
 /*
  *	Set OpenGL VSync.
- *	@return
+ *	@Return
  */
-extern DECLSPEC ERESULT ELTAPIENTRY ExOpenGLSetVSync(ExBoolean enabled, ExWin window);
+extern ELTDECLSPEC ERESULT ELTAPIENTRY ExOpenGLSetVSync(ExBoolean enabled, ExWin window);
 
 
 #ifdef __cplusplus	/*	C++ environment	*/

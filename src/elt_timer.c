@@ -3,10 +3,11 @@
 #ifdef EX_WINDOWS
 	#include<windef.h>
 	#include<windows.h>
+#	include<sys/time.h>
 #elif defined(EX_UNIX)
 #	include<errno.h>
 #	include<unistd.h>
-#	include <sys/time.h>
+#	include<sys/time.h>
 #endif
 
 #include<time.h>
@@ -17,7 +18,8 @@ Uint64 eltTickTime = 0;
 #define CLOCKID CLOCK_REALTIME
 #define SIG SIGUSR2
 
-DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback, void* param){
+
+ELTDECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback, void* param){
 	Uint32 pid;
 #ifdef EX_WINDOWS
 	ExIsWinError(CreateTimerQueueTimer((PHANDLE)&pid,
@@ -45,7 +47,8 @@ DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback,
 	sev.sigev_notify = SIGEV_SIGNAL;
 	sev.sigev_signo = SIGUSR1;
 	sev.sigev_value.sival_ptr = &timerid;
-	timer_create(CLOCKID, &sev, &timerid);
+	if(timer_create(CLOCKID, &sev, &timerid) < -1)
+		return FALSE;
 
 	/* Start the timer */
 	its.it_value.tv_sec = 0;
@@ -65,19 +68,21 @@ DECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback,
 
 }
 
-DECLSPEC ExBoolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id){
+ELTDECLSPEC ExBoolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id){
 #ifdef EX_WINDOWS
 	ExBoolean error;
 	ExIsWinError(error = DeleteTimerQueueTimer(NULL,(HANDLE)timer_id, NULL));
 	return error;
 #elif defined(EX_UNIX)
-    if(timer_delete(timer_id) == -1)
+    if(timer_delete(timer_id) < -1){
         fprintf(stderr,strerror(errno));
-	return 0;
+        return FALSE;
+    }
+	return TRUE;
 #endif
 }
 
-DECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms){
+ELTDECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms){
     #ifdef EX_WINDOWS
     Sleep(ms);
 #elif defined(EX_UNIX)
@@ -95,9 +100,9 @@ DECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms){
     #endif
 }
 
-DECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nanosec){
+ELTDECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nanosec){
     #ifdef EX_WINDOWS
-    struct timeval tv;  // TODO Does this nano sleep work ?
+    struct timeval tv;  	// TODO Does this nano sleep work ?
     tv.tv_sec = nanosec / 1000000000;
     tv.tv_usec = nanosec;
     select(0,0,0,0,&tv);
@@ -116,7 +121,7 @@ DECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nanosec){
     #endif
 }
 
-DECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void){
+ELTDECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void){
 #ifdef EX_WINDOWS
 	return (timeGetTime() - eltTickTime);  /*  return in milliseconds   */
 #elif defined(EX_UNIX)
@@ -124,7 +129,7 @@ DECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void){
 #endif
 }
 
-DECLSPEC long int ELTAPIENTRY ExGetHiResTime(void){
+ELTDECLSPEC long int ELTAPIENTRY ExGetHiResTime(void){
     #ifdef EX_WINDOWS
 	LARGE_INTEGER time;
 	QueryPerformanceCounter(&time);

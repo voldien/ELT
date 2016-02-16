@@ -13,8 +13,8 @@
 #endif
 
 
-CallBack ExOnFocus = NULL;
-CallBack ExOnUnFocus = NULL;
+ExCallBack ExOnFocus = NULL;
+ExCallBack ExOnUnFocus = NULL;
 
 void ELTAPIENTRY ExDisableAltTab(void){
 	BOOL old;
@@ -212,12 +212,14 @@ ERESULT WINAPI ExMainWndProc(ExWin hWnd,UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		}break;
 	case WM_KILLFOCUS:{
-		if(ExOnUnFocus != NULL)ExOnUnFocus();
+		if(ExOnUnFocus != NULL)
+			ExOnUnFocus();
 			// inform key state or something
 		}break;
 	case WM_SETFOCUS:{
 		// assign data to input
-		if(ExOnFocus != NULL)ExOnFocus();
+		if(ExOnFocus != NULL)
+			ExOnFocus();
 		/*if(ExIsEngineState(ENGINE_SUPPORT_INPUT)){
 			ExSetKeyBoardCooperative(hWnd, ExGetEngineFlag());
 			ExSetMouseCooperative(hWnd, ExGetEngineFlag());
@@ -471,7 +473,7 @@ BOOL WINAPI ExOnContextMenu(ExWin hWnd,Int x, Int y){
     return FALSE;
 }
 
-DECLSPEC BOOL WINAPI ExOnContextMenu2(ExWin hWnd,HMENU hmenuTrackPopup,Int x, Int y){
+ELTDECLSPEC BOOL WINAPI ExOnContextMenu2(ExWin hWnd, HMENU hmenuTrackPopup, Int x, Int y){
 	if(!hmenuTrackPopup)return FALSE;
 	RECT rc;                    // client area of window
     POINT pt = { x, y };        // location of mouse click
@@ -516,7 +518,7 @@ BOOL WINAPI ExDisplayContextMenu(ExWin hWnd, POINT* pt){
 	return TRUE;
 }
 
-HANDLE ELTAPIENTRY ExHookWndProc(Int32  idHook, HOOKPROC lpfn){
+ExHandle ELTAPIENTRY ExHookWndProc(Int32  idHook, HOOKPROC lpfn){
 	HHOOK hook;
 	ExIsWinError(hook =SetWindowsHookEx(idHook,lpfn,GetModuleHandle(NULL),0));
 	return hook;

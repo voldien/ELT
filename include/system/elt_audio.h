@@ -26,45 +26,45 @@ extern "C"{
 
 /*
  *
- *	@return
+ *	@Return
  */
-extern DECLSPEC ExAudioContext ELTAPIENTRY ExAudioInit(const char* driverName);
+extern ELTDECLSPEC ExAudioContext ELTAPIENTRY ExAudioInit(const char* driverName);
 
 /*
  *
  */
-extern DECLSPEC ERESULT ELTAPIENTRY ExAudioQuit(void);
+extern ELTDECLSPEC ERESULT ELTAPIENTRY ExAudioQuit(void);
 
 /*
  *
  */
-extern DECLSPEC ERESULT ELTAPIENTRY ExAudioWrite(const void* data);
+extern ELTDECLSPEC ERESULT ELTAPIENTRY ExAudioWrite(const void* data);
 
 /*
  *
  */
-extern DECLSPEC ERESULT ELTAPIENTRY ExAudioRead(void* data);
+extern ELTDECLSPEC ERESULT ELTAPIENTRY ExAudioRead(void* data);
 
 /**/
-extern DECLSPEC const char* ELTAPIENTRY ExGetAudioDriver(Int32 index);
+extern ELTDECLSPEC const char* ELTAPIENTRY ExGetAudioDriver(Int32 index);
 
 /**/
-extern DECLSPEC void ELTAPIENTRY ExGetAudioStatus(void);
+extern ELTDECLSPEC void ELTAPIENTRY ExGetAudioStatus(void);
 
 /**/
-extern DECLSPEC const char* ELTAPIENTRY ExGetCurrentAudioDriver(void);
+extern ELTDECLSPEC const char* ELTAPIENTRY ExGetCurrentAudioDriver(void);
 
 /**/
-extern DECLSPEC int ELTAPIENTRY ExGetNumAudioDevices(void);
+extern ELTDECLSPEC int ELTAPIENTRY ExGetNumAudioDevices(void);
 
 /**/
-extern DECLSPEC int ELTAPIENTRY ExGetNumAudioDriver(void);
+extern ELTDECLSPEC int ELTAPIENTRY ExGetNumAudioDriver(void);
 
 
 /*
  *
  */
-extern DECLSPEC int ELTAPIENTRY ExRecordAudio(int outputDevice, int len, ExHandle data);
+extern ELTDECLSPEC int ELTAPIENTRY ExRecordAudio(int outputDevice, int len, ExHandle data);
 
 
 #ifdef __cplusplus	/*	C++ Environment	*/

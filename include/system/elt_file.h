@@ -27,67 +27,67 @@ extern "C"{
 
 /*
  *	Get file size in byte.
- *	@return
+ *	@Return
  */
-extern DECLSPEC long int ELTAPIENTRY ExGetFileSize(const ExChar* cfilname);
+extern ELTDECLSPEC long int ELTAPIENTRY ExGetFileSize(const ExChar* cfilname);
 
 /*
  *	Load data by specified pathname.
- *	@return
+ *	@Return
  */
-extern DECLSPEC int ELTAPIENTRY ExLoadFile(const ExChar* cfilename, void** data);
+extern ELTDECLSPEC int ELTAPIENTRY ExLoadFile(const ExChar* cfilename, void** data);
 
 /*
  *	Save File by specified file name.
- *	@return
+ *	@Return
  */
-extern DECLSPEC int ELTAPIENTRY ExSaveFile(const ExChar* cfilename, void* data, unsigned int csize);
+extern ELTDECLSPEC int ELTAPIENTRY ExSaveFile(const ExChar* cfilename, void* data, unsigned int csize);
 
 /*
  *
- *	@return
+ *	@Return
  */
-extern DECLSPEC FILE* ELTAPIENTRY ExSafeOpenWrite(const ExChar* cfilename);
+extern ELTDECLSPEC FILE* ELTAPIENTRY ExSafeOpenWrite(const ExChar* cfilename);
 
 /*
  *
- *	@return
+ *	@Return
  */
-extern DECLSPEC FILE* ELTAPIENTRY ExSafeOpenRead(const ExChar* cfilename);
-
-/*
- *
- */
-extern DECLSPEC void ELTAPIENTRY ExSafeWrite(FILE *f, void* buffer, unsigned int count);
+extern ELTDECLSPEC FILE* ELTAPIENTRY ExSafeOpenRead(const ExChar* cfilename);
 
 /*
  *
  */
-extern DECLSPEC void ELTAPIENTRY ExSafeRead(FILE*f, void* buffer, int count);
+extern ELTDECLSPEC void ELTAPIENTRY ExSafeWrite(FILE *f, void* buffer, unsigned int count);
 
 /*
  *
- *	@return
  */
-extern DECLSPEC int ELTAPIENTRY ExCreateDirectory(const ExChar* directory);
+extern ELTDECLSPEC void ELTAPIENTRY ExSafeRead(FILE*f, void* buffer, int count);
 
 /*
  *
- *	@return
+ *	@Return
  */
-extern DECLSPEC int ELTAPIENTRY ExRemoveDirectory(const ExChar* directory);
+extern ELTDECLSPEC int ELTAPIENTRY ExCreateDirectory(const ExChar* directory);
+
+/*
+ *
+ *	@Return
+ */
+extern ELTDECLSPEC int ELTAPIENTRY ExRemoveDirectory(const ExChar* directory);
 
 /*
  *	Remove file by given name.
- *	@return
+ *	@Return
  */
-extern DECLSPEC int ELTAPIENTRY ExRemoveFile(const ExChar* cfilename);
+extern ELTDECLSPEC int ELTAPIENTRY ExRemoveFile(const ExChar* cfilename);
 
 /*
  *	Return true if file exist.
- *	@return
+ *	@Return
  */
-extern DECLSPEC int ELTAPIENTRY ExExistFile(const ExChar* cfilename);
+extern ELTDECLSPEC int ELTAPIENTRY ExExistFile(const ExChar* cfilename);
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 }

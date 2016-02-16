@@ -29,7 +29,7 @@ ExSocket ELTAPIENTRY ExOpenSocket(unsigned int protocol){
     struct sockaddr_in serv_addr, cli_addr;
 
     /*	*/
-    if(protocol & ELT_LOCAL){
+    if(protocol & EX_LOCAL){
         sock_domain = PF_LOCAL;
         socket_protocol = 0;
     }
@@ -40,24 +40,24 @@ ExSocket ELTAPIENTRY ExOpenSocket(unsigned int protocol){
 
 
     /*	create socket	*/
-    if(protocol & ELT_LOCAL){
+    if(protocol & EX_LOCAL){
         if((sockfd = socket(sock_domain, SOCK_STREAM, socket_protocol)) == -1)
             fprintf(stderr,strerror(errno));
-        if(protocol & ELT_CLIENT)
+        if(protocol & EX_CLIENT)
             return sockfd;
     }
-    else if(protocol & ELT_CLIENT){
+    else if(protocol & EX_CLIENT){
 
         if((sockfd = socket(sock_domain, SOCK_STREAM, socket_protocol)) == -1)
             fprintf(stderr,strerror(errno));
         return sockfd;
     }
-    else if(protocol & ELT_TCP){
+    else if(protocol & EX_TCP){
         socket_protocol = 0;
         if((sockfd = socket(sock_domain, SOCK_STREAM, 0)) == -1)
             fprintf(stderr,strerror(errno));
     }
-    else if(protocol & ELT_UDP){
+    else if(protocol & EX_UDP){
         socket_protocol = 0;
         if((sockfd = socket(sock_domain, SOCK_DGRAM, socket_protocol)) == -1)
             fprintf(stderr,strerror(errno));
@@ -108,7 +108,7 @@ ExSocket ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int port){
     ExSocket sockfd;
 
     /**/
-    sockfd = ExOpenSocket(ELT_CLIENT);
+    sockfd = ExOpenSocket(EX_CLIENT);
 
 
     bzero((char*)&serv_addr, sizeof(serv_addr));

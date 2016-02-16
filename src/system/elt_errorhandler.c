@@ -32,6 +32,7 @@
 #   define LOGI(...)   __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
 #   define LOGE(...)   __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
 #endif
+
 #include<signal.h>
 #include<limits.h>
 
@@ -70,7 +71,7 @@
 #define EX_CONSOLE_COLOR_RESET 0x10
 
 
-DECLSPEC void ELTAPIENTRY ExSetConsoleColor(Uint16 colour){
+ELTDECLSPEC void ELTAPIENTRY ExSetConsoleColor(Uint16 colour){
 #if defined(EX_WINDOWS)
 	if(GetStdHandle(STD_OUTPUT_HANDLE) == INVALID_HANDLE_VALUE)return;
 
@@ -100,7 +101,7 @@ DECLSPEC void ELTAPIENTRY ExSetConsoleColor(Uint16 colour){
 }
 
 
-DECLSPEC Uint16 ELTAPIENTRY ExGetConsoleColor(void){
+ELTDECLSPEC Uint16 ELTAPIENTRY ExGetConsoleColor(void){
 #ifdef EX_WINDOWS
 	CONSOLE_SCREEN_BUFFER_INFO bufferInfo;
 	if(GetStdHandle(STD_OUTPUT_HANDLE) == INVALID_HANDLE_VALUE)return 0;
@@ -117,7 +118,7 @@ DECLSPEC Uint16 ELTAPIENTRY ExGetConsoleColor(void){
 ExChar* errorText = NULL;
 
 
-DECLSPEC void ELTAPIENTRY ExError(const ExChar* error,...){
+ELTDECLSPEC void ELTAPIENTRY ExError(const ExChar* error,...){
 	va_list argptr;
 
 	va_start(argptr,error);
@@ -135,7 +136,7 @@ DECLSPEC void ELTAPIENTRY ExError(const ExChar* error,...){
 #endif
 }
 
-DECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...){
+ELTDECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...){
 	ExChar text[512];
 
 	va_list argptr;
@@ -182,21 +183,20 @@ DECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...){
 }
 
 ERESULT ex_error[4] = {E_OK};
-DECLSPEC ERESULT ELTAPIFASTENTRY ExGetError(void){
+ELTDECLSPEC ERESULT ELTAPIFASTENTRY ExGetError(void){
 	return ex_error[0];
 }
 
-DECLSPEC void ELTAPIFASTENTRY ExSetError(ERESULT error){
+ELTDECLSPEC void ELTAPIFASTENTRY ExSetError(ERESULT error){
 	ex_error[0] = error;
 }
 
-DECLSPEC void ELTAPIFASTENTRY ExClearError(void){
+ELTDECLSPEC void ELTAPIFASTENTRY ExClearError(void){
 	memset(ex_error,E_OK, sizeof(ex_error));
 }
 
 
-DECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode){
-#ifdef EX_DEBUG
+ELTDECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode){
 	switch(errorcode){
 	case E_OK:return EX_TEXT("Sucess");
 	case E_FAILURE:return EX_TEXT("failure");
@@ -206,7 +206,6 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode){
 	case E_INVALID_ENUM:return EX_TEXT("Invalid enum");
 	default:return EX_TEXT("Unknown");
 	}
-#endif
 	return NULL;
 }
 
@@ -214,9 +213,9 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode){
 
 
 static int ctxErrorHandler(Display* dpy, XErrorEvent* error){
-    #ifdef EX_DEBUG
     char error_buffer[1024];
     XGetErrorText(dpy, error->error_code, error_buffer, sizeof(error_buffer));
+
     fprintf(stderr,
             "_X Error of failed request: %s\n"
             "_ Major opcode of failed request: % 3d (???)\n"
@@ -226,7 +225,6 @@ static int ctxErrorHandler(Display* dpy, XErrorEvent* error){
             error->request_code,
             error->serial
             );
-    #endif
     return NULL;
 }
 #endif
@@ -237,15 +235,16 @@ static int ctxErrorHandler(Display* dpy, XErrorEvent* error){
 int ELTAPIENTRY ExInitErrorHandler(void){
 #if defined(EX_LINUX)
     /*	enable X window error message handler.	*/
-	if(!XSetErrorHandler(ctxErrorHandler))
+	if(!XSetErrorHandler(ctxErrorHandler)){
         ExDevPrintf("error");
+	}
 #endif
 
 	/*	interrupt	*/
 	ExSetSignal(SIGINT,ExSignalCatch);
 #ifdef EX_WINDOWS
-	/**Sudden Abort*/
-	ExSetSignal(SIGABRT_COMPAT,ExSignalCatch);
+	/*	Sudden Abort	*/
+	//ExSetSignal(SIGABRT_COMPAT, ExSignalCatch);
 #elif defined(EX_LINUX)
 	/* Stack fault.  */
 	ExSetSignal(SIGSTKFLT,ExSignalCatch);
@@ -301,7 +300,7 @@ void ELTAPIENTRY ExErrorExit(ExChar* lpszFunction) {
 
 }
 
-DECLSPEC ExChar* ELTAPIENTRY ExGetErrorMessageW(ULong dw){
+ELTDECLSPEC ExChar* ELTAPIENTRY ExGetErrorMessageW(ULong dw){
 #ifdef EX_WINDOWS
 	if(errorText)   /*free allocated error message.*/
 		LocalFree(errorText);
@@ -325,7 +324,7 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetErrorMessageW(ULong dw){
 #endif
 }
 
-DECLSPEC ExChar* ELTAPIENTRY ExGetHResultErrorMessageW(ERESULT hresult){
+ELTDECLSPEC ExChar* ELTAPIENTRY ExGetHResultErrorMessageW(ERESULT hresult){
 #ifdef EX_WINDOWS
 	if(errorText)LocalFree(errorText);
 	FormatMessage(
@@ -353,7 +352,7 @@ DECLSPEC ExChar* ELTAPIENTRY ExGetHResultErrorMessageW(ERESULT hresult){
 #endif
 }
 
-DECLSPEC ExChar* ELTAPIENTRY ExGetHModuleErrorMessageW(ERESULT dw){
+ELTDECLSPEC ExChar* ELTAPIENTRY ExGetHModuleErrorMessageW(ERESULT dw){
 #ifdef EX_WINDOWS
 	if(errorText)LocalFree(errorText);
 	ExIsError(FormatMessage(
@@ -439,7 +438,7 @@ static void debugLogTrace(void){
 
 
 #define EX_ERROR_MESSAGE EX_TEXT("%s has just crashed %s Do you want to send a bug report to the developers team?")
-DECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
+ELTDECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 	ExChar wchar[512];
 	ExChar app_name[256];
 	char cfilename[260];

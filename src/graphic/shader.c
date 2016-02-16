@@ -22,22 +22,36 @@
 #endif
 
 
+
 int ExGetShaderProgramSize(unsigned int program){
-	unsigned int i,fsize;
+	unsigned int i;
+	int fsize;
 	int size;
 	int numShader;
-	unsigned int shad[16];
 	fsize = 0;
 
-	glGetAttachedShaders(program,sizeof(shad) / sizeof(shad[0]),&numShader,shad);
+	/*	get number of shaders attached to program	*/
+	glGetProgramiv(program, GL_ATTACHED_SHADERS, &numShader);
+	unsigned int shad[numShader];
 
+	/*	get shaders ids.	*/
+	glGetAttachedShaders(program, sizeof(shad) / sizeof(shad[0]), &numShader, shad);
 
 	for(i = 0; i < numShader; i++){
-		glGetShaderiv(shad[i], GL_SHADER_SOURCE_LENGTH,&size);
-		fsize+=size;
+		fsize += ExGetShaderSourceSize(shad[i]);
 	}
+
 	return fsize;
 }
+
+
+int ExGetShaderSourceSize(unsigned int shader){
+	int size;
+	glGetShaderiv(shader, GL_SHADER_SOURCE_LENGTH,&size);
+	glGetShaderSource(shader,0, &size, NULL);
+	return size;
+}
+
 
 
 int ExSetProgramShader(int program, int shader){
@@ -45,15 +59,17 @@ int ExSetProgramShader(int program, int shader){
 	int x;
 	int newtype;
 	int shaders[5];
-	glGetAttachedShaders(program,4,&count,shaders);
-	glGetShaderiv(shader,GL_SHADER_TYPE,&newtype);
+
+	glGetAttachedShaders(program, 4, &count, shaders);
+	glGetShaderiv(shader, GL_SHADER_TYPE, &newtype);
+
 	for(x = 0; x < count; x++){
 		int type;
-		glGetShaderiv(shaders[x], GL_SHADER_TYPE,&type);
+		glGetShaderiv(shaders[x], GL_SHADER_TYPE, &type);
 		if(type == newtype)
 			break;
 	}
-	glDetachShader(program,shaders[x]);
+	glDetachShader(program, shaders[x]);
 
 	glAttachShader(program,shader);
 	glLinkProgram(program);
@@ -76,8 +92,19 @@ int ExLoadShader(ExShader* shad,const char* cvertexfilename, const char* cfragme
 	int error;
 	v_source = f_source = g_source = tc_source = te_source = NULL;
 
-	shad->program = glCreateProgram();
+	/*	replace the source ExLoaderShaaderv	*/
+	error = ExLoadShaderv(shad,v_source,f_source,g_source,tc_source,te_source);
 
+
+	free(v_source);
+	free(f_source);
+	free(g_source);
+	free(tc_source);
+	free(te_source);
+
+	return error;
+
+	shad->program = glCreateProgram();
 
 	if(cvertexfilename){
 		shad->ver = ExCompileShaderSource(cvertexfilename,NULL,GL_VERTEX_SHADER);
@@ -98,6 +125,8 @@ int ExLoadShader(ExShader* shad,const char* cvertexfilename, const char* cfragme
 		shad->tese = ExCompileShaderSource(ctessefilename,&te_source,GL_TESS_EVALUATION_SHADER);
 	}
 #endif
+
+
 	/**/
 	free(v_source);
 	free(f_source);
@@ -119,10 +148,14 @@ int ExLoadShader(ExShader* shad,const char* cvertexfilename, const char* cfragme
 	return 1;
 }
 
-int ExLoadShaderv(ExShader* shad, const char* cvertexSource,const char* cfragmentSource,const char* cgeometrySource,const char* ctessCSource, const char* ctessESource){
+int ExLoadShaderv(ExShader* shad, const char* cvertexSource, const char* cfragmentSource, const char* cgeometrySource, const char* ctessCSource, const char* ctessESource){
 	int error;
-	if(!shad)
-		return 0;
+	if(!shad){
+		ExSetError(E_INVALID_ARGUMENT);
+		return FALSE;
+	}
+
+
 	shad->program = glCreateProgram();
 
 	if(cvertexSource){
@@ -153,6 +186,7 @@ int ExLoadShaderv(ExShader* shad, const char* cvertexSource,const char* cfragmen
 
 #if !defined(GL_ES_VERSION_2_0)
 	error = ExShaderCompileLog(shad->program,GL_PROGRAM);
+	/*	if shader failed. clean up resources.	*/
 	if(!error){
 		ExDeleteShaderProgram(shad);
 	}
@@ -163,6 +197,7 @@ int ExLoadShaderv(ExShader* shad, const char* cvertexSource,const char* cfragmen
 
 int ExDeleteShaderProgram(ExShader* header){
 	int error;
+
 	glDeleteProgram(header->program);
 	glDeleteShader(header->ver);
 	glDeleteShader(header->fra);
@@ -172,18 +207,19 @@ int ExDeleteShaderProgram(ExShader* header){
 
 	error = glIsProgram(header->program);
 
-	memset(header,0,sizeof(*header));
+	memset(header, NULL, sizeof(*header));
 
 
-	return error ? 0 : error;
+	return error ? FALSE : error;
 }
 
-int ExCompileShaderSource(const char* strPath,char** source, unsigned int flag){
+int ExCompileShaderSource(const char* strPath, char** source, unsigned int flag){
 	char* data;
 	int shader;
 	int c_message;
-	if(!strlen(strPath))
+	if(!strlen(strPath)){
 		return -1;
+	}
 
 	if(ExLoadFile(strPath,(void**)&data) != -1){
 
@@ -216,6 +252,8 @@ int ExCompileShaderSourcev(const char** source, unsigned int flag){
 	shader = glCreateShader(flag);
 	glShaderSource(shader, 1, source, NULL);
 	glCompileShader(shader);
+
+
 	error = ExShaderCompileLog(shader, flag);
 
 	return shader;

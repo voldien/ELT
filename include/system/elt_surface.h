@@ -20,8 +20,8 @@
 #define _ElT_SURFACE_H_ 1
 #include"elt_win.h"
 
-#define EXRGB_COLOR(r,g,b)	(r << 24) | (g << 16) | (b << 8)
-#define EXRGBA_COLOR(r,g,b,a)	((r << 24) | (g << 16) | (b << 8) | a)
+#define EX_RGB_COLOR(r,g,b)	(r << 24) | (g << 16) | (b << 8)
+#define EX_RGBA_COLOR(r,g,b,a)	((r << 24) | (g << 16) | (b << 8) | a)
 
 #define EX_RGB 0x20
 #define EX_RGBA 0x40
@@ -35,48 +35,48 @@ extern "C"{
 
 /*
  *	Create Surface
- *	@return
+ *	@Return
  */
-extern DECLSPEC ExSurface ExCreateSurface(unsigned int width, unsigned height, unsigned int format);
+extern ELTDECLSPEC ExSurface ELTAPIENTRY ExCreateSurface(unsigned int width, unsigned height, unsigned int format);
 
 /*
  *	release surface.
- *	@return
+ *	@Return
  */
-extern DECLSPEC int ExDestroySurface(ExSurface handle);
+extern ELTDECLSPEC int ELTAPIENTRY ExDestroySurface(ExSurface handle);
 
 /*
  *
  */
-extern DECLSPEC void ExDisplaySurfaceToWindow(ExWin window,ExSurface surface);
+extern ELTDECLSPEC void ExDisplaySurfaceToWindow(ExWin window,ExSurface surface);
 
 /*
  *	resize surface handle
  */
-extern DECLSPEC int ExResizeSurface(ExSurface handle, unsigned int width, unsigned height);
+extern ELTDECLSPEC int ELTAPIENTRY ExResizeSurface(ExSurface handle, unsigned int width, unsigned height);
 
 /*	*/
-extern DECLSPEC int ExGetSurfaceRect(ExSurface surface, ExRect* rect);
+extern ELTDECLSPEC int ExGetSurfaceRect(ExSurface surface, ExRect* rect);
 
 /*	set surface window	*/
-extern DECLSPEC int ExSetSurfacePixel(ExSurface handle, unsigned int x, unsigned int y, unsigned long pixel);
+extern ELTDECLSPEC int ExSetSurfacePixel(ExSurface handle, unsigned int x, unsigned int y, unsigned long pixel);
 
 
 
 /*
  *	set fill color..
  */
-extern DECLSPEC void ExFillRect(ExSurface handle, ExRect* rect, Uint32 color);
+extern ELTDECLSPEC void ExFillRect(ExSurface handle, ExRect* rect, Uint32 color);
 
 /*
  *
  */
-extern DECLSPEC ExUnlockSurface(ExSurface surface);
+extern ELTDECLSPEC ExUnlockSurface(ExSurface surface);
 
 /*
  *
  */
-extern DECLSPEC ExLockSurface(ExSurface surface);
+extern ELTDECLSPEC ExLockSurface(ExSurface surface);
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 }
