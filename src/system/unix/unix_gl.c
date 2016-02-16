@@ -185,11 +185,6 @@ ExOpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shar
     }
 
 
-
-    /*	check opengl attribute */
-
-
-
     /**/
     contextflag = ExOpenGLGetAttribute(EX_OPENGL_CONTEXT_FLAGS, NULL);
     contextprofile = ExOpenGLGetAttribute(EX_OPENGL_CONTEXT_PROFILE_MASK, NULL);
@@ -207,6 +202,7 @@ ExOpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shar
 		GLX_CONTEXT_PROFILE_MASK_ARB, ExIsExtensionSupported(glXQueryExtensionsString(display,DefaultScreen(display)),"GLX_ARB_create_context_profile") ? contextprofile : GLX_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
         None
     };
+
 
 
     switch(ExGetOpenGLVendor()){
@@ -234,15 +230,20 @@ ExOpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shar
 				glXCreateContextAttribsARBProc glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc)glXGetProcAddress((const GLubyte*)"glXCreateContextAttribsARB");
 
 				if(glXCreateContextAttribsARB){
-					ExChooseFBconfig(&fbconfig);
+					if(shareContext){
+						glXQueryContext(display, ExGetCurrentOpenGLContext(), GLX_FBCONFIG_ID, &fbconfig);
+					}
+					else
+						ExChooseFBconfig(&fbconfig);
+
 					glc = glXCreateContextAttribsARB(display, fbconfig, shareContext, True, contextAttribs);
-					XSync(display, False );
+					XSync(display, False);
 				}
 			}
 			else{
 				ExPrintf("GL_ARB_create_context not supported.\n");
-				vi = glXChooseVisual(display,DefaultScreen(display),pixAtt);
-				glc = glXCreateContext(display,vi, shareContext,True);
+				vi = glXChooseVisual(display, DefaultScreen(display), pixAtt);
+				glc = glXCreateContext(display,vi, shareContext, True);
 			}
 			/*
 
