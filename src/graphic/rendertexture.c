@@ -67,7 +67,7 @@ extern PFNGLUNIFORM4FVPROC glUniform4fv;
 
 
 
-ExFrameBuffer* ExCreateRenderTexture2D(ExFrameBuffer* framebuffer,unsigned int width, unsigned int height,unsigned int attachment){
+ExFrameBuffer* ExCreateRenderTexture2D(ExFrameBuffer* framebuffer, unsigned int width, unsigned int height, unsigned int attachment){
 	GLenum State;
 	if(!framebuffer)
 		return NULL;

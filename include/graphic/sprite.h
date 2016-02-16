@@ -26,12 +26,12 @@ extern "C"{
 #endif
 
 typedef struct ex_srpite{
-	float pos[3];				/**/
-	float angle;				/**/
-	float rect[4];				/**/
-	int texture;				/**/
-	float scale;				/**/
-	float color[4];				/**/
+	float pos[3];					/**/
+	float angle;					/**/
+	float rect[4];					/**/
+	int texture;					/**/
+	float scale;					/**/
+	float color[4];					/**/
 }ExSprite;
 
 typedef struct sprite_batch{
@@ -42,36 +42,39 @@ typedef struct sprite_batch{
 
 	ExShader shader;					/**/
 
-	int numTexture;
-	int numMaxTextures;
+	int numTexture;						/**/
+	int numMaxTextures;					/**/
 
-	ExTexture* texture[32];
-	ExSprite* sprite;
+	ExTexture* texture[32];				/**/
+	ExSprite* sprite;					/**/
 
-	float scale;
-	float cameraPos[2];
-	float rotation;
+	float scale;						/**/
+	float cameraPos[2];					/**/
+	float rotation;						/**/
 
-	unsigned int width;
-	unsigned int height;
+	unsigned int width;					/**/
+	unsigned int height;				/**/
 
-	float viewmatrix[3][3];
-	int locationViewMatrix;
-	int locationScale;
-	int locationTexture;
+	float viewmatrix[3][3];				/**/
 
+	/**/
+	int locationViewMatrix;				/**/
+	int locationScale;					/**/
+	int locationTexture;				/**/
 }ExSpriteBatch;
 
 
 /*
  *	Create
+ *	@Return
  */
 extern ELTDECLSPEC ExSpriteBatch* ELTAPIENTRY ExCreateSpriteBatch(ExSpriteBatch* spriteBatch);
 
 /*
  *
+ *	@Return
  */
-extern ELTDECLSPEC int	ELTAPIENTRY ExReleaseSpriteBatch(ExSpriteBatch* spritebatch);
+extern ELTDECLSPEC int ELTAPIENTRY ExReleaseSpriteBatch(ExSpriteBatch* spritebatch);
 
 
 

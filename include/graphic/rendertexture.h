@@ -30,10 +30,16 @@ typedef struct ex_frame_buffer{
 	unsigned int attachment;
 }ExFrameBuffer,ExRenderTexture;
 
+/*	TODO resolve the issues with the parameters.*/
+extern ExFrameBuffer* ExCreateRenderTexture2D(ExFrameBuffer* texture, unsigned int width, unsigned int height, unsigned int attachment);
+extern ExFrameBuffer* ExCreateRenderTexture3D(ExFrameBuffer* texture, unsigned int width, unsigned int height, unsigned int attachment);
 
-extern ExFrameBuffer* ExCreateRenderTexture2D(ExFrameBuffer* texture,unsigned int width, unsigned int height,unsigned int attachment);
-extern ExFrameBuffer* ExCreateRenderTexture3D(ExFrameBuffer* texture,unsigned int width, unsigned int height,unsigned int attachment);
 extern ExFrameBuffer* ExFrameBufferAddAttachment(ExFrameBuffer* framebuffer, ExTexture* texture);
+extern ExFrameBuffer* ExFrameBufferAddRenderBuffer(ExFrameBuffer* framebuffer, ExTexture* texture);
+
+
+
+
 extern void ExBindRenderTexture(ExFrameBuffer* framebuffer);
 
 extern void ExDestroyRenderTexture(ExFrameBuffer* texture);

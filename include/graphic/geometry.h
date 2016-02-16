@@ -35,25 +35,27 @@ typedef struct ex_uniform_buffer{
 extern "C"{
 #endif 
 
+
+/*	TODO conclude if function shall follow same naming conventions as opengl or use our own.*/
 /*
  *
  */
-extern int ExCreateVBO(unsigned int target, unsigned int size, unsigned int mode);
+extern ELTDECLSPEC int ExCreateVBO(unsigned int target, unsigned int size, unsigned int mode);
 
 /*
  *
  */
-extern int ExCreateVAO(void);
+extern ELTDECLSPEC void ELTAPIENTRY ExCreateVAO(int n, unsigned int* arg);
 
 /*
  *
  */
-extern int ExCreateUniformBuffer(unsigned int size);
+extern ELTDECLSPEC int ExCreateUniformBuffer(unsigned int size);
 
 /*
  *
  */
-extern int ExDestroyBuffer(unsigned int buffer);
+extern ELTDECLSPEC int ExDestroyBuffer(unsigned int buffer);
 
 
 

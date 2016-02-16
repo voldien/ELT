@@ -101,7 +101,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...);
 extern ELTDECLSPEC ERESULT ELTAPIFASTENTRY ExGetError(void);
 
 /*
- *	Set Error
+ *	Set Error.
  */
 extern ELTDECLSPEC void ELTAPIFASTENTRY ExSetError(ERESULT error);
 

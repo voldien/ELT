@@ -215,6 +215,7 @@ ELTDECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode){
 static int ctxErrorHandler(Display* dpy, XErrorEvent* error){
     char error_buffer[1024];
     XGetErrorText(dpy, error->error_code, error_buffer, sizeof(error_buffer));
+
     fprintf(stderr,
             "_X Error of failed request: %s\n"
             "_ Major opcode of failed request: % 3d (???)\n"

@@ -36,7 +36,6 @@ unsigned int is_texture_compressed(unsigned int textureid){
 
 
 unsigned int ExGetTextureTypeSize(unsigned int internalformat){
-	/*
 	switch(internalformat){
 	case GL_LUMINANCE:
 	case GL_LUMINANCE_ALPHA:
@@ -55,10 +54,11 @@ unsigned int ExGetTextureTypeSize(unsigned int internalformat){
 		return 4;
 	default:
 		return 0;
-
 	}
-	*/
-	return 1;
+}
+
+unsigned int ExGetTextureTypeBits(unsigned int internalformat){
+
 }
 
 

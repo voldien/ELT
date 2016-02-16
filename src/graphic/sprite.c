@@ -24,22 +24,41 @@
 #endif
 
 
-
-
-
 ELTDECLSPEC ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* batch){
 	int x;
 	int texture[256];
 	if(!batch)
 		return NULL;
 
+	glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &batch->numMaxTextures);
+
 	/*	*/	/*	TODO change into opengl core profile by using VAO.	*/
+	ExCreateVAO(1,&batch->vao);
+	glBindVertexArray(batch->vao);
+
+
 	batch->vbo = ExCreateVBO(GL_ARRAY_BUFFER, ExGetPageSize() * sizeof(ExSprite) * 10, GL_DYNAMIC_DRAW);
 	batch->num = ExGetPageSize() * 10;
 	batch->sprite = malloc(batch->num * sizeof(ExSprite));
 	batch->scale = 1.0f;
 
-	glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS,&batch->numMaxTextures);
+
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
+	glEnableVertexAttribArray(3);
+	glEnableVertexAttribArray(4);
+	glEnableVertexAttribArray(5);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ExSprite), NULL);
+	glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * 3);
+	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * 4);
+	glVertexAttribPointer(3, 1, GL_INT,   GL_FALSE, sizeof(ExSprite), sizeof(float) * (3 + 4 + 1));
+	glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * (3 + 4 + 1 + 1));
+	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * (3 + 4 + 1 + 1 + 1));
+
+
+	glBindVertexArray(0);
+
 	for(x = 0; x < batch->numMaxTextures; x++){
 		texture[x] = x;
 
@@ -47,12 +66,11 @@ ELTDECLSPEC ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* batch){
 	}
 
 
-	if(!ExLoadShaderv(&batch->shader, EX_VERTEX_SPRITE, EX_FRAGMENT_SPRITE,NULL, NULL, NULL)){
+	if(!ExLoadShaderv(&batch->shader, EX_VERTEX_SPRITE, EX_FRAGMENT_SPRITE, NULL, NULL, NULL)){
 		/*	failure	*/
 		ExReleaseSpriteBatch(batch);
 		return NULL;
 	}
-
 
 	batch->locationViewMatrix = glGetUniformLocation(batch->shader.program, "gmat");
 	batch->locationScale  = glGetUniformLocation(batch->shader.program, "gscale");
@@ -80,7 +98,8 @@ ELTDECLSPEC ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* batch){
 
 ELTDECLSPEC int ELTAPIENTRY ExReleaseSpriteBatch(ExSpriteBatch* spritebatch){
 	int status;
-	glDeleteBuffers(1,&spritebatch->vbo);
+
+	glDeleteBuffers(1, &spritebatch->vbo);
 	ExDeleteShaderProgram(&spritebatch->shader);
 	free(spritebatch->sprite);
 	status = !glIsBuffer(spritebatch->vbo);
@@ -359,20 +378,10 @@ ELTDECLSPEC inline  int ELTAPIENTRY ExDisplaySprite(ExSpriteBatch* spriteBatch){
 	glUniformMatrix3fv(spriteBatch->locationViewMatrix,1,GL_FALSE,spriteBatch->viewmatrix);
 
 
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-	glEnableVertexAttribArray(2);
-	glEnableVertexAttribArray(3);
-	glEnableVertexAttribArray(4);
-	glEnableVertexAttribArray(5);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ExSprite), NULL);
-	glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * 3);
-	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * 4);
-	glVertexAttribPointer(3, 1, GL_INT,   GL_FALSE, sizeof(ExSprite), sizeof(float) * (3 + 4 + 1));
-	glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * (3 + 4 + 1 + 1));
-	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * (3 + 4 + 1 + 1 + 1));
-
+	/**/
+	glBindVertexArray(spriteBatch->vao);
 	glDrawArrays(GL_POINTS, 0, spriteBatch->numDraw);
+	glBindVertexArray(0);
 
 	return TRUE;
 }
