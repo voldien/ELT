@@ -19,9 +19,7 @@
 #ifndef _ELT_VULKAN_H_
 #define _ELT_VULKAN_H_ 1
 #include"./../elt_def.h"
-
-
-
+#include"./../window.h"
 typedef void* ExVulkanContext;
 
 
@@ -30,10 +28,17 @@ extern "C"{
 #endif
 
 
-extern DECLSPEC ExVulkanContext ELTAPIENTRY ExCreateVulkanContext(ExWin window, ExVulkanContext share);
 
 
-extern DECLSPEC ExVulkanContext ELTAPIENTRY ExCreateVulkanShareContext(ExVulkanContext share);
+extern ELTDECLSPEC ExVulkanContext ELTAPIENTRY ExCreateVulkanContext(ExWin window, ExVulkanContext share);
+
+
+extern ELTDECLSPEC ExVulkanContext ELTAPIENTRY ExCreateVulkanShareContext(ExVulkanContext share);
+
+
+
+extern ELTDECLSPEC int ELTAPIENTRY ExGetVulkanVersion(void);
+extern ELTDECLSPEC int ELTAPIENTRY ExGetVulkanShadVersioin(void);
 
 
 #ifdef __cplusplus	/*	C++ environment	*/
