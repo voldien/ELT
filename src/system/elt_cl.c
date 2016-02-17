@@ -268,7 +268,7 @@ ERESULT ELTAPIENTRY ExQueryCLContext(ExOpenCLContext context, ExHandle param_val
         case CL_CONTEXT_DEVICES:{/* Get Context Device  */
             unsigned int num_dev;
             ExQueryCLContext(context,&num_dev, CL_CONTEXT_NUM_DEVICES);
-            ciErrNum = clGetContextInfo((cl_context)context, CL_CONTEXT_DEVICES,num_dev * sizeof(cl_device_id),param_value,&size);
+            ciErrNum = clGetContextInfo((cl_context)context, CL_CONTEXT_DEVICES, num_dev * sizeof(cl_device_id),param_value,&size);
             }
             break;
         case CL_CONTEXT_INTEROP_USER_SYNC:{ /**/
@@ -369,18 +369,17 @@ Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID, Enum flag){
 		else{	/*	determine platform*/
 		    cl_platform_id temp_clPlatformIDs[num_platforms];
 
-
 			/*	*/
-            ciErrNum = clGetPlatformIDs (num_platforms, &temp_clPlatformIDs, NULL);
+            ciErrNum = clGetPlatformIDs (num_platforms, &temp_clPlatformIDs[0], NULL);
 			if(ciErrNum == CL_DEVICE_NOT_FOUND)
                 ExDevPrint("Couldn't find");
 
 
 			/*	get number of gpu device.s	*/
-			ciErrNum = clGetDeviceIDs(temp_clPlatformIDs,CL_DEVICE_TYPE_GPU, NULL,NULL,&num_gpu);
+			ciErrNum = clGetDeviceIDs(temp_clPlatformIDs[0], CL_DEVICE_TYPE_GPU, 0, NULL, &num_gpu);
 
 			/*	get number of cpu devices.	*/
-			ciErrNum = clGetDeviceIDs(temp_clPlatformIDs,CL_DEVICE_TYPE_CPU, NULL,NULL,&num_cpu);
+			ciErrNum = clGetDeviceIDs(temp_clPlatformIDs[0], CL_DEVICE_TYPE_CPU, 0, NULL, &num_cpu);
 
 
 			if((clPlatformIDs = (cl_platform_id*)malloc(num_platforms * sizeof(cl_platform_id))) == NULL){
