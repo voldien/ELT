@@ -54,11 +54,11 @@ EGLint configAttribList[] ={
 };
 
 ExHandle egl_libhandle	=	NULL;
-EGLDisplay eglDisplay	=	NULL;
+ExEGLDisplay eglDisplay	=	NULL;
 
 
 
-ExEGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
+ExEGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window, ExEGLContext shared){
 	/*	TODO resolve later!!*/
 
 	int major ,minor ;
@@ -128,7 +128,7 @@ ExEGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window){
 	if(!(eglSurface = eglCreateWindowSurface(eglDisplay, eglConfig, (EGLNativeWindowType)window, NULL)))
         ExError(EX_TEXT("error"));
 
-	if(!(eglContext = eglCreateContext(eglDisplay, eglConfig, EGL_NO_CONTEXT, ctxattr)))
+	if(!(eglContext = eglCreateContext(eglDisplay, eglConfig, shared, ctxattr)))
         ExError(EX_TEXT("Error"));
 
 	if((hr = eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext)) != EGL_TRUE)
