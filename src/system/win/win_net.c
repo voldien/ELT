@@ -27,7 +27,7 @@ ELTDECLSPEC ExSocket ELTAPIENTRY ExOpenSocket(unsigned int protocol){
 
 
 	sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	if(protocol & ELT_CLIENT)
+	if(protocol & EX_CLIENT)
 		return sockfd;
 
 	return sockfd;
@@ -59,7 +59,7 @@ ELTDECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int po
 	if(wsadata.wVersion != EX_WSA_VERSION)
 		WSAStartup(EX_WSA_VERSION, &wsadata);
 
-    sockfd = ExOpenSocket(ELT_CLIENT);
+    sockfd = ExOpenSocket(EX_CLIENT);
 
 	server = gethostbyname(ip);/*   Get information of the ip address */
 

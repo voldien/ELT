@@ -1,4 +1,5 @@
 #include"input/elt_keyboard.h"
+#include"input/eltkeycode.h"
 
 #include<dinput.h>
 #include<dbt.h>
@@ -8,9 +9,7 @@
 	#define DIRECTINPUT_VERSION 0x800
 #endif
 
-
 /*	TODO seperate the input implemention to corresponding platform directory!	*/
-
 
 unsigned char KeyBoardState[2][0xFF];
 
@@ -18,32 +17,33 @@ static inline int ExGetKeyCodeInternal(Uint32 keyCode){
     int keysym;
 
     switch (keyCode){
-        case EXK_A:          keysym = 'A';           break;
-        case EXK_B:          keysym = 'B';           break;
-        case EXK_C:          keysym = 'C';           break;
-        case EXK_D:          keysym = 'D';           break;
-        case EXK_E:          keysym = 'E';           break;
-        case EXK_F:          keysym = 'F';           break;
-        case EXK_G:          keysym = 'G';           break;
-        case EXK_H:          keysym = 'H';           break;
-        case EXK_I:          keysym = 'I';           break;
-        case EXK_J:          keysym = 'J';           break;
-        case EXK_K:          keysym = 'K';           break;
-        case EXK_L:          keysym = 'L';           break;
-        case EXK_M:          keysym = 'M';           break;
-        case EXK_N:          keysym = 'N';           break;
-        case EXK_O:          keysym = 'O';           break;
-        case EXK_P:          keysym = 'P';           break;
-        case EXK_Q:          keysym = 'Q';           break;
-        case EXK_R:          keysym = 'R';           break;
-        case EXK_S:          keysym = 'S';           break;
-        case EXK_T:          keysym = 'T';           break;
-        case EXK_U:          keysym = 'U';           break;
-        case EXK_V:          keysym = 'V';           break;
-        case EXK_W:          keysym = 'W';           break;
-        case EXK_X:          keysym = 'X';           break;
-        case EXK_Y:          keysym = 'Y';           break;
-        case EXK_Z:          keysym = 'Z';           break;
+        case EXK_a:          keysym = 'A';           break;
+        case EXK_b:          keysym = 'B';           break;
+        case EXK_c:          keysym = 'C';           break;
+        case EXK_d:          keysym = 'D';           break;
+        case EXK_e:          keysym = 'E';           break;
+        case EXK_f:          keysym = 'F';           break;
+        case EXK_g:          keysym = 'G';           break;
+        case EXK_h:          keysym = 'H';           break;
+        case EXK_i:          keysym = 'I';           break;
+        case EXK_j:          keysym = 'J';           break;
+        case EXK_k:          keysym = 'K';           break;
+        case EXK_l:          keysym = 'L';           break;
+        case EXK_m:          keysym = 'M';           break;
+        case EXK_n:          keysym = 'N';           break;
+        case EXK_o:          keysym = 'O';           break;
+        case EXK_p:          keysym = 'P';           break;
+        case EXK_q:          keysym = 'Q';           break;
+        case EXK_r:          keysym = 'R';           break;
+        case EXK_s:          keysym = 'S';           break;
+        case EXK_t:          keysym = 'T';           break;
+        case EXK_u:          keysym = 'U';           break;
+        case EXK_v:          keysym = 'V';           break;
+        case EXK_w:          keysym = 'W';           break;
+        case EXK_x:          keysym = 'X';           break;
+        case EXK_y:          keysym = 'Y';           break;
+        case EXK_z:          keysym = 'Z';           break;
+        /*
         case EXK_Num0:       keysym = '0';           break;
         case EXK_Num1:       keysym = '1';           break;
         case EXK_Num2:       keysym = '2';           break;
@@ -54,7 +54,9 @@ static inline int ExGetKeyCodeInternal(Uint32 keyCode){
         case EXK_Num7:       keysym = '7';           break;
         case EXK_Num8:       keysym = '8';           break;
         case EXK_Num9:       keysym = '9';           break;
+
         case EXK_Escape:     keysym = VK_ESCAPE;     break;
+		*/
         case EXK_LControl:   keysym = VK_LCONTROL;   break;
         case EXK_LShift:     keysym = VK_LSHIFT;     break;
         case EXK_LAlt:       keysym = VK_LMENU;      break;
@@ -63,6 +65,7 @@ static inline int ExGetKeyCodeInternal(Uint32 keyCode){
         case EXK_RShift:     keysym = VK_RSHIFT;     break;
         case EXK_RAlt:       keysym = VK_RMENU;      break;
         case EXK_RSystem:    keysym = VK_RWIN;       break;
+        /*
         case EXK_Menu:       keysym = VK_APPS;       break;
         case EXK_LBracket:   keysym = VK_OEM_4;      break;
         case EXK_RBracket:   keysym = VK_OEM_6;      break;
@@ -81,6 +84,7 @@ static inline int ExGetKeyCodeInternal(Uint32 keyCode){
         case EXK_Tab:        keysym = VK_TAB;        break;
         case EXK_PageUp:     keysym = VK_PRIOR;      break;
         case EXK_PageDown:   keysym = VK_NEXT;       break;
+        */
         case EXK_End:        keysym = VK_END;        break;
         case EXK_Home:       keysym = VK_HOME;       break;
         case EXK_Insert:     keysym = VK_INSERT;     break;
@@ -170,13 +174,14 @@ ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void){
 }
 
 
-ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(Uint32 keyCode){
-	return (ExBoolean)GetAsyncKeyState(keyCode);
-
-ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode){
+ExBoolean ELTAPIFASTENTRY ExIsKey(Uint32 keyCode){
 	return (ExBoolean)GetAsyncKeyState(keyCode);
 }
 
-ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyUp(Uint32 keyCode){
+ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode){
+	return (ExBoolean)GetAsyncKeyState(keyCode);
+}
+
+ExBoolean ELTAPIFASTENTRY ExIsKeyUp(Uint32 keyCode){
 	return GetAsyncKeyState(keyCode);
 }
