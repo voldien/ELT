@@ -18,28 +18,35 @@
 */
 #ifndef _ELT_QUATERNION_H_
 #define _ELT_QUATERNION_H_ 1
-#include<math.h>
+#include"../elt_def.h"
 #include"vect.h"
 
-#define PI 3.14159265359F
+
+/*
+ *
+ */
 #define EX_PI 3.14159265359F
-#define PI_D 3.141592653589793238462
-#define PI2 6.28318530718F
-#define PI2_D 6.28318530718
-#define THETA 1.57079632679F
-#define THETAD 1.57079632679
-#define E_E 2.7182818284F
-#define E_E_D 2.7182818284
-#define DEG2RAD( a ) ( ( (a) * PI ) / 180.0F )
-#define RAD2DEG( a ) ( ( (a) * 180.0f ) / PI )
+#define EX_PI_D 3.141592653589793238462
+#define EX_PI2 6.28318530718F
+#define EX_PI2_D 6.28318530718
+#define EX_THETA 1.57079632679F
+#define EX_THETAD 1.57079632679
+#define EX_E 2.7182818284F
+#define EX_E_D 2.7182818284
+#define EX_DEG2RAD( a ) ( ( (a) * EX_PI ) / 180.0f )
+#define EX_RAD2DEG( a ) ( ( (a) * 180.0f ) / EX_PI )
 
-#define MIN(a,b)	( ( (a) > (b) ) ? (a) : (b) )
-#define MAX(a,b)	( ( (a) < (b) ) ? (a) : (b) )
-#define CLAMP(a,min,max)	(MAX( ( max ) ,MIN( ( min ) , ( a ) )))
-#define LERP(a,b,t)	( ( (a) + ( (b) - (a) )*(t) )
+/*
+ *
+ */
+#define EX_MIN(a,b)	( ( (a) > (b) ) ? (a) : (b) )
+#define EX_MAX(a,b)	( ( (a) < (b) ) ? (a) : (b) )
+#define EX_CLAMP(a,min,max)	(EX_MAX( ( max ) ,EX_MIN( ( min ) , ( a ) )))
+#define EX_LERP(a,b,t)	( ( (a) + ( (b) - (a) )*(t) )
 
-
-
+/*
+ *
+ */
 #define QuaternionDirection(x)	{}
 #define QuaternionConjugate(x)	{x[1] = -x[1];x[2] = -x[2];x[3] = -x[3];}
 #define QuaternionLength(x)	sqrtf((x[0] * x[0]) + (x[1] * x[1]) + (x[2] * x[2]) + (x[3] * x[3]))
@@ -53,58 +60,61 @@
 #define QuaternionPitch(lf_quad) (float)asinf(-2.0f * (lf_quad[QUAD_Z] * lf_quad[QUAD_Y] + lf_quad[QUAD_W] * lf_quad[QUAD_X]))
 #define QuaternionRoll(lf_quad) (float)atan2f(2.0f * (lf_quad[QUAD_W] * lf_quad[QUAD_Z] + lf_quad[QUAD_X] * lf_quad[QUAD_Y]), 1.0f - (2.0f * (lf_quad[QUAD_Y] * lf_quad[QUAD_Y] + lf_quad[QUAD_Z] * lf_quad[QUAD_Z])))
 
-// quaternion = {w, x,y,z}
-typedef float quat_t[4];
+/*
+ *
+ */
+typedef exvecf_t exquat_t EX_ALIGN_VECTOR(16);
+typedef exvecd_t exquatd_t EX_ALIGN_VECTOR(32);
 
 #ifdef __cplusplus  /*  C++ environment   */
 extern "C"{
 #endif
 
 
+/*
+ *    quaternion multiplication with left quaternion
+ */
+extern void quad_multi_quad(const exquat_t lf_quad, const exquat_t rf_quad, exquat_t out_quad);
+/*
+ *    quaternion multiplication with left quaternion
+ */
+extern void quad_add_quad(const exquat_t lf_quad, const exquat_t rf_quad, exquat_t out_quad);
 /**
     quaternion multiplication with left quaternion
 */
-extern void quad_multi_quad(const float lf_quad[4],const float rf_quad[4], float out_quad[4]);
-/**
-    quaternion multiplication with left quaternion
-*/
-extern void quad_add_quad(const float lf_quad[4],const float rf_quad[4], float out_quad[4]);
-/**
-    quaternion multiplication with left quaternion
-*/
 
-extern void quad_sub_quad(const float lf_quad[4],const float rf_quad[4], float out_quad[4]);
-extern void quad_divi_quad(const float lf_quad[4],const float rf_quad[4], float out_quad[4]);
+extern void quad_sub_quad(const exquat_t lf_quad, const exquat_t rf_quad, exquat_t out_quad);
+extern void quad_divi_quad(const exquat_t lf_quad, const exquat_t rf_quad, exquat_t out_quad);
 
-extern void quad_multi_vec3(float lf_quat[4], vec3_t rf_vec,float out_quat[4]);
+extern void quad_multi_vec3(exquat_t lf_quat, exvec3f_t rf_vec, exquat_t out_quat);
 
 /**
 
 */
-extern void quad_direction(float lf_quad[4], vec3_t dir);
-extern void quad_directionv(float lf_quad[4], vec3_t dir,const vec3_t _dir);
+extern void quad_direction(exquat_t lf_quad, exvec3f_t dir);
+extern void quad_directionv(exquat_t lf_quad, exvec3f_t dir, const exvec3f_t _dir);
 
-extern void quad_axis_angle(float lf_quad[4],const vec3_t axis, float f_angle);
-extern void quad_axis(float lf_quad[4], float pitch_rad,float yaw_rad,float roll_rad);
-extern void quad_lookrotation(float f_quad[4], vec3_t f_dir);
-extern void quad_rotate(const float lf_quad[4], const float rf_quad[4], float out_quad[4]);
-extern void quad_rotate_vec(const float lf_quad[4], vec3_t vec3);
+extern void quad_axis_angle(exquat_t lf_quad, const exvec3f_t axis, float f_angle);
+extern void quad_axis(exquat_t lf_quad, float pitch_rad, float yaw_rad, float roll_rad);
+extern void quad_lookrotation(exquat_t f_quad, exvec3f_t f_dir);
+extern void quad_rotate(const exquat_t lf_quad, exquat_t rf_quad[4], exquat_t out_quad);
+extern void quad_rotate_vec(const exquat_t lf_quad, exvec3f_t vec3);
 
 
-extern void quad_slerp(const float lf_quad[4],const float rf_quad[4], float outf_quad[4],float f_time);
+extern void quad_slerp(const exquat_t lf_quad, const exquat_t rf_quad, exquat_t outf_quad, float f_time);
 
 /*
 	// quaternion x rotation in radian
 */
-extern float quad_pitch(const float lf_quad[4]);
+extern float quad_pitch(const exquat_t lf_quad);
 /*
 	// quaternion y rotation in radian
 */
-extern float quad_yaw(const float lf_quad[4]);
+extern float quad_yaw(const exquat_t lf_quad);
 /*
 	// quaternion z rotation in radian
 */
-extern float quad_roll(const float lf_quad[4]);
+extern float quad_roll(const exquat_t lf_quad);
 
 
 

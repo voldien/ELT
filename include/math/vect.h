@@ -19,18 +19,12 @@
 */
 #ifndef _ELT_VECT_H_
 #define _ELT_VECT_H_ 1
-
-#ifndef ALIGN
-#   ifdef _WIN32
-        #define ALIGN(x) __declspec(align(x))
-#   else
-        #define ALIGN(x)	__attribute__ ((aligned(x)))
-#   endif
-#endif
+#include"../elt_def.h"
+#include<math.h>
 
 /*
-
-*/
+ *
+ */
 #define VEC3_UNIT_X {1.0f, 0.0f, 0.0f}
 #define VEC3_UNIT_Y {0.0f, 1.0f, 0.0f}
 #define VEC3_UNIT_Z {0.0f, 0.0f, 1.0f}
@@ -40,7 +34,9 @@
 #define NVEC3_UNIT_Z {0.0f, 0.0f, -1.0f}
 #define NVEC3_UNIT_W {0.0f, 0.0f, 0.0f, -1.0f}
 
-
+/*
+ *
+ */
 #define DotProduct(x,y) (x[0]*y[0]+x[1]*y[1]+x[2]*y[2])
 #define CrossProduct(x,y,c)	{c[0] = ((x[1] * y[2]) - (x[2] * y[1])); c[1] = ((x[2] * y[0]) - (x[0] * y[2])); c[2] = ((x[0] * y[1]) - (x[1] * y[0]));}
 #define VectorSubtract(a,b,c) {c[0]=a[0]-b[0];c[1]=a[1]-b[1];c[2]=a[2]-b[2];}
@@ -56,32 +52,24 @@
 #define VectorInverse(x)	{x[0] = 1.0f / x[0]; x[1] = 1.0f /x[1]; x[2] = 1.0 / x[2];}
 #define VectorReflect(x,n,y)	{y[0] = 2.0f *( x[0] * n[0]) * n[0] - x[0];y[0] = 2.0f *( x[1] * n[1]) * n[1] - x[1];y[2] = 2.0f *( x[2] * n[2]) * n[2] - x[2];}
 #define VectorOrthoNormalize(x,y) { float length;}
-#define VectorProj(x,y,c)	{float lengthy = VectorLength(y);float dot = DotProduct(x,y); c[0] = dot * x[0] / lengthy;  c[1] = dot * x[1] / lengthy;  c[2] = dot * x[2] / lengthy; }
+#define VectorProj(x,y,c)	{float lengthy = VectorLength(y); float dot = DotProduct(x,y); c[0] = dot * x[0] / lengthy;  c[1] = dot * x[1] / lengthy;  c[2] = dot * x[2] / lengthy; }
 #define VectorLerp(x,y,t,c)	{}
 #define VectorDefine(a,x,y,z)	{a[0] = x;a[1] = y;a[2] = z;}
 
+/**/
+typedef double exvecd_t;
+typedef float exvecf_t;
 
+/* vector2 = {x,y}	*/
+typedef exvecd_t exvec2d_t EX_ALIGN_VECTOR(16);
+typedef exvecf_t exvec2f_t EX_ALIGN_VECTOR(8);
 
-#ifdef DOUBLEVEC_T
-	typedef double vec_t;
-#else
-	typedef float vec_t;
+/* vector2 = {x,y,z}	*/
+typedef exvecf_t exvec3f_t EX_ALIGN_VECTOR(16);
+typedef exvecd_t exvec3d_t EX_ALIGN_VECTOR(32);
+
+/* vector2 = {x,y,z,w}	*/
+typedef exvecf_t exvec4f_t EX_ALIGN_VECTOR(16);
+typedef exvecd_t exvec4d_t EX_ALIGN_VECTOR(32);
+
 #endif
-#if defined(__linux__) ||defined(__linux) ||defined(linux)
-// vector2 = {x,y}
-typedef vec_t vec2_t[2];
-// vector2 = {x,y,z}
-typedef vec_t vec3_t[3];
-// vector2 = {x,y,z,w}
-typedef vec_t vec4_t[4]; //__attribute__((vector_size(16), aligned(4)));
-#else
-// vector2 = {x,y}
-typedef vec_t vec2_t[2];
-// vector2 = {x,y,z}
-typedef vec_t vec3_t[3];
-// vector2 = {x,y,z,w}
-typedef vec_t vec4_t[4];
-#endif
-
-
-#endif // _ELT_VECT_H

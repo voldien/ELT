@@ -34,7 +34,7 @@ extern int frustum_create(ExFrustum* f);
 
 extern int frustum_AABB(const float* b, struct frustum* f);
 extern int frustum_sphere(const float* pos,float radius, struct frustum* f);
-extern int frustum_point(const vec3_t point, struct frustum* f);
+extern int frustum_point(const exvec3f_t point, struct frustum* f);
 
 
 
