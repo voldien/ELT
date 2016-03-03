@@ -11,29 +11,35 @@
 	#include<GLES2/gl2.h>
 	#include<GLES2/gl2ext.h>
 	#include<GLES2/gl2platform.h>
-#elif defined(GL_ES_VERSION_1_0)
-	#include<GLES/gl.h>
-	#include<GLES/glext.h>
-	#include<GLES/glplatform.h>
 #else
 	#include<GL/gl.h>
 	#include<GL/glu.h>
 	#include<GL/glext.h>
 #endif
 
-
-
 #if defined(_WIN32)
 	extern PFNGLBINDBUFFERPROC glBindBuffer;
 #endif
 
+void ExGenBuffers(int n, unsigned int* buffers){
+	glGenBuffers(n, buffers);
+}
+
+
 int ExCreateVBO(unsigned int target, unsigned int size, unsigned int mode){
 	unsigned int vbo;
 	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, size, NULL, GL_STATIC_DRAW);
+	glBindBuffer(target, vbo);
+	glBufferData(target, size, NULL, mode);
 
 	return vbo;
+}
+
+
+
+void ExSetBufferSize(unsigned int target, unsigned int buffer, unsigned int size, unsigned int mode){
+	glBindBuffer(target, buffer);
+	glBufferData(target, size, NULL, mode);
 }
 
 
