@@ -97,7 +97,7 @@ extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const char* ip, unsigned
  *	@Return
  */
 #ifdef EX_LINUX
-	#define ExWriteSocket read
+	#define ExWriteSocket send
 #elif defined(EX_WINDOWS)
 	#define ExWriteSocket send
 #endif
