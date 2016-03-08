@@ -242,7 +242,7 @@ extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetDesktopWindow(void);
  *
  *	@Return
  */
-extern ELTDECLSPEC int ELTAPIENTRY ExMessageBox(ExWin window, const ExChar* text, const ExChar* title, unsigned int flags );
+extern ELTDECLSPEC int ELTAPIENTRY ExMessageBox(ExWin window, const ExChar* text, const ExChar* title, unsigned int flags);
 
 
 /*
