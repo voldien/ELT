@@ -28,9 +28,6 @@
 
 #define GL_GET_PROC(x) glXGetProcAddress((const char*)( x ) )           /*  get OpenGL function process address */
 
-//extern int isExtensionSupported(const char* extList, const char* extension);
-
-
 #define PIXATTOFFSET 8	/*	offset to variable	*/
 
 int pixAtt[] = {
@@ -109,7 +106,7 @@ int ExChooseFBconfig(GLXFBConfig* pfbconfig){
 
     /*	choose TODO check if something has bee free.*/
 	for(i = 0; i < numfbconfigs; i++){
-		visual = (XVisualInfo*)glXGetVisualFromFBConfig(display, fbconfigs[i]);
+		visual = (XVisualInfo*)glXGetVisualFromFBConfig(display, fbconfigs[i]); /*	TODO make sure it gets free.	*/
 		if(!visual)
 			continue;
 
@@ -120,10 +117,16 @@ int ExChooseFBconfig(GLXFBConfig* pfbconfig){
 
 		pfbconfig[0] = fbconfigs[i];
 		if(ExOpenGLGetAttribute(EX_OPENGL_ALPHA_SIZE, &attr) > 0){
-		    if(pict_format->direct.alphaMask > 0)
+		    if(pict_format->direct.alphaMask > 0){
+		    	XFree(visual);
 		    	break;
-		}else
+		    }
+
+
+		}else{
+			XFree(visual);
 			break;
+		}
 
 		end:
 
@@ -135,11 +138,10 @@ int ExChooseFBconfig(GLXFBConfig* pfbconfig){
 	// Be sure to free the FBConfig list allocated by glXChooseFBConfig()
 	XFree(fbconfigs);
 
-
 	return 1;
 }
 
-ExOpenGLContext ELTAPIENTRY ExCreateTempGLContext(void){
+ExOpenGLContext ExCreateTempGLContext(void){
 	ExOpenGLContext glc;
 	GLXFBConfig fbconfig;
 	ExChooseFBconfig(&fbconfig);
@@ -149,7 +151,7 @@ ExOpenGLContext ELTAPIENTRY ExCreateTempGLContext(void){
 
 
 
-ExOpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shareContext){
+ExOpenGLContext ExCreateGLContext(ExWin window, ExOpenGLContext shareContext){
 	ExOpenGLContext glc = NULL;
 	unsigned int vendor;
 	unsigned int glxmaj,glxmin;
@@ -165,7 +167,7 @@ ExOpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shar
 
 
 	/*if windows doesn't support the opengl, than try to use */
-	if(!glXQueryExtension(display,&min, &maj)){
+	if(!glXQueryExtension(display, &min, &maj)){
 		ExError("OpenGL not supported by X server\n");
 	}
 
@@ -180,15 +182,28 @@ ExOpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shar
 		}
     }
     else{
-    	major = ExOpenGLGetAttribute(EX_OPENGL_MAJOR_VERSION, NULL);
-    	minor = ExOpenGLGetAttribute(EX_OPENGL_MINOR_VERSION, NULL);
+    	if(shareContext == NULL){
+			major = ExOpenGLGetAttribute(EX_OPENGL_MAJOR_VERSION, NULL);
+			minor = ExOpenGLGetAttribute(EX_OPENGL_MINOR_VERSION, NULL);
+    	}
+    	/*	get current binded opengl context version.*/
+    	else if(!ExGetOpenGLVersion(&major, &minor)){
+
+		}
     }
 
 
     /**/
-    contextflag = ExOpenGLGetAttribute(EX_OPENGL_CONTEXT_FLAGS, NULL);
-    contextprofile = ExOpenGLGetAttribute(EX_OPENGL_CONTEXT_PROFILE_MASK, NULL);
-
+    if(shareContext == NULL){
+		contextflag = ExOpenGLGetAttribute(EX_OPENGL_CONTEXT_FLAGS, NULL);
+		contextprofile = ExOpenGLGetAttribute(EX_OPENGL_CONTEXT_PROFILE_MASK, NULL);
+		if(!ExIsExtensionSupported(glXQueryExtensionsString(display,DefaultScreen(display)),"GLX_ARB_create_context_profile")){
+			contextprofile = EX_GL_CONTEXT_PROFILE_COMPATIBILITY;
+		}
+    }else{
+    	glGetIntegerv(GL_CONTEXT_PROFILE_MASK, &contextprofile);
+    	glGetIntegerv(GL_CONTEXT_FLAGS, &contextflag);
+    }
 
 
     int contextAttribs[]={
@@ -199,11 +214,9 @@ ExOpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shar
         #else
         GLX_CONTEXT_FLAGS_ARB, contextflag,
         #endif
-		GLX_CONTEXT_PROFILE_MASK_ARB, ExIsExtensionSupported(glXQueryExtensionsString(display,DefaultScreen(display)),"GLX_ARB_create_context_profile") ? contextprofile : GLX_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
+		GLX_CONTEXT_PROFILE_MASK_ARB, contextprofile,
         None
     };
-
-
 
     switch(ExGetOpenGLVendor()){
 		case EX_AMD:{
@@ -244,6 +257,7 @@ ExOpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shar
 				ExPrintf("GL_ARB_create_context not supported.\n");
 				vi = glXChooseVisual(display, DefaultScreen(display), pixAtt);
 				glc = glXCreateContext(display,vi, shareContext, True);
+				XFree(vi);
 			}
 			/*
 
@@ -267,8 +281,8 @@ ExOpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shar
 }
 
 
-ExOpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, ExOpenGLContext glc){
-	return ExCreateGLContext(window,glc);
+ExOpenGLContext ExCreateGLSharedContext(ExWin window, ExOpenGLContext glc){
+	return ExCreateGLContext(window, glc);
 }
 
 
