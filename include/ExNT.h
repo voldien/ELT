@@ -58,7 +58,7 @@
 	typedef unsigned __int128 Uint128;
 #endif
 
-#elif defined(EX_UNIX)
+#elif defined(EX_GNUC)
 	typedef signed long long 	Int64;
 	typedef signed int		 	Int32;
 	typedef signed short	 	Int16;
@@ -210,6 +210,8 @@ typedef void* ExOpenCLContext;
 typedef void* ExEGLContext;
 typedef void* ExWindowContext;
 typedef void* ExAudioContext;
+typedef void* ExEGLDisplay;
+typedef void* ExXDisplay;
 
 #ifdef EX_WINDOWS
 	#define THREAD_CALLBACK __stdcall
@@ -235,6 +237,7 @@ typedef void(EX_CALLBACK* ExCallBack)(void);
  */
 typedef void*(*interrupt_routine)(void*);
 typedef void*(THREAD_CALLBACK *thread_routine)(void*);
+typedef void*(THREAD_CALLBACK *ExThreadRoutine)(void*);
 typedef void* ExThread;
 
 #endif
