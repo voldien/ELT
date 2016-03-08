@@ -36,7 +36,6 @@
 #define EX_TICKS_PER_SECOND CLOCKS_PER_SEC
 
 
-
 #ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
@@ -45,7 +44,7 @@ extern "C"{
  *	Add timer thread routine.
  *	@Return .
  */
-extern ELTDECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, thread_routine callback, void* param);
+extern ELTDECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, ExThreadRoutine callback, void* param);
 
 /*
  *	Remove timer thread routine.
@@ -79,7 +78,9 @@ extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetPerformanceFrequency(void);
  *	Get numbers Ticks sense ELT_TIMER was initialize
  *	@Return
  */
-extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void);
+extern ELTDECLSPEC long int ELTAPIENTRY ExGetTicks(void);
+
+
 
 /*
  *	Get numbers Ticks sense ELT_TIMER was initialize
