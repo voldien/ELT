@@ -28,10 +28,9 @@ void ExGenBuffers(int n, unsigned int* buffers){
 
 int ExCreateVBO(unsigned int target, unsigned int size, unsigned int mode){
 	unsigned int vbo;
-	glGenBuffers(1, &vbo);
+	ExGenBuffers(1, &vbo);
 	glBindBuffer(target, vbo);
 	glBufferData(target, size, NULL, mode);
-
 	return vbo;
 }
 
