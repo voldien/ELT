@@ -100,13 +100,13 @@ int ExChooseFBconfig(GLXFBConfig* pfbconfig){
 	XRenderPictFormat *pict_format;
 	int numfbconfigs,i;
 	unsigned int attr;
+	ExBoolean isFBConfigSet = FALSE;
 
-	fbconfigs = glXChooseFBConfig(display,DefaultScreen(display), pixAtt, &numfbconfigs);
+	fbconfigs = glXChooseFBConfig(display, DefaultScreen(display), pixAtt, &numfbconfigs);
     pfbconfig[0] = fbconfigs[0];
 
-    /*	choose TODO check if something has bee free.*/
 	for(i = 0; i < numfbconfigs; i++){
-		visual = (XVisualInfo*)glXGetVisualFromFBConfig(display, fbconfigs[i]); /*	TODO make sure it gets free.	*/
+		visual = (XVisualInfo*)glXGetVisualFromFBConfig(display, fbconfigs[i]);
 		if(!visual)
 			continue;
 
@@ -121,7 +121,6 @@ int ExChooseFBconfig(GLXFBConfig* pfbconfig){
 		    	XFree(visual);
 		    	break;
 		    }
-
 
 		}else{
 			XFree(visual);

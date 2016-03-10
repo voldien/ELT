@@ -15,16 +15,85 @@
 	#include<GLES2/gl2.h>
 	#include<GLES2/gl2ext.h>
 	#include<GLES2/gl2platform.h>
-#elif defined(GL_ES_VERSION_1_0)
-	#undef GL_ES_VERSION_1_0
-	#include<GLES/gl.h>
-	#include<GLES/glext.h>
-	#include<GLES/glplatform.h>
 #else
 	#include<GL/gl.h>
 	#include<GL/glu.h>
 	#include<GL/glext.h>
 #endif
+
+
+ExTexture* ExCreateTexture(ExTexture* texture, unsigned int target, int level,
+        int internalFormat,
+        int width, int height,
+        int border, unsigned int format, unsigned int type,
+        const void *pixels ){
+	if(!texture)
+		return NULL;
+
+	texture->target = target;
+	texture->internalformat = internalFormat;
+	texture->width = width;
+	texture->height = height;
+	texture->internalformat = format;
+	texture->type = type;
+
+
+	glGenTextures(1,&texture->texture);
+	glBindTexture(target,texture->texture);
+	glPixelStorei(GL_PACK_ALIGNMENT,4);
+
+
+	switch(target){
+	case GL_TEXTURE_2D:
+		glTexImage2D(target,level,internalFormat,width, height,border, format,type,pixels);
+		break;
+#ifndef GL_ES_VERSION_2_0
+	case GL_TEXTURE_1D:
+		glTexImage1D(target,level,internalFormat,width,border, format,type,pixels);
+		break;
+
+	case GL_TEXTURE_2D_ARRAY:
+		glTexStorage3D(GL_TEXTURE_2D_ARRAY, level, texture->internalformat, width, height, texture->layer);
+		break;
+
+	case GL_TEXTURE_3D:
+		break;
+#endif
+	}
+
+
+	glTexParameteri(target,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(target,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(target,GL_TEXTURE_WRAP_S,GL_REPEAT);
+	glTexParameteri(target,GL_TEXTURE_WRAP_S,GL_REPEAT);
+
+
+	return texture;
+}
+
+
+void ExSubTexture(ExTexture* texture, int level, int xoffset, int yoffset, int width, int height,int format,int type, const void *pixels ){
+	glBindTexture(texture->target,texture->texture);
+	switch(texture->target){
+	case GL_TEXTURE_2D:
+		glTexSubImage2D(texture->target,level,xoffset,yoffset,width,height,format,type,pixels);
+		break;
+#ifndef GL_ES_VERSION_2_0
+	case GL_TEXTURE_1D:
+		glTexSubImage1D(texture->target,level,xoffset,width,format,type,pixels);
+		break;
+	case GL_TEXTURE_2D_ARRAY:
+		glTexSubImage3D(texture->target,level,xoffset,yoffset,0,width,height,0,format,type,pixels);
+		break;
+#endif
+	}
+}
+
+void ExDeleteTexture(ExTexture* texture){
+	glDeleteTextures(1,&texture->texture);
+}
+
+
 
 
 unsigned int is_texture_compressed(unsigned int textureid){
@@ -118,77 +187,6 @@ unsigned int ExGetTextureDataSize(unsigned int textureid){
 }
 
 
-
-ExTexture* ExCreateTexture(ExTexture* texture, unsigned int target, int level,
-        int internalFormat,
-        int width, int height,
-        int border, unsigned int format, unsigned int type,
-        const void *pixels ){
-	if(!texture)
-		return NULL;
-
-	texture->target = target;
-	texture->internalformat = internalFormat;
-	texture->width = width;
-	texture->height = height;
-	texture->internalformat = format;
-	texture->type = type;
-
-
-	glGenTextures(1,&texture->texture);
-	glBindTexture(target,texture->texture);
-	glPixelStorei(GL_PACK_ALIGNMENT,4);
-
-
-	switch(target){
-	case GL_TEXTURE_2D:
-		glTexImage2D(target,level,internalFormat,width, height,border, format,type,pixels);
-		break;
-#ifndef GL_ES_VERSION_2_0
-	case GL_TEXTURE_1D:
-		glTexImage1D(target,level,internalFormat,width,border, format,type,pixels);
-		break;
-
-	case GL_TEXTURE_2D_ARRAY:
-		glTexStorage3D(GL_TEXTURE_2D_ARRAY, level, texture->internalformat, width, height, texture->layer);
-		break;
-
-	case GL_TEXTURE_3D:
-		break;
-#endif
-	}
-
-
-	glTexParameteri(target,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-	glTexParameteri(target,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-	glTexParameteri(target,GL_TEXTURE_WRAP_S,GL_REPEAT);
-	glTexParameteri(target,GL_TEXTURE_WRAP_S,GL_REPEAT);
-
-
-	return texture;
-}
-
-
-void ExSubTexture(ExTexture* texture, int level, int xoffset, int yoffset, int width, int height,int format,int type, const void *pixels ){
-	glBindTexture(texture->target,texture->texture);
-	switch(texture->target){
-	case GL_TEXTURE_2D:
-		glTexSubImage2D(texture->target,level,xoffset,yoffset,width,height,format,type,pixels);
-		break;
-#ifndef GL_ES_VERSION_2_0
-	case GL_TEXTURE_1D:
-		glTexSubImage1D(texture->target,level,xoffset,width,format,type,pixels);
-		break;
-	case GL_TEXTURE_2D_ARRAY:
-		glTexSubImage3D(texture->target,level,xoffset,yoffset,0,width,height,0,format,type,pixels);
-		break;
-#endif
-	}
-}
-
-void ExDeleteTexture(ExTexture* texture){
-	glDeleteTextures(1,&texture->texture);
-}
 
 void ExSetTextureAnisotropy(ExTexture* texture,float anisotropy){
 	glBindTexture(texture->target,texture->texture);

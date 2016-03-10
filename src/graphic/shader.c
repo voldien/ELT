@@ -3,6 +3,7 @@
 
 
 #ifdef GL_ES_VERSION_3_0
+	#undef GL_ES_VERSION_3_0
 	#include<GLES3/gl3.h>
 	#include<GLES3/gl3ext.h>
 	#include<GLES3/gl3platform.h>
@@ -18,7 +19,7 @@
 #endif
 
 
-
+/*	TODO resolve GL_PROGRAM for opengl es,*/
 int ExGetShaderProgramSize(unsigned int program){
 	unsigned int i;
 	int fsize;
@@ -40,15 +41,12 @@ int ExGetShaderProgramSize(unsigned int program){
 	return fsize;
 }
 
-
 int ExGetShaderSourceSize(unsigned int shader){
 	int size;
 	glGetShaderiv(shader, GL_SHADER_SOURCE_LENGTH,&size);
 	glGetShaderSource(shader,0, &size, NULL);
 	return size;
 }
-
-
 
 int ExSetProgramShader(int program, int shader){
 	int count;
@@ -138,12 +136,13 @@ int ExLoadShader(ExShader* shad,const char* cvertexfilename, const char* cfragme
 
 	glLinkProgram(shad->program);
 
-	error = ExShaderCompileLog(shad->program,GL_PROGRAM);
+#if defined(__gl_h_)
+	error = ExShaderCompileLog(shad->program, GL_PROGRAM);
 	if(!error){
 
 	}
 	return error;
-
+#endif
 
 	return 1;
 }
@@ -184,12 +183,14 @@ int ExLoadShaderv(ExShader* shad, const char* cvertexSource, const char* cfragme
 	glValidateProgram(shad->program);
 	glLinkProgram(shad->program);
 
+#if defined(__gl_h_)
 	error = ExShaderCompileLog(shad->program,GL_PROGRAM);
 	/*	if shader failed. clean up resources.	*/
 	if(!error){
 		ExDeleteShaderProgram(shad);
 	}
 	return error;
+#endif
 
 	return 1;
 }
@@ -258,7 +259,7 @@ int ExCompileShaderSourcev(const char** source, unsigned int flag){
 	return shader;
 }
 
-int ExShaderCompileLog(unsigned int program,unsigned int shaderflag){
+int ExShaderCompileLog(unsigned int program, unsigned int shaderflag){
 	int status,validate;
 	char log[512];
 
