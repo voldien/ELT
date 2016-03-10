@@ -9,7 +9,7 @@ VkInstance instance = NULL;
 ExVulkanContext ExCreateVulkanContext(ExWin window, ExVulkanContext share){
 	int x = 0;
 	VkResult results;
-	uint32_t                                   pPhysicalDeviceCount;
+	uint32_t pPhysicalDeviceCount;
 	VkPhysicalDevice pPhysicalDevice[10];
 	VkPhysicalDeviceFeatures features;
 	VkDevice device;
@@ -18,7 +18,9 @@ ExVulkanContext ExCreateVulkanContext(ExWin window, ExVulkanContext share){
     const char* extension[] = {
     		VK_KHR_SURFACE_EXTENSION_NAME,
 			VK_KHR_XLIB_SURFACE_EXTENSION_NAME,
-			//VK_EXT_DEBUG_REPORT_EXTENSION_NAME
+#ifdef EX_DEBUG
+			VK_EXT_DEBUG_REPORT_EXTENSION_NAME
+#endif
     };
 
     VkApplicationInfo app_info = {0};
@@ -41,34 +43,59 @@ ExVulkanContext ExCreateVulkanContext(ExWin window, ExVulkanContext share){
 
     results = vkCreateInstance(&instance_info, 0, &instance);
     if(results != VK_SUCCESS){
-
+    	return NULL;
     }
 
     results = vkEnumeratePhysicalDevices(instance, &pPhysicalDeviceCount, NULL);
     if(results != VK_SUCCESS){
-
+    	return NULL;
     }
 
 
-	vkEnumeratePhysicalDevices(instance, NULL, pPhysicalDevice);
+    results = vkEnumeratePhysicalDevices(instance, &pPhysicalDeviceCount, pPhysicalDevice);
 
 	for(x = 0; x < pPhysicalDeviceCount; x++){
 		vkGetPhysicalDeviceFeatures(pPhysicalDevice[x], &features);
-
-
 	}
+
+    VkQueueFamilyProperties queueProps[10];
+    int graphicsQueueIndex = 0;
+    int queueCount;
+    vkGetPhysicalDeviceQueueFamilyProperties(pPhysicalDevice[0], &queueCount, NULL);
+    vkGetPhysicalDeviceQueueFamilyProperties(pPhysicalDevice[0], &queueCount, &queueProps[0]);
+    for (graphicsQueueIndex = 0; graphicsQueueIndex < queueCount; graphicsQueueIndex++){
+		if (queueProps[graphicsQueueIndex].queueFlags & VK_QUEUE_GRAPHICS_BIT)
+			break;
+	}
+
 
 	VkDeviceQueueCreateInfo queueInfo = {0};
 	queueInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+	queueInfo.queueFamilyIndex = graphicsQueueIndex;
 	queueInfo.queueCount = 1;
+	queueInfo.pQueuePriorities = queueProps;
 
     VkDeviceCreateInfo pCreateInfo = {0};
     pCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+    pCreateInfo.pNext = NULL;
+    pCreateInfo.queueCreateInfoCount = 1;
     pCreateInfo.pQueueCreateInfos = &queueInfo;
+    pCreateInfo.pEnabledFeatures = NULL;
 
-	vkCreateDevice(pPhysicalDevice[0], &pCreateInfo, NULL, &device);
+    results = vkCreateDevice(pPhysicalDevice[0], &pCreateInfo, NULL, &device);
+    if(results != VK_SUCCESS){
+    	return NULL;
+    }
+
+    VkPhysicalDeviceMemoryProperties memProp;
+    vkGetPhysicalDeviceMemoryProperties(pPhysicalDevice[0], &memProp);
 
 
+    VkCommandPoolCreateInfo cmd_pool_info = {};
+    cmd_pool_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+    cmd_pool_info.pNext = NULL;
+
+    return device;
 }
 
 
