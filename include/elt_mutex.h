@@ -1,6 +1,6 @@
 /**
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
-    Copyright (C) 2014  Valdemar Lindberg
+    Copyright (C) 2016  Valdemar Lindberg
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,30 +16,36 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _ELT_FRUSTUM_H_
-#define _ELT_FRUSTUM_H_ 1
-#include"vect.h"
-#include"matrix.h"
+#ifndef _ELT_MUTEX_H_
+#define _ELT_MUTEX_H_ 1
+#include"elt_thread.h"
+#include"elt_def.h"
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
-typedef struct frustum{
+typedef void* ExMutex;
 
-}ExFrustum;
+/*
+ *
+ *	@Return
+ */
+extern ELTDECLSPEC ExMutex ELTAPIENTRY ExCreateMutex(void);
 
-//struct frustum_sphere
-extern int frustum_create(ExFrustum* f);
+/*
+ *
+ */
+extern ELTDECLSPEC void ELTAPIENTRY ExDestroyMutex(ExMutex* mutex);
 
-extern int frustum_AABB(const float* b, struct frustum* f);
-extern int frustum_sphere(const float* pos,float radius, struct frustum* f);
-extern int frustum_point(const exvec3f_t point, struct frustum* f);
+extern ELTDECLSPEC void ELTAPIFASTENTRY ExLockMutex(ExMutex mutex);
+extern ELTDECLSPEC void ELTAPIFASTENTRY ExUnLockMutex(ExMutex mutex);
+
+extern ELTDECLSPEC void ELTAPIFASTENTRY ExTryLockMutex(ExMutex mutex);
 
 
 
-
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
 

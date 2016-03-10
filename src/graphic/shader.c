@@ -3,6 +3,7 @@
 
 
 #ifdef GL_ES_VERSION_3_0
+	#undef GL_ES_VERSION_3_0
 	#include<GLES3/gl3.h>
 	#include<GLES3/gl3ext.h>
 	#include<GLES3/gl3platform.h>
@@ -11,10 +12,6 @@
 	#include<GLES2/gl2.h>
 	#include<GLES2/gl2ext.h>
 	#include<GLES2/gl2platform.h>
-#elif defined(GL_ES_VERSION_1_0)
-	#include<GLES/gl.h>
-	#include<GLES/glext.h>
-	#include<GLES/glplatform.h>
 #else
 	#include<GL/gl.h>
 	#include<GL/glu.h>
@@ -22,7 +19,7 @@
 #endif
 
 
-
+/*	TODO resolve GL_PROGRAM for opengl es,*/
 int ExGetShaderProgramSize(unsigned int program){
 	unsigned int i;
 	int fsize;
@@ -44,15 +41,12 @@ int ExGetShaderProgramSize(unsigned int program){
 	return fsize;
 }
 
-
 int ExGetShaderSourceSize(unsigned int shader){
 	int size;
 	glGetShaderiv(shader, GL_SHADER_SOURCE_LENGTH,&size);
 	glGetShaderSource(shader,0, &size, NULL);
 	return size;
 }
-
-
 
 int ExSetProgramShader(int program, int shader){
 	int count;
@@ -92,6 +86,12 @@ int ExLoadShader(ExShader* shad,const char* cvertexfilename, const char* cfragme
 	int error;
 	v_source = f_source = g_source = tc_source = te_source = NULL;
 
+	ExLoadFile(cvertexfilename, &v_source);
+	ExLoadFile(cfragmentfilename, &f_source);
+	ExLoadFile(cgeometryfilename, &g_source);
+	ExLoadFile(ctesscfilename, &tc_source);
+	ExLoadFile(ctessefilename, &te_source);
+
 	/*	replace the source ExLoaderShaaderv	*/
 	error = ExLoadShaderv(shad,v_source,f_source,g_source,tc_source,te_source);
 
@@ -114,7 +114,7 @@ int ExLoadShader(ExShader* shad,const char* cvertexfilename, const char* cfragme
 		shad->fra = ExCompileShaderSource(cfragmentfilename,NULL,GL_FRAGMENT_SHADER);
 		glAttachShader(shad->program,shad->fra);
 	}
-#if !defined(GL_ES_VERSION_2_0)
+
 	if(cgeometryfilename){
 		shad->geo = ExCompileShaderSource(cgeometryfilename,&g_source,GL_GEOMETRY_SHADER);
 	}
@@ -124,7 +124,6 @@ int ExLoadShader(ExShader* shad,const char* cvertexfilename, const char* cfragme
 	if(ctessefilename){
 		shad->tese = ExCompileShaderSource(ctessefilename,&te_source,GL_TESS_EVALUATION_SHADER);
 	}
-#endif
 
 
 	/**/
@@ -137,8 +136,8 @@ int ExLoadShader(ExShader* shad,const char* cvertexfilename, const char* cfragme
 
 	glLinkProgram(shad->program);
 
-#if !defined(GL_ES_VERSION_2_0)
-	error = ExShaderCompileLog(shad->program,GL_PROGRAM);
+#if defined(__gl_h_)
+	error = ExShaderCompileLog(shad->program, GL_PROGRAM);
 	if(!error){
 
 	}
@@ -184,7 +183,7 @@ int ExLoadShaderv(ExShader* shad, const char* cvertexSource, const char* cfragme
 	glValidateProgram(shad->program);
 	glLinkProgram(shad->program);
 
-#if !defined(GL_ES_VERSION_2_0)
+#if defined(__gl_h_)
 	error = ExShaderCompileLog(shad->program,GL_PROGRAM);
 	/*	if shader failed. clean up resources.	*/
 	if(!error){
@@ -192,6 +191,7 @@ int ExLoadShaderv(ExShader* shad, const char* cvertexSource, const char* cfragme
 	}
 	return error;
 #endif
+
 	return 1;
 }
 
@@ -259,7 +259,7 @@ int ExCompileShaderSourcev(const char** source, unsigned int flag){
 	return shader;
 }
 
-int ExShaderCompileLog(unsigned int program,unsigned int shaderflag){
+int ExShaderCompileLog(unsigned int program, unsigned int shaderflag){
 	int status,validate;
 	char log[512];
 
@@ -277,7 +277,7 @@ int ExShaderCompileLog(unsigned int program,unsigned int shaderflag){
 		return FALSE;
 	}
 
-	glGetShaderiv(program,GL_COMPILE_STATUS,&status );
+	glGetShaderiv(program,GL_COMPILE_STATUS, &status );
 
 	if(!status){
 

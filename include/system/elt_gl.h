@@ -21,6 +21,8 @@
 #include"./../elt_def.h"
 #include"elt_egl.h"
 
+
+
 #ifdef EX_WINDOWS
 	#define ExSwapBuffers(surface) SwapBuffers(surface)
 #elif defined(EX_LINUX)
@@ -29,7 +31,7 @@
 	#define ExSwapBuffers glSwapBuffers
 #elif defined(EX_ANDROID)
 	extern EGLDisplay eglDisplay;
-	#define ExSwapBuffers(surface) eglSwapBuffers(eglDisplay, surface)
+	#define ExSwapBuffers(surface) eglSwapBuffers((EGLDisplay)eglDisplay, surface)
 #else
 	extern ELTDECLSPEC void ExSwapBuffers(void* surface);
 #endif
@@ -236,6 +238,10 @@ extern ELTDECLSPEC Uint32 ELTAPIENTRY ExIsOpenGLExtensionSupported(const char* e
  *	extension parsing convention.
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExIsExtensionSupported(const char* extList, const char* extension);
+
+
+extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetOpenGLServerExtension(void);
+extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetOpenGLClientExtension(void);
 
 /*
  *	Check if graphic card is AMD GPU

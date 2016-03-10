@@ -24,8 +24,6 @@
 
 typedef signed int ExSocket;
 
-
-
 #define EX_CLIENT 	0x1  		/*  Client socket*/
 #define EX_TCP 		0x2     	/*  reliable,  two-way  */
 #define EX_UDP 		0x4     	/*  UDP protocol */
@@ -69,7 +67,7 @@ extern ELTDECLSPEC ExSocket ELTAPIENTRY ExBindSocket(const char* ip, unsigned in
  *	\port
  *	@Return socket
 */
-extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int port);
+extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const ExChar* ip, unsigned int port);
 
 /*
  *    Listen
@@ -97,7 +95,7 @@ extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const char* ip, unsigned
  *	@Return
  */
 #ifdef EX_LINUX
-	#define ExWriteSocket read
+	#define ExWriteSocket send
 #elif defined(EX_WINDOWS)
 	#define ExWriteSocket send
 #endif

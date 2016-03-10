@@ -67,7 +67,7 @@ ELTDECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, Int32 leng
 		ExGetOSName(),
 		major,
 		minor);
-	memcpy(text, wchar, MAX(sizeof(ExChar) * length + sizeof(ExChar),sizeof(wchar) / sizeof(ExChar)));
+	memcpy(text, wchar, EX_MAX(sizeof(ExChar) * length + sizeof(ExChar),sizeof(wchar) / sizeof(ExChar)));
 	return text;
 }
 
@@ -117,7 +117,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32
 	}
 	else if(flag & EX_OPENGLES){
 		window = (ExWin)ExCreateNativeWindow(x,y,width,height);
-		glc = (ExOpenGLContext)ExCreateEGLContext(window);
+		glc = (ExOpenGLContext)ExCreateEGLContext(window,NULL);
 		ExMakeGLCurrent(GetDC(window),glc);
 #ifndef DONT_SUPPORT_OPENCL
 		if(flag & EX_OPENCL)
@@ -170,7 +170,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32
 	else if(flag & EX_OPENGLES){
 
 		window = ExCreateNativeWindow(x,y,width,height);
-		glc = ExCreateEGLContext(window);
+		glc = ExCreateEGLContext(window,NULL);
 
 #ifndef DONT_SUPPORT_OPENCL
 		if(flag & EX_OPENCL)

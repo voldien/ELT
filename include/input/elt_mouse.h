@@ -50,11 +50,17 @@
 #define ExMousePoint	m_MouseHandler->MouseState[0]->lX
 #define ExMouseMotion
 
+
+enum ExMouseCode {
+	eExMouseNone,
+	eExMouseLeft,
+	eExMouseRight,
+	eExMouseMiddle,
+	eExMousePadding
+};
 #ifdef __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
-
-
 
 /*
  *	Capture mouse

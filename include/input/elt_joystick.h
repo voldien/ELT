@@ -20,8 +20,9 @@
 #define _ELT_JOYSTICK_H_ 1
 #include"./../EngineAssembly.h"
 
-typedef int ExJoyStick;
 
+
+typedef void* ExJoyStick;
 EX_ALIGN_PREFIX(4)
 typedef struct ex_GUID{
 	Uint8 data[16];

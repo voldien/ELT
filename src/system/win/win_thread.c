@@ -1,4 +1,5 @@
 #include"elt_thread.h"
+#include<windef.h>
 #include<windows.h>
 
 
@@ -38,7 +39,25 @@ ELTDECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread){
 
 
 
+ELTDECLSPEC ExThread ELTAPIENTRY ExGetCurrentThread(void){
+    return GetCurrentThread();
+}
 
+// Thread
+ELTDECLSPEC Uint32 ELTAPIENTRY ExGetThreadID(ExThread thread){
+	return GetThreadId(thread);
+}
+
+
+ELTDECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread, Enum nPriority){
+	switch(nPriority){
+		case EX_THREAD_PRIORITY_LOW:nPriority =THREAD_PRIORITY_LOWEST;break;
+		case EX_THREAD_PRIORITY_MEDIUM:nPriority = THREAD_PRIORITY_NORMAL;break;
+		case EX_THREAD_PRIORITY_HIGH:nPriority = THREAD_PRIORITY_HIGHEST;break;
+		default:break;
+	}
+	return SetThreadPriority(thread,nPriority);
+}
 
 
 

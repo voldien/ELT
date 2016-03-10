@@ -252,8 +252,8 @@ int ELTAPIENTRY ExGetWindowPeekMessage(ExWin hwnd){
 	return FALSE;
 }
 
-int ELTAPIENTRY ExMessageBox(ExWin window, const char* text, const char* title,  unsigned int flags ){
-	return MessageBox(window,text,title,flags);
+int ELTAPIENTRY ExMessageBox(ExWin window, const ExChar* text, const ExChar* title,  unsigned int flags ){
+	return MessageBoxA(window,text,title,flags);
 }
 
 /**/

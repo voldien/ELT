@@ -35,13 +35,13 @@ extern ELTDECLSPEC long int ELTAPIENTRY ExGetFileSize(const ExChar* cfilname);
  *	Load data by specified pathname.
  *	@Return
  */
-extern ELTDECLSPEC int ELTAPIENTRY ExLoadFile(const ExChar* cfilename, void** data);
+extern ELTDECLSPEC long int ELTAPIENTRY ExLoadFile(const ExChar* cfilename, void** data);
 
 /*
  *	Save File by specified file name.
  *	@Return
  */
-extern ELTDECLSPEC int ELTAPIENTRY ExSaveFile(const ExChar* cfilename, void* data, unsigned int csize);
+extern ELTDECLSPEC long int ELTAPIENTRY ExSaveFile(const ExChar* cfilename, void* data, unsigned int csize);
 
 /*
  *
@@ -71,11 +71,22 @@ extern ELTDECLSPEC void ELTAPIENTRY ExSafeRead(FILE*f, void* buffer, int count);
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExCreateDirectory(const ExChar* directory);
 
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExIsDirectory(const ExChar* cdirectory);
+
+extern ELTDECLSPEC Uint32 ELTAPIENTRY ExDirectoryCount(const ExChar* cdirectory);
+
+extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetSubDirectory(const ExChar* cdirectory, int index);
+
 /*
  *
  *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExRemoveDirectory(const ExChar* directory);
+
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExCreateFile(const ExChar* cfilename);
+
+extern ELTDECLSPEC int ELTAPIENTRY ExFilesCount(const char* cdirectory);
+
 
 /*
  *	Remove file by given name.
@@ -88,6 +99,12 @@ extern ELTDECLSPEC int ELTAPIENTRY ExRemoveFile(const ExChar* cfilename);
  *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExExistFile(const ExChar* cfilename);
+
+
+/*	TODO relocate	*/
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExCreateRamDisk(const ExChar* cdirectory, unsigned int nBytes);
+extern ELTDECLSPEC ExBoolean ExMount(void);
+extern ELTDECLSPEC ExBoolean ExUnMount(void);
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 }

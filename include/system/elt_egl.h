@@ -26,6 +26,9 @@
 extern "C"{
 #endif
 
+/**/
+extern ExEGLDisplay eglDisplay;
+
 /*
  *
  *	@Return
@@ -36,7 +39,7 @@ extern ELTDECLSPEC int ELTAPIENTRY ExCreateEGLContextAttrib(ExWin window, int* a
  *
  *	@Return
  */
-extern ELTDECLSPEC ExEGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window);
+extern ELTDECLSPEC ExEGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window, ExEGLContext shared);
 
 /*
  *

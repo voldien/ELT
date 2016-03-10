@@ -35,6 +35,7 @@ typedef struct ex_srpite{
 }ExSprite;
 
 typedef struct sprite_batch{
+	/*	number of sprite allocated.	*/
 	unsigned int num;					/**/
 	unsigned int numDraw;				/**/
 	unsigned int vbo;					/**/
@@ -45,7 +46,8 @@ typedef struct sprite_batch{
 	int numTexture;						/**/
 	int numMaxTextures;					/**/
 
-	ExTexture* texture[32];				/**/
+	/*	TODO add texture target.	*/
+	int* texture[32];					/**/
 	ExSprite* sprite;					/**/
 
 	float scale;						/**/
@@ -76,7 +78,8 @@ extern ELTDECLSPEC ExSpriteBatch* ELTAPIENTRY ExCreateSpriteBatch(ExSpriteBatch*
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExReleaseSpriteBatch(ExSpriteBatch* spritebatch);
 
-
+/**/
+extern ELTDECLSPEC void ELTAPIENTRY ExSpriteBatchAllocateSprite(ExSpriteBatch* spritebatch, unsigned int num);
 
 //extern ELTDECLSPEC int ELTAPIENTRY ExGetSpriteBatchUniform(ExSpriteBatch* spritebatch);
 

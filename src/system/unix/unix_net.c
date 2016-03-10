@@ -23,7 +23,7 @@ static int ip_exists(const char* ip){
 }
 
 
-ExSocket ELTAPIENTRY ExOpenSocket(unsigned int protocol){
+ExSocket ExOpenSocket(unsigned int protocol){
     unsigned int sockfd;
     unsigned int sock_domain,socket_protocol;
     struct sockaddr_in serv_addr, cli_addr;
@@ -70,15 +70,13 @@ ExSocket ELTAPIENTRY ExOpenSocket(unsigned int protocol){
     return sockfd;
 }
 
-
-
-inline unsigned int ELTAPIENTRY ExCloseSocket(ExSocket socket){
+inline unsigned int ExCloseSocket(ExSocket socket){
     return close(socket);
 }
 
 
 
-ExSocket ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port, ExSocket socket){
+ExSocket ExBindSocket(const char* ip, unsigned int port, ExSocket socket){
     unsigned int sock_domain,socket_protocol;
     struct sockaddr_in serv_addr, cli_addr;
 
@@ -94,14 +92,14 @@ ExSocket ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port, ExSocket so
 
     /*	TODO solve how to create a ip address	*/
     if(bind(socket, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0){
-        fprintf(stderr,strerror(errno));
+        fprintf(stderr, strerror(errno));
         return -1;
     }
     return socket;
 }
 
 
-ExSocket ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int port){
+ExSocket ExConnectSocket(const ExChar* ip, unsigned int port){
 
     struct sockaddr_in serv_addr;
     struct hostent *server;
@@ -123,7 +121,7 @@ ExSocket ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int port){
     serv_addr.sin_port = htons(port);
 
     if(connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0){
-        fprintf(stderr,strerror(errno));
+        fprintf(stderr, "%s\n", strerror(errno));
         return -1;
     }
     return sockfd;

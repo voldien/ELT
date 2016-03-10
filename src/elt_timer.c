@@ -121,7 +121,7 @@ ELTDECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nanosec){
     #endif
 }
 
-ELTDECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void){
+long int ExGetTicks(void){
 #ifdef EX_WINDOWS
 	return (timeGetTime() - eltTickTime);  /*  return in milliseconds   */
 #elif defined(EX_UNIX)
@@ -129,7 +129,7 @@ ELTDECLSPEC Uint32 ELTAPIENTRY ExGetTicks(void){
 #endif
 }
 
-ELTDECLSPEC long int ELTAPIENTRY ExGetHiResTime(void){
+long int ExGetHiResTime(void){
     #ifdef EX_WINDOWS
 	LARGE_INTEGER time;
 	QueryPerformanceCounter(&time);

@@ -71,7 +71,7 @@ extern ELTDECLSPEC int ELTAPIENTRY ExGetOpenCLDevice(cl_platform_id platform, cl
 static char* ELTAPIENTRY ExGetCLErrorMessage(cl_int error);
 
 
-static char* get_device_extension(cl_device_id device){
+static char* private_get_device_extension(cl_device_id device){
     unsigned int extension_size;
     char* extension;
     clGetDeviceInfo(device, CL_DEVICE_EXTENSIONS, NULL, NULL, &extension_size);
@@ -197,7 +197,7 @@ ExOpenCLContext ELTAPIENTRY ExCreateCLSharedContext(ExOpenGLContext glc, ExWindo
 
 #endif
     for(i = 0; i < uiDevCount; i++){
-        extension = get_device_extension(cdDevices[i]);
+        extension = private_get_device_extension(cdDevices[i]);
         if(strstr(extension,GL_SHARING_EXTENSION)){
         	/*	found shareable context*/
         	uiDeviceUsed = i;
@@ -268,7 +268,7 @@ ERESULT ELTAPIENTRY ExQueryCLContext(ExOpenCLContext context, ExHandle param_val
         case CL_CONTEXT_DEVICES:{/* Get Context Device  */
             unsigned int num_dev;
             ExQueryCLContext(context,&num_dev, CL_CONTEXT_NUM_DEVICES);
-            ciErrNum = clGetContextInfo((cl_context)context, CL_CONTEXT_DEVICES,num_dev * sizeof(cl_device_id),param_value,&size);
+            ciErrNum = clGetContextInfo((cl_context)context, CL_CONTEXT_DEVICES, num_dev * sizeof(cl_device_id),param_value,&size);
             }
             break;
         case CL_CONTEXT_INTEROP_USER_SYNC:{ /**/
@@ -323,21 +323,15 @@ void ELTAPIENTRY ExDestroyCLContext(ExOpenCLContext context){
 }
 
 
-static int ExCLHighestFLOPS(Int32* clSelectedPlatformID){
-    int i,ciErrNum;
-    unsigned int num_device;
-    unsigned long int n_flops;
-
-    clGetDeviceIDs((cl_platform_id)clSelectedPlatformID[i],CL_DEVICE_TYPE_ALL,0,0,&num_device);
-
-   // ciErrNum = clGetDeviceIDs(clPlatformIDs[i], CL_DEVICE_AVAILABLE,num_device,&device[0],NULL);
-    //for(i = 0; i < num_device;i++){
-
-    //    clGetDeviceInfo(device, CL_DEVICE_MAX_COMPUTE_UNITS, sizeof(compute_units), &compute_units, NULL);
-
-    //}
-    return 1;
+Int ExGetOpenCLPlatforms(Uint num_entries, ExCLPlatformID* platforms, Uint* num_platform){
+	return clGetPlatformIDs(num_entries, platforms, num_platform);
 }
+
+
+Int ExGetOpenCLDevices(ExCLPlatformID platform, Enum type, Uint num_entries, ExCLDeviceID* devices, Uint* num_devices ){
+	clGetDeviceIDs(platform, type, num_entries, devices,num_devices);
+}
+
 
 Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID, Enum flag){
     char chBuffer[1024];
@@ -369,18 +363,17 @@ Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID, Enum flag){
 		else{	/*	determine platform*/
 		    cl_platform_id temp_clPlatformIDs[num_platforms];
 
-
 			/*	*/
-            ciErrNum = clGetPlatformIDs (num_platforms, &temp_clPlatformIDs, NULL);
+            ciErrNum = clGetPlatformIDs (num_platforms, &temp_clPlatformIDs[0], NULL);
 			if(ciErrNum == CL_DEVICE_NOT_FOUND)
                 ExDevPrint("Couldn't find");
 
 
 			/*	get number of gpu device.s	*/
-			ciErrNum = clGetDeviceIDs(temp_clPlatformIDs,CL_DEVICE_TYPE_GPU, NULL,NULL,&num_gpu);
+			ciErrNum = clGetDeviceIDs(temp_clPlatformIDs[0], CL_DEVICE_TYPE_GPU, 0, NULL, &num_gpu);
 
 			/*	get number of cpu devices.	*/
-			ciErrNum = clGetDeviceIDs(temp_clPlatformIDs,CL_DEVICE_TYPE_CPU, NULL,NULL,&num_cpu);
+			ciErrNum = clGetDeviceIDs(temp_clPlatformIDs[0], CL_DEVICE_TYPE_CPU, 0, NULL, &num_cpu);
 
 
 			if((clPlatformIDs = (cl_platform_id*)malloc(num_platforms * sizeof(cl_platform_id))) == NULL){
@@ -450,7 +443,7 @@ Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID, Enum flag){
 }
 
 
-void* ExCreateCommandQueue(ExOpenCLContext context, ExHandle device){
+void* ExCreateCommandQueue(ExOpenCLContext context, ExCLDeviceID device){
     cl_int errNum;
     cl_device_id* devices;
     cl_command_queue commandQueue = NULL;
@@ -473,7 +466,7 @@ void* ExCreateCommandQueue(ExOpenCLContext context, ExHandle device){
         return NULL;
     }
 
-    commandQueue = clCreateCommandQueue(context, device, 0, NULL);
+    commandQueue = clCreateCommandQueue((cl_context)context, (cl_device_id)device, 0, NULL);
 
     if(!commandQueue){
         printf("Failed to create commandQueue for device");
@@ -486,7 +479,7 @@ void* ExCreateCommandQueue(ExOpenCLContext context, ExHandle device){
 }
 
 /**/
-void* ExCreateProgram(ExOpenCLContext context, ExHandle device, const ExChar* cfilename, ...){
+void* ExCreateProgram(ExOpenCLContext context, ExCLDeviceID device, const ExChar* cfilename, ...){
 	va_list list;
 	cl_int errNum = 0;
     cl_program program;
@@ -511,15 +504,13 @@ void* ExCreateProgram(ExOpenCLContext context, ExHandle device, const ExChar* cf
 
 
     /*	read file*/
-    if(!ExLoadFile(cfilename,&data))
+    if(ExLoadFile(cfilename, &data) == -1)
     	return NULL;
     data[strlen(data)] =  '\0';
 
     /*  error was length was wrong size....*/
-    program = clCreateProgramWithSource(context, 1, (const char**)&data, &length,&errNum);
-    errNum = clBuildProgram(program, 1,(const cl_device_id*)&device,
-    		(buffer[0] == '\0') ? NULL : buffer,
-    				NULL,NULL);
+    program = clCreateProgramWithSource(context, 1, (const char**)&data, NULL, &errNum);
+    errNum = clBuildProgram(program, 0, NULL, NULL, NULL, NULL);
 
     if(errNum != CL_SUCCESS){
         char buildLog[1024];
@@ -530,6 +521,33 @@ void* ExCreateProgram(ExOpenCLContext context, ExHandle device, const ExChar* cf
     }
     free(data);
     return program;
+}
+
+
+ExCLKernel ExCreateKernel(ExCLProgram program, const ExChar* kernelname){
+	cl_kernel kernel;
+	cl_int error;
+	kernel = clCreateKernel(program, kernelname, &error);
+
+	return kernel;
+}
+
+
+static int private_ExCLHighestFLOPS(Int32* clSelectedPlatformID){
+	int i,ciErrNum;
+	unsigned int num_device;
+	unsigned long int n_flops;
+	cl_device_id* devices;
+
+	clGetDeviceIDs((cl_platform_id)clSelectedPlatformID[i], CL_DEVICE_TYPE_ALL, 0, 0, &num_device);
+
+	devices = malloc(sizeof(cl_device_id) * num_device);
+	for(i = 0; i < num_device;i++){
+    	//clGetDeviceInfo(devices[i], CL_DEVICE_MAX_COMPUTE_UNITS, sizeof(compute_units), &compute_units, NULL);
+	}
+
+	free(devices);
+    return 1;
 }
 
 

@@ -10,11 +10,9 @@
 #   include<libgen.h>
 #   include<X11/Xlib.h>
 #   include<X11/extensions/Xrandr.h>
-#	include<regex.h>
 
 
-
-ELTDECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName){
+Int32 ExCreateProcess(const ExChar* applicationName){
     pid_t pid;
     pid = fork();
 
@@ -40,7 +38,7 @@ ELTDECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName){
 }
 
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName,...){
+Int32 ExCreateProcessl(const ExChar* applicationName,...){
 	va_list argptr;
 	ExChar argv[1024]= {0};
 	ExChar* arg_temp;
@@ -209,36 +207,6 @@ const ExChar* ELTAPIENTRY ExGetPlatform(void){
 	return NULL;
 }
 
-
-#define _DATADIR "/sys/class/power_supply"
-ELTDECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct){
-	FILE *f_c, *f_f;
-	long current, full;
-	DIR *d;
-	struct dirent *dp;
-
-	if((d = opendir(_DATADIR)) == NULL) {
-		fprintf(stderr, "opendir: %s\n", strerror(errno));
-		return 3;
-	}
-
-
-	while((dp = readdir(d)) != NULL) {
-
-		regex_t regex;
-		//if(regcomp())
-
-	}
-
-    if(sec)
-        *sec = 1;
-    if(pct)
-        *pct = 1;
-
-    closedir(d);
-	return TRUE;
-}
-
 ELTDECLSPEC void ELTAPIENTRY ExGetExecutePath(ExChar* wChar, Int32 length){
 	/**/
     extern char* __progname;
@@ -274,7 +242,7 @@ ELTDECLSPEC ExChar* ELTAPIENTRY ExGetCurrentDirectory(void){
 
 }
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExSetCurrentDirectory (const char* cdirectory){
+ELTDECLSPEC Int32 ELTAPIENTRY ExSetCurrentDirectory (const ExChar* cdirectory){
 	return chdir(cdirectory);
 }
 

@@ -37,10 +37,15 @@ extern "C"{
 
 
 /*	TODO conclude if function shall follow same naming conventions as opengl or use our own.*/
+extern ELTDECLSPEC void ExGenBuffers(int n, unsigned int* buffers);
+
 /*
  *
  */
 extern ELTDECLSPEC int ExCreateVBO(unsigned int target, unsigned int size, unsigned int mode);
+
+extern ELTDECLSPEC void ExSetBufferSize(unsigned int target, unsigned int buffer, unsigned int size, unsigned int mode);
+
 
 /*
  *

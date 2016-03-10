@@ -46,9 +46,15 @@ typedef struct ex_rect{
 
 
 
+
+
+
 #define EX_EVENT_MOUSE 0x1
+#define EX_EVENT_MOUSE_PRESSED 0x0
+#define EX_EVENT_MOUSE_RELEASED 0x0
 #define EX_EVENT_KEY 0x2
 #define EX_EVENT_KEY_RELEASE 0x200
+#define EX_EVENT_KEY_PRESSED 0x0
 #define EX_EVENT_SIZE 0x4
 #define EX_EVENT_SYSTEM 0x8
 #define EX_EVENT_MOUSEWHEEL 0x10
