@@ -116,3 +116,11 @@ int ExExistFile(const ExChar* cfilename){
 	return 0;
 #endif
 }
+
+
+ExBoolean ExCreateRamDisk(const ExChar* cdirectory, unsigned int nBytes){
+	 const char* opts = "mode=0700,uid=65534";
+	if(mount("none", cdirectory, 0, "",  " -t -size=2m tmpfs") < 0){
+
+	}
+}
