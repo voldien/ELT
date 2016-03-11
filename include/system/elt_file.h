@@ -24,7 +24,6 @@
 extern "C"{
 #endif
 
-
 /*
  *	Get file size in byte.
  *	@Return
@@ -99,6 +98,7 @@ extern ELTDECLSPEC int ELTAPIENTRY ExRemoveFile(const ExChar* cfilename);
  *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExExistFile(const ExChar* cfilename);
+
 
 
 /*	TODO relocate	*/

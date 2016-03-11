@@ -9,7 +9,6 @@
 	#include<dirent.h>
 #endif
 
-
 static long int private_ExGetFileStreamSize(FILE* file){
     unsigned int pos;
     long size;
@@ -40,7 +39,7 @@ long int ExLoadFile(const ExChar* cfilename, void** bufferptr){
 		return -1;
 	}
 
-	f = fopen(cfilename,"rb");
+	f = ExSafeOpenRead(cfilename);
 	if(!f){
 		return -1;
 	}
@@ -86,7 +85,7 @@ void ExSafeWrite(FILE *f, void* buffer, unsigned int count){
 }
 
 void ExSafeRead(FILE*f, void* buffer, int count){
-	if((int)fread(buffer,1,count,f) != count){
+	if((int)fread(buffer, 1, count, f) != count){
 		printf("File read failure : %s\n", strerror(errno));
 	}
 }
@@ -108,6 +107,13 @@ ExBoolean ExIsDirectory(const ExChar* cdirectory){
 	return FALSE;
 }
 
+int ExRemoveFile(const ExChar* cfilename){
+#ifdef EX_UNIX
+	return remove(cfilename);
+#else
+	return 0;
+#endif
+}
 
 int ExExistFile(const ExChar* cfilename){
 #ifdef EX_UNIX
