@@ -24,9 +24,11 @@
 extern "C"{
 #endif
 
+
+
 /*
- *	Get Power Info
- *	@Return
+ *	Get power info. usually attachedable battery.
+ *	@Return 0 if no battery attached.
  */
 extern ELTDECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct);
 
