@@ -70,10 +70,22 @@ extern ELTDECLSPEC void ELTAPIENTRY ExSafeRead(FILE*f, void* buffer, int count);
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExCreateDirectory(const ExChar* directory);
 
+/*
+ *
+ *	@Return
+ */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExIsDirectory(const ExChar* cdirectory);
 
+/*
+ *
+ *	@Return
+ */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExDirectoryCount(const ExChar* cdirectory);
 
+/*
+ *
+ *	@Return
+ */
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetSubDirectory(const ExChar* cdirectory, int index);
 
 /*
@@ -82,10 +94,17 @@ extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetSubDirectory(const ExChar* cdi
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExRemoveDirectory(const ExChar* directory);
 
+/*
+ *
+ *	@Return
+ */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExCreateFile(const ExChar* cfilename);
 
+/*
+ *
+ *	@Return
+ */
 extern ELTDECLSPEC int ELTAPIENTRY ExFilesCount(const char* cdirectory);
-
 
 /*
  *	Remove file by given name.

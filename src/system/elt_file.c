@@ -9,6 +9,7 @@
 	#include<dirent.h>
 #endif
 
+
 static long int private_ExGetFileStreamSize(FILE* file){
     unsigned int pos;
     long size;
@@ -90,38 +91,6 @@ void ExSafeRead(FILE*f, void* buffer, int count){
 	}
 }
 
-int ExCreateDirectory(const ExChar* directory){
-#ifdef EX_UNIX
-	return mkdir(directory,644);
-#elif defined(EX_WINDOWS)
-	return CreateDirectory(directory,NULL);
-#endif
-}
-
-ExBoolean ExIsDirectory(const ExChar* cdirectory){
-	DIR* dir = opendir(cdirectory);
-	if(dir){
-		closedir(dir);
-		return TRUE;
-	}
-	return FALSE;
-}
-
-int ExRemoveFile(const ExChar* cfilename){
-#ifdef EX_UNIX
-	return remove(cfilename);
-#else
-	return 0;
-#endif
-}
-
-int ExExistFile(const ExChar* cfilename){
-#ifdef EX_UNIX
-	return !access(cfilename, F_OK);
-#else
-	return 0;
-#endif
-}
 
 
 ExBoolean ExCreateRamDisk(const ExChar* cdirectory, unsigned int nBytes){
@@ -130,3 +99,4 @@ ExBoolean ExCreateRamDisk(const ExChar* cdirectory, unsigned int nBytes){
 
 	}
 }
+
