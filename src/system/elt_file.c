@@ -40,7 +40,7 @@ long int ExLoadFile(const ExChar* cfilename, void** bufferptr){
 		return -1;
 	}
 
-	f = fopen(cfilename,"rb");
+	f = ExSafeOpenRead(cfilename);
 	if(!f){
 		return -1;
 	}
@@ -86,36 +86,11 @@ void ExSafeWrite(FILE *f, void* buffer, unsigned int count){
 }
 
 void ExSafeRead(FILE*f, void* buffer, int count){
-	if((int)fread(buffer,1,count,f) != count){
+	if((int)fread(buffer, 1, count, f) != count){
 		printf("File read failure : %s\n", strerror(errno));
 	}
 }
 
-int ExCreateDirectory(const ExChar* directory){
-#ifdef EX_UNIX
-	return mkdir(directory,644);
-#elif defined(EX_WINDOWS)
-	return CreateDirectory(directory,NULL);
-#endif
-}
-
-ExBoolean ExIsDirectory(const ExChar* cdirectory){
-	DIR* dir = opendir(cdirectory);
-	if(dir){
-		closedir(dir);
-		return TRUE;
-	}
-	return FALSE;
-}
-
-
-int ExExistFile(const ExChar* cfilename){
-#ifdef EX_UNIX
-	return !access(cfilename, F_OK);
-#else
-	return 0;
-#endif
-}
 
 
 ExBoolean ExCreateRamDisk(const ExChar* cdirectory, unsigned int nBytes){
@@ -124,3 +99,4 @@ ExBoolean ExCreateRamDisk(const ExChar* cdirectory, unsigned int nBytes){
 
 	}
 }
+

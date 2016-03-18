@@ -1,10 +1,7 @@
 #include"graphic/texture.h"
 
-
 #include<EGL/egl.h>
 #include<EGL/eglext.h>
-
-
 #ifdef GL_ES_VERSION_3_0
 	#undef GL_ES_VERSION_3_0
 	#include<GLES3/gl3.h>
@@ -20,6 +17,7 @@
 	#include<GL/glu.h>
 	#include<GL/glext.h>
 #endif
+
 
 
 ExTexture* ExCreateTexture(ExTexture* texture, unsigned int target, int level,

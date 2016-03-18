@@ -85,10 +85,19 @@ _In_  HINSTANCE hinstDLL,
 
 void __attribute__ ((constructor)) my_load(void){
 
+    display = XOpenDisplay(getenv("DISPLAY"));
+    if(!display){
+        //ExError("couldn't open Display\n");
+    }
+
+    if(!XInitThreads()){
+    	printf("Failed to init multiethreading support\n");
+    }
 }
 
 void __attribute__ ((destructor)) my_unload(void){
-
+	if(display)
+		XCloseDisplay(display);
 }
 
 

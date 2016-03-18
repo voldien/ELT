@@ -143,6 +143,7 @@ ELTDECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
 
 	glPolygonOffset(0.0, 0.0);
 
+	/**/
 	glFrontFace(GL_CW);
 	glCullFace(GL_BACK);
 
@@ -159,7 +160,9 @@ ELTDECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void){
 #endif
 }
 
-ELTDECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor){
+Uint32 ExGetOpenGLVersion(int* major, int* minor){
+	unsigned int npmajor;
+	unsigned int npminor;
     if(!ExGetCurrentOpenGLContext()){
 		/*	create temp*/
 		ExWin win;
@@ -174,10 +177,13 @@ ELTDECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor){
 #endif
 		/*TODO resolve later*/
 #if !( defined(EX_ANDROID)  ^ defined(EX_PNACL))
+		glGetIntegerv(GL_MAJOR_VERSION, &npmajor);
+		glGetIntegerv(GL_MINOR_VERSION, &npminor);
+
 		if(major)
-			glGetIntegerv(GL_MAJOR_VERSION, major);
+			major[0] = npmajor;
 		if(minor)
-			glGetIntegerv(GL_MINOR_VERSION, minor);
+			minor[0] = npminor;
 
 		ExMakeGLCurrent(0,0);
 		ExDestroyGLContext(NULL,glc);
@@ -187,17 +193,26 @@ ELTDECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor){
     }
     else{
 #if !(defined(EX_ANDROID) ^ defined(EX_PNACL))
+		glGetIntegerv(GL_MAJOR_VERSION, &npmajor);
+		glGetIntegerv(GL_MINOR_VERSION, &npminor);
+
 		if(major)
-			glGetIntegerv(GL_MAJOR_VERSION, major);
+			major[0] = npmajor;
 		if(minor)
-			glGetIntegerv(GL_MINOR_VERSION, minor);
+			minor[0] = npminor;
 #endif
 
-        return ExGetOpenGLShadingVersion();
+        return npmajor * 100 + npminor * 10;
     }
 }
 
 Uint32 ExIsOpenGLExtensionSupported(const char* extension){
+	GLint n=0;
+	GLint i;
+	glGetIntegerv(GL_NUM_EXTENSIONS, &n);
+	for(i = 0; i < n; i++){
+
+	}
 	return ExIsExtensionSupported(glGetString(GL_EXTENSIONS), extension);
 }
 

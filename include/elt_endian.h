@@ -16,18 +16,29 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _ELT_SYSTEM_H_ 
-#define _ELT_SYSTEM_H_ 1
-#include"elt_def.h"
+#ifndef _ELT_ENDIAN_H_
+#define _ELT_ENDIAN_H_ 1
+#include"system.h"
 
-#include"system/elt_file.h"
-#include"system/elt_win.h"
-#include"system/elt_gl.h"
-#include"system/elt_cl.h"
-#include"system/elt_egl.h"
-#include"system/elt_net.h"
-#include"system/elt_power.h"
-#include"system/elt_event.h"
-#include"system/elt_surface.h"
 
-#endif 
+#ifdef __cplusplus	/*	C++ Environment	*/
+extern "C"{
+#endif
+
+
+/**/
+extern ELTDECLSPEC void ExSwap16(Uint16 x);
+/**/
+extern ELTDECLSPEC void ExSwap32(Uint32 x);
+/**/
+extern ELTDECLSPEC void ExSwap64(Uint64 x);
+/**/
+extern ELTDECLSPEC void ExSwapFloat(float x);
+/**/
+extern ELTDECLSPEC void ExSwapDouble(double x);
+
+#ifdef __cplusplus	/*	C++ Environment	*/
+}
+#endif
+
+#endif

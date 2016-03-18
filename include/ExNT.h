@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _EX_NT_H_
-#define _EX_NT_H_ 1
+#ifndef _ELT_NT_H_
+#define _ELT_NT_H_ 1
 #include"elt_def.h"
 
 #include <stdlib.h>
@@ -130,12 +130,21 @@ typedef int ExAtom;
  */
 typedef long ERESULT;
 
+typedef unsigned int exivec4 EX_ALIGN_VECTOR(16);
+typedef unsigned int exivec3 EX_ALIGN_VECTOR(16);
+typedef unsigned int exivec2 EX_ALIGN_VECTOR(8);
 
+/*
+ *
+ */
 #ifdef EX_MSVC
 	#define EX_DECLARE_HANDLE(name) struct name##__{int unused;}; typedef struct name##__ *name
 #else
 	#define EX_DECLARE_HANDLE(name) typedef struct name##__ { int unused; } *name
 #endif
+/*
+ *
+ */
 EX_DECLARE_HANDLE(ExHandle);
 
 
@@ -153,13 +162,14 @@ typedef wchar_t ExWide;
 #endif
 
 
-
+/**/
 typedef union floatUnion{
 	float fv;
 	Uint32 uv;
 	Uint8 ub[4];
 }FloatUnion, UintUnion;
 
+/**/
 typedef union doubleUnion{
 	double Ddata;
 	Uint64 Uldata;
@@ -192,13 +202,6 @@ typedef union doubleUnion{
 #define EX_HIWORD(l)        ((Uint16)((((Uint16)(l)) >> 16) & 0xffff))
 #define EX_LOBYTE(w)        ((Uint8)(((Uint16)(w)) & 0xff))
 #define EX_HIBYTE(w)        ((Uint8)((((Uint16)(w)) >> 8) & 0xff))
-
-
-/*
-#define EX_LOQWORD(q)			((QWORD)(((DWORD_PTR)(l)) & 0xffffffff))
-#define EX_HIQWORD(q)			((QWORD)((((DWORD_PTR)(l)) >> 32) & 0xffffffff))
-*/
-
 
 
 /*

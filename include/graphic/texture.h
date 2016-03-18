@@ -19,6 +19,7 @@
 #ifndef _ELT_TEXTURE_H_ 
 #define _ELT_TEXTURE_H_ 1
 #include"../elt_def.h"
+#include"../ExNT.h"
 
 typedef struct ex_texture{
 	unsigned int target;			/**/
@@ -34,6 +35,25 @@ typedef struct ex_texture{
 #ifdef __cplusplus	/*	C++ environment	*/
 extern "C"{
 #endif
+
+
+/*
+ *
+ *	@Return
+ */
+extern ELTDECLSPEC ExTexture* ExCreateTexture(ExTexture* texture, unsigned int target, int level, int internalFormat, int width, int height, int border, unsigned int format, unsigned int type, const void *pixels);
+
+/*
+ *
+ */
+extern ELTDECLSPEC void ExSubTexture(ExTexture* texture, int level,	int xoffset, int yoffset, int width, int height, int format, int type, const void *pixels );
+/*
+ *
+ */
+extern ELTDECLSPEC void ELTAPIENTRY ExDeleteTexture(ExTexture* texture);
+
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExIsTexture(ExTexture* texture);
+
 
 /*
  *	return texture internal type in size in bytes
@@ -78,22 +98,7 @@ extern ELTDECLSPEC unsigned int ExGetTextureDataSize(unsigned int textureid);
  */
 extern ELTDECLSPEC unsigned int ExGetTextureLevelDatai(unsigned int textureid,unsigned int level,unsigned char** pixeldata);
 
-/*
- *
- *	@Return
- */
-extern ELTDECLSPEC ExTexture* ExCreateTexture(ExTexture* texture, unsigned int target, int level, int internalFormat, int width, int height, int border, unsigned int format, unsigned int type, const void *pixels);
 
-/*
- *
- */
-extern ELTDECLSPEC void ExSubTexture(ExTexture* texture, int level,	int xoffset, int yoffset, int width, int height, int format, int type, const void *pixels );
-
-
-/*
- *
- */
-extern ELTDECLSPEC void ELTAPIENTRY ExDeleteTexture(ExTexture* texture);
 
 
 extern ELTDECLSPEC void ELTAPIENTRY ExGenerateTextureMipmap(ExTexture* texture);

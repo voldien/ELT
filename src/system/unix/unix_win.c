@@ -64,7 +64,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width
     visual = visInfo.visual;
 
 	swa.background_pixel = XWhitePixel(display,0);
-	swa.event_mask = ExposureMask | VisibilityChangeMask | KeyPressMask | PointerMotionMask | StructureNotifyMask | ResizeRedirectMask;
+	swa.event_mask = ExposureMask | VisibilityChangeMask | KeyPressMask | PointerMotionMask | StructureNotifyMask | ResizeRedirectMask | VisibilityChangeMask;
 	swa.border_pixmap = None;
 	swa.border_pixel = 0;
 	swa.bit_gravity = StaticGravity;
@@ -76,12 +76,10 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width
                               x,y,width,height,0,
                               depth,InputOutput,visual, winmask,&swa);
 
-
-
     /*	event feed masking	*/
 	XSelectInput(display,window, ExposureMask | VisibilityChangeMask | KeyPressMask |
 			PointerMotionMask | StructureNotifyMask | ExposureMask | KeyPressMask |
-			ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask |
+			ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask | VisibilityChangeMask |
 			ButtonMotionMask | PointerMotionMask);
 
 
@@ -135,7 +133,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, I
 
 	winAttribs.colormap = XCreateColormap(display, RootWindow(display,vi->screen), vi->visual, AllocNone);
 
-	winAttribs.event_mask = ExposureMask | VisibilityChangeMask | KeyPressMask | PointerMotionMask | StructureNotifyMask | ResizeRedirectMask;
+	winAttribs.event_mask = ExposureMask | VisibilityChangeMask | KeyPressMask | PointerMotionMask | StructureNotifyMask | ResizeRedirectMask | FocusChangeMask;
 	winAttribs.border_pixmap = None;
 	winAttribs.border_pixel = 0;
 	winAttribs.bit_gravity = StaticGravity;
@@ -171,7 +169,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, I
     /*	event feed masking	*/
 	XSelectInput(display,window, ExposureMask | VisibilityChangeMask | KeyPressMask |
 			PointerMotionMask | StructureNotifyMask | ExposureMask | KeyPressMask |
-			ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask |
+			ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask | FocusChangeMask |
 			ButtonMotionMask | PointerMotionMask);
 
 /*

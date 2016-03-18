@@ -1,19 +1,28 @@
 #include"input/elt_mouse.h"
-
+#   include"system/unix/unix_win.h"
 #   include<linux/input.h>
 #   include<X11/Xlib.h>
 #   include<X11/cursorfont.h>
-#   include"system/unix/unix_win.h"
+#	include <X11/Xcursor/Xcursor.h>
+
 #   include <linux/input.h>
 #   include<X11/Xlib-xcb.h>
 
 
 Int32 ExCaptureMouse(ExBoolean enabled){
-	return XGrabPointer(display, 0, False, 0, GrabModeSync, GrabModeSync, None, None, CurrentTime);	return TRUE;
+	return XGrabPointer(display, None, True, 0, GrabModeSync, GrabModeSync, None, ExGetCursor(), CurrentTime);
 }
 
-Int32 ExClipCursor(const ExRect* rect){
-	return XGrabPointer(display, 0, False, 0, GrabModeSync, GrabModeSync, None, None, CurrentTime);
+/*	TODO resolve*/
+Int32 ExClipCursor(ExWin window){
+	if(window)
+		return XGrabPointer(display, window, True, 0, GrabModeAsync, GrabModeAsync, window, ExGetCursor(), CurrentTime);
+	else{
+		XUngrabPointer(display, CurrentTime);
+		return;
+		XGrabPointer(display, XDefaultRootWindow(display), False, 0, GrabModeAsync, GrabModeAsync, NULL, ExGetCursor(), CurrentTime);
+		XAllowEvents(display, ReplayPointer, CurrentTime);
+	}
 }
 
 ExCursor ExCreateCursor(const Uint8* data, const Uint8* mask, Int32 width,Int32 height, Int32 hot_x, Int32 hot_y){
@@ -21,13 +30,13 @@ ExCursor ExCreateCursor(const Uint8* data, const Uint8* mask, Int32 width,Int32 
 }
 
 ExCursor ExCreateSystemCursor(Enum system_id){
-	ExChar* arrow;
+	unsigned int arrow;
     switch(system_id){
-        case EXC_ARROW:arrow = XC_arrow;break;
+        case EXC_ARROW: arrow = XC_arrow;break;
         case EXC_WAIT: arrow = XC_watch;break;
-        default:arrow= XC_arrow;
+        default:arrow= XC_X_cursor;
     }
-    return XCreateFontCursor(display,arrow);
+    return XCreateFontCursor(display, arrow);
 }
 
 ExBoolean ExFreeCursor(ExCursor cursor){
@@ -36,13 +45,14 @@ ExBoolean ExFreeCursor(ExCursor cursor){
 	return destroyed;
 }
 
-ExBoolean ExSetCursor(ExCursor cursor){
-    //TODO solve window
-    //if(!cursor)
-    //   return XUndefinedCursor(display, NULL);
-    //else
-        return XDefineCursor(display, NULL, cursor);
+ExBoolean ExSetCursor(ExWin window, ExCursor cursor){
+	return XDefineCursor(display, window, cursor);
 }
+
+ExCursor ExGetCursor(void){
+	return NULL;
+}
+
 
 Uint32 ExGetGlobalMouseState(Int32* x, Int32* y){
     int i,j,mask_return;
