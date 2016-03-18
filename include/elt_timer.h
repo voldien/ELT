@@ -59,6 +59,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms);
 
 /*
  *	Delay current thread in nano seconds.
+ *	\ns
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nanosec);
 
@@ -83,7 +84,7 @@ extern ELTDECLSPEC long int ELTAPIENTRY ExGetTicks(void);
 
 
 /*
- *	Get numbers Ticks sense ELT_TIMER was initialize
+ *
  *	@Return get number of ticks.
  */
 extern ELTDECLSPEC long int ELTAPIENTRY ExGetHiResTime(void);
