@@ -146,6 +146,7 @@
 		#define EX_LINUX 1                       /**/
 		#if defined(__amd64) || defined(__x86_64__) || defined(__i386__)
             #define EX_X86 1
+			#define EX_X86LINUX
 		#endif
 		#if defined(__arm__)
               #define EX_ARM 1
