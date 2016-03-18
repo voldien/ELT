@@ -2,11 +2,11 @@
 #define VK_USE_PLATFORM_XLIB_KHR
 #include<vulkan/vulkan.h>
 #include<vulkan/vk_layer.h>
+#include<vulkan/vk_platform.h>
 
 VkInstance instance = NULL;
 
-
-ExVulkanContext ExCreateVulkanContext(ExWin window, ExVulkanContext share){
+ExVulkanDevice ExCreateVulkanContext(ExWin window, ExVulkanContext share){
 	int x = 0;
 	VkResult results;
 	uint32_t pPhysicalDeviceCount;
@@ -14,6 +14,14 @@ ExVulkanContext ExCreateVulkanContext(ExWin window, ExVulkanContext share){
 	VkPhysicalDeviceFeatures features;
 	VkDevice device;
 	ExChar application[255];
+	VkAllocationCallbacks callbacks;
+
+	callbacks.pUserData = NULL;
+	callbacks.pfnFree = free;
+	callbacks.pfnInternalFree = free;
+	callbacks.pfnAllocation = malloc;
+	callbacks.pfnReallocation = realloc;
+
 
     const char* extension[] = {
     		VK_KHR_SURFACE_EXTENSION_NAME,
@@ -95,7 +103,39 @@ ExVulkanContext ExCreateVulkanContext(ExWin window, ExVulkanContext share){
     cmd_pool_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
     cmd_pool_info.pNext = NULL;
 
+
+
+    VkSurfaceKHR surface;
+    VkXlibSurfaceCreateInfoKHR surfaceCreateInfo = {};
+    surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR;
+    surfaceCreateInfo.dpy = display;
+    surfaceCreateInfo.window = window;
+    results = vkCreateXlibSurfaceKHR(instance, &surfaceCreateInfo, NULL, &surface);
+
+    vkCreateSwapchainKHR(device, NULL, 0, 0);
+
+
+    /*
+    VkPresentInfoKHR presentInfo = {};
+	presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+	presentInfo.pNext = NULL;
+	presentInfo.swapchainCount = 1;
+	presentInfo.pSwapchains = &swapChain;
+	presentInfo.pImageIndices = &currentBuffer;
+    vkQueuePresentKHR(queue, &presentInfo);
+
+    */
     return device;
+}
+
+
+void ExDestroyVulkanContext(ExVulkanContext vulkan){
+	if(!vulkan)
+		return;
+
+	VkDevice device = vulkan;
+
+	vkDestroyDevice(vulkan, NULL);
 }
 
 
@@ -104,4 +144,49 @@ ExVulkanContext ExCreateVulkanShareContext(ExVulkanContext share){
 	return ExCreateVulkanContext(0, share);
 }
 
+ExVulkanQueue ExCreateVulkanQueue(ExVulkanContext vulkan){
+
+}
+
+void* ExCreateVulkanCommandBuffer(ExVulkanContext vulkan){
+	VkResult result;
+	VkCommandPool pool;
+	VkCommandPoolCreateInfo cmdPoolCreateInfo = {0};
+	cmdPoolCreateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+	cmdPoolCreateInfo.pNext = NULL;
+	cmdPoolCreateInfo.queueFamilyIndex = 0;
+	cmdPoolCreateInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+
+	result = vkCreateCommandPool(vulkan, &cmdPoolCreateInfo, NULL, &pool);
+
+	VkCommandBufferAllocateInfo alloc = {0};
+	alloc.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+	alloc.commandBufferCount = 1;
+	alloc.commandPool = pool;
+	alloc.level = 1;
+	alloc.pNext = NULL;
+
+
+	VkCommandBuffer commandBuffer;
+	vkAllocateCommandBuffers(vulkan, &alloc, &commandBuffer);
+	return commandBuffer;
+}
+
+void* ExCreateVulkanSwapChain(ExVulkanContext vulkan){
+	VkSwapchainKHR chain;
+	VkSwapchainCreateInfoKHR chainAlloc;
+	chainAlloc.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+
+
+	vkCreateSwapchainKHR(vulkan, &chainAlloc, NULL, NULL);
+}
+
+
+
+
+
+
+int ExGetVulkanVersion(void){
+
+}
 

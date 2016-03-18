@@ -23,21 +23,31 @@
 
 typedef void* ExVulkanContext;
 typedef void* ExVulkanQueue;
+typedef void* ExCommandBuffer;
+typedef void* ExVulkanDevice;
 
 #ifdef __cplusplus	/*	C++ environment	*/
 extern "C"{
 #endif
 
 
+/*
+ *
+ */
+extern ELTDECLSPEC ExVulkanDevice ELTAPIENTRY ExCreateVulkanContext(ExWin window, ExVulkanContext share);
 
-
-extern ELTDECLSPEC ExVulkanContext ELTAPIENTRY ExCreateVulkanContext(ExWin window, ExVulkanContext share);
+/*
+ *
+ */
+extern ELTDECLSPEC void ELTAPIENTRY ExDestroyVulkanContext(ExVulkanContext vulkan);
 
 
 extern ELTDECLSPEC ExVulkanContext ELTAPIENTRY ExCreateVulkanShareContext(ExVulkanContext share);
 
+extern ELTDECLSPEC ExVulkanQueue ELTAPIENTRY ExCreateVulkanQueue(ExVulkanContext vulkan);
+extern ELTDECLSPEC void* ELTAPIENTRY ExCreateVulkanCommandBuffer(ExVulkanContext vulkan);
+extern ELTDECLSPEC void* ELTAPIENTRY ExCreateVulkanSwapChain(ExVulkanContext vulkan);
 
-extern ELTDECLSPEC void* ELTAPIENTRY ExCreateVulkanQueue(void);
 
 extern ELTDECLSPEC int ELTAPIENTRY ExGetVulkanVersion(void);
 extern ELTDECLSPEC int ELTAPIENTRY ExGetVulkanShadVersioin(void);
