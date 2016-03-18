@@ -81,7 +81,9 @@ ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* batch){
 	batch->locationTexture  = glGetUniformLocation(batch->shader.program, "textures");
 	glUniform1f(batch->locationScale, batch->scale);
 
-
+	for(x = 0; x < 32; x++){
+		texture[x] = x;
+	}
 	glUniform1iv(batch->locationTexture, 32, texture);
 
 
@@ -90,8 +92,8 @@ ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* batch){
 	glEnable(GL_POINT_SPRITE);
 	glEnable(GL_PROGRAM_POINT_SIZE);
 	glPointParameteri(GL_POINT_SPRITE_COORD_ORIGIN, GL_LOWER_LEFT);
-	glPointParameterf(GL_POINT_SIZE_MIN, 0.0f);
-	glPointParameterf(GL_POINT_SIZE_MAX, 2048.0f);
+	//glPointParameterf(GL_POINT_SIZE_MIN, 0.0f);
+	//glPointParameterf(GL_POINT_SIZE_MAX, 2048.0f);
 	glPointParameterf(GL_POINT_FADE_THRESHOLD_SIZE, 1.0f);
 #endif
 	/*	initialize the batch	*/
