@@ -30,7 +30,7 @@
 #elif defined(EX_MAC)
 	#define ExSwapBuffers glSwapBuffers
 #elif defined(EX_ANDROID)
-	extern EGLDisplay eglDisplay;
+	extern ExEGLDisplay eglDisplay;
 	#define ExSwapBuffers(surface) eglSwapBuffers((EGLDisplay)eglDisplay, surface)
 #else
 	extern ELTDECLSPEC void ExSwapBuffers(void* surface);
