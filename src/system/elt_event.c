@@ -141,7 +141,7 @@ Int32 ExPollEvent(ExEvent* event){
 #endif
 
 #ifdef EX_WINDOWS
-ELTDECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event){
+Int32 ExPollWindowEvent(ExWin window, ExWindowEvent* event){
 
 	MSG msg;
 	//event->event = 0;
@@ -232,8 +232,6 @@ ELTDECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* eve
 		return TRUE;
 	}
 	return FALSE;
-#elif defined(EX_ANDROID)
-
 }
 #endif
 

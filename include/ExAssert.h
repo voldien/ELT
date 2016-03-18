@@ -20,6 +20,6 @@
 #define _EX_ASSERT_H_ 1
 #include<assert.h>
 // send error message to
-//#define ExAssert(condition) _wassert(_CRT_WIDE(#_Expression), _CRT_WIDE(__FILE__), __LINE__),0)
+#define ExAssert(condition) assert(condition)
 
 #endif
