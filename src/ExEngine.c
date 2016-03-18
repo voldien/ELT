@@ -57,7 +57,7 @@
 #endif
 
 
-
+/*	TODO relocate to their coresponding platform directory.	*/
 #if  defined(EX_WINDOWS) || defined(EX_MSVC)
 
 HINSTANCE hdllMoudle;   /*  handle instance */
@@ -82,7 +82,7 @@ _In_  HINSTANCE hinstDLL,
 	return TRUE;
 }
 #elif defined(EX_GNUC)
-
+	#if defined(EX_LINUX)
 void __attribute__ ((constructor)) my_load(void){
 
     display = XOpenDisplay(getenv("DISPLAY"));
@@ -99,7 +99,7 @@ void __attribute__ ((destructor)) my_unload(void){
 	if(display)
 		XCloseDisplay(display);
 }
-
+	#endif
 
 #endif
 
