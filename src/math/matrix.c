@@ -349,7 +349,7 @@ void mat4x4_multi_rotationQ(vec4x4_t f_mat4, const exvec4f_t f_quad){
 	vec4x4_t f_rot_q;
 	vec4x4_t f_rot_q2;
 	mat4x4_rotationQ(f_rot_q, f_quad);
-	mat4x4_multi_mat4x4(f_mat4,f_rot_q,f_rot_q2);
+	mat4x4_multi_mat4x4(f_mat4, f_rot_q, f_rot_q2);
 	memcpy(f_mat4,f_rot_q2,sizeof(vec4x4_t));
 }
 
