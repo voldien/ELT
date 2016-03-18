@@ -106,7 +106,7 @@ Int32 ExPollEvent(ExEvent* event){
 		}
 	else
 		return FALSE;
-#elif defined(EX_ANDROID)
+	/*
     int ident;
     int events;
     void* source;
@@ -121,21 +121,7 @@ Int32 ExPollEvent(ExEvent* event){
     }
 
     return TRUE;
-#elif defined(EX_MAC)
-
-
-#elif defined(EX_PNACL)
-
-
-#elif defined(EX_IPHONE)
-
-
-#elif defined(EX_WEB)
-
-
-#elif defined(EX_PS3)
-
-
+    */
 
 }
 #endif
