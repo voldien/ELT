@@ -20,6 +20,13 @@
 *.so.*
 *.dylib
 
+
+# Visual Studio
+*.sln
+*.ncb
+*.vcproj
+
+
 # Executables
 *.exe
 *.out
@@ -27,6 +34,22 @@
 *.i*86
 *.x86_64
 *.hex
+
+
+# Generated
+revision.h
+
+
+
+#	CMake
+CMakeCache.txt
+CMakeFiles
+cmake_install.cmake
+cmake_uninstall.cmake
+*.dir/
+assimp-config.cmake
+assimp-config-version.cmake
+
 
 #
 *~
