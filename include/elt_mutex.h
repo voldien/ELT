@@ -38,9 +38,19 @@ extern ELTDECLSPEC ExMutex ELTAPIENTRY ExCreateMutex(void);
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExDestroyMutex(ExMutex* mutex);
 
+/*
+ *
+ */
 extern ELTDECLSPEC void ELTAPIFASTENTRY ExLockMutex(ExMutex mutex);
+
+/*
+ *
+ */
 extern ELTDECLSPEC void ELTAPIFASTENTRY ExUnLockMutex(ExMutex mutex);
 
+/*
+ *
+ */
 extern ELTDECLSPEC void ELTAPIFASTENTRY ExTryLockMutex(ExMutex mutex);
 
 
