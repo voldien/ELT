@@ -17,6 +17,7 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 INCLUDE_DIRECTORIES(./include)
 
 
+
 OPTION (ELT_OPT_BUILD_PACKAGE "Set to ON to generate CPack configuration files and packaging targets" ON)
 
 
@@ -66,9 +67,7 @@ SET(CPACK_COMPONENTS_ALL elt-bin ${LIBELT_COMPONENT} ${LIBELT-DEV_COMPONENT} elt
 
 
 
-if(CMAKE_COMPILER_IS_MINGW)
-	#ADD_DEFINITIONS(
-endif()
+
 
 #
 find_package(JNI)
@@ -76,6 +75,11 @@ IF(JNI_FOUND)
 	message (STATUS "JNI_INCLUDE_DIRS=${JNI_INCLUDE_DIRS}")
 	message (STATUS "JNI_LIBRARIES=${JNI_LIBRARIES}")
 ENDIF()
+
+
+if(CMAKE_COMPILER_IS_MINGW)
+	ADD_DEFINITIONS(-ELT_BUILD_NO_IFC_IMPORTER )
+endif()
 
 #	gnu compiler
 if((CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX) AND NOT CMAKE_COMPILER_IS_MINGW)
@@ -88,9 +92,21 @@ elseif(MSVC)
 	add_definitions(/MP)
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 
+
 	FIND_PACKAGE( DirectX )
 
 endif()
+
+
+
+
+
+IF ( CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR )
+  SET( CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_HOME_DIRECTORY}/lib" )
+  SET( CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_HOME_DIRECTORY}/lib" )
+  SET( CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_HOME_DIRECTORY}/bin" )
+ENDIF ( CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR )
+
 
 # Cache these to allow the user to override them manually.
 SET( ELT_LIB_INSTALL_DIR "lib" CACHE PATH
@@ -100,6 +116,8 @@ SET( ELT_INCLUDE_INSTALL_DIR "include" CACHE PATH
 SET( ELT_BIN_INSTALL_DIR "bin" CACHE PATH
   "Path the tool executables are installed to." )
 
+
+
 IF (CMAKE_BUILD_TYPE STREQUAL "Release")
 	SET(CMAKE_DEBUG_POSTFIX "" CACHE STRING "Debug Postfix for lib, samples and tools")
 	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -s" )
@@ -108,11 +126,13 @@ ELSE()
 	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g" )
 ENDIF()
 
+
+
+
 IF ( NOT TARGET uninstall)
 
 
 ENDIF()
-
 
 
 if (WIN32)
@@ -153,6 +173,8 @@ elseif (UNIX)
         message(STATUS "Using GLX for context creation")
     endif()
 
+elseif(ANDROID)
+
 
 else()
 
@@ -164,8 +186,7 @@ endif()
 
 
 
-
-
+#ADD_SUBDIRECTORY( src/ )
 
 
 # TODO make it compadiable for what platform to port to.
@@ -248,7 +269,18 @@ ELSEIF (WIN32)
 #ELSEIF (
 ENDIF()
 
-# Generate a pkg-config .pc for the Assimp library.
+
+
+#debug file for windows.
+IF(MSVC)
+  option (ELT_INSTALL_PDB
+    "Install MSVC debug files."
+    ON
+  )
+ENDIF(MSVC)
+
+
+
 #CONFIGURE_FILE( "${PROJECT_SOURCE_DIR}/elt.pc.in" "${PROJECT_BINARY_DIR}/elt.pc" @ONLY )
 INSTALL( FILES "${PROJECT_BINARY_DIR}/elt.pc" DESTINATION ${ELT_LIB_INSTALL_DIR}/pkgconfig/ COMPONENT ${ELT-DEV_COMPONENT})
 
@@ -291,52 +323,79 @@ IF (CMAKE_CPACK_COMMAND AND UNIX AND ELT_OPT_BUILD_PACKAGE)
 	SET(CPACK_COMPONENT_${LIBELT-DEV_COMPONENT_UPPER}_DEPENDS      "${LIBELT_COMPONENT}" )
 	SET(CPACK_COMPONENT_ELT-DEV_DISPLAY_NAME                       "${CPACK_COMPONENT_${LIBELT-DEV_COMPONENT}_DISPLAY_NAME}" )
 	SET(CPACK_COMPONENT_ELT-DEV_DEPENDS                            "${LIBELT-DEV_COMPONENT}" )
-	SET(CPACK_DEBIAN_BUILD_DEPENDS debhelper cmake pkg-config)
+
+
+
+
+
+
+
+	# set(CPACK_DEBIAN_BUILD_DEPENDS debhelper cmake)
+	# set(CPACK_DEBIAN_PACKAGE_PRIORITY optional)
+	# set(CPACK_DEBIAN_PACKAGE_SECTION devel)
+	#set(CPACK_DEBIAN_CMAKE_OPTIONS "-DMYOPTION=myvalue")
+	#set(CPACK_DEBIAN_PACKAGE_DEPENDS mycomp0 mycomp1 some_ubuntu_package)
+	#set(CPACK_DEBIAN_PACKAGE_DEPENDS_UBUNTU_LUCID mycomp0 mycomp1 lucid_specific_package)
+	#set(CPACK_DEBIAN_PACKAGE_NAME mypackage)
+	#set(CPACK_DEBIAN_PACKAGE_REMOVE_SOURCE_FILES unnecessary_file unnecessary_dir/file0)
+	#set(CPACK_DEBIAN_PACKAGE_SOURCE_COPY svn export --force) # if using subversion
+	#set(CPACK_DEBIAN_DISTRIBUTION_NAME ubuntu)
+	#set(CPACK_DEBIAN_DISTRIBUTION_RELEASES karmic lucid maverick natty)
+	#set(CPACK_DEBIAN_CHANGELOG "  * Extra change log lines")
+	#set(CPACK_DEBIAN_PACKAGE_SUGGESTS "ipython")
+	#set(CPACK_COMPONENT_X_RECOMMENDS "recommended-package")
 
 
 	#debian
-	SET(CPACK_DEBIAN_PACKAGE_PRIORITY "extra")
-	SET(CPACK_DEBIAN_CMAKE_OPTIONS "")
+	SET(CPACK_DEBIAN_BUILD_DEPENDS debhelper cmake pkg-config)
+	SET(CPACK_DEBIAN_PACKAGE_PRIORITY extra)
 	SET(CPACK_DEBIAN_PACKAGE_SECTION "libs")
+	SET(CPACK_DEBIAN_CMAKE_OPTIONS "")
+	SET(CPACK_DEBIAN_PACKAGE_DEPENDS "mesa-common-dev , libx11-dev , libx11-xcb-dev , libegl1-mesa-dev , libxrandr-dev , libgles2-mesa-dev , libopenal-dev , libxi-dev, libudev-dev, libglu1-mesa-dev,
+ 	libasound2-dev, libc6 (>= 2.1), opencl-headers, ${CPACK_COMPONENTS_ALL}")
+
+
 	SET(CPACK_DEBIAN_PACKAGE_ARCHITECTURE any) #
-	SET(CPACK_DEBIAN_PACKAGE_DEPENDS "mesa-common-dev , libx11-dev , libx11-xcb-dev , libegl1-mesa-dev , libxrandr-dev , libgles2-mesa-dev , libopenal-dev , libxi-dev, libudev-dev, libglu1-mesa-dev, libasound2-dev, libc6 (>= 2.1), opencl-headers, ${CPACK_COMPONENTS_ALL}")
+
 	SET(CPACK_DEBIAN_PACKAGE_SUGGESTS "" )
 	SET(CPACK_DEBIAN_PACKAGE_NAME "elt")
 	#SET(CPACK_DEBIAN_PACKAGE_FILE_NAME "elt-${ELT_VERSION_MAJOR}.${ELT_VERSION_MINOR}${ELT_VERSION_REVISION}")
 	SET(CPACK_DEBIAN_PACKAGE_SOURCE_FILES ${_srcFiles} )
 	SET(CPACK_DEBIAN_PACKAGE_REMOVE_SOURCE_FILES ) #samplers docs
-	SET(CPACK_DEBIAN_PACKAGE_SOURCE_COPY svn export --force) #
+	#SET(CPACK_DEBIAN_PACKAGE_SOURCE_COPY svn export --force)
+	#SET(CPACK_DEBIAN_PACKAGE_SOURCE_COPY cp )
 	SET(CPACK_DEBIAN_CHANGELOG "" )
 	SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "Valdemar Lindberg") #required
-
 
 	SET(CPACK_DEBIAN_DISTRIBUTION_NAME )
 	
 	execute_process(COMMAND lsb_release -is
 	    OUTPUT_VARIABLE _lsb_distribution OUTPUT_STRIP_TRAILING_WHITESPACE
 	    RESULT_VARIABLE _lsb_release_failed)
-	  set(CPACK_DEBIAN_DISTRIBUTION_NAME ${_lsb_distribution} CACHE STRING "Name of the distrubiton")
+	SET(CPACK_DEBIAN_DISTRIBUTION_NAME ${_lsb_distribution} CACHE STRING "Name of the distrubiton")
 	string(TOLOWER ${CPACK_DEBIAN_DISTRIBUTION_NAME} CPACK_DEBIAN_DISTRIBUTION_NAME)
 	if( ${CPACK_DEBIAN_DISTRIBUTION_NAME} STREQUAL "ubuntu" )
-	    set(CPACK_DEBIAN_DISTRIBUTION_RELEASES lucid maverick natty oneiric precise CACHE STRING "Release code-names of the distrubiton release")
+		SET(CPACK_DEBIAN_DISTRIBUTION_RELEASES lucid maverick natty oneiric precise CACHE STRING "Release code-names of the distrubiton release")
 	endif()
 
 	#set(DPUT_HOST "" CACHE STRING "PPA repository to upload the debian source")
 
-	SET(CPACK_COMPONENTS_ALL_IN_ONE_PACKAGE ON)
+	SET(CPACK_COMPONENTS_ALL_IN_ONE_PACKAGE OFF)
 	SET(CPACK_ARCHIVE_COMPONENT_INSTALL ON)
 	INCLUDE(CPack)
  	INCLUDE(DebSourcePPA)
 ENDIF()
 
 
+
+
 if(WIN32)
-	if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-		set(BIN_DIR ${PROJECT_SOURCE_DIR}/bin64/)
-		set(LIB_DIR ${PROJECT_SOURCE_DIR}/lib64/)
+	if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+		set(BIN_DIR "${PROJECT_SOURCE_DIR}/bin64/")
+		set(LIB_DIR "${PROJECT_SOURCE_DIR}/lib64/")
 	elseif()
-		set(BIN_DIR ${PROJECT_SOURCE_DIR}/bin32/)
-		set(LIB_DIR ${PROJECT_SOURCE_DIR}/lib32/)
+		set(BIN_DIR "${PROJECT_SOURCE_DIR}/bin32/")
+		set(LIB_DIR "${PROJECT_SOURCE_DIR}/lib32/")
 	endif()
 	
 	add_custom_target(UpdateELTLibDebugSymbolsAndDLLs COMMENT "Copying ELT Libraries ..." VERBATIM)
