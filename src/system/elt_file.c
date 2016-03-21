@@ -79,16 +79,22 @@ FILE* ExSafeOpenRead(const ExChar* cfilename){
 	return f;
 }
 
-void ExSafeWrite(FILE *f, void* buffer, unsigned int count){
-	if((int)fwrite(buffer,1, count, f) != count){
+Uint ExSafeWrite(FILE *f, void* buffer, unsigned int count){
+	size_t bytes;
+	bytes = fwrite(buffer, 1, count, f);
+	if(bytes != count){
 		printf("File write failure : %s \n", strerror(errno));
 	}
+	return bytes;
 }
 
-void ExSafeRead(FILE*f, void* buffer, int count){
-	if((int)fread(buffer, 1, count, f) != count){
+Uint ExSafeRead(FILE*f, void* buffer, int count){
+	size_t bytes;
+	bytes = fread(buffer, 1, count, f);
+	if(bytes != count){
 		printf("File read failure : %s\n", strerror(errno));
 	}
+	return bytes;
 }
 
 
