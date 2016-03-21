@@ -11,8 +11,7 @@ Uint64 eltTickTime = 0;
 #define CLOCKID CLOCK_REALTIME
 #define SIG SIGUSR2
 
-
-Uint32 ExAddTimer(Uint32 interval, thread_routine callback, void* param){
+ExTimer ExAddTimer(Uint32 ms_interval, ExThreadRoutine callback, void* param){
 	Uint32 pid;
 	timer_t timerid;
 	struct sigevent sev;
@@ -35,7 +34,7 @@ Uint32 ExAddTimer(Uint32 interval, thread_routine callback, void* param){
 
 	/* Start the timer */
 	its.it_value.tv_sec = 0;
-	its.it_value.tv_nsec = interval * 1000000;
+	its.it_value.tv_nsec = ms_interval * 1000000;
 	its.it_interval.tv_sec = its.it_value.tv_sec;
 	its.it_interval.tv_nsec = its.it_value.tv_nsec;
 
@@ -43,12 +42,11 @@ Uint32 ExAddTimer(Uint32 interval, thread_routine callback, void* param){
 		ExPrintfError("timer_settimer error.\n");
 	}
 	return timerid;
-
 }
 
-ExBoolean ExRemoveTimer(Uint32 timer_id){
+ExBoolean ExRemoveTimer(ExTimer timer_id){
     if(timer_delete(timer_id) < -1){
-        fprintf(stderr,strerror(errno));
+        fprintf(stderr, strerror(errno));
         return FALSE;
     }
 	return TRUE;
@@ -57,7 +55,7 @@ ExBoolean ExRemoveTimer(Uint32 timer_id){
 void ExDelay(Uint32 ms){
     struct timespec tim;
     tim.tv_sec = 0;
-    tim.tv_nsec = ms * 1000000;
+    tim.tv_nsec = ms * 1E6;
 
 #ifdef EX_DEBUG
     if(nanosleep(&tim , NULL) < 0 ){
@@ -83,6 +81,13 @@ void ExDelayN(Uint32 nanosec){
 
 }
 
+Uint64 ExGetPerformanceFrequency(void){
+	struct timespec spec;
+	clock_getres(CLOCK_MONOTONIC, &spec);
+	return (1E9 / spec.tv_nsec);
+}
+
+
 long int ExGetTicks(void){
 	return (clock() - eltTickTime);
 }
@@ -95,7 +100,6 @@ long int ExGetHiResTime(void){
     	printf("error from ExGetHiResTime : %d", errno);
     	return tSpec.tv_nsec;
     }
-*/
     gettimeofday(&tSpec,NULL);
 
     //clock_gettime(CLOCK_MONOTONIC, &t_spec);
