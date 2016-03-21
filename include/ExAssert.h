@@ -16,8 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _EX_ASSERT_H_
-#define _EX_ASSERT_H_ 1
+#ifndef _ELT_ASSERT_H_
+#define _ELT_ASSERT_H_ 1
+#include"EngineAssembly.h"
 #include<assert.h>
 // send error message to
 #define ExAssert(condition) assert(condition)

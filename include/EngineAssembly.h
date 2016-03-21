@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _ENGINE_ASSEMBLY_H_
-#define _ENGINE_ASSEMBLY_H_ 1
+#ifndef _ELT_ENGINE_ASSEMBLY_H_
+#define _ELT_ENGINE_ASSEMBLY_H_ 1
 #include"elt_def.h"
 #include"ExNT.h"
 #include"system/elt_event.h"
