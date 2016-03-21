@@ -31,26 +31,25 @@
 	#define ExCurrentTime(x) time(NULL)	// Get Current Time
 #endif
 
-
 #define ExCurrentTime clock
 #define EX_TICKS_PER_SECOND CLOCKS_PER_SEC
-
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
+typedef Uint32 ExTimer;
 
 /*
  *	Add timer thread routine.
  *	@Return .
  */
-extern ELTDECLSPEC Uint32 ELTAPIENTRY ExAddTimer(Uint32 interval, ExThreadRoutine callback, void* param);
+extern ELTDECLSPEC ExTimer ELTAPIENTRY ExAddTimer(Uint32 ms_interval, ExThreadRoutine callback, void* param);
 
 /*
  *	Remove timer thread routine.
  *	@Return TRUE if successful.
  */
-extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExRemoveTimer(Uint32 timer_id);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExRemoveTimer(ExTimer timer_id);
 /*
  *	Delay current thread in milliseconds.
  *	\ms milliseconds.
@@ -67,7 +66,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nanosec);
  *	Get performance counter
  *	@Return
  */
-extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetPerformanceCounter(void);
+extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetPerformanceCounter(void);	/*	TODO remove, as GetHiResTime does the same thing!.	*/
 
 /*
  *	Get Performance frequency
@@ -80,8 +79,6 @@ extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetPerformanceFrequency(void);
  *	@Return
  */
 extern ELTDECLSPEC long int ELTAPIENTRY ExGetTicks(void);
-
-
 
 /*
  *
