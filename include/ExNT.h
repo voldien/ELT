@@ -217,30 +217,30 @@ typedef void* ExEGLDisplay;
 typedef void* ExXDisplay;
 
 #ifdef EX_WINDOWS
-	#define THREAD_CALLBACK __stdcall
+	#define EX_THREAD_CALLBACK __stdcall
 #elif defined(EX_LINUX) && defined(GLX_H)
-	#define THREAD_CALLBACK //__cdecl
+	#define EX_THREAD_CALLBACK //__cdecl
 #elif defined(EX_ANDROID)
-	#define THREAD_CALLBACK //__cdecl
+	#define EX_THREAD_CALLBACK //__cdecl
 #elif defined(EX_MAC)
-	#define THREAD_CALLBACK __cdecl
+	#define EX_THREAD_CALLBACK __cdecl
 #else
-	#define THREAD_CALLBACK __cdecl
+	#define EX_THREAD_CALLBACK __cdecl
 #endif
 
-#define EX_CALLBACK ELTAPISTDENTRY
 
 /*
- *
+ *	callback.
  */
+#define EX_CALLBACK ELTAPISTDENTRY
 typedef void(EX_CALLBACK* ExCallBack)(void);
 
 /*
  *	Thread callback type.
  */
-typedef void*(*interrupt_routine)(void*);
-typedef void*(THREAD_CALLBACK *thread_routine)(void*);
-typedef void*(THREAD_CALLBACK *ExThreadRoutine)(void*);
+typedef void* (*interrupt_routine)(void*);
+typedef void* (EX_THREAD_CALLBACK *thread_routine)(void*);
+typedef void* (EX_THREAD_CALLBACK *ExThreadRoutine)(void*);
 typedef void* ExThread;
 
 #endif
