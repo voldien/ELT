@@ -28,7 +28,7 @@ extern "C"{
  *	Get Page size.
  *	@Return number of bytes per page.
  */
-extern ELTDECLSPEC int ELTAPIENTRY ExGetPageSize(void);
+extern ELTDECLSPEC Uint ELTAPIENTRY ExGetPageSize(void);
 
 
 /*
@@ -37,16 +37,22 @@ extern ELTDECLSPEC int ELTAPIENTRY ExGetPageSize(void);
  */
 extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalSystemMemory(void);
 
+/**/
+extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalFreeSystemMemory(void);
+extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalUsedSystemMemory(void);
+extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetProcessSystemMemory(void);
+
 /*
  *	Get total virtual memory on the system.
  *	@Return
  */
 extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalVirtualMemory(void);
+extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalUsedVirtualMemory(void);
+
 
 
 
 /*	TODO move to a header with data structure!	*/
-
 EX_ALIGN_PREFIX(4)
 typedef struct ex_pool_allocator{
 	void* next;
@@ -71,7 +77,7 @@ extern ELTDECLSPEC void* ELTAPIENTRY ExPoolObtain(ExPoolAllocator* allactor);
  *
  *	@Return
  */
-extern ELTDECLSPEC void* ELTAPIENTRY ExPoolReturn(ExPoolAllocator* allactor, void* data, unsigned int len);
+extern ELTDECLSPEC void* ELTAPIENTRY ExPoolReturn(ExPoolAllocator* allactor, void* data);
 
 /*
  *
@@ -82,7 +88,7 @@ extern ELTDECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolResize(ExPoolAllocator* al
 /*
  *
  */
-extern ELTDECLSPEC void  ELTAPIENTRY ExPoolFree(ExPoolAllocator* allactor);
+extern ELTDECLSPEC void ELTAPIENTRY ExPoolFree(ExPoolAllocator* allactor);
 
 #define ExPoolIndex(alloc,index,len)	( ( alloc ) + (( index ) * ( len )  + ( index )) )
 #define ExPoolDataIndex(alloc,data,len)	((data - alloc)
@@ -97,7 +103,7 @@ typedef struct ex_quad_tree{
 }ExQuadTree;
 
 typedef struct ex_octree_tree{
-
+	struct ex_octree_tree* t0[8];
 }ExOctreTree;
 
 
