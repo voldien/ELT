@@ -90,9 +90,7 @@ static void* createELTIcon(ExWin window){
     #endif
 }
 
-
-
-ELTDECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 height, Enum flag){
+ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 height, Enum flag){
 	ExWin window = NULL;
 	ExOpenGLContext glc = NULL;
 	ExOpenCLContext clc = NULL;
