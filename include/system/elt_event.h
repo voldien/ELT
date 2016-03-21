@@ -45,11 +45,9 @@ typedef struct ex_rect{
 }ExRect;
 
 
-
-
-
-
-
+/*
+ *	Event flag.
+ */
 #define EX_EVENT_KEY 0x1
 #define EX_EVENT_KEY_RELEASE 0x2
 #define EX_EVENT_KEY_PRESSED 0x4
@@ -72,14 +70,13 @@ typedef struct ex_rect{
 #define EX_EVENT_WINDOW_DESTROYED 0x40000
 
 
-
 EX_ALIGN_PREFIX(4)
 typedef struct ex_system_event{
 
 	/*
 	 *
 	 */
-	unsigned int message;
+	Uint message;
 }ExSystemEvent;
 
 EX_ALIGN_PREFIX(4)
@@ -132,26 +129,47 @@ typedef struct ex_mouse_motion_event{
 
 EX_ALIGN_PREFIX(4)
 typedef struct elt_win_button_event{
-	Uint8 button;				/**/
+	/*
+	 *
+	 */
+	Uint8 button;
 }ExWinButtonEvent;
+
 
 EX_ALIGN_PREFIX(4)
 typedef struct ex_mouse_wheel_event{
-	int delta;					/**/
-	int x,y;					/**/
+	/*
+	 *
+	 */
+	int delta;
+	/*
+	 *
+	 */
+	int x,y;
 }ExMouseWheelEvent;
+
 
 EX_ALIGN_PREFIX(4)
 typedef struct ex_key_event{
-	/**/
+	/*
+	 *
+	 */
 	Uint8 code;
-	/**/
+	/*
+	 *
+	 */
 	Uint8 alt;
-	/**/
+	/*
+	 *
+	 */
 	Uint8 shift;
-	/**/
+	/*
+	 *
+	 */
 	Uint8 system;
-	/**/
+	/*
+	 *
+	 */
 	Uint8 ctrl;
 }ExKeyEvent;
 
@@ -190,6 +208,9 @@ typedef struct ex_window_destroy{
 
 EX_ALIGN_PREFIX(8)
 typedef struct window_poll_events{
+	/*
+	 *
+	 */
 	Enum event;                                     /*      */
 	ExKeyEvent key;                                 /*      */
 	ExSize size;                               		/*      */
@@ -205,6 +226,9 @@ typedef struct window_poll_events{
 
 EX_ALIGN_PREFIX(8)
 typedef struct elt_poll_events{
+	/*
+	 *
+	 */
 	Enum event;									/*			*/
 	ExKeyEvent key;                            	/*          */
 	ExMouseMoveEvent mouse;                    	/*          */
@@ -230,7 +254,7 @@ typedef struct elt_poll_events{
  *	Poll Event from process.
  *	\event
  *	@Return
-*/
+ */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
 
 /*
@@ -238,7 +262,7 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
  *	\window
  *	\event
  *	@Return
-*/
+ */
 
 
 /*
@@ -250,7 +274,7 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
  *	[ExWindowEvent] pointer to event struct. all event will be stored in it.
  *	#return if PeekMessage was success.
  *	PeekMessage : http://msdn.microsoft.com/en-us/library/windows/desktop/ms644943(v=vs.85).aspx
-*/
+ */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event);
 
 

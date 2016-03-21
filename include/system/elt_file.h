@@ -56,13 +56,15 @@ extern ELTDECLSPEC FILE* ELTAPIENTRY ExSafeOpenRead(const ExChar* cfilename);
 
 /*
  *
+ *	@Return
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExSafeWrite(FILE *f, void* buffer, unsigned int count);
+extern ELTDECLSPEC Uint ELTAPIENTRY ExSafeWrite(FILE *f, void* buffer, unsigned int count);
 
 /*
  *
+ *	@Return
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExSafeRead(FILE*f, void* buffer, int count);
+extern ELTDECLSPEC Uint ELTAPIENTRY ExSafeRead(FILE*f, void* buffer, int count);
 
 /*
  *
