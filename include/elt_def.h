@@ -205,6 +205,8 @@
 		#endif
 	#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)   /*  BSD	*/
 		#define EX_BSD
+	#elif defined(__OpenBSD__)
+		#define EX_OPENBSD
 	#elif defined(__llvm__) || defined(__clang__)   	/*  llvm    */
 		#define EX_LLVM 1
 	#elif defined(__MINGW32__)
@@ -581,11 +583,11 @@
  *	Compiler assembly instruction identification.
  */
 #if defined(EX_MSVC)
-	#define EX_ASSM __asm
+	#define EX_ASM __asm
 #elif defined(EX_GNUC) || defined(EX_GNUCXX)
-	#define EX_ASSM __asm__
+	#define EX_ASM __asm__
 #elif defined(EX_CLANG)
-	#define EX_ASSM asm
+	#define EX_ASM asm
 #endif
 
 
