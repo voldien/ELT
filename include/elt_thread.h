@@ -20,6 +20,7 @@
 #define _ELT_THREAD_H_ 1
 #include"EngineAssembly.h"
 #include"ExNT.h"
+#include"elt_mutex.h"
 
 #if defined(EX_WINDOWS)
 	#define ExSleep Sleep
