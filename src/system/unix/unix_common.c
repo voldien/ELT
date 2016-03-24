@@ -246,21 +246,46 @@ ELTDECLSPEC Int32 ELTAPIENTRY ExSetCurrentDirectory (const ExChar* cdirectory){
 	return chdir(cdirectory);
 }
 
-
-
-ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalSystemMemory(void){
-    struct sysinfo sys_info;
-
-    sysinfo(&sys_info);
-	return sys_info.totalram;
-
-}
-
-ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalVirtualMemory(void){
+Uint64 ExGetTotalSystemMemory(void){
     struct sysinfo sys_info;
     sysinfo(&sys_info);
-	return sys_info.totalswap;
+	return sys_info.totalram * sys_info.mem_unit;
 }
+
+/**/
+Uint64 ExGetTotalFreeSystemMemory(void){
+    struct sysinfo sys_info;
+    sysinfo(&sys_info);
+	return sys_info.freeram;
+}
+
+Uint64 ExGetTotalUsedSystemMemory(void){
+    struct sysinfo sys_info;
+    sysinfo(&sys_info);
+	return (sys_info.totalram - sys_info.freeram) * sys_info.mem_unit;
+}
+
+#include <sys/resource.h>
+Uint64 ExGetProcessSystemMemory(void){
+	struct rusage rusage;
+	getrusage(RUSAGE_SELF, &rusage);
+}
+
+
+
+Uint64 ExGetTotalVirtualMemory(void){
+    struct sysinfo sys_info;
+    sysinfo(&sys_info);
+	return ( sys_info.totalram + sys_info.totalswap ) * sys_info.mem_unit;
+}
+
+Uint64 ExGetTotalUsedVirtualMemory(void){
+    struct sysinfo sys_info;
+    sysinfo(&sys_info);
+	return ((sys_info.totalram - sys_info.freeram)  + ( sys_info.totalswap - sys_info.freeswap) ) * sys_info.mem_unit;
+}
+
+
 
 ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetOSName(void){
 	struct utsname name;
