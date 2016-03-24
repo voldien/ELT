@@ -1,6 +1,6 @@
 /**
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
-    Copyright (C) 2014  Valdemar Lindberg
+    Copyright (C) 2016  Valdemar Lindberg
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,15 +27,19 @@ extern "C"{
 
 
 /**/
-extern ELTDECLSPEC void ExSwap16(Uint16 x);
+extern ELTDECLSPEC void ELTAPIENTRY ExSwap16(Uint16 x);
+
 /**/
-extern ELTDECLSPEC void ExSwap32(Uint32 x);
+extern ELTDECLSPEC void ELTAPIENTRY ExSwap32(Uint32 x);
+
 /**/
-extern ELTDECLSPEC void ExSwap64(Uint64 x);
+extern ELTDECLSPEC void ELTAPIENTRY ExSwap64(Uint64 x);
+
 /**/
-extern ELTDECLSPEC void ExSwapFloat(float x);
+extern ELTDECLSPEC void ELTAPIENTRY ExSwapFloat(float x);
+
 /**/
-extern ELTDECLSPEC void ExSwapDouble(double x);
+extern ELTDECLSPEC void ELTAPIENTRY ExSwapDouble(double x);
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 }
