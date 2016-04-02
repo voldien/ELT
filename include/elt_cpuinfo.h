@@ -123,7 +123,7 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE41(void);
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void);
 
 /*
- *	Arm SIMD feature.
+ *	Arm SIMD feature for float point unit fpu.
  *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasNeon(void);
