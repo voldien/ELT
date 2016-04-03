@@ -99,8 +99,8 @@ long int ExGetHiResTime(void){
 /*    if(clock_gettime(CLOCK_MONOTONIC,&tSpec) < 0){
     	printf("error from ExGetHiResTime : %d", errno);
     	return tSpec.tv_nsec;
-    }
-    gettimeofday(&tSpec,NULL);
+    }*/
+    gettimeofday(&tSpec, NULL);
 
     //clock_gettime(CLOCK_MONOTONIC, &t_spec);
     //return tSpec.tv_usec * 1000;  /*  return time in nano seconds*/
