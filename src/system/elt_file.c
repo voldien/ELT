@@ -1,20 +1,30 @@
 #include"system/elt_file.h"
 #include<stdio.h>
+/*	*/
 #ifdef EX_WINDOWS
 	#include<windows.h>
 #endif
-
+/*	*/
 #ifdef EX_UNIX
 	#include<unistd.h>
 	#include<dirent.h>
 #endif
 
-
-static long int private_ExGetFileStreamSize(FILE* file){
+inline static long int private_ExGetFileStreamSize(FILE* file){
     unsigned int pos;
     long size;
     pos = ftell(file);
     fseek(file, 0,SEEK_END);
+    size = ftell(file);
+    fseek(file, pos, SEEK_SET);
+    return size;
+}
+
+long int ExGetFileStreamSize(FILE* file){
+    unsigned int pos;
+    long size;
+    pos = ftell(file);
+    fseek(file, 0, SEEK_END);
     size = ftell(file);
     fseek(file, pos, SEEK_SET);
     return size;
@@ -96,13 +106,3 @@ Uint ExSafeRead(FILE*f, void* buffer, int count){
 	}
 	return bytes;
 }
-
-
-
-ExBoolean ExCreateRamDisk(const ExChar* cdirectory, unsigned int nBytes){
-	 const char* opts = "mode=0700,uid=65534";
-	if(mount("none", cdirectory, 0, "",  " -t -size=2m tmpfs") < 0){
-
-	}
-}
-

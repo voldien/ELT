@@ -25,6 +25,11 @@ extern "C"{
 #endif
 
 /*
+ *
+ */
+extern ELTDECLSPEC long int ELTAPIENTRY ExGetFileStreamSize(FILE* file);
+
+/*
  *	Get file size in byte.
  *	@Return
  */
@@ -120,12 +125,6 @@ extern ELTDECLSPEC int ELTAPIENTRY ExRemoveFile(const ExChar* cfilename);
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExExistFile(const ExChar* cfilename);
 
-
-
-/*	TODO relocate	*/
-extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExCreateRamDisk(const ExChar* cdirectory, unsigned int nBytes);
-extern ELTDECLSPEC ExBoolean ExMount(void);
-extern ELTDECLSPEC ExBoolean ExUnMount(void);
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 }
