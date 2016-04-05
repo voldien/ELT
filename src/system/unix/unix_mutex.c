@@ -43,5 +43,7 @@ void ExUnLockMutex(ExMutex mutex){
 }
 
 void ExTryLockMutex(ExMutex mutex){
-	pthread_mutex_trylock((pthread_mutex_t*)mutex);
+	if(pthread_mutex_trylock((pthread_mutex_t*)mutex)){
+
+	}
 }
