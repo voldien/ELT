@@ -237,6 +237,15 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetWindowNumChildren(ExWin window);
  */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetDesktopWindow(void);
 
+/*
+ *	Get root window handle.
+ *	@Return
+ */
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetRootWindow(void);
+
+
+
+
 
 /*
  *

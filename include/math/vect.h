@@ -22,6 +22,7 @@
 #include"../elt_def.h"
 #include<math.h>
 
+
 /*
  *
  */
@@ -56,7 +57,7 @@
 #define VectorLerp(x,y,t,c)	{}
 #define VectorDefine(a,x,y,z)	{a[0] = x;a[1] = y;a[2] = z;}
 
-/**/
+/*	*/
 typedef double exvecd_t;
 typedef float exvecf_t;
 
