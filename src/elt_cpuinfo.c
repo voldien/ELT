@@ -1,6 +1,7 @@
 #include"elt_cpuinfo.h"
 // get AVX
 
+
 #ifdef EX_WINDOWS
 #include<windows.h>
 #include<winbase.h>
@@ -12,43 +13,20 @@
 #elif defined(EX_MAC)
 #   include<sys/sysctl.h>
 #endif
-
-
 #include<setjmp.h>
 
-#ifdef EX_GNUC
-
-#ifdef __SSE__
-#   include <xmmintrin.h>
-#endif
-
-#ifdef __SSE2__
-#   include <emmintrin.h>
-#endif
-
-#ifdef __SSE3__
-#   include <pmmintrin.h>
-#endif
-
-#ifdef __SSSE3__
-#   include <tmmintrin.h>
-#endif
-
-#if defined (__SSE4_2__) || defined (__SSE4_1__)
-#   include <smmintrin.h>
-#endif
-
-#if defined (__AES__) || defined (__PCLMUL__)
-#   include <wmmintrin.h>
-#endif
-
-#else
-
-//#include <wmmintrin.h>
-
-#endif
-
-//http://stackoverflow.com/questions/1666093/cpuid-implementations-in-c
+#define ELT_CPU_HAS_RDSTC
+#define ELT_CPU_HAS_MMX
+#define ELT_CPU_HAS_3DNOW
+#define ELT_CPU_HAS_SSE
+#define ELT_CPU_HAS_SSE2
+#define ELT_CPU_HAS_SSE3
+#define ELT_CPU_HAS_SSE4
+#define ELT_CPU_HAS_SSE41
+#define ELT_CPU_HAS_SSE42
+#define ELT_CPU_HAS_AVX
+#define ELT_CPU_HAS_AVX2
+#define ELT_CPU_HAS_AVX512
 
 
 
@@ -61,12 +39,12 @@
 
 	/*	cpuid for linux	*/
 #if defined(EX_X86) && !defined(EX_CLANG) && !defined(EX_LLVM)
-	#define cpuid(regs,i) 	EX_ASSM  __volatile__ \
+	#define cpuid(regs,i) 	EX_ASM  __volatile__ \
 			("cpuid" : "=a" (regs[0]), "=b" (regs[1]), "=c" (regs[2]), "=d" (regs[3])\
 			: "a" (i), "c" (0))
 
     #define cpuid2(func,a,b,c,d)\
-    EX_ASSM __volatile__ ( 		\
+    EX_ASM __volatile__ ( 		\
 "        pushq %%rbx        \n" \
 "        cpuid              \n" \
 "        movq %%rbx, %%rsi  \n" \
@@ -89,72 +67,78 @@
 
 
 
+const ExChar* ExGetCPUType(void){
 
-ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
+	return NULL;
+}
+
+const ExChar* ExGetCPUName(void){
+    static char cpu_name[48] = {0};
 #ifdef EX_WINDOWS
-	ExChar cpu_name[0xff];
 	ExGetRegValuec(HKEY_LOCAL_MACHINE,EX_TEXT("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0\\"),EX_TEXT("ProcessorNameString"),cpu_name);
 	return cpu_name;	// TODO
 #elif defined(EX_LINUX)
-    static char cpu_name[48];
+
     int i = 0;
     int a,b,c,d;
 //https://github.com/soreau/SDL/blob/master/src/cpuinfo/SDL_cpuinfo.c
 
+    if(cpu_name[0] == NULL){
     #if  !defined(EX_ARM)
-    cpuid2(0x80000000,a,b,c,d);
-    if(a >= 0x80000004){
-        cpuid2(0x80000002, a, b, c, d);
-        cpu_name[i++] = (char)(a & 0xff); a >>= 8;
-        cpu_name[i++] = (char)(a & 0xff); a >>= 8;
-        cpu_name[i++] = (char)(a & 0xff); a >>= 8;
-        cpu_name[i++] = (char)(a & 0xff); a >>= 8;
-        cpu_name[i++] = (char)(b & 0xff); b >>= 8;
-        cpu_name[i++] = (char)(b & 0xff); b >>= 8;
-        cpu_name[i++] = (char)(b & 0xff); b >>= 8;
-        cpu_name[i++] = (char)(b & 0xff); b >>= 8;
-        cpu_name[i++] = (char)(c & 0xff); c >>= 8;
-        cpu_name[i++] = (char)(c & 0xff); c >>= 8;
-        cpu_name[i++] = (char)(c & 0xff); c >>= 8;
-        cpu_name[i++] = (char)(c & 0xff); c >>= 8;
-        cpu_name[i++] = (char)(d & 0xff); d >>= 8;
-        cpu_name[i++] = (char)(d & 0xff); d >>= 8;
-        cpu_name[i++] = (char)(d & 0xff); d >>= 8;
-        cpu_name[i++] = (char)(d & 0xff); d >>= 8;
-        cpuid2(0x80000003, a, b, c, d);
-        cpu_name[i++] = (char)(a & 0xff); a >>= 8;
-        cpu_name[i++] = (char)(a & 0xff); a >>= 8;
-        cpu_name[i++] = (char)(a & 0xff); a >>= 8;
-        cpu_name[i++] = (char)(a & 0xff); a >>= 8;
-        cpu_name[i++] = (char)(b & 0xff); b >>= 8;
-        cpu_name[i++] = (char)(b & 0xff); b >>= 8;
-        cpu_name[i++] = (char)(b & 0xff); b >>= 8;
-        cpu_name[i++] = (char)(b & 0xff); b >>= 8;
-        cpu_name[i++] = (char)(c & 0xff); c >>= 8;
-        cpu_name[i++] = (char)(c & 0xff); c >>= 8;
-        cpu_name[i++] = (char)(c & 0xff); c >>= 8;
-        cpu_name[i++] = (char)(c & 0xff); c >>= 8;
-        cpu_name[i++] = (char)(d & 0xff); d >>= 8;
-        cpu_name[i++] = (char)(d & 0xff); d >>= 8;
-        cpu_name[i++] = (char)(d & 0xff); d >>= 8;
-        cpu_name[i++] = (char)(d & 0xff); d >>= 8;
-        cpuid2(0x80000004, a, b, c, d);
-        cpu_name[i++] = (char)(a & 0xff); a >>= 8;
-        cpu_name[i++] = (char)(a & 0xff); a >>= 8;
-        cpu_name[i++] = (char)(a & 0xff); a >>= 8;
-        cpu_name[i++] = (char)(a & 0xff); a >>= 8;
-        cpu_name[i++] = (char)(b & 0xff); b >>= 8;
-        cpu_name[i++] = (char)(b & 0xff); b >>= 8;
-        cpu_name[i++] = (char)(b & 0xff); b >>= 8;
-        cpu_name[i++] = (char)(b & 0xff); b >>= 8;
-        cpu_name[i++] = (char)(c & 0xff); c >>= 8;
-        cpu_name[i++] = (char)(c & 0xff); c >>= 8;
-        cpu_name[i++] = (char)(c & 0xff); c >>= 8;
-        cpu_name[i++] = (char)(c & 0xff); c >>= 8;
-        cpu_name[i++] = (char)(d & 0xff); d >>= 8;
-        cpu_name[i++] = (char)(d & 0xff); d >>= 8;
-        cpu_name[i++] = (char)(d & 0xff); d >>= 8;
-        cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+		cpuid2(0x80000000,a,b,c,d);
+		if(a >= 0x80000004){
+			cpuid2(0x80000002, a, b, c, d);
+			cpu_name[i++] = (char)(a & 0xff); a >>= 8;
+			cpu_name[i++] = (char)(a & 0xff); a >>= 8;
+			cpu_name[i++] = (char)(a & 0xff); a >>= 8;
+			cpu_name[i++] = (char)(a & 0xff); a >>= 8;
+			cpu_name[i++] = (char)(b & 0xff); b >>= 8;
+			cpu_name[i++] = (char)(b & 0xff); b >>= 8;
+			cpu_name[i++] = (char)(b & 0xff); b >>= 8;
+			cpu_name[i++] = (char)(b & 0xff); b >>= 8;
+			cpu_name[i++] = (char)(c & 0xff); c >>= 8;
+			cpu_name[i++] = (char)(c & 0xff); c >>= 8;
+			cpu_name[i++] = (char)(c & 0xff); c >>= 8;
+			cpu_name[i++] = (char)(c & 0xff); c >>= 8;
+			cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+			cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+			cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+			cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+			cpuid2(0x80000003, a, b, c, d);
+			cpu_name[i++] = (char)(a & 0xff); a >>= 8;
+			cpu_name[i++] = (char)(a & 0xff); a >>= 8;
+			cpu_name[i++] = (char)(a & 0xff); a >>= 8;
+			cpu_name[i++] = (char)(a & 0xff); a >>= 8;
+			cpu_name[i++] = (char)(b & 0xff); b >>= 8;
+			cpu_name[i++] = (char)(b & 0xff); b >>= 8;
+			cpu_name[i++] = (char)(b & 0xff); b >>= 8;
+			cpu_name[i++] = (char)(b & 0xff); b >>= 8;
+			cpu_name[i++] = (char)(c & 0xff); c >>= 8;
+			cpu_name[i++] = (char)(c & 0xff); c >>= 8;
+			cpu_name[i++] = (char)(c & 0xff); c >>= 8;
+			cpu_name[i++] = (char)(c & 0xff); c >>= 8;
+			cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+			cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+			cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+			cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+			cpuid2(0x80000004, a, b, c, d);
+			cpu_name[i++] = (char)(a & 0xff); a >>= 8;
+			cpu_name[i++] = (char)(a & 0xff); a >>= 8;
+			cpu_name[i++] = (char)(a & 0xff); a >>= 8;
+			cpu_name[i++] = (char)(a & 0xff); a >>= 8;
+			cpu_name[i++] = (char)(b & 0xff); b >>= 8;
+			cpu_name[i++] = (char)(b & 0xff); b >>= 8;
+			cpu_name[i++] = (char)(b & 0xff); b >>= 8;
+			cpu_name[i++] = (char)(b & 0xff); b >>= 8;
+			cpu_name[i++] = (char)(c & 0xff); c >>= 8;
+			cpu_name[i++] = (char)(c & 0xff); c >>= 8;
+			cpu_name[i++] = (char)(c & 0xff); c >>= 8;
+			cpu_name[i++] = (char)(c & 0xff); c >>= 8;
+			cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+			cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+			cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+			cpu_name[i++] = (char)(d & 0xff); d >>= 8;
+		}
     }
 	#else	/*	get CPU name for ARM.*/
 
@@ -166,28 +150,28 @@ ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void){
 #endif
 }
 
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasAVX(void){
+ExBoolean ExHasAVX(void){
 	Int32 cpuInfo[4];
-	cpuid(cpuInfo,0x1);
+	cpuid(cpuInfo, 0x1);
 	return (cpuInfo[2] >> 28) &  0x1;
 }
 
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasAVX2(void){
+ExBoolean ExHasAVX2(void){
 	Int32 cpuInfo[4];
-	cpuid(cpuInfo,1);
+	cpuid(cpuInfo, 1);
 	return 0;
 }
 
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExHas3DNow(void){
+ExBoolean ExHas3DNow(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,0x80000001);
 	if((cpuInfo[3] >> 30) & 0x1)return TRUE;
 	else return FALSE;
 }
 
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasMMX(void){
+ExBoolean ExHasMMX(void){
 	Int32 cpuInfo[4];
-	cpuid(cpuInfo,1);
+	cpuid(cpuInfo, 1);
 	if((cpuInfo[3] >> 23) & 0x1)
 		return TRUE;
 	else
@@ -195,14 +179,12 @@ ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasMMX(void){
 }
 
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void){
+Int32 ExGetCPUCount(void){
 #ifdef EX_WINDOWS
 	SYSTEM_INFO info;
 	GetSystemInfo(&info);
 	return info.dwNumberOfProcessors;
 #elif defined(EX_LINUX) || defined(EX_ANDROID)
-
-
 	return sysconf(_SC_NPROCESSORS_ONLN);
 //#elif defined(__IRIX__)
 //	   num_cpus = sysconf(_SC_NPROC_ONLN);
@@ -217,7 +199,12 @@ ELTDECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void){
 #endif
 }
 
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE(void){
+
+Uint ExGetCPUCacheLineSize(void){
+
+}
+
+ExBoolean ExHasSSE(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	if((cpuInfo[3] >> 25) & 0x1)
@@ -226,7 +213,7 @@ ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE(void){
 		return FALSE;
 }
 
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE2(void){
+ExBoolean ExHasSSE2(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	if((cpuInfo[3] >> 26) & 0x1)
@@ -235,7 +222,7 @@ ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE2(void){
 		return FALSE;
 }
 
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE3(void){
+ExBoolean ExHasSSE3(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	if((cpuInfo[2] >> 9) & 0x1)
@@ -244,7 +231,7 @@ ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE3(void){
 		return FALSE;
 }
 
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE41(void){
+ExBoolean ExHasSSE41(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	if((cpuInfo[2] >> 19) & 0x1)
@@ -253,7 +240,7 @@ ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE41(void){
 		return FALSE;
 }
 
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void){
+ExBoolean ExHasSSE42(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
 	if((cpuInfo[2] >> 20) & 0x1)
@@ -262,8 +249,20 @@ ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void){
 		return FALSE;
 }
 
+ExBoolean ExHasNeon(void){
+#ifdef EX_ARM
+	EX_ASM volatile ("vldr d18,[fp,#-32]");
+#endif
 
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasNeon(void){
+#if defined(__ARM_NEON__)
+	return TRUE;
+#else
 	return FALSE;
+#endif
 }
 
+ExBoolean ExHasRDTSC(void){
+	Uint32 cpuInfo[4];
+	cpuid(cpuInfo, 1);
+	return ( cpuInfo[2] & 0x00000010 ) ? TRUE : FALSE;
+}
