@@ -44,13 +44,14 @@ extern "C" {
  *	@Return
 */
 extern ELTDECLSPEC ExSocket ELTAPIENTRY ExOpenSocket(unsigned int protocol);
+extern ELTDECLSPEC ExSocket ELTAPIENTRY ExCreateSocket(unsigned int domain, unsigned int style, unsigned int protocal);
 
 /*
  *	Close socket
  *	\socket
  *	@Return
 */
-extern ELTDECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(ExSocket socket);
+extern ELTDECLSPEC unsigned int ELTAPIFASTENTRY ExCloseSocket(ExSocket socket);
 
 /*
  *	Bind socket to ip and port address
@@ -59,7 +60,7 @@ extern ELTDECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(ExSocket socket);
  *	\socket
  *	@Return
 */
-extern ELTDECLSPEC ExSocket ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port, ExSocket socket);
+extern ELTDECLSPEC ExSocket ELTAPIENTRY ExBindSocket(const ExChar* ip, unsigned int port, ExSocket socket);
 
 /*
  *	Connect to socket
@@ -104,7 +105,7 @@ extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const ExChar* ip, unsign
  *	Get host name to ip adress.
  *	@Return
  */
-extern ELTDECLSPEC int ELTAPIENTRY ExGetHostIp(char* host);
+extern ELTDECLSPEC int ELTAPIENTRY ExGetHostIp(ExChar* host);
 
 
 #ifdef  __cplusplus	/* C++ Environment */

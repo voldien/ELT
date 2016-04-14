@@ -69,8 +69,8 @@ extern ELTDECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nanosec);
 extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetPerformanceCounter(void);	/*	TODO remove, as GetHiResTime does the same thing!.	*/
 
 /*
- *	Get Performance frequency
- *	@Return
+ *	Get performance frequency
+ *	@Return time resolution.
  */
 extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetPerformanceFrequency(void);
 
