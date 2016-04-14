@@ -152,6 +152,7 @@ ExOpenGLContext ExCreateTempGLContext(void){
 
 ExOpenGLContext ExCreateGLContext(ExWin window, ExOpenGLContext shareContext){
 	ExOpenGLContext glc = NULL;
+	ExOpenGLContext curglc;
 	unsigned int vendor;
 	unsigned int glxmaj,glxmin;
 	unsigned int major;
@@ -169,6 +170,9 @@ ExOpenGLContext ExCreateGLContext(ExWin window, ExOpenGLContext shareContext){
 	if(!glXQueryExtension(display, &min, &maj)){
 		ExError("OpenGL not supported by X server\n");
 	}
+
+	if(shareContext)
+		curglc = ExGetCurrentOpenGLContext();
 
 	/**/
     glXQueryVersion(display, &glxmaj, &glxmin);
@@ -243,7 +247,11 @@ ExOpenGLContext ExCreateGLContext(ExWin window, ExOpenGLContext shareContext){
 
 				if(glXCreateContextAttribsARB){
 					if(shareContext){
-						glXQueryContext(display, ExGetCurrentOpenGLContext(), GLX_FBCONFIG_ID, &fbconfig);
+						if(glXQueryContext(display, curglc, GLX_FBCONFIG_ID, &fbconfig) != Success){
+
+						}
+						else
+							ExChooseFBconfig(&fbconfig);
 					}
 					else
 						ExChooseFBconfig(&fbconfig);
@@ -285,17 +293,17 @@ ExOpenGLContext ExCreateGLSharedContext(ExWin window, ExOpenGLContext glc){
 }
 
 
-void ELTAPIENTRY ExOpenGLSetAttribute(unsigned int attr, int value){
+void ExOpenGLSetAttribute(unsigned int attr, int value){
 	pixAtt[PIXATTOFFSET + (2 * attr) + 1] = value;
 }
 
-int ELTAPIENTRY ExOpenGLGetAttribute(unsigned int attr, int* value){
+int ExOpenGLGetAttribute(unsigned int attr, int* value){
 	if(value)
 		value = (unsigned int)pixAtt[PIXATTOFFSET + (2 * attr) + 1];
 	return pixAtt[PIXATTOFFSET + (2 * attr) + 1];
 }
 
-void ELTAPIENTRY ExOpenGLResetAttributes(void){
+void ExOpenGLResetAttributes(void){
 	ExOpenGLSetAttribute(EX_OPENGL_RED_SIZE,	8);
 	ExOpenGLSetAttribute(EX_OPENGL_GREEN_SIZE,	8);
 	ExOpenGLSetAttribute(EX_OPENGL_BLUE_SIZE,	8);
@@ -317,19 +325,19 @@ void ELTAPIENTRY ExOpenGLResetAttributes(void){
 	ExOpenGLSetAttribute(EX_OPENGL_FRAMEBUFFER_SRGB_CAPABLE,	0);
 }
 
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExDestroyGLContext(ExWindowContext drawable, ExOpenGLContext glc){
+ExBoolean ExDestroyGLContext(ExWindowContext drawable, ExOpenGLContext glc){
 	ExBoolean hr = 1;
 
     if(!ExMakeGLCurrent(NULL,NULL)){
         fprintf(stderr,"failed to make current Opengl NUll, NULL.\n");
         hr = 0;
     }
-	glXDestroyContext(display,glc);
+	glXDestroyContext(display, glc);
 	return hr;
 }
 
 
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes){
+ExBoolean ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes){
     int one = 1;
 	XEvent xev = {0};
 	ExSize size  = {0};

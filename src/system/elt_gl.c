@@ -61,7 +61,7 @@
 #endif
 
 /*	TODO perhaps relocate later to their coresponding platform source code files.*/
-ELTDECLSPEC inline ExWin ELTAPIENTRY ExGetOpenGLContextWindow(ExOpenGLContext glc){
+inline ExWin ExGetOpenGLContextWindow(ExOpenGLContext glc){
 #ifdef EX_WINDOWS
 	return WindowFromDC(wglGetCurrentDC());
 #elif defined(EX_LINUX)
@@ -72,7 +72,7 @@ ELTDECLSPEC inline ExWin ELTAPIENTRY ExGetOpenGLContextWindow(ExOpenGLContext gl
 }
 
 
-ELTDECLSPEC inline ExWindowContext ELTAPIFASTENTRY ExGetCurrentGLDrawable(void){
+inline ExWindowContext ExGetCurrentGLDrawable(void){
 #ifdef EX_WINDOWS
 	return wglGetCurrentDC();
 #elif defined(EX_LINUX)
@@ -82,7 +82,7 @@ ELTDECLSPEC inline ExWindowContext ELTAPIFASTENTRY ExGetCurrentGLDrawable(void){
 #endif
 }
 
-ELTDECLSPEC inline ExOpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void){
+inline ExOpenGLContext ExGetCurrentOpenGLContext(void){
 #ifdef EX_WINDOWS
 	return wglGetCurrentContext();
 #elif defined(EX_LINUX)
@@ -96,7 +96,7 @@ ELTDECLSPEC inline ExOpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(voi
 
 
 
-ELTDECLSPEC inline int ELTAPIENTRY ExMakeGLCurrent(ExWindowContext drawable, ExOpenGLContext glc){
+inline int ExMakeGLCurrent(ExWindowContext drawable, ExOpenGLContext glc){
 #ifdef EX_WINDOWS
 	return wglMakeCurrent(drawable,glc);
 #elif defined(EX_LINUX)
@@ -107,7 +107,7 @@ ELTDECLSPEC inline int ELTAPIENTRY ExMakeGLCurrent(ExWindowContext drawable, ExO
 }
 
 
-ELTDECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void){
+void ExInitOpenGLStates(void){
 	int value;
     int sampleSupport;
 
@@ -220,6 +220,9 @@ Uint32 ExIsExtensionSupported(const char* extList,const char* extension){
 	const char* start;
 	const char *where;
 	const char*terminator;
+	if(extList == NULL || extension == NULL)
+		return 0;
+
 
 	where = strchr(extension, ' ');
 	if(where || extension[0] == '\0')
@@ -243,24 +246,24 @@ Uint32 ExIsExtensionSupported(const char* extList,const char* extension){
 
 
 #ifndef EX_LINUX
-ELTDECLSPEC Int32 ELTAPIENTRY ExIsVendorAMD(void){
+Int32 ExIsVendorAMD(void){
 #ifndef EX_ANDROID
 	return strstr((const char*)glGetString(GL_VENDOR), "AMD") ? TRUE : FALSE;
 #endif
 }
-ELTDECLSPEC Int32 ELTAPIENTRY ExIsVendorNvidia(void){
+Int32 ExIsVendorNvidia(void){
 #ifndef EX_ANDROID
 	return strstr((const char*)glGetString(GL_VENDOR), "NVIDIA") ? TRUE : FALSE;
 #endif
 }
-ELTDECLSPEC Int32 ELTAPIENTRY ExIsVendorIntel(void){
+Int32  ExIsVendorIntel(void){
 #ifndef EX_ANDROID
 	return strstr((const char*)glGetString(GL_VENDOR), "INTEL") ? TRUE : FALSE;
 #endif
 }
 #endif
 
-ELTDECLSPEC Enum ELTAPIENTRY ExGetOpenGLVendor(void){
+Enum ExGetOpenGLVendor(void){
 	if(ExIsVendorNvidia())return EX_NVIDIA;
 	else if(ExIsVendorAMD())return EX_AMD;
 	else if(ExIsVendorIntel())return EX_INTEL;
