@@ -125,7 +125,7 @@ extern ELTDECLSPEC ERESULT ELTAPIENTRY ExSetThreadState(ExThread thread, ExHandl
 extern ELTDECLSPEC ExHandle ELTAPIENTRY ExgetThreadState(ExThread thread);
 
 /*
- *	Wait the thread
+ *	Wait the thread to be terminated.
  *	@Return
  */
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExWaitThread(ExThread thread, Int32* status);

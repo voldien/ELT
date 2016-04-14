@@ -83,6 +83,8 @@ _In_  HINSTANCE hinstDLL,
 }
 #elif defined(EX_GNUC)
 	#if defined(EX_LINUX)
+	extern void* xcbConnection;
+
 void __attribute__ ((constructor)) my_load(void){
 
     display = XOpenDisplay(getenv("DISPLAY"));
@@ -90,9 +92,14 @@ void __attribute__ ((constructor)) my_load(void){
         //ExError("couldn't open Display\n");
     }
 
-    if(!XInitThreads()){
-    	printf("Failed to init multiethreading support\n");
+    if(XInitThreads() == 0){
+    	printf("Failed to init multithreading support\n");
     }
+    /**/
+	xcbConnection = XGetXCBConnection(display);
+	if(xcbConnection){
+
+	}
 }
 
 void __attribute__ ((destructor)) my_unload(void){
@@ -282,7 +289,7 @@ ELTDECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 }
 
 
-ELTDECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag){
+void ExQuitSubSytem(Uint32 engineflag){
 
 	if(ELT_INIT_TIMER & engineflag){
         #ifdef EX_WINDOWS   // EX_WINDOWS
@@ -335,7 +342,7 @@ ELTDECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag){
 
 
 }
-ELTDECLSPEC void ELTAPIENTRY ExShutDown(void){
+void ExShutDown(void){
 	if(engineflag & ELT_DEINIT)
 		return;
 
@@ -381,8 +388,10 @@ ELTDECLSPEC void ELTAPIENTRY ExShutDown(void){
 	XSync(display,True);
 	if(display)
 		XFlush(display);
-    if(display)
+    if(display){
     	XCloseDisplay(display);
+    	display = NULL;
+    }
 
 
 #elif defined(EX_APPLE)
