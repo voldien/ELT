@@ -131,28 +131,28 @@ static inline int private_ExGetKeyCodeInternal(Uint32 keyCode){
     return keysym;
 }
 
-ELTDECLSPEC ExKeycode ExGetKeyFromName(const char* name){
+ExKeycode ExGetKeyFromName(const char* name){
     KeySym sym = XStringToKeysym(name);
     return sym;
 }
 
-ELTDECLSPEC const char* ExGetKeyName(ExKeycode keycode){
+const char* ExGetKeyName(ExKeycode keycode){
     return XKeysymToString(private_ExGetKeyCodeInternal(keycode));
 }
 
-ELTDECLSPEC ExWin ExGetKeyboardFocus(void){
+ExWin ExGetKeyboardFocus(void){
 	ExWin window;
 	int revert_to_return;
 	XGetInputFocus(display,&window,&revert_to_return);
 	return window;
 }
 
-ELTDECLSPEC void ExSetKeyboardFocus(ExWin window){
+void ExSetKeyboardFocus(ExWin window){
 	XSetInputFocus(display, window, RevertToParent, CurrentTime);
 }
 
 
-ELTDECLSPEC const Uint8* ExGetKeyboardState(Int32* numkeys){
+const Uint8* ExGetKeyboardState(Int32* numkeys){
 
 	xcb_query_keymap_reply_t* keymap = NULL;
 	//keymap = xcb_query_keymap_reply(xcbConnection,xcb_query_keymap(xcbConnection), NULL);*/
@@ -166,21 +166,22 @@ ELTDECLSPEC const Uint8* ExGetKeyboardState(Int32* numkeys){
 /**
 
 */
-ELTDECLSPEC ExKeycode ExGetModeState(void){
+ExKeycode ExGetModeState(void){
     return XGrabKey(display,AnyKey, ControlMask | ShiftMask, ExGetKeyboardFocus(), True, GrabModeAsync, GrabModeSync);
 }
 
-ELTDECLSPEC ExBoolean ExAnyKey(void){
-
-	return FALSE;
-}
-ELTDECLSPEC ExBoolean ExAnyKeyDown(void){
+ExBoolean ExAnyKey(void){
 
 	return FALSE;
 }
 
+ExBoolean ExAnyKeyDown(void){
 
-ELTDECLSPEC ExBoolean ExIsKey(Uint32 keyCode){
+	return FALSE;
+}
+
+
+ExBoolean ExIsKey(Uint32 keyCode){
 	return ExIsKeyDown(keyCode);
 
 }
@@ -190,11 +191,11 @@ ELTDECLSPEC ExBoolean ExIsKey(Uint32 keyCode){
 	extern xcb_connection_t* xcbConnection;
 #endif
 
-ELTDECLSPEC ExBoolean ExIsKeyDown(Uint32 keyCode){
+ExBoolean ExIsKeyDown(Uint32 keyCode){
 	KeySym keysym = private_ExGetKeyCodeInternal(keyCode);
 
-	if(!xcbConnection)
-		xcbConnection = XGetXCBConnection(display);
+//	if(!xcbConnection)
+//		xcbConnection = XGetXCBConnection(display);
 
 
 	unsigned int keycode = XKeysymToKeycode(display, keysym);
@@ -203,8 +204,9 @@ ELTDECLSPEC ExBoolean ExIsKeyDown(Uint32 keyCode){
 
 		xcb_query_keymap_reply_t* keymap = NULL;
 		unsigned char isPressed;
-		keymap = xcb_query_keymap_reply(xcbConnection,xcb_query_keymap(xcbConnection), NULL);
-
+		XLockDisplay(display);
+		keymap = xcb_query_keymap_reply(xcbConnection, xcb_query_keymap(xcbConnection), NULL);
+		XUnlockDisplay(display);
 		isPressed = (keymap->keys[keycode/8] & (1 << (keycode % 8))) ?  1 : 0;
 
         return isPressed;
@@ -213,6 +215,6 @@ ELTDECLSPEC ExBoolean ExIsKeyDown(Uint32 keyCode){
 
 }
 
-ELTDECLSPEC ExBoolean ExIsKeyUp(Uint32 keyCode){
+ExBoolean ExIsKeyUp(Uint32 keyCode){
 	return ExIsKeyDown(keyCode);
 }

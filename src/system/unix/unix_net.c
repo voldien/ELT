@@ -30,7 +30,7 @@ ExSocket ExOpenSocket(unsigned int protocol){
 
     /*	*/
     if(protocol & EX_LOCAL){
-        sock_domain = PF_LOCAL;
+        sock_domain = PF_UNIX;
         socket_protocol = 0;
     }
     else{
@@ -38,33 +38,33 @@ ExSocket ExOpenSocket(unsigned int protocol){
         sock_domain = AF_INET;
     }
 
-
     /*	create socket	*/
     if(protocol & EX_LOCAL){
         if((sockfd = socket(sock_domain, SOCK_STREAM, socket_protocol)) == -1)
-            fprintf(stderr,strerror(errno));
+            fprintf(stderr, strerror(errno));
         if(protocol & EX_CLIENT)
             return sockfd;
     }
     else if(protocol & EX_CLIENT){
 
         if((sockfd = socket(sock_domain, SOCK_STREAM, socket_protocol)) == -1)
-            fprintf(stderr,strerror(errno));
+            fprintf(stderr, strerror(errno));
+
         return sockfd;
     }
     else if(protocol & EX_TCP){
         socket_protocol = 0;
         if((sockfd = socket(sock_domain, SOCK_STREAM, 0)) == -1)
-            fprintf(stderr,strerror(errno));
+            fprintf(stderr, strerror(errno));
     }
     else if(protocol & EX_UDP){
         socket_protocol = 0;
         if((sockfd = socket(sock_domain, SOCK_DGRAM, socket_protocol)) == -1)
-            fprintf(stderr,strerror(errno));
+            fprintf(stderr, strerror(errno));
     }
     else{
         if((sockfd = socket(sock_domain, SOCK_STREAM, socket_protocol)) == -1)
-            fprintf(stderr,strerror(errno));
+            fprintf(stderr, strerror(errno));
     }
 
     return sockfd;
@@ -73,8 +73,6 @@ ExSocket ExOpenSocket(unsigned int protocol){
 inline unsigned int ExCloseSocket(ExSocket socket){
     return close(socket);
 }
-
-
 
 ExSocket ExBindSocket(const char* ip, unsigned int port, ExSocket socket){
     unsigned int sock_domain,socket_protocol;
@@ -101,19 +99,27 @@ ExSocket ExBindSocket(const char* ip, unsigned int port, ExSocket socket){
 
 ExSocket ExConnectSocket(const ExChar* ip, unsigned int port){
 
+	/**/
     struct sockaddr_in serv_addr;
     struct hostent *server;
     ExSocket sockfd;
 
-    /**/
-    sockfd = ExOpenSocket(EX_CLIENT);
+    server = gethostbyname(ip);	/*get host information by ip name or ip explicitly*/
+    if(!server){
+    	return (ExSocket)0;
+    }
 
+    /*	create soket	*/
+    sockfd = ExOpenSocket(EX_CLIENT);
+    if(sockfd < 0)
+    	return (ExSocket)0;
 
     bzero((char*)&serv_addr, sizeof(serv_addr));
-    server = gethostbyname(ip);/*get host information by ip name or ip explicitly*/
 
+    /*	get namespace	*/
     serv_addr.sin_family = server->h_addrtype; /*AF_INET;*/
 
+    /*	copy server addr data.	*/
     bcopy((char*)server->h_addr,
          (char*)&serv_addr.sin_addr.s_addr,
          server->h_length);
@@ -128,12 +134,13 @@ ExSocket ExConnectSocket(const ExChar* ip, unsigned int port){
 }
 
 
-int ExGetHostIp(char* host){
+/*	TODO resolve!*/
+int ExGetHostIp(ExChar* host){
     int fd;
     struct ifreq ifr;
 
     /**/
-    if((fd = socket(AF_INET, SOCK_DGRAM,0)) < 0){
+    if((fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0){
         fprintf(stderr,strerror(errno));
         return -1;
     }
