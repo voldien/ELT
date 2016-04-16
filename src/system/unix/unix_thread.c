@@ -18,6 +18,9 @@
 
 #include<signal.h>
 
+/*	TODO resolve the evaluate of the implementation.	*/
+#define SIGNAL_MASK_ID_KEY 0xfff
+
 
 ExThread ExCreateThread(ExThreadRoutine callback, void* lpParamater, Uint32* pid){
 	pthread_t t0;
@@ -62,7 +65,7 @@ ExThread ExCreateThreadAffinity(ExThreadRoutine callback, ExHandle lpParamater, 
 	pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t),&cpus);
 #endif
 
-	if((mpid = pthread_create(&t0,&attr, callback, lpParamater)) == -1){
+	if((mpid = pthread_create(&t0, &attr, callback, lpParamater)) == -1){
 		ExPrintfError(stderr, strerror(errno));
 	}
 
@@ -108,15 +111,18 @@ void ExResumeThread(ExThread thread){
 
 }
 
-
-
 void ExSetThreadSignal(ExThread thread, Uint signal){
 	pthread_kill(thread, signal);
 }
 
+
 Uint ExGetThreadSignal(ExThread thread){
-
-
+//	int signal;
+//	sigset_t* set = pthread_getspecific(SIGNAL_MASK_ID_KEY);
+//	if(sigwait(set, &signal) != 0){
+//
+//	}
+//	return signal;
 }
 
 
@@ -153,7 +159,10 @@ const char* ExGetThreadName(ExThread thread){
 }
 
 void ExSetThreadName(ExThread thread, const char* name){
-	pthread_setname_np(thread, name);
+	int status;
+	status = pthread_setname_np(thread, name);
+	if(status == ERANGE)
+		ExErrorLog("");
 }
 
 ERESULT ExSetThreadPriority(ExThread thread, Enum nPriority){
@@ -193,8 +202,6 @@ ERESULT ExWaitThread(ExThread thread, Int32* status){
     }
 	return E_OK;
 }
-
-
 
 
 
