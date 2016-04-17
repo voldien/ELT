@@ -9,6 +9,7 @@
 	#include<unistd.h>
 	#include<dirent.h>
 #endif
+#include<errno.h>
 
 inline static long int private_ExGetFileStreamSize(FILE* file){
     unsigned int pos;
@@ -57,19 +58,36 @@ long int ExLoadFile(const ExChar* cfilename, void** bufferptr){
 	length = private_ExGetFileStreamSize(f);
 	buffer = malloc(length + 1);
 	((char*)buffer)[length] = 0;
-	ExSafeRead(f,buffer,length);
+	length = ExSafeRead(f, buffer, length);
 	fclose(f);
 	*bufferptr = buffer;
 	return length;
 }
 
 long int ExSaveFile(const ExChar* cfilename, void* racBuffer, unsigned int riSize){
+	long int nBytes;
 	FILE *f;
 	f = ExSafeOpenWrite(cfilename);
-	ExSafeWrite(f,racBuffer,riSize);
+	if(!f)
+		return -1;
+	nBytes = ExSafeWrite(f, racBuffer, riSize);
 	fclose(f);
-	return f ? TRUE : FALSE;
+	return nBytes;
 }
+
+long int ExAppendFile(const ExChar* cfilename, void* racBuffer, unsigned int csize){
+	long int nBytes;
+	FILE* f;
+	f = ExSafeOpenWrite(cfilename);
+	if(!f)
+		return -1;
+	fseek(f, SEEK_END, 0);
+	nBytes = ExSafeWrite(f, racBuffer, csize);
+	fclose(f);
+	return nBytes;
+}
+
+
 
 FILE* ExSafeOpenWrite(const ExChar* cfilename){
 	FILE* f;
