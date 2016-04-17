@@ -22,14 +22,22 @@
 #include <stdlib.h>
 #include"./../EngineAssembly.h"
 
+/*
+ *
+ */
 typedef signed int ExSocket;
 
+/*
+ *
+ */
 #define EX_CLIENT 	0x1  		/*  Client socket*/
-#define EX_TCP 		0x2     	/*  reliable,  two-way  */
+#define EX_TCP 		0x2     	/*  Reliable,  two-way  */
 #define EX_UDP 		0x4     	/*  UDP protocol */
 #define EX_LOCAL 	0x8   		/*  Local internal communication */
-#define EX_STREAM 	0x10		/*	*/
-#define EX_DGRAM 	0x20		/*	*/
+#define EX_STREAM 	0x10		/*		*/
+#define EX_DGRAM 	0x20		/*		*/
+#define EX_INET4
+#define EX_INET6
 
 #ifdef  __cplusplus	/*	C++ Environment	*/
 extern "C" {
@@ -44,6 +52,11 @@ extern "C" {
  *	@Return
 */
 extern ELTDECLSPEC ExSocket ELTAPIENTRY ExOpenSocket(unsigned int protocol);
+
+/*
+ *
+ * 	@Return
+ */
 extern ELTDECLSPEC ExSocket ELTAPIENTRY ExCreateSocket(unsigned int domain, unsigned int style, unsigned int protocal);
 
 /*
@@ -70,9 +83,13 @@ extern ELTDECLSPEC ExSocket ELTAPIENTRY ExBindSocket(const ExChar* ip, unsigned 
 */
 extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const ExChar* ip, unsigned int port);
 
+
+
+
 /*
  *    Listen
-*/
+ *    @Return
+ */
 #define ExListen    listen
 
 /*
@@ -102,11 +119,16 @@ extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const ExChar* ip, unsign
 #endif
 
 /*
- *	Get host name to ip adress.
- *	@Return
+ *
+ * @Return
  */
-extern ELTDECLSPEC int ELTAPIENTRY ExGetHostIp(ExChar* host);
+extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetHostName(const ExChar* hostname);
 
+
+/*
+ *
+ */
+extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetInterfaceAddr(const ExChar* interface, ExChar* addr, Uint len);
 
 #ifdef  __cplusplus	/* C++ Environment */
 }

@@ -14,14 +14,19 @@
 #   include<errno.h>
 #   include<unistd.h>
 
-static int ip_exists(const char* ip){
+static int private_ip_exists(const char* ip){
 	struct hostent* host;
+	unsigned int iplen = strlen(ip);
 	host = gethostbyname(ip);
-	if(!host)
+	if(!host){
+		host = gethostbyaddr(ip, iplen, iplen == 4 ? AF_INET : AF_INET6);
+		if(host){
+			return TRUE;
+		}
 		return FALSE;
+	}
 	return TRUE;
 }
-
 
 ExSocket ExOpenSocket(unsigned int protocol){
     unsigned int sockfd;
@@ -70,6 +75,11 @@ ExSocket ExOpenSocket(unsigned int protocol){
     return sockfd;
 }
 
+ExSocket ExCreateSocket(unsigned int domain, unsigned int style, unsigned int protocal){
+	return (ExSocket)socket(domain, style, protocal);
+}
+
+
 inline unsigned int ExCloseSocket(ExSocket socket){
     return close(socket);
 }
@@ -77,10 +87,18 @@ inline unsigned int ExCloseSocket(ExSocket socket){
 ExSocket ExBindSocket(const char* ip, unsigned int port, ExSocket socket){
     unsigned int sock_domain,socket_protocol;
     struct sockaddr_in serv_addr, cli_addr;
-
 	struct hostent* host;
+	unsigned int iplen = strlen(ip);
 
-	host = gethostbyname(ip);
+	host = gethostbyname(ip);	/*get host information by ip name or ip explicitly*/
+    if(!host){
+    	/**/
+    	host = gethostbyaddr(ip, iplen, iplen == 4 ? AF_INET : AF_INET6);
+    	if(!host){
+    		ExLog("");
+    		return (ExSocket)0;
+    	}
+    }
 
     bzero((char*)&serv_addr,sizeof(serv_addr));
 
@@ -88,7 +106,7 @@ ExSocket ExBindSocket(const char* ip, unsigned int port, ExSocket socket){
 	inet_pton(0,ip, &serv_addr.sin_addr);
     serv_addr.sin_port = htons(port);
 
-    /*	TODO solve how to create a ip address	*/
+
     if(bind(socket, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0){
         fprintf(stderr, strerror(errno));
         return -1;
@@ -98,23 +116,33 @@ ExSocket ExBindSocket(const char* ip, unsigned int port, ExSocket socket){
 
 
 ExSocket ExConnectSocket(const ExChar* ip, unsigned int port){
-
 	/**/
     struct sockaddr_in serv_addr;
     struct hostent *server;
     ExSocket sockfd;
+    unsigned int iplen = strlen(ip);
 
     server = gethostbyname(ip);	/*get host information by ip name or ip explicitly*/
     if(!server){
-    	return (ExSocket)0;
+    	/**/
+    	server = gethostbyaddr(ip, iplen, iplen == 4 ? AF_INET : AF_INET6);
+    	if(!server){
+    		ExLog("");
+    		return (ExSocket)0;
+    	}
     }
 
     /*	create soket	*/
     sockfd = ExOpenSocket(EX_CLIENT);
-    if(sockfd < 0)
+    //sockfd = ExCreateSocket(server->h_addrtype, server->h_)
+    if(sockfd < 0){
+    	ExLog("Failed to create socket.\n");
     	return (ExSocket)0;
+    }
 
+    /*	*/
     bzero((char*)&serv_addr, sizeof(serv_addr));
+
 
     /*	get namespace	*/
     serv_addr.sin_family = server->h_addrtype; /*AF_INET;*/
@@ -126,40 +154,48 @@ ExSocket ExConnectSocket(const ExChar* ip, unsigned int port){
 
     serv_addr.sin_port = htons(port);
 
+    /*	*/
     if(connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0){
+    	ExLog("");
         fprintf(stderr, "%s\n", strerror(errno));
         return -1;
     }
     return sockfd;
 }
 
+const ExChar* ExGetHostName(const ExChar* hostname){
+	unsigned int hostlen = strlen(hostname);
+	struct hostent* host = gethostbyname(hostname);
+	if(!host){
+		ExLog("gethostname for %s failed.", hostname);
+		return NULL;
+	}
 
-/*	TODO resolve!*/
-int ExGetHostIp(ExChar* host){
-    int fd;
-    struct ifreq ifr;
-
-    /**/
-    if((fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0){
-        fprintf(stderr,strerror(errno));
-        return -1;
-    }
-
-    ifr.ifr_addr.sa_family = AF_INET;
-
-    strncpy(ifr.ifr_name, "eth0", IFNAMSIZ-1);  /**/
-
-    ioctl(fd, SIOCGIFADDR, &ifr);
-
-    close(fd);
-
-    memcpy(host,
-           inet_ntoa(((struct sockaddr_in*)&ifr.ifr_addr)->sin_addr),
-           strlen(inet_ntoa(((struct sockaddr_in*)&ifr.ifr_addr)->sin_addr)));
-
-    host[strlen(inet_ntoa(((struct sockaddr_in*)&ifr.ifr_addr)->sin_addr))] = '\0';   /*end the string*/
-
-    return TRUE;
+	if(host->h_length == 4)
+		return host->h_addr_list[0];
+	else if(host->h_length == 16)
+		return host->h_addr_list[0];
+	return NULL;
 }
 
+
+ExChar* ExGetInterfaceAddr(const ExChar* interface, ExChar* addr, Uint len){
+    ExSocket fd;
+    struct ifreq ifr;
+
+    if(interface == NULL || addr == NULL)
+    	return NULL;
+
+	ifr.ifr_addr.sa_family = AF_INET;
+	fd = ExCreateSocket(AF_INET, SOCK_DGRAM, 0);
+	strncpy(ifr.ifr_name, interface, IFNAMSIZ-1);  /**/
+	ioctl(fd, SIOCGIFADDR, &ifr);
+	ExCloseSocket(fd);
+
+	unsigned int inetlen = strlen(inet_ntoa(((struct sockaddr_in*)&ifr.ifr_addr)->sin_addr));
+	memcpy(addr,
+	           inet_ntoa(((struct sockaddr_in*)&ifr.ifr_addr)->sin_addr),
+			   len < inetlen ? len  : inetlen);
+	return addr;
+}
 
