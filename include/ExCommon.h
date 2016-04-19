@@ -29,7 +29,7 @@ extern "C"{
 
 
 /*
- *	create process
+ *	Create process.
  *	@Return if successfully
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName);
@@ -137,6 +137,11 @@ extern ELTDECLSPEC void ELTAPIENTRY ExGetAppliationPath(ExChar* wChar, Int32 len
 extern ELTDECLSPEC void ELTAPIENTRY ExGetRelativePath(const ExChar* wChar, ExChar* Chas, Int32 lengthSize);
 
 
+extern ELTDECLSPEC void ELTAPIENTRY ExGetBaseName(const ExChar* wChar, ExChar* Chas, Int32 lengthSize);
+extern ELTDECLSPEC void ELTAPIENTRY ExGetDirectory(const ExChar* wChar, ExChar* Chas, Int32 lengthSize);
+
+
+
 
 
 
@@ -150,15 +155,17 @@ extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetOSName(void);
 /*
  *	Get Current User Name
  *	Has to maintain later!!! TODO<>
- *	@Return
+ *	@Return current user as a username.
  */
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCurrentUser(void);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetEnv(const ExChar* environmentname, const char* pValue);
+extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetEnv(const ExChar* environmentname);
+extern ELTDECLSPEC void ELTAPIENTRY ExRemoveEnv(const ExChar* environmentname);
+extern ELTDECLSPEC const ExChar* ExGetAllEnv(void);
 
 
-//extern ELTDECLSPEC void ELTAPIENTRY ExUnicodeToAscii(const WCHAR* wchar, char** cchar);
-//extern ELTDECLSPEC char* ELTAPIENTRY ExConvertAscii(const WCHAR* wwchar);
-
-
+extern ELTDECLSPEC void ELTAPIENTRY ExWideToChar(const ExWide* wchar, char** cchar);
+extern ELTDECLSPEC char* ELTAPIENTRY ExCharToWide(const ExWide* wwchar);
 
 
 /*

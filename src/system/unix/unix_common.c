@@ -13,20 +13,21 @@
 
 
 Int32 ExCreateProcess(const ExChar* applicationName){
+
     pid_t pid;
     pid = fork();
 
     switch(pid){
         case -1:{
-            fprintf(stderr,strerror(errno));
+            fprintf(stderr, strerror(errno));
             kill(pid,9);
             return 0;
         }break;
         case 0:{
             ExChar argv[512]= {0};
-            memcpy(argv, applicationName,strlen(applicationName) + 1);
+            memcpy(argv, applicationName, strlen(applicationName) + 1);
             chdir(dirname(argv));
-            if(execl(applicationName,basename(applicationName),NULL) == -1)
+            if(execl(applicationName, basename(applicationName), NULL) == -1)
                 fprintf(stderr,strerror(errno));
         }break;
         default:{
@@ -34,6 +35,7 @@ Int32 ExCreateProcess(const ExChar* applicationName){
         }break;
     }
 
+    //return ExCreateProcessl(applicationName);
     return True;
 }
 
@@ -66,7 +68,7 @@ Int32 ExCreateProcessl(const ExChar* applicationName,...){
         case 0:{
         	/*	TODO some error when arm */
             if(execv(applicationName,(const char*)applicationName + sizeof(void*) ) == -1)
-                fprintf(stderr,strerror(errno));
+                fprintf(stderr, strerror(errno));
 	}break;
         default:{
             wait(&pid);
@@ -77,14 +79,12 @@ Int32 ExCreateProcessl(const ExChar* applicationName,...){
 }
 
 
-
-
-ELTDECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(ExSize* size){
-	ExGetScreenSize(0,size);
+void ExGetPrimaryScreenSize(ExSize* size){
+	ExGetScreenSize(0, size);
 }
 
 
-ELTDECLSPEC void ELTAPIENTRY ExGetScreenSize(Uint32 index, ExSize* size){
+void ExGetScreenSize(Uint32 index, ExSize* size){
 
 	XRRScreenResources *screen;
 	XRROutputInfo *info;
@@ -105,7 +105,7 @@ ELTDECLSPEC void ELTAPIENTRY ExGetScreenSize(Uint32 index, ExSize* size){
 }
 
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExGetScreenSizes(Uint index, Uint* num, ExSize*sizes){
+Int32 ExGetScreenSizes(Uint index, Uint* num, ExSize*sizes){
 	int x;
 	XRRScreenResources *screen;
 	XRROutputInfo *info;
@@ -133,11 +133,11 @@ ELTDECLSPEC Int32 ELTAPIENTRY ExGetScreenSizes(Uint index, Uint* num, ExSize*siz
 }
 
 
-ELTDECLSPEC void ELTAPIENTRY ExGetPrimaryScreenRect(ExRect* rect){
+void ExGetPrimaryScreenRect(ExRect* rect){
 	ExGetScreenRect(0,rect);
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExGetScreenRect(Uint32 index, ExRect* rect){
+void ExGetScreenRect(Uint32 index, ExRect* rect){
 	XRRScreenResources *screen;
 	XRROutputInfo *info;
 	XRRCrtcInfo *crtc_info;
@@ -159,7 +159,7 @@ ELTDECLSPEC void ELTAPIENTRY ExGetScreenRect(Uint32 index, ExRect* rect){
 
 }
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExGetScreenRefreshRate(Uint32 index){
+Int32 ExGetScreenRefreshRate(Uint32 index){
 	unsigned int num_sizes;
 	Display*dis = XOpenDisplay(NULL);
 	Window root = RootWindow(dis,index);
@@ -174,7 +174,7 @@ ELTDECLSPEC Int32 ELTAPIENTRY ExGetScreenRefreshRate(Uint32 index){
 }
 
 /*	http://hackage.haskell.org/package/bindings-GLFW-0.1.0/src/glfw/src/x11_monitor.c	*/
-ELTDECLSPEC int ELTAPIENTRY ExSetScreenSize(Int32 index, Int32 width, Int32 height){
+int ExSetScreenSize(Int32 index, Int32 width, Int32 height){
 	XRRScreenResources* sr = NULL;
 	XRRCrtcInfo* ci = NULL;
 	XRROutputInfo* oi = NULL;
@@ -207,19 +207,18 @@ const ExChar* ELTAPIENTRY ExGetPlatform(void){
 	return NULL;
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExGetExecutePath(ExChar* wChar, Int32 length){
+void ExGetExecutePath(ExChar* wChar, Int32 length){
 	/**/
     extern char* __progname;
-
     memcpy(wChar,/*program_invocation_name*/__progname,length);
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExGetAppliationPath(ExChar* path, Int32 length){
+void ExGetAppliationPath(ExChar* path, Int32 length){
     //readlink()
-	getcwd(path,length);
+	getcwd(path, length);
 }
 
-ELTDECLSPEC ExChar* ELTAPIENTRY ExGetApplicationName(ExChar* name,Int32 length){
+ExChar* ExGetApplicationName(ExChar* name, Int32 length){
 
 #   if defined(EX_GNUC) || defined(EX_GNUC)
     extern char* __progname;
@@ -232,7 +231,7 @@ ELTDECLSPEC ExChar* ELTAPIENTRY ExGetApplicationName(ExChar* name,Int32 length){
 #   endif
 }
 
-ELTDECLSPEC ExChar* ELTAPIENTRY ExGetCurrentDirectory(void){
+ExChar* ExGetCurrentDirectory(void){
 	ExChar cwd[1024];
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	   fprintf(stdout, "Current working dir: %s\n", cwd);
@@ -242,9 +241,12 @@ ELTDECLSPEC ExChar* ELTAPIENTRY ExGetCurrentDirectory(void){
 
 }
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExSetCurrentDirectory (const ExChar* cdirectory){
+Int32 ExSetCurrentDirectory(const ExChar* cdirectory){
 	return chdir(cdirectory);
 }
+
+
+
 
 Uint64 ExGetTotalSystemMemory(void){
     struct sysinfo sys_info;
@@ -287,7 +289,7 @@ Uint64 ExGetTotalUsedVirtualMemory(void){
 
 
 
-ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetOSName(void){
+const ExChar* ExGetOSName(void){
 	struct utsname name;
 	if(uname(&name) != EFAULT)
 		return name.sysname;
@@ -296,27 +298,27 @@ ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetOSName(void){
 
 }
 
-ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCurrentUser(void){
+const ExChar* ExGetCurrentUser(void){
 	return getenv("USER");
 }
 
 
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExSetClipboardText(const ExChar* text){
+Int32 ExSetClipboardText(const ExChar* text){
 
 	return NULL;
 }
 
-ELTDECLSPEC ExChar* ELTAPIENTRY ExGetClipboardText(void){
+ExChar* ExGetClipboardText(void){
 
 	return NULL;
 }
 
 
-ELTDECLSPEC void* ELTAPIENTRY ExDownloadURL(const ExChar* url){
+void* ExDownloadURL(const ExChar* url){
 	ExSocket sock = ExOpenSocket(EX_TCP);
 
-	if(ExConnectSocket(ExGetHostIp(url),80)){
+	if(ExConnectSocket(ExGetHostName(url),80)){
 
 
 	}
