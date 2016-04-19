@@ -24,11 +24,17 @@
 extern "C"{
 #endif
 
+
+
+
+
+
 /*
  *
  *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExCreateRamDisk(const ExChar* cdirectory, unsigned int nBytes);
+
 
 /*
  *

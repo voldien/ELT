@@ -1,6 +1,8 @@
 #include"system/elt_file.h"
 #include<unistd.h>
 #include<dirent.h>
+#include<sys/stat.h>
+#include<fcntl.h>
 
 
 int ExCreateDirectory(const ExChar* directory){
@@ -55,6 +57,11 @@ const ExChar* ExGetSubDirectory(const ExChar* cdirectory, int index){
 
 int ExRemoveDirectory(const ExChar* directory){
 	return rmdir(directory);
+}
+
+
+ExBoolean ExCreateFile(const ExChar* cfilename){
+	return creat(cfilename, O_CREAT | O_RDWR) != -1;
 }
 
 int ExRemoveFile(const ExChar* cfilename){

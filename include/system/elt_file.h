@@ -77,6 +77,8 @@ extern ELTDECLSPEC Uint ELTAPIENTRY ExSafeWrite(FILE *f, void* buffer, unsigned 
  */
 extern ELTDECLSPEC Uint ELTAPIENTRY ExSafeRead(FILE*f, void* buffer, int count);
 
+
+
 /*
  *
  *	@Return
