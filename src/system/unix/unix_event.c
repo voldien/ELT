@@ -35,6 +35,7 @@ static inline void private_ExDecodeEvent(ExEvent* event, XEvent msg){
 	}break;
 	case ButtonPress:{
 	    event->event |= EX_EVENT_MOUSE;
+	    event->event |= EX_EVENT_MOUSE_PRESSED;
 	    event->button.button = msg.xbutton.button;
 	    event->mouse.x = msg.xkey.x;
 	    event->mouse.y = msg.xkey.y;
@@ -42,6 +43,7 @@ static inline void private_ExDecodeEvent(ExEvent* event, XEvent msg){
 
 	case ButtonRelease:{
 	    event->event |= EX_EVENT_MOUSE;
+	    event->event |= EX_EVENT_MOUSE_RELEASED;
 	    event->button.button = msg.xbutton.button;
 	    event->mouse.x = msg.xkey.x;
 	    event->mouse.y = msg.xkey.y;
