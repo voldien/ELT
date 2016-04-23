@@ -25,10 +25,12 @@
 #ifdef __cplusplus
 	#include<cstdio>
 	#include<climits>
+	#include<ctime>
 	#define EX_CPP	/*	C++ environment	*/
 #else
 	#include<stdio.h>
 	#include<limits.h>
+	#include<time.h>
 	#define EX_C	/*	C environment	*/
 #endif
 
@@ -515,23 +517,25 @@
 /*
  *	Function and other predefined macro.
  */
-#if defined(EX_MSVC)
+#if defined(EX_MSVC) && !defined(EX_DISABLE_SOURCECODE_INFO)
 	#define EX_FUNCNAME __FUNCTION__
+	#define EX_PRETTYFUNCNAME __PRETTY_FUNCTION__
 	#define EX_FUNCSIG __FUNCSIG__
 	#define EX_FUNCDNAME __FUNCDNAME__
 	#define __EX_FILE__ __FILE__
 	#define __EX_LINE__ __LINE__
-#elif defined(EX_GNUC) || defined(EX_CLANG)
+#elif ( defined(EX_GNUC) || defined(EX_CLANG) ) && !defined(EX_DISABLE_SOURCECODE_INFO)
 	#define EX_FUNCNAME  __FUNCTION__
+	#define EX_PRETTYFUNCNAME __PRETTY_FUNCTION__
 	#define EX_FUNCSIG   __FUNCSIG__
 	#define EX_FUNCDNAME ""
 	#define __EX_FILE__ __FILE__
 	#define __EX_LINE__ __LINE__
 #else
-	#define EX_FUNCNAME  __FUNCTION__
-	#define EX_FUNCSIG   __FUNCSIG__
+	#define EX_FUNCNAME  ""
+	#define EX_FUNCSIG   ""
 	#define EX_FUNCDNAME ""
-	#define __EX_FILE__ __FILE__
+	#define __EX_FILE__ ""
 	#define __EX_LINE__ __LINE__
 #endif
 

@@ -39,6 +39,7 @@ typedef void* ExThreadContition;
  *	Thread Priority
  */
 #define EX_THREAD_PRIORITY_LOW 0x1
+#define EX_THREAD_PRIORITY_MEDIUM 0x2
 #define EX_THREAD_PRIORITY_HIGH 0x3
 
 
@@ -107,12 +108,17 @@ extern ELTDECLSPEC ExThread ELTAPIENTRY ExGetCurrentThread(void);
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetThreadID(ExThread thread);
 
+
 /*
  *	Get Thread name by the invoked function.
  *	@Return get function name.
  */
-extern ELTDECLSPEC const char* ELTAPIENTRY ExGetThreadName(ExThread thread);
-extern ELTDECLSPEC void ELTAPIENTRY ExSetThreadName(ExThread thread, const char* name);
+extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetThreadName(ExThread thread);
+/*
+ *
+ */
+extern ELTDECLSPEC void ELTAPIENTRY ExSetThreadName(ExThread thread, const ExChar* name);
+
 
 /*
  *	Set thread priority
@@ -121,8 +127,11 @@ extern ELTDECLSPEC void ELTAPIENTRY ExSetThreadName(ExThread thread, const char*
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread, Enum nPriority);
 
 
+
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExSetThreadState(ExThread thread, ExHandle* handle);
 extern ELTDECLSPEC ExHandle ELTAPIENTRY ExgetThreadState(ExThread thread);
+
+
 
 /*
  *	Wait the thread to be terminated.

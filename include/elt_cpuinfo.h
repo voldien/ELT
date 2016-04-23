@@ -34,12 +34,14 @@ extern "C"{
 
 /*
  *
+ *	@Return
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetCPUInstructionArch(void);
 
 
 /*
  *
+ *	@Return
  */
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCPUType(void);
 
@@ -51,7 +53,7 @@ extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void);
 
 /*
  *
- *
+ *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetFrequence(void);
 

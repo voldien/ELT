@@ -19,12 +19,10 @@
 #ifndef _ELT_TIMER_H_
 #define _ELT_TIMER_H_ 1
 #include"elt_thread.h"
-#ifdef __cplusplus
-	#include<ctime>
-#else
-	#include<time.h>
-#endif
 
+/*
+ *
+ */
 #ifdef EX_WINDOWS
 	#define ExCurrentTime timeGetTime	// Get Current Time
 #elif defined(EX_LINUX) || defined(EX_UNIX) || defined(EX_ANDROID)
@@ -34,10 +32,15 @@
 #define ExCurrentTime clock
 #define EX_TICKS_PER_SECOND CLOCKS_PER_SEC
 
+/*
+ *
+ */
+typedef Uint32 ExTimer;
+
 #ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
-typedef Uint32 ExTimer;
+
 
 /*
  *	Add timer thread routine.

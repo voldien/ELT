@@ -26,20 +26,30 @@ extern "C"{
 #endif
 
 
-/**/
+/*
+ *
+ */
 extern ELTDECLSPEC void ELTAPIENTRY ExSwap16(Uint16 x);
 
-/**/
+/*
+ *
+ */
 extern ELTDECLSPEC void ELTAPIENTRY ExSwap32(Uint32 x);
 
-/**/
+/*
+ *
+ */
 extern ELTDECLSPEC void ELTAPIENTRY ExSwap64(Uint64 x);
 
 
-/**/
+/*
+ *
+ */
 extern ELTDECLSPEC void ELTAPIENTRY ExSwapFloat(float x);
 
-/**/
+/*
+ *
+ */
 extern ELTDECLSPEC void ELTAPIENTRY ExSwapDouble(double x);
 
 #ifdef __cplusplus	/*	C++ Environment	*/

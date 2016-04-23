@@ -42,6 +42,7 @@ extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalFreeSystemMemory(void);
 extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalUsedSystemMemory(void);
 extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetProcessSystemMemory(void);
 
+
 /*
  *	Get total virtual memory on the system.
  *	@Return
