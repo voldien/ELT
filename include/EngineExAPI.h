@@ -36,10 +36,12 @@
 // #define ENGINE_EX_STATIC_TO_DLL_BUILD	// Use as Static Lib to DLL
 // #define ENGINE_EX_DLL_IMPORT				// Import DLL
 // #define ENGINE_EX_DLL_INSIDE				// DLL inside of current DLL's Lib Connection File.
-#ifndef _ENGINE_EX_API_
-#define _ENGINE_EX_API_ 1
+#ifndef _ELT_API_H_
+#define _ELT_API_H_ 1
 
-
+/*
+ *
+ */
 #include"elt_def.h"
 #include"window.h"
 #include"graphic.h"
@@ -47,7 +49,9 @@
 #include"audio.h"
 
 
-/**/
+/*
+ *
+ */
 #ifdef EX_MSVC
 	// debug version
 	#ifdef EX_DEBUG
