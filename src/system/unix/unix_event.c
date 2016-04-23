@@ -108,6 +108,9 @@ static inline void private_ExDecodeEvent(ExEvent* event, XEvent msg){
 		break;
 	case KeymapNotify:
         XRefreshKeyboardMapping(&msg.xmapping);
+        break;
+	case ReparentNotify:
+		break;
     break;
 	case LASTEvent:
 		event->event = 0;
