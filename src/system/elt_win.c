@@ -98,7 +98,7 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 height, Enum flag){
 
 #ifdef EX_WINDOWS
     void* directx;
-	if((flag & ENGINE_NATIVE) || flag == 0){
+	if((flag & EX_NATIVE) || flag == 0){
 		// create default window
 		return ExCreateNativeWindow(x,y,width, height);
 	}
@@ -149,7 +149,7 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 height, Enum flag){
 	}
 	/*	Linux Window Implementation	*/
 #elif defined(EX_LINUX) || defined(EX_MAC)
-	if((flag & ENGINE_NATIVE) || !flag){
+	if((flag & EX_NATIVE) || !flag){
 		window = ExCreateNativeWindow(x,y,width, height);
 	}
 
@@ -186,7 +186,7 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 height, Enum flag){
     /**
 
     */
-	if((flag & ENGINE_NATIVE) || flag == 0){
+	if((flag & EX_NATIVE) || flag == 0){
 
 	}
 	else if((flag & ENGINE_OPENGL) || (flag & ENGINE_OPENCL)){
@@ -197,7 +197,7 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 height, Enum flag){
     /**
         Android
     */
-	if((flag & ENGINE_NATIVE) || flag == 0){
+	if((flag & EX_NATIVE) || flag == 0){
         ANativeWindow_acquire(&window);
 	}
 	else if(flag & EX_OPENGL){
@@ -226,7 +226,7 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 height, Enum flag){
 
 	}
 #elif defined(EX_PNACL) || defined(EX_NACL)
-    if(flag & ENGINE_NATIVE){
+    if(flag & EX_NATIVE){
 
 
     }
