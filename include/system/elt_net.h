@@ -18,8 +18,7 @@
 */
 #ifndef _ELT_NET_H_
 #define _ELT_NET_H_ 1
-#include <stdio.h>
-#include <stdlib.h>
+#include"./../elt_def.h"
 #include"./../EngineAssembly.h"
 
 /*
@@ -64,7 +63,7 @@ extern ELTDECLSPEC ExSocket ELTAPIENTRY ExCreateSocket(unsigned int domain, unsi
  *	\socket
  *	@Return
 */
-extern ELTDECLSPEC unsigned int ELTAPIFASTENTRY ExCloseSocket(ExSocket socket);
+extern ELTDECLSPEC Uint ELTAPIFASTENTRY ExCloseSocket(ExSocket socket);
 
 /*
  *	Bind socket to ip and port address
@@ -118,6 +117,10 @@ extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const ExChar* ip, unsign
 	#define ExWriteSocket send
 #endif
 
+
+extern ELTDECLSPEC long int ExRecvFrom(ExSocket socket, void* buffer, int len, ExSocket* from, int* fromlen);
+extern ELTDECLSPEC long int ExSendTo(ExSocket socket, void* buffer, int len, ExSocket* to, int tolen);
+
 /*
  *
  * @Return
@@ -126,7 +129,7 @@ extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetHostName(const ExChar* hostnam
 
 
 /*
- *
+ *	@Return
  */
 extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetInterfaceAddr(const ExChar* interface, ExChar* addr, Uint len);
 

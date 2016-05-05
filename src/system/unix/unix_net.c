@@ -14,6 +14,7 @@
 #   include<errno.h>
 #   include<unistd.h>
 
+
 static int private_ip_exists(const char* ip){
 	struct hostent* host;
 	unsigned int iplen = strlen(ip);
@@ -76,15 +77,20 @@ ExSocket ExOpenSocket(unsigned int protocol){
 }
 
 ExSocket ExCreateSocket(unsigned int domain, unsigned int style, unsigned int protocal){
-	return (ExSocket)socket(domain, style, protocal);
+	ExSocket sock = socket(domain, style, protocal);
+	if(sock < 0){
+		ExErrorLog("%s\n", strerror(errno));
+	}
+	return sock;
 }
 
 
-inline unsigned int ExCloseSocket(ExSocket socket){
+inline Uint ExCloseSocket(ExSocket socket){
     return close(socket);
 }
 
-ExSocket ExBindSocket(const char* ip, unsigned int port, ExSocket socket){
+
+ExSocket ExBindSocket(const ExChar* ip, unsigned int port, ExSocket socket){
     unsigned int sock_domain,socket_protocol;
     struct sockaddr_in serv_addr, cli_addr;
 	struct hostent* host;
@@ -121,6 +127,7 @@ ExSocket ExConnectSocket(const ExChar* ip, unsigned int port){
     struct hostent *server;
     ExSocket sockfd;
     unsigned int iplen = strlen(ip);
+    unsigned int domain = AF_INET;
 
     server = gethostbyname(ip);	/*get host information by ip name or ip explicitly*/
     if(!server){
@@ -133,15 +140,15 @@ ExSocket ExConnectSocket(const ExChar* ip, unsigned int port){
     }
 
     /*	create soket	*/
-    sockfd = ExOpenSocket(EX_CLIENT);
-    //sockfd = ExCreateSocket(server->h_addrtype, server->h_)
+
+    sockfd = ExCreateSocket(domain, server->h_addrtype, 0);
     if(sockfd < 0){
     	ExLog("Failed to create socket.\n");
     	return (ExSocket)0;
     }
 
     /*	*/
-    bzero((char*)&serv_addr, sizeof(serv_addr));
+    bzero((void*)&serv_addr, sizeof(serv_addr));
 
 
     /*	get namespace	*/
@@ -151,7 +158,6 @@ ExSocket ExConnectSocket(const ExChar* ip, unsigned int port){
     bcopy((char*)server->h_addr,
          (char*)&serv_addr.sin_addr.s_addr,
          server->h_length);
-
     serv_addr.sin_port = htons(port);
 
     /*	*/
@@ -162,6 +168,17 @@ ExSocket ExConnectSocket(const ExChar* ip, unsigned int port){
     }
     return sockfd;
 }
+
+
+
+long int ExRecvFrom(ExSocket socket, void* buffer, int len, ExSocket* from, int* fromlen){
+	return recvfrom(socket,buffer, len, 0 , ((struct sockaddr*)from), fromlen);
+}
+
+long int ExSendTo(ExSocket socket, void* buffer, int len, ExSocket* to, int tolen){
+	return sendto(socket, buffer, len, 0, ((struct sockaddr*)to), tolen);
+}
+
 
 const ExChar* ExGetHostName(const ExChar* hostname){
 	unsigned int hostlen = strlen(hostname);
