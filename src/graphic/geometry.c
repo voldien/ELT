@@ -48,3 +48,10 @@ void ExCreateVAO(int n, unsigned int* arg){
 	glGenVertexArrays(n, arg);
 }
 
+
+
+int ExDestroyBuffer(unsigned int buffer){
+	glDeleteBuffers(1, &buffer);
+	return glIsBuffer(buffer) != GL_FALSE;
+}
+
