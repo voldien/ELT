@@ -19,10 +19,12 @@ void __attribute__ ((constructor)) my_load(void){
     }
 
     /**/
-	xcbConnection = XGetXCBConnection(display);
-	if(xcbConnection){
+    if(display){
+		xcbConnection = XGetXCBConnection(display);
+		if(xcbConnection){
 
-	}
+		}
+    }
 }
 
 void __attribute__ ((destructor)) my_unload(void){
