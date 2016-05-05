@@ -4,7 +4,7 @@
 #include<X11/Xlib.h>
 #include<X11/extensions/XShm.h>
 
-static int surface_bits_per_pixel(unsigned int format){
+static int private_surface_bits_per_pixel(unsigned int format){
     switch(format){
         case EX_RGB:return 24;
         case EX_RGBA:return 32;
@@ -13,7 +13,7 @@ static int surface_bits_per_pixel(unsigned int format){
 }
 
 
-ELTDECLSPEC void* ExCreateSurface(unsigned int width, unsigned height, unsigned int format){
+void* ExCreateSurface(unsigned int width, unsigned height, unsigned int format){
     XImage* image;
     char* buffer;
 
@@ -37,21 +37,22 @@ ELTDECLSPEC void* ExCreateSurface(unsigned int width, unsigned height, unsigned 
 	//if(!use_mitshm)
 #endif
 
-    buffer = (char*)malloc(surface_bits_per_pixel(format) * width * height);
+    buffer = (char*)malloc(private_surface_bits_per_pixel(format) * width * height);
 
     image = XCreateImage(display,CopyFromParent,
-         surface_bits_per_pixel(format),
+         private_surface_bits_per_pixel(format),
          ZPixmap, 0, (char*)buffer,width,height,8,0  );
 
 
     return image;
 }
 
-ELTDECLSPEC int ExDestroySurface(void* handle){
+int ExDestroySurface(void* handle){
     return XDestroyImage((XImage*)handle);
 }
 
-ELTDECLSPEC void ExDisplaySurfaceToWindow(ExWin window,ExSurface surface){
+
+void ExDisplaySurfaceToWindow(ExWin window,ExSurface surface){
 	ExRect rect;
 	GC gc;
 
@@ -67,7 +68,7 @@ ELTDECLSPEC void ExDisplaySurfaceToWindow(ExWin window,ExSurface surface){
     XPutImage(display, window, gc,surface , 0,0,0,0,rect.width,rect.height);
 }
 
-ELTDECLSPEC int ExResizeSurface(ExSurface surface, unsigned int width, unsigned height){
+ERESULT ExResizeSurface(ExSurface surface, unsigned int width, unsigned height){
 	((XImage*)surface)->data = realloc( ((XImage*)surface)->data,width * height * ((XImage*)surface)->bitmap_pad);
 	if( ((XImage*)surface)->data){
 		((XImage*)surface)->width = width;
@@ -78,9 +79,9 @@ ELTDECLSPEC int ExResizeSurface(ExSurface surface, unsigned int width, unsigned 
 }
 
 
-ELTDECLSPEC int ExGetSurfaceRect(ExSurface surface, ExRect* rect){
-	if(!rect)
-		return 0;
+ERESULT ExGetSurfaceRect(ExSurface surface, ExRect* rect){
+	if(rect == 0)
+		return E_INVALID_ARGUMENT;
 
 	rect->x = ((XImage*)surface)->xoffset;
 	rect->y = ((XImage*)surface)->xoffset;
@@ -90,11 +91,11 @@ ELTDECLSPEC int ExGetSurfaceRect(ExSurface surface, ExRect* rect){
 }
 
 
-ELTDECLSPEC int ExSetSurfacePixel(void* surface, unsigned int x, unsigned int y, unsigned long pixel){
+int ExSetSurfacePixel(void* surface, unsigned int x, unsigned int y, unsigned long pixel){
     return XPutPixel((XImage*)surface, x,y, pixel);
 }
 
-ELTDECLSPEC void ExFillRect(ExSurface surface, ExRect* rect, unsigned int color){
+void ExFillRect(ExSurface surface, ExRect* rect, unsigned int color){
 	GC gc;
 	ExRect mrect;
 	if(!rect){

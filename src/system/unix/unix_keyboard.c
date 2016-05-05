@@ -58,6 +58,7 @@ static inline int private_ExGetKeyCodeInternal(Uint32 keyCode){
         case EXK_Down:  keysym = XK_Down;         break;
         case EXK_ESCAPE:keysym = XK_Escape;       break;
 
+        /**/
 		case EXK_LControl:   keysym = XK_Control_L;    break;
         case EXK_LShift:     keysym = XK_Shift_L;      break;
         case EXK_LAlt:       keysym = XK_Alt_L;        break;
@@ -66,6 +67,7 @@ static inline int private_ExGetKeyCodeInternal(Uint32 keyCode){
         case EXK_RShift:     keysym = XK_Shift_R;      break;
         case EXK_RAlt:       keysym = XK_Alt_R;        break;
         case EXK_RSystem:    keysym = XK_Super_R;      break;
+
     	/*
         case EXK_Menu:       keysym = XK_Menu;         break;
 

@@ -73,6 +73,46 @@ int ExExistFile(const ExChar* cfilename){
 }
 
 
+
+
+
+
+
+
+ExChar* ExGetCurrentDirectory(void){
+	ExChar cwd[1024];
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
+	   fprintf(stdout, "Current working dir: %s\n", cwd);
+	else
+	   perror("getcwd() error");
+	return cwd;
+
+}
+
+Int32 ExSetCurrentDirectory(const ExChar* cdirectory){
+	return chdir(cdirectory);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ExBoolean ExCreateRamDisk(const ExChar* cdirectory, unsigned int nBytes){
 	ExChar buf[PATH_MAX];
 	int result;

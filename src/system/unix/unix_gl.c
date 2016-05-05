@@ -29,6 +29,7 @@
 #define GL_GET_PROC(x) glXGetProcAddress((const char*)( x ) )           /*  get OpenGL function process address */
 
 #define PIXATTOFFSET 8	/*	offset to variable	*/
+#define PIXCONTEXTOFFSET 22
 
 int pixAtt[] = {
 	GLX_RENDER_TYPE, GLX_RGBA_BIT,
@@ -147,7 +148,6 @@ ExOpenGLContext ExCreateTempGLContext(void){
 	glc = glXCreateNewContext(display, fbconfig, GLX_RGBA_TYPE, 0, 1);
 	return glc;
 }
-
 
 
 ExOpenGLContext ExCreateGLContext(ExWin window, ExOpenGLContext shareContext){
@@ -352,9 +352,9 @@ ExBoolean ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenInd
     	size.height = screenRes[1];
     }else{
     	if(cdsfullscreen)
-    		ExGetScreenSize(screenIndex,&size);
+    		ExGetScreenSize(screenIndex, &size);
     	else
-    		ExGetScreenSize(screenIndex,&size);
+    		ExGetScreenSize(screenIndex, &size);
     }
 
     xattr.override_redirect = False;
@@ -374,8 +374,9 @@ ExBoolean ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenInd
 
 
     /*	Set fullscreen resolution.	*/	/*TODO	fix	*/
-    //ExSetScreenSize(screenIndex, size.width, size.height);
+    if(ExSetScreenSize(screenIndex, size.width, size.height)){
 
+    }
 
 	//XF86VideoModeSwitchToMode(display, screenIndex, modes[bestMode]);
     Atom atoms[2] = { XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", False), None };
@@ -399,21 +400,29 @@ ExBoolean ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenInd
 			,&xev);
 
 
-	//XSendEvent(display,DefaultRootWindow(window,False,
-	//	SubstructureRedirectMask | SubstructureNotifyMask, &xev);
-
+	XResizeRequestEvent resize = {0};
+	resize.display = display;
+	resize.width = size.width;
+	resize.height = size.height;
+	resize.window = window;
+	resize.type = ResizeRequest;
+	XSendEvent(display, window, FALSE,	ResizeRedirectMask, &resize);
 
 	return TRUE;
 
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window, Enum ienum){
-
+void ExSetGLTransparent(ExWin window, Enum ienum){
 	XTextProperty textprop = {0};
 	XWMHints *startup_state;
-	EX_C_STRUCT ex_size size;
+	ExSize size;
 	XSizeHints hints;
 
+	if(window == NULL){
+		return;
+	}
+
+	/**/
 	ExGetWindowSizev(window,&size);
 
     hints.x = 0;
@@ -422,33 +431,36 @@ ELTDECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window, Enum ienum){
     hints.height = size.height;
     hints.flags = USPosition |USSize;
 
+    /**/
 	startup_state = XAllocClassHint();
 	startup_state->initial_state = NormalState;
     startup_state->flags = StateHint;
 
+    /**/
     XSetWMProperties(display,window, NULL, NULL,
     		NULL, 0,
 			&hints,
 			startup_state,
 			NULL);
 
+    /**/
     XFree(startup_state);
 }
 
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExIsVendorAMD(void){
-	return strstr((const char*)glXGetClientString(display,GLX_VENDOR), "AMD") ? TRUE : FALSE;
+Int32 ExIsVendorAMD(void){
+	return strstr((const char*)glXGetClientString(display, GLX_VENDOR), "AMD") ? TRUE : FALSE;
 }
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExIsVendorNvidia(void){
-	return (strstr((const char*)glXGetClientString(display,GLX_VENDOR), "NVIDIA")) ? TRUE : FALSE;
+Int32 ExIsVendorNvidia(void){
+	return (strstr((const char*)glXGetClientString(display, GLX_VENDOR), "NVIDIA")) ? TRUE : FALSE;
 }
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExIsVendorIntel(void){
-	return strstr((const char*)glXGetClientString(display,GLX_VENDOR), "INTEL") ? TRUE : FALSE;
+Int32 ExIsVendorIntel(void){
+	return strstr((const char*)glXGetClientString(display, GLX_VENDOR), "INTEL") ? TRUE : FALSE;
 }
 
-ELTDECLSPEC ERESULT ELTAPIENTRY ExOpenGLSetVSync(ExBoolean enabled, ExWin window){
+ERESULT ExOpenGLSetVSync(ExBoolean enabled, ExWin window){
 	//glXSwapIntervalEXT
 	//sf_ptrc_glXSwapIntervalMESA
 	//glXSwapIntervalSGI

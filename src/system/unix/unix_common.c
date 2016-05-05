@@ -1,4 +1,4 @@
-#include"ExCommon.h"
+#include"elt_common.h"
 #include<malloc.h>
 
 #include <dirent.h>
@@ -79,8 +79,20 @@ Int32 ExCreateProcessl(const ExChar* applicationName,...){
 }
 
 
+
 void ExGetPrimaryScreenSize(ExSize* size){
 	ExGetScreenSize(0, size);
+}
+
+Int32 ExGetNumScreen(void){
+	XRRScreenResources *screen;
+	XRROutputInfo *info;
+	XRRCrtcInfo *crtc_info;
+	int num;
+	screen = XRRGetScreenResources (display, DefaultRootWindow(display));
+	num = screen->noutput;
+	XRRFreeScreenResources(screen);
+	return num;
 }
 
 
@@ -180,6 +192,7 @@ int ExSetScreenSize(Int32 index, Int32 width, Int32 height){
 	XRROutputInfo* oi = NULL;
 	RRMode bestMode = 0;
 
+	return 0;
 
 	sr = XRRGetScreenResources(display, DefaultRootWindow(display));
 	ci = XRRGetCrtcInfo(display, sr, sr->outputs[0]);
@@ -198,14 +211,28 @@ int ExSetScreenSize(Int32 index, Int32 width, Int32 height){
 
 
 
-const ExChar* ELTAPIENTRY ExGetPlatform(void){
-	struct utsname name;
 
-	if (uname(&name)){
+
+const ExChar* ExGetPlatform(void){
+	struct utsname name;
+	if (uname(&name) < 0 ){
 	    printf("OS: %s\n", name.sysname);
 	}
 	return NULL;
 }
+
+
+const ExChar* ExGetOSName(void){
+	struct utsname name;
+	if(uname(&name) != EFAULT)
+		return name.sysname;
+	else
+		return EX_TEXT("linux");
+
+}
+
+
+
 
 void ExGetExecutePath(ExChar* wChar, Int32 length){
 	/**/
@@ -231,19 +258,6 @@ ExChar* ExGetApplicationName(ExChar* name, Int32 length){
 #   endif
 }
 
-ExChar* ExGetCurrentDirectory(void){
-	ExChar cwd[1024];
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-	   fprintf(stdout, "Current working dir: %s\n", cwd);
-	else
-	   perror("getcwd() error");
-	return cwd;
-
-}
-
-Int32 ExSetCurrentDirectory(const ExChar* cdirectory){
-	return chdir(cdirectory);
-}
 
 
 
@@ -289,30 +303,58 @@ Uint64 ExGetTotalUsedVirtualMemory(void){
 
 
 
-const ExChar* ExGetOSName(void){
-	struct utsname name;
-	if(uname(&name) != EFAULT)
-		return name.sysname;
-	else
-		return EX_TEXT("linux");
 
-}
 
-const ExChar* ExGetCurrentUser(void){
-	return getenv("USER");
-}
+
+
+
+
+
+
+
 
 
 
 Int32 ExSetClipboardText(const ExChar* text){
 
-	return NULL;
 }
 
 ExChar* ExGetClipboardText(void){
 
-	return NULL;
+	//ExGetDisplay();
+	Atom format;
+	Window window;
+	Window owner;
+	Atom selection;
+	Atom seln_type;
+    int seln_format;
+    unsigned long nbytes;
+    unsigned long overflow;
+    unsigned char *src;
+	char* text;
+
+	window = XDefaultRootWindow(display);
+	Atom XA_CLIPBOARD = XInternAtom(display, "CLIPBOARD", 0);
+	if(XA_CLIPBOARD == None){
+
+	}
+
+	text = NULL;
+	owner = window;
+	owner = XGetSelectionOwner(display, XA_CLIPBOARD);
+
+	owner = DefaultRootWindow(display);
+	//selection = XA_CUT_BUFFER0;
+	XGetWindowProperty(display, owner, selection, 0 , INT_MAX / 4, False, format, &seln_type, &seln_format, &nbytes, &overflow, &src);
+
+
+	return text;
 }
+
+
+
+
+
 
 
 void* ExDownloadURL(const ExChar* url){

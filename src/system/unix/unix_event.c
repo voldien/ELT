@@ -150,5 +150,5 @@ Int32 ExPollWindowEvent(ExWin window, ExWindowEvent* event){
 
 
 Int32 ExForwardEvent(Uint32 event, ExHandle data, Uint32 size){
-	XSendEvent(display,0,True,event,data);
+	return XSendEvent(display,0,True,event,data);
 }

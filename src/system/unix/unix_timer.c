@@ -46,7 +46,7 @@ ExTimer ExAddTimer(Uint32 ms_interval, ExThreadRoutine callback, void* param){
 
 ExBoolean ExRemoveTimer(ExTimer timer_id){
     if(timer_delete(timer_id) < -1){
-        fprintf(stderr, strerror(errno));
+    	ExLogCritical(strerror(errno));
         return FALSE;
     }
 	return TRUE;

@@ -152,17 +152,23 @@ Uint32 ExGetThreadID(ExThread thread){
 }
 
 
-const char* ExGetThreadName(ExThread thread){
-	char name[128];
+#define MAX_THREAD_NAME 16
+const ExChar* ExGetThreadName(ExThread thread){
+	char name[MAX_THREAD_NAME];
 	pthread_getname_np(thread, name, sizeof(name));
 	return name;
 }
 
-void ExSetThreadName(ExThread thread, const char* name){
+void ExSetThreadName(ExThread thread, const ExChar* name){
 	int status;
+
+	if(strlen(name) > MAX_THREAD_NAME - 1){
+
+	}
 	status = pthread_setname_np(thread, name);
-	if(status == ERANGE)
-		ExErrorLog("");
+	if(status == ERANGE){
+		ExLogCritical("%s\n", strerror(errno));
+	}
 }
 
 ERESULT ExSetThreadPriority(ExThread thread, Enum nPriority){
@@ -177,6 +183,10 @@ ERESULT ExSetThreadPriority(ExThread thread, Enum nPriority){
 			sch.__sched_priority = sched_get_priority_min(&policy);
 			pthread_setschedprio(thread, 2);
 			break;
+		case EX_THREAD_PRIORITY_MEDIUM:
+			sch.__sched_priority = sched_get_priority_min(&policy);
+			pthread_setschedprio(thread, 1);
+			break;
 		case EX_THREAD_PRIORITY_HIGH:
 			sch.__sched_priority = sched_get_priority_max(&policy);
 			pthread_setschedprio(thread, 0);
@@ -189,15 +199,14 @@ ERESULT ExSetThreadPriority(ExThread thread, Enum nPriority){
 	}
 
 	if(pthread_setschedparam(thread, policy, &sch) < 0){
-
+		ExLogCritical("%s\n", strerror(errno));
 	}
 	return E_OK;
 }
 
-
 ERESULT ExWaitThread(ExThread thread, Int32* status){
     if(pthread_join(thread, &status) < 0){
-        ExPrintfError(strerror(errno));
+    	ExLogCritical("%s\n", strerror(errno));
         return FALSE;
     }
 	return E_OK;
