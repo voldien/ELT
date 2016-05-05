@@ -20,7 +20,10 @@
 #define _ELT_ASSERT_H_ 1
 #include"EngineAssembly.h"
 #include<assert.h>
-// send error message to
+
+/*
+ *	send error message to
+ */
 #define ExAssert(condition) assert(condition)
 
 #endif

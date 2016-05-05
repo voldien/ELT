@@ -18,13 +18,17 @@
 */
 #ifndef _ENGINE_EX_H_
 #define _ENGINE_EX_H_ 1
-#include"EngineAssembly.h"
+#include"elt_def.h"
+#include"window.h"
+#include"graphic.h"
+#include"system.h"
+#include"audio.h"
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
-/*
+/**
  *	Initialize ELT Engine Library ToolKit
  *	\engineflag
  *	@Return
@@ -53,6 +57,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag);
 
 
 /*
+ *
  *	@Return
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetFlag(void);

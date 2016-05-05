@@ -24,24 +24,32 @@
 extern "C"{
 #endif
 
-
+/*
+ *
+ */
 EX_ALIGN_PREFIX(4)
 typedef struct ex_point{
-	int x,y;
+	int x,y;		/**/
 }ExPoint;
 
+/*
+ *
+ */
 EX_ALIGN_PREFIX(4)
 typedef struct ex_size{
-	unsigned int width;
-	unsigned int height;
+	unsigned int width;		/**/
+	unsigned int height;		/**/
 }ExSize;
 
+/*
+ *
+ */
 EX_ALIGN_PREFIX(4)
 typedef struct ex_rect{
-	int x;
-	int y;
-	int width;
-	int height;
+	int x;		/**/
+	int y;		/**/
+	int width;		/**/
+	int height;		/**/
 }ExRect;
 
 
@@ -219,7 +227,7 @@ typedef struct window_poll_events{
 	ExWinButtonEvent button;        				/*      */
 	ExDropEvent drop;                 				/*      */
 	unsigned long int time;							/*		*/
-	void* display;									/*		*/
+	ExDisplay display;								/*		*/
 	ExWin window;
 }ExWindowEvent;
 
@@ -242,7 +250,7 @@ typedef struct elt_poll_events{
 	ExMouseMotionEvent motion;					/*			*/
 	ExEventDestroyedWindow destroy;				/*			*/
 	unsigned long int time;						/*			*/
-	void* display;								/*			*/
+	ExDisplay display;							/*			*/
 	/*ExPoint location;	*/
 	ExWin window;
 }ExEvent;

@@ -38,7 +38,6 @@ extern "C"{
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetCPUInstructionArch(void);
 
-
 /*
  *
  *	@Return
@@ -138,6 +137,7 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasRDTSC(void);
 
 /**/
 extern ELTDECLSPEC Enum ELTAPIENTRY ExGetCpuVendor(void);
+
 #ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif

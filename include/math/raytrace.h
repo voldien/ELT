@@ -17,14 +17,18 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _RAY_TRACE_H_
-#define _RAY_TRACE_H_ 1
+#ifndef _ELT_RAY_TRACE_H_
+#define _ELT_RAY_TRACE_H_ 1
 #include"vect.h"
 
-struct ray{
+/*
+ *
+ */
+typedef struct ray{
 	exvec3f_t pos;
 	exvec3f_t dir;
-};
+}ExRay;
+
 
 #ifdef __cplusplus /* C++ environment */
 extern "C"{

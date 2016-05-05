@@ -16,27 +16,40 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _ELT_POWER_H_
-#define _ELT_POWER_H_ 1
-#include"../elt.h"
-
-#ifdef __cplusplus	/*	C++ Environment	*/
-extern "C"{
-#endif
+#ifndef _ELT_CLIP_BOARD_H_
+#define _ELT_CLIP_BOARD_H_ 1
+#include"ExNT.h"
 
 
 
 /*
- *	Get power info. usually attachedable battery.
- *	@Return 0 if no battery attached.
+ *	Set clipboard text.
+ *	@Return
  */
-extern ELTDECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct);
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExSetClipboardText(const ExChar* text);
 
+/*
+ *	Set clipboard data.
+ *	@Return
+ */
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExSetClipboardData(void* pdata,Uint32 csize);
 
+/*
+ *	Get clipboard text.
+ *	@Return
+ */
+extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetClipboardText(void);
 
-#ifdef __cplusplus	/*	C++ Environment	*/
-}
-#endif
+/*
+ *	Get clipboard data.
+ *	@Return
+ */
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetClipboardData(void* pdata);
+
+/*
+ *
+ */
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasClipboard(void);
 
 
 #endif

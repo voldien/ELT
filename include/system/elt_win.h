@@ -25,11 +25,11 @@
 #ifdef  __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
-typedef void* ExDisplay;
 
 #ifdef EX_LINUX
 extern ExDisplay display;
 #endif
+
 
 #define EX_WIN_SCREENSAVER_ENABLE   0x200000
 #define EX_WIN_SCREENSAVER_DISABLE  0x400000

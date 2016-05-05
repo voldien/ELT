@@ -130,9 +130,13 @@ typedef int ExAtom;
  */
 typedef long ERESULT;
 
+/*
+ *
+ */
 typedef unsigned int exivec4 EX_ALIGN_VECTOR(16);
 typedef unsigned int exivec3 EX_ALIGN_VECTOR(16);
 typedef unsigned int exivec2 EX_ALIGN_VECTOR(8);
+
 
 /*
  *
@@ -146,6 +150,12 @@ typedef unsigned int exivec2 EX_ALIGN_VECTOR(8);
  *
  */
 EX_DECLARE_HANDLE(ExHandle);
+
+
+
+
+/**/
+typedef void* ExDisplay;
 
 
 

@@ -610,6 +610,17 @@
 	#endif
 #endif
 
+/*
+ *
+ */
+#ifndef EX_RESTRICT
+	#if defined(EX_GNUC)
+		#define EX_RESTRICT __restrict
+	#else
+		#define EX_RESTRICT
+	#endif
+#endif
+
 
 /*
  *    ELT shared/dynamic Library file name.

@@ -19,7 +19,7 @@
 #ifndef _ELT_RENDER_TEXTURE_H_
 #define _ELT_RENDER_TEXTURE_H_ 1
 #include"texture.h"
-#include"../ExCommon.h"
+#include"../elt_common.h"
 
 #ifdef __cplusplus	/*	C++ environment	*/
 extern "C"{
