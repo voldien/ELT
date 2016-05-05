@@ -49,9 +49,40 @@ extern ELTDECLSPEC void ELTAPIENTRY ExLogInfo(const ExChar* format,...);
 
 
 /*
- *
+ *	@Return
  */
 extern ELTDECLSPEC FILE* ELTAPIENTRY ExDupFile(const int _fd);
+
+
+
+#define EX_CONSOLE_BLACK 0x0
+#define EX_CONSOLE_BLUE 0x1
+#define EX_CONSOLE_GREEN 0x2
+#define EX_CONSOLE_AQUA 0x3
+#define EX_CONSOLE_RED 0x4
+#define EX_CONSOLE_PURPLE 0x5
+#define EX_CONSOLE_YELLOW  0x6
+#define EX_CONSOLE_WHITE 0x7
+#define EX_CONSOLE_GRAY 0x8
+#define EX_CONSOLE_LIGHT_BLUE 0x9
+#define EX_CONSOLE_LIGHT_GREEN 0xA
+#define EX_CONSOLE_LIGHT_AQUA 0xB
+#define EX_CONSOLE_LIGHT_RED 0xC
+#define EX_CONSOLE_LIGHT_PURPLE 0xD
+#define EX_CONSOLE_LIGHT_YELLOW 0xE
+#define EX_CONSOLE_LIGHT_WHITE 0xF
+#define EX_CONSOLE_COLOR_RESET 0x10
+
+
+/*
+ *
+ */
+extern ELTDECLSPEC void ELTAPIENTRY ExSetConsoleColor(Uint16 colour);
+
+/*
+ *
+ */
+extern ELTDECLSPEC Uint16 ELTAPIENTRY ExGetConsoleColor(void);
 
 
 
