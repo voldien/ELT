@@ -24,6 +24,10 @@
 extern "C"{
 #endif
 
+/*
+ *
+ */
+extern ELTDECLSPEC long int ELTAPIENTRY ExGetFileStreamSize(FILE* file);
 
 /*
  *	Get file size in byte.
@@ -35,13 +39,19 @@ extern ELTDECLSPEC long int ELTAPIENTRY ExGetFileSize(const ExChar* cfilname);
  *	Load data by specified pathname.
  *	@Return
  */
-extern ELTDECLSPEC int ELTAPIENTRY ExLoadFile(const ExChar* cfilename, void** data);
+extern ELTDECLSPEC long int ELTAPIENTRY ExLoadFile(const ExChar* cfilename, void** racBuffer);
 
 /*
  *	Save File by specified file name.
  *	@Return
  */
-extern ELTDECLSPEC int ELTAPIENTRY ExSaveFile(const ExChar* cfilename, void* data, unsigned int csize);
+extern ELTDECLSPEC long int ELTAPIENTRY ExSaveFile(const ExChar* cfilename, void* racBuffer, unsigned int csize);
+
+/*
+ *
+ */
+extern ELTDECLSPEC long int ELTAPIENTRY ExAppendFile(const ExChar* cfilename, void* racBuffer, unsigned int csize);
+
 
 /*
  *
@@ -57,37 +67,22 @@ extern ELTDECLSPEC FILE* ELTAPIENTRY ExSafeOpenRead(const ExChar* cfilename);
 
 /*
  *
+ *	@Return
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExSafeWrite(FILE *f, void* buffer, unsigned int count);
-
-/*
- *
- */
-extern ELTDECLSPEC void ELTAPIENTRY ExSafeRead(FILE*f, void* buffer, int count);
+extern ELTDECLSPEC Uint ELTAPIENTRY ExSafeWrite(FILE *f, void* buffer, unsigned int count);
 
 /*
  *
  *	@Return
  */
-extern ELTDECLSPEC int ELTAPIENTRY ExCreateDirectory(const ExChar* directory);
+extern ELTDECLSPEC Uint ELTAPIENTRY ExSafeRead(FILE*f, void* buffer, int count);
 
-/*
- *
- *	@Return
- */
-extern ELTDECLSPEC int ELTAPIENTRY ExRemoveDirectory(const ExChar* directory);
 
-/*
- *	Remove file by given name.
- *	@Return
- */
-extern ELTDECLSPEC int ELTAPIENTRY ExRemoveFile(const ExChar* cfilename);
 
-/*
- *	Return true if file exist.
- *	@Return
- */
-extern ELTDECLSPEC int ELTAPIENTRY ExExistFile(const ExChar* cfilename);
+
+
+
+
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 }

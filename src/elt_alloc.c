@@ -6,7 +6,7 @@
 #   include<unistd.h>
 #endif
 
-int ELTAPIENTRY ExGetPageSize(void){
+Uint ExGetPageSize(void){
     #ifdef EX_WINDOWS
 	PERFORMANCE_INFORMATION erformance_info;
 	GetPerformanceInfo(&erformance_info,sizeof(PERFORMANCE_INFORMATION));
@@ -17,7 +17,8 @@ int ELTAPIENTRY ExGetPageSize(void){
     #endif
 }
 
-ELTDECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolCreate(unsigned int num, unsigned int itemsize){
+
+ExPoolAllocator* ExPoolCreate(unsigned int num, unsigned int itemsize){
 	ExPoolAllocator* alloc;
 	ExPoolAllocator* tmp;
 	unsigned int i;
@@ -41,7 +42,7 @@ ELTDECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolCreate(unsigned int num, unsigned
 	return alloc;
 }
 
-ELTDECLSPEC void* ELTAPIENTRY ExPoolObtain(ExPoolAllocator* allactor){
+void* ExPoolObtain(ExPoolAllocator* allactor){
 	ExPoolAllocator* tmp;
 	if(allactor->next == NULL)
 		return NULL;
@@ -51,7 +52,7 @@ ELTDECLSPEC void* ELTAPIENTRY ExPoolObtain(ExPoolAllocator* allactor){
 	return tmp;
 }
 
-ELTDECLSPEC void* ELTAPIENTRY ExPoolReturn(ExPoolAllocator* allactor, void* data, unsigned int len){
+void* ExPoolReturn(ExPoolAllocator* allactor, void* data){
 	ExPoolAllocator* tmp;
 	tmp = (data - (void*)allactor ) + sizeof(ExPoolAllocator);
 	tmp->next = allactor->next;
@@ -60,7 +61,7 @@ ELTDECLSPEC void* ELTAPIENTRY ExPoolReturn(ExPoolAllocator* allactor, void* data
 	return tmp;
 }
 
-ELTDECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolResize(ExPoolAllocator* allcotor, unsigned num, unsigned int itemsize){
+ExPoolAllocator* ExPoolResize(ExPoolAllocator* allcotor, unsigned num, unsigned int itemsize){
 	ExPoolAllocator* next;
 	ExPoolAllocator* terminate = allcotor->next;
 
@@ -85,6 +86,6 @@ ELTDECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolResize(ExPoolAllocator* allcotor,
 	return allcotor;
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExPoolFree(ExPoolAllocator* allactor){
+void ExPoolFree(ExPoolAllocator* allactor){
 	free(allactor);
 }

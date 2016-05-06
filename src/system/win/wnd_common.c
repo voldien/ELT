@@ -148,11 +148,9 @@ ELTDECLSPEC ExChar* ELTAPIENTRY ExGetCurrentDirectory(void){
 
 }
 
-ELTDECLSPEC int ELTAPIENTRY ExSetCurrentDirectory (const char* cdirectory){
+ELTDECLSPEC int ELTAPIENTRY ExSetCurrentDirectory (const ExChar* cdirectory){
 	return SetCurrentDirectory(cdirectory);
 }
-
-
 
 ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalSystemMemory(void){
 	MEMORYSTATUSEX status;

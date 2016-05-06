@@ -28,14 +28,15 @@ extern "C"{
 
 /*
  *
+ *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExLoadNumSymbol(ExHandle handle);
 
 /*
  *
+ *	@Return
  */
-extern ELTDECLSPEC char* ELTAPIENTRY ExLoadSymbol(ExHandle handle, int index, char* symbol, int len);
-
+extern ELTDECLSPEC ExChar* ELTAPIENTRY ExLoadSymbol(ExHandle handle, int index, char* symbol, int len);
 
 /*
  *	Load function from handle.
@@ -44,9 +45,10 @@ extern ELTDECLSPEC char* ELTAPIENTRY ExLoadSymbol(ExHandle handle, int index, ch
  *	@Return function pointer.
  */
 extern ELTDECLSPEC ExHandle ELTAPIENTRY ExLoadFunction(ExHandle handle, const char* pProcName);
+
 /*
  *	Load Module object to process
- *	@Return pointer to module if succesful.
+ *	@Return pointer to module if successful.
  */
 extern ELTDECLSPEC ExHandle ELTAPIENTRY ExLoadObject(const ExChar* sofile);
 

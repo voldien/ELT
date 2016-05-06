@@ -18,16 +18,17 @@
 */
 #ifndef _ELT_SHADER_H_
 #define _ELT_SHADER_H_ 1
+#include"./../elt_def.h"
 #include<stdio.h>
 
 typedef struct ex_shader{
-	int ver;
-	int fra;
-	int geo;
-	int tesc;
-	int tese;
-	int program;
-	int flag;
+	unsigned int ver;		/**/
+	unsigned int fra;		/**/
+	unsigned int geo;		/**/
+	unsigned int tesc;		/**/
+	unsigned int tese;		/**/
+	unsigned int program;	/**/
+	unsigned int flag;		/**/
 }ExShader,ShaderHeaderr;
 
 #ifdef __cplusplus	/*	C++ environment	*/
@@ -36,41 +37,62 @@ extern "C"{
 
 /*
  *
+ *	@Return
  */
-extern int ExGetShaderProgramSize(unsigned int program);
-/*
- *
- */
-extern int ExGetShaderSourceSize(unsigned int shader);
+extern ELTDECLSPEC int ExGetShaderProgramSize(unsigned int program);
 
 /*
  *
+ *	@Return
  */
-extern int ExSetProgramShader(int program, int shader);
-
+extern ELTDECLSPEC int ExGetShaderSourceSize(unsigned int shader);
 
 /*
  *
  */
-extern int ExLoadShader(ExShader* shad,const char* cvertexfilename, const char* cfragmentfilename, const char* cgeometryfilename, const char* ctesscfilename, const char* ctessefilename);
+extern ELTDECLSPEC int ExSetProgramShader(int program, int shader);
+
 /*
+ *
+ *	@Return
  */
-extern int ExLoadShaderv(ExShader* shad, const char* cvertexSource,const char* cfragmentSource,const char* cgeometry_source,const char* ctess_c_source, const char* ctess_e_source);
+extern ELTDECLSPEC int ELTAPIENTRY ExLoadShader(ExShader* shad, const char* cvertexfilename, const char* cfragmentfilename, const char* cgeometryfilename, const char* ctesscfilename, const char* ctessefilename);
 
-/**/
-extern int ExDeleteShaderProgram(ExShader* header);
+/*
+ *
+ *	@Return 0 if failed.
+ */
+extern ELTDECLSPEC int ELTAPIENTRY ExLoadShaderv(ExShader* shad, const char* cvertexSource, const char* cfragmentSource, const char* cgeometry_source, const char* ctess_c_source, const char* ctess_e_source);
 
-/**/
-extern int ExCompileShaderSource(const char* strPath,char** source, unsigned int flag);
+/*
+ *
+ *	@Return 0 if failed
+ */
+extern ELTDECLSPEC int ExDeleteShaderProgram(ExShader* header);
 
-/*	*/
-extern int ExCompileShaderSourcev(const char** source, unsigned int flag);
+/*
+ *
+ *	@Return
+ */
+extern ELTDECLSPEC int ExCompileShaderSource(const char* strPath, char** source, unsigned int flag);
 
-extern int ExShaderCompileLog(unsigned int program,unsigned int shaderflag);
+/*
+ *
+ *	@Return
+ */
+extern ELTDECLSPEC int ExCompileShaderSourcev(const char** source, unsigned int flag);
 
-extern int ExShaderCompileLogv(unsigned int program,unsigned int shaderflag, char* log);
+/*
+ *
+ */
+extern ELTDECLSPEC int ExShaderCompileLog(unsigned int program,unsigned int shaderflag);
 
-extern int ExGetShaderSource(unsigned int shader, char** source);
+/*
+ *
+ */
+extern ELTDECLSPEC int ExShaderCompileLogv(unsigned int program,unsigned int shaderflag, char* log);
+
+extern ELTDECLSPEC int ExGetShaderSource(unsigned int shader, char** source);
 
 /* */
 extern int ExGetShaderSourcev(unsigned int shader, char* source);
@@ -177,7 +199,7 @@ void main(void){
 "out float fangle;\n"												\
 "out vec4 frect;\n"													\
 "out mat2 coord;\n"													\
-"out int ftexture;\n"												\
+"flat out int ftexture;\n"												\
 "out vec4 fcolor;\n"												\
 "void main(void){\n"												\
 "	float sin_theta = sin(angle);\n"								\
@@ -206,15 +228,45 @@ void main(void){
 "layout(location = 0) out vec4 fragColor;\n"				\
 "uniform sampler2D textures[32];\n"							\
 "in vec4 frect;\n"											\
-"in float fangle;\n"										\
-"in int ftexture;\n"										\
+"smooth in float fangle;\n"										\
+"flat in int ftexture;\n"										\
 "in mat2 coord;\n"											\
 "in vec4 fcolor;\n"											\
+"sampler2D getTexture(const in int index){\n"				\
+"	switch(index){\n"				\
+"		case 0:\n"				\
+"		return textures[0];\n"				\
+"		case 1:\n"				\
+"		return textures[1];\n"				\
+"		case 2:\n"				\
+"		return textures[2];\n"				\
+"		case 3:\n"				\
+"		return textures[3];\n"				\
+"		case 4:\n"				\
+"		return textures[4];\n"				\
+"		case 5:\n"				\
+"		return textures[5];\n"				\
+"		case 6:\n"				\
+"		return textures[6];\n"				\
+"		case 7:\n"				\
+"		return textures[7];\n"				\
+"		case 8:\n"				\
+"		return textures[8];\n"				\
+"		case 9:\n"				\
+"		return textures[9];\n"				\
+"		case 10:\n"				\
+"		return textures[10];\n"				\
+"		case 11:\n"				\
+"		return textures[11];\n"				\
+"		default:\n"				\
+"		return textures[0];\n"				\
+"	}\n"				\
+"}\n"				\
 "void main(void){\n"										\
 "	float texwidth = float(textureSize(textures[0],0).x);\n"			\
 "	float texheight = float(textureSize(textures[0],0).y);\n"			\
 "	vec2 fragscale = vec2(clamp( texheight / texwidth ,1.0,10.0 ) , clamp( texwidth / texheight ,1.0,10.0) );\n"														\
-"	fragColor = texture2D(textures[0],frect.xy  + ((vec2(1.0) - frect.zw) / 2) * vec2(-1,1)  + vec2(0.5) + coord * ((gl_PointCoord - vec2(0.5) ) * frect.zw * fragscale.xy)) * fcolor;\n"		\
+"	fragColor = texture2D(getTexture(ftexture), frect.xy  + ((vec2(1.0) - frect.zw) / 2) * vec2(-1,1)  + vec2(0.5) + coord * ((gl_PointCoord - vec2(0.5) ) * frect.zw * fragscale.xy)) * fcolor;\n"		\
 "	//fragColor.rg += (frect.xy  + vec2(0.5) + coord * ((gl_PointCoord - vec2(0.5) ) * frect.zw * fragscale.xy)).xy;\n"		\
 "	//fragColor.a = 1.0;\n"									\
 "}\n"														\

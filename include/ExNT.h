@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _EX_NT_H_
-#define _EX_NT_H_ 1
+#ifndef _ELT_NT_H_
+#define _ELT_NT_H_ 1
 #include"elt_def.h"
 
 #include <stdlib.h>
@@ -58,7 +58,7 @@
 	typedef unsigned __int128 Uint128;
 #endif
 
-#elif defined(EX_UNIX)
+#elif defined(EX_GNUC)
 	typedef signed long long 	Int64;
 	typedef signed int		 	Int32;
 	typedef signed short	 	Int16;
@@ -130,13 +130,32 @@ typedef int ExAtom;
  */
 typedef long ERESULT;
 
+/*
+ *
+ */
+typedef unsigned int exivec4 EX_ALIGN_VECTOR(16);
+typedef unsigned int exivec3 EX_ALIGN_VECTOR(16);
+typedef unsigned int exivec2 EX_ALIGN_VECTOR(8);
 
+
+/*
+ *
+ */
 #ifdef EX_MSVC
 	#define EX_DECLARE_HANDLE(name) struct name##__{int unused;}; typedef struct name##__ *name
 #else
 	#define EX_DECLARE_HANDLE(name) typedef struct name##__ { int unused; } *name
 #endif
+/*
+ *
+ */
 EX_DECLARE_HANDLE(ExHandle);
+
+
+
+
+/**/
+typedef void* ExDisplay;
 
 
 
@@ -153,13 +172,14 @@ typedef wchar_t ExWide;
 #endif
 
 
-
+/**/
 typedef union floatUnion{
 	float fv;
 	Uint32 uv;
 	Uint8 ub[4];
 }FloatUnion, UintUnion;
 
+/**/
 typedef union doubleUnion{
 	double Ddata;
 	Uint64 Uldata;
@@ -195,13 +215,6 @@ typedef union doubleUnion{
 
 
 /*
-#define EX_LOQWORD(q)			((QWORD)(((DWORD_PTR)(l)) & 0xffffffff))
-#define EX_HIQWORD(q)			((QWORD)((((DWORD_PTR)(l)) >> 32) & 0xffffffff))
-*/
-
-
-
-/*
  *	platform specific type.
 */
 typedef void* ExWin;
@@ -210,31 +223,34 @@ typedef void* ExOpenCLContext;
 typedef void* ExEGLContext;
 typedef void* ExWindowContext;
 typedef void* ExAudioContext;
+typedef void* ExEGLDisplay;
+typedef void* ExXDisplay;
 
 #ifdef EX_WINDOWS
-	#define THREAD_CALLBACK __stdcall
+	#define EX_THREAD_CALLBACK __stdcall
 #elif defined(EX_LINUX) && defined(GLX_H)
-	#define THREAD_CALLBACK //__cdecl
+	#define EX_THREAD_CALLBACK //__cdecl
 #elif defined(EX_ANDROID)
-	#define THREAD_CALLBACK //__cdecl
+	#define EX_THREAD_CALLBACK //__cdecl
 #elif defined(EX_MAC)
-	#define THREAD_CALLBACK __cdecl
+	#define EX_THREAD_CALLBACK __cdecl
 #else
-	#define THREAD_CALLBACK __cdecl
+	#define EX_THREAD_CALLBACK __cdecl
 #endif
 
-#define EX_CALLBACK ELTAPISTDENTRY
 
 /*
- *
+ *	callback.
  */
+#define EX_CALLBACK ELTAPISTDENTRY
 typedef void(EX_CALLBACK* ExCallBack)(void);
 
 /*
  *	Thread callback type.
  */
-typedef void*(*interrupt_routine)(void*);
-typedef void*(THREAD_CALLBACK *thread_routine)(void*);
+typedef void* (*interrupt_routine)(void*);
+typedef void* (EX_THREAD_CALLBACK *thread_routine)(void*);
+typedef void* (EX_THREAD_CALLBACK *ExThreadRoutine)(void*);
 typedef void* ExThread;
 
 #endif

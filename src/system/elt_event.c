@@ -1,5 +1,5 @@
 #include"system/elt_event.h"
-#include"ExAssert.h"
+#include"elt_assert.h"
 #include"elt_def.h"
 
 #ifdef EX_WINDOWS
@@ -9,10 +9,6 @@
 #	include <winuser.h>
 #	include<windowsx.h>
 #	include<ws2dnet.h>
-#elif defined(EX_LINUX)
-#	include"system/unix/unix_win.h"
-#	include<X11/X.h>
-#	include<X11/Xlib.h>
 #elif defined(EX_ANDROID)
 #   include<errno.h>
 #   include<android/window.h>
@@ -24,9 +20,9 @@
 
 #endif
 
-
-ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 #ifdef EX_WINDOWS
+Int32 ExPollEvent(ExEvent* event){
+
 	assert(event);
 	MSG msg;
 	if(PeekMessage(&msg,NULL,NULL,NULL,PM_REMOVE)){
@@ -110,114 +106,7 @@ ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
 		}
 	else
 		return FALSE;
-#elif defined(EX_LINUX)
-
-	XEvent msg;
-	if(XPending(display)){
-		XNextEvent(display,&msg);
-		event->event = 0;
-
-		switch(msg.type){
-		case KeymapNotify:
-            XRefreshKeyboardMapping(&msg.xmapping);
-        break;
-		case KeyPress:{
-		    event->event |= EX_EVENT_KEY;
-		    event->key.code = XLookupKeysym(&msg.xkey,0);
-		    event->mouse.x = msg.xkey.x;
-		    event->mouse.y = msg.xkey.y;
-		    event->key.alt = msg.xkey.state & Mod1Mask;
-		    event->key.ctrl = msg.xkey.state & ControlMask;
-		    event->key.shift = msg.xkey.state & ShiftMask;
-		    event->key.system = msg.xkey.state & Mod1Mask;
-
-        }break;
-		case KeyRelease:{
-		    event->event |= EX_EVENT_KEY_RELEASE;
-		    event->key.code = XLookupKeysym(&msg.xkey,0);
-		    event->mouse.x = msg.xkey.x;
-		    event->mouse.y = msg.xkey.y;
-		    event->key.alt = msg.xkey.state & Mod1Mask;
-		    event->key.ctrl = msg.xkey.state & ControlMask;
-		    event->key.shift = msg.xkey.state & ShiftMask;
-		    event->key.system = msg.xkey.state & Mod1Mask;
-
-		}break;
-		case ButtonPress:{
-		    event->event |= EX_EVENT_MOUSE;
-		    event->button.button = msg.xbutton.button;
-		    event->mouse.x = msg.xkey.x;
-		    event->mouse.y = msg.xkey.y;
-        }break;
-		case ButtonRelease:{
-		    event->event |= EX_EVENT_MOUSE;
-		    event->button.button = msg.xbutton.button;
-		    event->mouse.x = msg.xkey.x;
-		    event->mouse.y = msg.xkey.y;
-		}break;
-		case MotionNotify:{
-			event->event |= EX_EVENT_MOUSE_MOTION;
-			event->motion.xdelta =  msg.xmotion.x - msg.xkey.x;
-			event->motion.ydelta =  msg.xmotion.y - msg.xkey.y;
-			event->motion.x = msg.xmotion.x;
-			event->motion.y = msg.xmotion.y;
-
-		}break;
-		case GravityNotify:
-			event->event |= EX_EVENT_WINDOW_MOVE;
-			break;
-		case ResizeRequest:{
-            event->event |= EX_EVENT_SIZE;
-            event->size.width = msg.xresizerequest.width;
-            event->size.height = msg.xresizerequest.height;
-
-
-		}break;
-		case Expose:{
-			event->event |= EX_EVENT_EXPOSE;
-			event->size.width = msg.xexpose.width;
-			event->size.height = msg.xexpose.height;
-            msg.xexpose.x;
-		}break;
-		case ClientMessage:{
-            //event->event |= EX_EVENT_SIZE;
-            /*
-            if((Atom)msg.xclient.data.l[0] == wm_delete_window){
-
-            }
-            */
-
-		}break;
-		case  VisibilityNotify:{
-
-
-		}break;
-		case ConfigureNotify:{
-            //event->event |= EX_EVENT_SIZE;
-            //event->size.width =  msg.xconfigure.width;
-            //event->size.height = msg.xconfigure.height;
-		}break;
-		case DestroyNotify:{
-			event->event |= EX_EVENT_WINDOW_DESTROYED;
-			event->destroy.window = msg.xdestroywindow.window;
-
-		}break;
-		case FocusIn:
-			break;
-		case FocusOut:
-			break;
-		case LASTEvent:
-			event->event = 0;
-			return FALSE;
-		default:
-			event->event |= msg.type;
-			break;
-		}
-		event->time = ExGetTicks();
-		event->window = msg.xany.window;
-		return TRUE;
-	}else {/*XSync(display,TRUE);*/ return FALSE;}
-#elif defined(EX_ANDROID)
+	/*
     int ident;
     int events;
     void* source;
@@ -232,26 +121,14 @@ ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event){
     }
 
     return TRUE;
-#elif defined(EX_MAC)
+    */
 
-
-#elif defined(EX_PNACL)
-
-
-#elif defined(EX_IPHONE)
-
-
-#elif defined(EX_WEB)
-
-
-#elif defined(EX_PS3)
-
-
-#endif
 }
+#endif
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event){
 #ifdef EX_WINDOWS
+Int32 ExPollWindowEvent(ExWin window, ExWindowEvent* event){
+
 	MSG msg;
 	//event->event = 0;
 	// peek Message for given window handle.
@@ -341,32 +218,8 @@ ELTDECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* eve
 		return TRUE;
 	}
 	return FALSE;
-#elif defined(EX_LINUX)
-	XEvent msg;
-    if(XPending(display))
-    	XWindowEvent(display,window,0,&msg);
-
-    switch(msg.type){
-
-
-    }
-
-	return TRUE;
-#elif defined(EX_ANDROID)
-#endif
 }
-
-
-
-
-
-
-ELTDECLSPEC Int32 ELTAPIENTRY ExForwardEvent(Uint32 event, ExHandle data, Uint32 size){
-#ifdef EX_LINUX
-
-	XSendEvent(display,0,True,event,data);
 #endif
 
-}
 
 

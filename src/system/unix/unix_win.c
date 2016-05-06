@@ -1,8 +1,6 @@
 #include"system/unix/unix_win.h"
-
 #include<unistd.h>
-#include<stdio.h>
-#include<stdlib.h>
+
 
 #include<EGL/egl.h>
 #include<GL/glx.h>
@@ -13,9 +11,8 @@
 #include<X11/Xatom.h>
 #include<X11/keysym.h>
 
-#include<X11/extensions/XInput.h>
-#include<X11/extensions/Xrender.h>
-
+//#include<X11/extensions/XInput.h>
+//#include<X11/extensions/Xrender.h>
 
 #include<dlfcn.h>
 #include<GL/gl.h>
@@ -28,13 +25,11 @@
 #endif
 
 ExDisplay display = 0;
-void* m_connection = 0;		/*	todo take a loot*/
+void* m_connection = 0;		/*	TODO take a loke*/
 extern int* pixAtt;
 extern int ExChooseFBconfig(GLXFBConfig* pfbconfig);
 
-
-
-ELTDECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){
+ExWin ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){
 	Visual* visual;
 	Int depth;
 	Int textX;
@@ -58,30 +53,28 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width
     winmask = CWEventMask;
 
     if(!XMatchVisualInfo(display, screen , depth, TrueColor, &visInfo)){
-
+    	/**/
 
     }
     visual = visInfo.visual;
-
+    /**/
 	swa.background_pixel = XWhitePixel(display,0);
-	swa.event_mask = ExposureMask | VisibilityChangeMask | KeyPressMask | PointerMotionMask | StructureNotifyMask | ResizeRedirectMask;
+	swa.event_mask = ExposureMask | VisibilityChangeMask | KeyPressMask | PointerMotionMask | StructureNotifyMask | ResizeRedirectMask | VisibilityChangeMask;
 	swa.border_pixmap = None;
 	swa.border_pixel = 0;
 	swa.bit_gravity = StaticGravity;
-
+	/**/
 	swa.colormap = XCreateColormap(display, RootWindow(display,visInfo.screen), visInfo.visual, AllocNone);
 
-
+	/**/
 	window = XCreateWindow(display,DefaultRootWindow(display),
                               x,y,width,height,0,
                               depth,InputOutput,visual, winmask,&swa);
 
-
-
     /*	event feed masking	*/
 	XSelectInput(display,window, ExposureMask | VisibilityChangeMask | KeyPressMask |
 			PointerMotionMask | StructureNotifyMask | ExposureMask | KeyPressMask |
-			ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask |
+			ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask | VisibilityChangeMask |
 			ButtonMotionMask | PointerMotionMask);
 
 
@@ -100,7 +93,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width
 	return window;
 }
 
-ELTDECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 height, void** pglx_window){
+ExWin ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 height, void** pglx_window){
 	XVisualInfo* vi;
 	int screen;
 	int major;
@@ -135,7 +128,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, I
 
 	winAttribs.colormap = XCreateColormap(display, RootWindow(display,vi->screen), vi->visual, AllocNone);
 
-	winAttribs.event_mask = ExposureMask | VisibilityChangeMask | KeyPressMask | PointerMotionMask | StructureNotifyMask | ResizeRedirectMask;
+	winAttribs.event_mask = ExposureMask | VisibilityChangeMask | KeyPressMask | PointerMotionMask | StructureNotifyMask | ResizeRedirectMask | FocusChangeMask;
 	winAttribs.border_pixmap = None;
 	winAttribs.border_pixel = 0;
 	winAttribs.bit_gravity = StaticGravity;
@@ -171,7 +164,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, I
     /*	event feed masking	*/
 	XSelectInput(display,window, ExposureMask | VisibilityChangeMask | KeyPressMask |
 			PointerMotionMask | StructureNotifyMask | ExposureMask | KeyPressMask |
-			ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask |
+			ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask | FocusChangeMask |
 			ButtonMotionMask | PointerMotionMask);
 
 /*
@@ -192,6 +185,8 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, I
 	gr_values.background = WhitePixel(display,0);
 	graphical_context = XCreateGC(display,window, GCFont + GCForeground, &gr_values);
 	XSetFont(display, graphical_context, gr_values.font);
+	/*	free font struct.	*/
+
 
 
    //XIfEvent(display, &event, WaitFormMap)
@@ -199,15 +194,16 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, I
 
 	XFree(vi);
 	XFree(graphical_context);
-	XFree(fontinfo);
+	XFreeFont(display, fontinfo);
 	XSync(display, FALSE);
 	return window;
 }
 
-ELTDECLSPEC int ExSupportOpenGL(void){
+int ExSupportOpenGL(void){
     int major;
     int minor;
 
+    /*	TODO evaluate this.	*/
 	if(!glXQueryVersion(display, &major, &minor)){
         fprintf(stderr,"could not");
         return FALSE;
@@ -217,24 +213,32 @@ ELTDECLSPEC int ExSupportOpenGL(void){
 
 
 
+
+
+
+
+
+
+
+
 /*	=============================================================	*/
 /*					generic window implementation					*/
 /*	=============================================================	*/
 
-ELTDECLSPEC void ELTAPIENTRY ExShowWindow(ExWin window){
+void ExShowWindow(ExWin window){
     XRaiseWindow(display, (Window)window);
 	XMapWindow(display, (Window)window);
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExHideWindow(ExWin window){
+void ExHideWindow(ExWin window){
     XUnmapWindow(display,window);
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin window){
+void ExCloseWindow(ExWin window){
     XDestroyWindow(display, window);
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExMaximizeWindow(ExWin window){
+void ExMaximizeWindow(ExWin window){
 	XEvent xev;
 	Atom wm_state = XInternAtom(display, "_NET_WM_STATE", False);
 	Atom max_horz = XInternAtom(display, "_NET_WM_STATE_MAXIMIZED_HORZ", False);
@@ -252,7 +256,7 @@ ELTDECLSPEC void ELTAPIENTRY ExMaximizeWindow(ExWin window){
 	XSendEvent(display, DefaultRootWindow(display), False, SubstructureNotifyMask, &xev);
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExMinimizeWindow(ExWin window){
+void ExMinimizeWindow(ExWin window){
 	XEvent xev;
 	Atom wm_state = XInternAtom(display, "_NET_WM_STATE", False);
 	Atom min_horz = XInternAtom(display, "_NET_WM_STATE_MINIMIZE_HORZ", False);
@@ -270,18 +274,18 @@ ELTDECLSPEC void ELTAPIENTRY ExMinimizeWindow(ExWin window){
 	XSendEvent(display, DefaultRootWindow(display), False, SubstructureNotifyMask, &xev);
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExSetWindowMode(ExWin window, Enum mode){
+void ExSetWindowMode(ExWin window, Enum mode){
     if(mode & EX_WIN_SCREENSAVER_ENABLE){
 
     }
 }
 
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExDestroyWindow(ExWin window){
+ExBoolean ExDestroyWindow(ExWin window){
 	return XDestroyWindow(display,(Window*)window);
 }
 
 
-ELTDECLSPEC void ELTAPIENTRY ExSetWindowTitle(ExWin window,const ExChar* title){
+void ExSetWindowTitle(ExWin window,const ExChar* title){
 	if(!window || !title)
 		return;
 
@@ -299,7 +303,7 @@ ELTDECLSPEC void ELTAPIENTRY ExSetWindowTitle(ExWin window,const ExChar* title){
 				NULL);
 }
 
-ELTDECLSPEC ExChar* ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title){
+ExChar* ExGetWindowTitle(ExWin window, ExChar* title){
 	if(!window || !title)
 		return NULL;
 	XFetchName(display,(Window*)window,&title);
@@ -308,11 +312,11 @@ ELTDECLSPEC ExChar* ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title){
 
 
 
-ELTDECLSPEC void ELTAPIENTRY ExSetWindowPos(ExWin window,Int32 x,Int32 y){
+void ExSetWindowPos(ExWin window,Int32 x,Int32 y){
 	XMoveWindow(display,(Window*)window,x,y);
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExSetWindowPosv(ExWin window, const Int32* position){
+void ExSetWindowPosv(ExWin window, const Int32* position){
 	if(!window || !position)
 		return;
 
@@ -320,34 +324,34 @@ ELTDECLSPEC void ELTAPIENTRY ExSetWindowPosv(ExWin window, const Int32* position
 }
 
 
-ELTDECLSPEC void ELTAPIENTRY ExGetWindowPosv(ExWin window, Int32* position){
+void ExGetWindowPosv(ExWin window, Int32* position){
 	XWindowAttributes xwa;
 	XGetWindowAttributes(display, window, &xwa);
 	position[0] = xwa.x;
 	position[1] = xwa.y;
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExSetWindowSize(ExWin window, Int32 width, Int32 height){
+void ExSetWindowSize(ExWin window, Int32 width, Int32 height){
 	XResizeWindow(display,window,width,height);
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window, const ExSize* size){
+void ExSetWindowSizev(ExWin window, const ExSize* size){
 	XResizeWindow(display,window,size->width,size->height);
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, ExSize* size){
+void ExGetWindowSizev(ExWin window, ExSize* size){
 	XWindowAttributes xwa;
 	XGetWindowAttributes(display, window,&xwa);
 	size->width = xwa.width;
 	size->height= xwa.height;
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExSetWindowRect(ExWin window, const ExRect* rect){
+void ExSetWindowRect(ExWin window, const ExRect* rect){
 	XMoveWindow(display,(Window)window,rect->x,rect->y);
 	XResizeWindow(display,(Window)window,rect->width - rect->x,rect->height - rect->y);
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExGetWindowRect(ExWin window, ExRect* rect){
+void ExGetWindowRect(ExWin window, ExRect* rect){
 	XWindowAttributes xwa;
 	XGetWindowAttributes(display, (Window*)window,&xwa);
 	rect->width = xwa.width;
@@ -357,7 +361,7 @@ ELTDECLSPEC void ELTAPIENTRY ExGetWindowRect(ExWin window, ExRect* rect){
 }
 
 
-ELTDECLSPEC Uint32 ELTAPIENTRY ExGetWindowFlag(ExWin window){
+Uint32 ExGetWindowFlag(ExWin window){
     //TODO remove or something
 	XWindowAttributes xwa;
 	XGetWindowAttributes(display, (Window*)window,&xwa);
@@ -365,7 +369,7 @@ ELTDECLSPEC Uint32 ELTAPIENTRY ExGetWindowFlag(ExWin window){
 }
 
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, ExHandle hIcon){
+Int32 ExSetWindowIcon(ExWin window, ExHandle hIcon){
      //http://www.sbin.org/doc/Xlib/chapt_03.html
     XWMHints wm_hints = {0};
 /*    if (!(wm_hints = XAllocWMHints())) {
@@ -394,14 +398,14 @@ ELTDECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, ExHandle hIcon){
 	return TRUE;
 }
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window){
+Int32 ExGetWindowIcon(ExWin window){
 
+	Atom iconAtom = XInternAtom(display, "_NET_WM_ICON_NAME", FALSE);
+	//XGetWindowProperty(display, window, iconAtom, XA_ATOM, )
     return NULL;
 }
 
-
-
-ELTDECLSPEC Int32 ELTAPIENTRY ExSetWindowFullScreen(ExWin window, ExBoolean flag){
+Int32 ExSetWindowFullScreen(ExWin window, ExBoolean flag){
     int one = 1;
 	XEvent xev = {0};
     XWindowAttributes xwa;
@@ -454,17 +458,16 @@ ELTDECLSPEC Int32 ELTAPIENTRY ExSetWindowFullScreen(ExWin window, ExBoolean flag
 	return TRUE;
 }
 
-
-
-ELTDECLSPEC ExHandle ELTAPIENTRY ExGetWindowUserData(ExWin window){
+ExHandle ExGetWindowUserData(ExWin window){
 	ExHandle data;
+	//XAssoc a;
 	//XGetWindowProperty(display,window,NULL,0,0,0,0,)
 	//XAssocTable table;
 	//XLookUpAssoc(display, &table, window);
 	return data;
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExSetWindowUserData(ExWin window, ExHandle userdata){
+void ExSetWindowUserData(ExWin window, ExHandle userdata){
 	//XGetWindowProperty(display,window,NULL,0,0,0,0,)
 	//XAssocTable table;
 	//XLookUpAssoc(display, &table, window);
@@ -473,13 +476,13 @@ ELTDECLSPEC void ELTAPIENTRY ExSetWindowUserData(ExWin window, ExHandle userdata
 
 
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExSetWindowParent(ExWin parent, ExWin window){
+Int32 ExSetWindowParent(ExWin parent, ExWin window){
 	int pos[2];
 	ExGetWindowPosv(parent, pos);
 	return XReparentWindow(display, window, parent, 0, 0);
 }
 
-ELTDECLSPEC ExWin ELTAPIENTRY ExGetWindowParent(ExWin window){
+ExWin ExGetWindowParent(ExWin window){
 
 	int screen = DefaultScreen(display);
 	ExWin root = RootWindow(display,screen);
@@ -493,13 +496,13 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExGetWindowParent(ExWin window){
 
 }
 
- ELTDECLSPEC Int32 ELTAPIENTRY ExSetWindowChild(ExWin window,ExWin child){
+Int32 ExSetWindowChild(ExWin window,ExWin child){
 	Int32 pos[2];
 	ExGetWindowPosv(window,pos);
 	return XReparentWindow(display,child,window,pos[0],pos[1]);
 }
 
- ELTDECLSPEC ExWin ELTAPIENTRY ExGetWindowChild(ExWin window,unsigned int index){
+ExWin ExGetWindowChild(ExWin window,unsigned int index){
 	int screen = DefaultScreen(display);
 	ExWin root = RootWindow(display,screen);
 	ExWin parent;
@@ -512,7 +515,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExGetWindowParent(ExWin window){
 
 }
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExGetWindowNumChildren(ExWin window){
+Int32 ExGetWindowNumChildren(ExWin window){
 
 	int screen = DefaultScreen(display);
 	ExWin root = RootWindow(display,screen);
@@ -527,9 +530,7 @@ ELTDECLSPEC Int32 ELTAPIENTRY ExGetWindowNumChildren(ExWin window){
 
 
 
-
-
-ELTDECLSPEC ExWin ELTAPIENTRY ExGetDesktopWindow(void){
+ExWin ExGetDesktopWindow(void){
 
 	int i;
 	unsigned int n;
@@ -571,6 +572,9 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExGetDesktopWindow(void){
 	return (ExWin)0x280000a;
 }
 
+ExWin ExGetRootWindow(void){
+	return RootWindow(display, DefaultScreen(display));
+}
 
 
 
@@ -586,21 +590,19 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExGetDesktopWindow(void){
 
 
 
-typedef struct
-{
+
+typedef struct{
     int x, y;
     unsigned int width, height;
     int textx, texty;
     int mouseover;
     int clicked;
     const char* text;
-}
-button;
+}button;
 
 
 
-static void draw_button( button* b, int fg, int bg,
-                         Display* dpy, Window w, GC gc ){
+static void draw_button( button* b, int fg, int bg, Display* dpy, Window w, GC gc ){
     if( b->mouseover ){
         XFillRectangle( dpy, w, gc, b->clicked+b->x, b->clicked+b->y,
                                     b->width, b->height );
@@ -627,7 +629,7 @@ static int is_point_inside( button* b, int px, int py ){
 
 
 
-ELTDECLSPEC int ELTAPIENTRY ExMessageBox(ExWin window, const char* text, const char* title, unsigned int flags){
+int ExMessageBox(ExWin window, const char* text, const char* title, unsigned int flags){
     const char* wmDeleteWindow = "WM_DELETE_WINDOW";
     int black, white, height = 0, direction, ascent, descent, X, Y, W=0, H;
     size_t i, lines = 0;

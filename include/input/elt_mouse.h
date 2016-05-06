@@ -21,11 +21,9 @@
 #include"./../EngineAssembly.h"
 #include"./../system/elt_errorhandler.h"
 
-#ifdef EX_WINDOWS
 	typedef void* ExCursor;
-#elif defined(EX_UNIX)
 	typedef void* ExCursor;
-#endif
+
 	#define EXC_ARROW		0x1
 	#define EXC_IBEAM		0x2
 	#define EXC_WAIT		0x3
@@ -50,11 +48,18 @@
 #define ExMousePoint	m_MouseHandler->MouseState[0]->lX
 #define ExMouseMotion
 
+
+enum ExMouseCode {
+	eExMouseNone,
+	eExMouseLeft,
+	eExMouseRight,
+	eExMouseMiddle,
+	eExMousePadding
+};
+
 #ifdef __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
-
-
 
 /*
  *	Capture mouse
@@ -62,11 +67,12 @@ extern "C"{
 */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(ExBoolean enabled);
 
+
 /*
  *	Clip cursor onto specified rectangle view
  *	@Return
  */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExClipCursor(const ExRect* rect);
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExClipCursor(ExWin window);
 
 /*
  *	Create Cursor
@@ -89,7 +95,7 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExFreeCursor(ExCursor cursor);
  *	Set Cursor
  *	@Return
  */
-extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExSetCursor(ExCursor cursor);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExSetCursor(ExWin window, ExCursor cursor);
 
 /*
  *	Get Cursor

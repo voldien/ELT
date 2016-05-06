@@ -1,6 +1,5 @@
 #include"input/elt_keyboard.h"
 
-
 #include<X11/Xlib.h>
 #include<X11/keysym.h>
 #include<X11/extensions/XInput.h>
@@ -13,7 +12,7 @@
 #include<X11/Xlib-xcb.h>
 
 
-static inline int ExGetKeyCodeInternal(Uint32 keyCode){
+static inline int private_ExGetKeyCodeInternal(Uint32 keyCode){
     int keysym;
 
     switch (keyCode){
@@ -59,6 +58,7 @@ static inline int ExGetKeyCodeInternal(Uint32 keyCode){
         case EXK_Down:  keysym = XK_Down;         break;
         case EXK_ESCAPE:keysym = XK_Escape;       break;
 
+        /**/
 		case EXK_LControl:   keysym = XK_Control_L;    break;
         case EXK_LShift:     keysym = XK_Shift_L;      break;
         case EXK_LAlt:       keysym = XK_Alt_L;        break;
@@ -67,6 +67,7 @@ static inline int ExGetKeyCodeInternal(Uint32 keyCode){
         case EXK_RShift:     keysym = XK_Shift_R;      break;
         case EXK_RAlt:       keysym = XK_Alt_R;        break;
         case EXK_RSystem:    keysym = XK_Super_R;      break;
+
     	/*
         case EXK_Menu:       keysym = XK_Menu;         break;
 
@@ -132,29 +133,28 @@ static inline int ExGetKeyCodeInternal(Uint32 keyCode){
     return keysym;
 }
 
-
-ELTDECLSPEC ExKeycode ELTAPIENTRY ExGetKeyFromName(const char* name){
+ExKeycode ExGetKeyFromName(const char* name){
     KeySym sym = XStringToKeysym(name);
     return sym;
 }
 
-ELTDECLSPEC const char* ELTAPIENTRY ExGetKeyName(ExKeycode keycode){
-    return XKeysymToString(ExGetKeyCodeInternal(keycode));
+const char* ExGetKeyName(ExKeycode keycode){
+    return XKeysymToString(private_ExGetKeyCodeInternal(keycode));
 }
 
-ELTDECLSPEC ExWin ELTAPIENTRY ExGetKeyboardFocus(void){
+ExWin ExGetKeyboardFocus(void){
 	ExWin window;
 	int revert_to_return;
 	XGetInputFocus(display,&window,&revert_to_return);
 	return window;
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExSetKeyboardFocus(ExWin window){
+void ExSetKeyboardFocus(ExWin window){
 	XSetInputFocus(display, window, RevertToParent, CurrentTime);
 }
 
 
-ELTDECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys){
+const Uint8* ExGetKeyboardState(Int32* numkeys){
 
 	xcb_query_keymap_reply_t* keymap = NULL;
 	//keymap = xcb_query_keymap_reply(xcbConnection,xcb_query_keymap(xcbConnection), NULL);*/
@@ -168,35 +168,36 @@ ELTDECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys){
 /**
 
 */
-ELTDECLSPEC ExKeycode ELTAPIENTRY ExGetModeState(void){
+ExKeycode ExGetModeState(void){
     return XGrabKey(display,AnyKey, ControlMask | ShiftMask, ExGetKeyboardFocus(), True, GrabModeAsync, GrabModeSync);
 }
 
-ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKey(void){
-
-	return FALSE;
-}
-ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void){
+ExBoolean ExAnyKey(void){
 
 	return FALSE;
 }
 
+ExBoolean ExAnyKeyDown(void){
 
-ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(Uint32 keyCode){
+	return FALSE;
+}
+
+
+ExBoolean ExIsKey(Uint32 keyCode){
 	return ExIsKeyDown(keyCode);
 
 }
 
-
 #ifdef EX_LINUX
+/**/
 	extern xcb_connection_t* xcbConnection;
 #endif
 
-ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode){
-	KeySym keysym = ExGetKeyCodeInternal(keyCode);
+ExBoolean ExIsKeyDown(Uint32 keyCode){
+	KeySym keysym = private_ExGetKeyCodeInternal(keyCode);
 
-	if(!xcbConnection)
-		xcbConnection = XGetXCBConnection(display);
+//	if(!xcbConnection)
+//		xcbConnection = XGetXCBConnection(display);
 
 
 	unsigned int keycode = XKeysymToKeycode(display, keysym);
@@ -205,8 +206,9 @@ ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode){
 
 		xcb_query_keymap_reply_t* keymap = NULL;
 		unsigned char isPressed;
-		keymap = xcb_query_keymap_reply(xcbConnection,xcb_query_keymap(xcbConnection), NULL);
-
+		XLockDisplay(display);
+		keymap = xcb_query_keymap_reply(xcbConnection, xcb_query_keymap(xcbConnection), NULL);
+		XUnlockDisplay(display);
 		isPressed = (keymap->keys[keycode/8] & (1 << (keycode % 8))) ?  1 : 0;
 
         return isPressed;
@@ -215,6 +217,6 @@ ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode){
 
 }
 
-ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyUp(Uint32 keyCode){
+ExBoolean ExIsKeyUp(Uint32 keyCode){
 	return ExIsKeyDown(keyCode);
 }

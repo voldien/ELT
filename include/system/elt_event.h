@@ -24,60 +24,72 @@
 extern "C"{
 #endif
 
-
+/*
+ *
+ */
 EX_ALIGN_PREFIX(4)
 typedef struct ex_point{
-	int x,y;
+	int x,y;		/**/
 }ExPoint;
 
+/*
+ *
+ */
 EX_ALIGN_PREFIX(4)
 typedef struct ex_size{
-	unsigned int width;
-	unsigned int height;
+	unsigned int width;		/**/
+	unsigned int height;		/**/
 }ExSize;
 
+/*
+ *
+ */
 EX_ALIGN_PREFIX(4)
 typedef struct ex_rect{
-	int x;
-	int y;
-	int width;
-	int height;
+	int x;		/**/
+	int y;		/**/
+	int width;		/**/
+	int height;		/**/
 }ExRect;
 
 
-
-#define EX_EVENT_MOUSE 0x1
-#define EX_EVENT_KEY 0x2
-#define EX_EVENT_KEY_RELEASE 0x200
-#define EX_EVENT_SIZE 0x4
-#define EX_EVENT_SYSTEM 0x8
-#define EX_EVENT_MOUSEWHEEL 0x10
-#define EX_EVENT_JOYSTICK 0x20
-#define EX_EVENT_TOUCH 0x40
-#define EX_EVENT_DROP 0x80
-#define EX_EVENT_QUIT 0x100
-#define EX_EVENT_MOUSE_MOTION 0x400
-#define EX_EVENT_EXPOSE	0x800
-#define EX_EVENT_ON_FOCUSE	0x1000
-#define EX_EVENT_ON_UNFOCUSE 0x2000
-#define EX_EVENT_WINDOW_MOVE 0x4000
-#define EX_EVENT_WINDOW_DESTROYED 0x8000
-
-
-
-
+/*
+ *	Event flag.
+ */
+#define EX_EVENT_KEY 0x1
+#define EX_EVENT_KEY_RELEASE 0x2
+#define EX_EVENT_KEY_PRESSED 0x4
+#define EX_EVENT_MOUSE 0x8
+#define EX_EVENT_MOUSE_PRESSED 0x10
+#define EX_EVENT_MOUSE_RELEASED 0x20
+#define EX_EVENT_SIZE 0x40
+#define EX_EVENT_RESIZE 0x40
+#define EX_EVENT_SYSTEM 0x80
+#define EX_EVENT_MOUSEWHEEL 0x100
+#define EX_EVENT_JOYSTICK 0x200
+#define EX_EVENT_TOUCH 0x400
+#define EX_EVENT_DROP 0x800
+#define EX_EVENT_QUIT 0x1000
+#define EX_EVENT_MOUSE_MOTION 0x2000
+#define EX_EVENT_EXPOSE	0x4000
+#define EX_EVENT_ON_FOCUSE	0x8000
+#define EX_EVENT_ON_UNFOCUSE 0x10000
+#define EX_EVENT_WINDOW_MOVE 0x20000
+#define EX_EVENT_WINDOW_DESTROYED 0x40000
 
 
 EX_ALIGN_PREFIX(4)
 typedef struct ex_system_event{
+
 	/*
 	 *
 	 */
-	unsigned int message;
+	Uint message;
 }ExSystemEvent;
 
 EX_ALIGN_PREFIX(4)
 typedef struct ex_joy_stick_event{
+
 	/*
 	 *
 	 */
@@ -86,6 +98,7 @@ typedef struct ex_joy_stick_event{
 
 EX_ALIGN_PREFIX(4)
 typedef struct ex_joystick_move_event{
+
 	/*
 	 *
 	 */
@@ -94,6 +107,7 @@ typedef struct ex_joystick_move_event{
 
 EX_ALIGN_PREFIX(4)
 typedef struct ex_joystick_button_event{
+
 	/*
 	 *
 	 */
@@ -102,8 +116,15 @@ typedef struct ex_joystick_button_event{
 
 EX_ALIGN_PREFIX(4)
 typedef struct ex_mouse_move_event{
-	int x;						/**/
-	int y;						/**/
+	/*
+	 *
+	 */
+	int x;
+
+	/*
+	 *
+	 */
+	int y;
 }ExMouseMoveEvent;
 
 EX_ALIGN_PREFIX(4)
@@ -112,32 +133,60 @@ typedef struct ex_mouse_motion_event{
 	int y;						/**/
 	int xdelta;					/**/
 	int ydelta;					/**/
-}MouseMotionEvent;
+}ExMouseMotionEvent;
 
 EX_ALIGN_PREFIX(4)
 typedef struct elt_win_button_event{
-	Uint8 button;				/**/
+	/*
+	 *
+	 */
+	Uint8 button;
 }ExWinButtonEvent;
+
 
 EX_ALIGN_PREFIX(4)
 typedef struct ex_mouse_wheel_event{
-	int delta;					/**/
-	int x,y;					/**/
+	/*
+	 *
+	 */
+	int delta;
+	/*
+	 *
+	 */
+	int x,y;
 }ExMouseWheelEvent;
+
 
 EX_ALIGN_PREFIX(4)
 typedef struct ex_key_event{
-	Uint8 code;					/**/
-	Uint8 alt;					/**/
-	Uint8 shift;				/**/
-	Uint8 system;				/**/
-	Uint8 ctrl;					/**/
+	/*
+	 *
+	 */
+	Uint8 code;
+	/*
+	 *
+	 */
+	Uint8 alt;
+	/*
+	 *
+	 */
+	Uint8 shift;
+	/*
+	 *
+	 */
+	Uint8 system;
+	/*
+	 *
+	 */
+	Uint8 ctrl;
 }ExKeyEvent;
 
 EX_ALIGN_PREFIX(4)
 typedef struct ex_drop_event{
-	int number;					/**/
-	int cize;					/**/
+	/**/
+	int number;
+	/**/
+	int cize;
 }ExDropEvent;
 
 
@@ -156,13 +205,20 @@ typedef struct ex_touch_finger_event{
 
 EX_ALIGN_PREFIX(4)
 typedef struct ex_window_destroy{
+	/*
+	 *
+	 */
 	ExWin window;
-
 }ExEventDestroyedWindow;
 
 
-EX_ALIGN_PREFIX(4)
+
+
+EX_ALIGN_PREFIX(8)
 typedef struct window_poll_events{
+	/*
+	 *
+	 */
 	Enum event;                                     /*      */
 	ExKeyEvent key;                                 /*      */
 	ExSize size;                               		/*      */
@@ -171,13 +227,16 @@ typedef struct window_poll_events{
 	ExWinButtonEvent button;        				/*      */
 	ExDropEvent drop;                 				/*      */
 	unsigned long int time;							/*		*/
-	void* display;									/*		*/
+	ExDisplay display;								/*		*/
 	ExWin window;
 }ExWindowEvent;
 
 
-EX_ALIGN_PREFIX(4)
+EX_ALIGN_PREFIX(8)
 typedef struct elt_poll_events{
+	/*
+	 *
+	 */
 	Enum event;									/*			*/
 	ExKeyEvent key;                            	/*          */
 	ExMouseMoveEvent mouse;                    	/*          */
@@ -188,10 +247,10 @@ typedef struct elt_poll_events{
 	ExSize size;                          		/*          */
 	ExSystemEvent system;                      	/*          */
 	ExTouchFingerEvent touch;                  	/*          */
-	MouseMotionEvent motion;					/*			*/
+	ExMouseMotionEvent motion;					/*			*/
 	ExEventDestroyedWindow destroy;				/*			*/
 	unsigned long int time;						/*			*/
-	void* display;								/*			*/
+	ExDisplay display;							/*			*/
 	/*ExPoint location;	*/
 	ExWin window;
 }ExEvent;
@@ -203,7 +262,7 @@ typedef struct elt_poll_events{
  *	Poll Event from process.
  *	\event
  *	@Return
-*/
+ */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
 
 /*
@@ -211,7 +270,7 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
  *	\window
  *	\event
  *	@Return
-*/
+ */
 
 
 /*
@@ -223,7 +282,7 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
  *	[ExWindowEvent] pointer to event struct. all event will be stored in it.
  *	#return if PeekMessage was success.
  *	PeekMessage : http://msdn.microsoft.com/en-us/library/windows/desktop/ms644943(v=vs.85).aspx
-*/
+ */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event);
 
 

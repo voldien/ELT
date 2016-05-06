@@ -42,75 +42,60 @@
 	#include "ppapi/gles2/gl2ext_ppapi.h"
 #endif 
 
-#define KNRM  "\x1B[0m"
-#define KRED  "\x1B[31m"
-#define KGRN  "\x1B[32m"
-#define KYEL  "\x1B[33m"
-#define KBLU  "\x1B[34m"
-#define KMAG  "\x1B[35m"
-#define KCYN  "\x1B[36m"
-#define KWHT  "\x1B[37m"
-#define RESET "\033[0m"
-
-#define EX_CONSOLE_BLACK 0x0
-#define EX_CONSOLE_BLUE 0x1
-#define EX_CONSOLE_GREEN 0x2
-#define EX_CONSOLE_AQUA 0x3
-#define EX_CONSOLE_RED 0x4
-#define EX_CONSOLE_PURPLE 0x5
-#define EX_CONSOLE_YELLOW  0x6
-#define EX_CONSOLE_WHITE 0x7
-#define EX_CONSOLE_GRAY 0x8
-#define EX_CONSOLE_LIGHT_BLUE 0x9
-#define EX_CONSOLE_LIGHT_GREEN 0xA
-#define EX_CONSOLE_LIGHT_AQUA 0xB
-#define EX_CONSOLE_LIGHT_RED 0xC
-#define EX_CONSOLE_LIGHT_PURPLE 0xD
-#define EX_CONSOLE_LIGHT_YELLOW 0xE
-#define EX_CONSOLE_LIGHT_WHITE 0xF
-#define EX_CONSOLE_COLOR_RESET 0x10
 
 
-ELTDECLSPEC void ELTAPIENTRY ExSetConsoleColor(Uint16 colour){
-#if defined(EX_WINDOWS)
-	if(GetStdHandle(STD_OUTPUT_HANDLE) == INVALID_HANDLE_VALUE)return;
 
-	if(!SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),colour))
-		wExDevPrintf(EX_TEXT("failed to Set Console Text Attribute | %s"), ExGetErrorMessage(GetLastError()));
-#elif defined(EX_LINUX)
-	switch(colour){
-	case EX_CONSOLE_BLACK: printf(KNRM);break;
-	case EX_CONSOLE_BLUE : printf(KBLU);break;
-	case EX_CONSOLE_GREEN : printf(KNRM);break;
-	case EX_CONSOLE_AQUA : printf(KNRM);break;
-	case EX_CONSOLE_RED : printf(KNRM);break;
-	case EX_CONSOLE_PURPLE : printf(KNRM);break;
-	case EX_CONSOLE_YELLOW : printf(KNRM);break;
-	case EX_CONSOLE_WHITE : printf(KNRM);break;
-	case EX_CONSOLE_GRAY : printf(KNRM);break;
-	case EX_CONSOLE_LIGHT_BLUE : printf(KNRM);break;
-	case EX_CONSOLE_LIGHT_GREEN : printf(KNRM);break;
-	case EX_CONSOLE_LIGHT_AQUA : printf(KNRM);break;
-	case EX_CONSOLE_LIGHT_RED : printf(KNRM);break;
-	case EX_CONSOLE_LIGHT_PURPLE : printf(KNRM);break;
-	case EX_CONSOLE_LIGHT_YELLOW : printf(KNRM);break;
-	case EX_CONSOLE_LIGHT_WHITE : printf(KNRM);break;
-	case EX_CONSOLE_COLOR_RESET: printf(RESET);break;
+
+#if defined(EX_LINUX)
+static int private_ctxErrorHandler(Display* dpy, XErrorEvent* error){
+    char error_buffer[1024];
+    XGetErrorText(dpy, error->error_code, error_buffer, sizeof(error_buffer));
+
+    fprintf(stderr,
+            "_X Error of failed request: %s\n"
+            "_ Major opcode of failed request: % 3d (???)\n"
+            "_ Serial number of failed request:% 5d\n"
+            "_ Current serial number in output stream:?????\n",
+            error_buffer,
+            error->request_code,
+            error->serial
+            );
+    return NULL;
+}
+#endif
+
+
+int ExInitErrorHandler(void){
+#if defined(EX_LINUX)
+    /*	enable X window error message handler.	*/
+	if(!XSetErrorHandler(private_ctxErrorHandler)){
+        ExDevPrintf("error");
 	}
 #endif
-}
 
-
-ELTDECLSPEC Uint16 ELTAPIENTRY ExGetConsoleColor(void){
+	/*	interrupt	*/
+	ExSetSignal(SIGINT,ExSignalCatch);
 #ifdef EX_WINDOWS
-	CONSOLE_SCREEN_BUFFER_INFO bufferInfo;
-	if(GetStdHandle(STD_OUTPUT_HANDLE) == INVALID_HANDLE_VALUE)return 0;
-	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),&bufferInfo);
-	return bufferInfo.wAttributes;
-#elif defined(EX_UNIX)
-	return 0;
+	/*	Sudden Abort	*/
+	//ExSetSignal(SIGABRT_COMPAT, ExSignalCatch);
+#elif defined(EX_LINUX)
+	/* Stack fault.  */
+	ExSetSignal(SIGSTKFLT,ExSignalCatch);
+	/*              */
+    ExSetSignal(SIGQUIT, exit);
 #endif
+
+	/*	Software termination signal from kill	*/
+	ExSetSignal(SIGTERM, ExSignalCatch);
+	/*floating point exception*/
+	ExSetSignal(SIGFPE, ExSignalCatch);
+	/*	segment violation	*/
+	ExSetSignal(SIGSEGV, ExSignalCatch);
+	/*	illegal instruction	*/
+	ExSetSignal(SIGILL, ExSignalCatch);
+	return TRUE;
 }
+
 
 
 
@@ -118,7 +103,7 @@ ELTDECLSPEC Uint16 ELTAPIENTRY ExGetConsoleColor(void){
 ExChar* errorText = NULL;
 
 
-ELTDECLSPEC void ELTAPIENTRY ExError(const ExChar* error,...){
+void ExError(const ExChar* error,...){
 	va_list argptr;
 
 	va_start(argptr,error);
@@ -136,7 +121,7 @@ ELTDECLSPEC void ELTAPIENTRY ExError(const ExChar* error,...){
 #endif
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...){
+void ExErrorl(Enum flag, const ExChar* error, ...){
 	ExChar text[512];
 
 	va_list argptr;
@@ -182,22 +167,22 @@ ELTDECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...){
 		exit(EXIT_FAILURE);
 }
 
+Int errorIndex = 0;
 ERESULT ex_error[4] = {E_OK};
-ELTDECLSPEC ERESULT ELTAPIFASTENTRY ExGetError(void){
+ERESULT ExGetError(void){
 	return ex_error[0];
 }
 
-ELTDECLSPEC void ELTAPIFASTENTRY ExSetError(ERESULT error){
+void ExSetError(ERESULT error){
 	ex_error[0] = error;
 }
 
-ELTDECLSPEC void ELTAPIFASTENTRY ExClearError(void){
+void ExClearError(void){
 	memset(ex_error,E_OK, sizeof(ex_error));
 }
 
 
-ELTDECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode){
-#ifdef EX_DEBUG
+ExChar* ExGetErrorString(ERESULT errorcode){
 	switch(errorcode){
 	case E_OK:return EX_TEXT("Sucess");
 	case E_FAILURE:return EX_TEXT("failure");
@@ -207,66 +192,12 @@ ELTDECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode){
 	case E_INVALID_ENUM:return EX_TEXT("Invalid enum");
 	default:return EX_TEXT("Unknown");
 	}
-#endif
 	return NULL;
 }
 
-#if defined(EX_LINUX)
 
 
-static int ctxErrorHandler(Display* dpy, XErrorEvent* error){
-    #ifdef EX_DEBUG
-    char error_buffer[1024];
-    XGetErrorText(dpy, error->error_code, error_buffer, sizeof(error_buffer));
-    fprintf(stderr,
-            "_X Error of failed request: %s\n"
-            "_ Major opcode of failed request: % 3d (???)\n"
-            "_ Serial number of failed request:% 5d\n"
-            "_ Current serial number in output stream:?????\n",
-            error_buffer,
-            error->request_code,
-            error->serial
-            );
-    #endif
-    return NULL;
-}
-#endif
-
-
-
-
-int ELTAPIENTRY ExInitErrorHandler(void){
-#if defined(EX_LINUX)
-    /*	enable X window error message handler.	*/
-	if(!XSetErrorHandler(ctxErrorHandler))
-        ExDevPrintf("error");
-#endif
-
-	/*	interrupt	*/
-	ExSetSignal(SIGINT,ExSignalCatch);
-#ifdef EX_WINDOWS
-	/*	Sudden Abort	*/
-	//ExSetSignal(SIGABRT_COMPAT, ExSignalCatch);
-#elif defined(EX_LINUX)
-	/* Stack fault.  */
-	ExSetSignal(SIGSTKFLT,ExSignalCatch);
-	/*              */
-    ExSetSignal(SIGQUIT, exit);
-#endif
-
-	/*Software termination signal from kill*/
-	ExSetSignal(SIGTERM,ExSignalCatch);
-	/*floating point exception*/
-	ExSetSignal(SIGFPE,ExSignalCatch);
-	/*segment violation*/
-	ExSetSignal(SIGSEGV,ExSignalCatch);
-	/*illegal instruction*/
-	ExSetSignal(SIGILL,ExSignalCatch);
-	return TRUE;
-}
-
-
-void ELTAPIENTRY ExErrorExit(ExChar* lpszFunction) {
+void ExErrorExit(ExChar* lpszFunction) {
 
     // Retrieve the system error message for the last-error code
 #ifdef EX_WINDOWS
@@ -302,7 +233,7 @@ void ELTAPIENTRY ExErrorExit(ExChar* lpszFunction) {
 
 }
 
-ELTDECLSPEC ExChar* ELTAPIENTRY ExGetErrorMessageW(ULong dw){
+ExChar* ExGetErrorMessageW(ULong dw){
 #ifdef EX_WINDOWS
 	if(errorText)   /*free allocated error message.*/
 		LocalFree(errorText);
@@ -326,7 +257,7 @@ ELTDECLSPEC ExChar* ELTAPIENTRY ExGetErrorMessageW(ULong dw){
 #endif
 }
 
-ELTDECLSPEC ExChar* ELTAPIENTRY ExGetHResultErrorMessageW(ERESULT hresult){
+ExChar* ExGetHResultErrorMessageW(ERESULT hresult){
 #ifdef EX_WINDOWS
 	if(errorText)LocalFree(errorText);
 	FormatMessage(
@@ -354,7 +285,7 @@ ELTDECLSPEC ExChar* ELTAPIENTRY ExGetHResultErrorMessageW(ERESULT hresult){
 #endif
 }
 
-ELTDECLSPEC ExChar* ELTAPIENTRY ExGetHModuleErrorMessageW(ERESULT dw){
+ExChar* ExGetHModuleErrorMessageW(ERESULT dw){
 #ifdef EX_WINDOWS
 	if(errorText)LocalFree(errorText);
 	ExIsError(FormatMessage(
@@ -440,7 +371,8 @@ static void debugLogTrace(void){
 
 
 #define EX_ERROR_MESSAGE EX_TEXT("%s has just crashed %s Do you want to send a bug report to the developers team?")
-ELTDECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
+
+void ExSignalCatch(Int32 signal){
 	ExChar wchar[512];
 	ExChar app_name[256];
 	char cfilename[260];
@@ -460,23 +392,23 @@ ELTDECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 
 	switch(signal){
 	case SIGSEGV:
-		ExSPrintf(wchar,EX_ERROR_MESSAGE,app_name,EX_TEXT("Error : segment violation.\n"));
+		ExSPrintf(wchar, EX_ERROR_MESSAGE, app_name, EX_TEXT("Error : segment violation.\n"));
 		break;
 	case SIGINT:
-		ExSPrintf(wchar,EX_ERROR_MESSAGE,app_name,EX_TEXT("Error : interrupt.\n"));
+		ExSPrintf(wchar, EX_ERROR_MESSAGE, app_name, EX_TEXT("Error : interrupt.\n"));
 		exit(1);
 		break;
 	case SIGILL:
-		ExSPrintf(wchar,EX_ERROR_MESSAGE,app_name,EX_TEXT("Error : illegal instruction - invalid function image.\n"));
+		ExSPrintf(wchar, EX_ERROR_MESSAGE, app_name, EX_TEXT("Error : illegal instruction - invalid function image.\n"));
 		break;
 	case SIGFPE:
-		ExSPrintf(wchar,EX_ERROR_MESSAGE,app_name,EX_TEXT("Error : floating point exception.\n"));
+		ExSPrintf(wchar, EX_ERROR_MESSAGE, app_name, EX_TEXT("Error : floating point exception.\n"));
 		break;
 	case SIGTERM:
-		ExSPrintf(wchar,EX_ERROR_MESSAGE,app_name,EX_TEXT("Error : Software termination signal from kill.\n"));
+		ExSPrintf(wchar, EX_ERROR_MESSAGE, app_name, EX_TEXT("Error : Software termination signal from kill.\n"));
 		break;
 	case SIGABRT:
-		ExSPrintf(wchar,EX_ERROR_MESSAGE,app_name,EX_TEXT("Error : abnormal termination trigged by abort call.\n"));
+		ExSPrintf(wchar, EX_ERROR_MESSAGE, app_name, EX_TEXT("Error : abnormal termination trigged by abort call.\n"));
 		break;
 #if defined(EX__UNIX)
     	case SIGQUIT:
@@ -484,7 +416,7 @@ ELTDECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
         break;
 #endif
 	default:
-		ExSPrintf(wchar,EX_ERROR_MESSAGE,app_name,EX_TEXT("Error Unknown.\n"));
+		ExSPrintf(wchar, EX_ERROR_MESSAGE, app_name, EX_TEXT("Error Unknown.\n"));
 		break;
 	}
 	ExPrint(wchar);
@@ -525,7 +457,7 @@ ELTDECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal){
 }
 
 
-int ELTAPIENTRY ExSetSignal(unsigned int isignal, singalcallback signal_callback){
+int ExSetSignal(unsigned int isignal, ExSignalCallback signal_callback){
 	int hr;
 	hr = (int)signal(isignal,signal_callback);
 	ExIsError(hr != (int)SIG_ERR);

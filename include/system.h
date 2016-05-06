@@ -20,6 +20,8 @@
 #define _ELT_SYSTEM_H_ 1
 #include"elt_def.h"
 
+#include"system/elt_file.h"
+#include"system/elt_log.h"
 #include"system/elt_win.h"
 #include"system/elt_gl.h"
 #include"system/elt_cl.h"

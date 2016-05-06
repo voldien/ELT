@@ -1,6 +1,6 @@
 /**
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
-    Copyright (C) 2014  Valdemar Lindberg
+    Copyright (C) 2016  Valdemar Lindberg
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,10 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _EX_ASSERT_H_
-#define _EX_ASSERT_H_ 1
-#include<assert.h>
-// send error message to
-//#define ExAssert(condition) _wassert(_CRT_WIDE(#_Expression), _CRT_WIDE(__FILE__), __LINE__),0)
+#ifndef _ELT_COLOR_H_
+#define _ELT_COLOR_H_ 1
+
+
 
 #endif

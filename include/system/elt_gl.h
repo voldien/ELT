@@ -21,6 +21,8 @@
 #include"./../elt_def.h"
 #include"elt_egl.h"
 
+
+
 #ifdef EX_WINDOWS
 	#define ExSwapBuffers(surface) SwapBuffers(surface)
 #elif defined(EX_LINUX)
@@ -28,8 +30,8 @@
 #elif defined(EX_MAC)
 	#define ExSwapBuffers glSwapBuffers
 #elif defined(EX_ANDROID)
-	extern EGLDisplay eglDisplay;
-	#define ExSwapBuffers(surface) eglSwapBuffers(eglDisplay, surface)
+	extern ExEGLDisplay eglDisplay;
+	#define ExSwapBuffers(surface) eglSwapBuffers((EGLDisplay)eglDisplay, surface)
 #else
 	extern ELTDECLSPEC void ExSwapBuffers(void* surface);
 #endif
@@ -38,7 +40,7 @@
 /*
  *	GPU Vendors constant of.
  */
-#define EX_UNKNOWN		0x0				/**/
+#define EX_GPU_VENDOR_UNKNOWN		0x0				/**/
 #define EX_NVIDIA		0x1				/**/
 #define EX_INTEL		0x2				/**/
 #define EX_AMD			0x4				/**/
@@ -111,7 +113,7 @@ extern ELTDECLSPEC ExWindowContext ELTAPIFASTENTRY ExGetCurrentGLDrawable(void);
  *	Get OpenGL context on the current thread
  *	@Return
  */
-extern ELTDECLSPEC ExOpenGLContext ELTAPIFASTENTRY ExGetCurrenOpenGLContext(void);
+extern ELTDECLSPEC ExOpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void);
 
 /*
  *	Make current OpenGL context.
@@ -119,7 +121,7 @@ extern ELTDECLSPEC ExOpenGLContext ELTAPIFASTENTRY ExGetCurrenOpenGLContext(void
  *	\glc
  *	@Return
  */
-extern ELTDECLSPEC int ELTAPIENTRY ExMakeGLCurrent(ExWindowContext hDC, ExOpenGLContext glc);
+extern ELTDECLSPEC int ELTAPIENTRY ExMakeGLCurrent(EX_RESTRICT ExWindowContext hDC,  EX_RESTRICT ExOpenGLContext glc);
 
 
 /*	//TODO rename
@@ -198,6 +200,8 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExDestroyCurrentGLContext(void);
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes);
 
 
+
+
 #define EX_GLTRANSPARENT_ENABLE 0x1
 #define EX_GLTRANSPARENT_DISABLE 0x0
 #define EX_GLTRANSPARENT_FULLBLUR 0x2
@@ -210,7 +214,7 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen,
  *  ExSetHint(EX_ALPHA, x > 0);
  *  read more about DwmEnableBlurBehindWindow : http://msdn.microsoft.com/en-us/library/windows/desktop/aa969508(v=vs.85).aspx
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin hWnd, Enum ienum);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window, Enum ienum);
 
 /*
  *	Get Hardware OpenGL shading Version
@@ -222,7 +226,7 @@ extern ELTDECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void);
  *	Get OpenGL Version
  *	@Return
  */
-extern ELTDECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor);
+extern ELTDECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major, int* minor);
 
 
 /*
@@ -235,8 +239,11 @@ extern ELTDECLSPEC Uint32 ELTAPIENTRY ExIsOpenGLExtensionSupported(const char* e
  *	TODO perhaps move it somewhere else, as some other API may use the same
  *	extension parsing convention.
  */
-extern ELTDECLSPEC Uint32 ELTAPIENTRY ExIsExtensionSupported(const char* extList,const char* extension);
+extern ELTDECLSPEC Uint32 ELTAPIENTRY ExIsExtensionSupported(const char* extList, const char* extension);
 
+
+extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetOpenGLServerExtension(void);
+extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetOpenGLClientExtension(void);
 
 /*
  *	Check if graphic card is AMD GPU

@@ -45,11 +45,11 @@
 
 #include"system/elt_icon.h"
 #define EX_ENGINE_VERSION_STRING EX_TEXT("ELT Version | %d.%d%d%s | OS : %s : OpenGL %d.%d")
-ELTDECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, Int32 length){
+ExChar* ExGetDefaultWindowTitle(ExChar* text, Int32 length){
 	if(!text)
 		return NULL;
 
-	ExChar wchar[260] = {};
+	ExChar wchar[512] = {'\0'};
 	int major;
 	int minor;
 
@@ -67,11 +67,11 @@ ELTDECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, Int32 leng
 		ExGetOSName(),
 		major,
 		minor);
-	memcpy(text, wchar, MAX(sizeof(ExChar) * length + sizeof(ExChar),sizeof(wchar) / sizeof(ExChar)));
+	memcpy(text, wchar, EX_MAX(sizeof(ExChar) * length + sizeof(ExChar),sizeof(wchar) / sizeof(ExChar)));
 	return text;
 }
 
-static void* createELTIcon(ExWin window){
+static void* private_CreateELTIcon(ExWin window){
 	if(!window)
 		return NULL;
 
@@ -92,7 +92,8 @@ static void* createELTIcon(ExWin window){
 
 
 
-ELTDECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 height, Enum flag){
+
+ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 height, Enum flag){
 	ExWin window = NULL;
 	ExOpenGLContext glc = NULL;
 	ExOpenCLContext clc = NULL;
@@ -100,7 +101,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32
 
 #ifdef EX_WINDOWS
     void* directx;
-	if((flag & ENGINE_NATIVE) || flag == 0){
+	if((flag & EX_NATIVE) || flag == 0){
 		// create default window
 		return ExCreateNativeWindow(x,y,width, height);
 	}
@@ -117,7 +118,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32
 	}
 	else if(flag & EX_OPENGLES){
 		window = (ExWin)ExCreateNativeWindow(x,y,width,height);
-		glc = (ExOpenGLContext)ExCreateEGLContext(window);
+		glc = (ExOpenGLContext)ExCreateEGLContext(window,NULL);
 		ExMakeGLCurrent(GetDC(window),glc);
 #ifndef DONT_SUPPORT_OPENCL
 		if(flag & EX_OPENCL)
@@ -151,7 +152,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32
 	}
 	/*	Linux Window Implementation	*/
 #elif defined(EX_LINUX) || defined(EX_MAC)
-	if((flag & ENGINE_NATIVE) || !flag){
+	if((flag & EX_NATIVE) || !flag){
 		window = ExCreateNativeWindow(x,y,width, height);
 	}
 
@@ -170,7 +171,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32
 	else if(flag & EX_OPENGLES){
 
 		window = ExCreateNativeWindow(x,y,width,height);
-		glc = ExCreateEGLContext(window);
+		glc = ExCreateEGLContext(window,NULL);
 
 #ifndef DONT_SUPPORT_OPENCL
 		if(flag & EX_OPENCL)
@@ -188,7 +189,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32
     /**
 
     */
-	if((flag & ENGINE_NATIVE) || flag == 0){
+	if((flag & EX_NATIVE) || flag == 0){
 
 	}
 	else if((flag & ENGINE_OPENGL) || (flag & ENGINE_OPENCL)){
@@ -199,7 +200,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32
     /**
         Android
     */
-	if((flag & ENGINE_NATIVE) || flag == 0){
+	if((flag & EX_NATIVE) || flag == 0){
         ANativeWindow_acquire(&window);
 	}
 	else if(flag & EX_OPENGL){
@@ -228,7 +229,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32
 
 	}
 #elif defined(EX_PNACL) || defined(EX_NACL)
-    if(flag & ENGINE_NATIVE){
+    if(flag & EX_NATIVE){
 
 
     }
@@ -243,7 +244,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32
 
 
     /*	icon	*/
-    ExSetWindowIcon(window,createELTIcon(window));
+    ExSetWindowIcon(window,private_CreateELTIcon(window));
 
     /*	title*/
     ExGetDefaultWindowTitle(title,sizeof(title) / sizeof(title[0]));
@@ -254,7 +255,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32
 
 
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExIsScreenSaverEnable(void){
+	Int32 ExIsScreenSaverEnable(void){
 #ifdef EX_WINDOWS
     if(ExIsModuleLoaded(""))
         return TRUE;

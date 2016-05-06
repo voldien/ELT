@@ -18,6 +18,8 @@
 */
 #ifndef _ELT_TEXTURE_H_ 
 #define _ELT_TEXTURE_H_ 1
+#include"../elt_def.h"
+#include"../ExNT.h"
 
 typedef struct ex_texture{
 	unsigned int target;			/**/
@@ -34,62 +36,76 @@ typedef struct ex_texture{
 extern "C"{
 #endif
 
+
+/*
+ *
+ *	@Return
+ */
+extern ELTDECLSPEC ExTexture* ExCreateTexture(ExTexture* texture, unsigned int target, int level, int internalFormat, int width, int height, int border, unsigned int format, unsigned int type, const void *pixels);
+
+/*
+ *
+ */
+extern ELTDECLSPEC void ExSubTexture(ExTexture* texture, int level,	int xoffset, int yoffset, int width, int height, int format, int type, const void *pixels );
+/*
+ *
+ */
+extern ELTDECLSPEC void ELTAPIENTRY ExDeleteTexture(ExTexture* texture);
+
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExIsTexture(ExTexture* texture);
+
+
 /*
  *	return texture internal type in size in bytes
+ *	@Return
  */
-extern unsigned int ExGetTextureTypeSize(unsigned int internalformat);
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetTextureTypeSize(unsigned int internalformat);
 
 /*
  *	return texture internal type in size in bits
+ *	@Return
  */
-extern unsigned int ExGetTextureTypeBits(unsigned int internalformat);
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetTextureTypeBits(unsigned int internalformat);
 
 /*
  *	Get texture Internal format by number of bits
+ *	@Return
  */
-extern unsigned int ExGetTextureTypeBySize(unsigned int bytesperpixel);
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetTextureTypeBySize(unsigned int bytesperpixel);
 
 
 /*
  *	Get texture Internal format by number of bits
+ *	@Return
  */
-extern unsigned int ExGetTextureTypeByBits(unsigned int bitsPerPixels);
+extern ELTDECLSPEC unsigned int ExGetTextureTypeByBits(unsigned int bitsPerPixels);
 
 /*
  *
+ *	@Return
  */
-extern unsigned int ExGetInternalSrgbType(unsigned int internal_format);
+extern ELTDECLSPEC unsigned int ExGetInternalSrgbType(unsigned int internal_format);
 
 /*
  *	get texture size in bytes
+ *	@Return
  */
-extern unsigned int ExGetTextureDataSize(unsigned int textureid);
+extern ELTDECLSPEC unsigned int ExGetTextureDataSize(unsigned int textureid);
 
 /*
- *Get texture data by level in unsigned int
+ *	Get texture data by level in unsigned int
+ *	@Return
  */
-extern unsigned int ExGetTextureLevelDatai(unsigned int textureid,unsigned int level,unsigned char** pixeldata);
-
-/*
- *
- */
-extern ExTexture* ExCreateTexture(ExTexture* texture, unsigned int target, int level, int internalFormat, int width, int height, int border, unsigned int format, unsigned int type, const void *pixels);
-
-/*
- *
- */
-extern void ExSubTexture(ExTexture* texture, int level,	int xoffset, int yoffset, int width, int height, int format, int type, const void *pixels );
+extern ELTDECLSPEC unsigned int ExGetTextureLevelDatai(unsigned int textureid,unsigned int level,unsigned char** pixeldata);
 
 
-/*
- *
- */
-extern void ExDeleteTexture(ExTexture* texture);
 
 
-extern void ExGenerateTextureMipmap(ExTexture* texture);
+extern ELTDECLSPEC void ELTAPIENTRY ExGenerateTextureMipmap(ExTexture* texture);
 
-extern void  ExSetTextureAnisotropy(ExTexture* texture,float anisotropy);
+extern ELTDECLSPEC void  ELTAPIENTRY ExSetTextureAnisotropy(ExTexture* texture,float anisotropy);
+
+
 
 
 //GL_NUM_COMPRESSED_TEXTURE_FORMATS

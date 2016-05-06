@@ -25,11 +25,11 @@
 #ifdef  __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
-typedef void* ExDisplay;
 
 #ifdef EX_LINUX
 extern ExDisplay display;
 #endif
+
 
 #define EX_WIN_SCREENSAVER_ENABLE   0x200000
 #define EX_WIN_SCREENSAVER_DISABLE  0x400000
@@ -237,12 +237,21 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetWindowNumChildren(ExWin window);
  */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetDesktopWindow(void);
 
+/*
+ *	Get root window handle.
+ *	@Return
+ */
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetRootWindow(void);
+
+
+
+
 
 /*
  *
  *	@Return
  */
-extern ELTDECLSPEC int ELTAPIENTRY ExMessageBox(ExWin window, const ExChar* text, const ExChar* title, unsigned int flags );
+extern ELTDECLSPEC int ELTAPIENTRY ExMessageBox(ExWin window, const ExChar* text, const ExChar* title, unsigned int flags);
 
 
 /*

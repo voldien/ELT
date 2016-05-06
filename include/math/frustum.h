@@ -21,20 +21,58 @@
 #include"vect.h"
 #include"matrix.h"
 
+
 #ifdef __cplusplus	// C++ Environment
 extern "C"{
 #endif
 
-typedef struct frustum{
+/*
+ *
+ */
+typedef struct plane{
+	union{
+		exvec3f_t m;
+		struct{float normal[3]; float d;};
+	};
+}ExPlane;
 
+/*
+ *
+ */
+typedef struct sphere{
+	union{
+		exvec3f_t m;
+		struct{float normal[3]; float r;};
+	};
+}ExSphere;
+
+/*
+ *
+ */
+typedef struct frustum{
+	ExPlane planes[6];
 }ExFrustum;
 
-//struct frustum_sphere
-extern int frustum_create(ExFrustum* f);
 
+/*
+ *
+ */
+extern int frustum_create(ExFrustum* f, exvec3f_t forward, exvec3f_t up, float fov, float aspect, float near, float far);
+
+/*
+ *
+ */
 extern int frustum_AABB(const float* b, struct frustum* f);
-extern int frustum_sphere(const float* pos,float radius, struct frustum* f);
-extern int frustum_point(const vec3_t point, struct frustum* f);
+
+/*
+ *
+ */
+extern int frustum_sphere(const float* pos, float radius, struct frustum* f);
+
+/*
+ *
+ */
+extern int frustum_point(const exvec3f_t point, struct frustum* f);
 
 
 

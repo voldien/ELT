@@ -20,6 +20,7 @@
 #define _ELT_THREAD_H_ 1
 #include"EngineAssembly.h"
 #include"ExNT.h"
+#include"elt_mutex.h"
 
 #if defined(EX_WINDOWS)
 	#define ExSleep Sleep
@@ -30,6 +31,9 @@
 #ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
+
+typedef void* ExThreadContition;
+
 
 /*
  *	Thread Priority
@@ -45,50 +49,52 @@ extern "C"{
  *	\lpParameter
  *	@Return thread handle.
  */
-extern ELTDECLSPEC ExThread ELTAPIENTRY ExCreateThread(thread_routine callback, void* lpParamater, Uint32* pid);
+extern ELTDECLSPEC ExThread ELTAPIENTRY ExCreateThread(ExThreadRoutine callback, void* lpParamater, Uint32* pid);
 
 /*
  *    Create Thread with affinity mask.
  *    @Return thread handle.
  */
-extern ELTDECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(thread_routine callback, ExHandle lpParamater, Uint32* pid, Int32 core);
+extern ELTDECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(ExThreadRoutine callback, ExHandle lpParamater, Uint32* pid, Int32 core);
 
 /*
  *	Detach thread
+ *	@Return
  */
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread);
 
 
-/**/
+/*
+ *	Send signal to thread to terminate.
+ *
+ */
 extern ELTDECLSPEC void ELTAPIENTRY ExTerminateThread(ExThread thread);
 
 /*
-	\thread is the thread of the current thread.
-	TODO check if to replace  this function with ExTerminateThread.
-*/
-extern ELTDECLSPEC ERESULT ELTAPIENTRY ExExitThread(ExThread thread);
-
-/**
-	Lock Thread
-*/
-extern ELTDECLSPEC void ELTAPIENTRY ExLockThread(ExThread thread);
-
-/**
-    UnLock thread
-    @Return
-*/
-extern ELTDECLSPEC void ELTAPIENTRY ExUnLockThread(ExThread thread);
+ *	\thread is the thread of the current thread.
+ *
+ */
+extern ELTDECLSPEC void ELTAPIENTRY ExThreadExit(void* parg);
 
 /**/
 extern ELTDECLSPEC void ELTAPIENTRY ExSuspendThread(ExThread thread);
-
 
 /**/
 extern ELTDECLSPEC void ELTAPIENTRY ExResumeThread(ExThread thread);
 
 
+
+extern ELTDECLSPEC void ELTAPIENTRY ExSetThreadSignal(ExThread thread, Uint signal);
+extern ELTDECLSPEC Uint ELTAPIENTRY ExGetThreadSignal(ExThread thread);
+
+
 /**/
 extern ELTDECLSPEC void ELTAPIENTRY ExCreateThreadCondition(void);
+extern ELTDECLSPEC void ELTAPIENTRY ExDestroyThreadCondition(void);
+
+extern ELTDECLSPEC void ELTAPIENTRY ExThreadCondWait(ExThreadContition cond);
+extern ELTDECLSPEC void ELTAPIENTRY ExThreadCondBroadcast(ExThreadContition cond);
+
 
 /*
  *	Get current thread identification.
@@ -102,11 +108,17 @@ extern ELTDECLSPEC ExThread ELTAPIENTRY ExGetCurrentThread(void);
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetThreadID(ExThread thread);
 
+
 /*
  *	Get Thread name by the invoked function.
  *	@Return get function name.
  */
-extern ELTDECLSPEC const char* ELTAPIENTRY ExGetThreadName(ExThread thread);
+extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetThreadName(ExThread thread);
+/*
+ *
+ */
+extern ELTDECLSPEC void ELTAPIENTRY ExSetThreadName(ExThread thread, const ExChar* name);
+
 
 /*
  *	Set thread priority
@@ -114,11 +126,19 @@ extern ELTDECLSPEC const char* ELTAPIENTRY ExGetThreadName(ExThread thread);
  */
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread, Enum nPriority);
 
+
+
+extern ELTDECLSPEC ERESULT ELTAPIENTRY ExSetThreadState(ExThread thread, ExHandle* handle);
+extern ELTDECLSPEC ExHandle ELTAPIENTRY ExgetThreadState(ExThread thread);
+
+
+
 /*
- *	Wait the thread
+ *	Wait the thread to be terminated.
  *	@Return
  */
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExWaitThread(ExThread thread, Int32* status);
+
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 }

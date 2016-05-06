@@ -20,8 +20,7 @@
 #define _ELT_JOYSTICK_H_ 1
 #include"./../EngineAssembly.h"
 
-typedef int ExJoyStick;
-
+typedef void* ExJoyStick;
 EX_ALIGN_PREFIX(4)
 typedef struct ex_GUID{
 	Uint8 data[16];
@@ -41,7 +40,7 @@ extern ELTDECLSPEC Uint32 ELTAPIENTRY ExJoysticksNum(void);
  *	Open joystick by device index
  *	@Return
 */
-extern ELTDECLSPEC ExHandle ELTAPIENTRY ExJoystickOpen(Int32 index);
+extern ELTDECLSPEC ExJoyStick ELTAPIENTRY ExJoystickOpen(Int32 index);
 
 /*
  *   Close Joystick by device index
@@ -76,7 +75,7 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExJoystickNumAxis(Int ptr);
 /*
  *
  */
-extern ELTDECLSPEC Int16 ELTAPIENTRY ExJoystickGetAxis(Int32 device_ptr,int axis);
+extern ELTDECLSPEC Int16 ELTAPIENTRY ExJoystickGetAxis(Int32 device_ptr, int axis);
 
 /*
  *   \Button
@@ -87,6 +86,11 @@ extern ELTDECLSPEC Uint8 ELTAPIENTRY ExJoyStickGetButton(Int32 device_index, int
  *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSetJoyStickState(Enum bitFlag, Uint32 userIndex);
+
+
+extern ELTDECLSPEC void ELTAPIENTRY ExGetJoySticAxisMapping(ExJoyStick joystick, ExChar* mapping, unsigned int len);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetJoySticAxisMapping(ExJoyStick joystick, const ExChar* mapping, unsigned int len);
+
 
 #ifdef __cplusplus /* C++ environment */
 };
