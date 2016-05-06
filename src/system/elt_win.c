@@ -45,11 +45,11 @@
 
 #include"system/elt_icon.h"
 #define EX_ENGINE_VERSION_STRING EX_TEXT("ELT Version | %d.%d%d%s | OS : %s : OpenGL %d.%d")
-ELTDECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, Int32 length){
+ExChar* ExGetDefaultWindowTitle(ExChar* text, Int32 length){
 	if(!text)
 		return NULL;
 
-	ExChar wchar[260] = {};
+	ExChar wchar[512] = {'\0'};
 	int major;
 	int minor;
 
@@ -71,7 +71,7 @@ ELTDECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, Int32 leng
 	return text;
 }
 
-static void* createELTIcon(ExWin window){
+static void* private_CreateELTIcon(ExWin window){
 	if(!window)
 		return NULL;
 
@@ -89,6 +89,9 @@ static void* createELTIcon(ExWin window){
     return icon;
     #endif
 }
+
+
+
 
 ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 height, Enum flag){
 	ExWin window = NULL;
@@ -241,7 +244,7 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 height, Enum flag){
 
 
     /*	icon	*/
-    ExSetWindowIcon(window,createELTIcon(window));
+    ExSetWindowIcon(window,private_CreateELTIcon(window));
 
     /*	title*/
     ExGetDefaultWindowTitle(title,sizeof(title) / sizeof(title[0]));
@@ -252,7 +255,7 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 height, Enum flag){
 
 
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExIsScreenSaverEnable(void){
+	Int32 ExIsScreenSaverEnable(void){
 #ifdef EX_WINDOWS
     if(ExIsModuleLoaded(""))
         return TRUE;
