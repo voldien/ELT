@@ -15,6 +15,7 @@
 #endif
 #include<setjmp.h>
 
+
 #define ELT_CPU_HAS_RDSTC
 #define ELT_CPU_HAS_MMX
 #define ELT_CPU_HAS_3DNOW
@@ -66,9 +67,7 @@
 #endif
 
 
-
 const ExChar* ExGetCPUType(void){
-
 	return NULL;
 }
 

@@ -224,6 +224,7 @@ const ExChar* ExGetPlatform(void){
 
 const ExChar* ExGetOSName(void){
 	struct utsname name;
+	return EX_TEXT("linux");
 	if(uname(&name) != EFAULT)
 		return name.sysname;
 	else

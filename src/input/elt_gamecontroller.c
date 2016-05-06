@@ -1,5 +1,6 @@
 #include"input/elt_gamecontroller.h"
 #include"input/elt_joystick.h"
+
 #if defined(EX_WINDOWS)
 	#include<xinput.h>
 	#pragma comment(lib, "xinput.lib")
@@ -10,17 +11,21 @@
 
 #endif
 
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExIsGameController(Int32 joystick_index){
+
+Int32 ExGameControllerAddMapping(const char* mappingString){
+
+}
+
+ExBoolean ExIsGameController(Int32 joystick_index){
 	return (ExBoolean)0;
 }
 
-ELTDECLSPEC Uint16 ELTAPIENTRY ExGameControllerGetAxis(int index, int* axis){
+Uint16 ExGameControllerGetAxis(int index, int* axis){
 	//XInputGetState(index,axis);
 	return (Uint16)0;
 }
 
-
-ELTDECLSPEC void ELTAPIENTRY ExGameControllerVibration(Int32 index, Int16 LeftMotorSpeed, Int16 RightMotorSpeed){
+void ExGameControllerVibration(Int32 index, Int16 LeftMotorSpeed, Int16 RightMotorSpeed){
 	//XINPUT_VIBRATION vib = {LeftMotorSpeed,RightMotorSpeed};
 	//XInputSetState(index,&vib);
 }
