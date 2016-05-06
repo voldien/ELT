@@ -1,4 +1,4 @@
-/*
+/**
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -16,53 +16,29 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _ELT_EGL_H_ 
-#define _ELT_EGL_H_ 1
-#include"./../EngineAssembly.h"
-#include"elt_gl.h"
+#ifndef _ELT_PLATFORM_H_
+#define _ELT_PLATFORM_H_ 1
+#include"EngineAssembly.h"
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
-/*
- *
- */
-extern ExEGLDisplay eglDisplay;
-typedef ExWin ExEGLSurface;
+
+
 
 /*
- *
+ *	Get Platform
  *	@Return
  */
-extern ELTDECLSPEC int ELTAPIENTRY ExCreateEGLContextAttrib(ExWin window, int* attrib, unsigned int* size);
+extern ELTDECLSPEC const char* ELTAPIENTRY ExGetPlatform(void);
 
 /*
- *
+ *	Get System OperatingSystem Os Name
  *	@Return
  */
-extern ELTDECLSPEC ExEGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window, ExEGLContext shared);
+extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetOSName(void);
 
-/*
- *
- *	@Return
- */
-extern ELTDECLSPEC int ELTAPIENTRY ExCreateEGLContextAttrib(ExWin window, int* attrib, unsigned int* size);
-
-/*
- *
- */
-extern ELTDECLSPEC void ELTAPIFASTENTRY ExDestroyEGLContext(ExEGLContext context);
-
-/*
- *
- */
-extern ELTDECLSPEC void ELTAPIFASTENTRY ExEGLSetVSync(int interval_ms);
-
-/*
- *
- */
-extern ELTDECLSPEC void ELTAPIFASTENTRY ExSwapEGLBuffer(ExWin context);
 
 
 
@@ -70,4 +46,4 @@ extern ELTDECLSPEC void ELTAPIFASTENTRY ExSwapEGLBuffer(ExWin context);
 }
 #endif
 
-#endif 
+#endif

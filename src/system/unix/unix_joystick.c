@@ -12,7 +12,7 @@ Int32 joy_id[4];
 
 
 
-ELTDECLSPEC Uint32 ELTAPIENTRY ExJoysticksNum(void){
+Uint32 ExJoysticksNum(void){
 	unsigned int num;
 	unsigned int x;
 
@@ -28,40 +28,38 @@ ELTDECLSPEC Uint32 ELTAPIENTRY ExJoysticksNum(void){
 	return num;
 }
 
-ELTDECLSPEC ExHandle ELTAPIENTRY ExJoystickOpen(Int32 index){
+ExJoyStick ExJoystickOpen(Int32 index){
 	//struct js_event event;
 
 	char device_text[sizeof("/dev/input/js0") + 10] = {0};
-	sprintf(device_text,"/dev/input/js%d",index);
+	sprintf(device_text, "/dev/input/js%d", index);
 
-	joy_id[index] = open(device_text, O_RDONLY);
+	joy_id[index] = open(device_text, O_RDONLY | O_SYNC);
 	//read(joy_id[index],&event,sizeof(event));
 	return index;
 }
 
-ELTDECLSPEC int ELTAPIENTRY ExJoyStickClose(Int32 device_index){
-    close(joy_id[device_index]);
+int ExJoyStickClose(Int32 device_index){
+    return close(joy_id[device_index]);
 }
 
-ELTDECLSPEC ExGUID ELTAPIENTRY ExJoystickGetDeviceGUID(Int32 device_index){
+ExGUID ExJoystickGetDeviceGUID(Int32 device_index){
 	ExGUID guid;
 
 	//read(joy_id[device_index],&event,sizeof(event));
-
+	//JSIOCGVERSION
 	return guid;
 }
 
-ELTDECLSPEC const ExChar* ELTAPIENTRY ExJoyStickName(Uint32 ptr){
-	char name[128];
-	if(ioctl(joy_id[ptr],JSIOCGNAME(sizeof(name)),name) < 0)
+const ExChar* ExJoyStickName(Uint32 ptr){
+	static char name[128];
+	if(ioctl(joy_id[ptr], JSIOCGNAME(sizeof(name)), name) < 0){
 		strncpy(name,"Unknown", sizeof(name));
-
+	}
 	return name;
-
 }
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExJoystickNumButtons(Uint32 ptr){
-
+Int32 ExJoystickNumButtons(Uint32 ptr){
     int num_buttons;
     if(!ioctl(joy_id[ptr],JSIOCGBUTTONS,&num_buttons))
         return num_buttons;
@@ -69,7 +67,7 @@ ELTDECLSPEC Int32 ELTAPIENTRY ExJoystickNumButtons(Uint32 ptr){
         return -1;
 }
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExJoystickNumAxis(Int32 device_index){
+Int32 ExJoystickNumAxis(Int32 device_index){
     int num_axis;
     if(!ioctl(joy_id[device_index],JSIOCGAXES,&num_axis))
         return num_axis;
@@ -77,20 +75,37 @@ ELTDECLSPEC Int32 ELTAPIENTRY ExJoystickNumAxis(Int32 device_index){
         return -1;
 }
 
-ELTDECLSPEC Int16 ELTAPIENTRY ExJoystickGetAxis(Int32 index,int axis){
+Int16 ExJoystickGetAxis(Int32 index, int axis){
     struct js_event js;
-    if(read(joy_id[index], &js,sizeof(struct js_event))){
-        if(js.type & JS_EVENT_AXIS)
-            return js.value;
-    }else return -1;
+    if(read(joy_id[index], &js, sizeof(struct js_event)) >= 0){
+        if(js.type & JS_EVENT_AXIS){
+            return js.number == axis ? js.value : 0;
+        }
+    }else
+    	return 0;
 }
-/**
-    \Button Get joystick button
-*/
-ELTDECLSPEC Uint8 ELTAPIENTRY ExJoyStickGetButton(Int32 device_index, int button){
+
+
+Uint8 ExJoyStickGetButton(Int32 device_index, int button){
     struct js_event js;
     if(read(joy_id[device_index], &js,sizeof(struct js_event))){
         if(js.type & JS_EVENT_BUTTON)
             return js.value;
-    }else return -1;
+    }else
+    	return -1;
 }
+
+
+void ExGetJoySticAxisMapping(ExJoyStick joystick, ExChar* mapping, unsigned int len){
+    if(!ioctl(joy_id[(unsigned int)joystick], JSIOCGAXMAP, mapping)){
+
+    }
+}
+
+void ExSetJoySticAxisMapping(ExJoyStick joystick, const ExChar* mapping, unsigned int len){
+    if(!ioctl(joy_id[(unsigned int)joystick], JSIOCSAXMAP, mapping)){
+
+    }
+    return;
+}
+

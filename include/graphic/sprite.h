@@ -21,6 +21,7 @@
 #include"../EngineAssembly.h"
 #include"texture.h"
 #include"shader.h"
+#include"font.h"
 #ifdef __cplusplus	/*	C++ environment	*/
 extern "C"{
 #endif
@@ -35,13 +36,17 @@ typedef struct ex_srpite{
 }ExSprite;
 
 typedef struct sprite_batch{
-	/*	number of sprite allocated.	*/
+	/*
+	 *	number of sprite allocated.
+	 */
 	unsigned int num;					/**/
 	unsigned int numDraw;				/**/
+	//unsigned int numlabelDraw;			/**/
 	unsigned int vbo;					/**/
 	unsigned int vao;					/**/
 
-	ExShader shader;					/**/
+	ExShader spriteShader;					/**/
+	//ExShader fontshader;
 
 	int numTexture;						/**/
 	int numMaxTextures;					/**/
@@ -78,26 +83,38 @@ extern ELTDECLSPEC ExSpriteBatch* ELTAPIENTRY ExCreateSpriteBatch(ExSpriteBatch*
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExReleaseSpriteBatch(ExSpriteBatch* spritebatch);
 
-/**/
+/*
+ *
+ */
 extern ELTDECLSPEC void ELTAPIENTRY ExSpriteBatchAllocateSprite(ExSpriteBatch* spritebatch, unsigned int num);
+
 
 //extern ELTDECLSPEC int ELTAPIENTRY ExGetSpriteBatchUniform(ExSpriteBatch* spritebatch);
 
+
 /*
- *
+ *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExBeginSpriteBatch(ExSpriteBatch* spriteBatch,float* camerapos, float scale);
 
 /*
- *
+ *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExEndSpriteBatch(ExSpriteBatch* spriteBatch);
 
-/**/
+
+/*
+ *	@Return
+ */
 extern ELTDECLSPEC int ELTAPIENTRY ExDrawSprite(ExSpriteBatch* spritebatch, ExTexture* texture, float* position, float* rect,float* color, float scale, float angle, float depth);
 
-/**/
+/*
+ *	@Return
+ */
 extern ELTDECLSPEC int ELTAPIENTRY ExDrawSpriteNormalize(ExSpriteBatch* spritebatch, ExTexture* texture,float* position, float* rect, float* color, float scale, float angle, float depth);
+
+/**/
+extern ELTDECLSPEC int ELTAPIENTRY ExDrawSpriteLabel(ExSpriteBatch* spritebatch, ExFont* font, float* position, float* rect, float* color, float scale, float angle, float depth);
 
 
 /**/
@@ -106,11 +123,16 @@ extern ELTDECLSPEC int ELTAPIENTRY ExAddSpriteNormalized(ExSpriteBatch* spriteba
 /**/
 extern ELTDECLSPEC int ELTAPIENTRY ExAddSprite(ExSpriteBatch* spritebatch,ExTexture* texture, float* position, float* rect, float* color, float scale, float angle, float depth);
 
-/**/
-extern ELTDECLSPEC int ELTAPIENTRY ExRemoveSprite(ExSpriteBatch* spritebatch,int index);
+
+
+/*
+ *
+ */
+extern ELTDECLSPEC void ELTAPIENTRY ExRemoveSprite(ExSpriteBatch* spritebatch, int index);
 
 /**/
 extern ELTDECLSPEC int ELTAPIENTRY ExFlushSpriteBatch(ExSpriteBatch* spritebatch);
+
 
 /*	*/
 extern ELTDECLSPEC int ELTAPIENTRY ExDisplaySprite(ExSpriteBatch* spritebatch);

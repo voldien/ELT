@@ -16,10 +16,40 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _EX_ASSERT_H_
-#define _EX_ASSERT_H_ 1
-#include<assert.h>
-// send error message to
-//#define ExAssert(condition) _wassert(_CRT_WIDE(#_Expression), _CRT_WIDE(__FILE__), __LINE__),0)
+#ifndef _ELT_CLIP_BOARD_H_
+#define _ELT_CLIP_BOARD_H_ 1
+#include"ExNT.h"
+
+
+
+/*
+ *	Set clipboard text.
+ *	@Return
+ */
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExSetClipboardText(const ExChar* text);
+
+/*
+ *	Set clipboard data.
+ *	@Return
+ */
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExSetClipboardData(void* pdata,Uint32 csize);
+
+/*
+ *	Get clipboard text.
+ *	@Return
+ */
+extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetClipboardText(void);
+
+/*
+ *	Get clipboard data.
+ *	@Return
+ */
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetClipboardData(void* pdata);
+
+/*
+ *
+ */
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasClipboard(void);
+
 
 #endif

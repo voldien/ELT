@@ -1,4 +1,4 @@
-#include"EngineEx.h"
+#include"elt.h"
 #include"elt_def.h"
 #include"system/elt_cl.h"
 #include"system/elt_gl.h"
@@ -57,7 +57,7 @@
 #endif
 
 
-
+/*	TODO relocate to their coresponding platform directory.	*/
 #if  defined(EX_WINDOWS) || defined(EX_MSVC)
 
 HINSTANCE hdllMoudle;   /*  handle instance */
@@ -81,25 +81,6 @@ _In_  HINSTANCE hinstDLL,
 	hdllMoudle = hinstDLL;
 	return TRUE;
 }
-#elif defined(EX_GNUC)
-
-void __attribute__ ((constructor)) my_load(void){
-
-    display = XOpenDisplay(getenv("DISPLAY"));
-    if(!display){
-        //ExError("couldn't open Display\n");
-    }
-
-    if(!XInitThreads()){
-    	printf("Failed to init multiethreading support\n");
-    }
-}
-
-void __attribute__ ((destructor)) my_unload(void){
-	if(display)
-		XCloseDisplay(display);
-}
-
 
 #endif
 
@@ -123,7 +104,7 @@ unsigned long int engineflag = 0;
 void* xcbConnection;
 
 
-ELTDECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
+ERESULT ExInit(Enum engineFlag){
 	ERESULT result = E_OK;
 	ExHandle hmodule;
 	Int32 hConHandle;
@@ -134,6 +115,7 @@ ELTDECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
     if(engineflag & ELT_INIT_EVERYTHING)
         return 2;
 	engineflag = engineflag & ~ELT_DEINIT;
+
 
     /*	*/
 #ifdef EX_DEBUG || (EX_ENGINE_VERSION_MAJOR <= 0)
@@ -203,9 +185,11 @@ ELTDECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	ExInitSubSystem(engineFlag);
 
 
-	/*	initilize error handler.	*/
-	if(!(result = ExInitErrorHandler())){
-	    ExError(EX_TEXT("Failed to initialize error handler."));
+	/*	initialize error handler.	*/
+	if(engineFlag & ELT_INIT_DEBUG){
+		if(!(result = ExInitErrorHandler())){
+			ExError(EX_TEXT("Failed to initialize error handler."));
+		}
 	}
 
 	engineflag |= engineFlag;
@@ -216,7 +200,7 @@ ELTDECLSPEC ERESULT ELTAPIENTRY ExInit(Enum engineFlag){
 	return result;
 }
 
-ELTDECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
+ERESULT ExInitSubSystem(Uint32 engineflag){
 	ERESULT hr = 0;
 	ExHandle hmodule;
 
@@ -282,7 +266,7 @@ ELTDECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineflag){
 }
 
 
-ELTDECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag){
+void ExQuitSubSytem(Uint32 engineflag){
 
 	if(ELT_INIT_TIMER & engineflag){
         #ifdef EX_WINDOWS   // EX_WINDOWS
@@ -335,7 +319,7 @@ ELTDECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag){
 
 
 }
-ELTDECLSPEC void ELTAPIENTRY ExShutDown(void){
+void ExShutDown(void){
 	if(engineflag & ELT_DEINIT)
 		return;
 
@@ -381,8 +365,10 @@ ELTDECLSPEC void ELTAPIENTRY ExShutDown(void){
 	XSync(display,True);
 	if(display)
 		XFlush(display);
-    if(display)
+    if(display){
     	XCloseDisplay(display);
+    	display = NULL;
+    }
 
 
 #elif defined(EX_APPLE)
@@ -425,8 +411,12 @@ ELTDECLSPEC void ELTAPIENTRY ExShutDown(void){
 
 
 
+Uint32 ExGetFlag(void){
+	return engineflag;
+}
 
-ELTDECLSPEC void ELTAPIENTRY ExEnable(Enum enable){
+
+void ExEnable(Enum enable){
 #ifdef EX_WINDOWS
 #endif
 	switch(enable){
@@ -451,7 +441,7 @@ ELTDECLSPEC void ELTAPIENTRY ExEnable(Enum enable){
 	}
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExDisable(Enum disable){
+void ExDisable(Enum disable){
 #ifdef EX_WINDOWS
 #endif
 	switch(disable){
@@ -473,13 +463,11 @@ ELTDECLSPEC void ELTAPIENTRY ExDisable(Enum disable){
 }
 
 
-
-
 #define EX_COMPILER_VERSION(major, minor, revision) EX_TEXT("ELT-")STR(major)EX_TEXT(".")STR(minor)EX_TEXT(".")STR(revision)
-ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void){
+const ExChar* ExGetVersion(void){
 	return EX_COMPILER_VERSION(EX_VERSION_MAJOR, EX_VERSION_MINOR, EX_VERSION_REVISION);
 }
 
-ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void){
+const ExChar* ExGetCompilerName(void){
     return EX_TEXT(EX_COMPILER_NAME);
 }

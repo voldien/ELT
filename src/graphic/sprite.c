@@ -70,15 +70,15 @@ ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* batch){
 	free(texaccess);
 	*/
 
-	if(!ExLoadShaderv(&batch->shader, EX_VERTEX_SPRITE, EX_FRAGMENT_SPRITE, NULL, NULL, NULL)){
+	if(!ExLoadShaderv(&batch->spriteShader, EX_VERTEX_SPRITE, EX_FRAGMENT_SPRITE, NULL, NULL, NULL)){
 		/*	failure	*/
 		ExReleaseSpriteBatch(batch);
 		return NULL;
 	}
 
-	batch->locationViewMatrix = glGetUniformLocation(batch->shader.program, "gmat");
-	batch->locationScale  = glGetUniformLocation(batch->shader.program, "gscale");
-	batch->locationTexture  = glGetUniformLocation(batch->shader.program, "textures");
+	batch->locationViewMatrix = glGetUniformLocation(batch->spriteShader.program, "gmat");
+	batch->locationScale  = glGetUniformLocation(batch->spriteShader.program, "gscale");
+	batch->locationTexture  = glGetUniformLocation(batch->spriteShader.program, "textures");
 	glUniform1f(batch->locationScale, batch->scale);
 
 	for(x = 0; x < 32; x++){
@@ -106,7 +106,7 @@ int ExReleaseSpriteBatch(ExSpriteBatch* spritebatch){
 	int status;
 
 	glDeleteBuffers(1, &spritebatch->vbo);
-	ExDeleteShaderProgram(&spritebatch->shader);
+	ExDeleteShaderProgram(&spritebatch->spriteShader);
 	free(spritebatch->sprite);
 	spritebatch->sprite = NULL;
 	status = !glIsBuffer(spritebatch->vbo);
@@ -115,18 +115,20 @@ int ExReleaseSpriteBatch(ExSpriteBatch* spritebatch){
 }
 
 void ExSpriteBatchAllocateSprite(ExSpriteBatch* spritebatch, unsigned int num){
+	//ExFlushSpriteBatch(spritebatch);
 	spritebatch->sprite = realloc(spritebatch->sprite, num * sizeof(ExSprite));
 	spritebatch->num = num;
 	ExSetBufferSize(GL_ARRAY_BUFFER, spritebatch->vbo, spritebatch->num * sizeof(ExSprite), GL_DYNAMIC_DRAW);
 }
 
 
-int ExBeginSpriteBatch(ExSpriteBatch* spriteBatch,float* camerapos, float scale){
+int ExBeginSpriteBatch(ExSpriteBatch* spriteBatch, float* camerapos, float scale){
 	int i;
 	int rect[4];
 	spriteBatch->numDraw = 0;
 	spriteBatch->numTexture = 0;
-	glGetIntegerv(GL_VIEWPORT,rect);
+
+	glGetIntegerv(GL_VIEWPORT, rect);
 	spriteBatch->width = rect[2] - rect[0];
 	spriteBatch->height = rect[3] - rect[1];
 	spriteBatch->scale = scale;
@@ -139,8 +141,9 @@ int ExBeginSpriteBatch(ExSpriteBatch* spriteBatch,float* camerapos, float scale)
 		spriteBatch->cameraPos[0] = 0;
 		spriteBatch->cameraPos[1] = 0;
 	}
+
 	/*	clean texture*/
-	memset(spriteBatch->texture,0, sizeof(spriteBatch->texture));
+	memset(spriteBatch->texture, 0, sizeof(spriteBatch->texture));
 
 	return TRUE;
 }
@@ -356,12 +359,10 @@ int ExAddSprite(ExSpriteBatch* batch,ExTexture* texture,float* position,float* r
 }
 
 
-int ExRemoveSprite(ExSpriteBatch* spritebatch, int index){
+void ExRemoveSprite(ExSpriteBatch* spritebatch, int index){
 	/*	set last element in the index that going to be removed.*/
-	memcpy(&spritebatch->sprite[index],&spritebatch->sprite[spritebatch->numDraw],sizeof(ExSprite));
+	memcpy(&spritebatch->sprite[index], &spritebatch->sprite[spritebatch->numDraw - 1], sizeof(ExSprite));
 	spritebatch->numDraw--;
-
-	return TRUE;
 }
 
 
@@ -372,30 +373,32 @@ inline int ExDisplaySprite(ExSpriteBatch* spriteBatch){
 	float rotmat[3][3];
 	float tranmat[3][3];
 
-	glBindBuffer(GL_ARRAY_BUFFER,spriteBatch->vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, spriteBatch->vbo);
 
+	/**/
 	for(i = 0; i < spriteBatch->numTexture; i++){
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, spriteBatch->texture[i]);
 	}
 
-	glUseProgram(spriteBatch->shader.program);
+	glUseProgram(spriteBatch->spriteShader.program);
 
 
 
 	/*	update view matrix and global scale*/	/*TODO*/
 	mat3x3_translation(tranmat, spriteBatch->cameraPos[0], spriteBatch->cameraPos[1]);
-	mat3x3_scale(matscale,spriteBatch->scale,spriteBatch->scale);
-	mat3x3_multi_mat3x3(matscale,tranmat,spriteBatch->viewmatrix);
+	mat3x3_scale(matscale, spriteBatch->scale, spriteBatch->scale);
+	mat3x3_multi_mat3x3(matscale, tranmat, spriteBatch->viewmatrix);
 
-	/**/
+	/*	*/
 	glUniform1fv(spriteBatch->locationScale,1, &spriteBatch->scale);
 	glUniformMatrix3fv(spriteBatch->locationViewMatrix,1,GL_FALSE,spriteBatch->viewmatrix);
 
-
-	/**/
+	/*	*/
 	glBindVertexArray(spriteBatch->vao);
 	glDrawArrays(GL_POINTS, 0, spriteBatch->numDraw);
+
+	//glDrawArrays(GL_POINTS, 0, spriteBatch->numDraw);	/*	labels.	*/
 	glBindVertexArray(0);
 
 	return TRUE;

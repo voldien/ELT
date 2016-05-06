@@ -25,10 +25,12 @@
 #ifdef __cplusplus
 	#include<cstdio>
 	#include<climits>
+	#include<ctime>
 	#define EX_CPP	/*	C++ environment	*/
 #else
 	#include<stdio.h>
 	#include<limits.h>
+	#include<time.h>
 	#define EX_C	/*	C environment	*/
 #endif
 
@@ -146,6 +148,7 @@
 		#define EX_LINUX 1                       /**/
 		#if defined(__amd64) || defined(__x86_64__) || defined(__i386__)
             #define EX_X86 1
+			#define EX_X86LINUX
 		#endif
 		#if defined(__arm__)
               #define EX_ARM 1
@@ -204,6 +207,8 @@
 		#endif
 	#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)   /*  BSD	*/
 		#define EX_BSD
+	#elif defined(__OpenBSD__)
+		#define EX_OPENBSD
 	#elif defined(__llvm__) || defined(__clang__)   	/*  llvm    */
 		#define EX_LLVM 1
 	#elif defined(__MINGW32__)
@@ -512,23 +517,25 @@
 /*
  *	Function and other predefined macro.
  */
-#if defined(EX_MSVC)
+#if defined(EX_MSVC) && !defined(EX_DISABLE_SOURCECODE_INFO)
 	#define EX_FUNCNAME __FUNCTION__
+	#define EX_PRETTYFUNCNAME __PRETTY_FUNCTION__
 	#define EX_FUNCSIG __FUNCSIG__
 	#define EX_FUNCDNAME __FUNCDNAME__
 	#define __EX_FILE__ __FILE__
 	#define __EX_LINE__ __LINE__
-#elif defined(EX_GNUC) || defined(EX_CLANG)
+#elif ( defined(EX_GNUC) || defined(EX_CLANG) ) && !defined(EX_DISABLE_SOURCECODE_INFO)
 	#define EX_FUNCNAME  __FUNCTION__
+	#define EX_PRETTYFUNCNAME __PRETTY_FUNCTION__
 	#define EX_FUNCSIG   __FUNCSIG__
 	#define EX_FUNCDNAME ""
 	#define __EX_FILE__ __FILE__
 	#define __EX_LINE__ __LINE__
 #else
-	#define EX_FUNCNAME  __FUNCTION__
-	#define EX_FUNCSIG   __FUNCSIG__
+	#define EX_FUNCNAME  ""
+	#define EX_FUNCSIG   ""
 	#define EX_FUNCDNAME ""
-	#define __EX_FILE__ __FILE__
+	#define __EX_FILE__ ""
 	#define __EX_LINE__ __LINE__
 #endif
 
@@ -580,11 +587,11 @@
  *	Compiler assembly instruction identification.
  */
 #if defined(EX_MSVC)
-	#define EX_ASSM __asm
+	#define EX_ASM __asm
 #elif defined(EX_GNUC) || defined(EX_GNUCXX)
-	#define EX_ASSM __asm__
+	#define EX_ASM __asm__
 #elif defined(EX_CLANG)
-	#define EX_ASSM asm
+	#define EX_ASM asm
 #endif
 
 
@@ -600,6 +607,17 @@
 		#define ELTDECLSPEC EX_EXPORT
 	#else
 		#define ELTDECLSPEC // defines nothing. preventing compiling errors
+	#endif
+#endif
+
+/*
+ *
+ */
+#ifndef EX_RESTRICT
+	#if defined(EX_GNUC)
+		#define EX_RESTRICT __restrict
+	#else
+		#define EX_RESTRICT
 	#endif
 #endif
 

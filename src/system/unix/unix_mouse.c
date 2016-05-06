@@ -18,8 +18,8 @@ Int32 ExClipCursor(ExWin window){
 	if(window)
 		return XGrabPointer(display, window, True, 0, GrabModeAsync, GrabModeAsync, window, ExGetCursor(), CurrentTime);
 	else{
-		XUngrabPointer(display, CurrentTime);
-		return;
+		return XUngrabPointer(display, CurrentTime);
+
 		XGrabPointer(display, XDefaultRootWindow(display), False, 0, GrabModeAsync, GrabModeAsync, NULL, ExGetCursor(), CurrentTime);
 		XAllowEvents(display, ReplayPointer, CurrentTime);
 	}

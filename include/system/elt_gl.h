@@ -30,7 +30,7 @@
 #elif defined(EX_MAC)
 	#define ExSwapBuffers glSwapBuffers
 #elif defined(EX_ANDROID)
-	extern EGLDisplay eglDisplay;
+	extern ExEGLDisplay eglDisplay;
 	#define ExSwapBuffers(surface) eglSwapBuffers((EGLDisplay)eglDisplay, surface)
 #else
 	extern ELTDECLSPEC void ExSwapBuffers(void* surface);
@@ -121,7 +121,7 @@ extern ELTDECLSPEC ExOpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(voi
  *	\glc
  *	@Return
  */
-extern ELTDECLSPEC int ELTAPIENTRY ExMakeGLCurrent(ExWindowContext hDC, ExOpenGLContext glc);
+extern ELTDECLSPEC int ELTAPIENTRY ExMakeGLCurrent(EX_RESTRICT ExWindowContext hDC,  EX_RESTRICT ExOpenGLContext glc);
 
 
 /*	//TODO rename
@@ -200,6 +200,8 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExDestroyCurrentGLContext(void);
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes);
 
 
+
+
 #define EX_GLTRANSPARENT_ENABLE 0x1
 #define EX_GLTRANSPARENT_DISABLE 0x0
 #define EX_GLTRANSPARENT_FULLBLUR 0x2
@@ -224,7 +226,7 @@ extern ELTDECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void);
  *	Get OpenGL Version
  *	@Return
  */
-extern ELTDECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major,int* minor);
+extern ELTDECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major, int* minor);
 
 
 /*

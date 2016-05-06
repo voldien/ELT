@@ -1,5 +1,4 @@
-/*
-========================================================================
+/**
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
@@ -21,6 +20,7 @@
 #define _ELT_VECT_H_ 1
 #include"../elt_def.h"
 #include<math.h>
+
 
 /*
  *
@@ -56,20 +56,32 @@
 #define VectorLerp(x,y,t,c)	{}
 #define VectorDefine(a,x,y,z)	{a[0] = x;a[1] = y;a[2] = z;}
 
-/**/
+/**
+ *
+ */
 typedef double exvecd_t;
 typedef float exvecf_t;
 
-/* vector2 = {x,y}	*/
+
+/**
+ *	vector2 = {x,y}
+ */
 typedef exvecd_t exvec2d_t EX_ALIGN_VECTOR(16);
 typedef exvecf_t exvec2f_t EX_ALIGN_VECTOR(8);
 
-/* vector2 = {x,y,z}	*/
+
+/**
+ *	vector2 = {x,y,z}
+ */
 typedef exvecf_t exvec3f_t EX_ALIGN_VECTOR(16);
 typedef exvecd_t exvec3d_t EX_ALIGN_VECTOR(32);
 
-/* vector2 = {x,y,z,w}	*/
+
+/**
+ *  vector2 = {x,y,z,w}
+ */
 typedef exvecf_t exvec4f_t EX_ALIGN_VECTOR(16);
 typedef exvecd_t exvec4d_t EX_ALIGN_VECTOR(32);
+
 
 #endif

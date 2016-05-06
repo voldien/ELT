@@ -1,5 +1,5 @@
 #include"system/elt_event.h"
-#include"ExAssert.h"
+#include"elt_assert.h"
 #include"elt_def.h"
 
 #ifdef EX_WINDOWS
@@ -106,7 +106,7 @@ Int32 ExPollEvent(ExEvent* event){
 		}
 	else
 		return FALSE;
-#elif defined(EX_ANDROID)
+	/*
     int ident;
     int events;
     void* source;
@@ -121,27 +121,13 @@ Int32 ExPollEvent(ExEvent* event){
     }
 
     return TRUE;
-#elif defined(EX_MAC)
-
-
-#elif defined(EX_PNACL)
-
-
-#elif defined(EX_IPHONE)
-
-
-#elif defined(EX_WEB)
-
-
-#elif defined(EX_PS3)
-
-
+    */
 
 }
 #endif
 
 #ifdef EX_WINDOWS
-ELTDECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event){
+Int32 ExPollWindowEvent(ExWin window, ExWindowEvent* event){
 
 	MSG msg;
 	//event->event = 0;
@@ -232,8 +218,6 @@ ELTDECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* eve
 		return TRUE;
 	}
 	return FALSE;
-#elif defined(EX_ANDROID)
-
 }
 #endif
 

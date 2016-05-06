@@ -49,8 +49,6 @@ EGLint configAttribList[] ={
 	EGL_RENDERABLE_TYPE,
 	EGL_OPENGL_ES2_BIT,
 	EGL_NONE
-
-
 };
 
 ExHandle egl_libhandle	=	NULL;
@@ -58,7 +56,7 @@ ExEGLDisplay eglDisplay	=	NULL;
 
 
 
-ExEGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window, ExEGLContext shared){
+ExEGLContext ExCreateEGLContext(ExWin window, ExEGLContext shared){
 	/*	TODO resolve later!!*/
 
 	int major ,minor ;
@@ -135,7 +133,7 @@ ExEGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window, ExEGLContext shared){
         ExError(EX_TEXT("OpenGL ES Error"));
 
 
-
+	/**/
 	ExInitOpenGLStates();
 
 	return eglContext;
@@ -147,9 +145,17 @@ int ExCreateEGLContextAttrib(ExWin window, int* attrib, unsigned int* size){
 	return 1;
 }
 
-
-ELTDECLSPEC void ELTAPIENTRY ExDestroyEGLContext(ExEGLContext context){
+void ExDestroyEGLContext(ExEGLContext context){
 	eglDestroyContext(eglGetCurrentDisplay(),context);
 }
+
+void ExEGLSetVSync(int interval_ms){
+	eglSwapInterval(eglDisplay, interval_ms);
+}
+
+void ExSwapEGLBuffer(ExWin context){
+	eglSwapBuffers(eglDisplay, context);
+}
+
 
 #endif

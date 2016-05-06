@@ -16,11 +16,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _EX_COMMON_H_
-#define _EX_COMMON_H_ 1
+#ifndef _ELT_COMMON_H_
+#define _ELT_COMMON_H_ 1
 #include"system/elt_win.h"
 #include"EngineAssembly.h"
-#include"ExAssert.h"
+#include"elt_assert.h"
 
 
 #ifdef __cplusplus	/*	C++ Environment	*/
@@ -29,7 +29,7 @@ extern "C"{
 
 
 /*
- *	create process
+ *	Create process.
  *	@Return if successfully
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName);
@@ -47,6 +47,11 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationN
  *	Get system primary monitor screen size.
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(ExSize* size);
+
+/*
+ *
+ */
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetNumScreen(void);
 
 /*
  *	Get system monitor resolution by its index.
@@ -92,31 +97,10 @@ extern ELTDECLSPEC int ELTAPIENTRY ExSetScreenSize(Int32 index, Int32 width, Int
 
 
 /*
- *	Get Platform
- *	@Return
- */
-extern ELTDECLSPEC const char* ELTAPIENTRY ExGetPlatform(void);
-
-
-
-/*
  *	Get Application Name
  *	@Return
  */
 extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetApplicationName(ExChar* name, Int32 length);
-
-
-/*
- *
- *	@Return
- */
-extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetCurrentDirectory(void);
-
-/*
- *
- *	@Return
- */
-extern ELTDECLSPEC int ELTAPIENTRY ExSetCurrentDirectory(const ExChar* cdirectory);
 
 
 
@@ -131,59 +115,22 @@ extern ELTDECLSPEC void ELTAPIENTRY ExGetExecutePath(ExChar* wChar, Int32 length
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExGetAppliationPath(ExChar* wChar, Int32 lengthSize);
 
-/*
- *	Get Relative Path.
- */
-extern ELTDECLSPEC void ELTAPIENTRY ExGetRelativePath(const ExChar* wChar, ExChar* Chas, Int32 lengthSize);
-
-
 
 
 
 /*
- *	Get System OperatingSystem Os Name
+ *
  */
-extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetOSName(void);
-
-
+extern ELTDECLSPEC void ELTAPIENTRY ExWideToChar(const ExWide* wchar, char** cchar);
 
 /*
- *	Get Current User Name
- *	Has to maintain later!!! TODO<>
- *	@Return
+ *
  */
-extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCurrentUser(void);
-
-
-//extern ELTDECLSPEC void ELTAPIENTRY ExUnicodeToAscii(const WCHAR* wchar, char** cchar);
-//extern ELTDECLSPEC char* ELTAPIENTRY ExConvertAscii(const WCHAR* wwchar);
+extern ELTDECLSPEC char* ELTAPIENTRY ExCharToWide(const ExWide* wwchar);
 
 
 
 
-/*
- *	Set clipboard text.
- *	@Return
- */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExSetClipboardText(const ExChar* text);
-
-/*
- *	Set clipboard data.
- *	@Return
- */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExSetClipboardData(void* pdata,Uint32 csize);
-
-/*
- *	Get clipboard text.
- *	@Return
- */
-extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetClipboardText(void);
-
-/*
- *	Get clipboard data.
- *	@Return
- */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetClipboardData(void* pdata);
 
 /*
  *	InternetOpenUrl

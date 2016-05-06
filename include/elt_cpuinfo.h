@@ -25,12 +25,24 @@ extern "C"{
 #endif
 
 /*TODO take a look at which approuch for dealing with cpu information. enum or string?*/
-#define EX_CPU_UNKNOWN    0x0
-#define EX_CPU_X86        0x1
-#define EX_CPU_PPC        0x2
-#define EX_CPU_ARM        0x3
-#define EX_CPU_MIPS       0x4
+#define EX_CPU_UNKNOWN		0x0
+#define EX_CPU_X86        	0x1
+#define EX_CPU_X86_64	 	0x2
+#define EX_CPU_PPC        	0x3
+#define EX_CPU_ARM        	0x4
+#define EX_CPU_MIPS       	0x5
 
+/*
+ *
+ *	@Return
+ */
+extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetCPUInstructionArch(void);
+
+/*
+ *
+ *	@Return
+ */
+extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCPUType(void);
 
 /*
  *	Get the name of the CPU.
@@ -40,7 +52,7 @@ extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void);
 
 /*
  *
- *
+ *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetFrequence(void);
 
@@ -79,7 +91,7 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void);
  *
  *	@Return
  */
-extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExGetCPUCacheLineSize(void);
+extern ELTDECLSPEC Uint ELTAPIENTRY ExGetCPUCacheLineSize(void);
 
 /*
  *	Is SSE ( Streaming SIMD Extensions ) available
@@ -107,21 +119,24 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE41(void);
 
 /*
  *	Is SSE 41 ( Streaming SIMD Extensions ) available
- *	@Return
+ *	@Return	TRUE if available.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void);
 
 /*
- *
+ *	Arm SIMD feature for float point unit fpu.
  *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasNeon(void);
 
-/**/
-extern ELTDECLSPEC Enum ELTAPIENTRY ExGetCpuVendor(void);
+/*
+ *	Time Stamp Counter
+ *	@Return
+ */
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasRDTSC(void);
 
 /**/
-extern ELTDECLSPEC Enum ELTAPIENTRY ExGetCPUInstructionArchecture(void);
+extern ELTDECLSPEC Enum ELTAPIENTRY ExGetCpuVendor(void);
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 }

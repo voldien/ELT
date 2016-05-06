@@ -20,7 +20,7 @@
 #define _ELT_ERROR_HANDLER_H_ 1
 #include"./../EngineAssembly.h"
 
-typedef void(ELTAPIENTRY *singalcallback)(Int32);
+typedef void(ELTAPIENTRY *ExSignalCallback)(Int32);
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
@@ -140,7 +140,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal);
 /*
  *	Set Signal callback.
  */
-extern ELTDECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal, singalcallback signal_callback);
+extern ELTDECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal, ExSignalCallback signal_callback);
 
 
 /*

@@ -29,6 +29,7 @@
 #define GL_GET_PROC(x) glXGetProcAddress((const char*)( x ) )           /*  get OpenGL function process address */
 
 #define PIXATTOFFSET 8	/*	offset to variable	*/
+#define PIXCONTEXTOFFSET 22
 
 int pixAtt[] = {
 	GLX_RENDER_TYPE, GLX_RGBA_BIT,
@@ -149,9 +150,9 @@ ExOpenGLContext ExCreateTempGLContext(void){
 }
 
 
-
 ExOpenGLContext ExCreateGLContext(ExWin window, ExOpenGLContext shareContext){
 	ExOpenGLContext glc = NULL;
+	ExOpenGLContext curglc;
 	unsigned int vendor;
 	unsigned int glxmaj,glxmin;
 	unsigned int major;
@@ -169,6 +170,9 @@ ExOpenGLContext ExCreateGLContext(ExWin window, ExOpenGLContext shareContext){
 	if(!glXQueryExtension(display, &min, &maj)){
 		ExError("OpenGL not supported by X server\n");
 	}
+
+	if(shareContext)
+		curglc = ExGetCurrentOpenGLContext();
 
 	/**/
     glXQueryVersion(display, &glxmaj, &glxmin);
@@ -243,7 +247,11 @@ ExOpenGLContext ExCreateGLContext(ExWin window, ExOpenGLContext shareContext){
 
 				if(glXCreateContextAttribsARB){
 					if(shareContext){
-						glXQueryContext(display, ExGetCurrentOpenGLContext(), GLX_FBCONFIG_ID, &fbconfig);
+						if(glXQueryContext(display, curglc, GLX_FBCONFIG_ID, &fbconfig) != Success){
+
+						}
+						else
+							ExChooseFBconfig(&fbconfig);
 					}
 					else
 						ExChooseFBconfig(&fbconfig);
@@ -285,17 +293,17 @@ ExOpenGLContext ExCreateGLSharedContext(ExWin window, ExOpenGLContext glc){
 }
 
 
-void ELTAPIENTRY ExOpenGLSetAttribute(unsigned int attr, int value){
+void ExOpenGLSetAttribute(unsigned int attr, int value){
 	pixAtt[PIXATTOFFSET + (2 * attr) + 1] = value;
 }
 
-int ELTAPIENTRY ExOpenGLGetAttribute(unsigned int attr, int* value){
+int ExOpenGLGetAttribute(unsigned int attr, int* value){
 	if(value)
 		value = (unsigned int)pixAtt[PIXATTOFFSET + (2 * attr) + 1];
 	return pixAtt[PIXATTOFFSET + (2 * attr) + 1];
 }
 
-void ELTAPIENTRY ExOpenGLResetAttributes(void){
+void ExOpenGLResetAttributes(void){
 	ExOpenGLSetAttribute(EX_OPENGL_RED_SIZE,	8);
 	ExOpenGLSetAttribute(EX_OPENGL_GREEN_SIZE,	8);
 	ExOpenGLSetAttribute(EX_OPENGL_BLUE_SIZE,	8);
@@ -317,19 +325,19 @@ void ELTAPIENTRY ExOpenGLResetAttributes(void){
 	ExOpenGLSetAttribute(EX_OPENGL_FRAMEBUFFER_SRGB_CAPABLE,	0);
 }
 
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExDestroyGLContext(ExWindowContext drawable, ExOpenGLContext glc){
+ExBoolean ExDestroyGLContext(ExWindowContext drawable, ExOpenGLContext glc){
 	ExBoolean hr = 1;
 
     if(!ExMakeGLCurrent(NULL,NULL)){
         fprintf(stderr,"failed to make current Opengl NUll, NULL.\n");
         hr = 0;
     }
-	glXDestroyContext(display,glc);
+	glXDestroyContext(display, glc);
 	return hr;
 }
 
 
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes){
+ExBoolean ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes){
     int one = 1;
 	XEvent xev = {0};
 	ExSize size  = {0};
@@ -344,9 +352,9 @@ ELTDECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin 
     	size.height = screenRes[1];
     }else{
     	if(cdsfullscreen)
-    		ExGetScreenSize(screenIndex,&size);
+    		ExGetScreenSize(screenIndex, &size);
     	else
-    		ExGetScreenSize(screenIndex,&size);
+    		ExGetScreenSize(screenIndex, &size);
     }
 
     xattr.override_redirect = False;
@@ -366,8 +374,9 @@ ELTDECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin 
 
 
     /*	Set fullscreen resolution.	*/	/*TODO	fix	*/
-    //ExSetScreenSize(screenIndex, size.width, size.height);
+    if(ExSetScreenSize(screenIndex, size.width, size.height)){
 
+    }
 
 	//XF86VideoModeSwitchToMode(display, screenIndex, modes[bestMode]);
     Atom atoms[2] = { XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", False), None };
@@ -391,21 +400,29 @@ ELTDECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin 
 			,&xev);
 
 
-	//XSendEvent(display,DefaultRootWindow(window,False,
-	//	SubstructureRedirectMask | SubstructureNotifyMask, &xev);
-
+	XResizeRequestEvent resize = {0};
+	resize.display = display;
+	resize.width = size.width;
+	resize.height = size.height;
+	resize.window = window;
+	resize.type = ResizeRequest;
+	XSendEvent(display, window, FALSE,	ResizeRedirectMask, &resize);
 
 	return TRUE;
 
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window, Enum ienum){
-
+void ExSetGLTransparent(ExWin window, Enum ienum){
 	XTextProperty textprop = {0};
 	XWMHints *startup_state;
-	EX_C_STRUCT ex_size size;
+	ExSize size;
 	XSizeHints hints;
 
+	if(window == NULL){
+		return;
+	}
+
+	/**/
 	ExGetWindowSizev(window,&size);
 
     hints.x = 0;
@@ -414,33 +431,36 @@ ELTDECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window, Enum ienum){
     hints.height = size.height;
     hints.flags = USPosition |USSize;
 
+    /**/
 	startup_state = XAllocClassHint();
 	startup_state->initial_state = NormalState;
     startup_state->flags = StateHint;
 
+    /**/
     XSetWMProperties(display,window, NULL, NULL,
     		NULL, 0,
 			&hints,
 			startup_state,
 			NULL);
 
+    /**/
     XFree(startup_state);
 }
 
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExIsVendorAMD(void){
-	return strstr((const char*)glXGetClientString(display,GLX_VENDOR), "AMD") ? TRUE : FALSE;
+Int32 ExIsVendorAMD(void){
+	return strstr((const char*)glXGetClientString(display, GLX_VENDOR), "AMD") ? TRUE : FALSE;
 }
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExIsVendorNvidia(void){
-	return (strstr((const char*)glXGetClientString(display,GLX_VENDOR), "NVIDIA")) ? TRUE : FALSE;
+Int32 ExIsVendorNvidia(void){
+	return (strstr((const char*)glXGetClientString(display, GLX_VENDOR), "NVIDIA")) ? TRUE : FALSE;
 }
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExIsVendorIntel(void){
-	return strstr((const char*)glXGetClientString(display,GLX_VENDOR), "INTEL") ? TRUE : FALSE;
+Int32 ExIsVendorIntel(void){
+	return strstr((const char*)glXGetClientString(display, GLX_VENDOR), "INTEL") ? TRUE : FALSE;
 }
 
-ELTDECLSPEC ERESULT ELTAPIENTRY ExOpenGLSetVSync(ExBoolean enabled, ExWin window){
+ERESULT ExOpenGLSetVSync(ExBoolean enabled, ExWin window){
 	//glXSwapIntervalEXT
 	//sf_ptrc_glXSwapIntervalMESA
 	//glXSwapIntervalSGI

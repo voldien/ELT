@@ -24,32 +24,38 @@
 extern "C"{
 #endif
 
-
+/*
+ *
+ */
 EX_ALIGN_PREFIX(4)
 typedef struct ex_point{
-	int x,y;
+	int x,y;		/**/
 }ExPoint;
 
+/*
+ *
+ */
 EX_ALIGN_PREFIX(4)
 typedef struct ex_size{
-	unsigned int width;
-	unsigned int height;
+	unsigned int width;		/**/
+	unsigned int height;		/**/
 }ExSize;
 
+/*
+ *
+ */
 EX_ALIGN_PREFIX(4)
 typedef struct ex_rect{
-	int x;
-	int y;
-	int width;
-	int height;
+	int x;		/**/
+	int y;		/**/
+	int width;		/**/
+	int height;		/**/
 }ExRect;
 
 
-
-
-
-
-
+/*
+ *	Event flag.
+ */
 #define EX_EVENT_KEY 0x1
 #define EX_EVENT_KEY_RELEASE 0x2
 #define EX_EVENT_KEY_PRESSED 0x4
@@ -72,14 +78,13 @@ typedef struct ex_rect{
 #define EX_EVENT_WINDOW_DESTROYED 0x40000
 
 
-
 EX_ALIGN_PREFIX(4)
 typedef struct ex_system_event{
 
 	/*
 	 *
 	 */
-	unsigned int message;
+	Uint message;
 }ExSystemEvent;
 
 EX_ALIGN_PREFIX(4)
@@ -132,26 +137,47 @@ typedef struct ex_mouse_motion_event{
 
 EX_ALIGN_PREFIX(4)
 typedef struct elt_win_button_event{
-	Uint8 button;				/**/
+	/*
+	 *
+	 */
+	Uint8 button;
 }ExWinButtonEvent;
+
 
 EX_ALIGN_PREFIX(4)
 typedef struct ex_mouse_wheel_event{
-	int delta;					/**/
-	int x,y;					/**/
+	/*
+	 *
+	 */
+	int delta;
+	/*
+	 *
+	 */
+	int x,y;
 }ExMouseWheelEvent;
+
 
 EX_ALIGN_PREFIX(4)
 typedef struct ex_key_event{
-	/**/
+	/*
+	 *
+	 */
 	Uint8 code;
-	/**/
+	/*
+	 *
+	 */
 	Uint8 alt;
-	/**/
+	/*
+	 *
+	 */
 	Uint8 shift;
-	/**/
+	/*
+	 *
+	 */
 	Uint8 system;
-	/**/
+	/*
+	 *
+	 */
 	Uint8 ctrl;
 }ExKeyEvent;
 
@@ -190,6 +216,9 @@ typedef struct ex_window_destroy{
 
 EX_ALIGN_PREFIX(8)
 typedef struct window_poll_events{
+	/*
+	 *
+	 */
 	Enum event;                                     /*      */
 	ExKeyEvent key;                                 /*      */
 	ExSize size;                               		/*      */
@@ -198,13 +227,16 @@ typedef struct window_poll_events{
 	ExWinButtonEvent button;        				/*      */
 	ExDropEvent drop;                 				/*      */
 	unsigned long int time;							/*		*/
-	void* display;									/*		*/
+	ExDisplay display;								/*		*/
 	ExWin window;
 }ExWindowEvent;
 
 
 EX_ALIGN_PREFIX(8)
 typedef struct elt_poll_events{
+	/*
+	 *
+	 */
 	Enum event;									/*			*/
 	ExKeyEvent key;                            	/*          */
 	ExMouseMoveEvent mouse;                    	/*          */
@@ -218,7 +250,7 @@ typedef struct elt_poll_events{
 	ExMouseMotionEvent motion;					/*			*/
 	ExEventDestroyedWindow destroy;				/*			*/
 	unsigned long int time;						/*			*/
-	void* display;								/*			*/
+	ExDisplay display;							/*			*/
 	/*ExPoint location;	*/
 	ExWin window;
 }ExEvent;
@@ -230,7 +262,7 @@ typedef struct elt_poll_events{
  *	Poll Event from process.
  *	\event
  *	@Return
-*/
+ */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
 
 /*
@@ -238,7 +270,7 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
  *	\window
  *	\event
  *	@Return
-*/
+ */
 
 
 /*
@@ -250,7 +282,7 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
  *	[ExWindowEvent] pointer to event struct. all event will be stored in it.
  *	#return if PeekMessage was success.
  *	PeekMessage : http://msdn.microsoft.com/en-us/library/windows/desktop/ms644943(v=vs.85).aspx
-*/
+ */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event);
 
 

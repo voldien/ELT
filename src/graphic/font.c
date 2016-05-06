@@ -2,7 +2,7 @@
 
 
 
-ELTDECLSPEC ExFont* ELTAPIENTRY ExCreateFont(const char* cfilename, int pointSize, int dpi, unsigned int flag){
+ExFont* ExCreateFont(const char* cfilename, int pointSize, int dpi, unsigned int flag){
 
 
 
@@ -10,6 +10,6 @@ ELTDECLSPEC ExFont* ELTAPIENTRY ExCreateFont(const char* cfilename, int pointSiz
 
 
 
-ELTDECLSPEC void* ELTAPIENTRY ExDeleteFont(ExFont* font){
+void* ExDeleteFont(ExFont* font){
 
 }

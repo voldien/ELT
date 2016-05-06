@@ -8,14 +8,14 @@
 #pragma comment(lib, "comctl32.lib")
 #	pragma comment(linker,"\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
-ELTDECLSPEC void ELTAPIENTRY ExSetControlEvent(ExWin hWnd, const ExHandle eventExHandle){
+void ExSetControlEvent(ExWin hWnd, const ExHandle eventExHandle){
 	if(!SetWindowLongPtr(hWnd,GWLP_USERDATA, (LONG_PTR)eventExHandle) && !(eventExHandle)){
 		// Ex Control Event assignment failed.
 		//ExDevWindowPrintc(EX_TEXT("Failed to Assign Control Event."),EX_CONSOLE_RED);
 	}
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExSetControlEventv(ExWin hWnd,const ExHandle eventHandle, Uint32 size){
+void ExSetControlEventv(ExWin hWnd,const ExHandle eventHandle, Uint32 size){
 	ExHandle datahandle = (ExHandle)malloc(size);
 	memcpy(datahandle,eventHandle, size);
 	if(!SetWindowLongPtr(hWnd,GWLP_USERDATA, (LONG_PTR)datahandle) && !(datahandle)){
@@ -24,11 +24,11 @@ ELTDECLSPEC void ELTAPIENTRY ExSetControlEventv(ExWin hWnd,const ExHandle eventH
 	}
 }
 
-ELTDECLSPEC void* ELTAPIENTRY ExGetControlEvent(ExWin hWnd){
-	return (void*)GetWindowLongPtr(hWnd,GWLP_USERDATA);
+void* ExGetControlEvent(ExWin hWnd){
+	return (void*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExSetMenuEvent(ExWin hMenu, ExHandle eventHandle){
+void ExSetMenuEvent(ExWin hMenu, ExHandle eventHandle){
 	MENUINFO info;
 	info.cbSize = sizeof(MENUINFO);
 	info.fMask = MIM_MENUDATA;
@@ -37,7 +37,7 @@ ELTDECLSPEC void ELTAPIENTRY ExSetMenuEvent(ExWin hMenu, ExHandle eventHandle){
 		ExDevWindowPrint(EX_TEXT("Failed to Set Menu Info"));
 }
 
-ELTDECLSPEC void* ELTAPIENTRY ExGetMenuEvent(HMENU hMenu){
+void* ExGetMenuEvent(HMENU hMenu){
 	MENUINFO info;
 	info.cbSize = sizeof(MENUINFO);
 	info.fMask = MIM_MENUDATA;
@@ -45,7 +45,8 @@ ELTDECLSPEC void* ELTAPIENTRY ExGetMenuEvent(HMENU hMenu){
 		ExDevWindowPrint(EX_TEXT("Failed to Get Menu Info"));
 	return (void*)info.dwMenuData;
 }
-ELTDECLSPEC void ELTAPIENTRY ExReleaseMenuEvent(HMENU hMenu){
+
+void  ExReleaseMenuEvent(HMENU hMenu){
 	MENUINFO info;
 	info.cbSize = sizeof(MENUINFO);
 	info.fMask = MIM_MENUDATA;
@@ -55,7 +56,7 @@ ELTDECLSPEC void ELTAPIENTRY ExReleaseMenuEvent(HMENU hMenu){
 	free((void*)info.dwMenuData);
 }
 /*	Set menu Item Event*/
-ELTDECLSPEC void ELTAPIENTRY SetMenuItemEvent(HMENU subMenu, Uint32 pos, ExHandle eventHandle){
+void SetMenuItemEvent(HMENU subMenu, Uint32 pos, ExHandle eventHandle){
 	MENUITEMINFO menuInfo;
 	menuInfo.cbSize = sizeof(MENUINFO);
 	menuInfo.fMask = MIIM_DATA;
@@ -66,7 +67,7 @@ ELTDECLSPEC void ELTAPIENTRY SetMenuItemEvent(HMENU subMenu, Uint32 pos, ExHandl
 	return;
 }
 /*	Get menu Item Event*/
-ELTDECLSPEC void* ELTAPIENTRY GetMenuItemEvent(HMENU subMenu, Uint32 pos){
+void* GetMenuItemEvent(HMENU subMenu, Uint32 pos){
 	MENUITEMINFO menuInfo;
 	menuInfo.cbSize = sizeof(MENUINFO);
 	menuInfo.fMask = MIIM_DATA;
@@ -76,7 +77,7 @@ ELTDECLSPEC void* ELTAPIENTRY GetMenuItemEvent(HMENU subMenu, Uint32 pos){
 	return (void*)menuInfo.dwItemData;
 }
 
-ELTDECLSPEC HMENU ELTAPIENTRY ExCreateMainMenu(ExWin hWnd){
+HMENU ExCreateMainMenu(ExWin hWnd){
 	MENUINFO info;
 	HMENU hMenu = CreateMenu();
 	if(!SetMenu(hWnd, hMenu))
@@ -92,7 +93,7 @@ ELTDECLSPEC HMENU ELTAPIENTRY ExCreateMainMenu(ExWin hWnd){
 }
 
 // string
-ELTDECLSPEC HMENU ELTAPIENTRY ExCreatePopupMenu(HMENU hMenu,const ExChar* string){
+HMENU ExCreatePopupMenu(HMENU hMenu,const ExChar* string){
 	MENUINFO info;
     HMENU hSubMenu = CreatePopupMenu();
     if(!AppendMenu(hMenu, MF_STRING | MF_POPUP, (UINT)hSubMenu, string))
@@ -106,13 +107,15 @@ ELTDECLSPEC HMENU ELTAPIENTRY ExCreatePopupMenu(HMENU hMenu,const ExChar* string
 	return hSubMenu;
 }
 // bitmap
-ELTDECLSPEC HMENU ELTAPIENTRY ExCreatePopupMenuB(HMENU hmenu,HBITMAP bitmap){
+HMENU ExCreatePopupMenuB(HMENU hmenu,HBITMAP bitmap){
 	HMENU hSubMenu = CreatePopupMenu();
 	if(!AppendMenu(hmenu, MF_BITMAP | MF_POPUP, (UINT)hSubMenu, (LPCWSTR)bitmap))
 		ExDevWindowPrint(EX_TEXT("Create Popup Menu Error"));
 	return hSubMenu;
 }
-ELTDECLSPEC HMENU ELTAPIENTRY ExCreatePopUpMenuItem2(HMENU hpopupMenu,const ExChar* string, ExCallBack callback){
+
+
+HMENU  ExCreatePopUpMenuItem2(HMENU hpopupMenu,const ExChar* string, ExCallBack callback){
 	MENUITEMINFO menuInfo;
 	ExMenuEvent* event;
 	menuInfo.cbSize = sizeof(MENUITEMINFO);
@@ -129,12 +132,12 @@ ELTDECLSPEC HMENU ELTAPIENTRY ExCreatePopUpMenuItem2(HMENU hpopupMenu,const ExCh
 	}
 	return hpopupMenu;
 }
-ELTDECLSPEC HMENU ELTAPIENTRY ExCreatePopUpMenuItem(HMENU hpopupMenu,const ExChar* string,Uint32 ID){
+ELTDECLSPEC HMENU ExCreatePopUpMenuItem(HMENU hpopupMenu,const ExChar* string,Uint32 ID){
 	ADDMENUITEM(hpopupMenu, ID, string);
 	return hpopupMenu;
 }
 
-ELTDECLSPEC HMENU ELTAPIENTRY ExCreateMenuItemB(HMENU hpopupMenu, HBITMAP bitmap,  ExCallBack callback){
+HMENU ExCreateMenuItemB(HMENU hpopupMenu, HBITMAP bitmap,  ExCallBack callback){
 	MENUITEMINFO menuInfo;
 	ExMenuEvent* event;
 	menuInfo.cbSize = sizeof(MENUITEMINFO);
@@ -152,7 +155,7 @@ ELTDECLSPEC HMENU ELTAPIENTRY ExCreateMenuItemB(HMENU hpopupMenu, HBITMAP bitmap
 	return hpopupMenu;
 }
 
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExCreateMenuSeparator(HMENU hMenu){
+ExBoolean  ExCreateMenuSeparator(HMENU hMenu){
 	MENUITEMINFO menuInfo;
 	menuInfo.cbSize = sizeof(MENUITEMINFO);
 	menuInfo.fMask = MIIM_FTYPE;
@@ -165,7 +168,7 @@ ELTDECLSPEC ExBoolean ELTAPIENTRY ExCreateMenuSeparator(HMENU hMenu){
 }
 //=========================================
 //		Status Bar		 //
-ELTDECLSPEC ExWin ELTAPIENTRY ExCreateStatusBar(ExWin parenthWnd){
+ExWin ExCreateStatusBar(ExWin parenthWnd){
 	// create status window
 	RECT client_rect;
 	HWND hwnd;
@@ -184,22 +187,26 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateStatusBar(ExWin parenthWnd){
 		ExDevWindowPrintc(EX_TEXT("Failed to create Status Window"), EX_CONSOLE_RED);	// error check
 	return hwnd;
 }
-ELTDECLSPEC void ELTAPIENTRY ExSetStatusBarText(ExWin statusHwnd,const  ExChar* string){
+
+void ExSetStatusBarText(ExWin statusHwnd,const  ExChar* string){
 	WPARAM wparam = 0;
 	EX_MAKEHIWORD(wparam,SBT_NOBORDERS);
 	EX_MAKELOWORD(wparam,0);
 	SendMessage(statusHwnd,SB_SETTEXT,wparam,(LPARAM)string);
 }
-ELTDECLSPEC void ELTAPIENTRY ExSetStatusBarTexti(ExWin statusHwnd,Int32 index,const  ExChar* string){
+
+void ExSetStatusBarTexti(ExWin statusHwnd,Int32 index,const  ExChar* string){
 	WPARAM wparam = 0;
-	EX_MAKEHIWORD(wparam,SBT_NOBORDERS);
-	EX_MAKELOWORD(wparam,index);
-	SendMessage(statusHwnd,SB_SETTEXT,wparam,(LPARAM)string);
+	EX_MAKEHIWORD(wparam, SBT_NOBORDERS);
+	EX_MAKELOWORD(wparam, index);
+	SendMessage(statusHwnd, SB_SETTEXT, wparam, (LPARAM)string);
 }
-ELTDECLSPEC void ELTAPIENTRY ExSetStatusBarIcon(ExWin statusHwnd,HICON icon){
+
+void ExSetStatusBarIcon(ExWin statusHwnd,HICON icon){
 	SendMessage(statusHwnd,SB_SETICON,0,(LPARAM)icon);
 }
-ELTDECLSPEC void ELTAPIENTRY ExSetStatusBarParts(ExWin statusHwnd,Int32 count){
+
+void ExSetStatusBarParts(ExWin statusHwnd,Int32 count){
 	RECT client;
 	Int32 status_parts[128];
 	Int32 i;
@@ -213,7 +220,7 @@ ELTDECLSPEC void ELTAPIENTRY ExSetStatusBarParts(ExWin statusHwnd,Int32 count){
 
 //=========================================
 //		Button		 //
-ELTDECLSPEC ExWin ELTAPIENTRY ExCreateButton(ExWin parentHwnd, ExCallBack callback){
+ExWin ExCreateButton(ExWin parentHwnd, ExCallBack callback){
 	HWND hwndButton;
 	ExButtonEvent*  event = (ExButtonEvent*)malloc(sizeof(ExButtonEvent));
 	memset(event, 0, sizeof(ExButtonEvent));
@@ -234,7 +241,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateButton(ExWin parentHwnd, ExCallBack callba
 	return hwndButton;
 }
 
-ELTDECLSPEC ExWin ELTAPIENTRY ExCreateComboBox(ExWin hWnd){
+ExWin ExCreateComboBox(ExWin hWnd){
 	HWND hWndCombo = CreateWindow(WC_COMBOBOX,EX_TEXT(""),
 		CBS_DROPDOWN | CBS_HASSTRINGS | WS_CHILD | WS_OVERLAPPED |  WS_VISIBLE | ES_NOHIDESEL,
 		0,
@@ -249,7 +256,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateComboBox(ExWin hWnd){
 	return hWndCombo;
 }
 
-ELTDECLSPEC ExWin ELTAPIENTRY ExCreateTrackBar(ExWin parenthWnd,Uint32 imin, Uint32 imax, Uint32 iselected){
+ExWin ExCreateTrackBar(ExWin parenthWnd,Uint32 imin, Uint32 imax, Uint32 iselected){
 	HWND  hwndTrack;
 	InitCommonControls(); // loads common control's DLL
     hwndTrack = CreateWindowEx(
@@ -288,7 +295,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateTrackBar(ExWin parenthWnd,Uint32 imin, Uin
     return hwndTrack;
 }
 
-ELTDECLSPEC ExWin ELTAPIENTRY ExCreateProgressBar(ExWin parentWnd){
+ExWin ExCreateProgressBar(ExWin parentWnd){
 	RECT rcClient;		// client area of the parent window
 	ExWin hwndPB;		// progress bar window handle
 	Int cyVscroll;		// height of scroll bar arrow
@@ -310,7 +317,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateProgressBar(ExWin parentWnd){
 	return hwndPB;
 }
 
-ELTDECLSPEC ExWin ELTAPIENTRY ExCreateListView(ExWin parenthWnd){
+ExWin ExCreateListView(ExWin parenthWnd){
 	INITCOMMONCONTROLSEX icex;           // Structure for control initialization.
 	RECT rcClient;           // The parent window's client area.
     icex.dwICC = ICC_LISTVIEW_CLASSES;
@@ -428,7 +435,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateListView(ExWin parenthWnd){
 	return hWndListView;
 }
 
-ELTDECLSPEC ExWin ELTAPIENTRY ExCreateHeader(ExWin hwndParent, Int32 x, Int32 y, Int32 width, Int32 height){
+ExWin ExCreateHeader(ExWin hwndParent, Int32 x, Int32 y, Int32 width, Int32 height){
 	HDLAYOUT hdl;
 	WINDOWPOS wp;
 	RECT rcParent;
@@ -457,10 +464,8 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateHeader(ExWin hwndParent, Int32 x, Int32 y,
 	return hWndheader;
 }
 
-/*
-	// Toolbar
-*/
-ELTDECLSPEC ExWin ELTAPIENTRY ExCreateToolBar(ExWin parenthWnd){
+
+ExWin ExCreateToolBar(ExWin parenthWnd){
     const int ImageListID    = 0;
     const int numButtons     = 3;
     const int bitmapSize     = 16;
@@ -514,7 +519,8 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateToolBar(ExWin parenthWnd){
 
     return hWndToolbar;
 }
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExAddToolBarTemplate(ExWin hWndToolbar, ExChar* text, Uint32 templates,ExButtonPushed buttoncallback){
+
+ExBoolean ExAddToolBarTemplate(ExWin hWndToolbar, ExChar* text, Uint32 templates,ExButtonPushed buttoncallback){
 
     const int ImageListID    = 0;
     const int numButtons     = 1;
@@ -525,7 +531,8 @@ ELTDECLSPEC ExBoolean ELTAPIENTRY ExAddToolBarTemplate(ExWin hWndToolbar, ExChar
     SendMessage(hWndToolbar, TB_ADDBUTTONS,       (WPARAM)numButtons,       (LPARAM)&tbButtons);
 	return TRUE;
 }
-ELTDECLSPEC void ELTAPIENTRY ExAddToolBarButton(ExWin hWndToolbar,ExChar* text,HBITMAP bitmap,Uint32 templates,ExButtonPushed buttoncallback){
+
+void ExAddToolBarButton(ExWin hWndToolbar,ExChar* text,HBITMAP bitmap,Uint32 templates,ExButtonPushed buttoncallback){
     const int ImageListID    = 0;
     const int numButtons     = 1;
 	HIMAGELIST g_hImageList;
@@ -539,7 +546,7 @@ ELTDECLSPEC void ELTAPIENTRY ExAddToolBarButton(ExWin hWndToolbar,ExChar* text,H
     ShowWindow(hWndToolbar,  TRUE);
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExAddToolBarButtonB(ExWin hWndToolbar,HBITMAP bitmap){
+void ExAddToolBarButtonB(ExWin hWndToolbar,HBITMAP bitmap){
     int ImageListID    = 0;
     const int numButtons     = 1;
 	HIMAGELIST g_hImageList;
@@ -558,7 +565,7 @@ ELTDECLSPEC void ELTAPIENTRY ExAddToolBarButtonB(ExWin hWndToolbar,HBITMAP bitma
 /*
 	// tabcontrol
 */
-ELTDECLSPEC ExWin ELTAPIENTRY ExCreateTabControl(ExWin parenthWnd){
+ExWin ExCreateTabControl(ExWin parenthWnd){
 	RECT rcClient;
 	INITCOMMONCONTROLSEX icex;
 	HWND hWndTab;
@@ -595,14 +602,14 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateTabControl(ExWin parenthWnd){
 	return hWndTab;
 }
 
-ELTDECLSPEC ExWin ELTAPIENTRY ExCreateTab(ExWin tabhWnd){
+ExWin ExCreateTab(ExWin tabhWnd){
 /*    if (TabCtrl_InsertItem(hWndTab, i, &tie) == -1)
 
 	}*/
 	return 0;
 }
 
-ELTDECLSPEC ExWin ELTAPIENTRY ExCreateListBox(ExWin parentHwnd){
+ExWin ExCreateListBox(ExWin parentHwnd){
 	ExListBoxEvent* listbox = (ExListBoxEvent*)malloc(sizeof(ExListBoxEvent));
 	memset(listbox,0,sizeof(ExListBoxEvent));
 	HWND hWndList = CreateWindowEx(WS_EX_CLIENTEDGE,
@@ -621,7 +628,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateListBox(ExWin parentHwnd){
 	return hWndList;
 }
 
-ELTDECLSPEC ExWin ELTAPIENTRY ExCreateTextInput(ExWin parentHwnd){
+ExWin ExCreateTextInput(ExWin parentHwnd){
 	// create text input window.
 	HWND hwnd;
 	if(!(hwnd = CreateWindowEx(WS_EX_CLIENTEDGE, EX_TEXT("edit"), EX_TEXT(""),
@@ -640,7 +647,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateTextInput(ExWin parentHwnd){
 	 return hwnd;
 }
 
-ELTDECLSPEC ExWin ELTAPIENTRY ExCreateStaticControl(ExWin parentHwnd, ExCallBack callback){
+ExWin ExCreateStaticControl(ExWin parentHwnd, ExCallBack callback){
 
 	HWND hWndstatic = CreateWindowEx(WS_EX_CLIENTEDGE,
 		EX_TEXT("STATIC"),
@@ -663,7 +670,7 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExCreateStaticControl(ExWin parentHwnd, ExCallBack
 	return hWndstatic;
 }
 
-ELTDECLSPEC ExWin ELTAPIENTRY ExSetStaticControlBitMap(ExWin staticControl, HBITMAP hBitMap){
+ExWin ExSetStaticControlBitMap(ExWin staticControl, HBITMAP hBitMap){
 
 	// assign the texture
 	SendMessage(staticControl,STM_SETIMAGE,IMAGE_BITMAP,(WPARAM)hBitMap);

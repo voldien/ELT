@@ -1,6 +1,8 @@
 #include"system/elt_file.h"
 #include<unistd.h>
 #include<dirent.h>
+#include<sys/stat.h>
+#include<fcntl.h>
 
 
 int ExCreateDirectory(const ExChar* directory){
@@ -57,6 +59,11 @@ int ExRemoveDirectory(const ExChar* directory){
 	return rmdir(directory);
 }
 
+
+ExBoolean ExCreateFile(const ExChar* cfilename){
+	return creat(cfilename, O_CREAT | O_RDWR) != -1;
+}
+
 int ExRemoveFile(const ExChar* cfilename){
 	return remove(cfilename);
 }
@@ -64,5 +71,80 @@ int ExRemoveFile(const ExChar* cfilename){
 int ExExistFile(const ExChar* cfilename){
 	return !access(cfilename, F_OK);
 }
+
+
+
+
+
+
+
+
+ExChar* ExGetCurrentDirectory(void){
+	ExChar cwd[1024];
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
+	   fprintf(stdout, "Current working dir: %s\n", cwd);
+	else
+	   perror("getcwd() error");
+	return cwd;
+
+}
+
+Int32 ExSetCurrentDirectory(const ExChar* cdirectory){
+	return chdir(cdirectory);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ExBoolean ExCreateRamDisk(const ExChar* cdirectory, unsigned int nBytes){
+	ExChar buf[PATH_MAX];
+	int result;
+	int size;
+	ExChar* src = "none";
+	if(nBytes > 1024)
+		size = nBytes / 1024;
+	if(nBytes > 1048576)
+		size = nBytes / 1048576;
+	if(nBytes > 1073741824)
+		size = nBytes / 1073741824;
+
+	//-t -size=%dk
+	sprintf(buf, "mode=0700,uid=65534");
+	const unsigned long mntflags = 0;
+	const char* type = "tmpfs";
+	if( (result = mount("none", cdirectory, type, mntflags,  buf)) < 0){
+		ExPrintf("Error : Failed to mount %s\nReason: %s [%d]\n",
+					 src, strerror(errno), errno);
+		return FALSE;
+	}
+	return TRUE;
+}
+
+ExBoolean ExUMount(const ExChar* cdirectory){
+	if(umount(cdirectory) < 0){
+		ExPrintf("Error : Failed to mount %s\nReason: %s [%d]\n",
+				cdirectory, strerror(errno), errno);
+		return FALSE;
+	}
+	return TRUE;
+}
+
 
 

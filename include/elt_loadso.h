@@ -36,7 +36,7 @@ extern ELTDECLSPEC int ELTAPIENTRY ExLoadNumSymbol(ExHandle handle);
  *
  *	@Return
  */
-extern ELTDECLSPEC char* ELTAPIENTRY ExLoadSymbol(ExHandle handle, int index, char* symbol, int len);
+extern ELTDECLSPEC ExChar* ELTAPIENTRY ExLoadSymbol(ExHandle handle, int index, char* symbol, int len);
 
 /*
  *	Load function from handle.

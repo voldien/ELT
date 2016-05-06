@@ -1,6 +1,6 @@
 /**
     ELT (Engine Library Toolkit) is a multi platform engine toolkit
-    Copyright (C) 2016  Valdemar Lindberg
+    Copyright (C) 2014  Valdemar Lindberg
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,44 +16,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _ELT_ENDIAN_H_
-#define _ELT_ENDIAN_H_ 1
-#include"system.h"
-
-
-#ifdef __cplusplus	/*	C++ Environment	*/
-extern "C"{
-#endif
-
+#ifndef _ELT_ASSERT_H_
+#define _ELT_ASSERT_H_ 1
+#include"EngineAssembly.h"
+#include<assert.h>
 
 /*
- *
+ *	send error message to
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExSwap16(Uint16 x);
-
-/*
- *
- */
-extern ELTDECLSPEC void ELTAPIENTRY ExSwap32(Uint32 x);
-
-/*
- *
- */
-extern ELTDECLSPEC void ELTAPIENTRY ExSwap64(Uint64 x);
-
-
-/*
- *
- */
-extern ELTDECLSPEC void ELTAPIENTRY ExSwapFloat(float x);
-
-/*
- *
- */
-extern ELTDECLSPEC void ELTAPIENTRY ExSwapDouble(double x);
-
-#ifdef __cplusplus	/*	C++ Environment	*/
-}
-#endif
+#define ExAssert(condition) assert(condition)
 
 #endif

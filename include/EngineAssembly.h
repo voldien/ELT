@@ -16,13 +16,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _ENGINE_ASSEMBLY_H_
-#define _ENGINE_ASSEMBLY_H_ 1
+#ifndef _ELT_ENGINE_ASSEMBLY_H_
+#define _ELT_ENGINE_ASSEMBLY_H_ 1
 #include"elt_def.h"
 #include"ExNT.h"
 #include"system/elt_event.h"
-#include"EngineEx.h"
-#include"ExCommon.h"
+#include"elt_common.h"
 
 
 #if defined(EX_WINDOWS)
@@ -41,10 +40,11 @@
 
 #define EXCAST(type,y) (type)( ( y ) )
 
+
 /*
  *	Engine Rendering Flags
  */
-#define ENGINE_NATIVE (1 << 7)
+#define EX_NATIVE (1 << 7)
 #define EX_OPENGL (1 << 8)
 #define EX_OPENGLES (1 << 9)
 #define EX_OPENCL  (1 << 10)
@@ -55,7 +55,7 @@
 
 
 /*
- *	High layer flag.
+ *	High layer flag.		TODO change the ELT prefix.
  */
 #define ELT_INIT_TIMER				0x00000001
 #define ELT_INIT_VIDEO				0x00000020
@@ -69,6 +69,15 @@
 #define ELT_INIT_EVERYTHING (							\
 	ELT_INIT_VIDEO | ELT_INIT_AUDIO | ELT_INIT_JOYSTICK	\
  | ELT_INIT_TIMER | ELT_INIT_GAMECONTROLLER | ELT_INIT_EVENTS)
+
+
+
+/*
+ *	states.
+ */
+//#define EX_
+
+
 
 
 #include"elt_timer.h"

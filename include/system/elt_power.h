@@ -18,7 +18,7 @@
 */
 #ifndef _ELT_POWER_H_
 #define _ELT_POWER_H_ 1
-#include"../EngineEx.h"
+#include"../elt.h"
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
