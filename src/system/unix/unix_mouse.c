@@ -3,7 +3,7 @@
 #   include<linux/input.h>
 #   include<X11/Xlib.h>
 #   include<X11/cursorfont.h>
-#	include <X11/Xcursor/Xcursor.h>
+//#	include <X11/Xcursor/Xcursor.h>
 
 #   include <linux/input.h>
 #   include<X11/Xlib-xcb.h>
