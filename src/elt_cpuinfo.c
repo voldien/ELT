@@ -15,7 +15,6 @@
 #endif
 #include<setjmp.h>
 
-
 #define ELT_CPU_HAS_RDSTC
 #define ELT_CPU_HAS_MMX
 #define ELT_CPU_HAS_3DNOW
@@ -73,6 +72,7 @@ const ExChar* ExGetCPUType(void){
 
 const ExChar* ExGetCPUName(void){
     static char cpu_name[48] = {0};
+
 #ifdef EX_WINDOWS
 	ExGetRegValuec(HKEY_LOCAL_MACHINE,EX_TEXT("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0\\"),EX_TEXT("ProcessorNameString"),cpu_name);
 	return cpu_name;	// TODO
@@ -138,9 +138,9 @@ const ExChar* ExGetCPUName(void){
 			cpu_name[i++] = (char)(d & 0xff); d >>= 8;
 			cpu_name[i++] = (char)(d & 0xff); d >>= 8;
 		}
-    }
-	#else	/*	get CPU name for ARM.*/
 
+	#else	/*	get CPU name for ARM.*/
+    }
 
     #endif
     return cpu_name;
@@ -250,13 +250,7 @@ ExBoolean ExHasSSE42(void){
 
 ExBoolean ExHasNeon(void){
 #ifdef EX_ARM
-	EX_ASM volatile ("vldr d18,[fp,#-32]");
-#endif
-
-#if defined(__ARM_NEON__)
-	return TRUE;
-#else
-	return FALSE;
+	//EX_ASM volatile ("vldr d18,[fp,#-32]");
 #endif
 }
 
