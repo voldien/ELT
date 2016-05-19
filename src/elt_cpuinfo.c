@@ -139,9 +139,10 @@ const ExChar* ExGetCPUName(void){
 			cpu_name[i++] = (char)(d & 0xff); d >>= 8;
 		}
 
-	#else	/*	get CPU name for ARM.*/
+
     }
 
+	#else	/*	get CPU name for ARM.*/
     #endif
     return cpu_name;
 #elif defined(EX_ANDROID)
