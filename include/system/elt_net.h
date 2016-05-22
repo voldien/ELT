@@ -80,11 +80,13 @@ extern ELTDECLSPEC ExSocket ELTAPIENTRY ExBindSocket(const ExChar* ip, unsigned 
  *	\port
  *	@Return socket
 */
-extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const ExChar* ip, unsigned int port);
+extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnect(const ExChar* ip, unsigned int port);
+extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(ExSocket socket, const ExChar* ip, unsigned int port);
 
 
-
-
+/**/
+extern ELTDECLSPEC ExSocket ELTAPIENTRY ExSetSocketSendTimeOut(ExSocket socket, long int nanosec);
+extern ELTDECLSPEC ExSocket ELTAPIENTRY ExSetSocketRecvTimeOut(ExSocket socket, long int nanosec);
 /*
  *    Listen
  *    @Return
