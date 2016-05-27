@@ -79,12 +79,13 @@ int ExExistFile(const ExChar* cfilename){
 
 
 
-ExChar* ExGetCurrentDirectory(void){
-	ExChar cwd[1024];
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
+ExChar* ExGetCurrentDirectory(ExChar* cwd, unsigned int len){
+	if (getcwd(cwd, len) != NULL){
 	   fprintf(stdout, "Current working dir: %s\n", cwd);
-	else
+	}
+	else{
 	   perror("getcwd() error");
+	}
 	return cwd;
 
 }
