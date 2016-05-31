@@ -69,7 +69,7 @@ int ExSetProgramShader(int program, int shader){
 	glLinkProgram(program);
 
 #if !(defined(GL_ES_VERSION_1_0) || defined(GL_ES_VERSION_2_0))
-	return ExShaderCompileLog(program,GL_PROGRAM);
+	return ExShaderCompileLog(program, GL_PROGRAM);
 #else
 	return ExShaderCompileLog(program,0);
 #endif
@@ -77,7 +77,7 @@ int ExSetProgramShader(int program, int shader){
 }
 
 
-int ExLoadShader(ExShader* shad,const char* cvertexfilename, const char* cfragmentfilename, const char* cgeometryfilename, const char* ctesscfilename, const char* ctessefilename){
+int ExLoadShader(ExShader* shad, const char* cvertexfilename, const char* cfragmentfilename, const char* cgeometryfilename, const char* ctesscfilename, const char* ctessefilename){
 	char* v_source;
 	char* f_source;
 	char* g_source;
@@ -93,7 +93,7 @@ int ExLoadShader(ExShader* shad,const char* cvertexfilename, const char* cfragme
 	ExLoadFile(ctessefilename, &te_source);
 
 	/*	replace the source ExLoaderShaaderv	*/
-	error = ExLoadShaderv(shad,v_source,f_source,g_source,tc_source,te_source);
+	error = ExLoadShaderv(shad, v_source ,f_source, g_source, tc_source, te_source);
 
 
 	free(v_source);
@@ -103,36 +103,6 @@ int ExLoadShader(ExShader* shad,const char* cvertexfilename, const char* cfragme
 	free(te_source);
 
 	return error;
-
-	shad->program = glCreateProgram();
-
-	if(cvertexfilename){
-		shad->ver = ExCompileShaderSource(cvertexfilename,NULL,GL_VERTEX_SHADER);
-		glAttachShader(shad->program,shad->ver);
-	}
-	if(cfragmentfilename){
-		shad->fra = ExCompileShaderSource(cfragmentfilename,NULL,GL_FRAGMENT_SHADER);
-		glAttachShader(shad->program,shad->fra);
-	}
-
-	if(cgeometryfilename){
-		shad->geo = ExCompileShaderSource(cgeometryfilename,&g_source,GL_GEOMETRY_SHADER);
-	}
-	if(ctesscfilename){
-		shad->tesc = ExCompileShaderSource(ctesscfilename,&tc_source,GL_TESS_CONTROL_SHADER);
-	}
-	if(ctessefilename){
-		shad->tese = ExCompileShaderSource(ctessefilename,&te_source,GL_TESS_EVALUATION_SHADER);
-	}
-
-
-	/**/
-	free(v_source);
-	free(f_source);
-	free(g_source);
-	free(tc_source);
-	free(te_source);
-
 
 	glLinkProgram(shad->program);
 
@@ -151,47 +121,48 @@ int ExLoadShaderv(ExShader* shad, const char* cvertexSource, const char* cfragme
 	int error;
 	if(!shad){
 		ExSetError(E_INVALID_ARGUMENT);
-		return FALSE;
+		return E_INVALID_ARGUMENT;
 	}
 
-
+	/**/
 	shad->program = glCreateProgram();
 
+	/**/
 	if(cvertexSource){
-		shad->ver = ExCompileShaderSourcev(&cvertexSource,GL_VERTEX_SHADER);
+		shad->ver = ExCompileShaderSourcev(&cvertexSource, GL_VERTEX_SHADER);
 		glAttachShader(shad->program,shad->ver);
 	}
 	if(cfragmentSource){
-		shad->fra = ExCompileShaderSourcev(&cfragmentSource,GL_FRAGMENT_SHADER);
+		shad->fra = ExCompileShaderSourcev(&cfragmentSource, GL_FRAGMENT_SHADER);
 		glAttachShader(shad->program,shad->fra);
 	}
 #if !defined(GL_ES_VERSION_2_0)
 	if(cgeometrySource){
-		shad->geo = ExCompileShaderSourcev(&cgeometrySource,GL_GEOMETRY_SHADER);
+		shad->geo = ExCompileShaderSourcev(&cgeometrySource, GL_GEOMETRY_SHADER);
 		glAttachShader(shad->program,shad->geo);
 	}
 	if(ctessCSource){
-		shad->tesc = ExCompileShaderSourcev(&ctessCSource,GL_TESS_CONTROL_SHADER);
+		shad->tesc = ExCompileShaderSourcev(&ctessCSource, GL_TESS_CONTROL_SHADER);
 		glAttachShader(shad->program,shad->tesc);
 	}
 	if(ctessESource){
-		shad->tese = ExCompileShaderSourcev(&ctessESource,GL_TESS_EVALUATION_SHADER);
+		shad->tese = ExCompileShaderSourcev(&ctessESource, GL_TESS_EVALUATION_SHADER);
 		glAttachShader(shad->program,shad->tese);
 	}
 #endif
 
-	glValidateProgram(shad->program);
+	/**/
 	glLinkProgram(shad->program);
+	glValidateProgram(shad->program);
 
 #if defined(__gl_h_)
-	error = ExShaderCompileLog(shad->program,GL_PROGRAM);
+	error = ExShaderCompileLog(shad->program, GL_PROGRAM);
 	/*	if shader failed. clean up resources.	*/
 	if(!error){
 		ExDeleteShaderProgram(shad);
 	}
 	return error;
 #endif
-
 	return 1;
 }
 
@@ -205,12 +176,10 @@ int ExDeleteShaderProgram(ExShader* header){
 	glDeleteShader(header->tesc);
 	glDeleteShader(header->tese);
 
-	error = glIsProgram(header->program);
+	/*	*/
+	error = glIsProgram(header->program) == GL_FALSE && glIsShader(header->ver) == GL_FALSE;
 
-	memset(header, NULL, sizeof(*header));
-
-
-	return error ? FALSE : error;
+	return error;
 }
 
 int ExCompileShaderSource(const char* strPath, char** source, unsigned int flag){
@@ -284,7 +253,7 @@ int ExShaderCompileLog(unsigned int program, unsigned int shaderflag){
 		switch(shaderflag){
 		case GL_VERTEX_SHADER:
 			glGetShaderInfoLog(program, sizeof(log),NULL,log);
-			printf("\x1B[31m""Failed to Compile Vertex Shader |\n %s \n",log);
+			printf("\x1B[31m""Failed to Compile Vertex Shader |\n %s \n", log);
 			break;
 		case GL_FRAGMENT_SHADER:
 			glGetShaderInfoLog(program, sizeof(log),NULL,log);
@@ -313,7 +282,7 @@ int ExShaderCompileLog(unsigned int program, unsigned int shaderflag){
 	return status;
 }
 
-int ExShaderCompileLogv(unsigned int program,unsigned int shaderflag, char* log){
+int ExShaderCompileLogv(unsigned int program, unsigned int shaderflag, char* log){
 
 	return TRUE;
 }

@@ -19,8 +19,11 @@
 #ifndef _ELT_SHADER_H_
 #define _ELT_SHADER_H_ 1
 #include"./../elt_def.h"
-#include<stdio.h>
 
+
+/*
+ *
+ */
 typedef struct ex_shader{
 	unsigned int ver;		/**/
 	unsigned int fra;		/**/
@@ -35,20 +38,19 @@ typedef struct ex_shader{
 extern "C"{
 #endif
 
-/*
- *
+/**
  *	@Return
  */
 extern ELTDECLSPEC int ExGetShaderProgramSize(unsigned int program);
 
-/*
- *
+/**
  *	@Return
  */
 extern ELTDECLSPEC int ExGetShaderSourceSize(unsigned int shader);
 
-/*
+/**
  *
+ *	@Return
  */
 extern ELTDECLSPEC int ExSetProgramShader(int program, int shader);
 

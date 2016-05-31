@@ -55,24 +55,33 @@ typedef struct sprite_batch{
 	ExShader spriteShader;				/**/
 	//ExShader fontshader;
 
-	int numTexture;						/*	Number of associated textures.	*/
-	int numMaxTextures;					/*	Max number of texture units.	*/
+
+	/*	Number of associated textures.	*/
+	int numTexture;
+	/*	Max number of texture units.	*/
+	int numMaxTextures;
+
 
 	/*	TODO add texture target. make texture to pointer	*/
 	int texture[32];					/**/
 	//int* target[32];					/**/
 	ExSprite* sprite;					/**/
 
+
+
 	float scale;						/**/
 	float cameraPos[2];					/**/
 	float rotation;						/**/
+
 
 	/*	*/
 	unsigned int width;					/**/
 	unsigned int height;				/**/
 
+
 	/*	view matrix.	*/
 	float viewmatrix[3][3];				/**/
+
 
 	/*	cached uniform location.	*/
 	struct{
@@ -133,7 +142,7 @@ extern ELTDECLSPEC int ELTAPIENTRY ExDrawSpriteLabel(ExSpriteBatch* spritebatch,
 /*
  *
  */
-extern ELTDECLSPEC int ELTAPIENTRY ExAddSpriteNormalized(ExSpriteBatch* spritebatch, ExTexture* texture, const float* position, const float* rect, const float* color, float scale, float angle, float depth);
+extern ELTDECLSPEC void ELTAPIENTRY ExAddSpriteNormalized(ExSpriteBatch* spritebatch, ExTexture* texture, const float* position, const float* rect, const float* color, float scale, float angle, float depth);
 
 /*
  *
@@ -155,7 +164,7 @@ extern ELTDECLSPEC int ELTAPIENTRY ExFlushSpriteBatch(ExSpriteBatch* spritebatch
 /*
  *
  */
-extern ELTDECLSPEC int ELTAPIENTRY ExDisplaySprite(ExSpriteBatch* spritebatch);
+extern ELTDECLSPEC void ELTAPIENTRY ExDisplaySprite(ExSpriteBatch* spritebatch);
 
 
 #ifdef __cplusplus	/* C++ environment	*/
