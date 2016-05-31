@@ -120,7 +120,7 @@ extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetThreadName(ExThread thread);
 extern ELTDECLSPEC void ELTAPIENTRY ExSetThreadName(ExThread thread, const ExChar* name);
 
 
-/*
+/**
  *	Set thread priority
  *	@Return
  */
@@ -129,11 +129,11 @@ extern ELTDECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread, Enum
 
 
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExSetThreadState(ExThread thread, ExHandle* handle);
-extern ELTDECLSPEC ExHandle ELTAPIENTRY ExgetThreadState(ExThread thread);
+extern ELTDECLSPEC ExHandle ELTAPIENTRY ExGetThreadState(ExThread thread);
 
 
 
-/*
+/**
  *	Wait the thread to be terminated.
  *	@Return
  */

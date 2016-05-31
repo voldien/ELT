@@ -415,7 +415,7 @@ int mat4x4_unproj(float winx, float winy, float winz,const exvec4x4_t projection
 
 
 
-void mat3x3_translation(exvec3x3_t f_mat2,float x, float y){
+void mat3x3_translation(exvec3x3_t f_mat2, float x, float y){
 	f_mat2[0][0] = 1;    f_mat2[1][0] = 0.0f; f_mat2[2][0] = x;
 	f_mat2[0][1] = 0.0f; f_mat2[1][1] = 1;    f_mat2[2][1] = y;
 	f_mat2[0][2] = 0.0f; f_mat2[1][2] = 0.0f; f_mat2[2][2] = 1.0f;

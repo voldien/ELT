@@ -145,7 +145,7 @@ enum ExKeyCodes {
 	EXK_RControl,
 	EXK_RShift,
 	EXK_RAlt,
-	EXK_RSystem,
+	EXK_RSystem
 
     };
 
