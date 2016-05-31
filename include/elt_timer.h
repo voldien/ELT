@@ -42,9 +42,9 @@ extern "C"{
 #endif
 
 
-/*
+/**
  *	Add timer thread routine.
- *	@Return .
+ *	@Return unique timer id.
  */
 extern ELTDECLSPEC ExTimer ELTAPIENTRY ExAddTimer(Uint32 ms_interval, ExThreadRoutine callback, void* param);
 
