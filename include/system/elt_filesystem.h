@@ -97,7 +97,7 @@ extern ELTDECLSPEC int ELTAPIENTRY ExExistFile(const ExChar* cfilename);
  *
  *	@Return
  */
-extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetCurrentDirectory(void);
+extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetCurrentDirectory(ExChar* cwd, unsigned int len);
 
 /*
  *

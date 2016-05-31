@@ -3,10 +3,11 @@
 #include<dirent.h>
 #include<sys/stat.h>
 #include<fcntl.h>
-
+#include<errno.h>
+#include<string.h>
 
 int ExCreateDirectory(const ExChar* directory){
-	return mkdir(directory,644);
+	return mkdir(directory, 644);
 }
 
 ExBoolean ExIsDirectory(const ExChar* cdirectory){
@@ -131,8 +132,9 @@ ExBoolean ExCreateRamDisk(const ExChar* cdirectory, unsigned int nBytes){
 	const unsigned long mntflags = 0;
 	const char* type = "tmpfs";
 	if( (result = mount("none", cdirectory, type, mntflags,  buf)) < 0){
+		char* strerr = strerror(errno);
 		ExPrintf("Error : Failed to mount %s\nReason: %s [%d]\n",
-					 src, strerror(errno), errno);
+				cdirectory, strerr, errno);
 		return FALSE;
 	}
 	return TRUE;

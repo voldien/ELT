@@ -60,6 +60,7 @@ static int private_ctxErrorHandler(Display* dpy, XErrorEvent* error){
             error->request_code,
             error->serial
             );
+
     return NULL;
 }
 #endif
@@ -72,6 +73,8 @@ int ExInitErrorHandler(void){
         ExDevPrintf("error");
 	}
 #endif
+
+
 
 	/*	interrupt	*/
 	ExSetSignal(SIGINT,ExSignalCatch);
@@ -174,7 +177,7 @@ ERESULT ExGetError(void){
 }
 
 void ExSetError(ERESULT error){
-	ex_error[0] = error;
+	ex_error[errorIndex] = error;
 }
 
 void ExClearError(void){
@@ -371,7 +374,6 @@ static void debugLogTrace(void){
 
 
 #define EX_ERROR_MESSAGE EX_TEXT("%s has just crashed %s Do you want to send a bug report to the developers team?")
-
 void ExSignalCatch(Int32 signal){
 	ExChar wchar[512];
 	ExChar app_name[256];
@@ -419,42 +421,12 @@ void ExSignalCatch(Int32 signal){
 		ExSPrintf(wchar, EX_ERROR_MESSAGE, app_name, EX_TEXT("Error Unknown.\n"));
 		break;
 	}
-	ExPrint(wchar);
-#ifdef EX_WINDOWS
-	istosend = ExMessageBox(NULL, wchar, EX_TEXT("Crash Report"), MB_YESNO);
 
-	GetSystemTime(&time);
-	sprintf(cfilename, ("error_log_%d_%d_%d_%d_%d_%d.txt"), time.wYear,time.wMonth,time.wDay,time.wHour,time.wMinute,time.wSecond);
-
-#elif defined(EX_LINUX)
-	t = time(NULL);
-	tm = *localtime(&t);
-	ExSPrintf(cfilename, EX_TEXT("error_log_%i_%i_%i_%i_%i_%i"), tm.tm_year,tm.tm_mon,tm.tm_wday,tm.tm_hour,tm.tm_min,tm.tm_sec);
-#endif
-
-
-
-	// deal with the information
-#ifdef EX_WINDOWS
-    /**  Set callback    */
-	switch(istosend){
-	case IDYES:
-
-		break;
-	case IDNO:
-		// allocate on computer somewhere!
-		break;
-	default:break;
-	}
-#elif defined(EX_LINUX)
-    switch(istosend){
-        case 1:break;
-        case 2:break;
-    }
-#endif
 	exit(signal);
 	fclose(m_file_log);	/*	TODO make more genertic*/
 }
+
+
 
 
 int ExSetSignal(unsigned int isignal, ExSignalCallback signal_callback){

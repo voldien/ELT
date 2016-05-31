@@ -22,11 +22,11 @@
 #include"elt_egl.h"
 
 
-
+/**/
 #ifdef EX_WINDOWS
 	#define ExSwapBuffers(surface) SwapBuffers(surface)
 #elif defined(EX_LINUX)
-	#define ExSwapBuffers(window) glXSwapBuffers(display,window)
+	#define ExSwapBuffers(window) glXSwapBuffers((Display*)display, (GLXDrawable)window)
 #elif defined(EX_MAC)
 	#define ExSwapBuffers glSwapBuffers
 #elif defined(EX_ANDROID)
@@ -41,9 +41,9 @@
  *	GPU Vendors constant of.
  */
 #define EX_GPU_VENDOR_UNKNOWN		0x0				/**/
-#define EX_NVIDIA		0x1				/**/
-#define EX_INTEL		0x2				/**/
-#define EX_AMD			0x4				/**/
+#define EX_NVIDIA					0x1				/**/
+#define EX_INTEL					0x2				/**/
+#define EX_AMD						0x4				/**/
 
 
 /*
@@ -170,6 +170,7 @@ extern ELTDECLSPEC int ELTAPIENTRY ExOpenGLGetAttribute(unsigned int attr, int* 
  *	Reset OpenGL context attributes to default.
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExOpenGLResetAttributes(void);
+
 
 /*
  *	Initialize OpenGL States 	 TODO perhaps remove.

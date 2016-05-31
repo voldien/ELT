@@ -15,7 +15,7 @@
 ALCcontext *alContext;
 ALCdevice *alDevice;
 
-ELTDECLSPEC ExAudioContext ELTAPIENTRY ExAudioInit(const char* cDriverName){
+ExAudioContext ExAudioInit(const char* cDriverName){
 	ERESULT hr;
 
 	alDevice = alcOpenDevice(cDriverName);
@@ -26,7 +26,7 @@ ELTDECLSPEC ExAudioContext ELTAPIENTRY ExAudioInit(const char* cDriverName){
 
 		ALfloat listenerPos[]={0.0,0.0,0.0};
 		ALfloat listenerVel[]={0.0,0.0,0.0};
-		ALfloat	listenerOri[]={0.0,0.0,-1.0, 0.0,1.0,0.0};	// Listener facing into the screen
+		ALfloat	listenerOri[]={0.0,0.0,-1.0, 0.0,1.0,0.0};	/* Listener facing into the screen	*/
 
 
 
@@ -97,7 +97,7 @@ ELTDECLSPEC ExAudioContext ELTAPIENTRY ExAudioInit(const char* cDriverName){
 	return alContext;
 }
 
-ELTDECLSPEC ERESULT ELTAPIENTRY ExAudioQuit(void){
+ERESULT ExAudioQuit(void){
 
 	alcMakeContextCurrent(NULL);
 	alcDestroyContext(alContext);
@@ -106,11 +106,12 @@ ELTDECLSPEC ERESULT ELTAPIENTRY ExAudioQuit(void){
 }
 
 
-ELTDECLSPEC int ELTAPIENTRY ExGetNumAudioDevices(void){
+int ExGetNumAudioDevices(void){
 	const ALCchar *devices  = alcGetString(NULL, ALC_DEVICE_SPECIFIER);
 
 }
-ELTDECLSPEC int ELTAPIENTRY ExGetNumAudioDriver(void){
+
+int ExGetNumAudioDriver(void){
 
 }
 

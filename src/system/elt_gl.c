@@ -60,6 +60,9 @@
 	#include<GL/glext.h>
 #endif
 
+
+
+
 /*	TODO perhaps relocate later to their coresponding platform source code files.*/
 inline ExWin ExGetOpenGLContextWindow(ExOpenGLContext glc){
 #ifdef EX_WINDOWS

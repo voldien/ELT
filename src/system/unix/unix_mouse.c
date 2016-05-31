@@ -53,7 +53,6 @@ ExCursor ExGetCursor(void){
 	return NULL;
 }
 
-
 Uint32 ExGetGlobalMouseState(Int32* x, Int32* y){
     int i,j,mask_return;
     Window* root;
