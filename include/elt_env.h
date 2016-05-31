@@ -36,6 +36,7 @@ extern ELTDECLSPEC int ELTAPIENTRY ExSetEnv(const ExChar* name, const char* pVal
 extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetEnv(const ExChar* name);
 extern ELTDECLSPEC int ELTAPIENTRY ExRemoveEnv(const ExChar* name);
 extern ELTDECLSPEC ExChar* ExGetAllEnv(void);
+extern ELTDECLSPEC void ExFreeEnv(ExChar* env);
 
 
 #ifdef __cplusplus	/*	C++ Environment	*/
