@@ -138,8 +138,6 @@ const ExChar* ExGetCPUName(void){
 			cpu_name[i++] = (char)(d & 0xff); d >>= 8;
 			cpu_name[i++] = (char)(d & 0xff); d >>= 8;
 		}
-
-
     }
 
 	#else	/*	get CPU name for ARM.*/
@@ -201,7 +199,11 @@ Int32 ExGetCPUCount(void){
 
 
 Uint ExGetCPUCacheLineSize(void){
-
+#ifdef EX_LINUX
+	return sysconf(_SC_LEVEL1_DCACHE_LINESIZE);
+#else
+	return 0;
+#endif
 }
 
 ExBoolean ExHasSSE(void){
@@ -253,6 +255,7 @@ ExBoolean ExHasNeon(void){
 #ifdef EX_ARM
 	//EX_ASM volatile ("vldr d18,[fp,#-32]");
 #endif
+	return FALSE;
 }
 
 ExBoolean ExHasRDTSC(void){
