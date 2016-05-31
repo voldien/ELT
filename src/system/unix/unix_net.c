@@ -220,6 +220,29 @@ ExSocket ExConnectSocket(ExSocket socket, const ExChar* ip, unsigned int port){
     return sockfd;
 }
 
+int ExSetSocketOption(ExSocket socket, unsigned int level, unsigned int option, void* pvalue, unsigned int optlen){
+	return setsockopt(socket, level, option, pvalue, optlen);
+}
+
+ExSocket ExSetSocketSendTimeOut(ExSocket socket, long int nanosec){
+	struct timeval time;
+	time.tv_sec = 0;
+	time.tv_usec = nanosec;
+	return ExSetSocketOption(socket, SOL_SOCKET, SO_SNDTIMEO, &time, sizeof(time));
+}
+
+ExSocket ExSetSocketRecvTimeOut(ExSocket socket, long int nanosec){
+	struct timeval time;
+	time.tv_sec = 0;
+	time.tv_usec = nanosec;
+	return ExSetSocketOption(socket, SOL_SOCKET, SO_RCVTIMEO, &time, sizeof(time));
+}
+
+
+void ExListen(ExSocket socket, unsigned int n){
+	listen(socket, n);
+}
+
 
 long int ExRecvFrom(ExSocket socket, void* buffer, int len, ExSocket* from, int* fromlen){
 	return recvfrom(socket, buffer, len, 0 , ((struct sockaddr*)from), fromlen);
@@ -227,6 +250,11 @@ long int ExRecvFrom(ExSocket socket, void* buffer, int len, ExSocket* from, int*
 
 long int ExSendTo(ExSocket socket, void* buffer, int len, ExSocket* to, int tolen){
 	return sendto(socket, buffer, len, 0, ((struct sockaddr*)to), tolen);
+}
+
+
+long int ExBroadcast(ExSocket socket, void* buffer, int len){
+
 }
 
 
