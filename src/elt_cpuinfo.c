@@ -39,11 +39,11 @@
 
 	/*	cpuid for linux	*/
 #if defined(EX_X86) && !defined(EX_CLANG) && !defined(EX_LLVM)
-	#define cpuid(regs,i) 	EX_ASM  __volatile__ \
+	#define cpuid(regs, i) 	EX_ASM  __volatile__ \
 			("cpuid" : "=a" (regs[0]), "=b" (regs[1]), "=c" (regs[2]), "=d" (regs[3])\
 			: "a" (i), "c" (0))
 
-    #define cpuid2(func,a,b,c,d)\
+    #define cpuid2(func, a, b, c, d)\
     EX_ASM __volatile__ ( 		\
 "        pushq %%rbx        \n" \
 "        cpuid              \n" \
