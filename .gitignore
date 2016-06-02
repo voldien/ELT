@@ -61,3 +61,7 @@ Proj
 port/android/obj
 port/android/libs
 *.tar.*
+
+
+# log file from ELT
+EngineExDevLog.txt
