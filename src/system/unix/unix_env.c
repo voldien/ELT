@@ -1,4 +1,6 @@
 #include"elt_env.h"
+#include<stdio.h>
+#include<string.h>
 #include<unistd.h>
 
 
@@ -28,14 +30,31 @@ int ExRemoveEnv(const ExChar* name){
 extern char **environ;
 ExChar* ExGetAllEnv(void){
 	char* outenv = NULL;
-	outenv = realloc(outenv, 1);
 	int len = 0;
+	int strle;
+	int offset = 0;
 	char** start = environ;
-	while(*start != NULL){
 
+	/*	compute the full size.	*/
+	while(*start != NULL){
 		len += strlen(start[0]) + 1;
 		start++;
 	}
-	realloc(outenv, len);
+	outenv = realloc(outenv, len);
+	start = environ;
+
+	/*	write env data.	*/
+	while(*start != NULL){
+		strle = strlen(*start);
+		memcpy(outenv + offset, *start,strle);
+		offset += strle + 1;
+		start++;
+	}
+
 	return outenv;
 }
+
+void ExFreeEnv(ExChar* env){
+	free(env);
+}
+

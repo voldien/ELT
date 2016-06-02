@@ -64,7 +64,7 @@ ExChar* ExGetDefaultWindowTitle(ExChar* text, Int32 length){
 		EX_VERSION_MINOR,
 		EX_VERSION_REVISION,
 		EX_ENGINE_STATUS,
-		ExGetOSName(),
+		"",//ExGetOSName(),
 		major,
 		minor);
 	memcpy(text, wchar, EX_MAX(sizeof(ExChar) * length + sizeof(ExChar),sizeof(wchar) / sizeof(ExChar)));

@@ -351,7 +351,7 @@
  *
  */
 #ifdef EX_MSVC
-	#define NORETURN __declspec(noreturn)				// No Return, will loop forever.
+	#define NORETURN __declspec(noreturn)				/* No Return, will loop forever.	*/
 #elif defined(EX_GNUC)
 	#define NORETURN __attribute__(noreturn)
 #else

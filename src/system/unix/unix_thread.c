@@ -17,6 +17,8 @@
 #   define EX_START_THREAD(x)	pthread_detach( ( x ))  /*TODO change*/
 
 #include<signal.h>
+#include<string.h>
+
 
 /*	TODO resolve the evaluate of the implementation.	*/
 #define SIGNAL_MASK_ID_KEY 0xfff
@@ -31,7 +33,7 @@ ExThread ExCreateThread(ExThreadRoutine callback, void* lpParamater, Uint32* pid
     pthread_attr_init(&attr);
     pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
-	if((mpid = pthread_create(&t0,&attr, callback,lpParamater)) == -1){
+	if((mpid = pthread_create(&t0, &attr, callback,lpParamater)) == -1){
 		ExPrintfError(strerror(errno));
 	}
 

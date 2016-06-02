@@ -49,17 +49,8 @@ void ExLogInfo(const ExChar* format,...){
 
 FILE* ExDupFile(const int _fd){
 
+	return NULL;
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -72,9 +63,6 @@ FILE* ExDupFile(const int _fd){
 #define KCYN  "\x1B[36m"
 #define KWHT  "\x1B[37m"
 #define RESET "\033[0m"
-
-
-
 
 void ExSetConsoleColor(Uint16 colour){
 #if defined(EX_WINDOWS)
@@ -104,7 +92,6 @@ void ExSetConsoleColor(Uint16 colour){
 	}
 #endif
 }
-
 
 Uint16 ExGetConsoleColor(void){
 #ifdef EX_WINDOWS

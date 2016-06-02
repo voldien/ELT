@@ -121,7 +121,7 @@ ExSocket ExBindSocket(const ExChar* ip, unsigned int port, ExSocket socket){
 }
 
 
-ExSocket ExConnectSocket(const ExChar* ip, unsigned int port){
+ExSocket ExConnect(const ExChar* ip, unsigned int port){
 	/**/
     struct sockaddr_in serv_addr;
     struct hostent *server;
@@ -166,17 +166,95 @@ ExSocket ExConnectSocket(const ExChar* ip, unsigned int port){
         fprintf(stderr, "%s\n", strerror(errno));
         return -1;
     }
+
     return sockfd;
 }
 
 
+ExSocket ExConnectSocket(ExSocket socket, const ExChar* ip, unsigned int port){
+	/**/
+    struct sockaddr_in serv_addr;
+    struct hostent *server;
+    ExSocket sockfd;
+    unsigned int iplen = strlen(ip);
+    unsigned int domain = AF_INET;
+
+    server = gethostbyname(ip);	/*get host information by ip name or ip explicitly*/
+    if(!server){
+    	/**/
+    	server = gethostbyaddr(ip, iplen, iplen == 4 ? AF_INET : AF_INET6);
+    	if(!server){
+    		ExLog("");
+    		return (ExSocket)0;
+    	}
+    }
+
+    /*	create soket	*/
+
+    sockfd = socket;
+    if(sockfd < 0){
+    	ExLog("Failed to create socket.\n");
+    	return (ExSocket)0;
+    }
+
+    /*	*/
+    bzero((void*)&serv_addr, sizeof(serv_addr));
+
+
+    /*	get namespace	*/
+    serv_addr.sin_family = server->h_addrtype; /*AF_INET;*/
+
+    /*	copy server addr data.	*/
+    bcopy((char*)server->h_addr,
+         (char*)&serv_addr.sin_addr.s_addr,
+         server->h_length);
+    serv_addr.sin_port = htons(port);
+
+    /*	*/
+    if(connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0){
+    	ExLog("");
+        fprintf(stderr, "%s\n", strerror(errno));
+        return -1;
+    }
+
+    return sockfd;
+}
+
+int ExSetSocketOption(ExSocket socket, unsigned int level, unsigned int option, void* pvalue, unsigned int optlen){
+	return setsockopt(socket, level, option, pvalue, optlen);
+}
+
+ExSocket ExSetSocketSendTimeOut(ExSocket socket, long int nanosec){
+	struct timeval time;
+	time.tv_sec = 0;
+	time.tv_usec = nanosec;
+	return ExSetSocketOption(socket, SOL_SOCKET, SO_SNDTIMEO, &time, sizeof(time));
+}
+
+ExSocket ExSetSocketRecvTimeOut(ExSocket socket, long int nanosec){
+	struct timeval time;
+	time.tv_sec = 0;
+	time.tv_usec = nanosec;
+	return ExSetSocketOption(socket, SOL_SOCKET, SO_RCVTIMEO, &time, sizeof(time));
+}
+
+
+void ExListen(ExSocket socket, unsigned int n){
+	listen(socket, n);
+}
+
 
 long int ExRecvFrom(ExSocket socket, void* buffer, int len, ExSocket* from, int* fromlen){
-	return recvfrom(socket,buffer, len, 0 , ((struct sockaddr*)from), fromlen);
+	return recvfrom(socket, buffer, len, 0 , ((struct sockaddr*)from), fromlen);
 }
 
 long int ExSendTo(ExSocket socket, void* buffer, int len, ExSocket* to, int tolen){
 	return sendto(socket, buffer, len, 0, ((struct sockaddr*)to), tolen);
+}
+
+
+long int ExBroadcast(ExSocket socket, void* buffer, int len){
+
 }
 
 

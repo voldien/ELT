@@ -32,7 +32,7 @@ extern "C"{
 #define EX_CPU_ARM        	0x4
 #define EX_CPU_MIPS       	0x5
 
-/*
+/**
  *
  *	@Return
  */
@@ -44,7 +44,7 @@ extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetCPUInstructionArch(void);
  */
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCPUType(void);
 
-/*
+/**
  *	Get the name of the CPU.
  *	@Return
  */
@@ -87,9 +87,8 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasMMX(void);
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void);
 
-/*
- *
- *	@Return
+/**
+ *	@Return size in bytes.
  */
 extern ELTDECLSPEC Uint ELTAPIENTRY ExGetCPUCacheLineSize(void);
 
@@ -123,13 +122,13 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE41(void);
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void);
 
-/*
+/**
  *	Arm SIMD feature for float point unit fpu.
  *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasNeon(void);
 
-/*
+/**
  *	Time Stamp Counter
  *	@Return
  */

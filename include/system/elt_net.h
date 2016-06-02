@@ -80,7 +80,17 @@ extern ELTDECLSPEC ExSocket ELTAPIENTRY ExBindSocket(const ExChar* ip, unsigned 
  *	\port
  *	@Return socket
 */
-extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const ExChar* ip, unsigned int port);
+extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnect(const ExChar* ip, unsigned int port);
+extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(ExSocket socket, const ExChar* ip, unsigned int port);
+
+/**
+ *
+ */
+extern ELTDECLSPEC int ELTAPIENTRY ExSetSocketOption(ExSocket socket, unsigned int level, unsigned int option, void* pvalue, unsigned int optlen);
+
+/**/
+extern ELTDECLSPEC ExSocket ELTAPIENTRY ExSetSocketSendTimeOut(ExSocket socket, long int nanosec);
+extern ELTDECLSPEC ExSocket ELTAPIENTRY ExSetSocketRecvTimeOut(ExSocket socket, long int nanosec);
 
 
 
@@ -89,7 +99,7 @@ extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const ExChar* ip, unsign
  *    Listen
  *    @Return
  */
-#define ExListen    listen
+extern ELTDECLSPEC void ELTAPIENTRY ExListen(ExSocket socket, unsigned int n);
 
 /*
  *	Read Socket data
@@ -118,8 +128,14 @@ extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const ExChar* ip, unsign
 #endif
 
 
-extern ELTDECLSPEC long int ExRecvFrom(ExSocket socket, void* buffer, int len, ExSocket* from, int* fromlen);
-extern ELTDECLSPEC long int ExSendTo(ExSocket socket, void* buffer, int len, ExSocket* to, int tolen);
+extern ELTDECLSPEC long int ELTAPIENTRY ExRecvFrom(ExSocket socket, void* buffer, int len, ExSocket* from, int* fromlen);
+extern ELTDECLSPEC long int ELTAPIENTRY ExSendTo(ExSocket socket, void* buffer, int len, ExSocket* to, int tolen);
+
+
+/**
+ *
+ */
+extern ELTDECLSPEC long int ExBroadcast(ExSocket socket, void* buffer, int len);
 
 /*
  *

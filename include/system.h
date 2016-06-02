@@ -21,6 +21,7 @@
 #include"elt_def.h"
 
 #include"system/elt_file.h"
+#include"system/elt_filesystem.h"
 #include"system/elt_log.h"
 #include"system/elt_win.h"
 #include"system/elt_gl.h"

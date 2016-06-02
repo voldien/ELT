@@ -3,7 +3,7 @@
 #   include<linux/input.h>
 #   include<X11/Xlib.h>
 #   include<X11/cursorfont.h>
-#	include <X11/Xcursor/Xcursor.h>
+//#	include <X11/Xcursor/Xcursor.h>
 
 #   include <linux/input.h>
 #   include<X11/Xlib-xcb.h>
@@ -52,7 +52,6 @@ ExBoolean ExSetCursor(ExWin window, ExCursor cursor){
 ExCursor ExGetCursor(void){
 	return NULL;
 }
-
 
 Uint32 ExGetGlobalMouseState(Int32* x, Int32* y){
     int i,j,mask_return;

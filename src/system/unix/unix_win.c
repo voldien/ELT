@@ -312,7 +312,7 @@ ExChar* ExGetWindowTitle(ExWin window, ExChar* title){
 
 
 
-void ExSetWindowPos(ExWin window,Int32 x,Int32 y){
+void ExSetWindowPos(ExWin window, Int32 x,Int32 y){
 	XMoveWindow(display,(Window*)window,x,y);
 }
 
@@ -390,10 +390,9 @@ Int32 ExSetWindowIcon(ExWin window, ExHandle hIcon){
     wm_hints.icon_y = 0x0;
     wm_hints.icon_window = window;
 
-
+    /**/
     XFlush(display);
     XSetWMHints(display, window, &wm_hints);
-
 
 	return TRUE;
 }

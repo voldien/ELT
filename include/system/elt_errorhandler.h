@@ -57,7 +57,7 @@ extern "C"{
 	#define ExIsHError(x) {ERESULT temp; if((temp = ( x ) ) != S_OK ){ExDevWindowHPrint(EX_TEXT("Error"),temp);}}
 	#define ExIsDXError(x) {ERESULT temp; if((temp = ( x ) ) != S_OK ){ExDevWindowHPrint(EX_TEXT("Error"),temp);}}
 #elif defined(EX_UNIX)
-	//dlerror
+	/*dlerror*/
 	#define ExIsWinError(x) { if( (Long)( x ) <= 0 ){ExDevWindowPrintc(EX_TEXT("Error"),EX_CONSOLE_RED);} }
 	#define ExIsXWinError(x)
 	#define ExIsHError(x) x

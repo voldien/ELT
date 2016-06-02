@@ -10,14 +10,15 @@
 #   include<pthread.h>
 #   include<errno.h>
 #   include<unistd.h>
-#   include <sched.h>
-#   include <stdlib.h>
-#   include <unistd.h>
-#   include <stdio.h>
-#   include <assert.h>
+#   include<sched.h>
+#   include<stdlib.h>
+#   include<unistd.h>
+#   include<stdio.h>
+#   include<assert.h>
 #   define EX_START_THREAD(x)	pthread_detach( ( x ))  /*TODO change*/
 #endif
 #include<signal.h>
+#include<string.h>
 
 
 //http://pubs.opengroup.org/onlinepubs/7908799/xsh/pthread.h.html

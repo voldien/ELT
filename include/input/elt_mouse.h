@@ -22,7 +22,6 @@
 #include"./../system/elt_errorhandler.h"
 
 	typedef void* ExCursor;
-	typedef void* ExCursor;
 
 	#define EXC_ARROW		0x1
 	#define EXC_IBEAM		0x2

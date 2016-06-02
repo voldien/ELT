@@ -44,7 +44,7 @@ void ExSetBufferSize(unsigned int target, unsigned int buffer, unsigned int size
 
 
 //extern PFNGLGENVERTEXARRAYSPROC glGenVertexArrays;
-void ExCreateVAO(int n, unsigned int* arg){
+void ExGenVertexArrays(int n, unsigned int* arg){
 	glGenVertexArrays(n, arg);
 }
 

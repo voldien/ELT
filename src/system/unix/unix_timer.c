@@ -78,7 +78,6 @@ void ExDelayN(Uint32 nanosec){
 #else
     nanosleep(&tim , NULL);
 #endif
-
 }
 
 Uint64 ExGetPerformanceFrequency(void){
@@ -87,22 +86,12 @@ Uint64 ExGetPerformanceFrequency(void){
 	return (1E9 / spec.tv_nsec);
 }
 
-
 long int ExGetTicks(void){
 	return (clock() - eltTickTime);
 }
 
 long int ExGetHiResTime(void){
 	struct timeval tSpec;
-    //struct timespec tSpec;
-
-/*    if(clock_gettime(CLOCK_MONOTONIC,&tSpec) < 0){
-    	printf("error from ExGetHiResTime : %d", errno);
-    	return tSpec.tv_nsec;
-    }*/
     gettimeofday(&tSpec, NULL);
-
-    //clock_gettime(CLOCK_MONOTONIC, &t_spec);
-    //return tSpec.tv_usec * 1000;  /*  return time in nano seconds*/
     return (tSpec.tv_sec*1e6 + tSpec.tv_usec) * 1000;
 }

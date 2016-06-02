@@ -361,7 +361,7 @@ ExChar* ExGetClipboardText(void){
 void* ExDownloadURL(const ExChar* url){
 	ExSocket sock = ExOpenSocket(EX_TCP);
 
-	if(ExConnectSocket(ExGetHostName(url),80)){
+	if(ExConnect(ExGetHostName(url),80)){
 
 
 	}

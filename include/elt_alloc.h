@@ -37,9 +37,19 @@ extern ELTDECLSPEC Uint ELTAPIENTRY ExGetPageSize(void);
  */
 extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalSystemMemory(void);
 
-/**/
+/**
+ *
+ */
 extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalFreeSystemMemory(void);
+
+/**
+ *
+ */
 extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalUsedSystemMemory(void);
+
+/**
+ *
+ */
 extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetProcessSystemMemory(void);
 
 
@@ -49,6 +59,9 @@ extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetProcessSystemMemory(void);
  */
 extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalVirtualMemory(void);
 extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalUsedVirtualMemory(void);
+
+
+
 
 
 
@@ -91,10 +104,38 @@ extern ELTDECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolResize(ExPoolAllocator* al
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExPoolFree(ExPoolAllocator* allactor);
 
+/**/
 #define ExPoolIndex(alloc,index,len)	( ( alloc ) + (( index ) * ( len )  + ( index )) )
+/**/
 #define ExPoolDataIndex(alloc,data,len)	((data - alloc)
 
 
+
+
+
+EX_ALIGN_PREFIX(4)
+typedef struct ex_list{
+	/*
+	 *
+	 */
+	struct ex_list* next;
+
+	/*
+	 *
+	 */
+	struct ex_list* previous;
+
+
+}ExList;
+
+extern ELTDECLSPEC ExList* ExCreateList(ExList* list, unsigned int num, unsigned int itemsize);
+extern ELTDECLSPEC ExList* ExCreateListS(ExList* list, unsigned int num, unsigned int itemsize);
+
+
+
+
+
+EX_ALIGN_PREFIX(4)
 typedef struct ex_quad_tree{
 	struct ex_quad_tree* t0;
 	struct ex_quad_tree* t1;
@@ -103,14 +144,30 @@ typedef struct ex_quad_tree{
 	void* data[0];
 }ExQuadTree;
 
+
+/**/
+extern ELTDECLSPEC ExQuadTree* ExCreateQuadTree(ExQuadTree* list, unsigned int depth, unsigned int itemsize);
+
+
+
+
+EX_ALIGN_PREFIX(4)
 typedef struct ex_octree_tree{
 	struct ex_octree_tree* t0[8];
 }ExOctreTree;
 
+/**/
+extern ELTDECLSPEC ExQuadTree* ExCreateOcTree(ExList* list, unsigned int depth, unsigned int itemsize);
+
+
 
 typedef struct ex_hash_table{
+	unsigned int num;
 
 }ExHashTable;
+
+/**/
+extern ELTDECLSPEC ExQuadTree* ExCreateHashTable(ExList* list, unsigned int depth, unsigned int itemsize);
 
 #ifdef __cplusplus
 }

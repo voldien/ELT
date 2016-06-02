@@ -19,8 +19,11 @@
 #ifndef _ELT_SHADER_H_
 #define _ELT_SHADER_H_ 1
 #include"./../elt_def.h"
-#include<stdio.h>
 
+
+/*
+ *
+ */
 typedef struct ex_shader{
 	unsigned int ver;		/**/
 	unsigned int fra;		/**/
@@ -35,20 +38,19 @@ typedef struct ex_shader{
 extern "C"{
 #endif
 
-/*
- *
+/**
  *	@Return
  */
 extern ELTDECLSPEC int ExGetShaderProgramSize(unsigned int program);
 
-/*
- *
+/**
  *	@Return
  */
 extern ELTDECLSPEC int ExGetShaderSourceSize(unsigned int shader);
 
-/*
+/**
  *
+ *	@Return
  */
 extern ELTDECLSPEC int ExSetProgramShader(int program, int shader);
 
@@ -83,22 +85,30 @@ extern ELTDECLSPEC int ExCompileShaderSource(const char* strPath, char** source,
 extern ELTDECLSPEC int ExCompileShaderSourcev(const char** source, unsigned int flag);
 
 /*
- *
+ *	@Return
  */
 extern ELTDECLSPEC int ExShaderCompileLog(unsigned int program,unsigned int shaderflag);
 
 /*
- *
+ *	@Return
  */
 extern ELTDECLSPEC int ExShaderCompileLogv(unsigned int program,unsigned int shaderflag, char* log);
 
+/*
+ *	@Return
+ */
 extern ELTDECLSPEC int ExGetShaderSource(unsigned int shader, char** source);
 
-/* */
-extern int ExGetShaderSourcev(unsigned int shader, char* source);
+/*
+ *	@Return
+ */
+extern ELTDECLSPEC int ExGetShaderSourcev(unsigned int shader, char* source);
 
-/*	*/
-extern unsigned int ExGetShaderNumComponent(unsigned int program);
+/*
+ *	@Return
+ */
+extern ELTDECLSPEC unsigned int ExGetShaderNumComponent(unsigned int program);
+
 #ifdef __cplusplus
 }
 #endif 
@@ -179,8 +189,6 @@ void main(void){
  */
 
 
-//#extension GL_EXT_gpu_shader4 : enable
-
 #define EX_VERTEX_SPRITE	""						\
 "#version 330\n"									\
 "#extension GL_EXT_gpu_shader4 : enable\n"			\
@@ -193,45 +201,14 @@ void main(void){
 "layout(location = 3) in int tex;\n"								\
 "layout(location = 4) in float scale;\n"								\
 "layout(location = 5) in vec4 color;\n"								\
-"uniform sampler2D textures[32];\n"									\
 "uniform mat3 gmat;\n"												\
 "uniform float gscale;\n"										\
-"out float fangle;\n"												\
-"out vec4 frect;\n"													\
-"out mat2 coord;\n"													\
+"uniform sampler2D textures[64];\n"									\
+"smooth out float fangle;\n"												\
+"smooth out vec4 frect;\n"													\
+"smooth out mat2 coord;\n"													\
 "flat out int ftexture;\n"												\
-"out vec4 fcolor;\n"												\
-"void main(void){\n"												\
-"	float sin_theta = sin(angle);\n"								\
-"	float cos_theta = cos(angle);\n"								\
-"	coord = mat2(cos_theta, sin_theta,\n"							\
-"-sin_theta, cos_theta);\n"											\
-"	vec2 uv = coord * vec2(float(textureSize(textures[0],0).x) * rect.z * scale,float(textureSize2D(textures[0],0).y) * rect.w * scale );\n"					\
-"	gl_PointSize = float(max(abs(uv.x * sin(angle)) + abs(uv.y * cos(angle) ),"	\
-"abs(uv.x * cos(angle)) + abs(uv.y * sin(angle)) )); \n"						\
-"	gl_PointSize *= gscale;\n"													\
-"	gl_Position = vec4( (gmat * vec3(vertex.xy,1.0)).xy, vertex.z ,1.0f);\n"							\
-"	fangle = angle;\n"								\
-"	frect = rect;\n"								\
-"	ftexture = tex;\n"								\
-"	fcolor = color;\n"								\
-"}\n"
-
-
-
-
-#define EX_FRAGMENT_SPRITE ""								\
-"#version 330\n"											\
-"#ifdef GL_ES\n"											\
-"precision mediump float;\n"								\
-"#endif\n"													\
-"layout(location = 0) out vec4 fragColor;\n"				\
-"uniform sampler2D textures[32];\n"							\
-"in vec4 frect;\n"											\
-"smooth in float fangle;\n"										\
-"flat in int ftexture;\n"										\
-"in mat2 coord;\n"											\
-"in vec4 fcolor;\n"											\
+"smooth out vec4 fcolor;\n"												\
 "sampler2D getTexture(const in int index){\n"				\
 "	switch(index){\n"				\
 "		case 0:\n"				\
@@ -262,13 +239,73 @@ void main(void){
 "		return textures[0];\n"				\
 "	}\n"				\
 "}\n"				\
+"void main(void){\n"												\
+"	float sin_theta = sin(angle);\n"								\
+"	float cos_theta = cos(angle);\n"								\
+"	coord = mat2(cos_theta, sin_theta,\n"							\
+"-sin_theta, cos_theta);\n"											\
+"	vec2 uv = coord * vec2(float(textureSize(getTexture(tex),0).x) * rect.z * scale,float(textureSize2D(getTexture(tex),0).y) * rect.w * scale );\n"					\
+"	gl_PointSize = float(max(abs(uv.x * sin(angle)) + abs(uv.y * cos(angle) ),"	\
+"abs(uv.x * cos(angle)) + abs(uv.y * sin(angle)) )); \n"						\
+"	gl_PointSize *= gscale;\n"													\
+"	gl_Position = vec4( (gmat * vec3(vertex.xy,1.0)).xy, vertex.z ,1.0f);\n"							\
+"	fangle = angle;\n"								\
+"	frect = rect;\n"								\
+"	ftexture = tex;\n"								\
+"	fcolor = color;\n"								\
+"}\n"
+
+
+
+
+#define EX_FRAGMENT_SPRITE ""								\
+"#version 330\n"											\
+"#ifdef GL_ES\n"											\
+"precision mediump float;\n"								\
+"#endif\n"													\
+"layout(location = 0) out vec4 fragColor;\n"				\
+"uniform sampler2D textures[64];\n"							\
+"smooth in vec4 frect;\n"											\
+"smooth in float fangle;\n"										\
+"flat in int ftexture;\n"										\
+"smooth in mat2 coord;\n"											\
+"smooth in vec4 fcolor;\n"											\
+"sampler2D getTexture(in int texIndex){\n"				\
+"	switch(texIndex){\n"				\
+"		case 0:\n"				\
+"		return textures[0];\n"				\
+"		case 1:\n"				\
+"		return textures[1];\n"				\
+"		case 2:\n"				\
+"		return textures[2];\n"				\
+"		case 3:\n"				\
+"		return textures[3];\n"				\
+"		case 4:\n"				\
+"		return textures[4];\n"				\
+"		case 5:\n"				\
+"		return textures[5];\n"				\
+"		case 6:\n"				\
+"		return textures[6];\n"				\
+"		case 7:\n"				\
+"		return textures[7];\n"				\
+"		case 8:\n"				\
+"		return textures[8];\n"				\
+"		case 9:\n"				\
+"		return textures[9];\n"				\
+"		case 10:\n"				\
+"		return textures[10];\n"				\
+"		case 11:\n"				\
+"		return textures[11];\n"				\
+"		default:\n"				\
+"		return textures[0];\n"				\
+"	}\n"				\
+"}\n"				\
 "void main(void){\n"										\
-"	float texwidth = float(textureSize(textures[0],0).x);\n"			\
-"	float texheight = float(textureSize(textures[0],0).y);\n"			\
+"	float texwidth = float(textureSize(getTexture(ftexture),0).x);\n"			\
+"	float texheight = float(textureSize(getTexture(ftexture),0).y);\n"			\
 "	vec2 fragscale = vec2(clamp( texheight / texwidth ,1.0,10.0 ) , clamp( texwidth / texheight ,1.0,10.0) );\n"														\
 "	fragColor = texture2D(getTexture(ftexture), frect.xy  + ((vec2(1.0) - frect.zw) / 2) * vec2(-1,1)  + vec2(0.5) + coord * ((gl_PointCoord - vec2(0.5) ) * frect.zw * fragscale.xy)) * fcolor;\n"		\
 "	//fragColor.rg += (frect.xy  + vec2(0.5) + coord * ((gl_PointCoord - vec2(0.5) ) * frect.zw * fragscale.xy)).xy;\n"		\
-"	//fragColor.a = 1.0;\n"									\
 "}\n"														\
 
 #endif 

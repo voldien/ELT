@@ -6,6 +6,8 @@
 #   include<unistd.h>
 #endif
 
+
+
 Uint ExGetPageSize(void){
     #ifdef EX_WINDOWS
 	PERFORMANCE_INFORMATION erformance_info;
@@ -88,4 +90,27 @@ ExPoolAllocator* ExPoolResize(ExPoolAllocator* allcotor, unsigned num, unsigned 
 
 void ExPoolFree(ExPoolAllocator* allactor){
 	free(allactor);
+}
+
+ExList* ExCreateList(ExList* list, unsigned int num, unsigned int itemsize){
+	if(list == NULL)
+		return NULL;
+
+	list = realloc(list, num * ( itemsize + sizeof(ExList) ));
+
+	return list;
+}
+
+
+
+ExQuadTree* ExCreateQuadTree(ExQuadTree* quad, unsigned int depth, unsigned int itemsize){
+	unsigned int numnode = 1;
+	if(quad == NULL)
+		return NULL;
+
+	numnode = ( pow(4, depth) - 1) / 3;
+
+	quad = malloc( itemsize * numnode );
+
+	return quad;
 }

@@ -24,64 +24,67 @@
 extern "C"{
 #endif
 
-/*
+/**
  *
  */
 extern ELTDECLSPEC long int ELTAPIENTRY ExGetFileStreamSize(FILE* file);
 
-/*
+/**
  *	Get file size in byte.
  *	@Return
  */
 extern ELTDECLSPEC long int ELTAPIENTRY ExGetFileSize(const ExChar* cfilname);
 
-/*
+/**
  *	Load data by specified pathname.
  *	@Return
  */
 extern ELTDECLSPEC long int ELTAPIENTRY ExLoadFile(const ExChar* cfilename, void** racBuffer);
 
-/*
+/**
  *	Save File by specified file name.
  *	@Return
  */
 extern ELTDECLSPEC long int ELTAPIENTRY ExSaveFile(const ExChar* cfilename, void* racBuffer, unsigned int csize);
 
-/*
- *
+/**
+ *	@Return
  */
 extern ELTDECLSPEC long int ELTAPIENTRY ExAppendFile(const ExChar* cfilename, void* racBuffer, unsigned int csize);
 
+/**
+ *	@Return
+ */
+extern ELTDECLSPEC long int ELTAPIENTRY ExInsertFile(const ExChar* cfilename, long int offset, void* racBuffer, long int csize);
 
-/*
+
+/**
  *
  *	@Return
  */
 extern ELTDECLSPEC FILE* ELTAPIENTRY ExSafeOpenWrite(const ExChar* cfilename);
 
-/*
+/**
  *
  *	@Return
  */
 extern ELTDECLSPEC FILE* ELTAPIENTRY ExSafeOpenRead(const ExChar* cfilename);
 
-/*
+/**
  *
  *	@Return
  */
-extern ELTDECLSPEC Uint ELTAPIENTRY ExSafeWrite(FILE *f, void* buffer, unsigned int count);
+extern ELTDECLSPEC long int ELTAPIENTRY ExSafeWrite(FILE *f, void* buffer, unsigned int count);
 
-/*
- *
+/**
  *	@Return
  */
-extern ELTDECLSPEC Uint ELTAPIENTRY ExSafeRead(FILE*f, void* buffer, int count);
+extern ELTDECLSPEC long int ELTAPIENTRY ExSafeRead(FILE*f, void* buffer, int count);
 
-
-
-
-
-
+/**
+ *
+ */
+extern ELTDECLSPEC FILE* ELTAPIENTRY ExSetFileMode(FILE* f, const char* mode);
 
 
 #ifdef __cplusplus	/*	C++ Environment	*/
