@@ -155,7 +155,7 @@ void ExInitOpenGLStates(void){
 }
 
 
-ELTDECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void){
+Uint32 ExGetOpenGLShadingVersion(void){
 #ifndef EX_ANDROID
 	return (Uint32)(atof((const char*)glGetString(GL_SHADING_LANGUAGE_VERSION)) * 100.0f);
 #else

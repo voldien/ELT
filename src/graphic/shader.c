@@ -130,11 +130,11 @@ int ExLoadShaderv(ExShader* shad, const char* cvertexSource, const char* cfragme
 	/**/
 	if(cvertexSource){
 		shad->ver = ExCompileShaderSourcev(&cvertexSource, GL_VERTEX_SHADER);
-		glAttachShader(shad->program,shad->ver);
+		glAttachShader(shad->program, shad->ver);
 	}
 	if(cfragmentSource){
 		shad->fra = ExCompileShaderSourcev(&cfragmentSource, GL_FRAGMENT_SHADER);
-		glAttachShader(shad->program,shad->fra);
+		glAttachShader(shad->program, shad->fra);
 	}
 #if !defined(GL_ES_VERSION_2_0)
 	if(cgeometrySource){
@@ -246,7 +246,7 @@ int ExShaderCompileLog(unsigned int program, unsigned int shaderflag){
 		return FALSE;
 	}
 
-	glGetShaderiv(program,GL_COMPILE_STATUS, &status );
+	glGetShaderiv(program, GL_COMPILE_STATUS, &status );
 
 	if(!status){
 

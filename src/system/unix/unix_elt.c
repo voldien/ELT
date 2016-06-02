@@ -66,12 +66,7 @@ ERESULT ExInit(Enum engineFlag){
 	ExInitSubSystem(engineFlag);
 
 
-	/*	initialize error handler.	*/
-	if(engineFlag & ELT_INIT_DEBUG){
-		if(!(result = ExInitErrorHandler())){
-			ExError(EX_TEXT("Failed to initialize error handler."));
-		}
-	}
+
 
 	engineflag |= engineFlag;
 
@@ -114,10 +109,18 @@ ERESULT ExInitSubSystem(Uint32 engineflag){
 	if(ELT_INIT_TIMER & engineflag){
 		eltTickTime = ExCurrentTime();
 	}
+
 	if(ELT_INIT_NET & engineflag){
         ExLoadLibrary("");
-
 	}
+	/*	initialize error handler.	*/
+	if(engineflag & ELT_INIT_DEBUG){
+		if(!(hr = ExInitErrorHandler())){
+			ExError(EX_TEXT("Failed to initialize error handler."));
+		}
+	}
+
+
 	return hr;
 }
 

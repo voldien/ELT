@@ -312,7 +312,7 @@ ExChar* ExGetWindowTitle(ExWin window, ExChar* title){
 
 
 
-void ExSetWindowPos(ExWin window,Int32 x,Int32 y){
+void ExSetWindowPos(ExWin window, Int32 x,Int32 y){
 	XMoveWindow(display,(Window*)window,x,y);
 }
 
