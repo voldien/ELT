@@ -81,9 +81,8 @@ const ExChar* ExGetCPUName(void){
     int i = 0;
     int a,b,c,d;
 //https://github.com/soreau/SDL/blob/master/src/cpuinfo/SDL_cpuinfo.c
-
+#if !defined(EX_ARM)
     if(cpu_name[0] == NULL){
-    #if !defined(EX_ARM)
 		cpuid2(0x80000000,a,b,c,d);
 		if(a >= 0x80000004){
 			cpuid2(0x80000002, a, b, c, d);
