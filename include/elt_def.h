@@ -241,6 +241,9 @@
 #else
 	#define EX_ARCHITECTURE_32
 #endif
+#if defined(__arm__)
+	  #define EX_ARM 1
+#endif
 
 
 /*
