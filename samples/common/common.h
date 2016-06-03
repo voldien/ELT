@@ -8,20 +8,24 @@ extern "C"{
 #endif
 
 typedef struct camera_controller{
-	vec3_t position;
+	exvec3f_t position;
 	quad_t rotation;
-	vec3_t direction;
-	vec4x4_t proj;
-}CameraController ;
+	exvec3f_t direction;
+	exvec4x4_t proj;
+}CameraController;
 
 
-DECLSPEC extern void* ExCreateCharacterController(const vec3_t position);
+/**/
+extern void readArgument(int argc, char** argv);
 
 
-DECLSPEC extern void ExUpdateCharacterController(CameraController* charactercontroller);
+extern void* ExCreateCharacterController(const exvec3f_t position);
 
 
-DECLSPEC extern void readArgument(int argc, char** argv);
+extern void ExUpdateCharacterController(CameraController* charactercontroller);
+
+
+
 
 
 

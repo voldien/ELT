@@ -1,12 +1,14 @@
-#include"common.c"
+#include"common.h"
 
+void readArgument(int argc, char** argv){
 
+}
 
 void ExUpdateCharacterController(CameraController* charactercontroller){
-	vec3_t motion = {0};
-	vec3_t dir;
-	vec3_t right;
-	vec3_t const rightdir = {1,0,0};
+	exvec3f_t motion = {0};
+	exvec3f_t dir;
+	exvec3f_t right;
+	exvec3f_t const rightdir = {1,0,0};
 	quad_direction(charactercontroller->rotation, dir);
 	quad_directionv(charactercontroller->rotation, rightdir, right);
 
