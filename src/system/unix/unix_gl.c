@@ -365,12 +365,11 @@ ExBoolean ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenInd
     fullscreen = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", FALSE);
 
     /**/
-    XChangeProperty(display,window,  XInternAtom(display,"_NET_WM_STATE", True), XA_ATOM, 32, PropModeReplace, &fullscreen, 1);
+    //XChangeProperty(display, window,  XInternAtom(display, "_NET_WM_STATE", True), XA_ATOM, 32, PropModeReplace, &fullscreen, 1);
+
     /**/
-    XChangeProperty (display, window,
-      XInternAtom ( display, "_HILDON_NON_COMPOSITED_WINDOW", True ),
-      XA_INTEGER,  32,  PropModeReplace,
-      (unsigned char*) &one,  1);
+	//XChangeProperty (display, window, XInternAtom ( display, "_HILDON_NON_COMPOSITED_WINDOW", True ), XA_INTEGER,  32,  PropModeReplace, (unsigned char*)&one,  1);
+
 
 
     /*	Set fullscreen resolution.	*/	/*TODO	fix	*/
@@ -388,9 +387,7 @@ ExBoolean ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenInd
 	xev.xclient.format = 32;
 	xev.xclient.data.l[0] = cdsfullscreen ? 1 : 0;
 	xev.xclient.data.l[1] = fullscreen;
-	xev.xclient.data.l[2] = screenIndex;
-	xev.xclient.data.l[3] = screenIndex;
-	xev.xclient.data.l[4] = screenIndex;
+	xev.xclient.data.l[2] = 0;
 
 	XSendEvent(display,
             DefaultRootWindow(display),

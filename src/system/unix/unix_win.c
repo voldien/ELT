@@ -422,13 +422,15 @@ Int32 ExSetWindowFullScreen(ExWin window, ExBoolean flag){
     fullscreen = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", FALSE);
 
     /**/
-    XChangeProperty(display,window,  XInternAtom(display,"_NET_WM_STATE", True), XA_ATOM, 32, PropModeReplace,&fullscreen, 1);
+    XChangeProperty(display, window,  XInternAtom(display,"_NET_WM_STATE", True), XA_ATOM, 32, PropModeReplace, &fullscreen, 1);
     /**/
-    XChangeProperty (display, window,
+
+
+    /*XChangeProperty (display, window,
       XInternAtom ( display, "_HILDON_NON_COMPOSITED_WINDOW", True ),
       XA_INTEGER,  32,  PropModeReplace,
       (unsigned char*) &one,  1);
-
+	*/
 
 	//XF86VideoModeSwitchToMode(display, screenIndex, modes[bestMode]);
     Atom atoms[2] = { XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", False), None };
