@@ -212,10 +212,18 @@ Uint32 ExGetOpenGLVersion(int* major, int* minor){
 Uint32 ExIsOpenGLExtensionSupported(const char* extension){
 	GLint n=0;
 	GLint i;
+	PFNGLGETSTRINGIPROC glGetStringi = 0;
 	glGetIntegerv(GL_NUM_EXTENSIONS, &n);
-	for(i = 0; i < n; i++){
 
+	glGetStringi = (PFNGLGETSTRINGIPROC)GL_GET_PROC("glGetStringi");
+
+	for(i = 0; i < n; i++){
+		const char* ext = (const char*)glGetStringi(GL_EXTENSIONS, i);
+		if(strcmp(extension, ext) == 0){
+			return TRUE;
+		}
 	}
+	return FALSE;
 	return ExIsExtensionSupported(glGetString(GL_EXTENSIONS), extension);
 }
 

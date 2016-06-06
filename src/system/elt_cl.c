@@ -82,9 +82,10 @@ static char* private_get_device_extension(cl_device_id device){
 }
 
 
-static inline void loadOpenClLibrary(void){
-    if(!ExIsModuleLoaded(OPENCL_LIBRARY_NAME))
+static void private_loadOpenClLibrary(void){
+    if(!ExIsModuleLoaded(OPENCL_LIBRARY_NAME)){
         cl_libhandle = ExLoadLibrary(OPENCL_LIBRARY_NAME);
+    }
 }
 
 
@@ -116,7 +117,7 @@ ExOpenCLContext ExCreateCLContext(Enum flag, unsigned int platform){
 
 
     /*	TODO check if needed or logic is accepted*/
-    loadOpenClLibrary();
+    private_loadOpenClLibrary();
 
     /*	check argument */
     cpuContext = flag & EX_CL_CPU0 ? TRUE : FALSE;
@@ -181,7 +182,7 @@ ExOpenCLContext ExCreateCLSharedContext(ExOpenGLContext glc, ExWindowContext win
 
     /**
     TODO check if needed or logic is accepted*/
-    loadOpenClLibrary();
+    private_loadOpenClLibrary();
 
 
     /*Get platform ID	*/
