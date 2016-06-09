@@ -258,7 +258,7 @@ typedef struct elt_poll_events{
 
 
 
-/*
+/**
  *	Poll Event from process.
  *	\event
  *	@Return
@@ -273,7 +273,7 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
  */
 
 
-/*
+/**
  * Poll Window Event information
  * *[HWND] which window to poll event information.
  *	Remark: message feed will only be apply to given HWND paramter
@@ -286,7 +286,7 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event);
 
 
-/*
+/**
  *
  *	@Return
  */

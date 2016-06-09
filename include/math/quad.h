@@ -22,7 +22,7 @@
 #include"vect.h"
 
 
-/*
+/**
  *
  */
 #define EX_PI 3.14159265359F
@@ -36,7 +36,7 @@
 #define EX_DEG2RAD( a ) ( ( (a) * EX_PI ) / 180.0f )
 #define EX_RAD2DEG( a ) ( ( (a) * 180.0f ) / EX_PI )
 
-/*
+/**
  *
  */
 #define EX_MIN(a,b)	( ( (a) > (b) ) ? (a) : (b) )
@@ -44,7 +44,7 @@
 #define EX_CLAMP(a,min,max)	(EX_MAX( ( max ) ,EX_MIN( ( min ) , ( a ) )))
 #define EX_LERP(a,b,t)	( ( (a) + ( (b) - (a) )*(t) )
 
-/*
+/**
  *
  */
 #define QuaternionDirection(x)	{}
@@ -71,17 +71,17 @@ extern "C"{
 #endif
 
 
-/*
+/**
  *    quaternion multiplication with left quaternion
  */
 extern void quad_multi_quad(const exquat_t lf_quad, const exquat_t rf_quad, exquat_t out_quad);
-/*
+/**
  *    quaternion multiplication with left quaternion
  */
 extern void quad_add_quad(const exquat_t lf_quad, const exquat_t rf_quad, exquat_t out_quad);
 /**
-    quaternion multiplication with left quaternion
-*/
+ *    quaternion multiplication with left quaternion
+ */
 
 extern void quad_sub_quad(const exquat_t lf_quad, const exquat_t rf_quad, exquat_t out_quad);
 extern void quad_divi_quad(const exquat_t lf_quad, const exquat_t rf_quad, exquat_t out_quad);

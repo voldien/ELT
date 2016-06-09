@@ -44,46 +44,68 @@ typedef struct exvec2x2_s{float m11,m21,m31,m41,m12,m22,m32,m42,m13,m23,m33,m43,
 extern "C"{
 #endif
 
-/*
+/**
  *
  */
 extern void mat4x4_multi_vec4(const exvec4x4_t lf_mat4, const float rf_vec4[4],float out_vec4[4]);
 
-/*
+/**
  *
  */
 extern void mat4x4_multi_mat4x4(const exvec4x4_t lf_mat4, const exvec4x4_t rf_mat4, exvec4x4_t outf_mat4);
 
-/*
+/**
  *
  */
 extern void mat4x4_divs_mat4x4(const exvec4x4_t lf_mat4, const exvec4x4_t rf_mat4, exvec4x4_t outf_mat4);
 
-/*
+/**
  *
  */
 extern void mat4x4_addi_mat4x4(const exvec4x4_t lf_mat4, const exvec4x4_t rf_mat4, exvec4x4_t outf_mat4);
 
-/*
+/**
  *
  */
 extern void mat4x4_subt_mat4x4(const exvec4x4_t lf_mat4, const exvec4x4_t rf_mat4, exvec4x4_t outf_mat4);
 
+/**
+ *
+ */
 extern void mat4x4_identity(exvec4x4_t f_mat4);
+
+/**
+ *
+ */
 extern void mat4x4_transpose(exvec4x4_t f_mat4);
+
+/**
+ *
+ */
 extern float mat4x4_determinant(exvec4x4_t f_mat4);
+
+/**
+ *
+ */
 extern float mat4x4_inverse(exvec4x4_t f_mat4);
+
+/**
+ *
+ */
 extern void mat4x4_decompose(const exvec4x4_t f_mat4, exvec3f_t f_position, exquat_t f_rotation, exvec3f_t f_scale);
+
 
 /**
 */
 extern void mat4x4_translation(exvec4x4_t f_mat4,float x, float y, float z);
 extern void mat4x4_translationv(exvec4x4_t f_mat4,const exvec3f_t translation);
 
+
 /**
 */
 extern void mat4x4_scale(exvec4x4_t f_mat4, float x,float y, float z);
 extern void mat4x4_scalev(exvec4x4_t f_mat4, exvec3f_t scale);
+
 
 /**/
 extern void mat4x4_rotation(exvec4x4_t f_mat4,float angle,const exvec3f_t axis);
@@ -112,6 +134,8 @@ extern int mat4x4_unproj(float winx, float winy, float winz,const exvec4x4_t pro
 
 
 
+/**/
+
 
 /**/
 extern void mat3x3_translation(exvec3x3_t f_mat2,float x, float y);
@@ -122,7 +146,7 @@ extern void mat3x3_multi_mat3x3(const exvec3x3_t lf_mat4,const exvec3x3_t rf_mat
 
 
 
-
+/**/
 
 
 

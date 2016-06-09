@@ -42,8 +42,6 @@
 #endif
 
 
-
-
 /**/
 #define OPENCL_GL_SHARING_EXTENSION "cl_khr_gl_sharing"
 
@@ -66,7 +64,6 @@ ExHandle cl_libhandle =	NULL;
 /** opencl context of current */
 cl_context hClContext = NULL;
 
-
 /**/
 extern ELTDECLSPEC int ELTAPIENTRY ExGetOpenCLDevice(cl_platform_id platform, cl_device_id* device, unsigned int flag);
 static char* ELTAPIENTRY ExGetCLErrorMessage(cl_int error);
@@ -81,17 +78,33 @@ static char* private_get_device_extension(cl_device_id device){
     return extension;
 }
 
-
 static void private_loadOpenClLibrary(void){
     if(!ExIsModuleLoaded(OPENCL_LIBRARY_NAME)){
-        cl_libhandle = ExLoadLibrary(OPENCL_LIBRARY_NAME);
+
     }
+    cl_libhandle = ExLoadObject(OPENCL_LIBRARY_NAME);
+	if(cl_libhandle != NULL){
+	ExLoadFunction(cl_libhandle, "clGetDeviceIDs");
+	}
+	else{
+
+	}
 }
 
 
 ExOpenCLContext ExGetCurrentCLContext(void){
 	return hClContext;
 }
+
+ExBoolean ExIsOpenCLSupported(void){
+	private_loadOpenClLibrary();
+	if(cl_libhandle){
+
+		return TRUE;
+	}
+	return FALSE;
+}
+
 
 ExOpenCLContext ExCreateCLContext(Enum flag, unsigned int platform){
 	cl_int cpPlatform;
@@ -161,7 +174,6 @@ ExOpenCLContext ExCreateCLContext(Enum flag, unsigned int platform){
 		numDevices += uiCPUDevCount;
 	}
 
-
 	hClContext = clCreateContext(props, numDevices, cdDevices, NULL, NULL, &ciErrNum);
     if(!hClContext || ciErrNum != CL_SUCCESS){
 
@@ -171,8 +183,9 @@ ExOpenCLContext ExCreateCLContext(Enum flag, unsigned int platform){
 }
 
 ExOpenCLContext ExCreateCLSharedContext(ExOpenGLContext glc, ExWindowContext window, Enum flag){
-    Int32 cpPlatform,ciErrNum;Uint32 uiDevCount = 0;
-    // device ids
+    Int32 cpPlatform,ciErrNum;
+    Uint32 uiDevCount = 0;
+    /* device ids*/
     cl_device_id *cdDevices;
     char* extension;
     int i;

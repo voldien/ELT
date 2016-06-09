@@ -6,7 +6,6 @@
 #include<X11/extensions/XKB.h>
 #include<X11/XKBlib.h>
 #include<X11/Xatom.h>
-#include<X11/extensions/XInput.h>
 #include"system/unix/unix_win.h"
 #include<linux/input.h>
 #include<X11/Xlib-xcb.h>
@@ -84,11 +83,10 @@ static inline int private_ExGetKeyCodeInternal(Uint32 keyCode){
         case EXK_Dash:       keysym = XK_minus;        break;
         */
         case EXK_SPACE:      keysym = XK_space;        break;
-
+        case EXK_RETURN:     keysym = XK_Return;       break;
+        case EXK_BACKSPACE:  keysym = XK_BackSpace;    break;
+        case EXK_TAB:        keysym = XK_Tab;          break;
         /*
-        case EXK_Return:     keysym = XK_Return;       break;
-        case EXK_BackSpace:  keysym = XK_BackSpace;    break;
-        case EXK_Tab:        keysym = XK_Tab;          break;
         case EXK_PageUp:     keysym = XK_Prior;        break;
 		case EXK_PageDown:   keysym = XK_Next;         break;
 		*/
@@ -165,9 +163,7 @@ const Uint8* ExGetKeyboardState(Int32* numkeys){
     //else XQueryKeymap(display,KeyBoardState[0]);
 	//return KeyBoardState[0];
 }
-/**
 
-*/
 ExKeycode ExGetModeState(void){
     return XGrabKey(display,AnyKey, ControlMask | ShiftMask, ExGetKeyboardFocus(), True, GrabModeAsync, GrabModeSync);
 }

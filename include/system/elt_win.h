@@ -46,7 +46,7 @@ extern ExDisplay display;
  */
 extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, Int32 length);
 
-/*
+/**
  *	Create Window
  *	\x : coordinate
  *	\y : coordinate
@@ -57,41 +57,41 @@ extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, Int
  */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height, Enum flag);
 
-/*
+/**
  *	Show window
  *	\window window handle
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExShowWindow(ExWin window);
 
-/*
+/**
  *	Hide Window
  *	\window Window handle
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExHideWindow(ExWin window);
 
-/*
+/**
  *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin window);
 
-/*
+/**
  *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExMaximizeWindow(ExWin window);
 
-/*
+/**
  *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExMinimizeWindow(ExWin window);
 
-/*
+/**
  *	Set window mode
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowMode(ExWin window, Enum mode);
 
 
 
-/*
+/**
  *	Destroy Window
  *	@Return
  */

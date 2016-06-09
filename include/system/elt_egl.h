@@ -25,14 +25,13 @@
 extern "C"{
 #endif
 
-/*
+/**
  *
  */
 extern ExEGLDisplay eglDisplay;
 typedef ExWin ExEGLSurface;
 
-/*
- *
+/**
  *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExCreateEGLContextAttrib(ExWin window, int* attrib, unsigned int* size);
@@ -43,23 +42,22 @@ extern ELTDECLSPEC int ELTAPIENTRY ExCreateEGLContextAttrib(ExWin window, int* a
  */
 extern ELTDECLSPEC ExEGLContext ELTAPIENTRY ExCreateEGLContext(ExWin window, ExEGLContext shared);
 
-/*
- *
+/**
  *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExCreateEGLContextAttrib(ExWin window, int* attrib, unsigned int* size);
 
-/*
+/**
  *
  */
 extern ELTDECLSPEC void ELTAPIFASTENTRY ExDestroyEGLContext(ExEGLContext context);
 
-/*
+/**
  *
  */
 extern ELTDECLSPEC void ELTAPIFASTENTRY ExEGLSetVSync(int interval_ms);
 
-/*
+/**
  *
  */
 extern ELTDECLSPEC void ELTAPIFASTENTRY ExSwapEGLBuffer(ExWin context);

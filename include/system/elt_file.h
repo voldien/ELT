@@ -18,6 +18,8 @@
 */
 #ifndef _ELT_FILE_H_
 #define _ELT_FILE_H_ 1
+#include<stdio.h>
+#include<stdlib.h>
 #include"./../EngineAssembly.h"
 
 #ifdef __cplusplus	/*	C++ Environment	*/
@@ -25,7 +27,7 @@ extern "C"{
 #endif
 
 /**
- *
+ *	@Return
  */
 extern ELTDECLSPEC long int ELTAPIENTRY ExGetFileStreamSize(FILE* file);
 
@@ -59,25 +61,22 @@ extern ELTDECLSPEC long int ELTAPIENTRY ExInsertFile(const ExChar* cfilename, lo
 
 
 /**
- *
  *	@Return
  */
 extern ELTDECLSPEC FILE* ELTAPIENTRY ExSafeOpenWrite(const ExChar* cfilename);
 
 /**
- *
  *	@Return
  */
 extern ELTDECLSPEC FILE* ELTAPIENTRY ExSafeOpenRead(const ExChar* cfilename);
 
 /**
- *
- *	@Return
+ *	@Return n bytes written.
  */
 extern ELTDECLSPEC long int ELTAPIENTRY ExSafeWrite(FILE *f, void* buffer, unsigned int count);
 
 /**
- *	@Return
+ *	@Return n bytes read.
  */
 extern ELTDECLSPEC long int ELTAPIENTRY ExSafeRead(FILE*f, void* buffer, int count);
 

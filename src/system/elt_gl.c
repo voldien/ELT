@@ -110,6 +110,11 @@ inline int ExMakeGLCurrent(ExWindowContext drawable, ExOpenGLContext glc){
 }
 
 
+ExHandle ExGetOpenGLProc(const ExChar* cprocName){
+	return GL_GET_PROC(cprocName);
+}
+
+
 void ExInitOpenGLStates(void){
 	int value;
     int sampleSupport;

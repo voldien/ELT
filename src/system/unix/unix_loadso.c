@@ -10,6 +10,9 @@
 #   include<errno.h>
 #   include<libgen.h>
 
+#include<errno.h>
+#include<string.h>
+
 
 
 #if defined(EX_LINUX) && !defined(EX_ANDROID)
@@ -67,33 +70,34 @@ ExChar* ExLoadSymbol(ExHandle handle, int index, char* symbol, int len){
 }
 
 
-inline ExHandle ExLoadFunction(ExHandle handle,const char* pProcName){
-	return dlsym(handle,pProcName);
+ExHandle ExLoadFunction(ExHandle handle, const char* pProcName){
+	return dlsym(handle, pProcName);
 }
 
-inline ExHandle ExLoadObject(const ExChar* sofile){
+ExHandle ExLoadObject(const ExChar* sofile){
 	ExHandle handle;
 #if defined(EX_UNIX) && !(EX_PNACL)
 	handle = dlopen(sofile, RTLD_NOW | RTLD_GLOBAL);
     #ifdef EX_DEBUG
 	if(!handle)
-		fprintf(stderr,dlerror());
+		fprintf(stderr, dlerror());
     #endif
 	return handle;
 #endif
 
 }
 
-inline void ExUnLoadObject(ExHandle handle){
-    if(handle)
+void ExUnLoadObject(ExHandle handle){
+    if(handle){
         handle = dlclose(handle);
+    }
 #ifdef EX_DEBUG
 	if(handle)
-		fprintf(stderr,dlerror());
+		fprintf(stderr, dlerror());
 #endif
 }
 
-inline ExHandle ExIsModuleLoaded(const ExChar* file){
+ExHandle ExIsModuleLoaded(const ExChar* file){
 #if defined(EX_UNIX) && !(EX_PNACL) && !(EX_ANDROID)	/*	TODO resolve link_map problem with android*/
 
 	char buffer[PATH_MAX];

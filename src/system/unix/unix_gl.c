@@ -145,6 +145,7 @@ ExOpenGLContext ExCreateTempGLContext(void){
 	ExOpenGLContext glc;
 	GLXFBConfig fbconfig;
 	ExChooseFBconfig(&fbconfig);
+
 	glc = glXCreateNewContext(display, fbconfig, GLX_RGBA_TYPE, 0, 1);
 	return glc;
 }
@@ -442,6 +443,15 @@ void ExSetGLTransparent(ExWin window, Enum ienum){
 
     /**/
     XFree(startup_state);
+}
+
+
+const ExChar* ExGetOpenGLServerExtension(void){
+	return glXQueryServerString(display, DefaultScreen(display), GLX_EXTENSIONS);
+}
+
+const ExChar* ExGetOpenGLClientExtensions(void){
+	return glXGetClientString(display, GLX_EXTENSIONS);
 }
 
 

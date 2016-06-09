@@ -48,53 +48,47 @@ extern "C"{
  */
 extern ELTDECLSPEC ExTimer ELTAPIENTRY ExAddTimer(Uint32 ms_interval, ExThreadRoutine callback, void* param);
 
-/*
+/**
  *	Remove timer thread routine.
  *	@Return TRUE if successful.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExRemoveTimer(ExTimer timer_id);
-/*
+
+/**
  *	Delay current thread in milliseconds.
  *	\ms milliseconds.
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms);
 
-/*
+/**
  *	Delay current thread in nano seconds.
  *	\ns
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nanosec);
 
-/*
- *	Get performance counter
- *	@Return
- */
-extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetPerformanceCounter(void);	/*	TODO remove, as GetHiResTime does the same thing!.	*/
-
-/*
+/**
  *	Get performance frequency
  *	@Return time resolution.
  */
 extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetPerformanceFrequency(void);
 
-/*
+/**
  *	Get numbers Ticks sense ELT_TIMER was initialize
  *	@Return
  */
 extern ELTDECLSPEC long int ELTAPIENTRY ExGetTicks(void);
 
-/*
- *
+/**
  *	@Return get number of ticks.
  */
 extern ELTDECLSPEC long int ELTAPIENTRY ExGetHiResTime(void);
 
 //extern ELTDECLSPEC long int ELTAPIENTRY ExGetTimeMil
 
-
 /**
-    Get in seconds in float. where 1.0 is a second.
-*/
+ *	Get in seconds in float. where 1.0 is a second.
+ *	@Return
+ */
 #define ExGetSecondsf ((float)ExGetTicks() / (float)EX_TICKS_PER_SECOND)
 
 

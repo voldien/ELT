@@ -27,7 +27,7 @@
 #define EX_CL_FLOPS_HIGHEST 0x400          		/*	Device with most FLOPS	*/
 #define EX_CL_AVAILABLE_PLATFORM 0x1000    		/*	Get available device	*/
 #define EX_CL_
-//#define EX_CL_GL_SYNC   0x2000    			//TODO check if it's needed
+/*#define EX_CL_GL_SYNC   0x2000    			//TODO check if it's needed	*/
 
 #define EX_CL_OPENGL
 #define EX_CL_DIRECTX
@@ -55,25 +55,28 @@ extern "C"{
 #endif
 
 
-/*
+/**
  *	Get current OpenCL context.
  *	@Return OpenCL context.
  */
 extern ELTDECLSPEC ExOpenCLContext ELTAPIFASTENTRY ExGetCurrentCLContext(void);
 
-/*
+/**
+ *	@Return
+ */
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExIsOpenCLSupported(void);
+
+/**
  *	Create OpenCL Context
  *	@Return
  */
 extern ELTDECLSPEC ExOpenCLContext ELTAPIENTRY ExCreateCLContext(Enum eEnumFlag, unsigned int platform);
 
-/*
+/**
  *	Create shared CL context with OpenGL context
  *	@Return CL context.
  */
 extern ELTDECLSPEC ExOpenCLContext ELTAPIENTRY ExCreateCLSharedContext(ExOpenGLContext glc, ExWindowContext window, Enum erenderingFlag);
-
-//extern ELTDECLSPEC ExOpenCLContext ELTAPIENTRY ExCreateXDCLSharedContext(ExOpenGLContext glc, ExWindowContext window, Enum erenderingFlag);
 
 /*
  *	Query Context information

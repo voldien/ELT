@@ -214,9 +214,9 @@ typedef union doubleUnion{
 #define EX_HIBYTE(w)        ((Uint8)((((Uint16)(w)) >> 8) & 0xff))
 
 
-/*
+/**
  *	platform specific type.
-*/
+ */
 typedef void* ExWin;
 typedef void* ExOpenGLContext;
 typedef void* ExOpenCLContext;
@@ -226,6 +226,8 @@ typedef void* ExAudioContext;
 typedef void* ExEGLDisplay;
 typedef void* ExXDisplay;
 
+
+/*	Thread callback convention.	*/
 #ifdef EX_WINDOWS
 	#define EX_THREAD_CALLBACK __stdcall
 #elif defined(EX_LINUX) && defined(GLX_H)
@@ -239,13 +241,13 @@ typedef void* ExXDisplay;
 #endif
 
 
-/*
+/**
  *	callback.
  */
 #define EX_CALLBACK ELTAPISTDENTRY
 typedef void(EX_CALLBACK* ExCallBack)(void);
 
-/*
+/**
  *	Thread callback type.
  */
 typedef void* (*interrupt_routine)(void*);

@@ -159,6 +159,10 @@ ExBoolean ExHasAVX2(void){
 	return 0;
 }
 
+ExBoolean ExHasAVX512(void){
+	return FALSE;
+}
+
 ExBoolean ExHas3DNow(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,0x80000001);

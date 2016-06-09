@@ -97,25 +97,25 @@
 extern "C"{
 #endif
 
-/*
+/**
  *	Get Window associated with OpenGL Context.
  *	@Return
  */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetOpenGLContextWindow(ExOpenGLContext glc);
 
-/*
+/**
  * 	Get device context of current openGL context on current thread
  *	@Return current device context on current thread.
  */
 extern ELTDECLSPEC ExWindowContext ELTAPIFASTENTRY ExGetCurrentGLDrawable(void);
 
-/*
+/**
  *	Get OpenGL context on the current thread
  *	@Return
  */
 extern ELTDECLSPEC ExOpenGLContext ELTAPIFASTENTRY ExGetCurrentOpenGLContext(void);
 
-/*
+/**
  *	Make current OpenGL context.
  *	\hDC
  *	\glc
@@ -131,65 +131,64 @@ extern ELTDECLSPEC int ELTAPIENTRY ExMakeGLCurrent(EX_RESTRICT ExWindowContext h
 extern ELTDECLSPEC ExHandle ELTAPIENTRY ExGetOpenGLProc(const ExChar* cprocName);
 
 
-/*
+/**
  *  Create Context Attribute Based on Internal Hardware and engine description.
-*/
+ */
 extern ELTDECLSPEC void ELTAPIENTRY ExCreateContextAttrib(ExWindowContext hDC, Int32* attrib, Int32* size);
 
-/*
+/**
  *	Create OpenGL context for given window
  *	@Return
  */
 extern ELTDECLSPEC ExOpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shareContext);
 
-/*
- *
+/**
  *	@Return
  */
 extern ELTDECLSPEC ExOpenGLContext ELTAPIENTRY ExCreateTempGLContext(void);
 
-/*
+/**
  *	Create Shared OpenGL Context from a already existing context.
  *	@Return
  */
 extern ELTDECLSPEC ExOpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, ExOpenGLContext context);
 
-/*
+/**
  *	Set OpenGL context attribute.
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExOpenGLSetAttribute(unsigned int attr, int value);
 
-/*
+/**
  *	Get OpenGL context attribute.
  *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExOpenGLGetAttribute(unsigned int attr, int* value);
 
 
-/*
+/**
  *	Reset OpenGL context attributes to default.
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExOpenGLResetAttributes(void);
 
 
-/*
+/**
  *	Initialize OpenGL States 	 TODO perhaps remove.
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExInitOpenGLStates(void);
 
-/*
+/**
  *	Destroy OpenGL Context.
  *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExDestroyGLContext(ExWindowContext drawable, ExOpenGLContext glc);
 
-/*
+/**
  *	Destroy and release current OpenGL Context attached to current thread
  *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExDestroyCurrentGLContext(void);
 
-/*
+/**
  *	Set Window associated with OpenGL context fullScreen.
  *	\
  *	\
@@ -217,34 +216,42 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen,
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window, Enum ienum);
 
-/*
- *	Get Hardware OpenGL shading Version
+/**
+ *	Get current binded OpenGL context shading version.
  *	@Return
  */
 extern ELTDECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void);
 
-/*
- *	Get OpenGL Version
+/**
+ *	Get current binded OpenGL context version.
  *	@Return
  */
 extern ELTDECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major, int* minor);
 
 
-/*
+/**
  *	Get if OpenGL extension is supported on current binded machine.
  *	@Return TRUE is supported. Otherwise FALSE.
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExIsOpenGLExtensionSupported(const char* extension);
 
-/*
+
+/**
  *	TODO perhaps move it somewhere else, as some other API may use the same
  *	extension parsing convention.
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExIsExtensionSupported(const char* extList, const char* extension);
 
 
+/**
+ *	@Return
+ */
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetOpenGLServerExtension(void);
-extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetOpenGLClientExtension(void);
+
+/**
+ *	@Return
+ */
+extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetOpenGLClientExtensions(void);
 
 /*
  *	Check if graphic card is AMD GPU
@@ -264,14 +271,14 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExIsVendorNvidia(void);
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExIsVendorIntel(void);
 
-/*
+/**
  *	Get graphic vendor enumerator
  *	@Return
  */
 extern ELTDECLSPEC Enum ELTAPIENTRY ExGetOpenGLVendor(void);
 
 
-/*
+/**
  *	Set OpenGL VSync.
  *	@Return
  */

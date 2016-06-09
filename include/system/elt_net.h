@@ -33,17 +33,17 @@ typedef signed int ExSocket;
 #define EX_TCP 		0x2     	/*  Reliable,  two-way  */
 #define EX_UDP 		0x4     	/*  UDP protocol */
 #define EX_LOCAL 	0x8   		/*  Local internal communication */
-#define EX_STREAM 	0x10		/*		*/
-#define EX_DGRAM 	0x20		/*		*/
-#define EX_INET4
-#define EX_INET6
+#define EX_STREAM 	0x10		/*	Stream	*/
+#define EX_DGRAM 	0x20		/*	Diagram	*/
+#define EX_INET4	0x40		/*	IPv4	*/
+#define EX_INET6	0x80		/*	IPv6*/
 
 #ifdef  __cplusplus	/*	C++ Environment	*/
 extern "C" {
 #endif
 
 
-/*
+/**
  *	Open socket
  *	\ip
  *	\port
@@ -52,20 +52,20 @@ extern "C" {
 */
 extern ELTDECLSPEC ExSocket ELTAPIENTRY ExOpenSocket(unsigned int protocol);
 
-/*
+/**
  *
  * 	@Return
  */
 extern ELTDECLSPEC ExSocket ELTAPIENTRY ExCreateSocket(unsigned int domain, unsigned int style, unsigned int protocal);
 
-/*
+/**
  *	Close socket
  *	\socket
  *	@Return
 */
 extern ELTDECLSPEC Uint ELTAPIFASTENTRY ExCloseSocket(ExSocket socket);
 
-/*
+/**
  *	Bind socket to ip and port address
  *	\ip
  *	\port
@@ -74,7 +74,7 @@ extern ELTDECLSPEC Uint ELTAPIFASTENTRY ExCloseSocket(ExSocket socket);
 */
 extern ELTDECLSPEC ExSocket ELTAPIENTRY ExBindSocket(const ExChar* ip, unsigned int port, ExSocket socket);
 
-/*
+/**
  *	Connect to socket
  *	\ip
  *	\port
@@ -95,13 +95,13 @@ extern ELTDECLSPEC ExSocket ELTAPIENTRY ExSetSocketRecvTimeOut(ExSocket socket, 
 
 
 
-/*
+/**
  *    Listen
  *    @Return
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExListen(ExSocket socket, unsigned int n);
 
-/*
+/**
  *	Read Socket data
  *	\socket
  *	\buffer
@@ -114,7 +114,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExListen(ExSocket socket, unsigned int n);
 	#define ExReadSocket recive
 #endif
 
-/*
+/**
  *	Write Socket data
  *	\socket
  *	\buffer
@@ -128,23 +128,24 @@ extern ELTDECLSPEC void ELTAPIENTRY ExListen(ExSocket socket, unsigned int n);
 #endif
 
 
-extern ELTDECLSPEC long int ELTAPIENTRY ExRecvFrom(ExSocket socket, void* buffer, int len, ExSocket* from, int* fromlen);
-extern ELTDECLSPEC long int ELTAPIENTRY ExSendTo(ExSocket socket, void* buffer, int len, ExSocket* to, int tolen);
+/**
+ *	@Return
+ */
+extern ELTDECLSPEC long int ELTAPIENTRY ExRecvFrom(ExSocket socket, void* buffer, int len, unsigned int flags, ExSocket* from, int* fromlen);
+extern ELTDECLSPEC long int ELTAPIENTRY ExSendTo(ExSocket socket, void* buffer, int len,  unsigned int flags, ExSocket* to, int tolen);
 
 
 /**
- *
+ *	@Return
  */
 extern ELTDECLSPEC long int ExBroadcast(ExSocket socket, void* buffer, int len);
 
-/*
- *
+/**
  * @Return
  */
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetHostName(const ExChar* hostname);
 
-
-/*
+/**
  *	@Return
  */
 extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetInterfaceAddr(const ExChar* interface, ExChar* addr, Uint len);

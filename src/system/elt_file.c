@@ -1,5 +1,5 @@
 #include"system/elt_file.h"
-#include<stdio.h>
+
 /*	*/
 #ifdef EX_WINDOWS
 	#include<windows.h>

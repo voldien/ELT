@@ -366,7 +366,7 @@
  *	No Throw.
  */
 #ifdef EX_MSVC
-	#define EX_NOTHROW __declspec(nothrow)						// No Throw
+	#define EX_NOTHROW __declspec(nothrow)						/* No Throw	*/
 #elif defined(EX_GNUC)
 	#define EX_NOTHROW __attribute__(nothrow)
 #else
@@ -378,7 +378,7 @@
 /*
  *	Internal.
  */
-#if defined(_ENGINE_INTERNAL) || (EX_ENGINE_VERSION_MAJOR < 1)	// Macro Definition Only Defined in this solution.
+#if defined(_ENGINE_INTERNAL) || (EX_ENGINE_VERSION_MAJOR < 1)	/*/ Macro Definition Only Defined in this solution.	*/
 	#define INTERNAL_ENGINEX	// Used for Assembly Data and Include Data structure.
 	//#define EX_INTERNAL_DEVELOP_ENVIROMENT
 #elif defined(EXTERNAL_ENGINE_INTERNAL)

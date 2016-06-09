@@ -244,12 +244,12 @@ void ExListen(ExSocket socket, unsigned int n){
 }
 
 
-long int ExRecvFrom(ExSocket socket, void* buffer, int len, ExSocket* from, int* fromlen){
-	return recvfrom(socket, buffer, len, 0 , ((struct sockaddr*)from), fromlen);
+long int ExRecvFrom(ExSocket socket, void* buffer, int len, unsigned int flags, ExSocket* from, int* fromlen){
+	return recvfrom(socket, buffer, len, flags , ((struct sockaddr*)from), fromlen);
 }
 
-long int ExSendTo(ExSocket socket, void* buffer, int len, ExSocket* to, int tolen){
-	return sendto(socket, buffer, len, 0, ((struct sockaddr*)to), tolen);
+long int ExSendTo(ExSocket socket, void* buffer, int len, unsigned int flags, ExSocket* to, int tolen){
+	return sendto(socket, buffer, len, flags, ((struct sockaddr*)to), tolen);
 }
 
 

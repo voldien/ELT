@@ -12,7 +12,7 @@ static inline void private_ExDecodeEvent(ExEvent* event, XEvent msg){
 	case KeyPress:{
 	    event->event |= EX_EVENT_KEY;
 	    event->event |= EX_EVENT_KEY_PRESSED;
-	    event->key.code = XLookupKeysym(&msg.xkey,0);
+	    event->key.code = XLookupKeysym(&msg.xkey, 0);
 	    event->mouse.x = msg.xkey.x;
 	    event->mouse.y = msg.xkey.y;
 	    event->key.alt = msg.xkey.state & Mod1Mask;
@@ -24,7 +24,7 @@ static inline void private_ExDecodeEvent(ExEvent* event, XEvent msg){
 	case KeyRelease:{
 	    event->event |= EX_EVENT_KEY;
 	    event->event |= EX_EVENT_KEY_RELEASE;
-	    event->key.code = XLookupKeysym(&msg.xkey,0);
+	    event->key.code = XLookupKeysym(&msg.xkey, 0);
 	    event->mouse.x = msg.xkey.x;
 	    event->mouse.y = msg.xkey.y;
 	    event->key.alt = msg.xkey.state & Mod1Mask;
@@ -55,7 +55,6 @@ static inline void private_ExDecodeEvent(ExEvent* event, XEvent msg){
 		event->motion.ydelta =  msg.xmotion.y - msg.xkey.y;
 		event->motion.x = msg.xmotion.x;
 		event->motion.y = msg.xmotion.y;
-
 	}break;
 	case LeaveNotify:
 		event->event |= EX_EVENT_ON_UNFOCUSE;
@@ -111,7 +110,8 @@ static inline void private_ExDecodeEvent(ExEvent* event, XEvent msg){
         break;
 	case ReparentNotify:
 		break;
-    break;
+	case PropertyNotify:
+		break;
 	case LASTEvent:
 		event->event = 0;
 		//return FALSE;

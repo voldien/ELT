@@ -1,15 +1,15 @@
 #include"elt_timer.h"
-
-#	include<errno.h>
-#	include<unistd.h>
-#	include<sys/time.h>
-
+#include<unistd.h>
+#include<sys/time.h>
 #include<time.h>
 #include<signal.h>
+#include<errno.h>
+#include<string.h>
 
 Uint64 eltTickTime = 0;
 #define CLOCKID CLOCK_REALTIME
 #define SIG SIGUSR2
+
 
 ExTimer ExAddTimer(Uint32 ms_interval, ExThreadRoutine callback, void* param){
 	Uint32 pid;

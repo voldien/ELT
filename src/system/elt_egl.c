@@ -54,8 +54,6 @@ EGLint configAttribList[] ={
 ExHandle egl_libhandle	=	NULL;
 ExEGLDisplay eglDisplay	=	NULL;
 
-
-
 ExEGLContext ExCreateEGLContext(ExWin window, ExEGLContext shared){
 	/*	TODO resolve later!!*/
 
@@ -70,16 +68,19 @@ ExEGLContext ExCreateEGLContext(ExWin window, ExEGLContext shared){
 
 
 	/*	load dynamic library dependency.	*/
-	if(!ExIsModuleLoaded(EX_EGL_LIB_MOUDLE_NAME))
+	if(!ExIsModuleLoaded(EX_EGL_LIB_MOUDLE_NAME)){
 		ExLoadLibrary(EX_EGL_LIB_MOUDLE_NAME);
-	if(!ExIsModuleLoaded(EX_GLES_LIB_MOUDLE_NAME))
+	}
+	if(!ExIsModuleLoaded(EX_GLES_LIB_MOUDLE_NAME)){
 		ExLoadLibrary(EX_GLES_LIB_MOUDLE_NAME);
-
-
-	if(!ExCreateEGLContextAttrib(window,attrs,NULL)){
-
 	}
 
+
+	if(!ExCreateEGLContextAttrib(window, attrs, NULL)){
+		return NULL;
+	}
+
+	/**/
     EGLint configAttribList[] ={
     	EGL_BUFFER_SIZE, 16,
         EGL_RENDERABLE_TYPE,
@@ -87,44 +88,40 @@ ExEGLContext ExCreateEGLContext(ExWin window, ExEGLContext shared){
         EGL_NONE
     };
 
+	/**/
+    EGLint ctxattr[] = {
+      EGL_CONTEXT_CLIENT_VERSION, 2,
+      EGL_NONE
+    };
 
+
+	if(eglBindAPI(EGL_OPENGL_API) != EGL_TRUE)
+        ExError("Bind API!");
 
 #ifdef EX_WINDOWS
 	eglDisplay = eglGetDisplay(NULL);
-	if(eglBindAPI(EGL_OPENGL_API) != EGL_TRUE)
-        ExError("Bind API!");
-    EGLint ctxattr[] = {
-      EGL_CONTEXT_CLIENT_VERSION, 2,
-      EGL_NONE
-    };
 #elif defined(EX_LINUX)
-	if(eglBindAPI(EGL_OPENGL_API) != EGL_TRUE)
-        ExError("Bind API!");
-
 	eglDisplay = eglGetDisplay((EGLNativeDisplayType)display);
-    EGLint ctxattr[] = {
-      EGL_CONTEXT_CLIENT_VERSION, 2,
-      EGL_NONE
-    };
 #elif defined(EX_ANDROID)
 	eglDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
-    EGLint ctxattr[] = {
-      EGL_CONTEXT_CLIENT_VERSION, 2,
-      EGL_NONE
-    };
 #endif
 
 
+
+
     /*	Initialize OpenGL ES	*/
-	if((hr = eglInitialize(eglDisplay, &major, &minor)) != EGL_TRUE)
-        ExError(EX_TEXT("Failed to Initialize OpenGL ES"));
+	if((hr = eglInitialize(eglDisplay, &major, &minor)) != EGL_TRUE){
+		ExError(EX_TEXT("Failed to Initialize OpenGL ES"));
+	}
 
 	/*	Choose Config	*/
-	if((hr = eglChooseConfig(eglDisplay, configAttribList, &eglConfig, 1, &numConfig)) != EGL_TRUE)
-        ExError(EX_TEXT("failed to Choose config for EGL.\n"));
+	if((hr = eglChooseConfig(eglDisplay, configAttribList, &eglConfig, 1, &numConfig)) != EGL_TRUE){
+		ExError(EX_TEXT("failed to Choose config for EGL.\n"));
+	}
 
-	if(!(eglSurface = eglCreateWindowSurface(eglDisplay, eglConfig, (EGLNativeWindowType)window, NULL)))
-        ExError(EX_TEXT("error"));
+	if(!(eglSurface = eglCreateWindowSurface(eglDisplay, eglConfig, (EGLNativeWindowType)window, NULL))){
+		ExError(EX_TEXT("error"));
+	}
 
 	if(!(eglContext = eglCreateContext(eglDisplay, eglConfig, shared, ctxattr)))
         ExError(EX_TEXT("Error"));
@@ -142,11 +139,11 @@ ExEGLContext ExCreateEGLContext(ExWin window, ExEGLContext shared){
 
 int ExCreateEGLContextAttrib(ExWin window, int* attrib, unsigned int* size){
 
-	return 1;
+	return TRUE;
 }
 
 void ExDestroyEGLContext(ExEGLContext context){
-	eglDestroyContext(eglGetCurrentDisplay(),context);
+	eglDestroyContext(eglGetCurrentDisplay(), context);
 }
 
 void ExEGLSetVSync(int interval_ms){

@@ -29,71 +29,71 @@ extern "C"{
 
 #define ExGetKeyCode(array,keycode) ( ( ( array ) [ ( keycode ) /8] )  & (1 << ( ( keycode )  % 8)))
 
-/*
+/**
  *	Get KeyCode name identification index
  *	@Return
  */
 extern ELTDECLSPEC ExKeycode ELTAPIENTRY ExGetKeyFromName(const char* name);
 
-/*
+/**
  *	Get Key from Scancode
  *	@Return
  */
 extern ELTDECLSPEC ExKeycode ELTAPIENTRY ExGetKeyFromScancode(ExScancode scancode);
 
-/*
+/**
  *	Get KeyCode name
  *	@Return
  */
 extern ELTDECLSPEC const char* ELTAPIENTRY ExGetKeyName(ExKeycode keycode);
 
-/*
+/**
  *	Get Window that is keyboard is focus to
  *	@Return
  */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetKeyboardFocus(void);
 
-/*
+/**
  *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSetKeyboardFocus(ExWin window);
 
-/*
+/**
  *	Get keyboard state.
  *	@Return
  */
 extern ELTDECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys);
 
-/*
+/**
  *	@Return
  */
 extern ELTDECLSPEC ExKeycode ELTAPIENTRY ExGetModeState(void);
 
-/*
+/**
  *	Is any key pressed
  *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKey(void);
 
-/*
+/**
  *
  *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void);
 
-/*
+/**
  *
  *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(Uint32 keyCode);
 
-/*
+/**
  *
  *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode);
 
-/*
+/**
  *
  *	@Return
  */

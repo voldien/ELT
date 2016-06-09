@@ -43,7 +43,7 @@ typedef void* ExThreadContition;
 #define EX_THREAD_PRIORITY_HIGH 0x3
 
 
-/*
+/**
  *	Create thread.
  *	\callback function to invoke
  *	\lpParameter
@@ -51,26 +51,26 @@ typedef void* ExThreadContition;
  */
 extern ELTDECLSPEC ExThread ELTAPIENTRY ExCreateThread(ExThreadRoutine callback, void* lpParamater, Uint32* pid);
 
-/*
+/**
  *    Create Thread with affinity mask.
  *    @Return thread handle.
  */
 extern ELTDECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(ExThreadRoutine callback, ExHandle lpParamater, Uint32* pid, Int32 core);
 
-/*
+/**
  *	Detach thread
  *	@Return
  */
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread);
 
 
-/*
+/**
  *	Send signal to thread to terminate.
  *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExTerminateThread(ExThread thread);
 
-/*
+/**
  *	\thread is the thread of the current thread.
  *
  */
@@ -83,7 +83,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExSuspendThread(ExThread thread);
 extern ELTDECLSPEC void ELTAPIENTRY ExResumeThread(ExThread thread);
 
 
-
+/**/
 extern ELTDECLSPEC void ELTAPIENTRY ExSetThreadSignal(ExThread thread, Uint signal);
 extern ELTDECLSPEC Uint ELTAPIENTRY ExGetThreadSignal(ExThread thread);
 
@@ -92,29 +92,31 @@ extern ELTDECLSPEC Uint ELTAPIENTRY ExGetThreadSignal(ExThread thread);
 extern ELTDECLSPEC void ELTAPIENTRY ExCreateThreadCondition(void);
 extern ELTDECLSPEC void ELTAPIENTRY ExDestroyThreadCondition(void);
 
+/**/
 extern ELTDECLSPEC void ELTAPIENTRY ExThreadCondWait(ExThreadContition cond);
 extern ELTDECLSPEC void ELTAPIENTRY ExThreadCondBroadcast(ExThreadContition cond);
 
 
-/*
+/**
  *	Get current thread identification.
  *	@Return current thread handle.
  */
 extern ELTDECLSPEC ExThread ELTAPIENTRY ExGetCurrentThread(void);
 
-/*
+/**
  *	Get Thread ID
  *	@Return
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetThreadID(ExThread thread);
 
 
-/*
+/**
  *	Get Thread name by the invoked function.
  *	@Return get function name.
  */
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetThreadName(ExThread thread);
-/*
+
+/**
  *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSetThreadName(ExThread thread, const ExChar* name);
@@ -125,7 +127,6 @@ extern ELTDECLSPEC void ELTAPIENTRY ExSetThreadName(ExThread thread, const ExCha
  *	@Return
  */
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread, Enum nPriority);
-
 
 
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExSetThreadState(ExThread thread, ExHandle* handle);

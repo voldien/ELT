@@ -38,7 +38,7 @@ extern ELTDECLSPEC int ELTAPIENTRY ExLoadNumSymbol(ExHandle handle);
  */
 extern ELTDECLSPEC ExChar* ELTAPIENTRY ExLoadSymbol(ExHandle handle, int index, char* symbol, int len);
 
-/*
+/**
  *	Load function from handle.
  *	\handle handle to library.
  *	\pProcName function name.
@@ -46,29 +46,30 @@ extern ELTDECLSPEC ExChar* ELTAPIENTRY ExLoadSymbol(ExHandle handle, int index, 
  */
 extern ELTDECLSPEC ExHandle ELTAPIENTRY ExLoadFunction(ExHandle handle, const char* pProcName);
 
-/*
+/**
  *	Load Module object to process
  *	@Return pointer to module if successful.
  */
 extern ELTDECLSPEC ExHandle ELTAPIENTRY ExLoadObject(const ExChar* sofile);
 
-/*
+/**
  *	UnLoad Specified module object from process.
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExUnLoadObject(ExHandle handle);
 
-/*
+/**
  * 	Check if a module is loaded in the current application.
  *	@Return
  */
 extern ELTDECLSPEC ExHandle ELTAPIENTRY ExIsModuleLoaded(const ExChar* file);
 
 /*	TODO check if ExLoadLibrary should be an individul library for binding with the application depdencnt symbol table. */
-/*
+/**
  *    Is Module Loaded
  */
 #define ExGetFileModule ExIsModuleLoaded
-/*
+
+/**
  *    Load Object
  */
 #define ExLoadLibrary ExLoadObject
