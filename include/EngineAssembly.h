@@ -41,20 +41,21 @@
 #define EXCAST(type,y) (type)( ( y ) )
 
 
-/*
+/**
  *	Engine Rendering Flags
  */
 #define EX_NATIVE (1 << 7)
 #define EX_OPENGL (1 << 8)
+#define EX_OPENGL_CORE ((1 << 13) | EX_OPENGL)
 #define EX_OPENGLES (1 << 9)
 #define EX_OPENCL  (1 << 10)
 #define EX_DIRECTX  (1 << 11)
 #define EX_OPENGL_AND_OPENCL (ENGINE_OPENGL | ENGINE_OPENCL)
-#define EX_VULKAN (1 << 12)
 #define EX_RENDER_CONTEXT_DEBUG (1 << 12)
+#define EX_VULKAN (1 << 14)
 
 
-/*
+/**
  *	High layer flag.		TODO change the ELT prefix.
  */
 #define ELT_INIT_TIMER				0x00000001
@@ -69,15 +70,6 @@
 #define ELT_INIT_EVERYTHING (							\
 	ELT_INIT_VIDEO | ELT_INIT_AUDIO | ELT_INIT_JOYSTICK	\
  | ELT_INIT_TIMER | ELT_INIT_GAMECONTROLLER | ELT_INIT_EVENTS)
-
-
-
-/*
- *	states.
- */
-
-
-
 
 #include"elt_timer.h"
 #include"system/elt_win.h"

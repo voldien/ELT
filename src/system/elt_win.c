@@ -42,8 +42,9 @@
 
 #endif
 
-
 #include"system/elt_icon.h"
+
+
 #define EX_ENGINE_VERSION_STRING EX_TEXT("ELT Version | %d.%d%d%s | OS : %s : OpenGL %d.%d")
 ExChar* ExGetDefaultWindowTitle(ExChar* text, Int32 length){
 	if(!text)
@@ -90,14 +91,16 @@ static void* private_CreateELTIcon(ExWin window){
     #endif
 }
 
-
-
-
-ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 height, Enum flag){
+ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height, Enum flag){
 	ExWin window = NULL;
 	ExOpenGLContext glc = NULL;
 	ExOpenCLContext clc = NULL;
 	char title[256];
+	unsigned int tmpCore = ExOpenGLGetAttribute(EX_OPENGL_CONTEXT_PROFILE_MASK, NULL);
+
+    if( (flag & EX_OPENGL_CORE) == EX_OPENGL_CORE ){
+    	ExOpenGLSetAttribute(EX_OPENGL_CONTEXT_PROFILE_MASK, EX_GL_CONTEXT_PROFILE_CORE);
+    }
 
 #ifdef EX_WINDOWS
     void* directx;
@@ -153,30 +156,35 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 height, Enum flag){
 	/*	Linux Window Implementation	*/
 #elif defined(EX_LINUX) || defined(EX_MAC)
 	if((flag & EX_NATIVE) || !flag){
-		window = ExCreateNativeWindow(x,y,width, height);
+		window = ExCreateNativeWindow(x, y, width, height);
 	}
-
-	else if((flag & EX_OPENGL)){
+	else if((flag & EX_OPENGL) || (flag & EX_OPENGL_CORE)){
         void* glx_window; //GLXWindow
+
 		window = ExCreateGLWindow(x, y ,width, height, &glx_window);
         glc = ExCreateGLContext(glx_window != NULL ? glx_window : window, NULL);
 		ExMakeGLCurrent(glx_window != NULL ? glx_window : window,glc);
 		ExInitOpenGLStates();
 
 #ifndef DONT_SUPPORT_OPENCL
-		if(flag & EX_OPENCL)
-			ExCreateCLSharedContext(glXGetCurrentContext(),window,EX_OPENGL);
+		if(flag & EX_OPENCL){
+			ExCreateCLSharedContext(glXGetCurrentContext(), window, EX_OPENGL);
+		}
 #endif
 	}
 	else if(flag & EX_OPENGLES){
 
-		window = ExCreateNativeWindow(x,y,width,height);
-		glc = ExCreateEGLContext(window,NULL);
+		window = ExCreateNativeWindow(x, y, width, height);
+		glc = ExCreateEGLContext(window, NULL);
 
 #ifndef DONT_SUPPORT_OPENCL
-		if(flag & EX_OPENCL)
-			ExCreateCLSharedContext(glc,eglGetCurrentDisplay(),EX_OPENGLES);
+		if(flag & EX_OPENCL){
+			ExCreateCLSharedContext(glc, eglGetCurrentDisplay(), EX_OPENGLES);
+		}
 #endif
+	}
+	else if(flag & EX_VULKAN){
+
 	}
 	else if(flag & EX_OPENCL){
 		window = ExCreateNativeWindow(x,y,width,height);
@@ -244,18 +252,18 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width,Int32 height, Enum flag){
 
 
     /*	icon	*/
-    ExSetWindowIcon(window,private_CreateELTIcon(window));
+    ExSetWindowIcon(window, private_CreateELTIcon(window));
 
     /*	title*/
-    ExGetDefaultWindowTitle(title,sizeof(title) / sizeof(title[0]));
-	ExSetWindowTitle(window,title);
+    ExGetDefaultWindowTitle(title, sizeof(title) / sizeof(title[0]));
+	ExSetWindowTitle(window, title);
 	return window;
 }
 
 
 
 
-	Int32 ExIsScreenSaverEnable(void){
+Int32 ExIsScreenSaverEnable(void){
 #ifdef EX_WINDOWS
     if(ExIsModuleLoaded(""))
         return TRUE;

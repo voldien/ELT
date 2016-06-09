@@ -95,8 +95,6 @@ ExEGLContext ExCreateEGLContext(ExWin window, ExEGLContext shared){
     };
 
 
-	if(eglBindAPI(EGL_OPENGL_API) != EGL_TRUE)
-        ExError("Bind API!");
 
 #ifdef EX_WINDOWS
 	eglDisplay = eglGetDisplay(NULL);
@@ -107,7 +105,9 @@ ExEGLContext ExCreateEGLContext(ExWin window, ExEGLContext shared){
 #endif
 
 
-
+	if(eglBindAPI(EGL_OPENGL_API) != EGL_TRUE){
+        ExError("Bind API!");
+	}
 
     /*	Initialize OpenGL ES	*/
 	if((hr = eglInitialize(eglDisplay, &major, &minor)) != EGL_TRUE){
@@ -134,6 +134,10 @@ ExEGLContext ExCreateEGLContext(ExWin window, ExEGLContext shared){
 	ExInitOpenGLStates();
 
 	return eglContext;
+}
+
+int ExMakeEGLCurrent(EX_RESTRICT ExWindowContext hDC,  EX_RESTRICT ExEGLContext glc){
+	return eglMakeCurrent(eglDisplay, hDC, hDC, glc);
 }
 
 

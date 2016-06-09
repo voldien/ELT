@@ -264,7 +264,7 @@ ExOpenGLContext ExCreateGLContext(ExWin window, ExOpenGLContext shareContext){
 			else{
 				ExPrintf("GL_ARB_create_context not supported.\n");
 				vi = glXChooseVisual(display, DefaultScreen(display), pixAtt);
-				glc = glXCreateContext(display,vi, shareContext, True);
+				glc = glXCreateContext(display, vi, shareContext, True);
 				XFree(vi);
 			}
 			/*
