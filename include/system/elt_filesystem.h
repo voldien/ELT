@@ -26,60 +26,54 @@ extern "C"{
 
 
 
-
-
-
-
-
-/*
+/**
  *
  *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExCreateDirectory(const ExChar* directory);
 
-/*
- *
+/**
  *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExIsDirectory(const ExChar* cdirectory);
 
-/*
+/**
  *
  *	@Return
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExDirectoryCount(const ExChar* cdirectory);
 
-/*
+/**
  *
  *	@Return
  */
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetSubDirectory(const ExChar* cdirectory, int index);
 
-/*
+/**
  *
  *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExRemoveDirectory(const ExChar* directory);
 
-/*
+/**
  *
  *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExCreateFile(const ExChar* cfilename);
 
-/*
+/**
  *
  *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExFilesCount(const char* cdirectory);
 
-/*
+/**
  *	Remove file by given name.
  *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExRemoveFile(const ExChar* cfilename);
 
-/*
+/**
  *	Return true if file exist.
  *	@Return
  */
@@ -89,54 +83,53 @@ extern ELTDECLSPEC int ELTAPIENTRY ExExistFile(const ExChar* cfilename);
 
 
 
-
-
-
-
-/*
+/**
  *
  *	@Return
  */
 extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetCurrentDirectory(ExChar* cwd, unsigned int len);
 
-/*
+/**
  *
  *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExSetCurrentDirectory(const ExChar* cdirectory);
 
 
-/*
+/**
  *	Get Relative Path.
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExGetRelativePath(const ExChar* wChar, ExChar* Chas, Int32 lengthSize);
+extern ELTDECLSPEC void ELTAPIENTRY ExGetRelativePath(const ExChar* cpath, ExChar* basename, Int32 lengthSize);
 
 
-/*
+/**
+ *	Get path cfilename
+ */
+extern ELTDECLSPEC void ELTAPIENTRY ExGetBaseName(const ExChar* cpath, ExChar* basename, Int32 lengthSize);
+
+/**
  *
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExGetBaseName(const ExChar* wChar, ExChar* Chas, Int32 lengthSize);
+extern ELTDECLSPEC void ELTAPIENTRY ExGetDirectory(const ExChar* cpath, ExChar* dirname, Int32 lengthSize);
 
-/*
+/**
  *
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExGetDirectory(const ExChar* wChar, ExChar* Chas, Int32 lengthSize);
+extern ELTDECLSPEC void ELTAPIENTRY ExGetAbsolutePath(const ExChar* cfilename, ExChar* absolute, Int32 lengthSize);
 
 
 
 
 
 
-
-
-/*
+/**
  *
  *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExCreateRamDisk(const ExChar* cdirectory, unsigned int nBytes);
 
 
-/*
+/**
  *
  *	@Return
  */

@@ -22,21 +22,6 @@
 #include"elt_egl.h"
 
 
-/**/
-#ifdef EX_WINDOWS
-	#define ExSwapBuffers(surface) SwapBuffers(surface)
-#elif defined(EX_LINUX)
-	#define ExSwapBuffers(window) glXSwapBuffers((Display*)display, (GLXDrawable)window)
-#elif defined(EX_MAC)
-	#define ExSwapBuffers glSwapBuffers
-#elif defined(EX_ANDROID)
-	extern ExEGLDisplay eglDisplay;
-	#define ExSwapBuffers(surface) eglSwapBuffers((EGLDisplay)eglDisplay, surface)
-#else
-	extern ELTDECLSPEC void ExSwapBuffers(void* surface);
-#endif
-
-
 /*
  *	GPU Vendors constant of.
  */
@@ -283,6 +268,11 @@ extern ELTDECLSPEC Enum ELTAPIENTRY ExGetOpenGLVendor(void);
  *	@Return
  */
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExOpenGLSetVSync(ExBoolean enabled, ExWin window);
+
+/**
+ *
+ */
+extern ELTDECLSPEC void ELTAPIENTRY ExSwapBuffers(ExWin surface);
 
 
 #ifdef __cplusplus	/*	C++ environment	*/

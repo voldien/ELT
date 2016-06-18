@@ -24,10 +24,10 @@
 extern "C"{
 #endif
 
-/*
+/**
  *
  *	@Return
-*/
+ */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height);
 
 
@@ -36,6 +36,9 @@ extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int3
  *   @Return
  */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 height, void** glx_window);
+
+
+
 
 /*
  *

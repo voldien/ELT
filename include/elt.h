@@ -94,6 +94,11 @@ extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void);
  */
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void);
 
+/**
+ *	@Return display pointer.
+ */
+extern ELTDECLSPEC ExDisplay ELTAPIENTRY ExGetDisplay(void);
+
 #ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif

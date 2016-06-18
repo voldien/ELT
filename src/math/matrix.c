@@ -10,7 +10,7 @@
 	#include<immintrin.h>
 #endif
 
-void mat4x4_multi_vec4(const exvec4x4_t lf_mat4,const float rf_vec4[4],float out_vec4[4]){/*TODO check if it's correct*/
+void mat4x4_multi_vec4(const exvec4x4_t lf_mat4, const exvec4f_t rf_vec4, exvec4f_t out_vec4){/*TODO check if it's correct*/
 	out_vec4[0] = lf_mat4[0][1] * rf_vec4[0] +
 				  lf_mat4[0][1] * rf_vec4[1] +
 				  lf_mat4[0][2] * rf_vec4[2] +
@@ -171,7 +171,7 @@ void mat4x4_transpose(exvec4x4_t f_mat4){
 	f_mat4[1][2] = temp;
 }
 
-float mat4x4_determinant(exvec4x4_t f_mat4){
+float mat4x4_determinant(const exvec4x4_t f_mat4){
 	return f_mat4[0][0]* f_mat4[1][1]* f_mat4[2][2]* f_mat4[3][3] - f_mat4[0][0]* f_mat4[1][1]* f_mat4[2][3]* f_mat4[3][2] + f_mat4[0][0]* f_mat4[1][2]* f_mat4[2][3]* f_mat4[3][1] -  f_mat4[0][0]* f_mat4[1][2]* f_mat4[2][1]* f_mat4[3][3]
 		 + f_mat4[0][0]* f_mat4[1][3]* f_mat4[2][1]* f_mat4[3][2] - f_mat4[0][0]* f_mat4[1][3]* f_mat4[2][2]* f_mat4[3][1] - f_mat4[0][1]* f_mat4[1][2]* f_mat4[2][3]* f_mat4[3][0] +  f_mat4[0][1]* f_mat4[1][2]* f_mat4[2][0]* f_mat4[3][3]
 		 - f_mat4[0][1]* f_mat4[1][3]* f_mat4[2][0]* f_mat4[3][2] + f_mat4[0][1]* f_mat4[1][3]* f_mat4[2][2]* f_mat4[3][0] - f_mat4[0][1]* f_mat4[1][0]* f_mat4[2][2]* f_mat4[3][3] +  f_mat4[0][1]* f_mat4[1][0]* f_mat4[2][3]* f_mat4[3][2]

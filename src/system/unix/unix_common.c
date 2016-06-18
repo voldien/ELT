@@ -351,22 +351,3 @@ ExChar* ExGetClipboardText(void){
 
 	return text;
 }
-
-
-
-
-
-
-
-void* ExDownloadURL(const ExChar* url){
-	ExSocket sock = ExOpenSocket(EX_TCP);
-
-	if(ExConnect(ExGetHostName(url),80)){
-
-
-	}
-	ExCloseSocket(sock);
-	return 0;
-}
-
-

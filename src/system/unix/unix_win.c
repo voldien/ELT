@@ -163,7 +163,7 @@ ExWin ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 height, void** pglx
 
     /*	event feed masking	*/
 	XSelectInput(display,window, ExposureMask | VisibilityChangeMask | KeyPressMask |
-			PointerMotionMask | StructureNotifyMask | ExposureMask | KeyPressMask |
+			PointerMotionMask | StructureNotifyMask | ExposureMask | KeyPressMask | ResizeRedirectMask |
 			ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask | FocusChangeMask |
 			ButtonMotionMask | PointerMotionMask);
 

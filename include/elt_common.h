@@ -28,13 +28,13 @@ extern "C"{
 #endif
 
 
-/*
+/**
  *	Create process.
  *	@Return if successfully
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName);
 
-/*
+/**
  *	create process with variable argument list
  *	Remark :last argument should be null to prevent system error.
  *	@Return
@@ -43,28 +43,28 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationN
 
 
 
-/*
+/**
  *	Get system primary monitor screen size.
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(ExSize* size);
 
-/*
+/**
  *
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetNumScreen(void);
 
-/*
+/**
  *	Get system monitor resolution by its index.
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExGetScreenSize(Uint32 index, ExSize* size);
 
-/*
+/**
  *	Get possible resolutions for a given monitor.
  *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetScreenSizes(Uint index, Uint* num, ExSize* sizes);
 
-/*
+/**
  *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExGetPrimaryScreenRect(ExRect* rect);
@@ -80,13 +80,13 @@ extern ELTDECLSPEC void ELTAPIENTRY ExGetScreenRect(Uint32 index, ExRect* rect);
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetScreenRefreshRate(Uint32 index);
 
-/*
+/**
  *
  *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetPrimaryScreenRefreshRate(void);
 
-/*
+/**
  *
  *	@Return
  */
@@ -96,21 +96,20 @@ extern ELTDECLSPEC int ELTAPIENTRY ExSetScreenSize(Int32 index, Int32 width, Int
 
 
 
-/*
+
+/**
  *	Get Application Name
  *	@Return
  */
 extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetApplicationName(ExChar* name, Int32 length);
 
-
-
-/*
- *  Get Application Execute global Path.
- *   @Return
+/**
+ *	Get Application Execute global Path.
+ *	@Return
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExGetExecutePath(ExChar* wChar, Int32 lengthSize);
 
-/*
+/**
  *	Get Application Path where the Exe file is located.
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExGetAppliationPath(ExChar* wChar, Int32 lengthSize);
@@ -118,26 +117,15 @@ extern ELTDECLSPEC void ELTAPIENTRY ExGetAppliationPath(ExChar* wChar, Int32 len
 
 
 
-/*
- *
+/**
+ *	Convert wide character encoded string to ascii encoded string.
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExWideToChar(const ExWide* wchar, char** cchar);
 
-/*
- *
+/**
+ *	Convert ascii character encoded string to wide character encoded string.
  */
 extern ELTDECLSPEC char* ELTAPIENTRY ExCharToWide(const ExWide* wwchar);
-
-
-
-
-
-/*
- *	InternetOpenUrl
- *	@Return
- */
-extern ELTDECLSPEC void* ELTAPIENTRY ExDownloadURL(const ExChar* url);
-
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 }

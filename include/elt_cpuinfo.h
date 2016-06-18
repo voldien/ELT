@@ -38,8 +38,7 @@ extern "C"{
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetCPUInstructionArch(void);
 
-/*
- *
+/**
  *	@Return
  */
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCPUType(void);
@@ -50,8 +49,7 @@ extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCPUType(void);
  */
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void);
 
-/*
- *
+/**
  *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetFrequence(void);
@@ -135,8 +133,8 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void);
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasNeon(void);
 
 /**
- *	Time Stamp Counter
- *	@Return
+ *	Time Stamp Counter.
+ *	@Return 1 if RDTSC is aviable.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasRDTSC(void);
 

@@ -168,3 +168,7 @@ const ExChar* ExGetVersion(void){
 const ExChar* ExGetCompilerName(void){
     return EX_TEXT(EX_COMPILER_NAME);
 }
+
+ExDisplay ExGetDisplay(void){
+	return display;
+}

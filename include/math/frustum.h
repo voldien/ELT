@@ -26,7 +26,7 @@
 extern "C"{
 #endif
 
-/*
+/**
  *
  */
 typedef struct plane{
@@ -36,7 +36,7 @@ typedef struct plane{
 	};
 }ExPlane;
 
-/*
+/**
  *
  */
 typedef struct sphere{
@@ -46,7 +46,7 @@ typedef struct sphere{
 	};
 }ExSphere;
 
-/*
+/**
  *
  */
 typedef struct frustum{
@@ -54,12 +54,12 @@ typedef struct frustum{
 }ExFrustum;
 
 
-/*
+/**
  *
  */
 extern int frustum_create(ExFrustum* f, exvec3f_t forward, exvec3f_t up, float fov, float aspect, float near, float far);
 
-/*
+/**
  *
  */
 extern int frustum_AABB(const float* b, struct frustum* f);

@@ -1,10 +1,16 @@
 #include"system/elt_file.h"
+#define _GNU_SOURCE
+
 #include<unistd.h>
 #include<dirent.h>
 #include<sys/stat.h>
 #include<fcntl.h>
 #include<errno.h>
 #include<string.h>
+#include <dirent.h>
+#include <unistd.h>
+#include<libgen.h>
+
 
 int ExCreateDirectory(const ExChar* directory){
 	return mkdir(directory, 644);
@@ -100,6 +106,19 @@ Int32 ExSetCurrentDirectory(const ExChar* cdirectory){
 
 
 
+void ExGetDirectory(const ExChar* wChar, ExChar* Chas, Int32 lengthSize){
+	ExChar* thedir = dirname(wChar);
+	if(thedir){
+		memcpy(Chas, thedir, strlen(thedir) > lengthSize ? lengthSize : strlen(thedir) );
+	}
+}
+
+
+void ExGetAbsolutePath(const ExChar* cfilename, ExChar* absolute, Int32 lengthSize){
+	realpath(cfilename, absolute);
+}
+
+
 
 
 
@@ -120,12 +139,15 @@ ExBoolean ExCreateRamDisk(const ExChar* cdirectory, unsigned int nBytes){
 	int result;
 	int size;
 	ExChar* src = "none";
-	if(nBytes > 1024)
+	if(nBytes > 1024){
 		size = nBytes / 1024;
-	if(nBytes > 1048576)
+	}
+	if(nBytes > 1048576){
 		size = nBytes / 1048576;
-	if(nBytes > 1073741824)
+	}
+	if(nBytes > 1073741824){
 		size = nBytes / 1073741824;
+	}
 
 	//-t -size=%dk
 	sprintf(buf, "mode=0700,uid=65534");

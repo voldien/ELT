@@ -38,6 +38,10 @@ typedef struct ex_render_buffer{
 }ExRenderBuffer;
 
 
+/**
+ *
+ */
+extern void ExGenFrameBuffers(unsigned int n, unsigned int* framebuffers);
 
 /*	TODO resolve the issues with the parameters.*/
 extern ExFrameBuffer* ExCreateRenderTexture2D(ExFrameBuffer* texture, unsigned int width, unsigned int height, unsigned int attachment);

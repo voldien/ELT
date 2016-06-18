@@ -106,17 +106,17 @@ void quad_directionv(exquat_t lf_quad, exvec3f_t dir, const exvec3f_t _dir){
 }
 
 
-inline float quad_pitch(const exquat_t lf_quad){
+float quad_pitch(const exquat_t lf_quad){
 	return (float)asinf(-2.0f * (lf_quad[QZ] * lf_quad[QY] + lf_quad[QW] * lf_quad[QX]));
 }
 
 
-inline float quad_yaw(const exquat_t lf_quad){
+float quad_yaw(const exquat_t lf_quad){
     return (float)atan2f(2.0f * (lf_quad[QW] * lf_quad[QX] + lf_quad[QY] * lf_quad[QW]),( 1.0f - ( 2.0f * (lf_quad[QX] * lf_quad[QX] + lf_quad[QY] * lf_quad[QY]))));
 }
 
 
-inline float quad_roll(const exquat_t lf_quad){
+float quad_roll(const exquat_t lf_quad){
 	return (float)atan2f(2.0f * (lf_quad[QW] * lf_quad[QZ] + lf_quad[QX] * lf_quad[QY]), 1.0f - (2.0f * (lf_quad[QY] * lf_quad[QY] + lf_quad[QZ] * lf_quad[QZ])));
 }
 

@@ -24,23 +24,23 @@
 extern "C"{
 #endif
 
-/*
+/**
  *
  *	@Return
  */
 extern ELTDECLSPEC ExAudioContext ELTAPIENTRY ExAudioInit(const char* driverName);
 
-/*
+/**
  *
  */
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExAudioQuit(void);
 
-/*
+/**
  *
  */
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExAudioWrite(const void* data);
 
-/*
+/**
  *
  */
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExAudioRead(void* data);
