@@ -25,12 +25,29 @@ extern "C"{
 #endif
 
 
-
 /**
- *
  *	@Return
  */
-extern ELTDECLSPEC int ELTAPIENTRY ExCreateDirectory(const ExChar* directory);
+extern ELTDECLSPEC int ELTAPIENTRY ExChangeFileMode(const char* cpath, unsigned int mode);
+
+/**
+ *	@Return
+ */
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetFileMode(const char* cfilename);
+
+/**
+ *	@Return
+ */
+extern ELTDECLSPEC int ELTAPIENTRY ExSetFileOwner(const char* cpath, const char* user, const char* group);
+
+
+
+
+/**
+ *	Create directory.
+ *	@Return
+ */
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExCreateDirectory(const ExChar* directory);
 
 /**
  *	@Return
@@ -79,7 +96,10 @@ extern ELTDECLSPEC int ELTAPIENTRY ExRemoveFile(const ExChar* cfilename);
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExExistFile(const ExChar* cfilename);
 
-
+/**/
+extern ELTDECLSPEC int ELTAPIENTRY ExReadableFile(const ExChar* cfilename);
+extern ELTDECLSPEC int ELTAPIENTRY ExWritableFile(const ExChar* cfilename);
+extern ELTDECLSPEC int ELTAPIENTRY ExExecutableFile(const ExChar* cfilename);
 
 
 
@@ -110,7 +130,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExGetBaseName(const ExChar* cpath, ExChar* b
 /**
  *
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExGetDirectory(const ExChar* cpath, ExChar* dirname, Int32 lengthSize);
+extern ELTDECLSPEC char* ELTAPIENTRY ExGetDirectory(const ExChar* cpath, ExChar* dirname, Int32 lengthSize);
 
 /**
  *

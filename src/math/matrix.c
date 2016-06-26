@@ -1,14 +1,4 @@
 #include"math/matrix.h"
-//__SSE4__ ||
-//#define ENABLE_AVX
-#ifdef ENABLE_AVX
-#   ifdef _WIN32
-#      include<intrin.h>
-#   endif
-#   include<immintrin.h>
-#elif defined(__AVX2__)
-	#include<immintrin.h>
-#endif
 
 void mat4x4_multi_vec4(const exvec4x4_t lf_mat4, const exvec4f_t rf_vec4, exvec4f_t out_vec4){/*TODO check if it's correct*/
 	out_vec4[0] = lf_mat4[0][1] * rf_vec4[0] +
@@ -31,42 +21,11 @@ void mat4x4_multi_vec4(const exvec4x4_t lf_mat4, const exvec4f_t rf_vec4, exvec4
 				  lf_mat4[3][2] * rf_vec4[2] +
 				  lf_mat4[3][3] * rf_vec4[3];
 }
-/*
-static inline __m128 lincomb_AVX_4mem(const float *a, const vec4x4_t B){
-    __m128 result;
-    result = _mm_mul_ps(_mm_broadcast_ss(&a[0]), (__m128)B[0]);
-    result = _mm_add_ps(result, _mm_mul_ps(_mm_broadcast_ss(&a[1]), (__m128)B[1]));
-    result = _mm_add_ps(result, _mm_mul_ps(_mm_broadcast_ss(&a[2]), (__m128)B[2]));
-    result = _mm_add_ps(result, _mm_mul_ps(_mm_broadcast_ss(&a[3]), (__m128)B[3]));
-    return result;
-}*/
-
 
 
 void mat4x4_multi_mat4x4(const exvec4x4_t mat,const exvec4x4_t mat2, exvec4x4_t outf_mat4){
-    #if defined(ENABLE_AVX)
-	int i;
-	__m128 row1 = _mm_load_ps(mat2[0]);
-	__m128 row2 = _mm_load_ps(mat2[1]);
-	__m128 row3 = _mm_load_ps(mat2[2]);
-	__m128 row4 = _mm_load_ps(mat2[3]);
-	for(i = 0; i < 4; i++){
-		__m128 brod1 = _mm_set1_ps(mat[i][0]);
-		__m128 brod2 = _mm_set1_ps(mat[i][1]);
-		__m128 brod3 = _mm_set1_ps(mat[i][2]);
-		__m128 brod4 = _mm_set1_ps(mat[i][3]);
-		__m128 row = _mm_add_ps(
-					_mm_add_ps(
-						_mm_mul_ps(brod1, row1),
-						_mm_mul_ps(brod2,row2)),
-						_mm_add_ps(
-							_mm_mul_ps(brod3,row3),
-							_mm_mul_ps(brod4,row4)));
-		_mm_store_ps(outf_mat4[i],row);
-		continue;
-	}
-#else
-    float a00 = mat[0][0], a01 =  mat[0][1], a02 = mat[0][2], a03 = mat[0][3],
+
+    exvecf_t a00 = mat[0][0], a01 =  mat[0][1], a02 = mat[0][2], a03 = mat[0][3],
         a10 =    mat[1][0], a11 =  mat[1][1], a12 = mat[1][2], a13 = mat[1][3],
         a20 =    mat[2][0], a21 =  mat[2][1], a22 = mat[2][2], a23 = mat[2][3],
         a30 =    mat[3][0], a31 =  mat[3][1], a32 = mat[3][2], a33 = mat[3][3],
@@ -95,9 +54,6 @@ void mat4x4_multi_mat4x4(const exvec4x4_t mat,const exvec4x4_t mat2, exvec4x4_t 
     outf_mat4[3][1] = b30 * a01 + b31 * a11 + b32 * a21 + b33 * a31;
     outf_mat4[3][2] = b30 * a02 + b31 * a12 + b32 * a22 + b33 * a32;
     outf_mat4[3][3] = b30 * a03 + b31 * a13 + b32 * a23 + b33 * a33;
-
-
-#endif
 }
 
 void mat4x4_divs_mat4x4(const exvec4x4_t lf_mat4, const exvec4x4_t rf_mat4, exvec4x4_t outf_mat4){
@@ -319,6 +275,7 @@ void mat4x4_multi_translation(exvec4x4_t f_mat4,const exvec3f_t translate){
 	mat4x4_multi_mat4x4(f_mat4,ftranslate,ftranslate2);
 	memcpy(f_mat4,ftranslate2,sizeof(exvecf_t) * 16);
 }
+
 void mat4x4_multi_scale(exvec4x4_t f_mat4,const exvec3f_t scale){
 	exvec4x4_t fscale;
 	exvec4x4_t fscale2;
@@ -326,6 +283,7 @@ void mat4x4_multi_scale(exvec4x4_t f_mat4,const exvec3f_t scale){
 	mat4x4_multi_mat4x4(f_mat4,fscale,fscale2);
 	memcpy(f_mat4,fscale2, sizeof(float) * 16);
 }
+
 void mat4x4_multi_rotationx(exvec4x4_t f_mat4, float f_x_radi){
 	exvec4x4_t f_rot_x;
 	exvec4x4_t f_rot_x2;
@@ -333,11 +291,13 @@ void mat4x4_multi_rotationx(exvec4x4_t f_mat4, float f_x_radi){
 	mat4x4_multi_mat4x4(f_mat4,f_rot_x,f_rot_x2);
 	memcpy(f_mat4,f_rot_x2,sizeof(exvec4x4_t));
 }
+
 void mat4x4_multi_rotationy(exvec4x4_t f_mat4, float f_y_radi){
 	exvec4x4_t f_rot_y;
 	mat4x4_rotationY(f_rot_y, f_y_radi);
 	mat4x4_multi_mat4x4(f_mat4,f_rot_y,f_mat4);
 }
+
 void mat4x4_multi_rotationz(exvec4x4_t f_mat4, float f_z_radi){
 	exvec4x4_t f_rot_z,f_rot_z2;
 	mat4x4_rotationZ(f_rot_z, f_z_radi);

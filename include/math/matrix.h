@@ -95,7 +95,7 @@ extern float mat4x4_inverse(exvec4x4_t f_mat4);
 /**
  *
  */
-extern void mat4x4_decompose(const exvec4x4_t f_mat4, exvec3f_t f_position, exquat_t f_rotation, exvec3f_t f_scale);
+extern void mat4x4_decompose(const exvec4x4_t f_mat4, exvec3f_t f_position, exquatf_t f_rotation, exvec3f_t f_scale);
 
 
 /**

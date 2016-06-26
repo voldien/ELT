@@ -138,6 +138,11 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasNeon(void);
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasRDTSC(void);
 
+/**
+ *		(DRNG)	Digital Random Number Generator
+ */
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasDRNG(void);
+
 /**/
 extern ELTDECLSPEC Enum ELTAPIENTRY ExGetCpuVendor(void);
 

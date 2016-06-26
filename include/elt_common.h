@@ -112,7 +112,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExGetExecutePath(ExChar* wChar, Int32 length
 /**
  *	Get Application Path where the Exe file is located.
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExGetAppliationPath(ExChar* wChar, Int32 lengthSize);
+extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetAppliationPath(ExChar* wChar, Int32 lengthSize);
 
 
 

@@ -7,13 +7,40 @@
 #include<fcntl.h>
 #include<errno.h>
 #include<string.h>
-#include <dirent.h>
-#include <unistd.h>
+#include<dirent.h>
+#include<unistd.h>
 #include<libgen.h>
+#include<sys/types.h>
+#include<pwd.h>
 
 
-int ExCreateDirectory(const ExChar* directory){
-	return mkdir(directory, 644);
+int ExChangeFileMode(const char* cpath, unsigned int mode){
+	return chmod(cpath, mode);
+}
+
+unsigned int ExGetFileMode(const char* cfilename){
+	struct stat fileStat;
+	stat(cfilename, &fileStat);
+	return fileStat.st_mode;
+}
+
+int ExSetFileOwner(const char* cpath, const char* user, const char* group){
+	struct passwd pwd;
+	struct passwd *result;
+	char buf[PATH_MAX];
+	const size_t bufsize = sizeof(buf);
+	int s;
+
+	getpwnam_r(user, &pwd, buf, bufsize, &result);
+	getpwnam_r(group, &pwd, buf, bufsize, &result);
+	return chown(cpath, pwd.pw_uid, pwd.pw_gid);
+}
+
+
+
+
+ExBoolean ExCreateDirectory(const ExChar* directory){
+	return mkdir(directory, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == 0;
 }
 
 ExBoolean ExIsDirectory(const ExChar* cdirectory){
@@ -80,6 +107,15 @@ int ExExistFile(const ExChar* cfilename){
 }
 
 
+int ExReadableFile(const ExChar* cfilename){
+	return access(cfilename, R_OK) == 0;
+}
+int ExWritableFile(const ExChar* cfilename){
+	return access(cfilename, W_OK) == 0;
+}
+int ExExecutableFile(const ExChar* cfilename){
+	return access(cfilename, X_OK) == 0;
+}
 
 
 
@@ -106,11 +142,14 @@ Int32 ExSetCurrentDirectory(const ExChar* cdirectory){
 
 
 
-void ExGetDirectory(const ExChar* wChar, ExChar* Chas, Int32 lengthSize){
-	ExChar* thedir = dirname(wChar);
+char* ExGetDirectory(const ExChar* cpath, ExChar* Chas, Int32 lengthSize){
+	memcpy(Chas, cpath, strlen(cpath) + 1);
+
+	ExChar* thedir = dirname(Chas);
 	if(thedir){
-		memcpy(Chas, thedir, strlen(thedir) > lengthSize ? lengthSize : strlen(thedir) );
+		memcpy(Chas, thedir, strlen(thedir) + 1 > lengthSize ? strlen(thedir) + 1 : lengthSize  );
 	}
+	return thedir;
 }
 
 

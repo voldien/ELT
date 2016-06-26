@@ -32,4 +32,12 @@
 #include"system/elt_event.h"
 #include"system/elt_surface.h"
 
+#include"elt_env.h"
+#include"elt_platform.h"
+#include"elt_endian.h"
+#include"elt_thread.h"
+#include"elt_assert.h"
+#include"elt_alloc.h"
+
+
 #endif 

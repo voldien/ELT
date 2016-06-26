@@ -214,22 +214,19 @@ int ExSetScreenSize(Int32 index, Int32 width, Int32 height){
 
 
 const ExChar* ExGetPlatform(void){
-	struct utsname name;
-	if (uname(&name) < 0 ){
-	    printf("OS: %s\n", name.sysname);
-	}
-	return NULL;
+	return "";
 }
-
 
 const ExChar* ExGetOSName(void){
 	struct utsname name;
-	return EX_TEXT("linux");
-	if(uname(&name) != EFAULT)
-		return name.sysname;
-	else
-		return EX_TEXT("linux");
-
+	static char os[_UTSNAME_SYSNAME_LENGTH];
+	if(uname(&name) != EFAULT){
+		memcpy(os, name.sysname, sizeof(os));
+		return os;
+	}
+	else{
+		return "unix";
+	}
 }
 
 
@@ -241,16 +238,15 @@ void ExGetExecutePath(ExChar* wChar, Int32 length){
     memcpy(wChar,/*program_invocation_name*/__progname,length);
 }
 
-void ExGetAppliationPath(ExChar* path, Int32 length){
-    //readlink()
-	getcwd(path, length);
+ExChar* ExGetAppliationPath(ExChar* path, Int32 length){
+	return getcwd(path, length);
 }
 
 ExChar* ExGetApplicationName(ExChar* name, Int32 length){
 
 #   if defined(EX_GNUC) || defined(EX_GNUC)
     extern char* __progname;
-    memcpy(name,/*program_invocation_name*/__progname,length);
+    memcpy(name,/*program_invocation_name*/__progname, strlen(__progname) + 1 < length ? strlen(__progname) + 1 : length);
     return name;
 #   else
     extern char* __progname;
