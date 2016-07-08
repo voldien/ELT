@@ -25,17 +25,36 @@
 extern "C"{
 #endif
 
-/*
+/**
  *	Get Current User Name
  *	Has to maintain later!!! TODO<>
  *	@Return current user as a username.
  */
 extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetCurrentUser(void);
 
+/**
+ *
+ */
 extern ELTDECLSPEC int ELTAPIENTRY ExSetEnv(const ExChar* name, const char* pValue);
+
+/**
+ *
+ */
 extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetEnv(const ExChar* name);
+
+/**
+ *
+ */
 extern ELTDECLSPEC int ELTAPIENTRY ExRemoveEnv(const ExChar* name);
+
+/**
+ *
+ */
 extern ELTDECLSPEC ExChar* ExGetAllEnv(void);
+
+/**
+ *
+ */
 extern ELTDECLSPEC void ExFreeEnv(ExChar* env);
 
 

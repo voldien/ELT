@@ -11,8 +11,6 @@
 #include<X11/Xatom.h>
 #include<X11/keysym.h>
 
-//#include<X11/extensions/XInput.h>
-//#include<X11/extensions/Xrender.h>
 
 #include<dlfcn.h>
 #include<GL/gl.h>
@@ -32,9 +30,7 @@ extern int ExChooseFBconfig(GLXFBConfig* pfbconfig);
 ExWin ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){
 	Visual* visual;
 	Int depth;
-	Int textX;
-	Int textY;
-	XSetWindowAttributes swa = {};
+	XSetWindowAttributes swa = {0};
     XSetWindowAttributes  xattr;
     Atom atom;
     int one = 1;
@@ -45,7 +41,6 @@ ExWin ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){
 	GC gc;
 	int winmask = 0;
 	XVisualInfo visInfo;
-
 
 	visual = DefaultVisual(display, 0);
 	depth = DefaultDepth(display,0);
@@ -58,21 +53,20 @@ ExWin ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){
     }
     visual = visInfo.visual;
     /**/
-	swa.background_pixel = XWhitePixel(display,0);
+	swa.background_pixel = XWhitePixel(display, 0);
 	swa.event_mask = ExposureMask | VisibilityChangeMask | KeyPressMask | PointerMotionMask | StructureNotifyMask | ResizeRedirectMask | VisibilityChangeMask;
 	swa.border_pixmap = None;
 	swa.border_pixel = 0;
 	swa.bit_gravity = StaticGravity;
-	/**/
-	swa.colormap = XCreateColormap(display, RootWindow(display,visInfo.screen), visInfo.visual, AllocNone);
+	swa.colormap = XCreateColormap(display, RootWindow(display, visInfo.screen), visInfo.visual, AllocNone);
 
 	/**/
 	window = XCreateWindow(display,DefaultRootWindow(display),
                               x,y,width,height,0,
-                              depth,InputOutput,visual, winmask,&swa);
+                              depth,InputOutput,visual, winmask, &swa);
 
     /*	event feed masking	*/
-	XSelectInput(display,window, ExposureMask | VisibilityChangeMask | KeyPressMask |
+	XSelectInput(display, window, ExposureMask | VisibilityChangeMask | KeyPressMask |
 			PointerMotionMask | StructureNotifyMask | ExposureMask | KeyPressMask |
 			ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask | VisibilityChangeMask |
 			ButtonMotionMask | PointerMotionMask);
@@ -99,7 +93,7 @@ ExWin ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 height, void** pglx
 	int major;
 	int minor;
 	Int32 winmask = 0;
-	XSetWindowAttributes winAttribs = {0};
+	XSetWindowAttributes winAttribs = {};
 	Window window;
 	Window* root;
 	XFontStruct* fontinfo;
@@ -109,16 +103,13 @@ ExWin ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 height, void** pglx
     Atom delMsg;
 	GLXFBConfig fbconfigs;
 	ExRect rect = {0};
+    XSetWindowAttributes  xattr;
 
 
 	screen = DefaultScreen(display);
 	root = RootWindow(display, screen);
 
-
-	if(!ExSupportOpenGL())
-		return NULL;
-
-
+	/*	glx version.	*/
 	glXQueryVersion(display, &major, &minor);
 
 	/*	choose visualinfo */
@@ -126,18 +117,16 @@ ExWin ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 height, void** pglx
 	vi = (XVisualInfo*)glXGetVisualFromFBConfig(display, fbconfigs);
 
 
-	winAttribs.colormap = XCreateColormap(display, RootWindow(display,vi->screen), vi->visual, AllocNone);
 
-	winAttribs.event_mask = ExposureMask | VisibilityChangeMask | KeyPressMask | PointerMotionMask | StructureNotifyMask | ResizeRedirectMask | FocusChangeMask;
+	//winAttribs.background_pixel = XWhitePixel(display, 0);
+	winAttribs.colormap = XCreateColormap(display, root, vi->visual, AllocNone);
+	winAttribs.event_mask = ExposureMask | VisibilityChangeMask | KeyPressMask | PointerMotionMask | StructureNotifyMask | ResizeRedirectMask | VisibilityChangeMask;
 	winAttribs.border_pixmap = None;
 	winAttribs.border_pixel = 0;
 	winAttribs.bit_gravity = StaticGravity;
 
 
-	winmask = CWBackPixmap|
-	        CWColormap|
-	        CWBorderPixel|
-	        CWEventMask;
+	winmask = CWBackPixmap| CWColormap | CWBorderPixel| CWEventMask;
 
 	/*	TODO resolve why x and y position is bad. probarly because of multi screencd .	*/
 	ExGetPrimaryScreenRect(&rect);
@@ -151,32 +140,30 @@ ExWin ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 height, void** pglx
                                 winmask, &winAttribs);
 
 
-
-
 	/*	problems was it was a random pointer as a value....	*/
     if( ( major >= 1 && minor >= 3 && pglx_window) ){
-
     	/*glXCreateWindow create opengl for window that might not have capability for OpenGL	*/
     	pglx_window[0] = NULL;
-    	//pglx_window[0] = glXCreateWindow(display, fbconfigs, window, 0);
+    	pglx_window[0] = glXCreateWindow(display, fbconfigs, window, 0);
     }
 
     /*	event feed masking	*/
-	XSelectInput(display,window, ExposureMask | VisibilityChangeMask | KeyPressMask |
+	XSelectInput(display,
+			window,
+			ExposureMask | VisibilityChangeMask |
 			PointerMotionMask | StructureNotifyMask | ExposureMask | KeyPressMask | ResizeRedirectMask |
 			ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask | FocusChangeMask |
 			ButtonMotionMask | PointerMotionMask);
 
-/*
-    TODO
-    SOLVE LATER
-*/
-	//XGrabPointer(display, root, False, ButtonPressMask, GrabModeAsync,
-	//         GrabModeAsync, None, None, CurrentTime);
+    /*	event feed masking	*/
+	XSelectInput(display, window, ExposureMask | VisibilityChangeMask | KeyPressMask |
+			PointerMotionMask | StructureNotifyMask | ExposureMask | KeyPressMask |
+			ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask | VisibilityChangeMask |
+			ButtonMotionMask | PointerMotionMask);
 
 
 	/*	create window font	*/
-	fontinfo = XLoadQueryFont(display, EX_TEXT("-*-helvetica-*-r-*-*-14-*-*-*-*-*-*-*"));
+	fontinfo = XLoadQueryFont(display, EX_TEXT("10x20"));
 	if(!fontinfo){
 		fontinfo = XLoadQueryFont(display, EX_TEXT("fixed"));
 	}
@@ -185,35 +172,18 @@ ExWin ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 height, void** pglx
 	gr_values.background = WhitePixel(display,0);
 	graphical_context = XCreateGC(display,window, GCFont + GCForeground, &gr_values);
 	XSetFont(display, graphical_context, gr_values.font);
+
+	/**/
+    xattr.override_redirect = False;
+    XChangeWindowAttributes (display, window, CWOverrideRedirect, &xattr );
+
 	/*	free font struct.	*/
-
-
-
-   //XIfEvent(display, &event, WaitFormMap)
-
-
 	XFree(vi);
 	XFree(graphical_context);
 	XFreeFont(display, fontinfo);
 	XSync(display, FALSE);
 	return window;
 }
-
-int ExSupportOpenGL(void){
-    int major;
-    int minor;
-
-    /*	TODO evaluate this.	*/
-	if(!glXQueryVersion(display, &major, &minor)){
-        fprintf(stderr,"could not");
-        return FALSE;
-    }
-    return TRUE;
-}
-
-
-
-
 
 
 
@@ -317,8 +287,9 @@ void ExSetWindowPos(ExWin window, Int32 x,Int32 y){
 }
 
 void ExSetWindowPosv(ExWin window, const Int32* position){
-	if(!window || !position)
+	if(!window || !position){
 		return;
+	}
 
 	XMoveWindow(display,(Window*)window,position[0],position[1]);
 }
@@ -341,7 +312,7 @@ void ExSetWindowSizev(ExWin window, const ExSize* size){
 
 void ExGetWindowSizev(ExWin window, ExSize* size){
 	XWindowAttributes xwa;
-	XGetWindowAttributes(display, window,&xwa);
+	XGetWindowAttributes(display, window, &xwa);
 	size->width = xwa.width;
 	size->height= xwa.height;
 }

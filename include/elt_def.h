@@ -150,6 +150,11 @@
             #define EX_X86 1
 			#define EX_X86LINUX
 		#endif
+
+		#if defined(__x86_64__)
+			#define EX_X86_64 1
+		#endif
+
 		#if defined(__arm__)
               #define EX_ARM 1
         #endif
@@ -232,8 +237,7 @@
 #endif
 
 
-
-/*
+/**
  *	Find the arch type.
  */
 #if defined(__x86_64__) || defined(_M_X64) || defined(__powerpc64__) || defined(__alpha__) || defined(__ia64__) || defined(__s390__) || defined(__s390x__) || defined(__arm64__) || defined(_aarch64_) || defined(__mips64) || defined(__mips64_)

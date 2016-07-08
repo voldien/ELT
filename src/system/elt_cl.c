@@ -48,9 +48,7 @@
 /**/
 #define OPENGL_DX_SHARING_EXTENSION "cl_khr_d3d10_sharing"
 
-
 //#define ExIsCLError(x)  { if( ( x ) != CL_SUCCESS ){ ExDevPrintfc("Error | %s",EX_CONSOLE_RED,ExGetErrorMessage( ( x ) )); } }
-
 
 #define ELT_CL_GPU_INDEX(x) ( ( ~(((unsigned int)-1) - ( EX_CL_GPU0 - 1)  ) & x )  )
 #define ELT_CL_CPU_INDEX(x) ( ( ~(((unsigned int)-1) - ( EX_CL_CPU0 - 1)  ) & x )  )
@@ -570,7 +568,7 @@ ExCLKernel ExCreateKernel(ExCLProgram program, const ExChar* kernelname){
 	return kernel;
 }
 
-int ExReleaseernel(ExCLProgram kernel){
+int ExReleaseKernel(ExCLProgram kernel){
 	return clReleaseKernel(kernel);
 }
 

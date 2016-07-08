@@ -25,15 +25,13 @@ extern "C"{
 #endif
 
 
-
-
-/*
+/**
  *	Get Platform
  *	@Return
  */
 extern ELTDECLSPEC const char* ELTAPIENTRY ExGetPlatform(void);
 
-/*
+/**
  *	Get System OperatingSystem Os Name
  *	@Return
  */

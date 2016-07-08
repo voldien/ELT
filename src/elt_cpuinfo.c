@@ -66,8 +66,15 @@
 #endif
 
 
-const ExChar* ExGetCPUType(void){
-	return NULL;
+
+Uint32 ExGetCPUArch(void){
+#if defined(EX_X86_64)
+	return EX_CPU_X86_64;
+#elif defined(EX_X86)
+	return EX_CPU_X86;
+#elif defined(EX_ARM)
+	return EX_CPU_ARM;
+#endif
 }
 
 const ExChar* ExGetCPUName(void){
@@ -83,7 +90,7 @@ const ExChar* ExGetCPUName(void){
 //https://github.com/soreau/SDL/blob/master/src/cpuinfo/SDL_cpuinfo.c
 #if !defined(EX_ARM)
     if(cpu_name[0] == NULL){
-		cpuid2(0x80000000,a,b,c,d);
+		cpuid2(0x80000000, a, b, c, d);
 		if(a >= 0x80000004){
 			cpuid2(0x80000002, a, b, c, d);
 			cpu_name[i++] = (char)(a & 0xff); a >>= 8;

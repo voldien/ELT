@@ -343,9 +343,8 @@ ExBoolean ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenInd
 	XEvent xev = {0};
 	ExSize size  = {0};
     XWindowAttributes xwa;
-    XSetWindowAttributes xattr;
-    Atom fullscreen;
-    Atom wmState;
+    XSetWindowAttributes xattr = {0};
+    Atom atom;
 
     /*	get resolution.	*/
     if(screenRes){
@@ -362,33 +361,47 @@ ExBoolean ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenInd
     XChangeWindowAttributes(display, window, CWOverrideRedirect, &xattr);
 
     /**/
-	wmState = XInternAtom(display, "_NET_WM_STATE", FALSE);
-    fullscreen = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", FALSE);
+
+	atom = XInternAtom ( display, "_NET_WM_STATE_FULLSCREEN", True );
 
     /**/
-    //XChangeProperty(display, window,  XInternAtom(display, "_NET_WM_STATE", True), XA_ATOM, 32, PropModeReplace, &fullscreen, 1);
+    XChangeProperty (
+          display, window,
+          XInternAtom ( display, "_NET_WM_STATE", True ),
+          XA_ATOM,  32,  PropModeReplace,
+          (unsigned char*) &atom,  1 );
 
-    /**/
-	//XChangeProperty (display, window, XInternAtom ( display, "_HILDON_NON_COMPOSITED_WINDOW", True ), XA_INTEGER,  32,  PropModeReplace, (unsigned char*)&one,  1);
 
-
+    /*	Only for EGL.	*/
+    /*
+    XChangeProperty (
+         display, window,
+         XInternAtom ( display, "_HILDON_NON_COMPOSITED_WINDOW", True ),
+         XA_INTEGER,  32,  PropModeReplace,
+         (unsigned char*) &one,  1);
+	*/
 
     /*	Set fullscreen resolution.	*/	/*TODO	fix	*/
     if(ExSetScreenSize(screenIndex, size.width, size.height)){
-
+    	/**/
     }
+    ExShowWindow(window);
+
 
 	//XF86VideoModeSwitchToMode(display, screenIndex, modes[bestMode]);
     Atom atoms[2] = { XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", False), None };
 
+    Atom wm_state   = XInternAtom ( display, "_NET_WM_STATE", False );
+	Atom fullscreen = XInternAtom ( display, "_NET_WM_STATE_FULLSCREEN", False );
 
 	xev.type = ClientMessage;
 	xev.xclient.window = window;
-	xev.xclient.message_type = wmState;
+	xev.xclient.message_type = wm_state;
 	xev.xclient.format = 32;
 	xev.xclient.data.l[0] = cdsfullscreen ? 1 : 0;
 	xev.xclient.data.l[1] = fullscreen;
 	xev.xclient.data.l[2] = 0;
+
 
 	XSendEvent(display,
             DefaultRootWindow(display),
@@ -427,7 +440,7 @@ void ExSetGLTransparent(ExWin window, Enum ienum){
     hints.y = 0;
     hints.width = size.width;
     hints.height = size.height;
-    hints.flags = USPosition |USSize;
+    hints.flags = USPosition | USSize;
 
     /**/
 	startup_state = XAllocClassHint();
@@ -468,9 +481,6 @@ Int32 ExIsVendorIntel(void){
 }
 
 ERESULT ExOpenGLSetVSync(ExBoolean enabled, ExWin window){
-	//glXSwapIntervalEXT
-	//sf_ptrc_glXSwapIntervalMESA
-	//glXSwapIntervalSGI
     typedef void (*glXSwapIntervalEXTProc)(Display*, GLXDrawable drawable, int intervale);
     glXSwapIntervalEXTProc glXSwapIntervalEXT = (glXSwapIntervalEXTProc)GL_GET_PROC((const GLubyte*)"glXSwapIntervalEXT");
     if(glXSwapIntervalEXT){

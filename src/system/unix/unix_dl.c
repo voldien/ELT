@@ -14,9 +14,12 @@ void __attribute__ ((constructor)) my_load(void){
         //ExError("couldn't open Display\n");
     }
 
+    /*
     if(XInitThreads() == 0){
     	printf("Failed to init multithreading support\n");
     }
+    */
+
 
     /**/
     if(display){
@@ -28,8 +31,10 @@ void __attribute__ ((constructor)) my_load(void){
 }
 
 void __attribute__ ((destructor)) my_unload(void){
-	if(display)
+	if(display){
 		XCloseDisplay(display);
+	}
 }
+
 #endif
 #endif

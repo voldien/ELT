@@ -33,15 +33,10 @@ extern "C"{
 #define EX_CPU_MIPS       	0x5
 
 /**
- *
+ *	Get CPU arhicture.
  *	@Return
  */
-extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetCPUInstructionArch(void);
-
-/**
- *	@Return
- */
-extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCPUType(void);
+extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetCPUArch(void);
 
 /**
  *	Get the name of the CPU.
@@ -134,14 +129,16 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasNeon(void);
 
 /**
  *	Time Stamp Counter.
- *	@Return 1 if RDTSC is aviable.
+ *	@Return 1 if RDTSC is available.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasRDTSC(void);
 
 /**
- *		(DRNG)	Digital Random Number Generator
+ *	(DRNG)	Digital Random Number Generator
+ *	@Return 1 if DRNG is available.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasDRNG(void);
+
 
 /**/
 extern ELTDECLSPEC Enum ELTAPIENTRY ExGetCpuVendor(void);

@@ -1,5 +1,6 @@
 #include"elt_endian.h"
 
+/*	TODO perhaps relocate to the header.	*/
 
 void ExSwap16(Uint16 x){
 #ifdef EX_CPU_X86_64

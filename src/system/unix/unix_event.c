@@ -74,7 +74,6 @@ static inline void private_ExDecodeEvent(ExEvent* event, XEvent msg){
 		event->event |= EX_EVENT_EXPOSE;
 		event->size.width = msg.xexpose.width;
 		event->size.height = msg.xexpose.height;
-        msg.xexpose.x;
 	}break;
 	case ClientMessage:{
         //event->event |= EX_EVENT_SIZE;
@@ -109,6 +108,7 @@ static inline void private_ExDecodeEvent(ExEvent* event, XEvent msg){
         XRefreshKeyboardMapping(&msg.xmapping);
         break;
 	case ReparentNotify:
+		event->event |= EX_EVENT_WINDOW_REPARENT;
 		break;
 	case PropertyNotify:
 		break;

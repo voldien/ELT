@@ -24,14 +24,14 @@
 extern "C"{
 #endif
 
-/*
+/**
  *	Get Page size.
  *	@Return number of bytes per page.
  */
 extern ELTDECLSPEC Uint ELTAPIENTRY ExGetPageSize(void);
 
 
-/*
+/**
  *	Get total system memory on the system.
  *	@Return
  */
@@ -73,13 +73,13 @@ typedef struct ex_pool_allocator{
 }ExPoolAllocator;
 
 
-/*
+/**
  *	Poll allocator
  *	@Return
  */
 extern ELTDECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolCreate(unsigned int num, unsigned int itemsize);
 
-/*
+/**
  *	obtain next item
  *	If return value is null, then the allocator
  *	is full
@@ -87,28 +87,30 @@ extern ELTDECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolCreate(unsigned int num, u
  */
 extern ELTDECLSPEC void* ELTAPIENTRY ExPoolObtain(ExPoolAllocator* allactor);
 
-/*
- *
- *	@Return
+/**
+ *	@Return current next.
  */
 extern ELTDECLSPEC void* ELTAPIENTRY ExPoolReturn(ExPoolAllocator* allactor, void* data);
 
-/*
- *
+/**
  *	@Return
  */
 extern ELTDECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolResize(ExPoolAllocator* allcotor, unsigned num, unsigned int itemsize);
 
-/*
+/**
  *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExPoolFree(ExPoolAllocator* allactor);
 
-/**/
-#define ExPoolIndex(alloc,index,len)	( ( alloc ) + (( index ) * ( len )  + ( index )) )
-/**/
-#define ExPoolDataIndex(alloc,data,len)	((data - alloc)
+/**
+ *	Get data pointer at index.
+ */
+#define ExPoolIndex(alloc, index, len)	( ( alloc ) + (( index ) * ( len )  + ( index )) )
 
+/**
+ *
+ */
+#define ExPoolDataIndex(alloc, data, len)	((data - alloc)
 
 
 
@@ -128,7 +130,14 @@ typedef struct ex_list{
 
 }ExList;
 
+/**
+ *	Create double linked list.
+ */
 extern ELTDECLSPEC ExList* ExCreateList(ExList* list, unsigned int num, unsigned int itemsize);
+
+/**
+ *
+ */
 extern ELTDECLSPEC ExList* ExCreateListS(ExList* list, unsigned int num, unsigned int itemsize);
 
 

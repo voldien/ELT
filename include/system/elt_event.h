@@ -76,9 +76,9 @@ typedef struct ex_rect{
 #define EX_EVENT_ON_UNFOCUSE 0x10000
 #define EX_EVENT_WINDOW_MOVE 0x20000
 #define EX_EVENT_WINDOW_DESTROYED 0x40000
+#define EX_EVENT_WINDOW_REPARENT 0x80000
 
 
-EX_ALIGN_PREFIX(4)
 typedef struct ex_system_event{
 
 	/*
@@ -87,7 +87,7 @@ typedef struct ex_system_event{
 	Uint message;
 }ExSystemEvent;
 
-EX_ALIGN_PREFIX(4)
+
 typedef struct ex_joy_stick_event{
 
 	/*
@@ -96,7 +96,7 @@ typedef struct ex_joy_stick_event{
 	Uint8 button[5];
 }ExJoyStickEvent;
 
-EX_ALIGN_PREFIX(4)
+
 typedef struct ex_joystick_move_event{
 
 	/*
@@ -105,7 +105,7 @@ typedef struct ex_joystick_move_event{
 	Uint32 x[3];
 }ExJoySticMoveEvent;
 
-EX_ALIGN_PREFIX(4)
+
 typedef struct ex_joystick_button_event{
 
 	/*
@@ -114,7 +114,7 @@ typedef struct ex_joystick_button_event{
 	Uint8 button[8];
 }ExJoySticButtonEvent;
 
-EX_ALIGN_PREFIX(4)
+
 typedef struct ex_mouse_move_event{
 	/*
 	 *
@@ -127,7 +127,7 @@ typedef struct ex_mouse_move_event{
 	int y;
 }ExMouseMoveEvent;
 
-EX_ALIGN_PREFIX(4)
+
 typedef struct ex_mouse_motion_event{
 	int x;						/**/
 	int y;						/**/
@@ -135,7 +135,7 @@ typedef struct ex_mouse_motion_event{
 	int ydelta;					/**/
 }ExMouseMotionEvent;
 
-EX_ALIGN_PREFIX(4)
+
 typedef struct elt_win_button_event{
 	/*
 	 *
@@ -144,7 +144,7 @@ typedef struct elt_win_button_event{
 }ExWinButtonEvent;
 
 
-EX_ALIGN_PREFIX(4)
+
 typedef struct ex_mouse_wheel_event{
 	/*
 	 *
@@ -157,7 +157,7 @@ typedef struct ex_mouse_wheel_event{
 }ExMouseWheelEvent;
 
 
-EX_ALIGN_PREFIX(4)
+
 typedef struct ex_key_event{
 	/*
 	 *
@@ -181,7 +181,7 @@ typedef struct ex_key_event{
 	Uint8 ctrl;
 }ExKeyEvent;
 
-EX_ALIGN_PREFIX(4)
+
 typedef struct ex_drop_event{
 	/**/
 	int number;
@@ -190,7 +190,6 @@ typedef struct ex_drop_event{
 }ExDropEvent;
 
 
-EX_ALIGN_PREFIX(4)
 typedef struct ex_touch_finger_event{
     unsigned int type;          /*              */
     unsigned int touchid;       /*              */
@@ -203,7 +202,7 @@ typedef struct ex_touch_finger_event{
 }ExTouchFingerEvent;
 
 
-EX_ALIGN_PREFIX(4)
+
 typedef struct ex_window_destroy{
 	/*
 	 *
@@ -211,10 +210,16 @@ typedef struct ex_window_destroy{
 	ExWin window;
 }ExEventDestroyedWindow;
 
+typedef struct ex_window_reparent{
+	/**
+	 *
+	 */
+	ExWin parent;
+	ExWin child;
+}ExWindowReparent;
 
 
 
-EX_ALIGN_PREFIX(8)
 typedef struct window_poll_events{
 	/*
 	 *
@@ -229,10 +234,10 @@ typedef struct window_poll_events{
 	unsigned long int time;							/*		*/
 	ExDisplay display;								/*		*/
 	ExWin window;
+	ExWindowReparent reparent;
 }ExWindowEvent;
 
 
-EX_ALIGN_PREFIX(8)
 typedef struct elt_poll_events{
 	/*
 	 *
@@ -252,7 +257,8 @@ typedef struct elt_poll_events{
 	unsigned long int time;						/*			*/
 	ExDisplay display;							/*			*/
 	/*ExPoint location;	*/
-	ExWin window;
+	ExWindowReparent reparent;					/**/
+	ExWin window;								/**/
 }ExEvent;
 
 

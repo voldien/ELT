@@ -270,9 +270,9 @@ extern ELTDECLSPEC Enum ELTAPIENTRY ExGetOpenGLVendor(void);
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExOpenGLSetVSync(ExBoolean enabled, ExWin window);
 
 /**
- *
+ *	Swap framebuffer.
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExSwapBuffers(ExWin surface);
+extern ELTDECLSPEC void ELTAPIFASTENTRY ExSwapBuffers(ExWin surface);
 
 
 #ifdef __cplusplus	/*	C++ environment	*/
