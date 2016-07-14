@@ -68,10 +68,10 @@ int ExSetProgramShader(int program, int shader){
 	glAttachShader(program,shader);
 	glLinkProgram(program);
 
-#if !(defined(GL_ES_VERSION_1_0) || defined(GL_ES_VERSION_2_0))
+#if defined(__gl_h_)
 	return ExShaderCompileLog(program, GL_PROGRAM);
 #else
-	return ExShaderCompileLog(program,0);
+	return ExShaderCompileLog(program, 0);
 #endif
 
 }
