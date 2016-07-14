@@ -222,9 +222,7 @@ FIND_PACKAGE(FindOpenCL)
 IF(FindOpenCL_FOUND)
 	INCLUDE(FindOpenCL)
 	IF(OpenCL_FOUND)
-		IF (CMAKE_SYSTEM_PROCESSOR MATCHES "(arm)")
-		ADD_DEFINITIONS(-DDONT_SUPPORT_OPENCL=1)
-		ENDIF()
+		ADD_DEFINITIONS(-DSUPPORT_OPENCL=1)
 
 		ADD_DEFINITIONS(-I${OpenCL_INCLUDE_DIRS})
 		ADD_DEFINITIONS(-L${OpenCL_LIBRARY})
@@ -247,6 +245,7 @@ FILE(GLOB gmaths	"${CMAKE_CURRENT_SOURCE_DIR}/src/math/*.c")
 
 FILE(GLOB gunix		"${CMAKE_CURRENT_SOURCE_DIR}/src/system/unix/*.c")
 FILE(GLOB gwin 		"${CMAKE_CURRENT_SOURCE_DIR}/src/system/win/*.c")
+FILE(GLOB graphic	"${CMAKE_CURRENT_SOURCE_DIR}/src/graphic/*.c")
 FILE(GLOB gandroid	"")
 FILE(GLOB gnacl	"")
 FILE(GLOB gmac	"")
@@ -279,6 +278,7 @@ SET( elt_src
 	${gCore}
 	${gmaths}
 	${gunix}
+	${graphic}
 )
 
 ADD_LIBRARY(EngineEx ${elt_src} )
@@ -309,6 +309,7 @@ INSTALL (FILES ${graphicinclude} DESTINATION include/ELT/graphic)
 INSTALL (FILES ${systeminclude} DESTINATION include/ELT/system)
 INSTALL (FILES ${inputinclude} DESTINATION include/ELT/input)
 INSTALL (FILES ${graphicinclude} DESTINATION include/ELT/graphic)
+#INSTALL (FILES ${androidinclude} DESTINATION include/ELT/system/android)
 
 #CONFIGURE_FILE( "${PROJECT_SOURCE_DIR}/elt.pc.in" "${PROJECT_BINARY_DIR}/elt.pc" @ONLY )
 INSTALL( FILES "${PROJECT_BINARY_DIR}/elt.pc" DESTINATION ${ELT_LIB_INSTALL_DIR}/pkgconfig/ COMPONENT ${ELT-DEV_COMPONENT})
