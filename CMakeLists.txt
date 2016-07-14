@@ -84,7 +84,7 @@ SET(CPACK_COMPONENTS_ALL elt-bin ${LIBELT_COMPONENT} ${LIBELT-DEV_COMPONENT} elt
 
 
 
-INCLUDE(FindOpenGL)
+
 if(CMAKE_COMPILER_IS_MINGW)
 	ADD_DEFINITIONS(-ELT_BUILD_NO_IFC_IMPORTER )
 endif()
@@ -113,9 +113,8 @@ if((CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX) AND NOT CMAKE_COMPILER_
 
 
 elseif(MSVC)
-	add_definitions(/MP)
-	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
-
+	ADD_DEFINITIONS(/MP)
+	ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS)
 
 	FIND_PACKAGE( DirectX )
 
@@ -206,6 +205,18 @@ else()
 endif()
 
 
+
+INCLUDE(FindOpenGL)
+IF(OPENGL_FOUND)
+
+	
+	IF(OPENGL_GLU_FOUND)
+	ADD_DEFINITIONS(-L${OPENGL_glu_LIBRARY})
+
+	ENDIF()
+ENDIF()
+
+
 #	OpenCL
 IF (CMAKE_SYSTEM_PROCESSOR MATCHES "(arm)")
 ADD_DEFINITIONS(-DDONT_SUPPORT_OPENCL=1)
@@ -264,7 +275,8 @@ SET( elt_src
 
 ADD_LIBRARY(EngineEx ${elt_src} )
 TARGET_LINK_LIBRARIES(EngineEx
-				 -lX11 -lEGL
+				 -lX11
+				 -lEGL
 				 -lXrender
 				 -lpthread
 				 -ldl
@@ -274,7 +286,7 @@ TARGET_LINK_LIBRARIES(EngineEx
 				 -lXrandr
 				 -lm
 				 -lopenal
-				 -lGL
+				 ${OPENGL_LIBRARIES}
 				 -lGLU
 				 -lX11
 				 -lOpenCL
