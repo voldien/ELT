@@ -116,9 +116,10 @@ void ExSpriteBatchAllocateSprite(ExSpriteBatch* spritebatch, unsigned int num){
 	//ExFlushSpriteBatch(spritebatch);
 	if(spritebatch == NULL)
 		return;
+
 	if(glIsBuffer(spritebatch->vbo) == 0){
 		ExGenBuffers(1, &spritebatch->vbo);
-		glBindBuffer(spritebatch->vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, spritebatch->vbo);
 	}
 	/**/
 	spritebatch->sprite = realloc(spritebatch->sprite, num * sizeof(ExSprite));
