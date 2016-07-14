@@ -113,7 +113,7 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height, Enum flag){
 		window = ExCreateOpenGLWindow(x,y,width, height);
 		glc = ExCreateGLContext(window,NULL);
 		ExMakeGLCurrent(GetDC(window),glc);
-#ifndef DONT_SUPPORT_OPENCL
+#ifdef SUPPORT_OPENCL
 		if(flag & EX_OPENCL)
 			ExCreateCLSharedContext(glc,GetDC(window),EX_OPENGL);
 #endif
@@ -123,14 +123,14 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height, Enum flag){
 		window = (ExWin)ExCreateNativeWindow(x,y,width,height);
 		glc = (ExOpenGLContext)ExCreateEGLContext(window,NULL);
 		ExMakeGLCurrent(GetDC(window),glc);
-#ifndef DONT_SUPPORT_OPENCL
+#ifdef SUPPORT_OPENCL
 		if(flag & EX_OPENCL)
 			ExCreateCLSharedContext(glc,GetDC(window),EX_OPENGLES);
 #endif
 	}
 	else if(flag & EX_OPENCL){
 		window = ExCreateNativeWindow(x,y,width,height);
-#ifndef DONT_SUPPORT_OPENCL
+#ifdef SUPPORT_OPENCL
 		glc = (ExOpenCLContext)ExCreateCLContext(EX_GPU0, NULL);
 #endif
 	}
@@ -144,7 +144,7 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height, Enum flag){
 	else if(flag & EX_DIRECTX){
 		window = ExCreateDirectXWindow(x,y,width, height);
 		directx = (void*)ExCreateDirectXContext(window);
-#ifndef DONT_SUPPORT_OPENCL
+#ifdef SUPPORT_OPENCL
 		if(flag & EX_OPENCL)
             ExCreateCLSharedContext((OpenGLContext)directx, GetDC(window), EX_DIRECTX);
 #endif
@@ -166,7 +166,7 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height, Enum flag){
 		ExMakeGLCurrent(glx_window != NULL ? glx_window : window,glc);
 		ExInitOpenGLStates();
 
-#ifndef DONT_SUPPORT_OPENCL
+#ifdef SUPPORT_OPENCL
 		if(flag & EX_OPENCL){
 			ExCreateCLSharedContext(glXGetCurrentContext(), window, EX_OPENGL);
 		}
@@ -177,7 +177,7 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height, Enum flag){
 		window = ExCreateNativeWindow(x, y, width, height);
 		glc = ExCreateEGLContext(window, NULL);
 
-#ifndef DONT_SUPPORT_OPENCL
+#ifdef SUPPORT_OPENCL
 		if(flag & EX_OPENCL){
 			ExCreateCLSharedContext(glc, eglGetCurrentDisplay(), EX_OPENGLES);
 		}
@@ -188,7 +188,7 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height, Enum flag){
 	}
 	else if(flag & EX_OPENCL){
 		window = ExCreateNativeWindow(x,y,width,height);
-#ifndef DONT_SUPPORT_OPENCL
+#ifdef SUPPORT_OPENCL
 		glc = ExCreateCLContext(0,NULL);
 #endif
 
@@ -214,7 +214,7 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height, Enum flag){
 	else if(flag & EX_OPENGL){
         ANativeWindow_acquire(&window);
 
-#ifndef DONT_SUPPORT_OPENCL
+#ifdef SUPPORT_OPENCL
         glc = ExCreateGLContext(window);
 
         if(flag & EX_OPENCL)

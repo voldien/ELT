@@ -72,7 +72,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExGetPrimaryScreenRect(ExRect* rect);
 /*
  *
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExGetScreenRect(Uint32 index, ExRect* rect);
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetScreenRect(Uint32 index, ExRect* rect);
 
 /*
  *	Get monitor hz by its index.

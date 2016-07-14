@@ -54,7 +54,7 @@
 #define ELT_CL_CPU_INDEX(x) ( ( ~(((unsigned int)-1) - ( EX_CL_CPU0 - 1)  ) & x )  )
 
 
-#if !(defined(EX_ANDROID) || defined(DONT_SUPPORT_OPENCL))  /*  TODO resolve this provisional approach to solve the problem*/
+#if !(defined(EX_ANDROID) || !defined(SUPPORT_OPENCL))  /*  TODO resolve this provisional approach to solve the problem*/
 
 
 /**handle to OpenCL Library */
@@ -133,6 +133,7 @@ ExOpenCLContext ExCreateCLContext(Enum flag, unsigned int platform){
     /*	check argument */
     cpuContext = flag & EX_CL_CPU0 ? TRUE : FALSE;
     gpuContext = flag & EX_CL_GPU0 ? TRUE : FALSE;
+
     if(cpuContext && gpuContext){
     	ExSetError(E_INVALID_ARGUMENT);
     	return NULL;

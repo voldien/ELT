@@ -491,7 +491,6 @@ ERESULT ExOpenGLSetVSync(ExBoolean enabled, ExWin window){
     	return FALSE;
 }
 
-
 void ExSwapBuffers(ExWin surface){
 	glXSwapBuffers(display, surface);
 }

@@ -169,7 +169,7 @@ void ExShutDown(void){
 	if(ExGetCurrentOpenGLContext())
 		ExDestroyGLContext(ExGetCurrentGLDrawable(), ExGetCurrentOpenGLContext());
 
-#if !(defined(EX_ANDROID) || defined(DONT_SUPPORT_OPENCL))
+#if !(defined(EX_ANDROID) || defined(SUPPORT_OPENCL))
 	ExDestroyCLContext(ExGetCurrentCLContext());
 #endif
 

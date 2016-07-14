@@ -49,8 +49,8 @@ ExWin ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){
 
     if(!XMatchVisualInfo(display, screen , depth, TrueColor, &visInfo)){
     	/**/
-
     }
+
     visual = visInfo.visual;
     /**/
 	swa.background_pixel = XWhitePixel(display, 0);
@@ -120,7 +120,7 @@ ExWin ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 height, void** pglx
 
 	//winAttribs.background_pixel = XWhitePixel(display, 0);
 	winAttribs.colormap = XCreateColormap(display, root, vi->visual, AllocNone);
-	winAttribs.event_mask = ExposureMask | VisibilityChangeMask | KeyPressMask | PointerMotionMask | StructureNotifyMask | ResizeRedirectMask | VisibilityChangeMask;
+	winAttribs.event_mask = ExposureMask | VisibilityChangeMask | KeyPressMask | PointerMotionMask | StructureNotifyMask | VisibilityChangeMask | EnterWindowMask;
 	winAttribs.border_pixmap = None;
 	winAttribs.border_pixel = 0;
 	winAttribs.bit_gravity = StaticGravity;
@@ -148,6 +148,8 @@ ExWin ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 height, void** pglx
     }
 
     /*	event feed masking	*/
+
+    /*
 	XSelectInput(display,
 			window,
 			ExposureMask | VisibilityChangeMask |
@@ -155,13 +157,15 @@ ExWin ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 height, void** pglx
 			ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask | FocusChangeMask |
 			ButtonMotionMask | PointerMotionMask);
 
+	*/
     /*	event feed masking	*/
+/*
 	XSelectInput(display, window, ExposureMask | VisibilityChangeMask | KeyPressMask |
 			PointerMotionMask | StructureNotifyMask | ExposureMask | KeyPressMask |
 			ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask | VisibilityChangeMask |
 			ButtonMotionMask | PointerMotionMask);
 
-
+*/
 	/*	create window font	*/
 	fontinfo = XLoadQueryFont(display, EX_TEXT("10x20"));
 	if(!fontinfo){

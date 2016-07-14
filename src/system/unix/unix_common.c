@@ -90,7 +90,7 @@ Int32 ExGetNumScreen(void){
 	XRRCrtcInfo *crtc_info;
 	int num;
 	screen = XRRGetScreenResources (display, DefaultRootWindow(display));
-	num = screen->noutput;
+	num = screen->ncrtc;
 	XRRFreeScreenResources(screen);
 	return num;
 }
@@ -149,10 +149,11 @@ void ExGetPrimaryScreenRect(ExRect* rect){
 	ExGetScreenRect(0,rect);
 }
 
-void ExGetScreenRect(Uint32 index, ExRect* rect){
+Int32 ExGetScreenRect(Uint32 index, ExRect* rect){
 	XRRScreenResources *screen;
 	XRROutputInfo *info;
 	XRRCrtcInfo *crtc_info;
+	Int32 status;
 
 	screen = XRRGetScreenResources (display, DefaultRootWindow(display));
 	info = XRRGetOutputInfo (display, screen, screen->outputs[0]);
@@ -163,12 +164,12 @@ void ExGetScreenRect(Uint32 index, ExRect* rect){
 	rect->height 	= crtc_info->height;
 	rect->x			= crtc_info->x;
 	rect->y			= crtc_info->y;
-
+	status = crtc_info->noutput;
 
 	XRRFreeCrtcInfo(crtc_info);
 	XRRFreeOutputInfo (info);
 	XRRFreeScreenResources(screen);
-
+	return status;
 }
 
 Int32 ExGetScreenRefreshRate(Uint32 index){
