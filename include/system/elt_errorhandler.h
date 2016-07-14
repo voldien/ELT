@@ -18,7 +18,8 @@
 */
 #ifndef _ELT_ERROR_HANDLER_H_
 #define _ELT_ERROR_HANDLER_H_ 1
-#include"./../EngineAssembly.h"
+#include"../elt_def.h"
+#include"../ExNT.h"
 
 typedef void(ELTAPIENTRY *ExSignalCallback)(Int32);
 

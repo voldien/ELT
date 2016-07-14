@@ -1,5 +1,6 @@
 #include"graphic/shader.h"
 #include"system/elt_file.h"
+#include"system/elt_errorhandler.h"
 
 
 #ifdef GL_ES_VERSION_3_0

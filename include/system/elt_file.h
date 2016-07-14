@@ -20,7 +20,8 @@
 #define _ELT_FILE_H_ 1
 #include<stdio.h>
 #include<stdlib.h>
-#include"./../EngineAssembly.h"
+#include"../elt_def.h"
+#include"../ExNT.h"
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
