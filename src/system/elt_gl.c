@@ -42,18 +42,16 @@
 #endif
 
 
-#if defined(GL_ES_VERSION_3_0)
+#if defined(GL_ES_VERSION_3_0) && !defined(__gl_h_)
+#undef	GL_ES_VERSION_3_0
 	#include<GLES3/gl3.h>
 	//#include<GLES3/gl3ext.h>
 	//#include<GLES3/gl3platform.h>
-#elif defined(GL_ES_VERSION_2_0)
+#elif defined(GL_ES_VERSION_2_0) && !defined(__gl_h_)
+	#undef	GL_ES_VERSION_2_0
 	#include<GLES2/gl2.h>
 	//#include<GLES2/gl2ext.h>
 	//#include<GLES2/gl2platform.h>
-#elif defined(GL_ES_VERSION_1_0)
-	#include<GLES/gl.h>
-	#include<GLES/glext.h>
-	#include<GLES/glplatform.h>
 #else
 	#include<GL/gl.h>
 	#include<GL/glu.h>
@@ -122,7 +120,7 @@ void ExInitOpenGLStates(void){
 	// depth
 	//glClearDepth(1.0f);
 #if  !( defined(EX_ANDROID) ^ defined(EX_PNACL) )
-	glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
+	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 
 
 
@@ -133,7 +131,7 @@ void ExInitOpenGLStates(void){
 
 	if(ExOpenGLGetAttribute(EX_OPENGL_MULTISAMPLEBUFFERS, &value) > 0){
         glEnable(GL_MULTISAMPLE_ARB);
-        	glGetIntegerv(GL_SAMPLE_BUFFERS,&sampleSupport);
+        	glGetIntegerv(GL_SAMPLE_BUFFERS, &sampleSupport);
         	if(sampleSupport){
 
         	}
@@ -178,7 +176,7 @@ Uint32 ExGetOpenGLVersion(int* major, int* minor){
 		ExOpenGLContext glc;
 
 #if !(defined(EX_ANDROID) ^ defined(EX_WINDOWS)  ^ defined(EX_PNACL))
-		win = ExCreateGLWindow(0,0,1,1,0);
+		win = ExCreateGLWindow(0, 0, 1, 1, 0);
 		glc = ExCreateTempGLContext();
 		ExMakeGLCurrent(win, glc);
 		version = ExGetOpenGLShadingVersion();
