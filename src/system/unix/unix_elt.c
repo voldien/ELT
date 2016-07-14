@@ -166,21 +166,24 @@ void ExShutDown(void){
 
 	ExQuitSubSytem(ELT_INIT_EVERYTHING);
 
-	if(ExGetCurrentOpenGLContext())
+	if(ExGetCurrentOpenGLContext()){
 		ExDestroyGLContext(ExGetCurrentGLDrawable(), ExGetCurrentOpenGLContext());
+	}
 
-#if !(defined(EX_ANDROID) || defined(SUPPORT_OPENCL))
+#if !(defined(EX_ANDROID) || !defined(SUPPORT_OPENCL))
 	ExDestroyCLContext(ExGetCurrentCLContext());
 #endif
 
 	if(eglGetCurrentDisplay())
 		eglTerminate(eglGetCurrentDisplay());
 
-	if(xcbConnection)
+	if(xcbConnection){
 		XCloseDisplay(xcbConnection);
+	}
 	XSync(display,True);
-	if(display)
+	if(display){
 		XFlush(display);
+	}
     if(display){
     	XCloseDisplay(display);
     	display = NULL;
