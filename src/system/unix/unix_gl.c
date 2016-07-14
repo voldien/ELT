@@ -10,11 +10,11 @@
 
 #include<GL/glx.h>
 
-#ifdef GL_ES_VERSION_3_0
+#if defined(GL_ES_VERSION_3_0)  && !defined(__gl_h_)
 	#include<GLES3/gl3.h>
 	#include<GLES3/gl3ext.h>
 	#include<GLES3/gl3platform.h>
-#elif defined(GL_ES_VERSION_2_0)
+#elif defined(GL_ES_VERSION_2_0)  && !defined(__gl_h_)
 	#include<GLES2/gl2.h>
 	#include<GLES2/gl2ext.h>
 	#include<GLES2/gl2platform.h>
