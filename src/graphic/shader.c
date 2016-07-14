@@ -2,7 +2,6 @@
 #include"system/elt_file.h"
 #include"system/elt_errorhandler.h"
 
-
 #ifdef GL_ES_VERSION_3_0
 	#undef GL_ES_VERSION_3_0
 	#include<GLES3/gl3.h>
@@ -137,7 +136,7 @@ int ExLoadShaderv(ExShader* shad, const char* cvertexSource, const char* cfragme
 		shad->fra = ExCompileShaderSourcev(&cfragmentSource, GL_FRAGMENT_SHADER);
 		glAttachShader(shad->program, shad->fra);
 	}
-#if !defined(GL_ES_VERSION_2_0)
+#if defined(__gl_h_)
 	if(cgeometrySource){
 		shad->geo = ExCompileShaderSourcev(&cgeometrySource, GL_GEOMETRY_SHADER);
 		glAttachShader(shad->program,shad->geo);
@@ -260,7 +259,7 @@ int ExShaderCompileLog(unsigned int program, unsigned int shaderflag){
 			glGetShaderInfoLog(program, sizeof(log),NULL,log);
 			printf("\x1B[31m""Failed to Compile Fragment Shader]\n%s \n", log);
 			break;
-	#if !defined(GL_ES_VERSION_2_0)
+#if defined(__gl_h_)
 		case GL_GEOMETRY_SHADER:
 			glGetShaderInfoLog(program, sizeof(log),NULL,log);
 			printf("\x1B[31m""Failed to Compile GEOMETRY Shader]\n%s \n", log);
