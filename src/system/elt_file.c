@@ -12,6 +12,8 @@
 #include<errno.h>
 #include<string.h>
 
+
+
 inline static long int private_ExGetFileStreamSize(FILE* file){
     unsigned int pos;
     long size;

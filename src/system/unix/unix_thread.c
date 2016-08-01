@@ -19,10 +19,8 @@
 #include<signal.h>
 #include<string.h>
 
-
 /*	TODO resolve the evaluate of the implementation.	*/
 #define SIGNAL_MASK_ID_KEY 0xfff
-
 
 ExThread ExCreateThread(ExThreadRoutine callback, void* lpParamater, Uint32* pid){
 	pthread_t t0;

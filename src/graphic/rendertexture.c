@@ -23,6 +23,7 @@
 #endif
 
 
+/*	TODO relocate to their own header in win32 directory.	*/
 #ifdef _WIN32
 extern PFNGLATTACHSHADERPROC glAttachShader;
 extern PFNGLBINDBUFFERPROC glBindBuffer;
@@ -99,8 +100,4 @@ void ExDestroyRenderTexture(ExFrameBuffer* framebuffer){
 	glDeleteFramebuffers(1,&framebuffer->framebuffer);
 	glIsFramebuffer(framebuffer->framebuffer);
 }
-
-
-
-
 

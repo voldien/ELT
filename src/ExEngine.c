@@ -85,10 +85,6 @@ _In_  HINSTANCE hinstDLL,
 #endif
 
 
-
-
-
-
 /*
  *	High accuracy timer.
  */
@@ -113,8 +109,6 @@ Uint32 ExGetFlag(void){
 
 
 void ExEnable(Enum enable){
-#ifdef EX_WINDOWS
-#endif
 	switch(enable){
 	case EX_CRASH_TERMINATE:
 		signal(SIGTERM,ExSignalCatch);
@@ -130,16 +124,12 @@ void ExEnable(Enum enable){
 
 		break;
 	case EX_OPENCL:
-		ExLoadLibrary(EX_TEXT("OpenCL.dll"));
-		ExLoadLibrary(EX_TEXT("libOpenCL.so"));
 		break;
 	default:return;
 	}
 }
 
 void ExDisable(Enum disable){
-#ifdef EX_WINDOWS
-#endif
 	switch(disable){
 	case EX_CRASH_TERMINATE:
 		signal(SIGTERM, NULL);
@@ -151,8 +141,6 @@ void ExDisable(Enum disable){
 	case EX_CRASH_EXEPCTION:
 		break;
 	case EX_OPENCL:
-		ExUnLoadObject(EX_TEXT("OpenCL.dll"));
-		ExUnLoadObject(EX_TEXT("libOpenCL.so"));
 		break;
 	default:return;
 	}
@@ -169,6 +157,4 @@ const ExChar* ExGetCompilerName(void){
     return EX_TEXT(EX_COMPILER_NAME);
 }
 
-ExDisplay ExGetDisplay(void){
-	return display;
-}
+

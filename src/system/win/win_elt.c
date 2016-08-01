@@ -358,3 +358,9 @@ void ExShutDown(void){
 
 	//fclose(m_file_log);
 }
+
+
+ExDisplay ExGetDisplay(void){
+	return NULL;
+}
+

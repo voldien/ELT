@@ -11,7 +11,6 @@
 
 #endif
 
-
 Int32 ExGameControllerAddMapping(const char* mappingString){
 
 }

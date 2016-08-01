@@ -44,15 +44,11 @@
 
 /**/
 #define OPENCL_GL_SHARING_EXTENSION "cl_khr_gl_sharing"
-
-/**/
 #define OPENGL_DX_SHARING_EXTENSION "cl_khr_d3d10_sharing"
 
-//#define ExIsCLError(x)  { if( ( x ) != CL_SUCCESS ){ ExDevPrintfc("Error | %s",EX_CONSOLE_RED,ExGetErrorMessage( ( x ) )); } }
 
 #define ELT_CL_GPU_INDEX(x) ( ( ~(((unsigned int)-1) - ( EX_CL_GPU0 - 1)  ) & x )  )
 #define ELT_CL_CPU_INDEX(x) ( ( ~(((unsigned int)-1) - ( EX_CL_CPU0 - 1)  ) & x )  )
-
 
 #if !(defined(EX_ANDROID) || !defined(SUPPORT_OPENCL))  /*  TODO resolve this provisional approach to solve the problem*/
 
@@ -76,31 +72,32 @@ static char* private_get_device_extension(cl_device_id device){
     return extension;
 }
 
-static void private_loadOpenClLibrary(void){
+static int private_loadOpenClLibrary(void){
     if(!ExIsModuleLoaded(OPENCL_LIBRARY_NAME)){
 
     }
     cl_libhandle = ExLoadObject(OPENCL_LIBRARY_NAME);
 	if(cl_libhandle != NULL){
-	ExLoadFunction(cl_libhandle, "clGetDeviceIDs");
+		return 1;
 	}
 	else{
-
+		return 0;
 	}
 }
-
 
 ExOpenCLContext ExGetCurrentCLContext(void){
 	return hClContext;
 }
 
 ExBoolean ExIsOpenCLSupported(void){
-	private_loadOpenClLibrary();
-	if(cl_libhandle){
+	int status = private_loadOpenClLibrary();
 
-		return TRUE;
+	if(cl_libhandle && status){
+		ExLoadFunction(cl_libhandle, "clGetPlatformIDs");
+		//ciErrNum = clGetPlatformIDs (NULL, NULL, &num_platforms);
+		status = 1;
 	}
-	return FALSE;
+	return status;
 }
 
 
@@ -476,6 +473,19 @@ Int32 ExGetCLPlatformID(Int32* clSelectedPlatformID, unsigned int* num, Enum fla
 	return FALSE;
 }
 
+Int32 ExGetOpenCLVersion(ExOpenCLContext context){
+	char buf[1024];
+	int nbufret;
+	cl_device_id devices[32];
+	int ndeviret;
+	cl_context_info info = CL_CONTEXT_DEVICES;
+	int nDevices = sizeof(devices) / sizeof(devices[0]);
+	clGetContextInfo(context, info, nDevices, devices, &ndeviret);
+	clGetDeviceInfo(devices[0], CL_DRIVER_VERSION, sizeof(buf), buf, &nbufret);
+	strchr(buf,".");
+	strchr(buf + strlen(buf) + 2, ".");
+}
+
 ExCLCommandQueue ExCreateCommandQueue(ExOpenCLContext context, ExCLDeviceID device){
     cl_int errNum;
     cl_device_id* devices;
@@ -580,6 +590,11 @@ void ExSetCLArg(ExCLKernel kernel, int index, unsigned int size, void* arg){
 ExCLMem ExCreateCLBuffer(ExOpenCLContext context, Enum flag, int size, void* host_ptr){
 	cl_int error;
 	return clCreateBuffer(context, flag , size, host_ptr, &error);
+}
+
+ExCLMem ExCreateCLImage(ExOpenCLContext context){
+	cl_int error;
+	//return clCreateImage(context, flags, imageformat, imagedesc, host, error);
 }
 
 
@@ -873,7 +888,7 @@ Int32 ExGetClDevCap(void* device){
 
 
 
-static inline char* ExGetCLErrorMessage(cl_int error){
+static char* ExGetCLErrorMessage(cl_int error){
 #ifdef EX_DEBUG
     static const char* errorString[] = {
         "CL_SUCCESS",

@@ -1,4 +1,5 @@
 #include"system/elt_file.h"
+#include"system/elt_errorhandler.h"
 #define _GNU_SOURCE
 
 #include<unistd.h>

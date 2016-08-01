@@ -157,9 +157,6 @@ extern ELTDECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal, ExSignalCal
 	#define ExGetHModuleErrorMessage ExGetHModuleErrorMessageW
 #endif
 
-
-
-
 #ifdef EX_UNICODE
 	#define ExPrintf(pFormat,...) printf(pFormat,##__VA_ARGS__)
 	#define ExPrint printf

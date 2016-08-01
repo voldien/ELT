@@ -99,8 +99,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExDestroyCLContext(ExOpenCLContext context);
 extern ELTDECLSPEC Int ELTAPIENTRY ExGetOpenCLPlatforms(Uint num_entries, ExCLPlatformID* platforms, Uint* num_platform);
 
 
-/*
- *
+/**
  *	@Return
  */
 extern ELTDECLSPEC Int ELTAPIENTRY ExGetOpenCLDevices(ExCLPlatformID platform, Enum type, Uint num_entries, ExCLDeviceID* devices, Uint* num_devices );
@@ -112,6 +111,8 @@ extern ELTDECLSPEC Int ELTAPIENTRY ExGetOpenCLDevices(ExCLPlatformID platform, E
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID, unsigned int* num, Enum flag);
 
 
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetNumDevices(ExOpenCLContext context);
+extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetOpenCLVersion(ExOpenCLContext context);
 
 /**
  *	Create opencl command queue.
@@ -151,8 +152,8 @@ extern ELTDECLSPEC void ELTAPIENTRY ExSetCLArg(ExCLKernel kernel, int index, uns
 /**
  *
  */
-extern ELTDECLSPEC ExCLMem ExCreateCLBuffer(ExOpenCLContext context, Enum flag, int size, void* host_ptr);
-extern ELTDECLSPEC ExCLMem ExCreateCLImage(ExOpenCLContext context);
+extern ELTDECLSPEC ExCLMem ELTAPIENTRY ExCreateCLBuffer(ExOpenCLContext context, Enum flag, int size, void* host_ptr);
+extern ELTDECLSPEC ExCLMem ELTAPIENTRY ExCreateCLImage(ExOpenCLContext context);
 
 
 /**
@@ -162,12 +163,12 @@ extern ELTDECLSPEC ExCLMem ExAquireGLObject(ExCLCommandQueue queue, unsigned int
 extern ELTDECLSPEC ExCLMem ExReleaseGLObject(ExCLCommandQueue queue, unsigned int num, unsigned int* arg);
 
 
-/*
+/**
  *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExPrintCLDevInfo(Int32 iLogMode, ExHandle p_cl_device_id);
 
-/*
+/**
  *	Get and return device capability
  *	@Return
  */

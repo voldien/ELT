@@ -1,6 +1,4 @@
 #include"elt_cpuinfo.h"
-// get AVX
-
 
 #ifdef EX_WINDOWS
 #include<windows.h>
@@ -10,9 +8,8 @@
 #   include<intrin.h>
 #elif defined(EX_UNIX)
 #   include<unistd.h>
-#elif defined(EX_MAC)
-#   include<sys/sysctl.h>
 #endif
+
 #include<setjmp.h>
 
 #define ELT_CPU_HAS_RDSTC
@@ -29,20 +26,10 @@
 #define ELT_CPU_HAS_AVX512
 
 
-
-#ifdef EX_WINDOWS       /*	WINDOWS	*/
-	#define cpuid __cpuid
-#elif defined(EX_LINUX)	/*	LINUX	*/
-    #if defined(EX_X86)
-    #   include<cpuid.h>
-	#endif
-
+#if defined(EX_X86)
+#   include<cpuid.h>
 	/*	cpuid for linux	*/
-#if defined(EX_X86) && !defined(EX_CLANG) && !defined(EX_LLVM)
-	#define cpuid(regs, i) 	EX_ASM  __volatile__ \
-			("cpuid" : "=a" (regs[0]), "=b" (regs[1]), "=c" (regs[2]), "=d" (regs[3])\
-			: "a" (i), "c" (0))
-
+#define cpuid(regs, i) __get_cpuid(i, &regs[0], &regs[1], &regs[2], &regs[3]);
     #define cpuid2(func, a, b, c, d)\
     EX_ASM __volatile__ ( 		\
 "        pushq %%rbx        \n" \
@@ -50,19 +37,10 @@
 "        movq %%rbx, %%rsi  \n" \
 "        popq %%rbx         \n" : \
 "           =a" (a), "=S" (b), "=c" (c), "=d" (d) : "a" (func))
-#else
-	#define cpuid(regs,i)
-	#define cpuid2(func,a,b,c,d)
-#endif
-
-
 #elif defined(EX_ANDROID)
 
 #   define cpuid(regs, i)
 
-#else
-	#define cpuid(regs,i)	regs
-	#define cpuid2(func,a,b,c,d)	func
 #endif
 
 
@@ -81,7 +59,7 @@ const ExChar* ExGetCPUName(void){
     static char cpu_name[48] = {0};
 
 #ifdef EX_WINDOWS
-	ExGetRegValuec(HKEY_LOCAL_MACHINE,EX_TEXT("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0\\"),EX_TEXT("ProcessorNameString"),cpu_name);
+	ExGetRegValuec(HKEY_LOCAL_MACHINE,EX_TEXT("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0\\"), EX_TEXT("ProcessorNameString"), cpu_name);
 	return cpu_name;	// TODO
 #elif defined(EX_LINUX)
 
@@ -157,13 +135,13 @@ const ExChar* ExGetCPUName(void){
 ExBoolean ExHasAVX(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo, 0x1);
-	return (cpuInfo[2] >> 28) &  0x1;
+	return (cpuInfo[2] & bit_AVX);
 }
 
 ExBoolean ExHasAVX2(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo, 1);
-	return 0;
+	return (cpuInfo[0] & bit_AVX2);
 }
 
 ExBoolean ExHasAVX512(void){
@@ -173,40 +151,14 @@ ExBoolean ExHasAVX512(void){
 ExBoolean ExHas3DNow(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,0x80000001);
-	if((cpuInfo[3] >> 30) & 0x1)return TRUE;
-	else return FALSE;
+	return (cpuInfo[3] & bit_3DNOW) != 0;
 }
 
 ExBoolean ExHasMMX(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo, 1);
-	if((cpuInfo[3] >> 23) & 0x1)
-		return TRUE;
-	else
-		return FALSE;
+	return (cpuInfo[3] & bit_MMX) != 0;
 }
-
-
-Int32 ExGetCPUCount(void){
-#ifdef EX_WINDOWS
-	SYSTEM_INFO info;
-	GetSystemInfo(&info);
-	return info.dwNumberOfProcessors;
-#elif defined(EX_LINUX) || defined(EX_ANDROID)
-	return sysconf(_SC_NPROCESSORS_ONLN);
-//#elif defined(__IRIX__)
-//	   num_cpus = sysconf(_SC_NPROC_ONLN);
-//#elif defined(_SC_NPROCESSORS_ONLN)
-//	   /* number of processors online (SVR4.0MP compliant machines) */
-//          num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
-//#elif defined(_SC_NPROCESSORS_CONF)
-	   /* number of processors configured (SVR4.0MP compliant machines) */
-//          num_cpus = sysconf(_SC_NPROCESSORS_CONF);
-//#endif
-
-#endif
-}
-
 
 Uint ExGetCPUCacheLineSize(void){
 #ifdef EX_LINUX
@@ -218,47 +170,31 @@ Uint ExGetCPUCacheLineSize(void){
 
 ExBoolean ExHasSSE(void){
 	Int32 cpuInfo[4];
-	cpuid(cpuInfo,1);
-	if((cpuInfo[3] >> 25) & 0x1)
-		return TRUE;
-	else
-		return FALSE;
+	return (cpuInfo[3] & bit_SSE) != 0;
 }
 
 ExBoolean ExHasSSE2(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
-	if((cpuInfo[3] >> 26) & 0x1)
-		return TRUE;
-	else
-		return FALSE;
+	return (cpuInfo[3] & bit_SSE2) != 0;
 }
 
 ExBoolean ExHasSSE3(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
-	if((cpuInfo[2] >> 9) & 0x1)
-		return TRUE;
-	else
-		return FALSE;
+	return (cpuInfo[2] & bit_SSE3) != 0;
 }
 
 ExBoolean ExHasSSE41(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
-	if((cpuInfo[2] >> 19) & 0x1)
-		return TRUE;
-	else
-		return FALSE;
+	return (cpuInfo[2] & bit_SSE4_1) != 0;
 }
 
 ExBoolean ExHasSSE42(void){
 	Int32 cpuInfo[4];
 	cpuid(cpuInfo,1);
-	if((cpuInfo[2] >> 20) & 0x1)
-		return TRUE;
-	else
-		return FALSE;
+	return (cpuInfo[2] & bit_SSE4_2) != 0;
 }
 
 ExBoolean ExHasNeon(void){
