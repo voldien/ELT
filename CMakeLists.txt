@@ -214,21 +214,24 @@ IF(OPENGL_FOUND)
 	ADD_DEFINITIONS(-L${OPENGL_glu_LIBRARY})
 
 	ENDIF()
+ELSE()
+
 ENDIF()
 
 
 #	OpenCL
-FIND_PACKAGE(FindOpenCL)
+FIND_PACKAGE(OpenCL)
 IF(FindOpenCL_FOUND)
-	INCLUDE(FindOpenCL)
-	IF(OpenCL_FOUND)
-		ADD_DEFINITIONS(-DSUPPORT_OPENCL=1)
-
-		ADD_DEFINITIONS(-I${OpenCL_INCLUDE_DIRS})
-		ADD_DEFINITIONS(-L${OpenCL_LIBRARY})
-		ADD_DEFINITIONS(-lOpenCL)
-	ENDIF()
+	INCLUDE(OpenCL)
 ENDIF()
+IF(OpenCL_FOUND OR USE_OPENCL)
+	ADD_DEFINITIONS(-DSUPPORT_OPENCL=1)
+
+	ADD_DEFINITIONS(-I${OpenCL_INCLUDE_DIRS})
+	ADD_DEFINITIONS(-L${OpenCL_LIBRARY})
+	ADD_DEFINITIONS(-lOpenCL)
+ENDIF()
+
 
 
 #ADD_SUBDIRECTORY( src/ )
@@ -269,7 +272,7 @@ FILE(GLOB inputinclude 		"${CMAKE_CURRENT_SOURCE_DIR}/include/input/*.h")
 FILE(GLOB unixinclude 		"${CMAKE_CURRENT_SOURCE_DIR}/include/system/unix/*.h")
 FILE(GLOB windowsinclude 	"${CMAKE_CURRENT_SOURCE_DIR}/include/system/win/*.h")
 FILE(GLOB graphicinclude 	"${CMAKE_CURRENT_SOURCE_DIR}/include/graphic/*.h")
-
+FILE(GLOB androidinclude 	"${CMAKE_CURRENT_SOURCE_DIR}/include/system/android/*.h")
 
 
 
@@ -309,7 +312,7 @@ INSTALL (FILES ${graphicinclude} DESTINATION include/ELT/graphic)
 INSTALL (FILES ${systeminclude} DESTINATION include/ELT/system)
 INSTALL (FILES ${inputinclude} DESTINATION include/ELT/input)
 INSTALL (FILES ${graphicinclude} DESTINATION include/ELT/graphic)
-#INSTALL (FILES ${androidinclude} DESTINATION include/ELT/system/android)
+INSTALL (FILES ${androidinclude} DESTINATION include/ELT/system/android)
 
 #CONFIGURE_FILE( "${PROJECT_SOURCE_DIR}/elt.pc.in" "${PROJECT_BINARY_DIR}/elt.pc" @ONLY )
 INSTALL( FILES "${PROJECT_BINARY_DIR}/elt.pc" DESTINATION ${ELT_LIB_INSTALL_DIR}/pkgconfig/ COMPONENT ${ELT-DEV_COMPONENT})
