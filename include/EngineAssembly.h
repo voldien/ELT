@@ -24,52 +24,10 @@
 #include"elt_common.h"
 
 
-#if defined(EX_WINDOWS)
-	#include<tchar.h>
-	#ifdef EX_MSVC
-		#include<strsafe.h>
-	#endif
-#elif defined(EX_LINUX)
-
-#elif defined(EX_PNACL)
-#	include<ppapi/c/ppb.h>
-#elif defined(EX_ANDROID)
-#   include<android/api-level.h>
-#elif defined(EX_MAC)
-#endif
-
-#define EXCAST(type,y) (type)( ( y ) )
 
 
-/**
- *	Engine Rendering Flags
- */
-#define EX_NATIVE (1 << 7)
-#define EX_OPENGL (1 << 8)
-#define EX_OPENGL_CORE ((1 << 13) | EX_OPENGL)
-#define EX_OPENGLES (1 << 9)
-#define EX_OPENCL  (1 << 10)
-#define EX_DIRECTX  (1 << 11)
-#define EX_OPENGL_AND_OPENCL (ENGINE_OPENGL | ENGINE_OPENCL)
-#define EX_RENDER_CONTEXT_DEBUG (1 << 12)
-#define EX_VULKAN (1 << 14)
 
 
-/**
- *	High layer flag.		TODO change the ELT prefix.
- */
-#define ELT_INIT_TIMER				0x00000001
-#define ELT_INIT_VIDEO				0x00000020
-#define ELT_INIT_AUDIO				0x00000010
-#define ELT_INIT_JOYSTICK			0x00000200
-#define ELT_INIT_EVENTS				0x00002000
-#define ELT_INIT_GAMECONTROLLER 	0x00004000
-#define ELT_INIT_NET				0x00008000
-#define ELT_INIT_DEBUG				0x00010000
-
-#define ELT_INIT_EVERYTHING (							\
-	ELT_INIT_VIDEO | ELT_INIT_AUDIO | ELT_INIT_JOYSTICK	\
- | ELT_INIT_TIMER | ELT_INIT_GAMECONTROLLER | ELT_INIT_EVENTS)
 
 #include"elt_timer.h"
 #include"system/elt_win.h"
