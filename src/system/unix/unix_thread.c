@@ -1,5 +1,7 @@
-#include"elt_thread.h"
 #include"elt_def.h"
+#include"elt_thread.h"
+#include"system/elt_errorhandler.h"
+
 
 #define _MULTI_THREADED
 #   define _GNU_SOURCE
@@ -31,7 +33,7 @@ ExThread ExCreateThread(ExThreadRoutine callback, void* lpParamater, Uint32* pid
     pthread_attr_init(&attr);
     pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
-	if((mpid = pthread_create(&t0, &attr, callback,lpParamater)) == -1){
+	if((mpid = pthread_create(&t0, &attr, callback, lpParamater)) == -1){
 		ExPrintfError(strerror(errno));
 	}
 

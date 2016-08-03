@@ -1,6 +1,6 @@
-#include"EngineAssembly.h"
 #include"elt_def.h"
-
+#include"window.h"
+#include<X11/Xlib.h>
 
 
 #if defined(EX_GNUC)

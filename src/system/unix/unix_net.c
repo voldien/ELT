@@ -15,20 +15,6 @@
 #   include<unistd.h>
 
 
-static int private_ip_exists(const char* ip){
-	struct hostent* host;
-	unsigned int iplen = strlen(ip);
-	host = gethostbyname(ip);
-	if(!host){
-		host = gethostbyaddr(ip, iplen, iplen == 4 ? AF_INET : AF_INET6);
-		if(host){
-			return TRUE;
-		}
-		return FALSE;
-	}
-	return TRUE;
-}
-
 ExSocket ExOpenSocket(unsigned int protocol){
     unsigned int sockfd;
     unsigned int sock_domain,socket_protocol;

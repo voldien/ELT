@@ -18,7 +18,7 @@
 */
 #ifndef _ELT_PLATFORM_H_
 #define _ELT_PLATFORM_H_ 1
-#include"EngineAssembly.h"
+#include"system.h"
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{

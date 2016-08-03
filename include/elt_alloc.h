@@ -1,5 +1,5 @@
 /**
-    ELT (Engine Library Toolkit) is a multi platform engine toolkit
+    ELT (Engine Library Toolkit) is a cross platform engine toolkit
     Copyright (C) 2014  Valdemar Lindberg
 
     This program is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 */
 #ifndef _ELT_ALLOC_H_
 #define _ELT_ALLOC_H_ 1
-#include"EngineAssembly.h"
+#include"system.h"
 
 #ifdef  __cplusplus	/* C++ Environment */
 extern "C"{

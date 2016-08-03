@@ -19,7 +19,6 @@
 #ifndef _ELT_COMMON_H_
 #define _ELT_COMMON_H_ 1
 #include"system/elt_win.h"
-#include"EngineAssembly.h"
 #include"elt_assert.h"
 
 

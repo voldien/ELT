@@ -18,7 +18,6 @@
 */
 #ifndef _ELT_SPRITE_H_ 
 #define _ELT_SPRITE_H_ 1
-#include"../EngineAssembly.h"
 #include"texture.h"
 #include"shader.h"
 #include"font.h"

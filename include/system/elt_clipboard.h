@@ -18,6 +18,7 @@
 */
 #ifndef _ELT_CLIP_BOARD_H_
 #define _ELT_CLIP_BOARD_H_ 1
+#include"../system.h"
 #include"ExNT.h"
 
 

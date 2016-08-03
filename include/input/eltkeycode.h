@@ -20,8 +20,8 @@
 #define _ELT_KEYCODE_H_ 1
 
 
-/*
- *
+/**
+ *	Keyboard key codes.
  */
 enum ExKeyCodes {
     EXK_UNKNOWN = 0,

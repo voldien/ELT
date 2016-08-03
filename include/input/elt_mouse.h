@@ -18,31 +18,31 @@
 */
 #ifndef _ELT_MOUSE_H_
 #define _ELT_MOUSE_H_ 1
-#include"./../EngineAssembly.h"
 #include"./../system/elt_errorhandler.h"
 
-	typedef void* ExCursor;
+typedef void* ExCursor;
 
-	#define EXC_ARROW		0x1
-	#define EXC_IBEAM		0x2
-	#define EXC_WAIT		0x3
-	#define EXC_CROSS		0x4
-	#define EXC_UPARROW		0x5
-	#define EXC_SIZE		0x6
-	#define EXC_ICON		0x7
-	#define EXC_SIZENWSE	0x8
-	#define EXC_SIZENESW	0x9
-	#define EXC_SIZEWE		0xA
-	#define EXC_SIZENS		0xB
-	#define EXC_SIZEALL		0xC
-	#define EXC_NO			0xD
-	#if(WINVER >= 0x0500)
-	#define EXC_HAND		0xE
-	#endif
-	#define EXC_APPSTART	0xF
-	#if(WINVER >= 0x0400)
-	#define EXC_HELP		0x10
-	#endif
+#define EXC_ARROW		0x1
+#define EXC_IBEAM		0x2
+#define EXC_WAIT		0x3
+#define EXC_CROSS		0x4
+#define EXC_UPARROW		0x5
+#define EXC_SIZE		0x6
+#define EXC_ICON		0x7
+#define EXC_SIZENWSE	0x8
+#define EXC_SIZENESW	0x9
+#define EXC_SIZEWE		0xA
+#define EXC_SIZENS		0xB
+#define EXC_SIZEALL		0xC
+#define EXC_NO			0xD
+#if(WINVER >= 0x0500)
+#define EXC_HAND		0xE
+#endif
+#define EXC_APPSTART	0xF
+#if(WINVER >= 0x0400)
+#define EXC_HELP		0x10
+#endif
+
 #define ExMouseButton(x) (m_MouseHandler->MouseState[0]->rgbButtons[x] & 0x80)
 #define ExMousePoint	m_MouseHandler->MouseState[0]->lX
 #define ExMouseMotion

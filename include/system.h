@@ -19,6 +19,7 @@
 #ifndef _ELT_SYSTEM_H_ 
 #define _ELT_SYSTEM_H_ 1
 #include"elt_def.h"
+#include"ExNT.h"
 
 #include"system/elt_file.h"
 #include"system/elt_filesystem.h"
@@ -39,5 +40,7 @@
 #include"elt_assert.h"
 #include"elt_alloc.h"
 
+#include"input/elt_keyboard.h"
+#include"input/elt_mouse.h"
 
 #endif 

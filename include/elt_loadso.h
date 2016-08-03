@@ -18,7 +18,6 @@
 */
 #ifndef _ELT_LOADSO_H_
 #define _ELT_LOADSO_H_ 1
-#include"EngineAssembly.h"
 #include"system/elt_win.h"
 
 #ifdef __cplusplus	/*	C++ Environment	*/

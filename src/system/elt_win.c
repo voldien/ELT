@@ -95,8 +95,17 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height, Enum flag){
 	ExWin window = NULL;
 	ExOpenGLContext glc = NULL;
 	ExOpenCLContext clc = NULL;
+	ExHandle handle;
 	char title[256];
+	typedef ExOpenCLContext (*pExCreateCLSharedContext)(ExOpenGLContext glc, ExWindowContext window, Enum flag);
+	pExCreateCLSharedContext opencl;
 	unsigned int tmpCore = ExOpenGLGetAttribute(EX_OPENGL_CONTEXT_PROFILE_MASK, NULL);
+	handle = ExLoadObject("");
+	if(flag & EX_OPENCL){
+		opencl = ExLoadFunction(handle, "ExCreateCLSharedContext");
+	}
+
+
 
     if( (flag & EX_OPENGL_CORE) == EX_OPENGL_CORE ){
     	ExOpenGLSetAttribute(EX_OPENGL_CONTEXT_PROFILE_MASK, EX_GL_CONTEXT_PROFILE_CORE);
@@ -168,7 +177,7 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height, Enum flag){
 
 #ifdef SUPPORT_OPENCL
 		if(flag & EX_OPENCL){
-			ExCreateCLSharedContext(glXGetCurrentContext(), window, EX_OPENGL);
+			opencl(glXGetCurrentContext(), window, EX_OPENGL);
 		}
 #endif
 	}
@@ -179,7 +188,7 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height, Enum flag){
 
 #ifdef SUPPORT_OPENCL
 		if(flag & EX_OPENCL){
-			ExCreateCLSharedContext(glc, eglGetCurrentDisplay(), EX_OPENGLES);
+			opencl(glc, eglGetCurrentDisplay(), EX_OPENGLES);
 		}
 #endif
 	}
@@ -189,7 +198,7 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height, Enum flag){
 	else if(flag & EX_OPENCL){
 		window = ExCreateNativeWindow(x,y,width,height);
 #ifdef SUPPORT_OPENCL
-		glc = ExCreateCLContext(0,NULL);
+		//glc = ExCreateCLContext(0,NULL);
 #endif
 
 	}

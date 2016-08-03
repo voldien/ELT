@@ -1,4 +1,5 @@
 #include"system/elt_egl.h"
+#include"elt_loadso.h"
 
 /*	some platform just can't handle EGL	*/
 #if !defined(EX_PNACL) || !defined(EX_NACL)

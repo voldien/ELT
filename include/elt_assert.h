@@ -18,7 +18,6 @@
 */
 #ifndef _ELT_ASSERT_H_
 #define _ELT_ASSERT_H_ 1
-#include"EngineAssembly.h"
 #include<assert.h>
 
 /*

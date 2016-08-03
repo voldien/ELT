@@ -18,7 +18,8 @@
 */
 #ifndef _ELT_EVENT_H_
 #define _ELT_EVENT_H_ 1
-#include"./../ExNT.h"
+#include"../elt_def.h"
+#include"../ExNT.h"
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{

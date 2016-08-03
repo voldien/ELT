@@ -10,6 +10,8 @@
 #include<linux/input.h>
 #include<X11/Xlib-xcb.h>
 
+extern xcb_connection_t* xcbConnection;
+
 
 static inline int private_ExGetKeyCodeInternal(Uint32 keyCode){
     int keysym;
@@ -184,17 +186,9 @@ ExBoolean ExIsKey(Uint32 keyCode){
 
 }
 
-#ifdef EX_LINUX
-/**/
-	extern xcb_connection_t* xcbConnection;
-#endif
 
 ExBoolean ExIsKeyDown(Uint32 keyCode){
 	KeySym keysym = private_ExGetKeyCodeInternal(keyCode);
-
-//	if(!xcbConnection)
-//		xcbConnection = XGetXCBConnection(display);
-
 
 	unsigned int keycode = XKeysymToKeycode(display, keysym);
 

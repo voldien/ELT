@@ -1,4 +1,6 @@
 #include"elt_timer.h"
+#include"system/elt_log.h"
+
 #include<unistd.h>
 #include<sys/time.h>
 #include<time.h>

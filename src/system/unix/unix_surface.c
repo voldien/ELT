@@ -1,5 +1,6 @@
 #include"system/elt_surface.h"
 #include"system/elt_win.h"
+#include"system/elt_errorhandler.h"
 
 #include<X11/Xlib.h>
 #include<X11/extensions/XShm.h>
@@ -80,8 +81,9 @@ ERESULT ExResizeSurface(ExSurface surface, unsigned int width, unsigned height){
 
 
 ERESULT ExGetSurfaceRect(ExSurface surface, ExRect* rect){
-	if(rect == 0)
+	if(rect == 0){
 		return E_INVALID_ARGUMENT;
+	}
 
 	rect->x = ((XImage*)surface)->xoffset;
 	rect->y = ((XImage*)surface)->xoffset;

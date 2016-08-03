@@ -19,6 +19,8 @@
 #ifndef _WIN32_WINDOW_H_
 #define _WIN32_WINDOW_H_ 1
 #include"./../../elt_def.h"
+#include<tchar.h>
+#include<strsafe.h>
 #include<windows.h>
 #include"./../../EngineAssembly.h"
 #include"win_wndproc.h"

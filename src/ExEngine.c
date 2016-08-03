@@ -85,23 +85,7 @@ _In_  HINSTANCE hinstDLL,
 #endif
 
 
-/*
- *	High accuracy timer.
- */
-extern Uint64 eltTickTime;
-
-/*
- *
- */
-extern unsigned long int engineflag;
-#define ELT_DEINIT ((unsigned long int)(-1))
-
-/*
- *
- */
-void* xcbConnection;
-
-
+unsigned long int engineflag;
 
 Uint32 ExGetFlag(void){
 	return engineflag;

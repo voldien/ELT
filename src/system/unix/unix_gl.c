@@ -1,4 +1,9 @@
 #include"system/elt_gl.h"
+#include"elt_loadso.h"
+#include"elt_timer.h"
+
+#include"system/unix/unix_win.h"
+
 #include<X11/extensions/Xrender.h>
 
 #include<X11/Xatom.h>
@@ -6,7 +11,7 @@
 #include<EGL/egl.h>
 #include<EGL/eglext.h>
 
-#include"system/unix/unix_win.h"
+
 
 #include<GL/glx.h>
 

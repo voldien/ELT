@@ -18,11 +18,10 @@
 */
 #ifndef _ELT_NET_H_
 #define _ELT_NET_H_ 1
-#include"./../elt_def.h"
-#include"./../EngineAssembly.h"
+#include"../system.h"
 
 /*
- *
+ *	Socket data type.
  */
 typedef signed int ExSocket;
 

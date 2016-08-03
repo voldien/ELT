@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include"system.h"
 
+#include<ppapi/c/ppb.h>
 #include "ppapi/c/pp_errors.h"
 #include "ppapi/c/pp_module.h"
 #include "ppapi/c/pp_var.h"

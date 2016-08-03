@@ -10,6 +10,7 @@
 #   include<libgen.h>
 #   include<X11/Xlib.h>
 #   include<X11/extensions/Xrandr.h>
+#include <sys/resource.h>
 
 
 Int32 ExCreateProcess(const ExChar* applicationName){
@@ -279,10 +280,11 @@ Uint64 ExGetTotalUsedSystemMemory(void){
 	return (sys_info.totalram - sys_info.freeram) * sys_info.mem_unit;
 }
 
-#include <sys/resource.h>
+
 Uint64 ExGetProcessSystemMemory(void){
 	struct rusage rusage;
 	getrusage(RUSAGE_SELF, &rusage);
+	return 0;
 }
 
 

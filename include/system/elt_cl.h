@@ -18,7 +18,7 @@
 */
 #ifndef _ELT_CL_H_
 #define _ELT_CL_H_ 1
-#include"./../EngineAssembly.h"
+#include"elt_win.h"
 
 #define EX_CL_GPU0 0x40                        	/*	GPU index 0 + offset	*/
 #define EX_CL_CPU0 0x80                       	/*	CPU index 0 + offset	*/

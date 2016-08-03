@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _ELT_AUDIO_H_ 
-#define _ELT_AUDIO_H_ 1
+#ifndef _ELT_AUDIO_ABSTRACTION_H_
+#define _ELT_AUDIO_ABSTRACTION_H_ 1
 
 #include"elt_def.h"
 #include"system/elt_audio.h"

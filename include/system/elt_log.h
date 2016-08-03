@@ -18,7 +18,8 @@
 */
 #ifndef _ELT_LOG_H_
 #define _ELT_LOG_H_ 1
-#include"./../EngineAssembly.h"
+#include"../system.h"
+#include"elt_errorhandler.h"
 extern FILE* m_file_log;
 
 

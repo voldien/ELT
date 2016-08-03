@@ -18,34 +18,33 @@
 */
 #ifndef ELT_GAME_CONTROLLER_H
 #define ELT_GAME_CONTROLLER_H
-#include"./../EngineAssembly.h"
 #include"elt_joystick.h"
 
 #ifdef __cplusplus /* C++ environment */
 extern "C"{
 #endif
 
-/*
+/**
  *
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGameControllerAddMapping(const char* mappingString);
 
-/*
+/**
  *
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGameControllerAddMappinFromFile(const char* filename);
 
-/*
+/**
  *
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGameControllerEventState(Int32 state);
 
-/*
+/**
  *
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGameControllerEventState(Int32 state);
 
-/*
+/**
  *
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExGameControllerClose(Int32 index);

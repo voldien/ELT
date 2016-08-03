@@ -17,8 +17,10 @@
 
 */
 #ifndef _ELT_SURFACE_H_
-#define _ElT_SURFACE_H_ 1
+#define _ELT_SURFACE_H_ 1
 #include"elt_win.h"
+#include"elt_event.h"
+#include"../ExNT.h"
 
 #define EX_RGB_COLOR(r,g,b)	(r << 24) | (g << 16) | (b << 8)
 #define EX_RGBA_COLOR(r,g,b,a)	((r << 24) | (g << 16) | (b << 8) | a)

@@ -18,7 +18,6 @@
 */
 #ifndef _ELT_WIN_H_
 #define _ELT_WIN_H_ 1
-#include"./../EngineAssembly.h"
 #include"elt_event.h"
 #include"elt_cl.h"
 
@@ -40,7 +39,25 @@ extern ExDisplay display;
 #define EX_WIN_
 
 
-/*
+
+/**
+ *	Engine Rendering Flags
+ */
+#define EX_NATIVE (1 << 7)
+#define EX_OPENGL (1 << 8)
+#define EX_OPENGL_CORE ((1 << 13) | EX_OPENGL)
+#define EX_OPENGLES (1 << 9)
+#define EX_OPENCL  (1 << 10)
+#define EX_DIRECTX  (1 << 11)
+#define EX_OPENGL_AND_OPENCL (ENGINE_OPENGL | ENGINE_OPENCL)
+#define EX_RENDER_CONTEXT_DEBUG (1 << 12)
+#define EX_VULKAN (1 << 14)
+
+
+
+
+
+/**
  *	Get ELT Window default Title!
  *	@Return
  */
@@ -201,26 +218,22 @@ extern ELTDECLSPEC ExHandle ELTAPIENTRY ExGetWindowUserData(ExWin window);
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowUserData(ExWin window, ExHandle userdata);
 
-/*
- *
+/**
  *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExSetWindowParent(ExWin parent,ExWin window);
 
-/*
- *
+/**
  *	@Return
  */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetWindowParent(ExWin window);
 
-/*
- *
+/**
  *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExSetWindowChild(ExWin window, ExWin child);
 
-/*
- *
+/**
  *	@Return
  */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetWindowChild(ExWin window, Uint32 index);

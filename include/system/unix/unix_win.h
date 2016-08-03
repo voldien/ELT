@@ -18,7 +18,7 @@
 */
 #ifndef _UNIX_WIN_H_
 #define _UNIX_WIN_H_ 1
-#include"./../../EngineAssembly.h"
+#include"system.h"
 
 #ifdef __cplusplus /* C++ environment */
 extern "C"{

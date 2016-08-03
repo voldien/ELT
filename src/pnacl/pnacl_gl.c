@@ -31,7 +31,7 @@ void swap_callback(void* user_data, int32_t result){
 }
 
 
-DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, OpenGLContext shared){
+ExOpenGLContext ExCreateGLContext(ExWin window, ExOpenGLContext shared){
 	unsigned int width;
 	unsigned int height;
 	PP_Instance instance = ppb_instance_interface;
@@ -74,11 +74,11 @@ DECLSPEC OpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, OpenGLContext
 	return glContext;
 }
 
-DECLSPEC ExBoolean ELTAPIENTRY ExDestroyGLContext(WindowContext drawable, OpenGLContext glc){
+ExBoolean ExDestroyGLContext(WindowContext drawable, OpenGLContext glc){
 
 }
 
-DECLSPEC void ExSwapBuffers(void* surface){
+void ExSwapBuffers(void* surface){
 	struct PP_CompletionCallback callback = { swap_callback, NULL, PP_COMPLETIONCALLBACK_FLAG_NONE };
 	int32_t ret = graphics3d_interface->SwapBuffers(glContext, callback);
 	if (ret != PP_OK && ret != PP_OK_COMPLETIONPENDING) {

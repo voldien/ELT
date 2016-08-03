@@ -18,7 +18,7 @@
 */
 #ifndef _ELT_KEYBOARD_H_
 #define _ELT_KEYBOARD_H_ 1
-#include"./../EngineAssembly.h"
+#include"../system.h"
 #include"eltkeycode.h"
 
 typedef ExKeycode ExScancode;

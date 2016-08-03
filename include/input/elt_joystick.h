@@ -18,7 +18,7 @@
 */
 #ifndef _ELT_JOYSTICK_H_
 #define _ELT_JOYSTICK_H_ 1
-#include"./../EngineAssembly.h"
+#include"../system.h"
 
 typedef void* ExJoyStick;
 EX_ALIGN_PREFIX(4)

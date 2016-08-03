@@ -5,6 +5,10 @@
 #include"system/elt_errorhandler.h"
 #include"system/elt_log.h"
 #include"system/elt_audio.h"
+#include"elt_loadso.h"
+#include"elt_timer.h"
+
+
 
 #include"system/unix/unix_win.h"
 #include<X11/Xlib.h>
@@ -12,6 +16,7 @@
 
 #include<signal.h>
 #include<mcheck.h>
+
 
 /*
  *	High accuracy timer.
@@ -21,7 +26,7 @@ extern Uint64 eltTickTime;
 /*
  *
  */
-unsigned long int engineflag = 0;
+extern unsigned long int engineflag;
 #define ELT_DEINIT ((unsigned long int)(-1))
 
 /*

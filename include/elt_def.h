@@ -743,6 +743,9 @@
 #endif
 
 
+/*	cast.	*/
+#define EXCAST(type,y) (type)( ( y ) )
+
 /*
  *	Disable some useless and tedious compiler warning
  *	for visual studios C++ compiler.

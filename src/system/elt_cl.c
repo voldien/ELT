@@ -1,5 +1,6 @@
-#include"system/elt_cl.h"
 #include"elt_def.h"
+#include"system/elt_cl.h"
+#include"system/elt_errorhandler.h"
 #include"system/elt_file.h"
 
 #if defined(EX_WINDOWS)
@@ -50,7 +51,7 @@
 #define ELT_CL_GPU_INDEX(x) ( ( ~(((unsigned int)-1) - ( EX_CL_GPU0 - 1)  ) & x )  )
 #define ELT_CL_CPU_INDEX(x) ( ( ~(((unsigned int)-1) - ( EX_CL_CPU0 - 1)  ) & x )  )
 
-#if !(defined(EX_ANDROID) || !defined(SUPPORT_OPENCL))  /*  TODO resolve this provisional approach to solve the problem*/
+#if defined(SUPPORT_OPENCL)  /*  TODO resolve this provisional approach to solve the problem*/
 
 
 /**handle to OpenCL Library */
@@ -484,6 +485,7 @@ Int32 ExGetOpenCLVersion(ExOpenCLContext context){
 	clGetDeviceInfo(devices[0], CL_DRIVER_VERSION, sizeof(buf), buf, &nbufret);
 	strchr(buf,".");
 	strchr(buf + strlen(buf) + 2, ".");
+	return 0;
 }
 
 ExCLCommandQueue ExCreateCommandQueue(ExOpenCLContext context, ExCLDeviceID device){

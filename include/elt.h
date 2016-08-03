@@ -23,10 +23,30 @@
 #include"graphic.h"
 #include"system.h"
 #include"audio.h"
+#include"math/matrix.h"
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
+
+
+
+/**
+ *	High layer flag.		TODO change the ELT prefix.
+ */
+#define ELT_INIT_TIMER				0x00000001
+#define ELT_INIT_VIDEO				0x00000020
+#define ELT_INIT_AUDIO				0x00000010
+#define ELT_INIT_JOYSTICK			0x00000200
+#define ELT_INIT_EVENTS				0x00002000
+#define ELT_INIT_GAMECONTROLLER 	0x00004000
+#define ELT_INIT_NET				0x00008000
+#define ELT_INIT_DEBUG				0x00010000
+
+#define ELT_INIT_EVERYTHING (							\
+	ELT_INIT_VIDEO | ELT_INIT_AUDIO | ELT_INIT_JOYSTICK	\
+ | ELT_INIT_TIMER | ELT_INIT_GAMECONTROLLER | ELT_INIT_EVENTS)
+
 
 /**
  *	Initialize ELT Engine Library ToolKit
@@ -36,14 +56,14 @@ extern "C"{
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInit(Uint32 engineFlag);	/*TODO perhaps add argc,argv*/
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInit2(Uint32 engineFlag, Int argc, const ExChar* argv);
 
-/*
+/**
  *	Initialize specific subsystems
  *	\engineflag
  *	@Return
  */
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineFlag);
 
-/*
+/**
  *	Shut Down Function ELT.
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExShutDown(void);
@@ -56,7 +76,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExShutDown(void);
 extern ELTDECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag);
 
 
-/*
+/**
  *
  *	@Return
  */
