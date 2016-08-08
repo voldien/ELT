@@ -19,21 +19,13 @@
 
 
 /*
- *	High accuracy timer.
- */
-extern Uint64 eltTickTime;
-
-/*
  *
  */
+extern Uint64 eltTickTime;		/*	High accuracy timer.	*/
+void* xcbConnection;			/*	*/
 extern unsigned long int engineflag;
+
 #define ELT_DEINIT ((unsigned long int)(-1))
-
-/*
- *
- */
-void* xcbConnection;
-
 
 ERESULT ExInit(Enum engineFlag){
 	ERESULT result = E_OK;
@@ -71,8 +63,6 @@ ERESULT ExInit(Enum engineFlag){
 	ExInitSubSystem(engineFlag);
 
 
-
-
 	engineflag |= engineFlag;
 
 	/* release resources even if application exit unexpected or exit without calling ExShutDown */
@@ -80,9 +70,6 @@ ERESULT ExInit(Enum engineFlag){
 
 	return result;
 }
-
-
-
 
 ERESULT ExInitSubSystem(Uint32 engineflag){
 	ERESULT hr = 0;
@@ -116,8 +103,9 @@ ERESULT ExInitSubSystem(Uint32 engineflag){
 	}
 
 	if(ELT_INIT_NET & engineflag){
-        ExLoadLibrary("");
+
 	}
+
 	/*	initialize error handler.	*/
 	if(engineflag & ELT_INIT_DEBUG){
 		if(!(hr = ExInitErrorHandler())){
@@ -125,14 +113,12 @@ ERESULT ExInitSubSystem(Uint32 engineflag){
 		}
 	}
 
-
 	return hr;
 }
 
-
-
 void ExQuitSubSytem(Uint32 engineflag){
 
+	/**/
 	if(ELT_INIT_TIMER & engineflag){
 
 	}
@@ -156,35 +142,39 @@ void ExQuitSubSytem(Uint32 engineflag){
 	if(ELT_INIT_VIDEO & engineflag){
 
 	}
-	if(ELT_INIT_NET & engineflag){
-        ExLoadLibrary("");
-	}
-
 }
-
-
 
 void ExShutDown(void){
     struct mallinfo mi;
-	if(engineflag & ELT_DEINIT)
+	if(engineflag & ELT_DEINIT){
 		return;
+	}
 
+	/*	*/
 	ExQuitSubSytem(ELT_INIT_EVERYTHING);
 
+	/**/
 	if(ExGetCurrentOpenGLContext()){
 		ExDestroyGLContext(ExGetCurrentGLDrawable(), ExGetCurrentOpenGLContext());
 	}
 
-#if !(defined(EX_ANDROID) || !defined(SUPPORT_OPENCL))
+#if !defined(USE_OPENCL)
 	ExDestroyCLContext(ExGetCurrentCLContext());
 #endif
 
-	if(eglGetCurrentDisplay())
+	/**/
+	if(eglGetCurrentDisplay()){
 		eglTerminate(eglGetCurrentDisplay());
+	}
 
+	/**/
+	/*
 	if(xcbConnection){
 		XCloseDisplay(xcbConnection);
 	}
+	*/
+
+	/**/
 	XSync(display,True);
 	if(display){
 		XFlush(display);
@@ -193,6 +183,8 @@ void ExShutDown(void){
     	XCloseDisplay(display);
     	display = NULL;
     }
+
+	/**/
 	mi = mallinfo();
 	printf("Total non-mmapped bytes (arena):       %d\n", mi.arena);
 	printf("# of free chunks (ordblks):            %d\n", mi.ordblks);
@@ -210,10 +202,7 @@ void ExShutDown(void){
 	/**/
 	engineflag |= ELT_DEINIT;
 	engineflag = engineflag & ~ELT_INIT_EVERYTHING;
-
-	//fclose(m_file_log);
 }
-
 
 ExDisplay ExGetDisplay(void){
 	return display;
