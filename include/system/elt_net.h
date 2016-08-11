@@ -44,14 +44,23 @@ extern "C" {
 
 /**
  *	Open socket
+ *
  *	\ip
  *	\port
  *	\protocol
+ *
  *	@Return
 */
 extern ELTDECLSPEC ExSocket ELTAPIENTRY ExOpenSocket(unsigned int protocol);
 
 /**
+ *	Create socket file descriptor.
+ *
+ *	\domain
+ *
+ *	\style
+ *
+ *	\protocol
  *
  * 	@Return
  */
@@ -59,27 +68,41 @@ extern ELTDECLSPEC ExSocket ELTAPIENTRY ExCreateSocket(unsigned int domain, unsi
 
 /**
  *	Close socket
- *	\socket
+ *
+ *	\socket The socket to close.
+ *
  *	@Return
 */
 extern ELTDECLSPEC Uint ELTAPIFASTENTRY ExCloseSocket(ExSocket socket);
 
 /**
- *	Bind socket to ip and port address
+ *	Bind socket to ip and port address.
+ *
  *	\ip
+ *
  *	\port
+ *
  *	\socket
+ *
  *	@Return
-*/
+ */
 extern ELTDECLSPEC ExSocket ELTAPIENTRY ExBindSocket(const ExChar* ip, unsigned int port, ExSocket socket);
 
 /**
  *	Connect to socket
+ *
  *	\ip
+ *
  *	\port
- *	@Return socket
-*/
+ *
+ *	@Return non negative socket file descriptor if successfully.
+ */
 extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnect(const ExChar* ip, unsigned int port);
+
+/**
+ *
+ *	@Return
+ */
 extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(ExSocket socket, const ExChar* ip, unsigned int port);
 
 /**
@@ -96,15 +119,18 @@ extern ELTDECLSPEC ExSocket ELTAPIENTRY ExSetSocketRecvTimeOut(ExSocket socket, 
 
 /**
  *    Listen
+ *
  *    @Return
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExListen(ExSocket socket, unsigned int n);
 
 /**
  *	Read Socket data
+ *
  *	\socket
  *	\buffer
  *	\size
+ *
  *	@Return
  */
 #ifdef EX_LINUX
@@ -128,6 +154,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExListen(ExSocket socket, unsigned int n);
 
 
 /**
+ *
  *	@Return
  */
 extern ELTDECLSPEC long int ELTAPIENTRY ExRecvFrom(ExSocket socket, void* buffer, int len, unsigned int flags, ExSocket* from, int* fromlen);
@@ -135,16 +162,19 @@ extern ELTDECLSPEC long int ELTAPIENTRY ExSendTo(ExSocket socket, void* buffer, 
 
 
 /**
+ *
  *	@Return
  */
 extern ELTDECLSPEC long int ExBroadcast(ExSocket socket, void* buffer, int len);
 
 /**
+ *
  * @Return
  */
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetHostName(const ExChar* hostname);
 
 /**
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetInterfaceAddr(const ExChar* interface, ExChar* addr, Uint len);

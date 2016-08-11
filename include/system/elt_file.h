@@ -28,29 +28,35 @@ extern "C"{
 #endif
 
 /**
+ *
  *	@Return
  */
 extern ELTDECLSPEC long int ELTAPIENTRY ExGetFileStreamSize(FILE* file);
 
 /**
  *	Get file size in byte.
- *	@Return
+ *
+ *	@Return size in bytes.
  */
 extern ELTDECLSPEC long int ELTAPIENTRY ExGetFileSize(const ExChar* cfilname);
 
 /**
  *	Load data by specified pathname.
- *	@Return
+ *
+ *	@Return size of the loaded file in bytes.
  */
 extern ELTDECLSPEC long int ELTAPIENTRY ExLoadFile(const ExChar* cfilename, void** racBuffer);
 
 /**
  *	Save File by specified file name.
+ *
  *	@Return
  */
 extern ELTDECLSPEC long int ELTAPIENTRY ExSaveFile(const ExChar* cfilename, void* racBuffer, unsigned int csize);
 
 /**
+ * 	Append buffer to file.
+ *
  *	@Return
  */
 extern ELTDECLSPEC long int ELTAPIENTRY ExAppendFile(const ExChar* cfilename, void* racBuffer, unsigned int csize);
@@ -62,11 +68,13 @@ extern ELTDECLSPEC long int ELTAPIENTRY ExInsertFile(const ExChar* cfilename, lo
 
 
 /**
+ *
  *	@Return
  */
 extern ELTDECLSPEC FILE* ELTAPIENTRY ExSafeOpenWrite(const ExChar* cfilename);
 
 /**
+ *
  *	@Return
  */
 extern ELTDECLSPEC FILE* ELTAPIENTRY ExSafeOpenRead(const ExChar* cfilename);

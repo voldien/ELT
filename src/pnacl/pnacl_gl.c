@@ -74,8 +74,9 @@ ExOpenGLContext ExCreateGLContext(ExWin window, ExOpenGLContext shared){
 	return glContext;
 }
 
-ExBoolean ExDestroyGLContext(WindowContext drawable, OpenGLContext glc){
+ExBoolean ExDestroyGLContext(ExWindowContext drawable, ExOpenGLContext glc){
 
+	return 0;
 }
 
 void ExSwapBuffers(void* surface){

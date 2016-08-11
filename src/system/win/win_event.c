@@ -71,7 +71,8 @@ Int32 ExPollEvent(ExEvent* event){
 				event->mouseWheelEvent.delta = GET_WHEEL_DELTA_WPARAM(msg.wParam);
 				GET_KEYSTATE_WPARAM(msg.wParam);
 				event->eventid |= EX_EVENT_MOUSEWHEEL;
-			}break;*/
+			}*/
+			break;
 			case WM_DROPFILES:{
 				event->drop.number = DragQueryFile((HDROP)msg.wParam,0xFFFFFFFF,0,0);
 				event->event |= EX_EVENT_DROP;
@@ -87,7 +88,9 @@ Int32 ExPollEvent(ExEvent* event){
 				case FD_CLOSE:
 					break;
 			}
-			default:break;
+			break;
+			default:
+				break;
 		}
 
 		return TRUE;

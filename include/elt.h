@@ -29,39 +29,41 @@
 extern "C"{
 #endif
 
-
-
 /**
  *	High layer flag.		TODO change the ELT prefix.
  */
-#define ELT_INIT_TIMER				0x00000001
-#define ELT_INIT_VIDEO				0x00000020
-#define ELT_INIT_AUDIO				0x00000010
-#define ELT_INIT_JOYSTICK			0x00000200
-#define ELT_INIT_EVENTS				0x00002000
-#define ELT_INIT_GAMECONTROLLER 	0x00004000
-#define ELT_INIT_NET				0x00008000
-#define ELT_INIT_DEBUG				0x00010000
-
-#define ELT_INIT_EVERYTHING (							\
-	ELT_INIT_VIDEO | ELT_INIT_AUDIO | ELT_INIT_JOYSTICK	\
+#define ELT_INIT_NONE				0x00000000			/**/
+#define ELT_INIT_TIMER				0x00000001			/**/
+#define ELT_INIT_VIDEO				0x00000020			/**/
+#define ELT_INIT_AUDIO				0x00000010			/**/
+#define ELT_INIT_JOYSTICK			0x00000200			/**/
+#define ELT_INIT_EVENTS				0x00002000			/**/
+#define ELT_INIT_GAMECONTROLLER 	0x00004000			/**/
+#define ELT_INIT_NET				0x00008000			/**/
+#define ELT_INIT_DEBUG				0x00010000			/**/
+#define ELT_INIT_EVERYTHING (										\
+	ELT_INIT_VIDEO | ELT_INIT_AUDIO | ELT_INIT_JOYSTICK				\
  | ELT_INIT_TIMER | ELT_INIT_GAMECONTROLLER | ELT_INIT_EVENTS)
 
 
 /**
  *	Initialize ELT Engine Library ToolKit
- *	\engineflag
+ *
+ *	\flag
+ *
  *	@Return
  */
-extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInit(Uint32 engineFlag);	/*TODO perhaps add argc,argv*/
-extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInit2(Uint32 engineFlag, Int argc, const ExChar* argv);
+extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInit(Uint32 flag);	/*TODO perhaps add argc,argv*/
+extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInit2(Uint32 flag, Int argc, const ExChar* argv);
 
 /**
- *	Initialize specific subsystems
- *	\engineflag
+ *	Initialize specific subsystems.
+ *
+ *	\flag
+ *
  *	@Return
  */
-extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineFlag);
+extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 flag);
 
 /**
  *	Shut Down Function ELT.
@@ -69,37 +71,35 @@ extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 engineFlag);
 extern ELTDECLSPEC void ELTAPIENTRY ExShutDown(void);
 #define ExQuit ExShutDown
 
-/*
- *	Quit Sub System
- *	\engineflag
+/**
+ *	Quit Sub System.
+ *	\flag
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 engineflag);
-
+extern ELTDECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 flag);
 
 /**
- *
  *	@Return
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetFlag(void);
 
-
-/*
+/**
  *	Enable.
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExEnable(Enum enable);
 
-/*
+/**
  *	Disable.
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExDisable(Enum disable);
 
-
 /**
  *	Create interrupt event.
+ *
  *	TODO put ExCreateInterrupt somewhere else!
+ *
  *	@Return
  */
-extern ELTDECLSPEC int ELTAPIENTRY ExCreateInterrupt(interrupt_routine callback, Uint32 type);
+extern ELTDECLSPEC int ELTAPIENTRY ExCreateInterrupt(ex_interrupt_routine callback, Uint32 type);
 
 
 /**
@@ -115,6 +115,8 @@ extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void);
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void);
 
 /**
+ *	Get display pointer.
+ *
  *	@Return display pointer.
  */
 extern ELTDECLSPEC ExDisplay ELTAPIENTRY ExGetDisplay(void);
@@ -123,4 +125,4 @@ extern ELTDECLSPEC ExDisplay ELTAPIENTRY ExGetDisplay(void);
 }
 #endif
 
-#endif
+#endif	/*	_ENGINE_EX_H_	*/

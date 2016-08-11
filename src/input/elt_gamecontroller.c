@@ -12,7 +12,7 @@
 #endif
 
 Int32 ExGameControllerAddMapping(const char* mappingString){
-
+	return 0;
 }
 
 ExBoolean ExIsGameController(Int32 joystick_index){

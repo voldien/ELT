@@ -619,7 +619,9 @@ ELTDECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin 
 }
 
 
-void ELTAPIENTRY ExSetGLTransparent(ExWin window,Enum ienum){
+
+/*  read more about DwmEnableBlurBehindWindow : http://msdn.microsoft.com/en-us/library/windows/desktop/aa969508(v=vs.85).aspx	*/
+void ExSetGLTransparent(ExWin window,Enum ienum){
 
 	DWM_BLURBEHIND bb = {0};
 	HRESULT hr;
@@ -693,17 +695,17 @@ DECLSPEC Int32 ELTAPIFASTENTRY ExMaxTextureUints(void){
 
 */
 
-ELTDECLSPEC void ELTAPIENTRY ExOpenGLSetAttribute(unsigned int attr, int value){
+void ExOpenGLSetAttribute(unsigned int attr, int value){
 	pixAtt[PIXATTOFFSET + (2 * attr) + 1] = value;
 }
 
-ELTDECLSPEC int ELTAPIENTRY ExOpenGLGetAttribute(unsigned int attr, int* value){
+int ExOpenGLGetAttribute(unsigned int attr, int* value){
 	if(value)
 		value = (unsigned int)pixAtt[PIXATTOFFSET + (2 * attr) + 1];
 	return pixAtt[PIXATTOFFSET + (2 * attr) + 1];
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExOpenGLResetAttributes(void){
+void ExOpenGLResetAttributes(void){
 
 
 
@@ -711,7 +713,7 @@ ELTDECLSPEC void ELTAPIENTRY ExOpenGLResetAttributes(void){
 }
 
 
-ELTDECLSPEC ERESULT ELTAPIENTRY ExOpenGLSetVSync(ExBoolean enabled, ExWin window){
+ERESULT ExOpenGLSetVSync(ExBoolean enabled, ExWin window){
 	WGLSWAPINTERVALEXT_T wglSwapIntervalEXT = (WGLSWAPINTERVALEXT_T)GL_GET_PROC("wglSwapIntervalEXT");
     if(wglSwapIntervalEXT){
         glXSwapIntervalEXT( enabled);

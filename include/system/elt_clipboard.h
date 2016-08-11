@@ -21,34 +21,38 @@
 #include"../system.h"
 #include"ExNT.h"
 
-
-
-/*
+/**
  *	Set clipboard text.
+ *
  *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExSetClipboardText(const ExChar* text);
 
-/*
+/**
  *	Set clipboard data.
+ *
  *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExSetClipboardData(void* pdata,Uint32 csize);
 
-/*
+/**
  *	Get clipboard text.
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetClipboardText(void);
 
-/*
+/**
  *	Get clipboard data.
+ *
  *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetClipboardData(void* pdata);
 
-/*
+/**
  *
+ *
+ *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasClipboard(void);
 

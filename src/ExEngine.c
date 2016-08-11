@@ -130,8 +130,6 @@ void ExDisable(Enum disable){
 	}
 }
 
-
-
 #define EX_COMPILER_VERSION(major, minor, revision) EX_TEXT("ELT-")STR(major)EX_TEXT(".")STR(minor)EX_TEXT(".")STR(revision)
 const ExChar* ExGetVersion(void){
 	return EX_COMPILER_VERSION(EX_VERSION_MAJOR, EX_VERSION_MINOR, EX_VERSION_REVISION);
@@ -140,5 +138,4 @@ const ExChar* ExGetVersion(void){
 const ExChar* ExGetCompilerName(void){
     return EX_TEXT(EX_COMPILER_NAME);
 }
-
 

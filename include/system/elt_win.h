@@ -53,35 +53,42 @@ extern ExDisplay display;
 #define EX_RENDER_CONTEXT_DEBUG (1 << 12)
 #define EX_VULKAN (1 << 14)
 
-
-
-
-
 /**
- *	Get ELT Window default Title!
+ *	Get ELT Window default Title.
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetDefaultWindowTitle(ExChar* text, Int32 length);
 
 /**
- *	Create Window
+ *	Create Window at position and size. With the option to set flag
+ *	for what kind of rendering library to attach to the window.
+ *
  *	\x : coordinate
+ *
  *	\y : coordinate
+ *
  *	\width : width of the window
+ *
  *	\height : height of the window
- *	\flag : window type
- *	@Return window handle
+ *
+ *	\flag : window type, default is 0.
+ *
+ *	@Return window handle pointer if successfully, else NULL.
  */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height, Enum flag);
 
+
 /**
- *	Show window
- *	\window window handle
+ *	Show window.
+ *
+ *	\window window handle to shdow.
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExShowWindow(ExWin window);
 
 /**
  *	Hide Window
+ *
  *	\window Window handle
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExHideWindow(ExWin window);
@@ -92,111 +99,137 @@ extern ELTDECLSPEC void ELTAPIENTRY ExHideWindow(ExWin window);
 extern ELTDECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin window);
 
 /**
+ *	Maximize window.
  *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExMaximizeWindow(ExWin window);
 
 /**
- *
+ *	Minimize Window.
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExMinimizeWindow(ExWin window);
 
 /**
- *	Set window mode
+ *	Set window mode.
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowMode(ExWin window, Enum mode);
 
 
-
 /**
- *	Destroy Window
+ *	Destroy Window and its resources.
+ *
+ *	\window
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExDestroyWindow(ExWin window);
 
-/*
+/**
  *	Set Window Title
+ *
  *	\window
+ *
  *	\title window title
- *	@Return
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowTitle(ExWin window, const ExChar* title);
 
-/*
- *	Get Windows Title
+/**
+ *	Get window title.
+ *
  *	\window
+ *
  *	\title
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title);
 
-/*
- *	Set Windows Position
+/**
+ *	Set Windows Position.
+ *
  *	\window
+ *
  *	\x
+ *
  *	\y
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowPos(ExWin window, Int32 x, Int32 y);
 
-/*
- *	Set Windows Position
+/**
+ *	Set Windows Position.
+ *
+ *	\window
+ *
+ *	\position
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowPosv(ExWin window, const Int32* position);
 
-/*
+/**
+ *	Get window position.
  *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExGetWindowPosv(ExWin window, Int32* position);
 
-/*
+/**
  *	Set Window size
+ *
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowSize(ExWin window,Int32 width, Int32 height);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowSize(ExWin window, Int32 width, Int32 height);
 
-/*
+/**
  *	Set Window Size
+ *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window, const ExSize* size);
 
-/*
+/**
  *   Get Window Size
+ *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, ExSize* size);
 
-/*
+/**
  *	Set Window Rect
+ *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowRect(ExWin window, const ExRect* rect);
 
-/*
+/**
  *	Get Window Rect
+ *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExGetWindowRect(ExWin window, ExRect* rect);
 
-/*
+/**
  *	Get Window mode
+ *
  *	@Return
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetWindowFlag(ExWin window);
 
-/*
+/**
  *	Set Window Flag
+ *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowFlag(ExWin window, Enum flag);
 
-/*
+/**
  *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowFlagv(ExWin window, Enum flag, Int32 value);
 
-/*
+/**
  *	Assign Icon Handle onto window
+ *
  *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, ExHandle hIcon);
 
-/*
+/**
  *	Get Window Icon Handle
+ *
+ *	\window
+ *
  *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window);
@@ -207,60 +240,68 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window);
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExSetWindowFullScreen(ExWin window, ExBoolean flag);
 
-/*
+/**
  *	Get user-data associated with window handle.
+ *
+ *	\window
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExHandle ELTAPIENTRY ExGetWindowUserData(ExWin window);
 
-/*
+/**
  *	Set user-data associated with window handle.
+ *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSetWindowUserData(ExWin window, ExHandle userdata);
 
 /**
+ *
  *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExSetWindowParent(ExWin parent,ExWin window);
 
 /**
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetWindowParent(ExWin window);
 
 /**
+ *
  *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExSetWindowChild(ExWin window, ExWin child);
 
 /**
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetWindowChild(ExWin window, Uint32 index);
 
-/*
+/**
  *	Get number of window children.
+ *
  *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetWindowNumChildren(ExWin window);
 
-/*
+/**
  *	Get desktop window handle.
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetDesktopWindow(void);
 
-/*
+/**
  *	Get root window handle.
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetRootWindow(void);
 
 
-
-
-
-/*
+/**
  *
  *	@Return
  */

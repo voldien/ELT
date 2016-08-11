@@ -32,14 +32,18 @@ extern ExEGLDisplay eglDisplay;
 typedef ExWin ExEGLSurface;
 
 
+/**
+ *
+ */
 extern ELTDECLSPEC int ELTAPIENTRY ExMakeEGLCurrent(EX_RESTRICT ExWindowContext hDC,  EX_RESTRICT ExEGLContext glc);
 
 /**
+ *
  *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExCreateEGLContextAttrib(ExWin window, int* attrib, unsigned int* size);
 
-/*
+/**
  *
  *	@Return
  */

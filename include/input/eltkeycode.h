@@ -21,7 +21,8 @@
 
 
 /**
- *	Keyboard key codes.
+ *	Keyboard key codes use for the library.
+ *
  */
 enum ExKeyCodes {
     EXK_UNKNOWN = 0,

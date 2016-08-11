@@ -2,6 +2,7 @@
 #include"system/elt_errorhandler.h"
 #include<pthread.h>
 
+
 ExMutex ExCreateMutex(void){
 	pthread_mutex_t* mutex;
 	pthread_mutexattr_t attr;
@@ -23,6 +24,7 @@ ExMutex ExCreateMutex(void){
 	pthread_mutexattr_destroy(&attr);
 	return mutex;
 }
+
 
 void ExDestroyMutex(ExMutex* mutex){
 	if(pthread_mutex_destroy(mutex) < 0){

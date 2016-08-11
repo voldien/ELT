@@ -145,7 +145,7 @@ const char* ExGetKeyName(ExKeycode keycode){
 ExWin ExGetKeyboardFocus(void){
 	ExWin window;
 	int revert_to_return;
-	XGetInputFocus(display,&window,&revert_to_return);
+	XGetInputFocus(display, &window, &revert_to_return);
 	return window;
 }
 
@@ -167,7 +167,7 @@ const Uint8* ExGetKeyboardState(Int32* numkeys){
 }
 
 ExKeycode ExGetModeState(void){
-    return XGrabKey(display,AnyKey, ControlMask | ShiftMask, ExGetKeyboardFocus(), True, GrabModeAsync, GrabModeSync);
+    return XGrabKey(display, AnyKey, ControlMask | ShiftMask, ExGetKeyboardFocus(), True, GrabModeAsync, GrabModeSync);
 }
 
 ExBoolean ExAnyKey(void){

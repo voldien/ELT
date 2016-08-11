@@ -26,30 +26,36 @@ extern "C"{
 
 
 /**
+ *	Change file permission bits.
+ *
  *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExChangeFileMode(const char* cpath, unsigned int mode);
 
 /**
+ *	Get file permission bits.
+ *
  *	@Return
  */
 extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetFileMode(const char* cfilename);
 
 /**
+ *
  *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExSetFileOwner(const char* cpath, const char* user, const char* group);
 
 
 
-
 /**
  *	Create directory.
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExCreateDirectory(const ExChar* directory);
 
 /**
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExIsDirectory(const ExChar* cdirectory);
@@ -67,6 +73,7 @@ extern ELTDECLSPEC Uint32 ELTAPIENTRY ExDirectoryCount(const ExChar* cdirectory)
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetSubDirectory(const ExChar* cdirectory, int index);
 
 /**
+ *	Remove directory.
  *
  *	@Return
  */
@@ -86,30 +93,49 @@ extern ELTDECLSPEC int ELTAPIENTRY ExFilesCount(const char* cdirectory);
 
 /**
  *	Remove file by given name.
+ *
  *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExRemoveFile(const ExChar* cfilename);
 
 /**
  *	Return true if file exist.
+ *
  *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExExistFile(const ExChar* cfilename);
 
-/**/
+/**
+ *	Check if file is readable of current user permission
+ *	of the the process.
+ *
+ *	@Return
+ */
 extern ELTDECLSPEC int ELTAPIENTRY ExReadableFile(const ExChar* cfilename);
+
+/**
+ *
+ *	@Return
+ */
 extern ELTDECLSPEC int ELTAPIENTRY ExWritableFile(const ExChar* cfilename);
+
+/**
+ *
+ *	@Return
+ */
 extern ELTDECLSPEC int ELTAPIENTRY ExExecutableFile(const ExChar* cfilename);
 
 
 
 /**
+ *	Get current directory of the process.
  *
  *	@Return
  */
 extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetCurrentDirectory(ExChar* cwd, unsigned int len);
 
 /**
+ *	Set current directory of the process.
  *
  *	@Return
  */
@@ -118,17 +144,20 @@ extern ELTDECLSPEC int ELTAPIENTRY ExSetCurrentDirectory(const ExChar* cdirector
 
 /**
  *	Get Relative Path.
+ *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExGetRelativePath(const ExChar* cpath, ExChar* basename, Int32 lengthSize);
 
 
 /**
  *	Get path cfilename
+ *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExGetBaseName(const ExChar* cpath, ExChar* basename, Int32 lengthSize);
 
 /**
- *
+ * 	Get directory
+ *	@Return
  */
 extern ELTDECLSPEC char* ELTAPIENTRY ExGetDirectory(const ExChar* cpath, ExChar* dirname, Int32 lengthSize);
 

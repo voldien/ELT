@@ -83,35 +83,38 @@ extern "C"{
 extern ELTDECLSPEC int ELTAPIENTRY ExInitErrorHandler(void);
 
 
-/*
+/**
  *	Error
+ *
  *	application will terminate with error failure message.
+ *
  *	printout of error messages.
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExError(const ExChar* error,...);
 
-/*
+/**
  *	Error with argument of how the error will be treated
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...);
 
-/*
- *	Get Error
+/**
+ *	Get error.
+ *
  *	@Return
  */
 extern ELTDECLSPEC ERESULT ELTAPIFASTENTRY ExGetError(void);
 
-/*
+/**
  *	Set Error.
  */
 extern ELTDECLSPEC void ELTAPIFASTENTRY ExSetError(ERESULT error);
 
-/*
+/**
  *	Clear Errors.
  */
 extern ELTDECLSPEC void ELTAPIFASTENTRY ExClearError(void);
 
-/*
+/**
  *	Get ELT Error String.
  *	@Return
  */

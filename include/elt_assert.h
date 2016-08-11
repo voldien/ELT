@@ -21,7 +21,7 @@
 #include<assert.h>
 
 /*
- *	send error message to
+ *
  */
 #define ExAssert(condition) assert(condition)
 

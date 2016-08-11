@@ -91,6 +91,10 @@ void ExDeleteTexture(ExTexture* texture){
 	glDeleteTextures(1,&texture->texture);
 }
 
+ExBoolean ExIsTexture(ExTexture* texture){
+	return glIsTexture(texture->texture) == GL_TRUE;
+}
+
 
 
 
@@ -125,7 +129,7 @@ unsigned int ExGetTextureTypeSize(unsigned int internalformat){
 }
 
 unsigned int ExGetTextureTypeBits(unsigned int internalformat){
-
+	return 0;
 }
 
 

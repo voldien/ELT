@@ -22,7 +22,7 @@
 #include"matrix.h"
 
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus	/* C++ Environment */
 extern "C"{
 #endif
 
@@ -77,7 +77,7 @@ extern int frustum_point(const exvec3f_t point, struct frustum* f);
 
 
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus	/* C++ Environment */
 }
 #endif
 

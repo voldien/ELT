@@ -20,6 +20,12 @@
 #define _ELT_TIMER_H_ 1
 #include"elt_thread.h"
 
+
+#ifdef __cplusplus	/*	C++ Environment	*/
+extern "C"{
+#endif
+
+
 /*
  *
  */
@@ -37,25 +43,28 @@
  */
 typedef Uint32 ExTimer;
 
-#ifdef __cplusplus	/*	C++ Environment	*/
-extern "C"{
-#endif
-
 
 /**
  *	Add timer thread routine.
+ *
+ *	\ms_interval
+ *	\callback
+ *	\param
+ *
  *	@Return unique timer id.
  */
 extern ELTDECLSPEC ExTimer ELTAPIENTRY ExAddTimer(Uint32 ms_interval, ExThreadRoutine callback, void* param);
 
 /**
  *	Remove timer thread routine.
+ *
  *	@Return TRUE if successful.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExRemoveTimer(ExTimer timer_id);
 
 /**
  *	Delay current thread in milliseconds.
+ *
  *	\ms milliseconds.
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms);
@@ -67,23 +76,27 @@ extern ELTDECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms);
 extern ELTDECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nanosec);
 
 /**
- *	Get performance frequency
+ *	Get performance frequency for ExGetHiResTime. That is say
+ *	the 1 seconds equal to the frequency.
+ *
  *	@Return time resolution.
  */
 extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetPerformanceFrequency(void);
 
 /**
  *	Get numbers Ticks sense ELT_TIMER was initialize
+ *
  *	@Return
  */
 extern ELTDECLSPEC long int ELTAPIENTRY ExGetTicks(void);
 
 /**
+ *	Get time in high resolution. Use ExGetPerformanceFrequency
+ *	to get the how much precision ExGetHiResTime supports.
+ *
  *	@Return get number of ticks.
  */
 extern ELTDECLSPEC long int ELTAPIENTRY ExGetHiResTime(void);
-
-//extern ELTDECLSPEC long int ELTAPIENTRY ExGetTimeMil
 
 /**
  *	Get in seconds in float. where 1.0 is a second.
@@ -95,4 +108,4 @@ extern ELTDECLSPEC long int ELTAPIENTRY ExGetHiResTime(void);
 #ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif
-#endif
+#endif	/*	_ELT_TIMER_H_	*/

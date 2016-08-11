@@ -317,6 +317,7 @@ Uint64 ExGetTotalUsedVirtualMemory(void){
 
 Int32 ExSetClipboardText(const ExChar* text){
 
+	return 0;
 }
 
 ExChar* ExGetClipboardText(void){

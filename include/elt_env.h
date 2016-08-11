@@ -34,26 +34,32 @@ extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetCurrentUser(void);
 
 /**
  *
+ *
+ *	@Return 1
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExSetEnv(const ExChar* name, const char* pValue);
 
 /**
+ *	Allocate data for the environment data.
  *
+ *	@Return none NULL String if succesfully.
  */
 extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetEnv(const ExChar* name);
 
 /**
- *
+ *	Remove environment used in the process.
+ *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExRemoveEnv(const ExChar* name);
 
 /**
- *
+ *	Allocate data to store a copy of all environment data.
+ *	@Return
  */
 extern ELTDECLSPEC ExChar* ExGetAllEnv(void);
 
 /**
- *
+ *	Free allocated environment data from ExGetEnv.
  */
 extern ELTDECLSPEC void ExFreeEnv(ExChar* env);
 

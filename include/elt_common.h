@@ -29,26 +29,30 @@ extern "C"{
 
 /**
  *	Create process.
+ *
  *	@Return if successfully
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName);
 
 /**
- *	create process with variable argument list
+ *	Create process with variable argument list
+ *
  *	Remark :last argument should be null to prevent system error.
+ *
  *	@Return
 */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName,...);
 
-
-
 /**
  *	Get system primary monitor screen size.
+ *
+ *	\size
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(ExSize* size);
 
 /**
- *
+ *	Get number of screen
+ *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetNumScreen(void);
 

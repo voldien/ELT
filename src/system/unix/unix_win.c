@@ -736,7 +736,7 @@ int ExMessageBox(ExWin window, const char* text, const char* title, unsigned int
             {
                 ok.clicked = 0;
             }
-
+            break;
         case Expose:
         case MapNotify:
             XClearWindow( dpy, w );

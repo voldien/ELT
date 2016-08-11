@@ -21,6 +21,10 @@
 #include"../elt_def.h"
 #include"vect.h"
 
+#ifdef __cplusplus  /*  C++ environment   */
+extern "C"{
+#endif
+
 
 /**
  *
@@ -65,10 +69,6 @@
  */
 typedef exvecf_t exquatf_t EX_ALIGN_VECTOR(16);
 typedef exvecd_t exquatd_t EX_ALIGN_VECTOR(32);
-
-#ifdef __cplusplus  /*  C++ environment   */
-extern "C"{
-#endif
 
 
 /**

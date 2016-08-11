@@ -28,30 +28,41 @@ extern "C"{
 typedef void* ExMutex;
 
 /**
+ *	Create mutex.
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExMutex ELTAPIENTRY ExCreateMutex(void);
 
 /**
+ *	Release mutex.
  *
+ *	\mutex
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExDestroyMutex(ExMutex* mutex);
 
 /**
+ *	Lock mutex.
+ *
+ *	\mutex
  *
  */
 extern ELTDECLSPEC void ELTAPIFASTENTRY ExLockMutex(ExMutex mutex);
 
 /**
+ *	Unlock mutex.
+ *
+ *	\mutex
  *
  */
 extern ELTDECLSPEC void ELTAPIFASTENTRY ExUnLockMutex(ExMutex mutex);
 
 /**
  *
+ *	\mutex
+ *
  */
 extern ELTDECLSPEC void ELTAPIFASTENTRY ExTryLockMutex(ExMutex mutex);
-
 
 
 #ifdef __cplusplus	/*	C++ Environment	*/

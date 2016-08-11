@@ -71,14 +71,14 @@ typedef exvecf_t exvec2f_t EX_ALIGN_VECTOR(8);
 
 
 /**
- *	vector2 = {x,y,z}
+ *	vector3 = {x,y,z}
  */
 typedef exvecf_t exvec3f_t EX_ALIGN_VECTOR(16);
 typedef exvecd_t exvec3d_t EX_ALIGN_VECTOR(32);
 
 
 /**
- *  vector2 = {x,y,z,w}
+ *  vector4 = {x,y,z,w}
  */
 typedef exvecf_t exvec4f_t EX_ALIGN_VECTOR(16);
 typedef exvecd_t exvec4d_t EX_ALIGN_VECTOR(32);

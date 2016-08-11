@@ -177,23 +177,31 @@ ERESULT ExGetError(void){
 }
 
 void ExSetError(ERESULT error){
-	ex_error[errorIndex] = error;
+	ex_error[errorIndex % (sizeof(ex_error) / sizeof(ex_error[0]) )] = error;
+	errorIndex++;
 }
 
 void ExClearError(void){
-	memset(ex_error,E_OK, sizeof(ex_error));
+	memset(ex_error, E_OK, sizeof(ex_error));
 }
 
 
 ExChar* ExGetErrorString(ERESULT errorcode){
 	switch(errorcode){
-	case E_OK:return EX_TEXT("Sucess");
-	case E_FAILURE:return EX_TEXT("failure");
-	case E_ERROR:return EX_TEXT("Error");
-	case E_INVALID_ARGUMENT:return EX_TEXT("Invalid argument");
-	case E_ERROR_SYSTEM:return EX_TEXT("");
-	case E_INVALID_ENUM:return EX_TEXT("Invalid enum");
-	default:return EX_TEXT("Unknown");
+	case E_OK:
+		return EX_TEXT("Sucess");
+	case E_FAILURE:
+		return EX_TEXT("failure");
+	case E_ERROR:
+		return EX_TEXT("Error");
+	case E_INVALID_ARGUMENT:
+		return EX_TEXT("Invalid argument");
+	case E_ERROR_SYSTEM:
+		return EX_TEXT("");
+	case E_INVALID_ENUM:
+		return EX_TEXT("Invalid enum");
+	default:
+		return EX_TEXT("Unknown");
 	}
 	return NULL;
 }

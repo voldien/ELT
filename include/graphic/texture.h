@@ -37,7 +37,8 @@ extern "C"{
 #endif
 
 
-/*
+/**
+ *
  *
  *	@Return
  */
@@ -47,11 +48,17 @@ extern ELTDECLSPEC ExTexture* ExCreateTexture(ExTexture* texture, unsigned int t
  *
  */
 extern ELTDECLSPEC void ExSubTexture(ExTexture* texture, int level,	int xoffset, int yoffset, int width, int height, int format, int type, const void *pixels );
-/*
+
+/**
  *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExDeleteTexture(ExTexture* texture);
 
+/**
+ *	Check if texture is a opengl texture object and is valid.
+ *
+ *	@Return None zero if true.
+ */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExIsTexture(ExTexture* texture);
 
 

@@ -31,46 +31,63 @@ extern "C"{
 
 /**
  *	Get KeyCode name identification index
+ *
+ *	\name
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExKeycode ELTAPIENTRY ExGetKeyFromName(const char* name);
 
 /**
- *	Get Key from Scancode
+ *	Get Key from Scancode.
+ *
+ *	\scancode
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExKeycode ELTAPIENTRY ExGetKeyFromScancode(ExScancode scancode);
 
 /**
- *	Get KeyCode name
+ *	Get KeyCode name.
+ *
+ *	\keycode
+ *
  *	@Return
  */
 extern ELTDECLSPEC const char* ELTAPIENTRY ExGetKeyName(ExKeycode keycode);
 
 /**
- *	Get Window that is keyboard is focus to
- *	@Return
+ *	Get window that keyboard is focus on.
+ *
+ *	@Return window handle.
  */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetKeyboardFocus(void);
 
 /**
+ *	Set keyboard focus.
  *
+ *	\window
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSetKeyboardFocus(ExWin window);
 
 /**
  *	Get keyboard state.
+ *
+ *	\numkeys
+ *
  *	@Return
  */
 extern ELTDECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys);
 
 /**
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExKeycode ELTAPIENTRY ExGetModeState(void);
 
 /**
  *	Is any key pressed
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKey(void);

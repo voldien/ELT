@@ -48,7 +48,7 @@ extern float ray_intersec_box(const exvec3f_t pos, const exvec3f_t dir, const ex
 /**/
 extern float ray_intersec_sphere(const exvec3f_t pos, const  exvec3f_t dir, const exvec3f_t center, float radius);
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus	/* C++ Environment */
 }
 #endif
 

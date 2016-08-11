@@ -64,14 +64,10 @@ extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalUsedVirtualMemory(void);
 
 
 
-
-
 /*	TODO move to a header with data structure!	*/
-EX_ALIGN_PREFIX(4)
 typedef struct ex_pool_allocator{
 	void* next;
 }ExPoolAllocator;
-
 
 /**
  *	Poll allocator

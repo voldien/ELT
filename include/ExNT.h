@@ -248,11 +248,11 @@ typedef void* ExXDisplay;
 typedef void(EX_CALLBACK* ExCallBack)(void);
 
 /**
- *	Thread callback type.
+ *	Thread callback data types.
  */
-typedef void* (*interrupt_routine)(void*);
-typedef void* (EX_THREAD_CALLBACK *thread_routine)(void*);
-typedef void* (EX_THREAD_CALLBACK *ExThreadRoutine)(void*);
+typedef void* (*ex_interrupt_routine)(void*);
+typedef void* (EX_THREAD_CALLBACK *ex_thread_routine)(void* phandle);
+typedef void* (EX_THREAD_CALLBACK *ExThreadRoutine)(void* phandle);
 typedef void* ExThread;
 
 #endif

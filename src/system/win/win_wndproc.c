@@ -442,14 +442,16 @@ ERESULT WINAPI ExWndProcNative(ExWin hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 			if(winhandler->events.motionevent)
 				winhandler->events.motionevent(EX_LOWORD(lParam),EX_HIWORD(lParam));
 	}
-	default:break;
+	break;
+	default:
+		break;
 	}
 	return DefWindowProc(hWnd,uMsg,wParam,lParam);
 	//return CallWindowProc ((WNDPROC)GetWindowLong(hWnd,GWL_WNDPROC),hWnd, uMsg, wParam, lParam);
 }
 
 
-BOOL WINAPI ExOnContextMenu(ExWin hWnd,Int x, Int y){
+BOOL ExOnContextMenu(ExWin hWnd,Int x, Int y){
 	RECT rc;                    // client area of window
     POINT pt = { x, y };        // location of mouse click
 

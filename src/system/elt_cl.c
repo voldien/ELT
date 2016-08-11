@@ -596,7 +596,9 @@ ExCLMem ExCreateCLBuffer(ExOpenCLContext context, Enum flag, int size, void* hos
 
 ExCLMem ExCreateCLImage(ExOpenCLContext context){
 	cl_int error;
-	//return clCreateImage(context, flags, imageformat, imagedesc, host, error);
+	cl_mem mem;
+	/*mem = clCreateImage(context, flags, imageformat, imagedesc, host, error);	*/
+	return mem;
 }
 
 

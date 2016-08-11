@@ -22,21 +22,14 @@
 #include"ExNT.h"
 #include"elt_mutex.h"
 
-#if defined(EX_WINDOWS)
-	#define ExSleep Sleep
-#elif defined(EX_LINUX) || defined(EX_ANDROID)
-	#define ExSleep usleep
-#endif
-
 #ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
 #endif
 
 typedef void* ExThreadContition;
 
-
-/*
- *	Thread Priority
+/**
+ *	Thread Priority.
  */
 #define EX_THREAD_PRIORITY_LOW 0x1
 #define EX_THREAD_PRIORITY_MEDIUM 0x2
@@ -45,20 +38,27 @@ typedef void* ExThreadContition;
 
 /**
  *	Create thread.
+ *
  *	\callback function to invoke
+ *
  *	\lpParameter
+ *
  *	@Return thread handle.
  */
 extern ELTDECLSPEC ExThread ELTAPIENTRY ExCreateThread(ExThreadRoutine callback, void* lpParamater, Uint32* pid);
 
 /**
- *    Create Thread with affinity mask.
- *    @Return thread handle.
+ * 	Create Thread with affinity mask.
+ *
+ *	\callback
+ *
+ *	@Return thread handle.
  */
 extern ELTDECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(ExThreadRoutine callback, ExHandle lpParamater, Uint32* pid, Int32 core);
 
 /**
  *	Detach thread
+ *
  *	@Return
  */
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread);
@@ -66,13 +66,11 @@ extern ELTDECLSPEC ERESULT ELTAPIENTRY ExDetachThread(ExThread thread);
 
 /**
  *	Send signal to thread to terminate.
- *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExTerminateThread(ExThread thread);
 
 /**
  *	\thread is the thread of the current thread.
- *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExThreadExit(void* parg);
 
@@ -99,12 +97,14 @@ extern ELTDECLSPEC void ELTAPIENTRY ExThreadCondBroadcast(ExThreadContition cond
 
 /**
  *	Get current thread identification.
+ *
  *	@Return current thread handle.
  */
 extern ELTDECLSPEC ExThread ELTAPIENTRY ExGetCurrentThread(void);
 
 /**
- *	Get Thread ID
+ *	Get Thread ID.
+ *
  *	@Return
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetThreadID(ExThread thread);
@@ -112,6 +112,7 @@ extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetThreadID(ExThread thread);
 
 /**
  *	Get Thread name by the invoked function.
+ *
  *	@Return get function name.
  */
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetThreadName(ExThread thread);
@@ -128,19 +129,32 @@ extern ELTDECLSPEC void ELTAPIENTRY ExSetThreadName(ExThread thread, const ExCha
  */
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread, Enum nPriority);
 
-
+/**
+ *
+ */
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExSetThreadState(ExThread thread, ExHandle* handle);
 extern ELTDECLSPEC ExHandle ELTAPIENTRY ExGetThreadState(ExThread thread);
 
-
-
 /**
  *	Wait the thread to be terminated.
+ *
+ *	\thread
+ *
  *	@Return
  */
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExWaitThread(ExThread thread, Int32* status);
 
 
+/**
+ *	@Return cpu core index of current thread.
+ */
+extern ELTDECLSPEC int ELTAPIENTRY ExGetCPUID(void);
+
+#if defined(EX_WINDOWS)
+	#define ExSleep Sleep
+#elif defined(EX_LINUX) || defined(EX_ANDROID)
+	#define ExSleep usleep
+#endif
 #ifdef __cplusplus	/*	C++ Environment	*/
 }
 #endif

@@ -39,6 +39,9 @@
 #include"elt_thread.h"
 #include"elt_assert.h"
 #include"elt_alloc.h"
+#include"elt_timer.h"
+#include"elt_loadso.h"
+#include"elt_cpuinfo.h"
 
 #include"input/elt_keyboard.h"
 #include"input/elt_mouse.h"

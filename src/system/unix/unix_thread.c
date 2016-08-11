@@ -2,15 +2,16 @@
 #include"elt_thread.h"
 #include"system/elt_errorhandler.h"
 
-
 #define _MULTI_THREADED
 #   define _GNU_SOURCE
 #   define __USE_GNU
+
 #	include <pthread.h>
 #	include <stdio.h>
 #	include <sys/signal.h>
-#   include<errno.h>
-#   include<unistd.h>
+#	include <sys/types.h>
+#   include	<errno.h>
+#   include	<unistd.h>
 #   include <sched.h>
 #   include <stdlib.h>
 #   include <unistd.h>
@@ -24,6 +25,7 @@
 /*	TODO resolve the evaluate of the implementation.	*/
 #define SIGNAL_MASK_ID_KEY 0xfff
 
+
 ExThread ExCreateThread(ExThreadRoutine callback, void* lpParamater, Uint32* pid){
 	pthread_t t0;
     pthread_attr_t attr;
@@ -33,18 +35,12 @@ ExThread ExCreateThread(ExThreadRoutine callback, void* lpParamater, Uint32* pid
     pthread_attr_init(&attr);
     pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
+    /**/
 	if((mpid = pthread_create(&t0, &attr, callback, lpParamater)) == -1){
 		ExPrintfError(strerror(errno));
 	}
 
-	/*
-    sigemptyset(&mask);
-    for (i = 0; sig_list[i]; ++i) {
-        sigaddset(&mask, sig_list[i]);
-    }
-    pthread_sigmask(SIG_BLOCK, &mask, 0);
-    */
-
+	/**/
 	pthread_attr_destroy(&attr);
 	if(pid)//TODO
 		*pid = mpid;
@@ -54,11 +50,10 @@ ExThread ExCreateThread(ExThreadRoutine callback, void* lpParamater, Uint32* pid
 ExThread ExCreateThreadAffinity(ExThreadRoutine callback, ExHandle lpParamater, Uint32* pid, Int32 ncore){
 	pthread_t t0;
 	pthread_attr_t attr;
+	int mpid;
 #if !defined(EX_ANDROID) && !defined(EX_PNACL) && !defined(EX_NACL)      /*  Android don't seem to support */
 	cpu_set_t cpus;
 #endif
-	int mpid;
-
 	pthread_attr_init(&attr);
 #if !defined(EX_ANDROID) && !defined(EX_PNACL) && !defined(EX_NACL)      /*  Android don't seem to support */
 	CPU_ZERO(&cpus);
@@ -71,10 +66,12 @@ ExThread ExCreateThreadAffinity(ExThreadRoutine callback, ExHandle lpParamater, 
 		ExPrintfError(stderr, strerror(errno));
 	}
 
+	/**/
 	pthread_attr_destroy(&attr);
 
-	if(pid)//TODO
+	if(pid){//TODO
 		*pid = mpid;
+	}
 	return t0;
 }
 
@@ -134,8 +131,6 @@ Uint ExGetThreadSignal(ExThread thread){
 ExThread ExGetCurrentThread(void){
     return pthread_self();
 }
-
-
 
 
 
@@ -216,7 +211,10 @@ ERESULT ExWaitThread(ExThread thread, Int32* status){
 
 
 
-
+int ExGetCPUID(void){
+	unsigned int c;
+	return sched_getcpu();
+}
 
 
 

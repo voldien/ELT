@@ -16,7 +16,7 @@ static inline  int init_wsa(void){  /*  initialize was*/
 }
 
 
-ELTDECLSPEC ExSocket ELTAPIENTRY ExOpenSocket(unsigned int protocol){
+ELTDECLSPEC ExSocket ExOpenSocket(unsigned int protocol){
 
     unsigned int sockfd,newsockdf;
     unsigned int sock_domain,socket_protocol;
@@ -34,12 +34,12 @@ ELTDECLSPEC ExSocket ELTAPIENTRY ExOpenSocket(unsigned int protocol){
 
 }
 
-ELTDECLSPEC unsigned int ELTAPIENTRY ExCloseSocket(ExSocket socket){
+ELTDECLSPEC unsigned int ExCloseSocket(ExSocket socket){
 	return closesocket((SOCKET)socket);
 }
 
 
-ELTDECLSPEC ExSocket ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port, ExSocket socket){
+ELTDECLSPEC ExSocket ExBindSocket(const char* ip, unsigned int port, ExSocket socket){
 
     SOCKADDR_IN serv_addr, cli_addr;
 
@@ -50,7 +50,7 @@ ELTDECLSPEC ExSocket ELTAPIENTRY ExBindSocket(const char* ip, unsigned int port,
 }
 
 
-ELTDECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(const char* ip, unsigned int port){
+ELTDECLSPEC ExSocket ExConnectSocket(const char* ip, unsigned int port){
 
     SOCKADDR_IN serv_addr;
     struct hostent *server;

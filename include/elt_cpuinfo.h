@@ -24,19 +24,28 @@
 extern "C"{
 #endif
 
-/*TODO take a look at which approuch for dealing with cpu information. enum or string?*/
-#define EX_CPU_UNKNOWN		0x0
-#define EX_CPU_X86        	0x1
-#define EX_CPU_X86_64	 	0x2
-#define EX_CPU_PPC        	0x3
-#define EX_CPU_ARM        	0x4
-#define EX_CPU_MIPS       	0x5
+/**
+ *	TODO take a look at which approuch for dealing with cpu information. enum or string?
+ */
+#define EX_CPU_UNKNOWN		0x0		/*	*/
+#define EX_CPU_X86        	0x1		/*	*/
+#define EX_CPU_X86_64	 	0x2		/*	*/
+#define EX_CPU_PPC        	0x3		/*	*/
+#define EX_CPU_ARM        	0x4		/*	*/
+#define EX_CPU_MIPS       	0x5		/*	*/
 
 /**
- *	Get CPU arhicture.
+ *	Get CPU instruction set architecture.
+ *
  *	@Return
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetCPUArch(void);
+
+/**
+ *
+ *	@Return
+ */
+extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetEndian(void);
 
 /**
  *	Get the name of the CPU.
@@ -51,37 +60,48 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetFrequence(void);
 
 /**
  *	Has CPU Support For AVX (Advanced Vector Extension)
- *	@Return
+ *
+ *	@Return 1 if supported. 0 if not supported.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasAVX(void);
 
 /**
  *	Has CPU Support For AVX2 (Advanced Vector Extension)
- *	@Return
+ *
+ *	@Return 1 if supported. 0 if not supported.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasAVX2(void);
 
 /**
+ *
+ */
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasFMA(void);
+
+/**
  *	Has CPU Support For AVX512 (Advanced Vector Extension)
- *	@Return
+ *
+ *	@Return 1 if supported. 0 if not supported.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasAVX512(void);
 
 
 /**
  *	Has CPU Support For 3DNow (AMD feature)
- *	@Return
+ *
+ *	@Return 1 if supported. 0 if not supported.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHas3DNow(void);
 
 /**
  *	Has CPU Support For MMX (Matrix Math eXtension)
- *	@Return
+ *
+ *	@Return 1 if supported. 0 if not supported.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasMMX(void);
 
 /**
  *	Get number of cpu's cores.
+ *
  *	@Return number of cpu cores.
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void);
@@ -93,51 +113,66 @@ extern ELTDECLSPEC Uint ELTAPIENTRY ExGetCPUCacheLineSize(void);
 
 /**
  *	Is SSE ( Streaming SIMD Extensions ) available
- *	@Return
+ *
+ *	@Return 1 if supported. 0 if not supported.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE(void);
 
 /**
  *	Is SSE 2 ( Streaming SIMD Extensions ) available
- *	@Return
+ *
+ *	@Return 1 if supported. 0 if not supported.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE2(void);
 
 /**
  *	Is SSE 3 ( Streaming SIMD Extensions ) available
- *	@Return
+ *
+ *	@Return 1 if supported. 0 if not supported.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE3(void);
 
 /**
  *	Is SSE 41 ( Streaming SIMD Extensions ) available
- *	@Return
+ *
+ *	@Return 1 if supported. 0 if not supported.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE41(void);
 
 /**
  *	Is SSE 41 ( Streaming SIMD Extensions ) available
- *	@Return	TRUE if available.
+ *
+ *	@Return 1 if supported. 0 if not supported.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasSSE42(void);
 
 /**
  *	Arm SIMD feature for float point unit fpu.
- *	@Return
+ *
+ *	@Return 1 if supported. 0 if not supported.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasNeon(void);
 
 /**
  *	Time Stamp Counter.
- *	@Return 1 if RDTSC is available.
+ *
+ *	@Return 1 if RDTSC is supported. 0 if not supported.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasRDTSC(void);
 
 /**
  *	(DRNG)	Digital Random Number Generator
+ *
  *	@Return 1 if DRNG is available.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasDRNG(void);
+
+/**
+ *	AES Advanced encryption standards.
+ *
+ *	@Return 1 if hardware AES is supported. 0 if not supported.
+ */
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasAES(void);
 
 
 /**/

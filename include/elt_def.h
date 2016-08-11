@@ -27,16 +27,16 @@
 	#include<climits>
 	#include<ctime>
 	#define EX_CPP	/*	C++ environment	*/
-#else
+#else	/*	Not c++*/
 	#include<stdio.h>
 	#include<limits.h>
 	#include<time.h>
 	#define EX_C	/*	C environment	*/
-#endif
+#endif	/*	__cplusplus	*/
 
 
-/*
- *	Compiler.
+/**
+ *	Compilers.
  */
 #ifdef _MSC_VER 	/*	Visual Studio C++ Compiler.	*/
 	#define EX_MSVC
@@ -96,7 +96,7 @@
 
 #else
 	#error Unsupported Compiler.
-#endif
+#endif	/*	Arch.	*/
 
 
 

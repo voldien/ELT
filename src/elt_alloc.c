@@ -19,7 +19,6 @@ Uint ExGetPageSize(void){
     #endif
 }
 
-
 ExPoolAllocator* ExPoolCreate(unsigned int num, unsigned int itemsize){
 	ExPoolAllocator* alloc;
 	ExPoolAllocator* tmp;

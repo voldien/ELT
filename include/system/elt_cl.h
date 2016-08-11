@@ -61,39 +61,51 @@ extern "C"{
 
 /**
  *	Get current OpenCL context.
+ *
  *	@Return OpenCL context.
  */
 extern ELTDECLSPEC ExOpenCLContext ELTAPIFASTENTRY ExGetCurrentCLContext(void);
 
 /**
+ *
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExIsOpenCLSupported(void);
 
 /**
  *	Create OpenCL Context
+ *
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExOpenCLContext ELTAPIENTRY ExCreateCLContext(Enum eEnumFlag, unsigned int platform);
 
 /**
  *	Create shared CL context with OpenGL context
+ *
+ *
  *	@Return CL context.
  */
 extern ELTDECLSPEC ExOpenCLContext ELTAPIENTRY ExCreateCLSharedContext(ExOpenGLContext glc, ExWindowContext window, Enum erenderingFlag);
 
 /*
  *	Query Context information
+ *
  *	@Return TODO resolve paramter order
  */
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExQueryCLContext(ExOpenCLContext context, Enum param_name, ExHandle param_value, unsigned int* num);
 
 /**
  *	Destroy OpenCL Context.
+ *
+ *	\context
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExDestroyCLContext(ExOpenCLContext context);
 
 /**
+ *
+ *
  *	@Return
  */
 extern ELTDECLSPEC Int ELTAPIENTRY ExGetOpenCLPlatforms(Uint num_entries, ExCLPlatformID* platforms, Uint* num_platform);
@@ -110,7 +122,11 @@ extern ELTDECLSPEC Int ELTAPIENTRY ExGetOpenCLDevices(ExCLPlatformID platform, E
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetCLPlatformID(Int32* clSelectedPlatformID, unsigned int* num, Enum flag);
 
-
+/**
+ *	Get number of devices associated with OpenCL context.
+ *
+ *	@Return
+ */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetNumDevices(ExOpenCLContext context);
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetOpenCLVersion(ExOpenCLContext context);
 
@@ -121,25 +137,28 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetOpenCLVersion(ExOpenCLContext context)
 extern ELTDECLSPEC ExCLCommandQueue ELTAPIENTRY ExCreateCommandQueue(ExOpenCLContext context, ExCLDeviceID device);
 
 /**
- *	Create opencl program.
+ *	Create OpenCL program.
  *	@Return
  */
 extern ELTDECLSPEC ExCLProgram ELTAPIENTRY ExCreateProgram(ExOpenCLContext context, ExCLDeviceID device, const ExChar* cfilename, ...);
 
 /**
  *	Release Program.
+ *
  *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExReleaseProgram(ExCLProgram program);
 
 /**
  *	Create function kernel.
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExCLKernel ELTAPIENTRY ExCreateKernel(ExCLProgram program, const ExChar* kernelname);
 
 /**
  *	Release kernel.
+ *
  *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExReleaseKernel(ExCLProgram program);
@@ -150,7 +169,7 @@ extern ELTDECLSPEC int ELTAPIENTRY ExReleaseKernel(ExCLProgram program);
 extern ELTDECLSPEC void ELTAPIENTRY ExSetCLArg(ExCLKernel kernel, int index, unsigned int size, void* arg);
 
 /**
- *
+ *	@Return
  */
 extern ELTDECLSPEC ExCLMem ELTAPIENTRY ExCreateCLBuffer(ExOpenCLContext context, Enum flag, int size, void* host_ptr);
 extern ELTDECLSPEC ExCLMem ELTAPIENTRY ExCreateCLImage(ExOpenCLContext context);
@@ -158,6 +177,8 @@ extern ELTDECLSPEC ExCLMem ELTAPIENTRY ExCreateCLImage(ExOpenCLContext context);
 
 /**
  * 	add interoperability
+ *
+ *	@Return
  */
 extern ELTDECLSPEC ExCLMem ExAquireGLObject(ExCLCommandQueue queue, unsigned int num, unsigned int* arg);
 extern ELTDECLSPEC ExCLMem ExReleaseGLObject(ExCLCommandQueue queue, unsigned int num, unsigned int* arg);

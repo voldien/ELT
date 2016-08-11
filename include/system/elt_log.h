@@ -22,13 +22,12 @@
 #include"elt_errorhandler.h"
 extern FILE* m_file_log;
 
-
-/*
+/**
  *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExLog(const ExChar* format,...);
 
-/*
+/**
  *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExErrorLog(const ExChar* format,...);

@@ -35,14 +35,16 @@ extern "C"{
 #endif
 
 
-/*
- *	Create Surface
+/**
+ *	Create Surface.
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExSurface ELTAPIENTRY ExCreateSurface(unsigned int width, unsigned height, unsigned int format);
 
-/*
+/**
  *	release surface.
+ *
  *	@Return
  */
 extern ELTDECLSPEC int ELTAPIFASTENTRY ExDestroySurface(ExSurface handle);
@@ -52,8 +54,10 @@ extern ELTDECLSPEC int ELTAPIFASTENTRY ExDestroySurface(ExSurface handle);
  */
 extern ELTDECLSPEC void ExDisplaySurfaceToWindow(ExWin window,ExSurface surface);
 
-/*
- *	resize surface handle
+/**
+ *	Resize surface handle
+ *
+ *	@Return
  */
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExResizeSurface(ExSurface handle, unsigned int width, unsigned height);
 

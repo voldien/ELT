@@ -20,6 +20,10 @@
 #define _ELT_MOUSE_H_ 1
 #include"./../system/elt_errorhandler.h"
 
+#ifdef __cplusplus	/* C++ Environment */
+extern "C"{
+#endif
+
 typedef void* ExCursor;
 
 #define EXC_ARROW		0x1
@@ -56,106 +60,123 @@ enum ExMouseCode {
 	eExMousePadding
 };
 
-#ifdef __cplusplus	/* C++ Environment */
-extern "C"{
-#endif
 
-/*
- *	Capture mouse
+
+/**
+ *	Capture mouse.
+ *
+ *	\enable
+ *
  *	@Return
-*/
+ */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(ExBoolean enabled);
 
 
-/*
+/**
  *	Clip cursor onto specified rectangle view
+ *
  *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExClipCursor(ExWin window);
 
-/*
+/**
  *	Create Cursor
+ *
  *	@Return
-*/
+ */
 extern ELTDECLSPEC ExCursor ELTAPIENTRY ExCreateCursor(const Uint8* data, const Uint8* mask, Int32 width, Int32 height, Int32 hot_x, Int32 hot_y);
 
-/*
+/**
  *	Create System Cursor
+ *
  *	@Return
-*/
+ */
 extern ELTDECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(Enum system_id);
-/*
+
+/**
  *	Free cursor
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExFreeCursor(ExCursor cursor);
 
-/*
+/**
  *	Set Cursor
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExSetCursor(ExWin window, ExCursor cursor);
 
-/*
+/**
  *	Get Cursor
+ *
  *	@Return
-*/
+ */
 extern ELTDECLSPEC ExCursor ELTAPIENTRY ExGetCursor(void);
 
-/*
+/**
+ *	Get default system cursor pointer.
  *
  *	@Return
  */
 extern ELTDECLSPEC ExCursor ELTAPIENTRY ExGetDefaultCursor(void);
 
-/*
+/**
+ *
  *
  *	@Return
  */
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetMouseFocus(void);
 
-/*
+/**
  *	Get Global Mouse State
+ *
  *	@Return button pressed.
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetGlobalMouseState(Int32* x, Int32* y);
 
-/*
+/**
  *
  *	@Return
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetMouseState(Int32* x, Int32* y);
 
-/*
+/**
  *	Set cursor in screen space respect to monitor resolution.
+ *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExWarpMouseGlobal(Int32 x, Int32 y);
 
-/*
+/**
  *	Set Cursor relative to window
+ *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExWarpMouseInWindow(ExWin win, Int32 x, Int32 y);
 
-/*
+/**
  *	Show Cursor
+ *
+ *
  *	@Return if successfully then return value is equal to input value.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExShowCursor(ExBoolean enabled);
 
 
+/*	TODO FIX for touch.	*/
 
 /**
-
-	@Return
-*/
+ *
+ * 	@Return
+ */
 extern ELTDECLSPEC int ELTAPIENTRY ExGetTouchDown(unsigned int fingerid);
-/**
 
-	@Return
-*/
+/**
+ *
+ * @Return
+ */
 extern ELTDECLSPEC int ELTAPIENTRY ExGetTouchPosition(unsigned int fingerid, float* pos);
 
-#ifdef __cplusplus	// C++ Environment
+#ifdef __cplusplus	/* C++ Environment */
 }
 #endif
 

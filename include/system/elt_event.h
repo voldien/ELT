@@ -30,7 +30,7 @@ extern "C"{
  */
 EX_ALIGN_PREFIX(4)
 typedef struct ex_point{
-	int x,y;		/**/
+	int x,y;					/**/
 }ExPoint;
 
 /*
@@ -38,7 +38,7 @@ typedef struct ex_point{
  */
 EX_ALIGN_PREFIX(4)
 typedef struct ex_size{
-	unsigned int width;		/**/
+	unsigned int width;			/**/
 	unsigned int height;		/**/
 }ExSize;
 
@@ -47,8 +47,8 @@ typedef struct ex_size{
  */
 EX_ALIGN_PREFIX(4)
 typedef struct ex_rect{
-	int x;		/**/
-	int y;		/**/
+	int x;			/**/
+	int y;			/**/
 	int width;		/**/
 	int height;		/**/
 }ExRect;
@@ -57,27 +57,27 @@ typedef struct ex_rect{
 /*
  *	Event flag.
  */
-#define EX_EVENT_KEY 0x1
-#define EX_EVENT_KEY_RELEASE 0x2
-#define EX_EVENT_KEY_PRESSED 0x4
-#define EX_EVENT_MOUSE 0x8
-#define EX_EVENT_MOUSE_PRESSED 0x10
-#define EX_EVENT_MOUSE_RELEASED 0x20
-#define EX_EVENT_SIZE 0x40
-#define EX_EVENT_RESIZE 0x40
-#define EX_EVENT_SYSTEM 0x80
-#define EX_EVENT_MOUSEWHEEL 0x100
-#define EX_EVENT_JOYSTICK 0x200
-#define EX_EVENT_TOUCH 0x400
-#define EX_EVENT_DROP 0x800
-#define EX_EVENT_QUIT 0x1000
-#define EX_EVENT_MOUSE_MOTION 0x2000
-#define EX_EVENT_EXPOSE	0x4000
-#define EX_EVENT_ON_FOCUSE	0x8000
-#define EX_EVENT_ON_UNFOCUSE 0x10000
-#define EX_EVENT_WINDOW_MOVE 0x20000
-#define EX_EVENT_WINDOW_DESTROYED 0x40000
-#define EX_EVENT_WINDOW_REPARENT 0x80000
+#define EX_EVENT_KEY 0x1					/*	*/
+#define EX_EVENT_KEY_RELEASE 0x2			/*	*/
+#define EX_EVENT_KEY_PRESSED 0x4			/*	*/
+#define EX_EVENT_MOUSE 0x8					/*	*/
+#define EX_EVENT_MOUSE_PRESSED 0x10			/*	*/
+#define EX_EVENT_MOUSE_RELEASED 0x20		/*	*/
+#define EX_EVENT_SIZE 0x40					/*	*/
+#define EX_EVENT_RESIZE 0x40				/*	*/
+#define EX_EVENT_SYSTEM 0x80				/*	*/
+#define EX_EVENT_MOUSEWHEEL 0x100			/*	*/
+#define EX_EVENT_JOYSTICK 0x200				/*	*/
+#define EX_EVENT_TOUCH 0x400				/*	*/
+#define EX_EVENT_DROP 0x800					/*	*/
+#define EX_EVENT_QUIT 0x1000				/*	*/
+#define EX_EVENT_MOUSE_MOTION 0x2000		/*	*/
+#define EX_EVENT_EXPOSE	0x4000				/*	*/
+#define EX_EVENT_ON_FOCUSE	0x8000			/*	*/
+#define EX_EVENT_ON_UNFOCUSE 0x10000		/*	*/
+#define EX_EVENT_WINDOW_MOVE 0x20000		/*	*/
+#define EX_EVENT_WINDOW_DESTROYED 0x40000	/*	*/
+#define EX_EVENT_WINDOW_REPARENT 0x80000	/*	*/
 
 
 typedef struct ex_system_event{
@@ -267,28 +267,24 @@ typedef struct elt_poll_events{
 
 /**
  *	Poll Event from process.
+ *
  *	\event
+ *
  *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
 
-/*
- *	Poll event from specifed window.
- *	\window
- *	\event
- *	@Return
- */
-
-
 /**
- * Poll Window Event information
- * *[HWND] which window to poll event information.
+ *	Poll Window Event information
+ *
+ *	\window which window to poll event information.
  *	Remark: message feed will only be apply to given HWND paramter
  *	if HWND is null all window create on this application will be update
  *	read more at MSDN for more specific information regarding PeekMessage with null HWND.
- *	[ExWindowEvent] pointer to event struct. all event will be stored in it.
- *	#return if PeekMessage was success.
- *	PeekMessage : http://msdn.microsoft.com/en-us/library/windows/desktop/ms644943(v=vs.85).aspx
+ *
+ *	\event pointer to event struct. all event will be stored in it.
+ *
+ *	@return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event);
 
