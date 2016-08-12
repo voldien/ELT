@@ -21,7 +21,7 @@
 
 
 
-void ELTAPIENTRY ExUnRegisterClasses(void){
+void  ExUnRegisterClasses(void){
 	ExChar text[MAX_PATH];
 	if(!FindWindowEx(0,0,EX_OPENGL_WINDOW_CLASS,0))
 		if(UnregisterClass(EX_OPENGL_WINDOW_CLASS, GetModuleHandle(NULL)))
@@ -36,7 +36,7 @@ void ELTAPIENTRY ExUnRegisterClasses(void){
 			wsprintf(text, EX_TEXT("failed to unregister class : %s"), EX_DIRECTX_WINDOW_CLASS);
 }
 
-ExWin ELTAPIENTRY ExCreateDirectXWindow(int x, int y, int width, int height){
+ExWin  ExCreateDirectXWindow(int x, int y, int width, int height){
 	HWND hWnd;
 	ExChar title[260];
 	WNDCLASSEX wc = {0};
@@ -70,7 +70,7 @@ ExWin ELTAPIENTRY ExCreateDirectXWindow(int x, int y, int width, int height){
 	return hWnd;
 }
 
-ExWin ELTAPIENTRY ExCreateOpenGLWindow(Int32 x, Int32 y, Int32 width, Int32 height){
+ExWin  ExCreateOpenGLWindow(Int32 x, Int32 y, Int32 width, Int32 height){
 	HWND hWnd;
 	WNDCLASSEX wc;
 	ATOM reg;
@@ -117,7 +117,7 @@ ExWin ELTAPIENTRY ExCreateOpenGLWindow(Int32 x, Int32 y, Int32 width, Int32 heig
 	return hWnd;
 }
 
-ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){
+ExWin  ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){
 
 	ATOM reg;
 	HWND hwnd;
@@ -154,7 +154,7 @@ ExWin ELTAPIENTRY ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 heig
 	return hwnd;
 }
 
-ExWin ELTAPIENTRY ExCreateMIDWindow(Int32 x, Int32 y, Int32 width, Int32 height){
+ExWin  ExCreateMIDWindow(Int32 x, Int32 y, Int32 width, Int32 height){
 
 	WNDCLASSEX wc;
 	ExWin hwnd;
@@ -184,7 +184,7 @@ ExWin ELTAPIENTRY ExCreateMIDWindow(Int32 x, Int32 y, Int32 width, Int32 height)
 	return hwnd;
 }
 
-ExWin ELTAPIENTRY ExReConstructWindow(ExWin hWnd){
+ExWin  ExReConstructWindow(ExWin hWnd){
 	RECT rect;
 	GetWindowRect(hWnd, &rect);
 	DestroyWindow(hWnd);
@@ -197,41 +197,41 @@ ExWin ELTAPIENTRY ExReConstructWindow(ExWin hWnd){
 	return hWnd;
 }
 
-DWORD ELTAPIENTRY ExSetWindowProc(ExWin hwnd, WNDPROC procPointer){
+DWORD  ExSetWindowProc(ExWin hwnd, WNDPROC procPointer){
 	if(!hwnd)
 		return -1;
 	unsigned long _result = SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG)procPointer);
 	return _result;
 }
 
-WNDPROC ELTAPIENTRY ExGetWindowProc(ExWin hwnd){
+WNDPROC  ExGetWindowProc(ExWin hwnd){
 	if(!hwnd)
 		return 0;
 	return (WNDPROC)GetWindowLongPtr(hwnd, GWLP_WNDPROC);
 }
 
-void ELTAPIENTRY ExSetWindowStyle(ExWin hwnd, Long style){
+void  ExSetWindowStyle(ExWin hwnd, Long style){
 	SetWindowLongPtr(hwnd, GWL_STYLE, style);return;
 }
 
-void ELTAPIENTRY ExSetAddiWindowStyle(ExWin hWnd, Long lstyle){
+void  ExSetAddiWindowStyle(ExWin hWnd, Long lstyle){
 	SetWindowLong(hWnd,GWL_STYLE,GetWindowLong(hWnd, GWL_STYLE) | lstyle);
 }
 
-Long ELTAPIENTRY ExGetWindowStyle(ExWin hwnd){
+Long  ExGetWindowStyle(ExWin hwnd){
 	return GetWindowLongPtr(hwnd, GWL_STYLE);
 }
 
-void ELTAPIENTRY ExSetWindowStyleEx(ExWin hwnd, Long ExStyle){
+void  ExSetWindowStyleEx(ExWin hwnd, Long ExStyle){
 	SetWindowLongPtr(hwnd, GWL_EXSTYLE, ExStyle);return;
 }
 
-Long ELTAPIENTRY ExGetWindowStyleEx(ExWin hwnd){
+Long  ExGetWindowStyleEx(ExWin hwnd){
 	return GetWindowLongPtr(hwnd, GWL_EXSTYLE);
 }
 
 
-int ELTAPIENTRY ExGetWindowMessage(ExWin hWnd){
+int  ExGetWindowMessage(ExWin hWnd){
 	MSG messageHandler;
 	if(GetMessage(&messageHandler, hWnd, NULL, NULL)){
 		TranslateMessage(&messageHandler);
@@ -242,7 +242,7 @@ int ELTAPIENTRY ExGetWindowMessage(ExWin hWnd){
 	return FALSE;
 }
 
-int ELTAPIENTRY ExGetWindowPeekMessage(ExWin hwnd){
+int  ExGetWindowPeekMessage(ExWin hwnd){
 	MSG messageHandler;
 	if(PeekMessage(&messageHandler, hwnd, 0, 0, PM_REMOVE)){
 		TranslateMessage(&messageHandler);
@@ -252,45 +252,45 @@ int ELTAPIENTRY ExGetWindowPeekMessage(ExWin hwnd){
 	return FALSE;
 }
 
-int ELTAPIENTRY ExMessageBox(ExWin window, const ExChar* text, const ExChar* title,  unsigned int flags ){
+int  ExMessageBox(ExWin window, const ExChar* text, const ExChar* title,  unsigned int flags ){
 	return MessageBoxA(window,text,title,flags);
 }
 
 /**/
-ELTDECLSPEC void ELTAPIENTRY ExShowWindow(ExWin window){
+ void  ExShowWindow(ExWin window){
 	ShowWindow(window,SW_SHOW);
 }
 
 
-ELTDECLSPEC void ELTAPIENTRY ExHideWindow(ExWin window){
+ void  ExHideWindow(ExWin window){
 	ShowWindow(window,SW_HIDE);
 }
 
 
-ELTDECLSPEC void ELTAPIENTRY ExCloseWindow(ExWin window){
+ void  ExCloseWindow(ExWin window){
     CloseWindow(window);
 	DestroyWindow(window);
 }
 
 
 
-ELTDECLSPEC void ELTAPIENTRY ExSetWindowMode(ExWin window, Enum mode){
+ void  ExSetWindowMode(ExWin window, Enum mode){
     if(mode & EX_WIN_SCREENSAVER_ENABLE){
         ExLoadLibrary(EX_TEXT("scrnsave.dll"));
     }
 }
 
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExDestroyWindow(ExWin window){
+ ExBoolean  ExDestroyWindow(ExWin window){
 	return DestroyWindow(window);
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExSetWindowTitle(ExWin window,const ExChar* title){
+ void  ExSetWindowTitle(ExWin window,const ExChar* title){
 	if(!window || !title)
 		return;
 	ExIsWinError(SetWindowText(window,title));
 }
 
-ELTDECLSPEC ExChar* ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title){
+ ExChar*  ExGetWindowTitle(ExWin window, ExChar* title){
 	if(!window || !title)
 		return NULL;
 
@@ -299,7 +299,7 @@ ELTDECLSPEC ExChar* ELTAPIENTRY ExGetWindowTitle(ExWin window, ExChar* title){
 }
 
 
-ELTDECLSPEC void ELTAPIENTRY ExSetWindowPos(ExWin window,Int32 x,Int32 y){
+ void  ExSetWindowPos(ExWin window,Int32 x,Int32 y){
 	RECT winrect;
 	if(!window)
 		return;
@@ -307,7 +307,7 @@ ELTDECLSPEC void ELTAPIENTRY ExSetWindowPos(ExWin window,Int32 x,Int32 y){
 	SetWindowPos(window, NULL, x, y, winrect.right - winrect.left, winrect.bottom - winrect.top, SWP_SHOWWINDOW);
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExSetWindowPosv(ExWin window, const Int32* position){
+ void  ExSetWindowPosv(ExWin window, const Int32* position){
 	if(!window || !position)
 		return;
 
@@ -317,7 +317,7 @@ ELTDECLSPEC void ELTAPIENTRY ExSetWindowPosv(ExWin window, const Int32* position
 }
 
 
-ELTDECLSPEC void ELTAPIENTRY ExGetWindowPosv(ExWin window, Int32* position){
+ void  ExGetWindowPosv(ExWin window, Int32* position){
 	RECT winrect;
 	GetWindowRect(window,&winrect);
 	position[0]= winrect.left;
@@ -326,7 +326,7 @@ ELTDECLSPEC void ELTAPIENTRY ExGetWindowPosv(ExWin window, Int32* position){
 }
 
 
-ELTDECLSPEC void ELTAPIENTRY ExSetWindowSize(ExWin window,Int32 width, Int32 height){
+ void  ExSetWindowSize(ExWin window,Int32 width, Int32 height){
 
 	RECT winrect;
 	GetWindowRect(window,&winrect);
@@ -334,13 +334,13 @@ ELTDECLSPEC void ELTAPIENTRY ExSetWindowSize(ExWin window,Int32 width, Int32 hei
 }
 
 
-ELTDECLSPEC void ELTAPIENTRY ExSetWindowSizev(ExWin window,const ExSize* size){
+ void  ExSetWindowSizev(ExWin window,const ExSize* size){
 	RECT winrect;
 	GetWindowRect(window,&winrect);
 
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, ExSize* size){
+ void  ExGetWindowSizev(ExWin window, ExSize* size){
 	RECT winrect;
 	GetWindowRect(window, &winrect);
 	size->width = winrect.right - winrect.left;
@@ -349,29 +349,29 @@ ELTDECLSPEC void ELTAPIENTRY ExGetWindowSizev(ExWin window, ExSize* size){
 
 
 
-ELTDECLSPEC void ELTAPIENTRY ExSetWindowRect(ExWin window, const ExRect* rect){
+ void  ExSetWindowRect(ExWin window, const ExRect* rect){
 	SetWindowPos(window,HWND_TOP,rect->x,rect->y,rect->width - rect->x,rect->height - rect->y,SWP_SHOWWINDOW);
 }
 
 
-ELTDECLSPEC void ELTAPIENTRY ExGetWindowRect(ExWin window, ExRect* rect){
+ void  ExGetWindowRect(ExWin window, ExRect* rect){
 	GetWindowRect(window, (RECT*)rect);
 }
 
 
 
-ELTDECLSPEC Uint32 ELTAPIENTRY ExGetWindowFlag(ExWin window){
+ Uint32  ExGetWindowFlag(ExWin window){
 	return GetWindowLong(window,GWL_STYLE);
 }
 
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExSetWindowIcon(ExWin window, ExHandle hIcon){
+ Int32  ExSetWindowIcon(ExWin window, ExHandle hIcon){
 	LRESULT result;
 	result = SetClassLong(window, GCLP_HICON, (LONG)hIcon);
 	result = SetClassLong(window, GCLP_HICONSM,(LONG)hIcon);
 	return result;
 }
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExGetWindowIcon(ExWin window){
+ Int32  ExGetWindowIcon(ExWin window){
     return NULL;
 }

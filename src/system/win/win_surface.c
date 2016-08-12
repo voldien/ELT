@@ -2,7 +2,7 @@
 #include<windows.h>
 
 
-ELTDECLSPEC void* ExCreateSurface(unsigned int width, unsigned height, unsigned int format){
+ void* ExCreateSurface(unsigned int width, unsigned height, unsigned int format){
     HBITMAP hbit;
 
     hbit = CreateBitmap(width, height, 1, 24,NULL);
@@ -31,7 +31,7 @@ int ExSetSurfacePixel(void* surface, unsigned int x, unsigned int y, unsigned lo
 }
 
 
-ELTDECLSPEC void ExFillRect(ExSurface handle,struct ex_rect* rect, unsigned int color){
+ void ExFillRect(ExSurface handle,struct ex_rect* rect, unsigned int color){
 	//XFillRectangle(display,handle,gc)
 
 }

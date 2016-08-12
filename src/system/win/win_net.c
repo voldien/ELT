@@ -16,7 +16,7 @@ static inline  int init_wsa(void){  /*  initialize was*/
 }
 
 
-ELTDECLSPEC ExSocket ExOpenSocket(unsigned int protocol){
+ ExSocket ExOpenSocket(unsigned int protocol){
 
     unsigned int sockfd,newsockdf;
     unsigned int sock_domain,socket_protocol;
@@ -34,23 +34,23 @@ ELTDECLSPEC ExSocket ExOpenSocket(unsigned int protocol){
 
 }
 
-ELTDECLSPEC unsigned int ExCloseSocket(ExSocket socket){
+unsigned int ExCloseSocket(ExSocket socket){
 	return closesocket((SOCKET)socket);
 }
 
 
-ELTDECLSPEC ExSocket ExBindSocket(const char* ip, unsigned int port, ExSocket socket){
+ExSocket ExBindSocket(const char* ip, unsigned int port, ExSocket socket){
 
     SOCKADDR_IN serv_addr, cli_addr;
 
 	if(bind(socket,(SOCKADDR *)&serv_addr, sizeof(serv_addr)) == SOCKET_ERROR){
 		wprintf(EX_TEXT("connect function failed with error: %ld\n"), WSAGetLastError());
 	}
-
+	return 0;
 }
 
 
-ELTDECLSPEC ExSocket ExConnectSocket(const char* ip, unsigned int port){
+ExSocket ExConnectSocket(const char* ip, unsigned int port){
 
     SOCKADDR_IN serv_addr;
     struct hostent *server;
@@ -80,7 +80,7 @@ ELTDECLSPEC ExSocket ExConnectSocket(const char* ip, unsigned int port){
 
 
 
-ELTDECLSPEC inline int ELTAPIENTRY ExGetHostIp(char ip[16]){
+inline int ExGetHostIp(char ip[16]){
 
 	SOCKET fd;
 	char name[256];

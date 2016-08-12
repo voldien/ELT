@@ -177,7 +177,7 @@ PFNGLUNIFORM4FVPROC glUniform4fv;
 
 
 
-static void ELTAPIENTRY ExCreatePFD( void* pPFD, Int32 colorbits, Int32 depthbits, Int32 stencilbits){
+static void  ExCreatePFD( void* pPFD, Int32 colorbits, Int32 depthbits, Int32 stencilbits){
 
 	PIXELFORMATDESCRIPTOR* pfd = (PIXELFORMATDESCRIPTOR*)pPFD;
 	memset(pfd,0,sizeof(PIXELFORMATDESCRIPTOR));
@@ -192,7 +192,7 @@ static void ELTAPIENTRY ExCreatePFD( void* pPFD, Int32 colorbits, Int32 depthbit
 
 }
 
-static void ELTAPIENTRY ExCreatePFD2( void *pPFD){
+static void  ExCreatePFD2( void *pPFD){
 
 	PIXELFORMATDESCRIPTOR pfd = {0};
 
@@ -301,7 +301,7 @@ static HWND create_temp_gl_win(ExOpenGLContext* pglc_context){
 }
 
 
-ExOpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shared){
+ExOpenGLContext  ExCreateGLContext(ExWin window, ExOpenGLContext shared){
 	ExOpenGLContext glc = NULL;
 	unsigned int render_vendor;
 
@@ -442,7 +442,7 @@ ExOpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shar
 
 
 
-void ELTAPIENTRY ExCreateContextAttrib(ExWindowContext hDc, Int32* attribs,Int32* size){
+void  ExCreateContextAttrib(ExWindowContext hDc, Int32* attribs,Int32* size){
 	if(!attribs)	/* error */
 		ExSetError(EINVAL);
 
@@ -462,14 +462,14 @@ void ELTAPIENTRY ExCreateContextAttrib(ExWindowContext hDc, Int32* attribs,Int32
 }
 
 
-ExOpenGLContext ELTAPIENTRY ExCreateGLSharedContext(ExWin window, ExOpenGLContext glc){
+ExOpenGLContext  ExCreateGLSharedContext(ExWin window, ExOpenGLContext glc){
 	return ExCreateGLContext(window,glc);
 
 }
 
 
 /*
-DECLSPEC void ELTAPIENTRY ExInitExtension(ExWin hWnd,WindowContext deviContext,HGLRC hr){
+DECLSPEC void  ExInitExtension(ExWin hWnd,WindowContext deviContext,HGLRC hr){
 	// temp variable
 	HGLRC tempHRC = hr;PIXELFORMATDESCRIPTOR pfd;
 	Int majorVer, minorVer;
@@ -542,7 +542,7 @@ DECLSPEC void ELTAPIENTRY ExInitExtension(ExWin hWnd,WindowContext deviContext,H
 
 
 
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExDestroyGLContext(ExWindowContext drawable, ExOpenGLContext glc){
+ ExBoolean  ExDestroyGLContext(ExWindowContext drawable, ExOpenGLContext glc){
 	ExBoolean hr;
 	// if hDC is null
 	if(!drawable)
@@ -554,7 +554,7 @@ ELTDECLSPEC ExBoolean ELTAPIENTRY ExDestroyGLContext(ExWindowContext drawable, E
 	return hr;
 }
 
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int32* screenRes){
+ ExBoolean  ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int32* screenRes){
 
 	RECT rect;
 	DEVMODE dm;
@@ -639,7 +639,7 @@ void ExSetGLTransparent(ExWin window,Enum ienum){
 
 
 /*
-DECLSPEC OpenGLContext ELTAPIENTRY ExCreateSharedGLContext(HDC openglHDC, OpenGLContext sharedHRC, WindowContext hDC){
+DECLSPEC OpenGLContext  ExCreateSharedGLContext(HDC openglHDC, OpenGLContext sharedHRC, WindowContext hDC){
 	HGLRC hrc2;
 	Int majorVer, minorVer;
 	Int dataSize;

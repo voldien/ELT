@@ -60,8 +60,8 @@ ExHandle cl_libhandle =	NULL;
 cl_context hClContext = NULL;
 
 /**/
-extern ELTDECLSPEC int ELTAPIENTRY ExGetOpenCLDevice(cl_platform_id platform, cl_device_id* device, unsigned int flag);
-static char* ELTAPIENTRY ExGetCLErrorMessage(cl_int error);
+extern  int  ExGetOpenCLDevice(cl_platform_id platform, cl_device_id* device, unsigned int flag);
+static char*  ExGetCLErrorMessage(cl_int error);
 
 
 static char* private_get_device_extension(cl_device_id device){

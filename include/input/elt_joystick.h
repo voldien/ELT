@@ -20,75 +20,94 @@
 #define _ELT_JOYSTICK_H_ 1
 #include"../system.h"
 
+#ifdef __cplusplus	/*	C++ environment	*/
+extern "C"{
+#endif
+
 typedef void* ExJoyStick;
 EX_ALIGN_PREFIX(4)
 typedef struct ex_GUID{
 	Uint8 data[16];
 }ExGUID;
 
-#ifdef __cplusplus	/*	C++ environment	*/
-extern "C"{
-#endif
-
-/*
+/**
  *	Number of joystick
+ *
  *	@Return
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExJoysticksNum(void);
 
-/*
+/**
  *	Open joystick by device index
+ *
  *	@Return
-*/
+ */
 extern ELTDECLSPEC ExJoyStick ELTAPIENTRY ExJoystickOpen(Int32 index);
 
-/*
- *   Close Joystick by device index
+/**
+ *	Close Joystick by device index
+ *
  *	@Return
-*/
+ */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExJoyStickClose(Int32 index);
 
-/*
+/**
  *	Get Joystick Device GUID
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExGUID ELTAPIENTRY ExJoystickGetDeviceGUID(Int32 index);
 
-/*
+/**
  *	Get Joystick name
+ *
  *	@Return
 */
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExJoyStickName(Uint32 ptr);
 
-/*
+/**
  *	Get number of buttons on a joystick
+ *
  *	@Return
-*/
+ */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExJoystickNumButtons(Uint32 ptr);
 
-/*
+/**
  *	Axis Get number of axis on joystick
+ *
  *	@Return
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExJoystickNumAxis(Int ptr);
 
-/*
+/**
  *
+ *	@Return
  */
 extern ELTDECLSPEC Int16 ELTAPIENTRY ExJoystickGetAxis(Int32 device_ptr, int axis);
 
-/*
+/**
  *   \Button
+ *
+ *	@Return
  */
 extern ELTDECLSPEC Uint8 ELTAPIENTRY ExJoyStickGetButton(Int32 device_index, int button);
 
-/*
+/**
  *
+ *	@Return
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSetJoyStickState(Enum bitFlag, Uint32 userIndex);
 
-
+/**
+ *
+ *	@Return
+ */
 extern ELTDECLSPEC void ELTAPIENTRY ExGetJoySticAxisMapping(ExJoyStick joystick, ExChar* mapping, unsigned int len);
+
+/**
+ *
+ *	@Return
+ */
 extern ELTDECLSPEC void ELTAPIENTRY ExSetJoySticAxisMapping(ExJoyStick joystick, const ExChar* mapping, unsigned int len);
 
 

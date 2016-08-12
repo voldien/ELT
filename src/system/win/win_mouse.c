@@ -2,24 +2,24 @@
 #include<windows.h>
 #include<dinput.h>
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(ExBoolean enabled){
+ Int32  ExCaptureMouse(ExBoolean enabled){
 	return (Int32)SetCapture(enabled ? GetFocus() : NULL);
 }
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExClipCursor(const ExRect* rect){
+ Int32  ExClipCursor(const ExRect* rect){
 	const RECT clip_rect = {rect->x,rect->y,rect->x + rect->width,rect->y + rect->height};
 	ExIsWinError(ClipCursor(&clip_rect));
 	return TRUE;
 }
 
-ELTDECLSPEC ExCursor ELTAPIENTRY ExCreateCursor(const Uint8* data, const Uint8* mask, Int32 width,Int32 height, Int32 hot_x, Int32 hot_y){
+ ExCursor  ExCreateCursor(const Uint8* data, const Uint8* mask, Int32 width,Int32 height, Int32 hot_x, Int32 hot_y){
 	ExCursor cursor;
 	//ExIsWinError(!(cursor = CreateCursor(GetModuleHandle(NULL), hot_x, hot_y, width, height, pair, mask)));
 	return cursor;
 }
 
 
-ELTDECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(Enum system_id){
+ ExCursor  ExCreateSystemCursor(Enum system_id){
 	ExChar* arrow;
 	switch(system_id){
 	case EXC_ARROW: arrow = IDC_ARROW;
@@ -42,31 +42,31 @@ ELTDECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(Enum system_id){
 	return LoadCursor(GetModuleHandle(NULL), arrow);
 }
 
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExFreeCursor(ExCursor cursor){
+ ExBoolean  ExFreeCursor(ExCursor cursor){
 	ExBoolean destroyed;
 	ExIsWinError(!(destroyed = (ExBoolean)DestroyCursor(cursor)));
 	return destroyed;
 }
 
 
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExSetCursor(ExCursor cursor){
+ ExBoolean  ExSetCursor(ExCursor cursor){
 	return (SetCursor(cursor) == cursor);
 }
 
-ELTDECLSPEC Uint32 ELTAPIENTRY ExGetGlobalMouseState(Int32* x, Int32* y){
+ Uint32  ExGetGlobalMouseState(Int32* x, Int32* y){
 	return GetCursorPos((LPPOINT)x);
 }
 
-ELTDECLSPEC Uint32 ELTAPIENTRY ExGetMouseState(Int32* x, Int32* y){
+ Uint32  ExGetMouseState(Int32* x, Int32* y){
 	return GetCursorPos((LPPOINT)x);    /*y is next to x in address memory.*/
 
 }
 
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExShowCursor(ExBoolean enabled){
+ ExBoolean  ExShowCursor(ExBoolean enabled){
 	return (ExBoolean)ShowCursor(enabled);
 
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExWarpMouseGlobal(int x, int y){
+ void  ExWarpMouseGlobal(int x, int y){
 
 }

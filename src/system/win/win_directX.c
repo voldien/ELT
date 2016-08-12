@@ -20,7 +20,7 @@ DECLSPEC HANDLE ELTAPIFASTENTRY ExGetDirect3DContext(void){
 	return directDevice;
 }
 
-DECLSPEC ExDevice9D ELTAPIENTRY ExCreateDirectXContext(ExWin window){
+DECLSPEC ExDevice9D  ExCreateDirectXContext(ExWin window){
 	ERESULT hresult = 0;
 	ExSize win_size[2];
 	Int vp;
@@ -87,7 +87,7 @@ DECLSPEC ExDevice9D ELTAPIENTRY ExCreateDirectXContext(ExWin window){
 }
 
 
-DECLSPEC void ELTAPIENTRY ExDestroyDirectXContext(ExDevice9D d3d){
+DECLSPEC void  ExDestroyDirectXContext(ExDevice9D d3d){
 	if(d3d)
 		if(FAILED(d3d->Release()))
 			ExDevPrintf("Failed to Release D3D");

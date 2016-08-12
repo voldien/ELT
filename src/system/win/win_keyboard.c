@@ -131,44 +131,44 @@ static inline int ExGetKeyCodeInternal(Uint32 keyCode){
 
 
 
-ELTDECLSPEC ExKeycode ELTAPIENTRY ExGetKeyFromName(const char* name){
+ ExKeycode  ExGetKeyFromName(const char* name){
 	switch(name[0]){
 	case ' ':return 0;
 	}
 
 }
 
-ELTDECLSPEC const char* ELTAPIENTRY ExGetKeyName(ExKeycode keycode){
+ const char*  ExGetKeyName(ExKeycode keycode){
 	char text[20];
 	GetKeyNameTextA((keycode << 16),text,sizeof(text));
 	return text;
 }
 
-ELTDECLSPEC ExWin ELTAPIENTRY ExGetKeyboardFocus(void){
+ ExWin  ExGetKeyboardFocus(void){
 	return GetFocus();
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExSetKeyboardFocus(ExWin window){
+ void  ExSetKeyboardFocus(ExWin window){
 
 }
 
 
-ELTDECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys){
+ const Uint8*  ExGetKeyboardState(Int32* numkeys){
 	if(numkeys)*numkeys=0xff;
 	unsigned char ispressed = GetKeyboardState(&KeyBoardState[0][0]);
 	return KeyBoardState[0];
 }
 
-ELTDECLSPEC ExKeycode ELTAPIENTRY ExGetModeState(void){
+ ExKeycode  ExGetModeState(void){
 
 	return 0;
 }
 
-ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKey(void){
+ ExBoolean ELTAPIFASTENTRY ExAnyKey(void){
 
 	return FALSE;
 }
-ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void){
+ ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void){
 
 	return FALSE;
 }

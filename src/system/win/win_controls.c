@@ -132,7 +132,7 @@ HMENU  ExCreatePopUpMenuItem2(HMENU hpopupMenu,const ExChar* string, ExCallBack 
 	}
 	return hpopupMenu;
 }
-ELTDECLSPEC HMENU ExCreatePopUpMenuItem(HMENU hpopupMenu,const ExChar* string,Uint32 ID){
+ HMENU ExCreatePopUpMenuItem(HMENU hpopupMenu,const ExChar* string,Uint32 ID){
 	ADDMENUITEM(hpopupMenu, ID, string);
 	return hpopupMenu;
 }

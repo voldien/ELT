@@ -4,7 +4,7 @@
 #include<string.h>
 
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName){
+ Int32  ExCreateProcess(const ExChar* applicationName){
 	PROCESS_INFORMATION pi = {0};
 	STARTUPINFO si = {0};
     si.cb = sizeof(si);
@@ -27,7 +27,7 @@ ELTDECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName){
 
 }
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName, ...){
+ Int32  ExCreateProcessl(const ExChar* applicationName, ...){
 	va_list argptr;
 	ExChar argv[1024]= {0};
 	ExChar* arg_temp;
@@ -73,7 +73,7 @@ ELTDECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName, ..
 
 
 
-ELTDECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(ExSize* size){
+ void  ExGetPrimaryScreenSize(ExSize* size){
 	RECT rect;
 	GetWindowRect(GetDesktopWindow(), &rect);
 	size->width  = rect.right - rect.left;
@@ -82,25 +82,25 @@ ELTDECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(ExSize* size){
 }
 
 
-ELTDECLSPEC void ELTAPIENTRY ExGetMonitorSize(Uint32 index, ExSize* size){
+ void  ExGetMonitorSize(Uint32 index, ExSize* size){
 	//EnumDisplaySettings(
 
 }
 
 
-ELTDECLSPEC int ELTAPIENTRY ExGetMonitorSizes(Uint index, Uint* num, ExSize*sizes){
+ int  ExGetMonitorSizes(Uint index, Uint* num, ExSize*sizes){
 
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExGetPrimaryScreenRect(ExRect* rect){
+ void  ExGetPrimaryScreenRect(ExRect* rect){
 	GetWindowRect(GetDesktopWindow(), (LPRECT)rect);
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExGetMonitorRect(Uint32 index, ExRect* rect){
+ void  ExGetMonitorRect(Uint32 index, ExRect* rect){
 
 }
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExGetMonitorHz(Uint32 index){
+ Int32  ExGetMonitorHz(Uint32 index){
 	DEVMODE mod;
 	DISPLAY_DEVICE dev;
 	//memcpy(&dev,&ExGetMonitor(index),sizeof(dev));
@@ -109,11 +109,11 @@ ELTDECLSPEC Int32 ELTAPIENTRY ExGetMonitorHz(Uint32 index){
 }
 
 
-const char* ELTAPIENTRY ExGetPlatform(void){
+const char*  ExGetPlatform(void){
 
 }
 
-ELTDECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct){
+ Enum  ExGetPowerInfo(Int32* sec, Int32* pct){
 	SYSTEM_POWER_STATUS spsPwr;
 	if(!GetSystemPowerStatus(&spsPwr))
 		ExIsWinError(EX_TEXT("Failed to Get Power Information"));
@@ -124,16 +124,16 @@ ELTDECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct){
 	return TRUE;
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExGetExecutePath(ExChar* wChar, Int32 length){
+ void  ExGetExecutePath(ExChar* wChar, Int32 length){
 	ExIsError(GetModuleFileName(NULL,wChar,length));
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExGetAppliationPath(ExChar* path, Int32 length){
+ void  ExGetAppliationPath(ExChar* path, Int32 length){
 	ExIsError(GetCurrentDirectory(length,path));
 }
 
 //function manually
-ELTDECLSPEC ExChar* ELTAPIENTRY ExGetApplicationName(ExChar* name,Int32 length){
+ ExChar*  ExGetApplicationName(ExChar* name,Int32 length){
 	ExChar path[MAX_PATH];
 	ExIsError(GetModuleFileName(NULL,path,sizeof(path)));
 	_wsplitpath(path,0,0,name,0);
@@ -141,18 +141,18 @@ ELTDECLSPEC ExChar* ELTAPIENTRY ExGetApplicationName(ExChar* name,Int32 length){
 
 }
 
-ELTDECLSPEC ExChar* ELTAPIENTRY ExGetCurrentDirectory(void){
+ ExChar*  ExGetCurrentDirectory(void){
 	ExChar path[1024];
 	DWORD a = GetCurrentDirectory(MAX_PATH,path);
 	return path;
 
 }
 
-ELTDECLSPEC int ELTAPIENTRY ExSetCurrentDirectory (const ExChar* cdirectory){
+ int  ExSetCurrentDirectory (const ExChar* cdirectory){
 	return SetCurrentDirectory(cdirectory);
 }
 
-ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalSystemMemory(void){
+ Uint64  ExGetTotalSystemMemory(void){
 	MEMORYSTATUSEX status;
 	status.dwLength = sizeof(status);
 	GlobalMemoryStatusEx(&status);
@@ -160,7 +160,7 @@ ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalSystemMemory(void){
 
 }
 
-ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalVirtualMemory(void){
+ Uint64  ExGetTotalVirtualMemory(void){
 	MEMORYSTATUSEX status;
 	status.dwLength = sizeof(status);
 	GlobalMemoryStatusEx(&status);
@@ -170,7 +170,7 @@ ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalVirtualMemory(void){
 
 
 
-ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetOSName(void){
+ const ExChar*  ExGetOSName(void){
 	OSVERSIONINFO pOSVI;
 	pOSVI.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
 	if(!GetVersionEx(&pOSVI)){
@@ -206,7 +206,7 @@ ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetOSName(void){
 
 }
 
-ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCurrentUser(void){
+ const ExChar*  ExGetCurrentUser(void){
 	ExChar user[MAX_PATH];
 	ULong csize;
 	ExIsError(GetUserName(user,&csize));
@@ -215,7 +215,7 @@ ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCurrentUser(void){
 
 
 
-ELTDECLSPEC Int32 ELTAPIENTRY ExSetClipboardText(const ExChar* text){
+ Int32  ExSetClipboardText(const ExChar* text){
 
 	HANDLE handle;
 	void* data;
@@ -238,7 +238,7 @@ ELTDECLSPEC Int32 ELTAPIENTRY ExSetClipboardText(const ExChar* text){
 
 
 // get clipboard text
-ELTDECLSPEC ExChar* ELTAPIENTRY ExGetClipboardText(void){
+ ExChar*  ExGetClipboardText(void){
 	HANDLE hData;
 	ExChar* pszText;
 	OpenClipboard(NULL);
@@ -258,7 +258,7 @@ ELTDECLSPEC ExChar* ELTAPIENTRY ExGetClipboardText(void){
 
 
 //InternetOpenUrl
-ELTDECLSPEC void* ELTAPIENTRY ExDownloadURL(const ExChar* url){
+ void*  ExDownloadURL(const ExChar* url){
 
 	HINTERNET hOpen = NULL;
 	HINTERNET hFile = NULL;
@@ -281,7 +281,7 @@ ELTDECLSPEC void* ELTAPIENTRY ExDownloadURL(const ExChar* url){
 
 
 
-ELTDECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetMonitor(Uint32 index){
+ DISPLAY_DEVICE  ExGetMonitor(Uint32 index){
 	DISPLAY_DEVICE dd;
 	dd.cb = sizeof(DISPLAY_DEVICE);
 	if(EnumDisplayDevices(NULL, index, &dd, 0))
@@ -292,7 +292,7 @@ ELTDECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetMonitor(Uint32 index){
 	}
 }
 
-ELTDECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetSafeMonitor(Uint32 index){
+ DISPLAY_DEVICE  ExGetSafeMonitor(Uint32 index){
 	DISPLAY_DEVICE dd;
 	dd.cb = sizeof(DISPLAY_DEVICE);
 	if(EnumDisplayDevices(NULL, index, &dd, 0))
@@ -303,7 +303,7 @@ ELTDECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetSafeMonitor(Uint32 index){
 	}
 }
 
-ELTDECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetPrimaryMontior(void){
+ DISPLAY_DEVICE  ExGetPrimaryMontior(void){
 	DISPLAY_DEVICE dd;
 	dd.cb = sizeof(DISPLAY_DEVICE);
 	Int32 index = 0;
@@ -332,7 +332,7 @@ BOOL CALLBACK EnumWindowsProc(_In_  ExWin hwnd,_In_  LPARAM lParam){
 }
 
 
-ELTDECLSPEC Uint32 ELTAPIENTRY ExGetWindowChildCount(ExWin hwnd){
+ Uint32  ExGetWindowChildCount(ExWin hwnd){
 	Uint32 icount = 0;
 	EnumWindows(EnumWindowsProc,(LPARAM)&icount);
 	return icount;
@@ -341,13 +341,13 @@ ELTDECLSPEC Uint32 ELTAPIENTRY ExGetWindowChildCount(ExWin hwnd){
 /*
 
 */
-ELTDECLSPEC ExWin ELTAPIENTRY ExprograMan(void){
+ ExWin  ExprograMan(void){
 	ExWin desktop = GetDesktopWindow();
 	ExWin handle =  FindWindowEx(desktop,0,EX_TEXT("Progman"),EX_TEXT("Program Manager"));
 	return handle;
 }
 
-ELTDECLSPEC ExWin ELTAPIENTRY ExShellDef (void){
+ ExWin  ExShellDef (void){
 	HWND desktop = GetDesktopWindow();
 	HWND _programHandle = ExprograMan();
 
@@ -364,12 +364,12 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExShellDef (void){
 	return defView;
 }
 
-ELTDECLSPEC ExWin ELTAPIENTRY ExhShell(void){
+ ExWin  ExhShell(void){
 	HWND handle = FindWindowEx(ExprograMan(), 0, EX_TEXT("DeskFolder"), NULL);
 	return handle;
 }
 
-ELTDECLSPEC ExWin ELTAPIENTRY ExListView(void){
+ ExWin  ExListView(void){
 	HWND hwnd;
 	Uint32 i = 0;
 	HWND listHWND;
@@ -389,12 +389,12 @@ ELTDECLSPEC ExWin ELTAPIENTRY ExListView(void){
 
 	return listHWND;
 }
-ELTDECLSPEC ExWin ELTAPIENTRY ExSysHeader32(void){
+ ExWin  ExSysHeader32(void){
 	return FindWindowEx(ExListView(), 0, EX_TEXT("SysHeader32"), 0);
 }
 
 
-ELTDECLSPEC void ELTAPIENTRY ExAsciiToUnicode(const char* cchar, WCHAR** wchar){
+ void  ExAsciiToUnicode(const char* cchar, WCHAR** wchar){
 	Int32 length;
 	if(!cchar)
 		return;
@@ -407,11 +407,11 @@ ELTDECLSPEC void ELTAPIENTRY ExAsciiToUnicode(const char* cchar, WCHAR** wchar){
 	}
 }
 
-ELTDECLSPEC WCHAR* ELTAPIENTRY ExConvertToUnicode(const char* cchar){
+ WCHAR*  ExConvertToUnicode(const char* cchar){
 	WCHAR* wconvert;ExAsciiToUnicode(cchar,&wconvert);return wconvert;
 }
 
-ELTDECLSPEC void ELTAPIENTRY ExUnicodeToAscii(const WCHAR* wchar, char** cchar){
+ void  ExUnicodeToAscii(const WCHAR* wchar, char** cchar){
 	Int32 length = wcslen(wchar);
 	if(!wchar)return;
 	if(!*cchar)
@@ -421,7 +421,7 @@ ELTDECLSPEC void ELTAPIENTRY ExUnicodeToAscii(const WCHAR* wchar, char** cchar){
 	}
 }
 
-ELTDECLSPEC char* ELTAPIENTRY ExConvertAscii(const WCHAR* wwchar){
+ char*  ExConvertAscii(const WCHAR* wwchar){
 	char* cconvert;ExUnicodeToAscii(wwchar,&cconvert);return cconvert;
 }
 
@@ -429,11 +429,11 @@ ELTDECLSPEC char* ELTAPIENTRY ExConvertAscii(const WCHAR* wwchar){
 // http://forum.codecall.net/topic/63205-registry-operations-using-win32-part-1/
 #define ExOpenRegKey(hKey,directory,phKey) RegOpenKeyEx(hKey,directory,0, KEY_ALL_ACCESS, phKey)
 
-ELTDECLSPEC ExBoolean ELTAPIENTRY ExExistRegKey(HKEY hKey, const ExChar* directory){
+ ExBoolean  ExExistRegKey(HKEY hKey, const ExChar* directory){
 	return (ExBoolean)ExOpenRegKey(hKey,directory,NULL) == ERROR_SUCCESS ? TRUE : FALSE;
 }
 
-ELTDECLSPEC Uint32 ELTAPIENTRY ExGetRegValuei(HKEY hKey, const ExChar* directory, const ExChar* cregname){
+ Uint32  ExGetRegValuei(HKEY hKey, const ExChar* directory, const ExChar* cregname){
 	DWORD res;
 	DWORD type =REG_DWORD;
 	DWORD cbData =1024;
@@ -446,7 +446,7 @@ ELTDECLSPEC Uint32 ELTAPIENTRY ExGetRegValuei(HKEY hKey, const ExChar* directory
 	return val;
 }
 
-ELTDECLSPEC Uint64 ELTAPIENTRY ExGetRegValuel(HKEY hKey, const ExChar* directory, const ExChar* cregname){
+ Uint64  ExGetRegValuel(HKEY hKey, const ExChar* directory, const ExChar* cregname){
 	DWORD res;
 	DWORD type =REG_DWORD;
 	DWORD cbData =1024;
@@ -459,7 +459,7 @@ ELTDECLSPEC Uint64 ELTAPIENTRY ExGetRegValuel(HKEY hKey, const ExChar* directory
 	return val;
 }
 /*
-ELTDECLSPEC Uint32 ELTAPIENTRY ExGetRegValuec(HKEY hKey, const ExChar* directory, const ExChar* cregname, ExChar* character_string){
+ Uint32  ExGetRegValuec(HKEY hKey, const ExChar* directory, const ExChar* cregname, ExChar* character_string){
 	DWORD res;
 	DWORD type =REG_DWORD;
 	DWORD cbData =1024;
@@ -471,11 +471,11 @@ ELTDECLSPEC Uint32 ELTAPIENTRY ExGetRegValuec(HKEY hKey, const ExChar* directory
 	return res;
 }
 
-ELTDECLSPEC void ExSetRegValuei(HKEY hKey, const ExChar* directory, const ExChar* cregname,Int32 iint){
+ void ExSetRegValuei(HKEY hKey, const ExChar* directory, const ExChar* cregname,Int32 iint){
 
 }
 
-ELTDECLSPEC void ExSetRegValuel(HKEY hKey, const ExChar* directory, const ExChar* cregname,Long ilong){
+ void ExSetRegValuel(HKEY hKey, const ExChar* directory, const ExChar* cregname,Long ilong){
 	DWORD res;
 	DWORD type =REG_DWORD;
 	DWORD cbData =1024;
@@ -486,7 +486,7 @@ ELTDECLSPEC void ExSetRegValuel(HKEY hKey, const ExChar* directory, const ExChar
 	RegCloseKey(hKey);
 }
 
-ELTDECLSPEC void ExSetRegValuec(HKEY hKey, LPCWSTR directory, LPCWSTR cregname,LPCWSTR character){
+ void ExSetRegValuec(HKEY hKey, LPCWSTR directory, LPCWSTR cregname,LPCWSTR character){
 	DWORD res;
 	DWORD type =REG_DWORD;
 	DWORD cbData =1024;
@@ -497,14 +497,14 @@ ELTDECLSPEC void ExSetRegValuec(HKEY hKey, LPCWSTR directory, LPCWSTR cregname,L
 	RegCloseKey(hKey);
 }
 
-ELTDECLSPEC void ExCreateRegKey(HKEY hKey,const ExChar* directory){
+ void ExCreateRegKey(HKEY hKey,const ExChar* directory){
 	DWORD dwDisposition;
 	RegCreateKeyEx(hKey, directory, 0, NULL, 0,0,NULL, &hKey,&dwDisposition);
 	if(dwDisposition != REG_CREATED_NEW_KEY && dwDisposition != REG_OPENED_EXISTING_KEY)
 		wExDevPrint(L"Error reading value");
 }
 
-ELTDECLSPEC void ExCreateFileExts(LPCWSTR filetype){
+ void ExCreateFileExts(LPCWSTR filetype){
 	WCHAR path[MAX_PATH];
 	HKEY hKey;
 	WORD res;
@@ -527,7 +527,7 @@ ELTDECLSPEC void ExCreateFileExts(LPCWSTR filetype){
 }
 
 
-ELTDECLSPEC void ExCreateFileExtsDesc(LPCWSTR filetype,LPCWSTR description){
+ void ExCreateFileExtsDesc(LPCWSTR filetype,LPCWSTR description){
 	ExSetRegValuec(HKEY_CLASSES_ROOT,filetype,EX_TEXT(""),description);
 }
 

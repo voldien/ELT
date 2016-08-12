@@ -16,14 +16,14 @@
 ExCallBack ExOnFocus = NULL;
 ExCallBack ExOnUnFocus = NULL;
 
-void ELTAPIENTRY ExDisableAltTab(void){
+void  ExDisableAltTab(void){
 	BOOL old;
 	RegisterHotKey( 0, 0, MOD_ALT, VK_TAB );
 
 	SystemParametersInfo( SPI_SCREENSAVERRUNNING, 1, &old, 0 );
 }
 
-void ELTAPIENTRY ExEnableAltTab(void){
+void  ExEnableAltTab(void){
 	BOOL old;
 	UnregisterHotKey( 0, 0 );
 
@@ -34,7 +34,7 @@ GUID WceusbshGUID = { 0x25dbce51, 0x6c8f, 0x4a72,
                       0x8a,0x6d,0xb5,0x4c,0x2b,0x4f,0xc8,0x35 };
 
 
-ExBoolean ELTAPIENTRY ExEnableDeviceNotification(ExWin hWnd){
+ExBoolean  ExEnableDeviceNotification(ExWin hWnd){
 	HDEVNOTIFY hDevNotify = 0;
 	DEV_BROADCAST_DEVICEINTERFACE  notificationFilter = {0};
 
@@ -475,7 +475,7 @@ BOOL ExOnContextMenu(ExWin hWnd,Int x, Int y){
     return FALSE;
 }
 
-ELTDECLSPEC BOOL WINAPI ExOnContextMenu2(ExWin hWnd, HMENU hmenuTrackPopup, Int x, Int y){
+ BOOL WINAPI ExOnContextMenu2(ExWin hWnd, HMENU hmenuTrackPopup, Int x, Int y){
 	if(!hmenuTrackPopup)return FALSE;
 	RECT rc;                    // client area of window
     POINT pt = { x, y };        // location of mouse click
@@ -520,7 +520,7 @@ BOOL WINAPI ExDisplayContextMenu(ExWin hWnd, POINT* pt){
 	return TRUE;
 }
 
-ExHandle ELTAPIENTRY ExHookWndProc(Int32  idHook, HOOKPROC lpfn){
+ExHandle  ExHookWndProc(Int32  idHook, HOOKPROC lpfn){
 	HHOOK hook;
 	ExIsWinError(hook =SetWindowsHookEx(idHook,lpfn,GetModuleHandle(NULL),0));
 	return hook;

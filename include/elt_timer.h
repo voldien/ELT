@@ -35,7 +35,8 @@ extern "C"{
 	#define ExCurrentTime(x) time(NULL)	// Get Current Time
 #endif
 
-#define ExCurrentTime clock
+
+
 #define EX_TICKS_PER_SECOND CLOCKS_PER_SEC
 
 /*
@@ -84,7 +85,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nanosec);
 extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetPerformanceFrequency(void);
 
 /**
- *	Get numbers Ticks sense ELT_TIMER was initialize
+ *	Get numbers Ticks sense ELT_TIMER was initialize.
  *
  *	@Return
  */
@@ -94,9 +95,15 @@ extern ELTDECLSPEC long int ELTAPIENTRY ExGetTicks(void);
  *	Get time in high resolution. Use ExGetPerformanceFrequency
  *	to get the how much precision ExGetHiResTime supports.
  *
- *	@Return get number of ticks.
+ *	@Return Get number of ticks.
  */
 extern ELTDECLSPEC long int ELTAPIENTRY ExGetHiResTime(void);
+
+/**
+ *	@Return
+ */
+//extern ELTDECLSPEC long int ELTAPIENTRY ExCurrentTime(void);
+#define ExCurrentTime clock
 
 /**
  *	Get in seconds in float. where 1.0 is a second.
