@@ -2,6 +2,7 @@
 #include"graphic/geometry.h"
 #include"math/vect.h"
 #include"math/matrix.h"
+#include"system/elt_errorhandler.h"
 
 
 #ifdef GL_ES_VERSION_3_0
@@ -24,13 +25,15 @@
 ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* spritebatch){
 	int x;
 	int texture[512];
-	if(!spritebatch)
+	const int numShapes = 4096;
+
+	if(!spritebatch){
+		ExSetError(E_INVALID_ARGUMENT);
 		return NULL;
+	}
 
 	/*	*/
 	glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &spritebatch->numMaxTextures);
-
-
 
 	/*	*/
 	ExGenVertexArrays(1,&spritebatch->vao);
@@ -40,7 +43,7 @@ ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* spritebatch){
 
 	/**/
 	spritebatch->scale = 1.0f;
-	spritebatch->num = ExGetPageSize() * 10;
+	spritebatch->num = numShapes;
 	spritebatch->sprite = NULL;
 	ExSpriteBatchAllocateSprite(spritebatch, spritebatch->num);
 
@@ -61,25 +64,27 @@ ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* spritebatch){
 
 	glBindVertexArray(0);
 
+
 	/*	Load sprite shader.	*/
 	if(!ExLoadShaderv(&spritebatch->spriteShader, EX_VERTEX_SPRITE, EX_FRAGMENT_SPRITE, NULL, NULL, NULL)){
 		/*	failure	*/
+		ExSetError(E_ERROR);
 		ExReleaseSpriteBatch(spritebatch);
 		return NULL;
 	}
 
 	/*	cache sprite uniform location.	*/
-	spritebatch->locationViewMatrix = glGetUniformLocation(spritebatch->spriteShader.program, "gmat");
-	spritebatch->locationScale  = glGetUniformLocation(spritebatch->spriteShader.program, "gscale");
-	spritebatch->locationTexture  = glGetUniformLocation(spritebatch->spriteShader.program, "textures");
+	spritebatch->uniform.locationViewMatrix = glGetUniformLocation(spritebatch->spriteShader.program, "gmat");
+	spritebatch->uniform.locationScale  = glGetUniformLocation(spritebatch->spriteShader.program, "gscale");
+	spritebatch->uniform.locationTexture  = glGetUniformLocation(spritebatch->spriteShader.program, "textures");
 
 	/**/
 	glUseProgram(spritebatch->spriteShader.program);
-	glUniform1f(spritebatch->locationScale, spritebatch->scale);
+	glUniform1f(spritebatch->uniform.locationScale, spritebatch->scale);
 	for(x = 0; x < spritebatch->numMaxTextures; x++){
 		texture[x] = x;
 	}
-	glUniform1iv(spritebatch->locationTexture, 32, &texture[0]);
+	glUniform1iv(spritebatch->uniform.locationTexture, 32, &texture[0]);
 	glUseProgram(0);
 
 
@@ -103,10 +108,19 @@ ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* spritebatch){
 int ExReleaseSpriteBatch(ExSpriteBatch* spritebatch){
 	int status;
 
-	glDeleteBuffers(1, &spritebatch->vbo);
-	ExDeleteShaderProgram(&spritebatch->spriteShader);
+	if(glIsBuffer(spritebatch->vbo) == GL_TRUE){
+		glDeleteBuffers(1, &spritebatch->vbo);
+	}
+	if(glIsVertexArray(spritebatch->vao) == GL_TRUE){
+		glDeleteArrayBuffers(1, &spritebatch->vao);
+	}
+	if(ExIsShader(&spritebatch->spriteShader)){
+		ExDeleteShaderProgram(&spritebatch->spriteShader);
+	}
+
 	free(spritebatch->sprite);
 	spritebatch->sprite = NULL;
+
 	status = !glIsBuffer(spritebatch->vbo);
 	memset(spritebatch, 0, sizeof(*spritebatch));
 	return status;
@@ -114,8 +128,10 @@ int ExReleaseSpriteBatch(ExSpriteBatch* spritebatch){
 
 void ExSpriteBatchAllocateSprite(ExSpriteBatch* spritebatch, unsigned int num){
 	//ExFlushSpriteBatch(spritebatch);
-	if(spritebatch == NULL)
+	if(spritebatch == NULL){
+		ExSetError(E_INVALID_ARGUMENT);
 		return;
+	}
 
 	if(glIsBuffer(spritebatch->vbo) == 0){
 		ExGenBuffers(1, &spritebatch->vbo);
@@ -380,8 +396,8 @@ inline void ExDisplaySprite(ExSpriteBatch* spriteBatch){
 
 
 	/*		*/
-	glUniform1fv(spriteBatch->locationScale, 1, &spriteBatch->scale);
-	glUniformMatrix3fv(spriteBatch->locationViewMatrix, 1, GL_FALSE, &spriteBatch->viewmatrix[0][0]);
+	glUniform1fv(spriteBatch->uniform.locationScale, 1, &spriteBatch->scale);
+	glUniformMatrix3fv(spriteBatch->uniform.locationViewMatrix, 1, GL_FALSE, &spriteBatch->viewmatrix[0][0]);
 
 
 	/*	draw sprites.	*/

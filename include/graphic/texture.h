@@ -115,7 +115,7 @@ extern ELTDECLSPEC void  ELTAPIENTRY ExSetTextureAnisotropy(ExTexture* texture,f
 
 
 
-//GL_NUM_COMPRESSED_TEXTURE_FORMATS
+/*	GL_NUM_COMPRESSED_TEXTURE_FORMATS	*/
 extern int getNumTextureCompressFormat(void);
 extern float ExGetMaxTextureAnisotropy(void);
 

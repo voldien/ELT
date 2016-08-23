@@ -66,7 +66,13 @@ extern ELTDECLSPEC int ELTAPIENTRY ExLoadShader(ExShader* shad, const char* cver
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExLoadShaderv(ExShader* shad, const char* cvertexSource, const char* cfragmentSource, const char* cgeometry_source, const char* ctess_c_source, const char* ctess_e_source);
 
-/*
+/**
+ *
+ * 	@Return
+ */
+extern ELTDECLSPEC int ELTAPIENTRY ExIsShader(const ExShader* shader);
+
+/**
  *
  *	@Return 0 if failed
  */

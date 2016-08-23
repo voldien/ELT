@@ -166,6 +166,11 @@ int ExLoadShaderv(ExShader* shad, const char* cvertexSource, const char* cfragme
 	return 1;
 }
 
+
+int ExIsShader(const ExShader* shader){
+	return glIsProgram(shader->program) == GL_TRUE;
+}
+
 int ExDeleteShaderProgram(ExShader* header){
 	int error;
 
