@@ -337,10 +337,13 @@ void ExGetWindowRect(ExWin window, ExRect* rect){
 Uint32 ExGetWindowFlag(ExWin window){
     //TODO remove or something
 	XWindowAttributes xwa;
-	XGetWindowAttributes(display, (Window*)window,&xwa);
+	XGetWindowAttributes(display, (Window*)window, &xwa);
 	return xwa.all_event_masks;
 }
 
+void ExSetWindowFlag(ExWin window, Enum flag){
+	XSelectInput(display, window, flag);
+}
 
 Int32 ExSetWindowIcon(ExWin window, ExHandle hIcon){
      //http://www.sbin.org/doc/Xlib/chapt_03.html
@@ -502,8 +505,6 @@ Int32 ExGetWindowNumChildren(ExWin window){
 	return n;
 }
 
-
-
 ExWin ExGetDesktopWindow(void){
 
 	int i;
@@ -521,7 +522,6 @@ ExWin ExGetDesktopWindow(void){
 	Atom workeara;
 
 	workeara = XInternAtom(display, "_NET_WORKAREA", False);
-
 
 	#define DEFAULT_DESKTOP_WINDOW_NAME "Desktop"
 	XQueryTree(display, root, &troot, &parent, &children, &n);

@@ -24,22 +24,12 @@
 extern "C"{
 #endif
 
-
 /**
  *	Get platform
  *
  *	@Return platform name as a string.
  */
 extern ELTDECLSPEC const char* ELTAPIENTRY ExGetPlatform(void);
-
-/**
- *	Get operatingSystem name
- *
- *	@Return
- */
-extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetOSName(void);
-
-
 
 
 #ifdef __cplusplus	/*	C++ Environment	*/

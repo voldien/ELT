@@ -27,7 +27,7 @@ extern unsigned long int engineflag;
 
 #define ELT_DEINIT ((unsigned long int)(-1))
 
-ERESULT ExInit(Enum engineFlag){
+ERESULT ExInit(Enum flag){
 	ERESULT result = E_OK;
 	ExHandle hmodule;
 	Int32 hConHandle;
@@ -40,7 +40,7 @@ ERESULT ExInit(Enum engineFlag){
     }
 	engineflag = engineflag & ~ELT_DEINIT;
 
-	mtrace();
+
 
 
 	/*	enable loggint */
@@ -60,10 +60,10 @@ ERESULT ExInit(Enum engineFlag){
     }
 
 	/*	Initialize sub system	*/
-	ExInitSubSystem(engineFlag);
+	ExInitSubSystem(flag);
 
 
-	engineflag |= engineFlag;
+	engineflag |= flag;
 
 	/* release resources even if application exit unexpected or exit without calling ExShutDown */
 	atexit(ExShutDown);
@@ -71,43 +71,46 @@ ERESULT ExInit(Enum engineFlag){
 	return result;
 }
 
-ERESULT ExInitSubSystem(Uint32 engineflag){
+ERESULT ExInitSubSystem(Uint32 flag){
 	ERESULT hr = 0;
 	ExHandle hmodule;
 
 	/**/
-	engineflag = engineflag & ~ELT_DEINIT;
+	engineflag = flag & ~ELT_DEINIT;
 
 
-	if(ELT_INIT_VIDEO & engineflag){
-
-	}
-	if(ELT_INIT_JOYSTICK & engineflag){
-
+	if(ELT_INIT_VIDEO & flag){
 
 	}
-	if(ELT_INIT_AUDIO & engineflag){
+	if(ELT_INIT_JOYSTICK & flag){
+
+
+	}
+	if(ELT_INIT_AUDIO & flag){
 		//ExAudioInit(0);
 
 
 	}
-	if(ELT_INIT_GAMECONTROLLER & engineflag){
+	if(ELT_INIT_GAMECONTROLLER & flag){
 
 	}
-	if(ELT_INIT_EVENTS & engineflag){
+	if(ELT_INIT_EVENTS & flag){
 	    /*		enable X events	*/
 		XAllowEvents(display , SyncBoth,CurrentTime);
 	}
-	if(ELT_INIT_TIMER & engineflag){
+	if(ELT_INIT_TIMER & flag){
 		eltTickTime = ExCurrentTime();
 	}
 
-	if(ELT_INIT_NET & engineflag){
+	if(ELT_INIT_NET & flag){
 
 	}
 
 	/*	initialize error handler.	*/
-	if(engineflag & ELT_INIT_DEBUG){
+	if( ( flag & ELT_INIT_DEBUG ) ){
+
+		mtrace();
+
 		if(!(hr = ExInitErrorHandler())){
 			ExError(EX_TEXT("Failed to initialize error handler."));
 		}
@@ -116,36 +119,37 @@ ERESULT ExInitSubSystem(Uint32 engineflag){
 	return hr;
 }
 
-void ExQuitSubSytem(Uint32 engineflag){
+void ExQuitSubSytem(Uint32 flag){
 
 	/**/
-	if(ELT_INIT_TIMER & engineflag){
+	if(ELT_INIT_TIMER & flag){
 
 	}
-	if(ELT_INIT_AUDIO & engineflag){
+	if(ELT_INIT_AUDIO & flag){
 		//ExUnLoadObject(ExGetFileModule(EX_TEXT("libasound.so")));
 	}
-	if(ELT_INIT_JOYSTICK & engineflag){
+	if(ELT_INIT_JOYSTICK & flag){
         ExJoyStickClose(0);
         ExJoyStickClose(1);
         ExJoyStickClose(2);
         ExJoyStickClose(3);
 		//ExJoyStickShutDown();
 	}
-	if(ELT_INIT_GAMECONTROLLER & engineflag){
+	if(ELT_INIT_GAMECONTROLLER & flag){
 
 	}
-	if(ELT_INIT_NET & engineflag){
+	if(ELT_INIT_NET & flag){
 
 	}
 
-	if(ELT_INIT_VIDEO & engineflag){
+	if(ELT_INIT_VIDEO & flag){
 
 	}
 }
 
 void ExShutDown(void){
     struct mallinfo mi;
+
 	if(engineflag & ELT_DEINIT){
 		return;
 	}
@@ -168,13 +172,6 @@ void ExShutDown(void){
 	}
 
 	/**/
-	/*
-	if(xcbConnection){
-		XCloseDisplay(xcbConnection);
-	}
-	*/
-
-	/**/
 	XSync(display,True);
 	if(display){
 		XFlush(display);
@@ -185,19 +182,21 @@ void ExShutDown(void){
     }
 
 	/**/
-	mi = mallinfo();
-	printf("Total non-mmapped bytes (arena):       %d\n", mi.arena);
-	printf("# of free chunks (ordblks):            %d\n", mi.ordblks);
-	printf("# of free fastbin blocks (smblks):     %d\n", mi.smblks);
-	printf("# of mapped regions (hblks):           %d\n", mi.hblks);
-	printf("Bytes in mapped regions (hblkhd):      %d\n", mi.hblkhd);
-	printf("Max. total allocated space (usmblks):  %d\n", mi.usmblks);
-	printf("Free bytes held in fastbins (fsmblks): %d\n", mi.fsmblks);
-	printf("Total allocated space (uordblks):      %d\n", mi.uordblks);
-	printf("Total free space (fordblks):           %d\n", mi.fordblks);
-	printf("Topmost releasable block (keepcost):   %d\n", mi.keepcost);
+	if(ELT_INIT_DEBUG & engineflag){
+		mi = mallinfo();
+		printf("Total non-mmapped bytes (arena):       %d\n", mi.arena);
+		printf("# of free chunks (ordblks):            %d\n", mi.ordblks);
+		printf("# of free fastbin blocks (smblks):     %d\n", mi.smblks);
+		printf("# of mapped regions (hblks):           %d\n", mi.hblks);
+		printf("Bytes in mapped regions (hblkhd):      %d\n", mi.hblkhd);
+		printf("Max. total allocated space (usmblks):  %d\n", mi.usmblks);
+		printf("Free bytes held in fastbins (fsmblks): %d\n", mi.fsmblks);
+		printf("Total allocated space (uordblks):      %d\n", mi.uordblks);
+		printf("Total free space (fordblks):           %d\n", mi.fordblks);
+		printf("Topmost releasable block (keepcost):   %d\n", mi.keepcost);
 
-	muntrace();
+		muntrace();
+	}
 
 	/**/
 	engineflag |= ELT_DEINIT;

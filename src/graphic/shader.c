@@ -203,7 +203,7 @@ int ExCompileShaderSource(const char* strPath, char** source, unsigned int flag)
 			*source = data;
 
 	}else{
-		printf("Invalid Path %s",strPath);
+		printf("Invalid Path %s\n",strPath);
 		return -1;
 	}
 	return shader;
@@ -241,7 +241,7 @@ int ExShaderCompileLog(unsigned int program, unsigned int shaderflag){
 
 		if(!status){
 			glGetProgramInfoLog(program, sizeof(log),NULL,log);
-			printf("\x1B[31m""Failed to compile shader\n%s", log);
+			printf("\x1B[31m""Failed to compile shader\n%s\n", log);
 		}
 		return FALSE;
 	}

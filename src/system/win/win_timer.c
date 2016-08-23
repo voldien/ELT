@@ -54,3 +54,8 @@ long int ExGetHiResTime(void){
 	QueryPerformanceCounter(&time);
 	return (long int)time.QuadPart;
 }
+
+
+long int ExCurrentTime(void){
+	return timeGetTime();
+}

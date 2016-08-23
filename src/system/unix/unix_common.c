@@ -212,14 +212,7 @@ int ExSetScreenSize(Int32 index, Int32 width, Int32 height){
 }
 
 
-
-
-
 const ExChar* ExGetPlatform(void){
-	return "";
-}
-
-const ExChar* ExGetOSName(void){
 	struct utsname name;
 	static char os[_UTSNAME_SYSNAME_LENGTH];
 	if(uname(&name) != EFAULT){
@@ -230,7 +223,6 @@ const ExChar* ExGetOSName(void){
 		return "unix";
 	}
 }
-
 
 
 
@@ -257,6 +249,22 @@ ExChar* ExGetApplicationName(ExChar* name, Int32 length){
 #   endif
 }
 
+
+
+
+int ExGetHostname(char* hostname, unsigned int len){
+	return gethostname(hostname, len);
+}
+
+
+
+ExChar* ExWideToChar(const ExWide* wchar, ExChar** cchar){
+	return NULL;
+}
+
+ExWide* ExCharToWide(const ExChar* cchar, ExWide** wchar){
+	return NULL;
+}
 
 
 
@@ -315,8 +323,9 @@ Uint64 ExGetTotalUsedVirtualMemory(void){
 
 
 
-Int32 ExSetClipboardText(const ExChar* text){
 
+
+Int32 ExSetClipboardText(const ExChar* text){
 	return 0;
 }
 

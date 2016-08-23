@@ -67,14 +67,14 @@ static int private_ctxErrorHandler(Display* dpy, XErrorEvent* error){
 
 
 int ExInitErrorHandler(void){
+
 #if defined(EX_LINUX)
     /*	enable X window error message handler.	*/
 	if(!XSetErrorHandler(private_ctxErrorHandler)){
         ExDevPrintf("error");
 	}
+
 #endif
-
-
 
 	/*	interrupt	*/
 	ExSetSignal(SIGINT,ExSignalCatch);

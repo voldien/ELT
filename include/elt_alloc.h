@@ -26,6 +26,7 @@ extern "C"{
 
 /**
  *	Get Page size.
+ *
  *	@Return number of bytes per page.
  */
 extern ELTDECLSPEC Uint ELTAPIENTRY ExGetPageSize(void);
@@ -33,28 +34,33 @@ extern ELTDECLSPEC Uint ELTAPIENTRY ExGetPageSize(void);
 
 /**
  *	Get total system memory on the system.
+ *
  *	@Return
  */
 extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalSystemMemory(void);
 
 /**
  *
+ *	@Return
  */
 extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalFreeSystemMemory(void);
 
 /**
  *
+ *	@Return
  */
 extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalUsedSystemMemory(void);
 
 /**
  *
+ *	@Return
  */
 extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetProcessSystemMemory(void);
 
 
-/*
+/**
  *	Get total virtual memory on the system.
+ *
  *	@Return
  */
 extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalVirtualMemory(void);
@@ -70,7 +76,9 @@ typedef struct ex_pool_allocator{
 }ExPoolAllocator;
 
 /**
- *	Poll allocator
+ *	Create Poll allocator.
+ *	[next| data]
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolCreate(unsigned int num, unsigned int itemsize);
@@ -79,11 +87,14 @@ extern ELTDECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolCreate(unsigned int num, u
  *	obtain next item
  *	If return value is null, then the allocator
  *	is full
+ *
  *	@Return
  */
 extern ELTDECLSPEC void* ELTAPIENTRY ExPoolObtain(ExPoolAllocator* allactor);
 
 /**
+ *
+ *
  *	@Return current next.
  */
 extern ELTDECLSPEC void* ELTAPIENTRY ExPoolReturn(ExPoolAllocator* allactor, void* data);
@@ -99,19 +110,21 @@ extern ELTDECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolResize(ExPoolAllocator* al
 extern ELTDECLSPEC void ELTAPIENTRY ExPoolFree(ExPoolAllocator* allactor);
 
 /**
- *	Get data pointer at index.
+ *	Get
+ *
+ *	@Return
  */
 #define ExPoolIndex(alloc, index, len)	( ( alloc ) + (( index ) * ( len )  + ( index )) )
 
 /**
+ *	Get pointer .
  *
+ *	@Return
  */
 #define ExPoolDataIndex(alloc, data, len)	((data - alloc)
 
 
 
-
-EX_ALIGN_PREFIX(4)
 typedef struct ex_list{
 	/*
 	 *
@@ -123,19 +136,19 @@ typedef struct ex_list{
 	 */
 	struct ex_list* previous;
 
+	/**
+	 *
+	 */
+	void* data[0];
 
 }ExList;
 
 /**
  *	Create double linked list.
- */
-extern ELTDECLSPEC ExList* ExCreateList(ExList* list, unsigned int num, unsigned int itemsize);
-
-/**
  *
+ *	@Return
  */
-extern ELTDECLSPEC ExList* ExCreateListS(ExList* list, unsigned int num, unsigned int itemsize);
-
+extern ELTDECLSPEC ExList* ELTAPIENTRY ExCreateDoubleList(ExList* list, unsigned int num, unsigned int itemsize);
 
 
 
@@ -150,20 +163,36 @@ typedef struct ex_quad_tree{
 }ExQuadTree;
 
 
-/**/
-extern ELTDECLSPEC ExQuadTree* ExCreateQuadTree(ExQuadTree* list, unsigned int depth, unsigned int itemsize);
+/**
+ *
+ *	@Return
+ */
+extern ELTDECLSPEC ExQuadTree* ELTAPIENTRY ExCreateQuadTree(ExQuadTree* list, unsigned int depth, unsigned int itemsize);
 
 
 
-
-EX_ALIGN_PREFIX(4)
 typedef struct ex_octree_tree{
 	struct ex_octree_tree* t0[8];
 }ExOctreTree;
 
-/**/
-extern ELTDECLSPEC ExQuadTree* ExCreateOcTree(ExList* list, unsigned int depth, unsigned int itemsize);
+/**
+ *
+ *	@Return
+ */
+extern ELTDECLSPEC ExQuadTree* ELTAPIENTRY ExCreateOcTree(ExList* list, unsigned int depth, unsigned int itemsize);
 
+
+
+typedef struct ex_queue{
+	int x;
+}ExQueue;
+
+/**
+ *	Create queue data structure.
+ *
+ *	@Return
+ */
+extern ELTDECLSPEC ExQuadTree* ELTAPIENTRY ExCreateQueue(ExList* list, unsigned int depth, unsigned int itemsize);
 
 
 typedef struct ex_hash_table{
@@ -172,7 +201,7 @@ typedef struct ex_hash_table{
 }ExHashTable;
 
 /**/
-extern ELTDECLSPEC ExQuadTree* ExCreateHashTable(ExList* list, unsigned int depth, unsigned int itemsize);
+extern ELTDECLSPEC ExQuadTree* ELTAPIENTRY ExCreateHashTable(ExList* list, unsigned int depth, unsigned int itemsize);
 
 #ifdef __cplusplus
 }

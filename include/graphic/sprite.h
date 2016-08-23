@@ -46,7 +46,7 @@ typedef struct sprite_batch{
 	 */
 	unsigned int num;					/**/
 	unsigned int numDraw;				/**/
-	//unsigned int numlabelDraw;			/**/
+	/*unsigned int numlabelDraw;*/		/**/
 	unsigned int vbo;					/**/
 	unsigned int vao;					/**/
 

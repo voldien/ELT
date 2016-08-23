@@ -57,15 +57,15 @@ typedef struct ex_rect{
 /*
  *	Event flag.
  */
-#define EX_EVENT_KEY 0x1					/*	*/
-#define EX_EVENT_KEY_RELEASE 0x2			/*	*/
-#define EX_EVENT_KEY_PRESSED 0x4			/*	*/
+#define EX_EVENT_KEY 0x1					/*	Any key at any state.	*/
+#define EX_EVENT_KEY_RELEASE 0x2			/*	Any key in release state.	*/
+#define EX_EVENT_KEY_PRESSED 0x4			/*	Any key in pressed state.	*/
 #define EX_EVENT_MOUSE 0x8					/*	*/
-#define EX_EVENT_MOUSE_PRESSED 0x10			/*	*/
-#define EX_EVENT_MOUSE_RELEASED 0x20		/*	*/
-#define EX_EVENT_SIZE 0x40					/*	*/
-#define EX_EVENT_RESIZE 0x40				/*	*/
-#define EX_EVENT_SYSTEM 0x80				/*	*/
+#define EX_EVENT_MOUSE_PRESSED 0x10			/*	On any mouse button pressed.	*/
+#define EX_EVENT_MOUSE_RELEASED 0x20		/*	On any mouse button released.	*/
+#define EX_EVENT_SIZE 0x40					/*	On window size change.	*/
+#define EX_EVENT_RESIZE 0x40				/*	TODO fix, does not really work.	*/
+#define EX_EVENT_SYSTEM 0x80				/*	On system event.	*/
 #define EX_EVENT_MOUSEWHEEL 0x100			/*	*/
 #define EX_EVENT_JOYSTICK 0x200				/*	*/
 #define EX_EVENT_TOUCH 0x400				/*	*/
@@ -73,8 +73,8 @@ typedef struct ex_rect{
 #define EX_EVENT_QUIT 0x1000				/*	*/
 #define EX_EVENT_MOUSE_MOTION 0x2000		/*	*/
 #define EX_EVENT_EXPOSE	0x4000				/*	*/
-#define EX_EVENT_ON_FOCUSE	0x8000			/*	*/
-#define EX_EVENT_ON_UNFOCUSE 0x10000		/*	*/
+#define EX_EVENT_ON_FOCUSE	0x8000			/*	On window in focus.	*/
+#define EX_EVENT_ON_UNFOCUSE 0x10000		/*	On window unfocus.	*/
 #define EX_EVENT_WINDOW_MOVE 0x20000		/*	*/
 #define EX_EVENT_WINDOW_DESTROYED 0x40000	/*	*/
 #define EX_EVENT_WINDOW_REPARENT 0x80000	/*	*/
@@ -239,12 +239,15 @@ typedef struct window_poll_events{
 }ExWindowEvent;
 
 
+/**
+ *
+ */
 typedef struct elt_poll_events{
 	/*
 	 *
 	 */
-	Enum event;									/*			*/
-	ExKeyEvent key;                            	/*          */
+	Enum event;									/*	event type fetched.	*/
+	ExKeyEvent key;                            	/*	key event info.		*/
 	ExMouseMoveEvent mouse;                    	/*          */
 	ExMouseWheelEvent mouseWheelEvent;         	/*          */
 	ExWinButtonEvent button;    				/*          */
@@ -258,19 +261,20 @@ typedef struct elt_poll_events{
 	unsigned long int time;						/*			*/
 	ExDisplay display;							/*			*/
 	/*ExPoint location;	*/
-	ExWindowReparent reparent;					/**/
-	ExWin window;								/**/
+	ExWindowReparent reparent;					/*	*/
+	ExWin window;								/*	*/
 }ExEvent;
 
 
 
 
 /**
- *	Poll Event from process.
+ *	Poll event from process.
  *
- *	\event
+ *	\event non null pointer to ExEvent event structure.
+ *	if event is null, there'll be a segementation violation.
  *
- *	@Return
+ *	@Return 1 if event was polled. 0 if no event was polled.
  */
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
 

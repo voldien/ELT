@@ -25,21 +25,7 @@
 extern "C"{
 #endif
 
-
-/*
- *
- */
-#ifdef EX_WINDOWS
-	#define ExCurrentTime timeGetTime	// Get Current Time
-#elif defined(EX_LINUX) || defined(EX_UNIX) || defined(EX_ANDROID)
-	#define ExCurrentTime(x) time(NULL)	// Get Current Time
-#endif
-
-
-
-#define EX_TICKS_PER_SECOND CLOCKS_PER_SEC
-
-/*
+/**
  *
  */
 typedef Uint32 ExTimer;
@@ -50,7 +36,9 @@ typedef Uint32 ExTimer;
  *
  *	\ms_interval
  *	\callback
+ *
  *	\param
+ *
  *
  *	@Return unique timer id.
  */
@@ -72,6 +60,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms);
 
 /**
  *	Delay current thread in nano seconds.
+ *
  *	\ns
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nanosec);
@@ -102,14 +91,8 @@ extern ELTDECLSPEC long int ELTAPIENTRY ExGetHiResTime(void);
 /**
  *	@Return
  */
-//extern ELTDECLSPEC long int ELTAPIENTRY ExCurrentTime(void);
-#define ExCurrentTime clock
-
-/**
- *	Get in seconds in float. where 1.0 is a second.
- *	@Return
- */
-#define ExGetSecondsf ((float)ExGetTicks() / (float)EX_TICKS_PER_SECOND)
+#define EX_TICKS_PER_SECOND CLOCKS_PER_SEC
+extern ELTDECLSPEC long int ELTAPIENTRY ExCurrentTime(void);
 
 
 #ifdef __cplusplus	/*	C++ Environment	*/

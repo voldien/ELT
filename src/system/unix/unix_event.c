@@ -1,7 +1,8 @@
 #include"system/elt_event.h"
-#	include"system/unix/unix_win.h"
-#	include<X11/X.h>
-#	include<X11/Xlib.h>
+
+#include"system/unix/unix_win.h"
+#include<X11/X.h>
+#include<X11/Xlib.h>
 
 
 static inline void private_ExDecodeEvent(ExEvent* event, XEvent msg){
@@ -89,9 +90,10 @@ static inline void private_ExDecodeEvent(ExEvent* event, XEvent msg){
 
 	}break;
 	case ConfigureNotify:{
-        //event->event |= EX_EVENT_SIZE;
-        //event->size.width =  msg.xconfigure.width;
-        //event->size.height = msg.xconfigure.height;
+		XConfigureEvent xce = msg.xconfigure;
+        event->event |= EX_EVENT_SIZE;
+        event->size.width =  msg.xconfigure.width;
+        event->size.height = msg.xconfigure.height;
 	}break;
 	case DestroyNotify:{
 		event->event |= EX_EVENT_WINDOW_DESTROYED;
@@ -120,8 +122,9 @@ static inline void private_ExDecodeEvent(ExEvent* event, XEvent msg){
 		event->event |= msg.type;
 		break;
 	}
-	event->time = ExGetTicks();
-	event->window = msg.xany.window;
+
+	event->time = ExGetTicks();			/*	TODO check if to use ExGetHiRes() instead.	*/
+	event->window = msg.xany.window;	/*	*/
 }
 
 

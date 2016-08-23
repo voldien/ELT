@@ -78,7 +78,7 @@ extern ELTDECLSPEC BOOL ELTAPISTDENTRY ExDisplayContextMenu(ExWin hWnd, POINT* p
 /*
  *
  */
-extern ELTDECLSPEC ExHandle ELTAPIENTRY ExHookWndProc(Int32  idHook, HOOKPROC lpfn);
+extern ELTDECLSPEC ExHandle ELTAPIENTRY ExHookWndProc(Int32 idHook, HOOKPROC lpfn);
 
 /*
  *

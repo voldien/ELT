@@ -30,7 +30,7 @@ extern "C"{
 #endif
 
 /**
- *	High layer flag.		TODO change the ELT prefix.
+ *	High layer flag.		TODO change the ELT prefix to EX.
  */
 #define ELT_INIT_NONE				0x00000000			/**/
 #define ELT_INIT_TIMER				0x00000001			/**/
@@ -43,7 +43,7 @@ extern "C"{
 #define ELT_INIT_DEBUG				0x00010000			/**/
 #define ELT_INIT_EVERYTHING (										\
 	ELT_INIT_VIDEO | ELT_INIT_AUDIO | ELT_INIT_JOYSTICK				\
- | ELT_INIT_TIMER | ELT_INIT_GAMECONTROLLER | ELT_INIT_EVENTS)
+ | ELT_INIT_TIMER | ELT_INIT_GAMECONTROLLER | ELT_INIT_EVENTS | ELT_INIT_DEBUG)
 
 
 /**
@@ -104,13 +104,15 @@ extern ELTDECLSPEC int ELTAPIENTRY ExCreateInterrupt(ex_interrupt_routine callba
 
 /**
  *	Get ELT Version.
- *	@Return
+ *
+ *	@Return non NULL string.
  */
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void);
 
 /**
- *	Get compiler compiled with ELT.
- *	@Return
+ *	Get compiler compiled for the  ELT library.
+ *
+ *	@Return Non NULL pointer.
  */
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void);
 

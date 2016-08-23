@@ -231,9 +231,9 @@ typedef void* ExXDisplay;
 #ifdef EX_WINDOWS
 	#define EX_THREAD_CALLBACK __stdcall
 #elif defined(EX_LINUX) && defined(GLX_H)
-	#define EX_THREAD_CALLBACK //__cdecl
+	#define EX_THREAD_CALLBACK /*__cdecl	*/
 #elif defined(EX_ANDROID)
-	#define EX_THREAD_CALLBACK //__cdecl
+	#define EX_THREAD_CALLBACK /*__cdecl	*/
 #elif defined(EX_MAC)
 	#define EX_THREAD_CALLBACK __cdecl
 #else

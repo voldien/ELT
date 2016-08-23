@@ -50,7 +50,7 @@ extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetClipboardText(void);
 extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetClipboardData(void* pdata);
 
 /**
- *
+ *	Check if there is clipboard.
  *
  *	@Return
  */

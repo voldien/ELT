@@ -37,34 +37,47 @@ extern "C"{
 
 
 /*	TODO conclude if function shall follow same naming conventions as opengl or use our own.*/
+/**
+ *
+ *	@Return
+ */
 extern ELTDECLSPEC void ELTAPIENTRY ExGenBuffers(int n, unsigned int* buffers);
 
-/*
+/**
  *
+ *	@Return
  */
-extern ELTDECLSPEC int ExCreateVBO(unsigned int target, unsigned int size, unsigned int mode);
+extern ELTDECLSPEC int ELTAPIENTRY ExCreateVBO(unsigned int target, unsigned int size, unsigned int mode);
 
-/*
+/**
  *
+ *	@Return
  */
-extern ELTDECLSPEC void ExSetBufferSize(unsigned int target, unsigned int buffer, unsigned int size, unsigned int mode);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetBufferSize(unsigned int target, unsigned int buffer, unsigned int size, unsigned int mode);
 
 
-/*
+/**
+ *	Generate vertex arrays.
  *
+ *	\n
+ *
+ *	\arg
+ *
+ *	@Return
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExGenVertexArrays(int n, unsigned int* arg);
 
-/*
+/**
+ *
  *	@Return
  */
-extern ELTDECLSPEC int ExCreateUniformBuffer(unsigned int size);
+extern ELTDECLSPEC int ELTAPIENTRY ExCreateUniformBuffer(unsigned int size);
 
-/*
+/**
+ *
  *	@Return
  */
-extern ELTDECLSPEC int ExDestroyBuffer(unsigned int buffer);
-
+extern ELTDECLSPEC int ELTAPIENTRY ExDestroyBuffer(unsigned int buffer);
 
 
 #ifdef __cplusplus	/* C++ environment	*/

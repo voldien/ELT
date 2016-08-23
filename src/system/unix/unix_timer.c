@@ -97,3 +97,9 @@ long int ExGetHiResTime(void){
     gettimeofday(&tSpec, NULL);
     return (tSpec.tv_sec*1e6 + tSpec.tv_usec) * 1000;
 }
+
+long int ExCurrentTime(void){
+	return clock();
+	return time(NULL);
+}
+

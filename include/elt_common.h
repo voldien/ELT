@@ -117,18 +117,23 @@ extern ELTDECLSPEC void ELTAPIENTRY ExGetExecutePath(ExChar* wChar, Int32 length
  */
 extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetAppliationPath(ExChar* wChar, Int32 lengthSize);
 
-
+/**
+ *	Get hostname.
+ *
+ *	@Return
+ */
+extern ELTDECLSPEC int ELTAPIENTRY ExGetHostname(char* hostname, unsigned int len);
 
 
 /**
  *	Convert wide character encoded string to ascii encoded string.
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExWideToChar(const ExWide* wchar, char** cchar);
+extern ELTDECLSPEC ExChar* ELTAPIENTRY ExWideToChar(const ExWide* wchar, ExChar** cchar);
 
 /**
  *	Convert ascii character encoded string to wide character encoded string.
  */
-extern ELTDECLSPEC char* ELTAPIENTRY ExCharToWide(const ExWide* wwchar);
+extern ELTDECLSPEC ExWide* ELTAPIENTRY ExCharToWide(const ExChar* cchar, ExWide** wchar);
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 }

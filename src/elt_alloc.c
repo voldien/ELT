@@ -6,8 +6,6 @@
 #   include<unistd.h>
 #endif
 
-
-
 Uint ExGetPageSize(void){
     #ifdef EX_WINDOWS
 	PERFORMANCE_INFORMATION erformance_info;
@@ -18,6 +16,9 @@ Uint ExGetPageSize(void){
 	return sz;
     #endif
 }
+
+
+
 
 ExPoolAllocator* ExPoolCreate(unsigned int num, unsigned int itemsize){
 	ExPoolAllocator* alloc;
@@ -91,14 +92,30 @@ void ExPoolFree(ExPoolAllocator* allactor){
 	free(allactor);
 }
 
-ExList* ExCreateList(ExList* list, unsigned int num, unsigned int itemsize){
+
+
+ExList* ExCreateDoubleList(ExList* list, unsigned int num, unsigned int itemsize){
+	int x;
 	if(list == NULL)
 		return NULL;
 
-	list = realloc(list, num * ( itemsize + sizeof(ExList) ));
+	void* p;
+	void* n;
+
+
+	list = (ExList*)realloc(list, num * ( itemsize + sizeof(ExList) ));
+
+
+	for(x = 0; x < num; x++){
+		list->next = (void*)list + itemsize;
+	}
 
 	return list;
 }
+
+
+
+
 
 
 
