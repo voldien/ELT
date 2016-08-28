@@ -35,7 +35,7 @@ ERESULT ExInit(Enum flag){
 
 
 	/*	if all is already initilated return !	*/
-    if(engineflag & ELT_INIT_EVERYTHING){
+    if(engineflag & EX_INIT_EVERYTHING){
         return 2;
     }
 	engineflag = engineflag & ~ELT_DEINIT;
@@ -51,13 +51,16 @@ ERESULT ExInit(Enum flag){
 
 
     /*	Create Connection with Display Server.	*/
-    if(display){
+    if(display == NULL){
     	display = XOpenDisplay(getenv("DISPLAY"));
     }
     if(!display){
         ExError("couldn't open Display\n");
         abort();
     }
+	if(xcbConnection == NULL){
+		xcbConnection = XGetXCBConnection(display);
+	}
 
 	/*	Initialize sub system	*/
 	ExInitSubSystem(flag);
@@ -79,35 +82,35 @@ ERESULT ExInitSubSystem(Uint32 flag){
 	engineflag = flag & ~ELT_DEINIT;
 
 
-	if(ELT_INIT_VIDEO & flag){
+	if(EX_INIT_VIDEO & flag){
 
 	}
-	if(ELT_INIT_JOYSTICK & flag){
+	if(EX_INIT_JOYSTICK & flag){
 
 
 	}
-	if(ELT_INIT_AUDIO & flag){
+	if(EX_INIT_AUDIO & flag){
 		//ExAudioInit(0);
 
 
 	}
-	if(ELT_INIT_GAMECONTROLLER & flag){
+	if(EX_INIT_GAMECONTROLLER & flag){
 
 	}
-	if(ELT_INIT_EVENTS & flag){
+	if(EX_INIT_EVENTS & flag){
 	    /*		enable X events	*/
 		XAllowEvents(display , SyncBoth,CurrentTime);
 	}
-	if(ELT_INIT_TIMER & flag){
+	if(EX_INIT_TIMER & flag){
 		eltTickTime = ExCurrentTime();
 	}
 
-	if(ELT_INIT_NET & flag){
+	if(EX_INIT_NET & flag){
 
 	}
 
 	/*	initialize error handler.	*/
-	if( ( flag & ELT_INIT_DEBUG ) ){
+	if( ( flag & EX_INIT_DEBUG ) ){
 
 		mtrace();
 
@@ -122,27 +125,27 @@ ERESULT ExInitSubSystem(Uint32 flag){
 void ExQuitSubSytem(Uint32 flag){
 
 	/**/
-	if(ELT_INIT_TIMER & flag){
+	if(EX_INIT_TIMER & flag){
 
 	}
-	if(ELT_INIT_AUDIO & flag){
+	if(EX_INIT_AUDIO & flag){
 		//ExUnLoadObject(ExGetFileModule(EX_TEXT("libasound.so")));
 	}
-	if(ELT_INIT_JOYSTICK & flag){
+	if(EX_INIT_JOYSTICK & flag){
         ExJoyStickClose(0);
         ExJoyStickClose(1);
         ExJoyStickClose(2);
         ExJoyStickClose(3);
 		//ExJoyStickShutDown();
 	}
-	if(ELT_INIT_GAMECONTROLLER & flag){
+	if(EX_INIT_GAMECONTROLLER & flag){
 
 	}
-	if(ELT_INIT_NET & flag){
+	if(EX_INIT_NET & flag){
 
 	}
 
-	if(ELT_INIT_VIDEO & flag){
+	if(EX_INIT_VIDEO & flag){
 
 	}
 }
@@ -155,7 +158,7 @@ void ExShutDown(void){
 	}
 
 	/*	*/
-	ExQuitSubSytem(ELT_INIT_EVERYTHING);
+	ExQuitSubSytem(EX_INIT_EVERYTHING);
 
 	/**/
 	if(ExGetCurrentOpenGLContext()){
@@ -182,7 +185,7 @@ void ExShutDown(void){
     }
 
 	/**/
-	if(ELT_INIT_DEBUG & engineflag){
+	if(EX_INIT_DEBUG & engineflag){
 		mi = mallinfo();
 		printf("Total non-mmapped bytes (arena):       %d\n", mi.arena);
 		printf("# of free chunks (ordblks):            %d\n", mi.ordblks);
@@ -200,7 +203,7 @@ void ExShutDown(void){
 
 	/**/
 	engineflag |= ELT_DEINIT;
-	engineflag = engineflag & ~ELT_INIT_EVERYTHING;
+	engineflag = engineflag & ~EX_INIT_EVERYTHING;
 }
 
 ExDisplay ExGetDisplay(void){
