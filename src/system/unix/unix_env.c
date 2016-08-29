@@ -12,15 +12,10 @@ int ExSetEnv(const ExChar* name, const char* pValue){
 	return setenv(name, pValue, 0);
 }
 
-ExChar* ExGetEnv(const ExChar* name){
+const ExChar* ExGetEnv(const ExChar* name){
 	char* outenv = NULL;
 	char* env = getenv(name);
-	if(env){
-		unsigned int len = strlen(env) + 1;
-		outenv = malloc(len);
-		memcpy(outenv, env, len);
-	}
-	return outenv;
+	return env;
 }
 
 int ExRemoveEnv(const ExChar* name){

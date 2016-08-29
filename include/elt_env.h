@@ -42,9 +42,9 @@ extern ELTDECLSPEC int ELTAPIENTRY ExSetEnv(const ExChar* name, const char* pVal
 /**
  *	Allocate data for the environment data.
  *
- *	@Return none NULL String if succesfully.
+ *	@Return none NULL String if successfully.
  */
-extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetEnv(const ExChar* name);
+extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetEnv(const ExChar* name);
 
 /**
  *	Remove environment used in the process.
@@ -55,6 +55,7 @@ extern ELTDECLSPEC int ELTAPIENTRY ExRemoveEnv(const ExChar* name);
 /**
  *	Allocate data to store a copy of all environment data.
  *	@Return
+ *	return value has to be freed by caller.
  */
 extern ELTDECLSPEC ExChar* ExGetAllEnv(void);
 
