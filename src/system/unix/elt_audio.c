@@ -36,8 +36,8 @@ ExAudioContext ExAudioInit(const char* cDriverName){
 			alcMakeContextCurrent(alContext);
 
 			alListenerfv(AL_POSITION,listenerPos); 	/* Position ...	*/
-			alListenerfv(AL_VELOCITY,listenerVel); 	// Velocity ...
-			alListenerfv(AL_ORIENTATION,listenerOri); 	// Orientation ...
+			alListenerfv(AL_VELOCITY,listenerVel); 	/* Velocity ...	*/
+			alListenerfv(AL_ORIENTATION,listenerOri); 	/* Orientation ...	*/
 			alListenerf(AL_GAIN, 1.0f * 0.01f);
 		}
 	}
@@ -101,7 +101,7 @@ ERESULT ExAudioQuit(void){
 
 	alcMakeContextCurrent(NULL);
 	alcDestroyContext(alContext);
-	//Close device
+	/**/
 	alcCloseDevice(alDevice);
 }
 

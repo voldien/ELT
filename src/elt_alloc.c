@@ -46,8 +46,9 @@ ExPoolAllocator* ExPoolCreate(unsigned int num, unsigned int itemsize){
 
 void* ExPoolObtain(ExPoolAllocator* allactor){
 	ExPoolAllocator* tmp;
-	if(allactor->next == NULL)
+	if(allactor->next == NULL){
 		return NULL;
+	}
 
 	tmp = allactor->next;
 	allactor->next = tmp->next;

@@ -74,8 +74,6 @@ extern "C"{
 #define EX_SIGN_
 
 
-
-
 /*
  *	Initialize Error Handler
  *	@Return
@@ -116,40 +114,44 @@ extern ELTDECLSPEC void ELTAPIFASTENTRY ExClearError(void);
 
 /**
  *	Get ELT Error String.
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode);
 
 
-/*
+/**
  *	Get Error Code In Character out of Error.
  */
 extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetErrorMessageW(ULong dw);
 
-/*
+/**
  *	Get Error Code In Character out of HRESULT.
  */
 extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetHResultErrorMessageW(ERESULT hresult);
 
-/*
+/**
  *	Get Error Code Of HModule
  */
 extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetHModuleErrorMessageW(ERESULT dw);
 
-/*
+/**
  *	Signal Catch.
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal);
 
-/*
+/**
  *	Set Signal callback.
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal, ExSignalCallback signal_callback);
 
 
+
+
+
 /*
  *	UNICODED.
-*/
+ */
 #ifdef UNICODE
 	#define ExGetErrorMessage ExGetErrorMessageW
 	#define ExGetHResultErrorMessage ExGetHResultErrorMessageW
@@ -160,27 +162,30 @@ extern ELTDECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal, ExSignalCal
 	#define ExGetHModuleErrorMessage ExGetHModuleErrorMessageW
 #endif
 
+
+
 #ifdef EX_UNICODE
 	#define ExPrintf(pFormat,...) printf(pFormat,##__VA_ARGS__)
 	#define ExPrint printf
 	#define ExSPrintf sprintf
 #else
-	#define ExPrintf(pFormat,...) printf(pFormat,##__VA_ARGS__)
-	#define ExPrintfError(pFormat,...) fprintf(stderr,pFormat,##__VA_ARGS__)
+	#define ExPrintf(pFormat,...) printf(pFormat, ##__VA_ARGS__)
+	#define ExPrintfError(pFormat,...) fprintf(stderr,pFormat, ##__VA_ARGS__)
 	#define ExPrint printf
 	#define ExSPrintf sprintf
 	#define vExfprintf vfprintf
 #endif
 
 
-#if  defined(EX_DEBUG)
-	// Ex Print For Developing [error code : errormessage, filename, fileline, function name]
+
+#if defined(EX_DEBUG)
+	/* Ex Print For Developing [error code : errormessage, filename, fileline, function name]	*/
 	#define EX_DEVELOP_ERROR_LOG "\t ErrorCode %d : %s \t in file %s on line : %d in function %s.\n\n"
 	#define EXDEVFILEINFO "\n[FileLine %d : FileName %s]\n"
 	#define EXDEVWINDOWINFO "ErrorCode : %d | ErrorMessage : %s\n"
 	#define EX_DEV_OPENGL_INFO "ErrorCode :%d | ErrorMessage : %s\n"
 #elif defined(EX_RELEASE)
-	// Ex Print For Developing
+	/* Ex Print For Developing	*/
 	#define EX_DEVELOP_ERROR_LOG EX_TEXT("\t ErrorCode %d : %s \t in file %s on line : %d in function %s\n")
 	#define EXDEVFILEINFO "\n[FileLine %d : FileName %s]\n"
 	#define EXDEVWINDOWINFO "ErrorCode : %d | ErrorMessage : %s\n"
@@ -275,7 +280,7 @@ extern ELTDECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal, ExSignalCal
 			/* Print Developer Information Without Arguments*/
 			#define ExDevPrint(pFormat) printf(pFormat EXDEVFILEINFO,__LINE__, __FILE__)
 			/* Print Developer Information With Arguments Unicode*/
-			#define wExDevPrint(pFormat) wprintf(pFormat EX_TEXT(EXDEVFILEINFO),__LINE__, __FILE__)
+			#define wExDevPrint(pFormat) wprintf(pFormat EX_TEXT(EXDEVFILEINFO), __LINE__, __FILE__)
 		#endif
 #else
 // no error message

@@ -28,16 +28,14 @@ extern "C"{
 /*
  *
  */
-EX_ALIGN_PREFIX(4)
-typedef struct ex_point{
+typedef struct ex_point_t{
 	int x,y;					/**/
 }ExPoint;
 
 /*
  *
  */
-EX_ALIGN_PREFIX(4)
-typedef struct ex_size{
+typedef struct ex_size_t{
 	unsigned int width;			/**/
 	unsigned int height;		/**/
 }ExSize;
@@ -45,8 +43,7 @@ typedef struct ex_size{
 /*
  *
  */
-EX_ALIGN_PREFIX(4)
-typedef struct ex_rect{
+typedef struct ex_rect_t{
 	int x;			/**/
 	int y;			/**/
 	int width;		/**/
@@ -80,7 +77,7 @@ typedef struct ex_rect{
 #define EX_EVENT_WINDOW_REPARENT 0x80000	/*	*/
 
 
-typedef struct ex_system_event{
+typedef struct ex_system_event_t{
 
 	/*
 	 *
@@ -89,7 +86,7 @@ typedef struct ex_system_event{
 }ExSystemEvent;
 
 
-typedef struct ex_joy_stick_event{
+typedef struct ex_joy_stick_event_t{
 
 	/*
 	 *
@@ -98,7 +95,7 @@ typedef struct ex_joy_stick_event{
 }ExJoyStickEvent;
 
 
-typedef struct ex_joystick_move_event{
+typedef struct ex_joystick_move_event_t{
 
 	/*
 	 *
@@ -107,7 +104,7 @@ typedef struct ex_joystick_move_event{
 }ExJoySticMoveEvent;
 
 
-typedef struct ex_joystick_button_event{
+typedef struct ex_joystick_button_event_t{
 
 	/*
 	 *
@@ -116,7 +113,7 @@ typedef struct ex_joystick_button_event{
 }ExJoySticButtonEvent;
 
 
-typedef struct ex_mouse_move_event{
+typedef struct ex_mouse_move_event_t{
 	/*
 	 *
 	 */
@@ -129,7 +126,7 @@ typedef struct ex_mouse_move_event{
 }ExMouseMoveEvent;
 
 
-typedef struct ex_mouse_motion_event{
+typedef struct ex_mouse_motion_event_t{
 	int x;						/**/
 	int y;						/**/
 	int xdelta;					/**/
@@ -137,7 +134,7 @@ typedef struct ex_mouse_motion_event{
 }ExMouseMotionEvent;
 
 
-typedef struct elt_win_button_event{
+typedef struct elt_win_button_event_t{
 	/*
 	 *
 	 */
@@ -146,7 +143,7 @@ typedef struct elt_win_button_event{
 
 
 
-typedef struct ex_mouse_wheel_event{
+typedef struct ex_mouse_wheel_event_t{
 	/*
 	 *
 	 */
@@ -159,7 +156,7 @@ typedef struct ex_mouse_wheel_event{
 
 
 
-typedef struct ex_key_event{
+typedef struct ex_key_event_t{
 	/*
 	 *
 	 */
@@ -183,7 +180,7 @@ typedef struct ex_key_event{
 }ExKeyEvent;
 
 
-typedef struct ex_drop_event{
+typedef struct ex_drop_event_t{
 	/**/
 	int number;
 	/**/
@@ -191,7 +188,7 @@ typedef struct ex_drop_event{
 }ExDropEvent;
 
 
-typedef struct ex_touch_finger_event{
+typedef struct ex_touch_finger_event_t{
     unsigned int type;          /*              */
     unsigned int touchid;       /*              */
     unsigned int fingerid;      /*              */
@@ -204,14 +201,14 @@ typedef struct ex_touch_finger_event{
 
 
 
-typedef struct ex_window_destroy{
+typedef struct ex_window_destroy_t{
 	/*
 	 *
 	 */
 	ExWin window;
 }ExEventDestroyedWindow;
 
-typedef struct ex_window_reparent{
+typedef struct ex_window_reparent_t{
 	/**
 	 *
 	 */
@@ -221,7 +218,7 @@ typedef struct ex_window_reparent{
 
 
 
-typedef struct window_poll_events{
+typedef struct window_poll_events_t{
 	/*
 	 *
 	 */
@@ -242,7 +239,7 @@ typedef struct window_poll_events{
 /**
  *
  */
-typedef struct elt_poll_events{
+typedef struct elt_poll_events_t{
 	/*
 	 *
 	 */
@@ -272,7 +269,7 @@ typedef struct elt_poll_events{
  *	Poll event from process.
  *
  *	\event non null pointer to ExEvent event structure.
- *	if event is null, there'll be a segementation violation.
+ *	if event is NULL, there will be a segmentation violation.
  *
  *	@Return 1 if event was polled. 0 if no event was polled.
  */

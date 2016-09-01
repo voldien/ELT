@@ -218,10 +218,12 @@ int ExCompileShaderSourcev(const char** source, unsigned int flag){
 	int shader;
 	int status;
 	int error;
-	if(!source || !source[0])
+	if(!source || !source[0]){
 		return -1;
-	if(!strlen(source[0]))
+	}
+	if(!strlen(source[0])){
 		return -1;
+	}
 
 	shader = glCreateShader(flag);
 	glShaderSource(shader, 1, source, NULL);

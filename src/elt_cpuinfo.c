@@ -7,6 +7,7 @@
 #include<setjmp.h>
 #include<stdint.h>
 
+/*	CPU extension features.	*/
 #define ELT_CPU_HAS_RDSTC
 #define ELT_CPU_HAS_MMX
 #define ELT_CPU_HAS_3DNOW

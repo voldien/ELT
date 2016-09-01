@@ -22,7 +22,7 @@
 	#define _NET_WM_STATE_ADD	1
 #endif
 
-ExDisplay display = 0;
+ExDisplay display = NULL;
 void* m_connection = 0;		/*	TODO take a loke*/
 extern int* pixAtt;
 extern int ExChooseFBconfig(GLXFBConfig* pfbconfig);

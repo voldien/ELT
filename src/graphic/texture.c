@@ -25,6 +25,7 @@ ExTexture* ExCreateTexture(ExTexture* texture, unsigned int target, int level,
         int width, int height,
         int border, unsigned int format, unsigned int type,
         const void *pixels ){
+
 	if(!texture)
 		return NULL;
 
@@ -36,14 +37,14 @@ ExTexture* ExCreateTexture(ExTexture* texture, unsigned int target, int level,
 	texture->type = type;
 
 
-	glGenTextures(1,&texture->texture);
-	glBindTexture(target,texture->texture);
-	glPixelStorei(GL_PACK_ALIGNMENT,4);
+	glGenTextures(1, &texture->texture);
+	glBindTexture(target, texture->texture);
+	glPixelStorei(GL_PACK_ALIGNMENT, 4);
 
 
 	switch(target){
 	case GL_TEXTURE_2D:
-		glTexImage2D(target,level,internalFormat,width, height,border, format,type,pixels);
+		glTexImage2D(target, level, internalFormat, width, height, border, format, type, pixels);
 		break;
 #ifndef GL_ES_VERSION_2_0
 	case GL_TEXTURE_1D:
@@ -60,10 +61,11 @@ ExTexture* ExCreateTexture(ExTexture* texture, unsigned int target, int level,
 	}
 
 
-	glTexParameteri(target,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-	glTexParameteri(target,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-	glTexParameteri(target,GL_TEXTURE_WRAP_S,GL_REPEAT);
-	glTexParameteri(target,GL_TEXTURE_WRAP_S,GL_REPEAT);
+	glTexParameteri(target, GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(target, GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+	glTexParameteri(target, GL_TEXTURE_WRAP_S,GL_REPEAT);
+	glTexParameteri(target, GL_TEXTURE_WRAP_T,GL_REPEAT);
+	glTexParameteri(target, GL_TEXTURE_WRAP_R,GL_REPEAT);
 
 
 	return texture;
@@ -91,7 +93,7 @@ void ExDeleteTexture(ExTexture* texture){
 	glDeleteTextures(1,&texture->texture);
 }
 
-ExBoolean ExIsTexture(ExTexture* texture){
+ExBoolean ExIsTexture(const ExTexture* texture){
 	return glIsTexture(texture->texture) == GL_TRUE;
 }
 

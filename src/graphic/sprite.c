@@ -112,7 +112,7 @@ int ExReleaseSpriteBatch(ExSpriteBatch* spritebatch){
 		glDeleteBuffers(1, &spritebatch->vbo);
 	}
 	if(glIsVertexArray(spritebatch->vao) == GL_TRUE){
-		glDeleteArrayBuffers(1, &spritebatch->vao);
+		glDeleteVertexArrays(1, &spritebatch->vao);
 	}
 	if(ExIsShader(&spritebatch->spriteShader)){
 		ExDeleteShaderProgram(&spritebatch->spriteShader);

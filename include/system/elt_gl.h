@@ -131,6 +131,10 @@ extern ELTDECLSPEC void ELTAPIENTRY ExCreateContextAttrib(ExWindowContext hDC, I
 /**
  *	Create OpenGL context for given window
  *
+ *	\window
+ *
+ *	\shareContext
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExOpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, ExOpenGLContext shareContext);
@@ -141,8 +145,8 @@ extern ELTDECLSPEC ExOpenGLContext ELTAPIENTRY ExCreateGLContext(ExWin window, E
  */
 extern ELTDECLSPEC ExOpenGLContext ELTAPIENTRY ExCreateTempGLContext(void);
 
-/**
- *	Create Shared OpenGL Context from a already existing context.
+/**	TODO check if this function shall be replaced with ExCreateGLContext.
+ *	Create shared OpenGL context from a already existing context.
  *
  *	@Return Non NULL pointer if successfully.
  */
@@ -262,6 +266,8 @@ extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetOpenGLServerExtension(void);
  *	@Return
  */
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetOpenGLClientExtensions(void);
+
+/*	TODO Check if the following functions are needed.	*/
 
 /*
  *	Check if graphic card is AMD GPU

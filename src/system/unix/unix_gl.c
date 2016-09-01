@@ -164,7 +164,8 @@ ExOpenGLContext ExCreateGLContext(ExWin window, ExOpenGLContext shareContext){
 	unsigned int contextflag;
 	unsigned int contextprofile;
 
-	XVisualInfo* vi;		//	Visual Info
+
+	XVisualInfo* vi;		/*	Visual Info	*/
 	int min;
 	int maj;
 	GLXFBConfig fbconfig;
@@ -276,8 +277,10 @@ ExOpenGLContext ExCreateGLContext(ExWin window, ExOpenGLContext shareContext){
 		}break;
     }
 
+
     glcdefault:	/*	default opengl context	*/
 
+	/**/
 	if(!glc){
 		ExPrintf("Failed to create ARB Context.\n");
 		glc = glXCreateNewContext(display, fbconfig, GLX_RGBA_TYPE, shareContext, True);
@@ -285,8 +288,10 @@ ExOpenGLContext ExCreateGLContext(ExWin window, ExOpenGLContext shareContext){
 	XSync( display, False );
 
 
-	if(!glXIsDirect(display, glc))
-        fprintf(stderr,"Indirect GLX rendering context obtained\n");    /*	a lose of performance.*/
+	/**/
+	if(!glXIsDirect(display, glc)){
+        fprintf(stderr,"Indirect GLX rendering context obtained.\n");    /*	a lose of performance.*/
+	}
 
 	return glc;
 }

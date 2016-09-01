@@ -201,6 +201,8 @@ ExBoolean ExIsKeyDown(Uint32 keyCode){
 		XUnlockDisplay(display);
 		isPressed = (keymap->keys[keycode/8] & (1 << (keycode % 8))) ?  1 : 0;
 
+		free(keymap);
+
         return isPressed;
 	}
 	return 0;

@@ -224,6 +224,15 @@ const ExChar* ExGetPlatform(void){
 	}
 }
 
+const char* ExGetMachine(void){
+	struct utsname name;
+	static char os[_UTSNAME_MACHINE_LENGTH];
+	if(uname(&name) != EFAULT){
+		memcpy(os, name.machine, sizeof(os));
+	}
+	return os;
+}
+
 
 
 void ExGetExecutePath(ExChar* wChar, Int32 length){

@@ -272,9 +272,9 @@
  *   C Compiler Version.
  */
 #if (__STDC_VERSION__ == 201112L)
-#   define EX_C11
+	#define EX_C11 201112L
 #elif (__STDC_VERSION == 199901L)
-#   define EX_C99
+#   define EX_C99 199901L
 #elif defined(__STDC__)
 #   define EX_C90
 #endif
@@ -384,10 +384,10 @@
  */
 #if defined(_ENGINE_INTERNAL) || (EX_ENGINE_VERSION_MAJOR < 1)	/*	Macro Definition Only Defined in this solution.	*/
 	#define INTERNAL_ENGINEX	/*	Used for Assembly Data and Include Data structure.	*/
-	//#define EX_INTERNAL_DEVELOP_ENVIROMENT
+	/*	#define EX_INTERNAL_DEVELOP_ENVIROMENT	*/
 #elif defined(EXTERNAL_ENGINE_INTERNAL)
-	#define INTERNAL_ENGINEX	// Used for Assembly Data and Include Data structure.
-	//#define EX_INTERNAL_DEVELOP_ENVIROMENT
+	#define INTERNAL_ENGINEX	/* Used for Assembly Data and Include Data structure.	*/
+	/*#define EX_INTERNAL_DEVELOP_ENVIROMENT	*/
 #endif
 
 
@@ -717,7 +717,7 @@
 /*
  *	All IDE don't enable NDEBUG || _DEBUG by default. Has to be predefined explicitly if not defined.
  */
-#if (NDEBUG || _DEBUG)
+#if (defined(NDEBUG) || defined(_DEBUG))
 	#if !(defined NDEBUG ^ defined _DEBUG)
 		#error Exactly one of NDEBUG and _DEBUG needs to be defined by preprocessor
 	#endif
@@ -729,7 +729,11 @@
 #ifdef EX_MSVC
 	#define EX_VA_ARGS __VA_ARGS__
 #elif defined(EX_GNUC)
-	#define EX_VA_ARGS __VA_ARGS__
+	#ifdef EX_C90
+		#define EX_VA_ARGS
+	#else
+		#define EX_VA_ARGS	__VA_ARGS__
+	#endif
 #else
 	#define EX_ARGS ...
 #endif

@@ -92,12 +92,19 @@ ExOpenCLContext ExGetCurrentCLContext(void){
 
 ExBoolean ExIsOpenCLSupported(void){
 	int status = private_loadOpenClLibrary();
+	void * pclGetPlatformIDs;
 
 	if(cl_libhandle && status){
-		ExLoadFunction(cl_libhandle, "clGetPlatformIDs");
+		pclGetPlatformIDs = ExLoadFunction(cl_libhandle, "clGetPlatformIDs");
+
+		if(clGetPlatformIDs == NULL){
+			return FALSE;
+		}
+
 		//ciErrNum = clGetPlatformIDs (NULL, NULL, &num_platforms);
 		status = 1;
 	}
+
 	return status;
 }
 
@@ -179,7 +186,7 @@ ExOpenCLContext ExCreateCLContext(Enum flag, unsigned int platform){
 	return (ExOpenCLContext)hClContext;
 }
 
-ExOpenCLContext ExCreateCLSharedContext(ExOpenGLContext glc, ExWindowContext window, Enum flag){
+ExOpenCLContext ExCreateCLSharedContext(ExOpenGLContext glc, Enum flag){
     Int32 cpPlatform,ciErrNum;
     Uint32 uiDevCount = 0;
     /* device ids*/
@@ -250,15 +257,17 @@ ExOpenCLContext ExCreateCLSharedContext(ExOpenGLContext glc, ExWindowContext win
 
         CL_GL_CONTEXT_KHR, (cl_context_properties)glc,
 #ifdef EX_WINDOWS
-        CL_WGL_HDC_KHR, (cl_context_properties)window,
+        CL_WGL_HDC_KHR, (cl_context_properties)ExGetCurrentGLDrawable(),
 #elif defined(EX_LINUX)
-        CL_GLX_DISPLAY_KHR,(cl_context_properties)window,
+        CL_GLX_DISPLAY_KHR,(cl_context_properties)display,
 #elif defined(EX_ANDROID)
-        CL_EGL_DISPLAY_KHR, (cl_context_properties)window,
+        CL_EGL_DISPLAY_KHR, (cl_context_properties)NULL,
 #endif
         CL_CONTEXT_PLATFORM, (cl_context_properties)cpPlatform,
         NULL
     };
+
+
 #ifdef EX_WINDOWS
     if(flag & EX_OPENGL){props[2] = CL_WGL_HDC_KHR;}
 #	ifdef EX_INCLUDE_DIRECTX
@@ -273,6 +282,7 @@ ExOpenCLContext ExCreateCLSharedContext(ExOpenGLContext glc, ExWindowContext win
     else if(flag & EX_OPENGLES){props[2] = CL_EGL_DISPLAY_KHR;}
 
 
+    /*	Create OpenCL context.	*/
     hClContext = clCreateContext(props, size - 1, cdDevices, NULL, NULL, &ciErrNum);
     if(!hClContext || ciErrNum != CL_SUCCESS){
         ExDevPrint("Failed to Create OpenCL Context based on the OpenGL Context");
@@ -597,7 +607,10 @@ ExCLMem ExCreateCLBuffer(ExOpenCLContext context, Enum flag, int size, void* hos
 ExCLMem ExCreateCLImage(ExOpenCLContext context){
 	cl_int error;
 	cl_mem mem;
-	/*mem = clCreateImage(context, flags, imageformat, imagedesc, host, error);	*/
+	cl_image_format imageformat;
+	cl_image_desc desc;
+	unsigned int flags;
+	mem = clCreateImage(context, flags, &imageformat, &desc, NULL, error);
 	return mem;
 }
 

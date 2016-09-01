@@ -26,26 +26,31 @@ extern "C"{
 #endif
 
 /**
+ *	Swap
  *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSwap16(Uint16 x);
 
 /**
+ *	Swap
  *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSwap32(Uint32 x);
 
 /**
+ *	Swap
  *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSwap64(Uint64 x);
 
 /**
+ *	Swap
  *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSwapFloat(float x);
 
 /**
+ *	Swap
  *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSwapDouble(double x);

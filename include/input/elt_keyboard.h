@@ -105,8 +105,9 @@ extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void);
 extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(Uint32 keyCode);
 
 /**
+ *	Check if key is pressed.
  *
- *	@Return
+ *	@Return 1 if key is pressed.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode);
 

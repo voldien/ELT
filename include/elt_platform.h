@@ -31,6 +31,11 @@ extern "C"{
  */
 extern ELTDECLSPEC const char* ELTAPIENTRY ExGetPlatform(void);
 
+/**
+ *	TODO evolute name.
+ */
+extern ELTDECLSPEC const char* ELTAPIENTRY ExGetMachine(void);
+
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 }

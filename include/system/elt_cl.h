@@ -67,7 +67,7 @@ extern "C"{
 extern ELTDECLSPEC ExOpenCLContext ELTAPIFASTENTRY ExGetCurrentCLContext(void);
 
 /**
- *
+ *	Check if OpenCL is supported.
  *
  *	@Return
  */
@@ -87,7 +87,7 @@ extern ELTDECLSPEC ExOpenCLContext ELTAPIENTRY ExCreateCLContext(Enum eEnumFlag,
  *
  *	@Return CL context.
  */
-extern ELTDECLSPEC ExOpenCLContext ELTAPIENTRY ExCreateCLSharedContext(ExOpenGLContext glc, ExWindowContext window, Enum erenderingFlag);
+extern ELTDECLSPEC ExOpenCLContext ELTAPIENTRY ExCreateCLSharedContext(ExOpenGLContext glc, Enum erenderingFlag);
 
 /*
  *	Query Context information
@@ -132,12 +132,14 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetOpenCLVersion(ExOpenCLContext context)
 
 /**
  *	Create opencl command queue.
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExCLCommandQueue ELTAPIENTRY ExCreateCommandQueue(ExOpenCLContext context, ExCLDeviceID device);
 
 /**
  *	Create OpenCL program.
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExCLProgram ELTAPIENTRY ExCreateProgram(ExOpenCLContext context, ExCLDeviceID device, const ExChar* cfilename, ...);
@@ -165,10 +167,12 @@ extern ELTDECLSPEC int ELTAPIENTRY ExReleaseKernel(ExCLProgram program);
 
 /**
  *	Set kernel argument.
+ *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExSetCLArg(ExCLKernel kernel, int index, unsigned int size, void* arg);
 
 /**
+ *
  *	@Return
  */
 extern ELTDECLSPEC ExCLMem ELTAPIENTRY ExCreateCLBuffer(ExOpenCLContext context, Enum flag, int size, void* host_ptr);

@@ -50,17 +50,23 @@ extern ELTDECLSPEC int ELTAPIENTRY ExSetFileOwner(const char* cpath, const char*
 /**
  *	Create directory.
  *
+ *	\cdirectory
+ *
  *	@Return
  */
-extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExCreateDirectory(const ExChar* directory);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExCreateDirectory(const ExChar* cdirectory);
 
 /**
+ *
+ *	\cdirectory
  *
  *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExIsDirectory(const ExChar* cdirectory);
 
 /**
+ *	Get number of sub directory in a particular
+ *	directory.
  *
  *	@Return
  */
@@ -68,7 +74,8 @@ extern ELTDECLSPEC Uint32 ELTAPIENTRY ExDirectoryCount(const ExChar* cdirectory)
 
 /**
  *
- *	@Return
+ *
+ *	@Return Non NULL pointer if valid directory.
  */
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetSubDirectory(const ExChar* cdirectory, int index);
 
@@ -80,14 +87,17 @@ extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetSubDirectory(const ExChar* cdi
 extern ELTDECLSPEC int ELTAPIENTRY ExRemoveDirectory(const ExChar* directory);
 
 /**
+ *	Create empty file.
  *
  *	@Return
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExCreateFile(const ExChar* cfilename);
 
 /**
+ *	Get number of files in a particular
+ *	directory
  *
- *	@Return
+ *	@Return number of files, if failed it will return -1
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExFilesCount(const char* cdirectory);
 
@@ -157,11 +167,13 @@ extern ELTDECLSPEC void ELTAPIENTRY ExGetBaseName(const ExChar* cpath, ExChar* b
 
 /**
  * 	Get directory
+ *
  *	@Return
  */
 extern ELTDECLSPEC char* ELTAPIENTRY ExGetDirectory(const ExChar* cpath, ExChar* dirname, Int32 lengthSize);
 
 /**
+ *
  *
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExGetAbsolutePath(const ExChar* cfilename, ExChar* absolute, Int32 lengthSize);

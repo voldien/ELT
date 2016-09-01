@@ -36,9 +36,11 @@ extern ELTDECLSPEC long int ELTAPIENTRY ExGetFileStreamSize(FILE* file);
 /**
  *	Get file size in byte.
  *
+ *	\cfilename
+ *
  *	@Return size in bytes.
  */
-extern ELTDECLSPEC long int ELTAPIENTRY ExGetFileSize(const ExChar* cfilname);
+extern ELTDECLSPEC long int ELTAPIENTRY ExGetFileSize(const ExChar* cfilename);
 
 /**
  *	Load data by specified pathname.

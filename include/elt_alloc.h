@@ -73,6 +73,7 @@ extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalUsedVirtualMemory(void);
 /*	TODO move to a header with data structure!	*/
 typedef struct ex_pool_allocator{
 	void* next;
+	void* data[];
 }ExPoolAllocator;
 
 /**
@@ -84,30 +85,37 @@ typedef struct ex_pool_allocator{
 extern ELTDECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolCreate(unsigned int num, unsigned int itemsize);
 
 /**
- *	obtain next item
+ *	Obtain next item
  *	If return value is null, then the allocator
  *	is full
  *
+ *	\allocator
+ *
  *	@Return
  */
-extern ELTDECLSPEC void* ELTAPIENTRY ExPoolObtain(ExPoolAllocator* allactor);
+extern ELTDECLSPEC void* ELTAPIENTRY ExPoolObtain(ExPoolAllocator* allocator);
 
 /**
+ *	Return
  *
+ *	\allocator
  *
  *	@Return current next.
  */
-extern ELTDECLSPEC void* ELTAPIENTRY ExPoolReturn(ExPoolAllocator* allactor, void* data);
+extern ELTDECLSPEC void* ELTAPIENTRY ExPoolReturn(ExPoolAllocator* allocator, void* data);
 
 /**
  *	@Return
  */
-extern ELTDECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolResize(ExPoolAllocator* allcotor, unsigned num, unsigned int itemsize);
+extern ELTDECLSPEC ExPoolAllocator* ELTAPIENTRY ExPoolResize(ExPoolAllocator* allocator, unsigned num, unsigned int itemsize);
 
 /**
  *
+ *
+ *	\allocator
+ *
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExPoolFree(ExPoolAllocator* allactor);
+extern ELTDECLSPEC void ELTAPIENTRY ExPoolFree(ExPoolAllocator* allocator);
 
 /**
  *	Get
@@ -139,7 +147,7 @@ typedef struct ex_list{
 	/**
 	 *
 	 */
-	void* data[0];
+	void* data[];
 
 }ExList;
 
@@ -151,15 +159,12 @@ typedef struct ex_list{
 extern ELTDECLSPEC ExList* ELTAPIENTRY ExCreateDoubleList(ExList* list, unsigned int num, unsigned int itemsize);
 
 
-
-
-EX_ALIGN_PREFIX(4)
 typedef struct ex_quad_tree{
 	struct ex_quad_tree* t0;
 	struct ex_quad_tree* t1;
 	struct ex_quad_tree* t2;
 	struct ex_quad_tree* t3;
-	void* data[0];
+	void* data[];
 }ExQuadTree;
 
 
@@ -197,7 +202,7 @@ extern ELTDECLSPEC ExQuadTree* ELTAPIENTRY ExCreateQueue(ExList* list, unsigned 
 
 typedef struct ex_hash_table{
 	unsigned int num;
-
+	unsigned int k;
 }ExHashTable;
 
 /**/

@@ -59,7 +59,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExDeleteTexture(ExTexture* texture);
  *
  *	@Return None zero if true.
  */
-extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExIsTexture(ExTexture* texture);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExIsTexture(const ExTexture* texture);
 
 
 /*

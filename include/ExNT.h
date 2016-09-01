@@ -250,7 +250,7 @@ typedef void(EX_CALLBACK* ExCallBack)(void);
 /**
  *	Thread callback data types.
  */
-typedef void* (*ex_interrupt_routine)(void*);
+typedef void* (EX_CALLBACK *ex_interrupt_routine)(void*);
 typedef void* (EX_THREAD_CALLBACK *ex_thread_routine)(void* phandle);
 typedef void* (EX_THREAD_CALLBACK *ExThreadRoutine)(void* phandle);
 typedef void* ExThread;

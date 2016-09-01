@@ -29,21 +29,23 @@
 extern "C"{
 #endif
 
+
 /**
- *	High layer flag.		TODO change the ELT prefix to EX.
+ *	High layer flag.
+ *
  */
-#define ELT_INIT_NONE				0x00000000			/**/
-#define ELT_INIT_TIMER				0x00000001			/**/
-#define ELT_INIT_VIDEO				0x00000020			/**/
-#define ELT_INIT_AUDIO				0x00000010			/**/
-#define ELT_INIT_JOYSTICK			0x00000200			/**/
-#define ELT_INIT_EVENTS				0x00002000			/**/
-#define ELT_INIT_GAMECONTROLLER 	0x00004000			/**/
-#define ELT_INIT_NET				0x00008000			/**/
-#define ELT_INIT_DEBUG				0x00010000			/**/
-#define ELT_INIT_EVERYTHING (										\
-	ELT_INIT_VIDEO | ELT_INIT_AUDIO | ELT_INIT_JOYSTICK				\
- | ELT_INIT_TIMER | ELT_INIT_GAMECONTROLLER | ELT_INIT_EVENTS | ELT_INIT_DEBUG)
+#define EX_INIT_NONE				0x00000000			/**/
+#define EX_INIT_TIMER				0x00000001			/**/
+#define EX_INIT_VIDEO				0x00000020			/**/
+#define EX_INIT_AUDIO				0x00000010			/**/
+#define EX_INIT_JOYSTICK			0x00000200			/**/
+#define EX_INIT_EVENTS				0x00002000			/**/
+#define EX_INIT_GAMECONTROLLER 	0x00004000				/**/
+#define EX_INIT_NET				0x00008000				/**/
+#define EX_INIT_DEBUG				0x00010000			/**/
+#define EX_INIT_EVERYTHING (										\
+	EX_INIT_VIDEO | EX_INIT_AUDIO | EX_INIT_JOYSTICK				\
+ | EX_INIT_TIMER | EX_INIT_GAMECONTROLLER | EX_INIT_EVENTS | EX_INIT_DEBUG)
 
 
 /**
@@ -69,15 +71,17 @@ extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 flag);
  *	Shut Down Function ELT.
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExShutDown(void);
-#define ExQuit ExShutDown
 
 /**
  *	Quit Sub System.
+ *
  *	\flag
  */
 extern ELTDECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 flag);
 
 /**
+ *
+ *
  *	@Return
  */
 extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetFlag(void);
@@ -110,7 +114,7 @@ extern ELTDECLSPEC int ELTAPIENTRY ExCreateInterrupt(ex_interrupt_routine callba
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetVersion(void);
 
 /**
- *	Get compiler compiled for the  ELT library.
+ *	Get compiler compiled the library.
  *
  *	@Return Non NULL pointer.
  */
@@ -122,6 +126,7 @@ extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCompilerName(void);
  *	@Return display pointer.
  */
 extern ELTDECLSPEC ExDisplay ELTAPIENTRY ExGetDisplay(void);
+
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 }

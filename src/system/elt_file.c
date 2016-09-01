@@ -34,11 +34,11 @@ long int ExGetFileStreamSize(FILE* file){
     return size;
 }
 
-long int ExGetFileSize(const ExChar* cfilname){
+long int ExGetFileSize(const ExChar* cfilename){
     FILE* file;
     fpos_t pos;
     long size;
-    file = fopen(cfilname,"rb");
+    file = fopen(cfilename,"rb");
     size = private_ExGetFileStreamSize(file);
     fclose(file);
     return size;
