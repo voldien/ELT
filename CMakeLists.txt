@@ -24,37 +24,27 @@ OPTION (ELT_OPT_BUILD_PACKAGE "Set to ON to generate CPack configuration files a
 ADD_DEFINITIONS(-D_INTERNAL_ENGINE=1)
 
 
-# extracing version.
-SET( FIXIT 's/[^0-9]*//g')
- #| sed -e ${FIXIT} | cut -c1-1
 execute_process(COMMAND git describe
+		COMMAND sed -e "s/[^0-9]*//g"
+		COMMAND cut -c1-1
 	    OUTPUT_VARIABLE _major_version OUTPUT_STRIP_TRAILING_WHITESPACE
 	    RESULT_VARIABLE _major_version_failed)
 
- #| sed -e 's/[^0-9].[^0-9]*//g' | cut -c1-1
-execute_process(COMMAND  git describe
+execute_process(COMMAND git describe
+		COMMAND sed -e "s/[^0-9].[^0-9]*//g"
+		COMMAND cut -c1-1
 	    OUTPUT_VARIABLE _minor_version OUTPUT_STRIP_TRAILING_WHITESPACE
 	    RESULT_VARIABLE _minor_version_failed)
 
- #| sed -e 's/[^0-9].[^0-9].[^0-9]*//g' | cut -c1-2
 execute_process(COMMAND git describe
+		COMMAND sed -e "s/[^0-9].[^0-9].[^0-9]*//g"
+		COMMAND cut -c1-2
 	    OUTPUT_VARIABLE _revision_version OUTPUT_STRIP_TRAILING_WHITESPACE
 	    RESULT_VARIABLE _revision_version_failed)
 
 SET(ELT_VERSION_MAJOR ${_major_version})
 SET(ELT_VERSION_MINOR ${_minor_version})
-SET(ELT_VERSION_REVISION ${_revision_version_failed})
-
-IF(ELT_VERSION_MAJOR MATCHES "")
-	SET(ELT_VERSION_MAJOR 0)
-ENDIF()
-IF(ELT_VERSION_MINOR MATCHES "")
-	SET(ELT_VERSION_MINOR 6)
-ENDIF()
-IF(ELT_VERSION_REVISION MATCHES "")
-	SET(ELT_VERSION_REVISION 8)
-ENDIF()
-
+SET(ELT_VERSION_REVISION ${_revision_version})
 
 SET(ELT_VERSION ${ELT_VERSION_MAJOR}.${ELT_VERSION_MINOR}.${ELT_VERSION_REVISION})
 MESSAGE(STATUS "ELT version ${ELT_VERSION}.")
