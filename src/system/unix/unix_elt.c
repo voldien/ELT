@@ -21,9 +21,9 @@
 /*
  *
  */
-extern Uint64 eltTickTime;		/*	High accuracy timer.	*/
-void* xcbConnection;			/*	*/
-extern unsigned long int engineflag;
+extern Uint64 eltTickTime;			/*	High accuracy timer.	*/
+void* xcbConnection = NULL;			/*	*/
+extern unsigned int engineflag;
 
 #define ELT_DEINIT ((unsigned long int)(-1))
 
@@ -43,16 +43,12 @@ ERESULT ExInit(Enum flag){
 
 
 
-	/*	enable loggint */
-	m_file_log = fopen("EngineExDevLog.txt", "w+" );
-	if(dup2(stdout,m_file_log) == -1)
-        fprintf(stderr,"error");
-    dup2(stdout,stderr);  //redirects stderr to stdout below this line.
+
 
 
     /*	Create Connection with Display Server.	*/
     if(display == NULL){
-    	display = XOpenDisplay(getenv("DISPLAY"));
+    	display = XOpenDisplay(ExGetEnv("DISPLAY"));
     }
     if(!display){
         ExError("couldn't open Display\n");
@@ -61,6 +57,9 @@ ERESULT ExInit(Enum flag){
 	if(xcbConnection == NULL){
 		xcbConnection = XGetXCBConnection(display);
 	}
+    if(XInitThreads() == 0){
+    	printf("Failed to init multithreading support\n");
+    }
 
 	/*	Initialize sub system	*/
 	ExInitSubSystem(flag);
@@ -111,8 +110,15 @@ ERESULT ExInitSubSystem(Uint32 flag){
 
 	/*	initialize error handler.	*/
 	if( ( flag & EX_INIT_DEBUG ) ){
-
+		ExLog("Enable ELT Debug.\n");
 		mtrace();
+
+		/*	enable loggint */
+		m_file_log = fopen("EngineExDevLog.txt", "w+" );
+		if(dup2(stdout,m_file_log) == -1)
+			fprintf(stderr,"error");
+		dup2(stdout,stderr);  //redirects stderr to stdout below this line.
+
 
 		if(!(hr = ExInitErrorHandler())){
 			ExError(EX_TEXT("Failed to initialize error handler."));
@@ -164,10 +170,6 @@ void ExShutDown(void){
 	if(ExGetCurrentOpenGLContext()){
 		ExDestroyGLContext(ExGetCurrentGLDrawable(), ExGetCurrentOpenGLContext());
 	}
-
-#if !defined(USE_OPENCL)
-	ExDestroyCLContext(ExGetCurrentCLContext());
-#endif
 
 	/**/
 	if(eglGetCurrentDisplay()){
