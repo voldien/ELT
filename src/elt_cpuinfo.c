@@ -1,7 +1,9 @@
 #include"elt_cpuinfo.h"
 
+#if defined(EX_X86_64) || defined(EX_X86)
+	#include<immintrin.h>
+#endif
 
-#include<immintrin.h>
 #include<unistd.h>
 
 #include<setjmp.h>
