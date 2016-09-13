@@ -94,6 +94,11 @@ extern ELTDECLSPEC int ExCompileShaderSourcev(const char** source, unsigned int 
 
 /**
  *
+ */
+extern ELTDECLSPEC int ExValidateShader(unsigned int program);
+
+/**
+ *
  *	@Return
  */
 extern ELTDECLSPEC int ExShaderCompileLog(unsigned int program,unsigned int shaderflag);
@@ -221,34 +226,34 @@ void main(void){
 "smooth out mat2 coord;\n"													\
 "flat out int ftexture;\n"												\
 "smooth out vec4 fcolor;\n"												\
-"sampler2D getTexture(const in int index){\n"				\
+"vec2 getTexture(const in int index){\n"				\
 "	switch(index){\n"				\
 "		case 0:\n"				\
-"		return textures[0];\n"				\
+"		return textureSize(textures[0], 0);\n"				\
 "		case 1:\n"				\
-"		return textures[1];\n"				\
+"		return textureSize(textures[1], 0);\n"				\
 "		case 2:\n"				\
-"		return textures[2];\n"				\
+"		return textureSize(textures[2], 0);\n"				\
 "		case 3:\n"				\
-"		return textures[3];\n"				\
+"		return textureSize(textures[3], 0);\n"				\
 "		case 4:\n"				\
-"		return textures[4];\n"				\
+"		return textureSize(textures[4], 0);\n"				\
 "		case 5:\n"				\
-"		return textures[5];\n"				\
+"		return textureSize(textures[5], 0);\n"				\
 "		case 6:\n"				\
-"		return textures[6];\n"				\
+"		return textureSize(textures[6], 0);\n"				\
 "		case 7:\n"				\
-"		return textures[7];\n"				\
+"		return textureSize(textures[7], 0);\n"				\
 "		case 8:\n"				\
-"		return textures[8];\n"				\
+"		return textureSize(textures[8], 0);\n"				\
 "		case 9:\n"				\
-"		return textures[9];\n"				\
+"		return textureSize(textures[9], 0);\n"				\
 "		case 10:\n"				\
-"		return textures[10];\n"				\
+"		return textureSize(textures[10], 0);\n"				\
 "		case 11:\n"				\
-"		return textures[11];\n"				\
+"		return textureSize(textures[11], 0);\n"				\
 "		default:\n"				\
-"		return textures[0];\n"				\
+"		return textureSize(textures[0], 0);\n"				\
 "	}\n"				\
 "}\n"				\
 "void main(void){\n"												\
@@ -256,7 +261,7 @@ void main(void){
 "	float cos_theta = cos(angle);\n"								\
 "	coord = mat2(cos_theta, sin_theta,\n"							\
 "-sin_theta, cos_theta);\n"											\
-"	vec2 uv = coord * vec2(float(textureSize(getTexture(tex),0).x) * rect.z * scale,float(textureSize2D(getTexture(tex),0).y) * rect.w * scale );\n"					\
+"	vec2 uv = coord * vec2(float(getTexture(tex).x) * rect.z * scale, float(getTexture(tex).y) * rect.w * scale );\n"					\
 "	gl_PointSize = float(max(abs(uv.x * sin(angle)) + abs(uv.y * cos(angle) ),"	\
 "abs(uv.x * cos(angle)) + abs(uv.y * sin(angle)) )); \n"						\
 "	gl_PointSize *= gscale;\n"													\
@@ -282,42 +287,55 @@ void main(void){
 "flat in int ftexture;\n"										\
 "smooth in mat2 coord;\n"											\
 "smooth in vec4 fcolor;\n"											\
-"sampler2D getTexture(in int texIndex){\n"				\
-"	switch(texIndex){\n"				\
+"vec2 getTexture(const in int index){\n"				\
+"	switch(index){\n"				\
 "		case 0:\n"				\
-"		return textures[0];\n"				\
+"		return textureSize(textures[0], 0);\n"				\
 "		case 1:\n"				\
-"		return textures[1];\n"				\
+"		return textureSize(textures[1], 0);\n"				\
 "		case 2:\n"				\
-"		return textures[2];\n"				\
+"		return textureSize(textures[2], 0);\n"				\
 "		case 3:\n"				\
-"		return textures[3];\n"				\
+"		return textureSize(textures[3], 0);\n"				\
 "		case 4:\n"				\
-"		return textures[4];\n"				\
+"		return textureSize(textures[4], 0);\n"				\
 "		case 5:\n"				\
-"		return textures[5];\n"				\
+"		return textureSize(textures[5], 0);\n"				\
 "		case 6:\n"				\
-"		return textures[6];\n"				\
+"		return textureSize(textures[6], 0);\n"				\
 "		case 7:\n"				\
-"		return textures[7];\n"				\
+"		return textureSize(textures[7], 0);\n"				\
 "		case 8:\n"				\
-"		return textures[8];\n"				\
+"		return textureSize(textures[8], 0);\n"				\
 "		case 9:\n"				\
-"		return textures[9];\n"				\
+"		return textureSize(textures[9], 0);\n"				\
 "		case 10:\n"				\
-"		return textures[10];\n"				\
+"		return textureSize(textures[10], 0);\n"				\
 "		case 11:\n"				\
-"		return textures[11];\n"				\
+"		return textureSize(textures[11], 0);\n"				\
 "		default:\n"				\
-"		return textures[0];\n"				\
+"		return textureSize(textures[0], 0);\n"				\
 "	}\n"				\
 "}\n"				\
-"void main(void){\n"										\
-"	float texwidth = float(textureSize(getTexture(ftexture),0).x);\n"			\
-"	float texheight = float(textureSize(getTexture(ftexture),0).y);\n"			\
-"	vec2 fragscale = vec2(clamp( texheight / texwidth ,1.0,10.0 ) , clamp( texwidth / texheight ,1.0,10.0) );\n"														\
-"	fragColor = texture2D(getTexture(ftexture), frect.xy  + ((vec2(1.0) - frect.zw) / 2) * vec2(-1,1)  + vec2(0.5) + coord * ((gl_PointCoord - vec2(0.5) ) * frect.zw * fragscale.xy)) * fcolor;\n"		\
-"	//fragColor.rg += (frect.xy  + vec2(0.5) + coord * ((gl_PointCoord - vec2(0.5) ) * frect.zw * fragscale.xy)).xy;\n"		\
+"vec4 gettextfrag(const in int index, const in vec2 uv){\n"	\
+"	switch(index){\n"										\
+"	case 0:\n"												\
+"		return texture2D(textures[0], uv);\n"				\
+"	case 1:\n"												\
+"		return texture2D(textures[1], uv);\n"				\
+"	case 2:\n"												\
+"		return texture2D(textures[2], uv);\n"				\
+"	default:\n"												\
+"		return vec4(0.0);\n"								\
+"	}\n"													\
 "}\n"														\
+"void main(void){\n"										\
+"	float texwidth = float(getTexture(ftexture).x);\n"			\
+"	float texheight = float(getTexture(ftexture).y);\n"			\
+"	vec2 fragscale = vec2(clamp( texheight / texwidth ,1.0,10.0 ) , clamp( texwidth / texheight ,1.0,10.0) );\n"														\
+"	fragColor = gettextfrag(ftexture, frect.xy  + ((vec2(1.0) - frect.zw) / 2) * vec2(-1,1)  + vec2(0.5) + coord * ((gl_PointCoord - vec2(0.5) ) * frect.zw * fragscale.xy)) * fcolor;\n"		\
+"}\n"														\
+
+
 
 #endif 

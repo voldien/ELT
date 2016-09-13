@@ -27,6 +27,13 @@ ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* spritebatch){
 	int texture[512];
 	const int numShapes = 4096;
 
+	const int vertex_offset = 0;
+	const int angle_offset = 12;
+	const int rect_offset = 12 + 4;
+	const int tex_offset = 12 + 20;
+	const int scale_offset = 12 + 24;
+	const int color_offset = 12 + 28;
+
 	if(!spritebatch){
 		ExSetError(E_INVALID_ARGUMENT);
 		return NULL;
@@ -55,12 +62,12 @@ ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* spritebatch){
 	glEnableVertexAttribArray(3);
 	glEnableVertexAttribArray(4);
 	glEnableVertexAttribArray(5);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ExSprite), NULL);
-	glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, sizeof(ExSprite), (const void*)(sizeof(float) * 3 ));
-	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * 3 + sizeof(float) * 1);
-	glVertexAttribPointer(3, 1, GL_INT,   GL_FALSE, sizeof(ExSprite), (const void*)( sizeof(float) * 3 + sizeof(float) + sizeof(float) * 4 ) );
-	glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * 3 + sizeof(float) * 1 + sizeof(float) * 4 + sizeof(int));
-	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(ExSprite), sizeof(float) * (3 + 4 + 1 + 1 + 1));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ExSprite), (const void*)vertex_offset);
+	glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, sizeof(ExSprite), (const void*)angle_offset);
+	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(ExSprite), (const void*)rect_offset);
+	glVertexAttribPointer(3, 1, GL_INT,   GL_FALSE, sizeof(ExSprite), (const void*)tex_offset);
+	glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(ExSprite), (const void*)scale_offset);
+	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(ExSprite), (const void*)color_offset);
 
 	glBindVertexArray(0);
 
@@ -84,7 +91,7 @@ ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* spritebatch){
 	for(x = 0; x < spritebatch->numMaxTextures; x++){
 		texture[x] = x;
 	}
-	glUniform1iv(spritebatch->uniform.locationTexture, 32, &texture[0]);
+	glUniform1iv(spritebatch->uniform.locationTexture, 64, &texture[0]);
 	glUseProgram(0);
 
 
@@ -218,7 +225,7 @@ void ExDrawSprite(ExSpriteBatch* batch, ExTexture* texture, const float* positio
 	batch->sprite[numDraw].scale = scale;
 
 
-	for(i = 0; i < batch->numMaxTextures; i ++){
+	for(i = 0; i < batch->numMaxTextures; i++){
 		if(batch->texture[i] == texture->texture)
 			break;
 		else{
