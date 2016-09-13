@@ -241,13 +241,14 @@ int ExShaderCompileLog(unsigned int program, unsigned int shaderflag){
 
 	/* check if shader*/
 	if(glIsProgram(program)){
-		glGetProgramiv(program, GL_LINK_STATUS,&status);
-		glGetProgramiv(program, GL_VALIDATE_STATUS,&validate);
-		if(status & validate)
+		glGetProgramiv(program, GL_LINK_STATUS, &status);
+		glGetProgramiv(program, GL_VALIDATE_STATUS, &validate);
+		if(status != 0 && validate != 0){
 			return TRUE;
+		}
 
 		if(!status){
-			glGetProgramInfoLog(program, sizeof(log),NULL,log);
+			glGetProgramInfoLog(program, sizeof(log), NULL, log);
 			printf("\x1B[31m""Failed to compile shader\n%s\n", log);
 		}
 		return FALSE;
