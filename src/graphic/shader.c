@@ -119,7 +119,7 @@ int ExLoadShader(ExShader* shad, const char* cvertexfilename, const char* cfragm
 
 int ExLoadShaderv(ExShader* shad, const char* cvertexSource, const char* cfragmentSource, const char* cgeometrySource, const char* ctessCSource, const char* ctessESource){
 	int error;
-	if(!shad){
+	if(shad == NULL){
 		ExSetError(E_INVALID_ARGUMENT);
 		return E_INVALID_ARGUMENT;
 	}
@@ -153,7 +153,6 @@ int ExLoadShaderv(ExShader* shad, const char* cvertexSource, const char* cfragme
 
 	/**/
 	glLinkProgram(shad->program);
-	glValidateProgram(shad->program);
 
 #if defined(__gl_h_)
 	error = ExShaderCompileLog(shad->program, GL_PROGRAM);
@@ -163,6 +162,7 @@ int ExLoadShaderv(ExShader* shad, const char* cvertexSource, const char* cfragme
 	}
 	return error;
 #endif
+	glValidateProgram(shad->program);
 	return 1;
 }
 
@@ -247,10 +247,15 @@ int ExShaderCompileLog(unsigned int program, unsigned int shaderflag){
 			return TRUE;
 		}
 
-		if(status == GL_FALSE || validate == GL_FALSE){
+		if(status == GL_FALSE){
 			glGetProgramInfoLog(program, sizeof(log), NULL, log);
 			printf("\x1B[31m""Failed to compile shader\n%s\n", log);
 		}
+		if(validate == GL_FALSE){
+			glGetProgramInfoLog(program, sizeof(log), NULL, log);
+			printf("\x1B[31m""Invalid shader\n%s\n", log);
+		}
+
 		return status;
 	}
 
