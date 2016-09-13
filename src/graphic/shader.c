@@ -251,7 +251,7 @@ int ExShaderCompileLog(unsigned int program, unsigned int shaderflag){
 			glGetProgramInfoLog(program, sizeof(log), NULL, log);
 			printf("\x1B[31m""Failed to compile shader\n%s\n", log);
 		}
-		return FALSE;
+		return status;
 	}
 
 	glGetShaderiv(program, GL_COMPILE_STATUS, &status );
