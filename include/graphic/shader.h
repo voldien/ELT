@@ -226,7 +226,7 @@ void main(void){
 "smooth out mat2 coord;\n"													\
 "flat out int ftexture;\n"												\
 "smooth out vec4 fcolor;\n"												\
-"vec2 getTexture(const in int index){\n"				\
+"ivec2 getTexture(const in int index){\n"				\
 "	switch(index){\n"				\
 "		case 0:\n"				\
 "		return textureSize(textures[0], 0);\n"				\
@@ -287,7 +287,7 @@ void main(void){
 "flat in int ftexture;\n"										\
 "smooth in mat2 coord;\n"											\
 "smooth in vec4 fcolor;\n"											\
-"vec2 getTexture(const in int index){\n"				\
+"ivec2 getTexture(const in int index){\n"				\
 "	switch(index){\n"				\
 "		case 0:\n"				\
 "		return textureSize(textures[0], 0);\n"				\
