@@ -243,11 +243,11 @@ int ExShaderCompileLog(unsigned int program, unsigned int shaderflag){
 	if(glIsProgram(program)){
 		glGetProgramiv(program, GL_LINK_STATUS, &status);
 		glGetProgramiv(program, GL_VALIDATE_STATUS, &validate);
-		if(status != 0 && validate != 0){
+		if(status == GL_TRUE && validate == GL_TRUE){
 			return TRUE;
 		}
 
-		if(!status){
+		if(status == GL_FALSE || validate == GL_FALSE){
 			glGetProgramInfoLog(program, sizeof(log), NULL, log);
 			printf("\x1B[31m""Failed to compile shader\n%s\n", log);
 		}
