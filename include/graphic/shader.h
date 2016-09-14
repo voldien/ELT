@@ -281,7 +281,7 @@ void main(void){
 "precision mediump float;\n"								\
 "#endif\n"													\
 "layout(location = 0) out vec4 fragColor;\n"				\
-"uniform sampler2D textures[64];\n"							\
+"uniform sampler2D textures[64];\n"									\
 "smooth in vec4 frect;\n"											\
 "smooth in float fangle;\n"										\
 "flat in int ftexture;\n"										\

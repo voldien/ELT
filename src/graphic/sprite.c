@@ -65,7 +65,7 @@ ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* spritebatch){
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ExSprite), (const void*)vertex_offset);
 	glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, sizeof(ExSprite), (const void*)angle_offset);
 	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(ExSprite), (const void*)rect_offset);
-	glVertexAttribPointer(3, 1, GL_INT,   GL_FALSE, sizeof(ExSprite), (const void*)tex_offset);
+	glVertexAttribIPointer(3, 1, GL_INT, sizeof(ExSprite), (const void*)tex_offset);
 	glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(ExSprite), (const void*)scale_offset);
 	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(ExSprite), (const void*)color_offset);
 
@@ -91,7 +91,7 @@ ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* spritebatch){
 	for(x = 0; x < spritebatch->numMaxTextures; x++){
 		texture[x] = x;
 	}
-	glUniform1iv(spritebatch->uniform.locationTexture, 64, &texture[0]);
+	glUniform1iv(spritebatch->uniform.locationTexture, 64, (const GLint*)&texture[0]);
 	glUseProgram(0);
 
 
@@ -104,7 +104,6 @@ ExSpriteBatch* ExCreateSpriteBatch(ExSpriteBatch* spritebatch){
 	//glPointParameterf(GL_POINT_SIZE_MAX, 2048.0f);
 	glPointParameterf(GL_POINT_FADE_THRESHOLD_SIZE, 1.0f);
 #endif
-
 
 	/*	initialize the batch	*/
 	ExBeginSpriteBatch(spritebatch, NULL, 1.0f);
@@ -244,7 +243,7 @@ void ExDrawSprite(ExSpriteBatch* batch, ExTexture* texture, const float* positio
 	batch->numDraw++;
 	if(batch->numDraw >= batch->num || batch->numTexture >= batch->numMaxTextures){
 		ExEndSpriteBatch(batch);
-		ExBeginSpriteBatch(batch,0,0);
+		ExBeginSpriteBatch(batch, 0, 0);
 	}
 }
 
