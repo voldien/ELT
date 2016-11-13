@@ -4,7 +4,6 @@
 #include"system/elt_gl.h"
 #include"system/elt_errorhandler.h"
 #include"system/elt_log.h"
-#include"system/elt_audio.h"
 #include"elt_loadso.h"
 #include"elt_timer.h"
 
@@ -21,17 +20,17 @@
 /*
  *
  */
-extern Uint64 eltTickTime;			/*	High accuracy timer.	*/
+extern unsigned long int eltTickTime;			/*	High accuracy timer.	*/
 void* xcbConnection = NULL;			/*	*/
 extern unsigned int engineflag;
 
 #define ELT_DEINIT ((unsigned long int)(-1))
 
-ERESULT ExInit(Enum flag){
+ERESULT ExInit(unsigned int flag){
 	ERESULT result = E_OK;
 	ExHandle hmodule;
-	Int32 hConHandle;
-	Long lStdHandle;
+	int hConHandle;
+	long lStdHandle;
 
 
 	/*	if all is already initilated return !	*/
@@ -47,6 +46,9 @@ ERESULT ExInit(Enum flag){
 
 
     /*	Create Connection with Display Server.	*/
+    if(XInitThreads() == 0){
+    	printf("Failed to init multithreading support\n");
+    }
     if(display == NULL){
     	display = XOpenDisplay(ExGetEnv("DISPLAY"));
     }
@@ -57,9 +59,8 @@ ERESULT ExInit(Enum flag){
 	if(xcbConnection == NULL){
 		xcbConnection = XGetXCBConnection(display);
 	}
-    if(XInitThreads() == 0){
-    	printf("Failed to init multithreading support\n");
-    }
+
+
 
 	/*	Initialize sub system	*/
 	ExInitSubSystem(flag);
@@ -73,7 +74,7 @@ ERESULT ExInit(Enum flag){
 	return result;
 }
 
-ERESULT ExInitSubSystem(Uint32 flag){
+ERESULT ExInitSubSystem(unsigned int flag){
 	ERESULT hr = 0;
 	ExHandle hmodule;
 
@@ -85,11 +86,6 @@ ERESULT ExInitSubSystem(Uint32 flag){
 
 	}
 	if(EX_INIT_JOYSTICK & flag){
-
-
-	}
-	if(EX_INIT_AUDIO & flag){
-		//ExAudioInit(0);
 
 
 	}
@@ -109,7 +105,7 @@ ERESULT ExInitSubSystem(Uint32 flag){
 	}
 
 	/*	initialize error handler.	*/
-	if( ( flag & EX_INIT_DEBUG ) ){
+	if( flag & EX_INIT_DEBUG ){
 		ExLog("Enable ELT Debug.\n");
 		mtrace();
 
@@ -128,14 +124,11 @@ ERESULT ExInitSubSystem(Uint32 flag){
 	return hr;
 }
 
-void ExQuitSubSytem(Uint32 flag){
+void ExQuitSubSytem(unsigned int flag){
 
 	/**/
 	if(EX_INIT_TIMER & flag){
 
-	}
-	if(EX_INIT_AUDIO & flag){
-		//ExUnLoadObject(ExGetFileModule(EX_TEXT("libasound.so")));
 	}
 	if(EX_INIT_JOYSTICK & flag){
         ExJoyStickClose(0);

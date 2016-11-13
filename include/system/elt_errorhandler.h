@@ -21,7 +21,7 @@
 #include"../elt_def.h"
 #include"../ExNT.h"
 
-typedef void(ELTAPIENTRY *ExSignalCallback)(Int32);
+typedef void(ELTAPIENTRY *ExSignalCallback)(int);
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 extern "C"{
@@ -32,7 +32,7 @@ extern "C"{
 #define E_ERROR				((ERESULT)-1L)		/*	Error   */
 #define E_INVALID_ARGUMENT	((ERESULT)-2L)		/*	Invalid Argument */
 #define E_ERROR_SYSTEM		((ERESULT)-3L)		/*	System Error */
-#define E_INVALID_ENUM		((ERESULT)-4L)		/*	Invalid Enum */
+#define E_INVALID			((ERESULT)-4L)		/*	Invalid unsigned int */
 #define E_ABI_ERROR			((ERESULT)-5L)		/*	Application Binary interface Error */
 
 #define EX_CRASH_TERMINATE 0x1
@@ -42,7 +42,7 @@ extern "C"{
 
 
 /*
- *	ExInternalError
+ *	ExinternalError
  */
 #define ExIsError(x) { if( ( x ) <= 0 ){ ExDevPrint("Error");} }
 
@@ -93,7 +93,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExError(const ExChar* error,...);
 /**
  *	Error with argument of how the error will be treated
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExErrorl(Enum flag,const ExChar* error,...);
+extern ELTDECLSPEC void ELTAPIENTRY ExErrorl(unsigned int flag,const ExChar* error,...);
 
 /**
  *	Get error.
@@ -123,7 +123,7 @@ extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetErrorString(ERESULT errorcode);
 /**
  *	Get Error Code In Character out of Error.
  */
-extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetErrorMessageW(ULong dw);
+extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetErrorMessageW(unsigned long int dw);
 
 /**
  *	Get Error Code In Character out of HRESULT.
@@ -138,7 +138,7 @@ extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetHModuleErrorMessageW(ERESULT dw);
 /**
  *	Signal Catch.
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExSignalCatch(Int32 signal);
+extern ELTDECLSPEC void ELTAPIENTRY ExSignalCatch(int signal);
 
 /**
  *	Set Signal callback.
@@ -199,29 +199,29 @@ extern ELTDECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal, ExSignalCal
 		#ifdef EX_DEBUG
 			/*		*/
 
-			#define ExPrintfc(pFormat, color,...) {Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat,__VA_ARGS__);ExSetConsoleColor(__colour__);}
+			#define ExPrintfc(pFormat, color,...) {unsigned short __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat,__VA_ARGS__);ExSetConsoleColor(__colour__);}
 
 			/* Print Developer Information With Arguments*/
-			#define ExDevPrintfc(pFormat, color,...) {Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat EX_DEVELOP_ERROR_LOG,__VA_ARGS__,EX_FUNCNAME,__LINE__, __FILE__);ExSetConsoleColor(__colour__);}
+			#define ExDevPrintfc(pFormat, color,...) {unsigned short __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat EX_DEVELOP_ERROR_LOG,__VA_ARGS__,EX_FUNCNAME,__LINE__, __FILE__);ExSetConsoleColor(__colour__);}
 			#define ExDevPrintf(pFormat,...) printf(pFormat EXDEVFILEINFO, ##__VA_ARGS__,__LINE__, __FILE__)
 
 			/* Print Developer Information Without Arguments*/
 			#define ExDevPrint(pFormat) printf(pFormat EXDEVFILEINFO,__LINE__, __FILE__)
-			#define ExDevPrintc(pFormat,color) {Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat EXDEVFILEINFO,__LINE__, __FILE__);ExSetConsoleColor(__colour__);}
+			#define ExDevPrintc(pFormat,color) {unsigned short __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat EXDEVFILEINFO,__LINE__, __FILE__);ExSetConsoleColor(__colour__);}
 
 			/*Print Dever information without arguments Unicode*/
 			#define wExDevPrint(pFormat) ExPrint(pFormat EX_TEXT(EXDEVFILEINFO),__LINE__, EX_TEXT(__FILE__))
-			#define wExDevPrintc(pFormat,color) {Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);ExPrint(pFormat EX_TEXT(EXDEVFILEINFO),__LINE__, EX_TEXT(__FILE__));ExSetConsoleColor(__colour__);}
+			#define wExDevPrintc(pFormat,color) {unsigned short __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);ExPrint(pFormat EX_TEXT(EXDEVFILEINFO),__LINE__, EX_TEXT(__FILE__));ExSetConsoleColor(__colour__);}
 
 			/* Print Developer Information With Arguments Unicode*/
-			#define wExDevPrintfc(pFormat,color,...) {Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);ExPrint(pFormat EX_TEXT(EXDEVFILEINFO),__VA_ARGS__,__LINE__, EX_TEXT(__FILE__));ExSetConsoleColor(__colour__);}
+			#define wExDevPrintfc(pFormat,color,...) {unsigned short __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);ExPrint(pFormat EX_TEXT(EXDEVFILEINFO),__VA_ARGS__,__LINE__, EX_TEXT(__FILE__));ExSetConsoleColor(__colour__);}
 			#define wExDevPrintf(pFormat,...) wprintf(pFormat  EX_TEXT(EXDEVFILEINFO),__VA_ARGS__,__LINE__, EX_TEXT(__FILE__))
 
 			/*Print Developer information Window Error Message */
 			#define ExDevWindowPrint(pFormat)	{ExPrint(pFormat,EX_TEXT(EXDEVWINDOWINFO),GetLastError(),ExGetErrorMessage(GetLastError()));}
-			#define ExDevWindowPrintc(pFormat,color)	{Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);ExPrint(pFormat EX_TEXT(EXDEVWINDOWINFO) EX_TEXT(EXDEVFILEINFO),GetLastError(),ExGetErrorMessage(GetLastError()),__LINE__, EX_TEXT(__FILE__));ExSetConsoleColor(__colour__);}
+			#define ExDevWindowPrintc(pFormat,color)	{unsigned short __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);ExPrint(pFormat EX_TEXT(EXDEVWINDOWINFO) EX_TEXT(EXDEVFILEINFO),GetLastError(),ExGetErrorMessage(GetLastError()),__LINE__, EX_TEXT(__FILE__));ExSetConsoleColor(__colour__);}
 			#define ExDevWindowPrintf(pFormat,...)	{ExPrint(pFormat EX_TEXT(EXDEVWINDOWINFO) EX_TEXT(EXDEVFILEINFO),GetLastError(),ExGetErrorMessage(GetLastError()), __VA_ARGS__, __LINE__,EX_TEXT(__FILE__));}
-			#define ExDevWindowPrintfc(pFormat,color,...)	{Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);ExPrint(pFormat EX_TEXT(EXDEVWINDOWINFO) EX_TEXT(EXDEVFILEINFO),GetLastError(),ExGetErrorMessage(GetLastError()), __VA_ARGS__,__LINE__, EX_TEXT(__FILE__));ExSetConsoleColor(__colour__);}
+			#define ExDevWindowPrintfc(pFormat,color,...)	{unsigned short __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);ExPrint(pFormat EX_TEXT(EXDEVWINDOWINFO) EX_TEXT(EXDEVFILEINFO),GetLastError(),ExGetErrorMessage(GetLastError()), __VA_ARGS__,__LINE__, EX_TEXT(__FILE__));ExSetConsoleColor(__colour__);}
 
 			#define ExDevWindowHPrint(pFormat)	{ExPrint(pFormat,EX_TEXT(EXDEVWINDOWINFO),GetLastError(),ExGetErrorMessage(GetLastError()));}
 			#define ExDevWindowHPrintc(pFormat,color)	{}
@@ -229,9 +229,9 @@ extern ELTDECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal, ExSignalCal
 			#define ExDevWindowHPrintfc(pFormat,color,...)	{}
 
 			#define ExDevGLPrint(pFormat)	printf(pFormat EXDEVWINDOWINFO EXDEVFILEINFO,glGetError(),glewGetErrorString(glGetError()), __LINE__, __FILE__);
-			#define ExDevGLPrintc(pFormat,color)	{Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat EXDEVWINDOWINFO EXDEVFILEINFO,glGetError(),glewGetString(glGetError()),__LINE__, __FILE__);ExSetConsoleColor(__colour__);}
-			#define ExDevGLPrintf(pFormat,...)	{Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat EXDEVWINDOWINFO EXDEVFILEINFO,__VA_ARGS__,glewGetString(glGetError()),LINE__, __FILE__,);ExSetConsoleColor(__colour__);}
-			#define ExDevGLPrintfc(pFormat,color,...){Uint16 __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat EX_DEV_OPENGL_INFO EXDEVFILEINFO,__VA_ARGS__,glGetError(), glewGetString(glGetError()), __LINE__, __FILE__);ExSetConsoleColor(__colour__);}
+			#define ExDevGLPrintc(pFormat,color)	{unsigned short __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat EXDEVWINDOWINFO EXDEVFILEINFO,glGetError(),glewGetString(glGetError()),__LINE__, __FILE__);ExSetConsoleColor(__colour__);}
+			#define ExDevGLPrintf(pFormat,...)	{unsigned short __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat EXDEVWINDOWINFO EXDEVFILEINFO,__VA_ARGS__,glewGetString(glGetError()),LINE__, __FILE__,);ExSetConsoleColor(__colour__);}
+			#define ExDevGLPrintfc(pFormat,color,...){unsigned short __colour__ = ExGetConsoleColor();ExSetConsoleColor(color);printf(pFormat EX_DEV_OPENGL_INFO EXDEVFILEINFO,__VA_ARGS__,glGetError(), glewGetString(glGetError()), __LINE__, __FILE__);ExSetConsoleColor(__colour__);}
 		#else
 			/*		*/
 			#define ExPrintfc(pFormat, color,...)
@@ -280,7 +280,7 @@ extern ELTDECLSPEC int ELTAPIENTRY ExSetSignal(unsigned int isignal, ExSignalCal
 			/* Print Developer Information Without Arguments*/
 			#define ExDevPrint(pFormat) printf(pFormat EXDEVFILEINFO,__LINE__, __FILE__)
 			/* Print Developer Information With Arguments Unicode*/
-			#define wExDevPrint(pFormat) wprintf(pFormat EX_TEXT(EXDEVFILEINFO), __LINE__, __FILE__)
+			//#define wExDevPrint(pFormat) wprintf(pFormat EX_TEXT(EXDEVFILEINFO), __LINE__, __FILE__)
 		#endif
 #else
 // no error message

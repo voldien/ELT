@@ -75,6 +75,8 @@ typedef struct ex_rect_t{
 #define EX_EVENT_WINDOW_MOVE 0x20000		/*	*/
 #define EX_EVENT_WINDOW_DESTROYED 0x40000	/*	*/
 #define EX_EVENT_WINDOW_REPARENT 0x80000	/*	*/
+#define EX_EVENT_WINDOW_HIDE 0x100000
+#define EX_EVENT_WINDOW_SHOW 0x200000
 
 
 typedef struct ex_system_event_t{
@@ -82,7 +84,7 @@ typedef struct ex_system_event_t{
 	/*
 	 *
 	 */
-	Uint message;
+	unsigned int message;
 }ExSystemEvent;
 
 
@@ -91,7 +93,7 @@ typedef struct ex_joy_stick_event_t{
 	/*
 	 *
 	 */
-	Uint8 button[5];
+	unsigned char button[5];
 }ExJoyStickEvent;
 
 
@@ -100,7 +102,7 @@ typedef struct ex_joystick_move_event_t{
 	/*
 	 *
 	 */
-	Uint32 x[3];
+	unsigned int x[3];
 }ExJoySticMoveEvent;
 
 
@@ -109,7 +111,7 @@ typedef struct ex_joystick_button_event_t{
 	/*
 	 *
 	 */
-	Uint8 button[8];
+	unsigned char button[8];
 }ExJoySticButtonEvent;
 
 
@@ -138,7 +140,7 @@ typedef struct elt_win_button_event_t{
 	/*
 	 *
 	 */
-	Uint8 button;
+	unsigned char button;
 }ExWinButtonEvent;
 
 
@@ -160,23 +162,23 @@ typedef struct ex_key_event_t{
 	/*
 	 *
 	 */
-	Uint8 code;
+	unsigned char code;
 	/*
 	 *
 	 */
-	Uint8 alt;
+	unsigned char alt;
 	/*
 	 *
 	 */
-	Uint8 shift;
+	unsigned char shift;
 	/*
 	 *
 	 */
-	Uint8 system;
+	unsigned char system;
 	/*
 	 *
 	 */
-	Uint8 ctrl;
+	unsigned char ctrl;
 }ExKeyEvent;
 
 
@@ -222,7 +224,7 @@ typedef struct window_poll_events_t{
 	/*
 	 *
 	 */
-	Enum event;                                     /*      */
+	unsigned int event;                                     /*      */
 	ExKeyEvent key;                                 /*      */
 	ExSize size;                               		/*      */
 	ExMouseMoveEvent mouse;                         /*      */
@@ -243,7 +245,7 @@ typedef struct elt_poll_events_t{
 	/*
 	 *
 	 */
-	Enum event;									/*	event type fetched.	*/
+	unsigned int event;									/*	event type fetched.	*/
 	ExKeyEvent key;                            	/*	key event info.		*/
 	ExMouseMoveEvent mouse;                    	/*          */
 	ExMouseWheelEvent mouseWheelEvent;         	/*          */
@@ -273,7 +275,7 @@ typedef struct elt_poll_events_t{
  *
  *	@Return 1 if event was polled. 0 if no event was polled.
  */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
+extern ELTDECLSPEC int ELTAPIENTRY ExPollEvent(ExEvent* event);
 
 /**
  *	Poll Window Event information
@@ -287,14 +289,14 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollEvent(ExEvent* event);
  *
  *	@return
  */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event);
+extern ELTDECLSPEC int ELTAPIENTRY ExPollWindowEvent(ExWin window, ExWindowEvent* event);
 
 
 /**
  *
  *	@Return
  */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExForwardEvent(Uint32 event, ExHandle data, Uint32 size);
+extern ELTDECLSPEC int ELTAPIENTRY ExForwardEvent(unsigned int event, ExHandle data, unsigned int size);
 
 
 #ifdef __cplusplus	/*	C++ Environment	*/

@@ -132,7 +132,7 @@ void ExInitOpenGLStates(void){
 
 	if(ExOpenGLGetAttribute(EX_OPENGL_MULTISAMPLEBUFFERS, &value) > 0){
         glEnable(GL_MULTISAMPLE_ARB);
-        	glGetIntegerv(GL_SAMPLE_BUFFERS, &sampleSupport);
+        glGetIntegerv(GL_SAMPLE_BUFFERS, &sampleSupport);
         	if(sampleSupport){
 
         	}
@@ -159,15 +159,15 @@ void ExInitOpenGLStates(void){
 }
 
 
-Uint32 ExGetOpenGLShadingVersion(void){
+unsigned int ExGetOpenGLShadingVersion(void){
 #ifndef EX_ANDROID
-	return (Uint32)(atof((const char*)glGetString(GL_SHADING_LANGUAGE_VERSION)) * 100.0f);
+	return (unsigned int)(atof((const char*)glGetString(GL_SHADING_LANGUAGE_VERSION)) * 100.0f);
 #else
     return 0;
 #endif
 }
 
-Uint32 ExGetOpenGLVersion(int* major, int* minor){
+unsigned int ExGetOpenGLVersion(int* major, int* minor){
 	unsigned int npmajor;
 	unsigned int npminor;
     if(!ExGetCurrentOpenGLContext()){
@@ -200,8 +200,8 @@ Uint32 ExGetOpenGLVersion(int* major, int* minor){
     }
     else{
 #if !(defined(EX_ANDROID) ^ defined(EX_PNACL))
-		glGetIntegerv(GL_MAJOR_VERSION, &npmajor);
-		glGetIntegerv(GL_MINOR_VERSION, &npminor);
+    	glGetIntegerv(GL_MAJOR_VERSION, &npmajor);
+    	glGetIntegerv(GL_MINOR_VERSION, &npminor);
 
 		if(major)
 			major[0] = npmajor;
@@ -213,7 +213,7 @@ Uint32 ExGetOpenGLVersion(int* major, int* minor){
     }
 }
 
-Uint32 ExIsOpenGLExtensionSupported(const char* extension){
+unsigned int ExIsOpenGLExtensionSupported(const char* extension){
 	GLint n=0;
 	GLint i;
 	PFNGLGETSTRINGIPROC glGetStringi = 0;
@@ -231,7 +231,7 @@ Uint32 ExIsOpenGLExtensionSupported(const char* extension){
 	return ExIsExtensionSupported(glGetString(GL_EXTENSIONS), extension);
 }
 
-Uint32 ExIsExtensionSupported(const char* extList,const char* extension){
+unsigned int ExIsExtensionSupported(const char* extList,const char* extension){
 	const char* start;
 	const char *where;
 	const char*terminator;
@@ -261,26 +261,26 @@ Uint32 ExIsExtensionSupported(const char* extList,const char* extension){
 
 
 #ifndef EX_LINUX
-Int32 ExIsVendorAMD(void){
+int ExIsVendorAMD(void){
 #ifndef EX_ANDROID
 	return strstr((const char*)glGetString(GL_VENDOR), "AMD") ? TRUE : FALSE;
 #endif
 }
-Int32 ExIsVendorNvidia(void){
+int ExIsVendorNvidia(void){
 #ifndef EX_ANDROID
 	return strstr((const char*)glGetString(GL_VENDOR), "NVIDIA") ? TRUE : FALSE;
 #endif
 }
-Int32  ExIsVendorIntel(void){
+int  ExIsVendorintel(void){
 #ifndef EX_ANDROID
 	return strstr((const char*)glGetString(GL_VENDOR), "INTEL") ? TRUE : FALSE;
 #endif
 }
 #endif
 
-Enum ExGetOpenGLVendor(void){
+unsigned int ExGetOpenGLVendor(void){
 	if(ExIsVendorNvidia())return EX_NVIDIA;
 	else if(ExIsVendorAMD())return EX_AMD;
-	else if(ExIsVendorIntel())return EX_INTEL;
+	else if(ExIsVendorintel())return EX_INTEL;
 	else return EX_GPU_VENDOR_UNKNOWN;
 }

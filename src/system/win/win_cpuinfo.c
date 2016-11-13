@@ -13,7 +13,7 @@ const ExChar* ExGetCPUName(void){
 	return cpu_name;	// TODO
 }
 
-Int32 ExGetCPUCount(void){
+int ExGetCPUCount(void){
 	SYSTEM_INFO info;
 	GetSystemInfo(&info);
 	return info.dwNumberOfProcessors;

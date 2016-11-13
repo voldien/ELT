@@ -132,12 +132,12 @@ static void onLowMemory(ANativeActivity* activity){
 
 
 
-static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) {
+static int_t engine_handle_input(struct android_app* app, AInputEvent* event) {
 	return 0;
 }
 
 
-static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
+static void engine_handle_cmd(struct android_app* app, int_t cmd) {
 
 }
 

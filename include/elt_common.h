@@ -32,7 +32,7 @@ extern "C"{
  *
  *	@Return if successfully
  */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationName);
+extern ELTDECLSPEC int ELTAPIENTRY ExCreateProcess(const ExChar* applicationName);
 
 /**
  *	Create process with variable argument list
@@ -41,7 +41,7 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExCreateProcess(const ExChar* applicationNa
  *
  *	@Return
 */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName,...);
+extern ELTDECLSPEC int ELTAPIENTRY ExCreateProcessl(const ExChar* applicationName,...);
 
 /**
  *	Get system primary monitor screen size.
@@ -54,18 +54,18 @@ extern ELTDECLSPEC void ELTAPIENTRY ExGetPrimaryScreenSize(ExSize* size);
  *	Get number of screen
  *	@Return
  */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetNumScreen(void);
+extern ELTDECLSPEC int ELTAPIENTRY ExGetNumScreen(void);
 
 /**
  *	Get system monitor resolution by its index.
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExGetScreenSize(Uint32 index, ExSize* size);
+extern ELTDECLSPEC void ELTAPIENTRY ExGetScreenSize(unsigned int index, ExSize* size);
 
 /**
  *	Get possible resolutions for a given monitor.
  *	@Return
  */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetScreenSizes(Uint index, Uint* num, ExSize* sizes);
+extern ELTDECLSPEC int ELTAPIENTRY ExGetScreenSizes(unsigned int index, unsigned int* num, ExSize* sizes);
 
 /**
  *
@@ -75,25 +75,25 @@ extern ELTDECLSPEC void ELTAPIENTRY ExGetPrimaryScreenRect(ExRect* rect);
 /*
  *
  */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetScreenRect(Uint32 index, ExRect* rect);
+extern ELTDECLSPEC int ELTAPIENTRY ExGetScreenRect(unsigned int index, ExRect* rect);
 
 /*
  *	Get monitor hz by its index.
  *	@Return
  */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetScreenRefreshRate(Uint32 index);
+extern ELTDECLSPEC int ELTAPIENTRY ExGetScreenRefreshRate(unsigned int index);
 
 /**
  *
  *	@Return
  */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetPrimaryScreenRefreshRate(void);
+extern ELTDECLSPEC int ELTAPIENTRY ExGetPrimaryScreenRefreshRate(void);
 
 /**
  *
  *	@Return
  */
-extern ELTDECLSPEC int ELTAPIENTRY ExSetScreenSize(Int32 index, Int32 width, Int32 height);
+extern ELTDECLSPEC int ELTAPIENTRY ExSetScreenSize(int index, int width, int height);
 
 
 
@@ -104,18 +104,18 @@ extern ELTDECLSPEC int ELTAPIENTRY ExSetScreenSize(Int32 index, Int32 width, Int
  *	Get Application Name
  *	@Return
  */
-extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetApplicationName(ExChar* name, Int32 length);
+extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetApplicationName(ExChar* name, int length);
 
 /**
  *	Get Application Execute global Path.
  *	@Return
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExGetExecutePath(ExChar* wChar, Int32 lengthSize);
+extern ELTDECLSPEC void ELTAPIENTRY ExGetExecutePath(ExChar* wChar, int lengthSize);
 
 /**
  *	Get Application Path where the Exe file is located.
  */
-extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetAppliationPath(ExChar* wChar, Int32 lengthSize);
+extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetAppliationPath(ExChar* wChar, int lengthSize);
 
 /**
  *	Get hostname.

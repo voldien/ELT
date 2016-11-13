@@ -21,7 +21,6 @@
 #include<stddef.h>
 #include<stdint.h>
 
-
 #ifdef __cplusplus
 	#include<cstdio>
 	#include<climits>
@@ -29,8 +28,9 @@
 	#define EX_CPP	/*	C++ environment	*/
 #else	/*	Not c++*/
 	#include<stdio.h>
-	#include<limits.h>
 	#include<time.h>
+	#include<limits.h>
+
 	#define EX_C	/*	C environment	*/
 #endif	/*	__cplusplus	*/
 
@@ -87,10 +87,10 @@
 
 #elif defined(__PGI)			/*	*/
 
-#elif defined(__ICC) || defined(__INTEL_COMPILER) /*  Intel Compiler  */
+#elif defined(__ICC) || defined(__INTEL_COMPILER) /*  intel Compiler  */
 	#define EX_INTEL
 	#define ENGINE_EX_COMPILER 4
-	#define EX_COMPILER_NAME "Intel C++"
+	#define EX_COMPILER_NAME "intel C++"
 
 #elif defined(__SUNPRO_C) || defined(__SUNPRO_CC)
 
@@ -380,7 +380,7 @@
 
 
 /*
- *	Internal.
+ *	internal.
  */
 #if defined(_ENGINE_INTERNAL) || (EX_ENGINE_VERSION_MAJOR < 1)	/*	Macro Definition Only Defined in this solution.	*/
 	#define INTERNAL_ENGINEX	/*	Used for Assembly Data and Include Data structure.	*/
@@ -547,7 +547,7 @@
 #endif
 
 /*
- *	Int max bits size supported by compiler or hardware.
+ *	int max bits size supported by compiler or hardware.
  */
 #if defined(EX_MSVC)
 	#define EX_INT_MAX_BITS _INTEGRAL_MAX_BITS

@@ -9,7 +9,7 @@
 #	include<ws2dnet.h>
 #endif
 
-Int32 ExPollEvent(ExEvent* event){
+int ExPollEvent(ExEvent* event){
 
 	assert(event);
 	MSG msg;
@@ -36,7 +36,7 @@ Int32 ExPollEvent(ExEvent* event){
 			case WM_KEYDOWN:
 			case WM_SYSKEYDOWN:
 				event->event |= EX_EVENT_KEY;
-				event->key.code = (Uint8)msg.wParam;
+				event->key.code = (unsigned char)msg.wParam;
 				event->key.alt = !(msg.wParam ^ VK_MENU);
 				event->key.shift = !(msg.wParam ^ VK_SHIFT);
 				event->key.system = !(msg.wParam ^ VK_LWIN );
@@ -62,7 +62,7 @@ Int32 ExPollEvent(ExEvent* event){
 				event->mouse.x = GET_X_LPARAM(msg.lParam);
 				event->mouse.y = GET_Y_LPARAM(msg.lParam);
 				event->event = EX_EVENT_MOUSE;
-				event->button.button = (Uint8)msg.wParam;
+				event->button.button = (unsigned char)msg.wParam;
 				event->event |= EX_EVENT_MOUSE;
 			}
 	/*		case WM_MOUSEWHEEL:{
@@ -117,7 +117,7 @@ Int32 ExPollEvent(ExEvent* event){
 }
 
 
-Int32 ExPollWindowEvent(ExWin window, ExWindowEvent* event){
+int ExPollWindowEvent(ExWin window, ExWindowEvent* event){
 
 	MSG msg;
 	//event->event = 0;

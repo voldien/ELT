@@ -123,10 +123,10 @@ extern ELTDECLSPEC ExHandle ELTAPIENTRY ExGetOpenGLProc(const ExChar* cprocName)
 
 
 /**
- *  Create Context Attribute Based on Internal Hardware and engine description.
+ *  Create Context Attribute Based on internal Hardware and engine description.
  *
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExCreateContextAttrib(ExWindowContext hDC, Int32* attrib, Int32* size);
+extern ELTDECLSPEC void ELTAPIENTRY ExCreateContextAttrib(ExWindowContext hDC, int* attrib, int* size);
 
 /**
  *	Create OpenGL context for given window
@@ -201,7 +201,7 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExDestroyCurrentGLContext(void);
  *
  *	@Return TRUE if successfully.
  */
-extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, unsigned int screenIndex, const int* screenRes);
 
 
 
@@ -218,21 +218,21 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen,
  *  glClearColor
  *  ExSetHint(EX_ALPHA, x > 0);
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window, Enum ienum);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetGLTransparent(ExWin window, unsigned int flag);
 
 /**
  *	Get current binded OpenGL context shading version.
  *
  *	@Return
  */
-extern ELTDECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void);
+extern ELTDECLSPEC unsigned int ELTAPIFASTENTRY ExGetOpenGLShadingVersion(void);
 
 /**
  *	Get current binded OpenGL context version.
  *
  *	@Return
  */
-extern ELTDECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major, int* minor);
+extern ELTDECLSPEC unsigned int ELTAPIFASTENTRY ExGetOpenGLVersion(int* major, int* minor);
 
 
 /**
@@ -240,8 +240,7 @@ extern ELTDECLSPEC Uint32 ELTAPIFASTENTRY ExGetOpenGLVersion(int* major, int* mi
  *
  *	@Return TRUE is supported. Otherwise FALSE.
  */
-extern ELTDECLSPEC Uint32 ELTAPIENTRY ExIsOpenGLExtensionSupported(const char* extension);
-
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExIsOpenGLExtensionSupported(const char* extension);
 
 /**
  *	TODO perhaps move it somewhere else, as some other API may use the same
@@ -250,7 +249,7 @@ extern ELTDECLSPEC Uint32 ELTAPIENTRY ExIsOpenGLExtensionSupported(const char* e
  *
  *	@Return
  */
-extern ELTDECLSPEC Uint32 ELTAPIENTRY ExIsExtensionSupported(const char* extList, const char* extension);
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExIsExtensionSupported(const char* extList, const char* extension);
 
 
 /**
@@ -267,32 +266,33 @@ extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetOpenGLServerExtension(void);
  */
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetOpenGLClientExtensions(void);
 
+
 /*	TODO Check if the following functions are needed.	*/
 
 /*
  *	Check if graphic card is AMD GPU
  *	@Return
  */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExIsVendorAMD(void);
+extern ELTDECLSPEC int ELTAPIENTRY ExIsVendorAMD(void);
 
 /*
  *	Check if graphic card is Nvidia GPU
  *	@Return if Nvidia vendor
  */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExIsVendorNvidia(void);
+extern ELTDECLSPEC int ELTAPIENTRY ExIsVendorNvidia(void);
 
 /*
- *	Check if graphic card is Intel GPU
+ *	Check if graphic card is intel GPU
  *	@Return
  */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExIsVendorIntel(void);
+extern ELTDECLSPEC int ELTAPIENTRY ExIsVendorintel(void);
 
 /**
- *	Get graphic vendor enumerator
+ *	Get graphic vendor unsigned interator
+ *
  *	@Return
  */
-extern ELTDECLSPEC Enum ELTAPIENTRY ExGetOpenGLVendor(void);
-
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetOpenGLVendor(void);
 
 /**
  *	Set OpenGL VSync.
@@ -302,9 +302,9 @@ extern ELTDECLSPEC Enum ELTAPIENTRY ExGetOpenGLVendor(void);
 extern ELTDECLSPEC ERESULT ELTAPIENTRY ExOpenGLSetVSync(ExBoolean enabled, ExWin window);
 
 /**
- *	Swap framebuffer.
+ *	Swap framebuffe.
  *
- *	\surface
+ *	\surface window binded with OpenGL context.
  */
 extern ELTDECLSPEC void ELTAPIFASTENTRY ExSwapBuffers(ExWin surface);
 

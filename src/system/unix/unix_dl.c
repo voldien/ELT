@@ -9,25 +9,7 @@ extern void* xcbConnection;
 
 void __attribute__ ((constructor)) my_load(void){
 
-    display = XOpenDisplay(getenv("DISPLAY"));
-    if(!display){
-        //ExError("couldn't open Display\n");
-    }
 
-    /*
-    if(XInitThreads() == 0){
-    	printf("Failed to init multithreading support\n");
-    }
-    */
-
-
-    /**/
-    if(display){
-		xcbConnection = XGetXCBConnection(display);
-		if(xcbConnection){
-
-		}
-    }
 }
 
 void __attribute__ ((destructor)) my_unload(void){

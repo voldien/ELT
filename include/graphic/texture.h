@@ -75,14 +75,14 @@ extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetTextureTypeSize(unsigned int in
 extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetTextureTypeBits(unsigned int internalformat);
 
 /*
- *	Get texture Internal format by number of bits
+ *	Get texture internal format by number of bits
  *	@Return
  */
 extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetTextureTypeBySize(unsigned int bytesperpixel);
 
 
 /*
- *	Get texture Internal format by number of bits
+ *	Get texture internal format by number of bits
  *	@Return
  */
 extern ELTDECLSPEC unsigned int ExGetTextureTypeByBits(unsigned int bitsPerPixels);
@@ -91,7 +91,7 @@ extern ELTDECLSPEC unsigned int ExGetTextureTypeByBits(unsigned int bitsPerPixel
  *
  *	@Return
  */
-extern ELTDECLSPEC unsigned int ExGetInternalSrgbType(unsigned int internal_format);
+extern ELTDECLSPEC unsigned int ExGetinternalSrgbType(unsigned int internal_format);
 
 /*
  *	get texture size in bytes

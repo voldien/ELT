@@ -13,7 +13,7 @@
 
 unsigned char KeyBoardState[2][0xFF];
 
-static inline int ExGetKeyCodeInternal(Uint32 keyCode){
+static inline int ExGetKeyCodeinternal(unsigned int keyCode){
     int keysym;
 
     switch (keyCode){
@@ -153,7 +153,7 @@ static inline int ExGetKeyCodeInternal(Uint32 keyCode){
 }
 
 
- const Uint8*  ExGetKeyboardState(Int32* numkeys){
+ const unsigned char*  ExGetKeyboardState(int* numkeys){
 	if(numkeys)*numkeys=0xff;
 	unsigned char ispressed = GetKeyboardState(&KeyBoardState[0][0]);
 	return KeyBoardState[0];
@@ -174,14 +174,14 @@ static inline int ExGetKeyCodeInternal(Uint32 keyCode){
 }
 
 
-ExBoolean ELTAPIFASTENTRY ExIsKey(Uint32 keyCode){
+ExBoolean ELTAPIFASTENTRY ExIsKey(unsigned int keyCode){
 	return (ExBoolean)GetAsyncKeyState(keyCode);
 }
 
-ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode){
+ExBoolean ELTAPIFASTENTRY ExIsKeyDown(unsigned int keyCode){
 	return (ExBoolean)GetAsyncKeyState(keyCode);
 }
 
-ExBoolean ELTAPIFASTENTRY ExIsKeyUp(Uint32 keyCode){
+ExBoolean ELTAPIFASTENTRY ExIsKeyUp(unsigned int keyCode){
 	return GetAsyncKeyState(keyCode);
 }

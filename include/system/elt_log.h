@@ -77,12 +77,12 @@ extern ELTDECLSPEC FILE* ELTAPIENTRY ExDupFile(const int _fd);
 /*
  *
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExSetConsoleColor(Uint16 colour);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetConsoleColor(unsigned short colour);
 
 /*
  *
  */
-extern ELTDECLSPEC Uint16 ELTAPIENTRY ExGetConsoleColor(void);
+extern ELTDECLSPEC unsigned short ELTAPIENTRY ExGetConsoleColor(void);
 
 
 

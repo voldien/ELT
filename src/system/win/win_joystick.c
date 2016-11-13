@@ -9,9 +9,9 @@
 
 
 
- Uint32  ExJoysticksNum(void){
-	Int32 num = 0;
-	Uint32 i,count;
+ unsigned int  ExJoysticksNum(void){
+	int num = 0;
+	unsigned int i,count;
 	JOYINFO info;
 	count = joyGetNumDevs();
 	for(i = 0; i < count; i++){
@@ -22,7 +22,7 @@
 
 }
 
- ExHandle  ExJoystickOpen(Int32 index){
+ ExHandle  ExJoystickOpen(int index){
 	JOYCAPS caps;
 	joyGetDevCaps(index,&caps,sizeof(caps));
 	if(!GetModuleHandle(caps.szRegKey))
@@ -31,11 +31,11 @@
 
 }
 
- int  ExJoyStickClose(Int32 device_index){
+ int  ExJoyStickClose(int device_index){
 
 }
 
- ExGUID  ExJoystickGetDeviceGUID(Int32 device_index){
+ ExGUID  ExJoystickGetDeviceGUID(int device_index){
 	ExGUID guid;
 	JOYCAPS2W caps2;
 	joyGetDevCaps(device_index,(LPJOYCAPSW)&caps2,sizeof(caps2));
@@ -45,32 +45,32 @@
 	return guid;
 }
 
- const ExChar*  ExJoyStickName(Uint32 ptr){
+ const ExChar*  ExJoyStickName(unsigned int ptr){
 
 	JOYCAPS caps;
 	joyGetDevCaps(ptr,&caps,sizeof(caps));
 	return caps.szPname;
 }
 
- Int32  ExJoystickNumButtons(Uint32 ptr){
+ int  ExJoystickNumButtons(unsigned int ptr){
 	JOYCAPS caps;
 	joyGetDevCaps(ptr,&caps, sizeof(caps));
 	return caps.wNumButtons;
 }
 
- Int32  ExJoystickNumAxis(Int32 device_index){
+ int  ExJoystickNumAxis(int device_index){
 	JOYCAPS caps;
 	joyGetDevCaps(device_index,&caps, sizeof(caps));
 	return caps.wNumAxes;
 }
 
- Int16  ExJoystickGetAxis(Int32 index,int axis){
+ short  ExJoystickGetAxis(int index,int axis){
     JOYINFO  pji;
     joyGetPos(index,&pji);
     return ((unsigned int*)&pji)[axis];
 }
 
- Uint8  ExJoyStickGetButton(Int32 device_index, int button){
+ unsigned char  ExJoyStickGetButton(int device_index, int button){
     JOYINFO  pji;
     joyGetPos(device_index,&pji);
     return ((unsigned int*)&pji)[button];

@@ -22,6 +22,10 @@
 #include"elt_event.h"
 #include"../ExNT.h"
 
+#ifdef __cplusplus	/*	C++ Environment	*/
+extern "C"{
+#endif
+
 #define EX_RGB_COLOR(r,g,b)	(r << 24) | (g << 16) | (b << 8)
 #define EX_RGBA_COLOR(r,g,b,a)	((r << 24) | (g << 16) | (b << 8) | a)
 
@@ -29,10 +33,6 @@
 #define EX_RGBA 0x40
 
 typedef void* ExSurface;
-
-#ifdef __cplusplus	/*	C++ Environment	*/
-extern "C"{
-#endif
 
 
 /**
@@ -49,10 +49,11 @@ extern ELTDECLSPEC ExSurface ELTAPIENTRY ExCreateSurface(unsigned int width, uns
  */
 extern ELTDECLSPEC int ELTAPIFASTENTRY ExDestroySurface(ExSurface handle);
 
-/*
+/**
+ *	Set surface on window.
  *
  */
-extern ELTDECLSPEC void ExDisplaySurfaceToWindow(ExWin window,ExSurface surface);
+extern ELTDECLSPEC void ELTAPIFASTENTRY ExDisplaySurfaceToWindow(ExWin window, ExSurface surface);
 
 /**
  *	Resize surface handle
@@ -78,14 +79,14 @@ extern ELTDECLSPEC int ELTAPIENTRY ExSetSurfacePixel(ExSurface handle, unsigned 
 /*
  *	Set fill color..
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExFillRect(ExSurface handle, ExRect* rect, Uint32 color);
+extern ELTDECLSPEC void ELTAPIENTRY ExFillRect(ExSurface handle, ExRect* rect, unsigned int color);
 
-/*
+/**
  *
  */
 extern ELTDECLSPEC void ExUnlockSurface(ExSurface surface);
 
-/*
+/**
  *
  */
 extern ELTDECLSPEC void ExLockSurface(ExSurface surface);

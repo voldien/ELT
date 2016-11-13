@@ -71,7 +71,7 @@ ExSocket ExCreateSocket(unsigned int domain, unsigned int style, unsigned int pr
 }
 
 
-inline Uint ExCloseSocket(ExSocket socket){
+inline unsigned int ExCloseSocket(ExSocket socket){
     return close(socket);
 }
 
@@ -260,7 +260,7 @@ const ExChar* ExGetHostName(const ExChar* hostname){
 }
 
 
-ExChar* ExGetInterfaceAddr(const ExChar* interface, ExChar* addr, Uint len){
+ExChar* ExGetinterfaceAddr(const ExChar* interface, ExChar* addr, unsigned int len){
     ExSocket fd;
     struct ifreq ifr;
 

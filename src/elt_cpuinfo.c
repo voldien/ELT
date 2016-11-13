@@ -24,7 +24,7 @@
 #define ELT_CPU_HAS_AVX512
 
 
-#if defined(EX_X86)
+#if defined(EX_X86_64) || defined(EX_X86)
 #   include<cpuid.h>
 	/*	cpuid for linux	*/
 #define cpuid(regs, i) __get_cpuid(i, &regs[0], &regs[1], &regs[2], &regs[3]);
@@ -43,7 +43,7 @@
 
 
 
-Uint32 ExGetCPUArch(void){
+unsigned int ExGetCPUArch(void){
 #if defined(EX_X86_64)
 	return EX_CPU_X86_64;
 #elif defined(EX_X86)
@@ -54,25 +54,25 @@ Uint32 ExGetCPUArch(void){
 }
 
 
-Uint32 ExGetEndian(void){
+unsigned int ExGetEndian(void){
 	return 0;
 }
 
 
 ExBoolean ExHasAVX(void){
-	Int32 cpuInfo[4];
+	int cpuInfo[4];
 	cpuid(cpuInfo, 0x1);
 	return (cpuInfo[2] & bit_AVX) != 0;
 }
 
 ExBoolean ExHasAVX2(void){
-	Int32 cpuInfo[4];
+	int cpuInfo[4];
 	cpuid(cpuInfo, 1);
-	return (cpuInfo[0] & bit_AVX2) != 0;
+	return (cpuInfo[1] & bit_AVX2) != 0;
 }
 
 ExBoolean ExHasFMA(void){
-	Int32 cpuInfo[4];
+	int cpuInfo[4];
 	cpuid(cpuInfo, 1);
 	return (cpuInfo[2] & bit_FMA) != 0;
 }
@@ -82,42 +82,42 @@ ExBoolean ExHasAVX512(void){
 }
 
 ExBoolean ExHas3DNow(void){
-	Int32 cpuInfo[4];
+	int cpuInfo[4];
 	cpuid(cpuInfo,0x80000001);
 	return (cpuInfo[3] & bit_3DNOW) != 0;
 }
 
 ExBoolean ExHasMMX(void){
-	Int32 cpuInfo[4];
+	int cpuInfo[4];
 	cpuid(cpuInfo, 1);
 	return (cpuInfo[3] & bit_MMX) != 0;
 }
 
 ExBoolean ExHasSSE(void){
-	Int32 cpuInfo[4];
+	int cpuInfo[4];
 	return (cpuInfo[3] & bit_SSE) != 0;
 }
 
 ExBoolean ExHasSSE2(void){
-	Int32 cpuInfo[4];
+	int cpuInfo[4];
 	cpuid(cpuInfo,1);
 	return (cpuInfo[3] & bit_SSE2) != 0;
 }
 
 ExBoolean ExHasSSE3(void){
-	Int32 cpuInfo[4];
+	int cpuInfo[4];
 	cpuid(cpuInfo,1);
 	return (cpuInfo[2] & bit_SSE3) != 0;
 }
 
 ExBoolean ExHasSSE41(void){
-	Int32 cpuInfo[4];
+	int cpuInfo[4];
 	cpuid(cpuInfo,1);
 	return (cpuInfo[2] & bit_SSE4_1) != 0;
 }
 
 ExBoolean ExHasSSE42(void){
-	Int32 cpuInfo[4];
+	int cpuInfo[4];
 	cpuid(cpuInfo,1);
 	return (cpuInfo[2] & bit_SSE4_2) != 0;
 }
@@ -130,19 +130,19 @@ ExBoolean ExHasNeon(void){
 }
 
 ExBoolean ExHasRDTSC(void){
-	Uint32 cpuInfo[4];
+	unsigned int cpuInfo[4];
 	cpuid(cpuInfo, 1);
 	return ( cpuInfo[2] & 0x00000010 ) != 0;
 }
 
 ExBoolean ExHasDRNG(void){
-	Uint32 cpuInfo[4];
+	unsigned int cpuInfo[4];
 	cpuid(cpuInfo, 1);
 	return ( cpuInfo[2] & bit_RDSEED ) != 0;
 }
 
 ExBoolean ExHasAES(void){
-	Uint32 cpuInfo[4];
+	unsigned int cpuInfo[4];
 	cpuid(cpuInfo, 1);
 	return ( cpuInfo[2] & bit_AES ) != 0;
 }

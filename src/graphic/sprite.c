@@ -379,6 +379,13 @@ void ExRemoveSprite(ExSpriteBatch* spritebatch, int index){
 	}
 }
 
+/*	send buffer	*/
+int ExFlushSpriteBatch(ExSpriteBatch* spritebatch){
+	glBindBuffer(GL_ARRAY_BUFFER, spritebatch->vbo);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, spritebatch->numDraw * sizeof(ExSprite), spritebatch->sprite);
+	return 1;
+}
+
 inline void ExDisplaySprite(ExSpriteBatch* spriteBatch){
 	int i;
 	exvec3x3_t matscale;

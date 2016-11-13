@@ -83,7 +83,7 @@ void ExSubTexture(ExTexture* texture, int level, int xoffset, int yoffset, int w
 		glTexSubImage1D(texture->target,level,xoffset,width,format,type,pixels);
 		break;
 	case GL_TEXTURE_2D_ARRAY:
-		glTexSubImage3D(texture->target,level,xoffset,yoffset,0,width,height,0,format,type,pixels);
+		glTexSubImage3D(texture->target, level, xoffset, yoffset, 0, width, height, 0, format, type, pixels);
 		break;
 #endif
 	}
@@ -156,7 +156,7 @@ unsigned int ExGetTextureLevelDatai(unsigned int textureid,unsigned int level, u
 
 
 
-unsigned int ExGetInternalSrgbType(unsigned int internal_format){
+unsigned int ExGetinternalSrgbType(unsigned int internal_format){
 	switch(internal_format){
 	/*
 	case GL_RGB:return GL_SRGB;

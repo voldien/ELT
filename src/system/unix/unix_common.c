@@ -3,6 +3,7 @@
 
 #include <dirent.h>
 #include <unistd.h>
+
 #   include"system/unix/unix_win.h"
 #   include<sys/utsname.h>
 #   include<sys/sysinfo.h>
@@ -13,7 +14,7 @@
 #include <sys/resource.h>
 
 
-Int32 ExCreateProcess(const ExChar* applicationName){
+int ExCreateProcess(const ExChar* applicationName){
 
     pid_t pid;
     pid = fork();
@@ -41,7 +42,7 @@ Int32 ExCreateProcess(const ExChar* applicationName){
 }
 
 
-Int32 ExCreateProcessl(const ExChar* applicationName,...){
+int ExCreateProcessl(const ExChar* applicationName,...){
 	va_list argptr;
 	ExChar argv[1024]= {0};
 	ExChar* arg_temp;
@@ -61,7 +62,7 @@ Int32 ExCreateProcessl(const ExChar* applicationName,...){
     pid = fork();
     switch(pid){
         case -1:{
-            fprintf(stderr,strerror(errno));
+            fprintf(stderr, strerror(errno));
             kill(pid,9);
             return 0;
 
@@ -85,7 +86,7 @@ void ExGetPrimaryScreenSize(ExSize* size){
 	ExGetScreenSize(0, size);
 }
 
-Int32 ExGetNumScreen(void){
+int ExGetNumScreen(void){
 	XRRScreenResources *screen;
 	XRROutputInfo *info;
 	XRRCrtcInfo *crtc_info;
@@ -97,7 +98,7 @@ Int32 ExGetNumScreen(void){
 }
 
 
-void ExGetScreenSize(Uint32 index, ExSize* size){
+void ExGetScreenSize(unsigned int index, ExSize* size){
 
 	XRRScreenResources *screen;
 	XRROutputInfo *info;
@@ -118,7 +119,7 @@ void ExGetScreenSize(Uint32 index, ExSize* size){
 }
 
 
-Int32 ExGetScreenSizes(Uint index, Uint* num, ExSize*sizes){
+int ExGetScreenSizes(unsigned int index, unsigned int* num, ExSize*sizes){
 	int x;
 	XRRScreenResources *screen;
 	XRROutputInfo *info;
@@ -150,11 +151,11 @@ void ExGetPrimaryScreenRect(ExRect* rect){
 	ExGetScreenRect(0,rect);
 }
 
-Int32 ExGetScreenRect(Uint32 index, ExRect* rect){
+int ExGetScreenRect(unsigned int index, ExRect* rect){
 	XRRScreenResources *screen;
 	XRROutputInfo *info;
 	XRRCrtcInfo *crtc_info;
-	Int32 status;
+	int status;
 
 	screen = XRRGetScreenResources (display, DefaultRootWindow(display));
 	info = XRRGetOutputInfo (display, screen, screen->outputs[0]);
@@ -173,7 +174,7 @@ Int32 ExGetScreenRect(Uint32 index, ExRect* rect){
 	return status;
 }
 
-Int32 ExGetScreenRefreshRate(Uint32 index){
+int ExGetScreenRefreshRate(unsigned int index){
 	unsigned int num_sizes;
 	Display*dis = XOpenDisplay(NULL);
 	Window root = RootWindow(dis,index);
@@ -188,7 +189,7 @@ Int32 ExGetScreenRefreshRate(Uint32 index){
 }
 
 /*	http://hackage.haskell.org/package/bindings-GLFW-0.1.0/src/glfw/src/x11_monitor.c	*/
-int ExSetScreenSize(Int32 index, Int32 width, Int32 height){
+int ExSetScreenSize(int index, int width, int height){
 	XRRScreenResources* sr = NULL;
 	XRRCrtcInfo* ci = NULL;
 	XRROutputInfo* oi = NULL;
@@ -235,17 +236,17 @@ const char* ExGetMachine(void){
 
 
 
-void ExGetExecutePath(ExChar* wChar, Int32 length){
+void ExGetExecutePath(ExChar* wChar, int length){
 	/**/
     extern char* __progname;
     memcpy(wChar,/*program_invocation_name*/__progname,length);
 }
 
-ExChar* ExGetAppliationPath(ExChar* path, Int32 length){
+ExChar* ExGetAppliationPath(ExChar* path, int length){
 	return getcwd(path, length);
 }
 
-ExChar* ExGetApplicationName(ExChar* name, Int32 length){
+ExChar* ExGetApplicationName(ExChar* name, int length){
 
 #   if defined(EX_GNUC) || defined(EX_GNUC)
     extern char* __progname;
@@ -278,27 +279,27 @@ ExWide* ExCharToWide(const ExChar* cchar, ExWide** wchar){
 
 
 
-Uint64 ExGetTotalSystemMemory(void){
+unsigned long ExGetTotalSystemMemory(void){
     struct sysinfo sys_info;
     sysinfo(&sys_info);
 	return sys_info.totalram * sys_info.mem_unit;
 }
 
 /**/
-Uint64 ExGetTotalFreeSystemMemory(void){
+unsigned long ExGetTotalFreeSystemMemory(void){
     struct sysinfo sys_info;
     sysinfo(&sys_info);
 	return sys_info.freeram;
 }
 
-Uint64 ExGetTotalUsedSystemMemory(void){
+unsigned long ExGetTotalUsedSystemMemory(void){
     struct sysinfo sys_info;
     sysinfo(&sys_info);
 	return (sys_info.totalram - sys_info.freeram) * sys_info.mem_unit;
 }
 
 
-Uint64 ExGetProcessSystemMemory(void){
+unsigned long ExGetProcessSystemMemory(void){
 	struct rusage rusage;
 	getrusage(RUSAGE_SELF, &rusage);
 	return 0;
@@ -306,13 +307,13 @@ Uint64 ExGetProcessSystemMemory(void){
 
 
 
-Uint64 ExGetTotalVirtualMemory(void){
+unsigned long ExGetTotalVirtualMemory(void){
     struct sysinfo sys_info;
     sysinfo(&sys_info);
 	return ( sys_info.totalram + sys_info.totalswap ) * sys_info.mem_unit;
 }
 
-Uint64 ExGetTotalUsedVirtualMemory(void){
+unsigned long ExGetTotalUsedVirtualMemory(void){
     struct sysinfo sys_info;
     sysinfo(&sys_info);
 	return ((sys_info.totalram - sys_info.freeram)  + ( sys_info.totalswap - sys_info.freeswap) ) * sys_info.mem_unit;
@@ -334,7 +335,7 @@ Uint64 ExGetTotalUsedVirtualMemory(void){
 
 
 
-Int32 ExSetClipboardText(const ExChar* text){
+int ExSetClipboardText(const ExChar* text){
 	return 0;
 }
 

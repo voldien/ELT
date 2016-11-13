@@ -17,7 +17,7 @@
 #include "GLES2/gl2.h"
 
 extern PPB_Instance* ppb_instance_interface;
-extern PPB_GetInterface browser;
+extern PPB_Getinterface browser;
 
 
 PP_Module module_id = 0;
@@ -26,7 +26,7 @@ PPB_Var* var_interface = NULL;
 PPB_Graphics3D* graphics3d_interface = NULL;
 PP_Resource glContext = NULL;
 
-void swap_callback(void* user_data, int32_t result){
+void swap_callback(void* user_data, int_t result){
   printf("swap result: %d\n", result);
 }
 
@@ -50,7 +50,7 @@ ExOpenGLContext ExCreateGLContext(ExWin window, ExOpenGLContext shared){
 
 
 
-	int32_t attribs[] = {PP_GRAPHICS3DATTRIB_WIDTH, 800,
+	int_t attribs[] = {PP_GRAPHICS3DATTRIB_WIDTH, 800,
 					   PP_GRAPHICS3DATTRIB_HEIGHT, 600,
 					   PP_GRAPHICS3DATTRIB_NONE};
 	glContext = graphics3d_interface->Create(instance, shared, attribs);
@@ -81,7 +81,7 @@ ExBoolean ExDestroyGLContext(ExWindowContext drawable, ExOpenGLContext glc){
 
 void ExSwapBuffers(void* surface){
 	struct PP_CompletionCallback callback = { swap_callback, NULL, PP_COMPLETIONCALLBACK_FLAG_NONE };
-	int32_t ret = graphics3d_interface->SwapBuffers(glContext, callback);
+	int_t ret = graphics3d_interface->SwapBuffers(glContext, callback);
 	if (ret != PP_OK && ret != PP_OK_COMPLETIONPENDING) {
 		printf("SwapBuffers failed with code %d\n", ret);
 		return ;

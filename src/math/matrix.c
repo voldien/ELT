@@ -228,7 +228,7 @@ void mat4x4_rotationZ(exvec4x4_t f_mat4, float z_radi){
 	f_mat4[3][0] = 0.0f;		 f_mat4[3][1] = 0.0f;		  f_mat4[3][2] = 0.0f; f_mat4[3][3] = 1.0f;
 }
 void mat4x4_rotationQ(exvec4x4_t f_mat4, const exvec4f_t quad){
-
+/*
 	float w = quad[0], x = quad[1], y = quad[2], z = quad[3],
 	x2 = x + x,
 	y2 = y + y,
@@ -264,7 +264,7 @@ void mat4x4_rotationQ(exvec4x4_t f_mat4, const exvec4f_t quad){
 	f_mat4[3][1] =0.0;
 	f_mat4[3][2] =0.0;
 	f_mat4[3][3] =1.0;
-
+	*/
 }
 
 

@@ -64,7 +64,7 @@ FILE* ExDupFile(const int _fd){
 #define KWHT  "\x1B[37m"
 #define RESET "\033[0m"
 
-void ExSetConsoleColor(Uint16 colour){
+void ExSetConsoleColor(unsigned short colour){
 #if defined(EX_WINDOWS)
 	if(GetStdHandle(STD_OUTPUT_HANDLE) == INVALID_HANDLE_VALUE)return;
 
@@ -93,7 +93,7 @@ void ExSetConsoleColor(Uint16 colour){
 #endif
 }
 
-Uint16 ExGetConsoleColor(void){
+unsigned short ExGetConsoleColor(void){
 #ifdef EX_WINDOWS
 	CONSOLE_SCREEN_BUFFER_INFO bufferInfo;
 	if(GetStdHandle(STD_OUTPUT_HANDLE) == INVALID_HANDLE_VALUE)return 0;

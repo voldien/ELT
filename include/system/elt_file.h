@@ -68,7 +68,6 @@ extern ELTDECLSPEC long int ELTAPIENTRY ExAppendFile(const ExChar* cfilename, vo
  */
 extern ELTDECLSPEC long int ELTAPIENTRY ExInsertFile(const ExChar* cfilename, long int offset, void* racBuffer, long int csize);
 
-
 /**
  *
  *	@Return

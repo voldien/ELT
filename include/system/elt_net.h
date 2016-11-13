@@ -73,7 +73,7 @@ extern ELTDECLSPEC ExSocket ELTAPIENTRY ExCreateSocket(unsigned int domain, unsi
  *
  *	@Return
 */
-extern ELTDECLSPEC Uint ELTAPIFASTENTRY ExCloseSocket(ExSocket socket);
+extern ELTDECLSPEC unsigned int ELTAPIFASTENTRY ExCloseSocket(ExSocket socket);
 
 /**
  *	Bind socket to ip and port address.
@@ -177,7 +177,7 @@ extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetHostName(const ExChar* hostnam
  *
  *	@Return
  */
-extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetInterfaceAddr(const ExChar* interface, ExChar* addr, Uint len);
+extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetinterfaceAddr(const ExChar* interface, ExChar* addr, unsigned int len);
 
 #ifdef  __cplusplus	/* C++ Environment */
 }

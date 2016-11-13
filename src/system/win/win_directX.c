@@ -23,7 +23,7 @@ DECLSPEC HANDLE ELTAPIFASTENTRY ExGetDirect3DContext(void){
 DECLSPEC ExDevice9D  ExCreateDirectXContext(ExWin window){
 	ERESULT hresult = 0;
 	ExSize win_size[2];
-	Int vp;
+	int vp;
 	D3DCAPS9 m_d3dDevCaps;
 	D3DPRESENT_PARAMETERS d3StructInfo = {0};
 
@@ -72,7 +72,7 @@ DECLSPEC ExDevice9D  ExCreateDirectXContext(ExWin window){
 	d3StructInfo.FullScreen_RefreshRateInHz = ExGetMonitorHz(0);
 	d3StructInfo.EnableAutoDepthStencil = TRUE;
 	d3StructInfo.AutoDepthStencilFormat = D3DFMT_D24S8;
-	d3StructInfo.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+	d3StructInfo.Presentationinterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 
 	/*	Create directX 9 context.	*/
 	if(FAILED(hresult = d3d->CreateDevice(D3DADAPTER_DEFAULT,

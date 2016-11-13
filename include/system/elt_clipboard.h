@@ -26,14 +26,14 @@
  *
  *	@Return
  */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExSetClipboardText(const ExChar* text);
+extern ELTDECLSPEC int ELTAPIENTRY ExSetClipboardText(const ExChar* text);
 
 /**
  *	Set clipboard data.
  *
  *	@Return
  */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExSetClipboardData(void* pdata,Uint32 csize);
+extern ELTDECLSPEC int ELTAPIENTRY ExSetClipboardData(void* pdata,unsigned int csize);
 
 /**
  *	Get clipboard text.
@@ -47,7 +47,7 @@ extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetClipboardText(void);
  *
  *	@Return
  */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetClipboardData(void* pdata);
+extern ELTDECLSPEC int ELTAPIENTRY ExGetClipboardData(void* pdata);
 
 /**
  *	Check if there is clipboard.

@@ -8,13 +8,13 @@
 #include<errno.h>
 #include<string.h>
 
-Uint64 eltTickTime = 0;
+unsigned long int eltTickTime = 0;
 #define CLOCKID CLOCK_REALTIME
 #define SIG SIGUSR2
 
 
-ExTimer ExAddTimer(Uint32 ms_interval, ExThreadRoutine callback, void* param){
-	Uint32 pid;
+ExTimer ExAddTimer(unsigned int ms_interval, ExThreadRoutine callback, void* param){
+	unsigned int pid;
 	timer_t timerid;
 	struct sigevent sev;
 	struct itimerspec its;
@@ -54,7 +54,7 @@ ExBoolean ExRemoveTimer(ExTimer timer_id){
 	return TRUE;
 }
 
-void ExDelay(Uint32 ms){
+void ExDelay(unsigned int ms){
     struct timespec tim;
     tim.tv_sec = 0;
     tim.tv_nsec = ms * 1E6;
@@ -68,7 +68,7 @@ void ExDelay(Uint32 ms){
 #endif
 }
 
-void ExDelayN(Uint32 nanosec){
+void ExDelayN(unsigned int nanosec){
     struct timespec tim, tim2;
     tim.tv_sec = 0;
     tim.tv_nsec = nanosec;
@@ -82,7 +82,7 @@ void ExDelayN(Uint32 nanosec){
 #endif
 }
 
-Uint64 ExGetPerformanceFrequency(void){
+unsigned long int ExGetPerformanceFrequency(void){
 	struct timespec spec;
 	clock_getres(CLOCK_MONOTONIC, &spec);
 	return (1E9 / spec.tv_nsec);

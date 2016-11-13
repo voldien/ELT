@@ -46,7 +46,7 @@
 
 
 #define EX_ENGINE_VERSION_STRING EX_TEXT("ELT Version | %d.%d%d%s | OS : %s : OpenGL %d.%d")
-ExChar* ExGetDefaultWindowTitle(ExChar* text, Int32 length){
+ExChar* ExGetDefaultWindowTitle(ExChar* text, int length){
 	if(!text)
 		return NULL;
 
@@ -91,13 +91,13 @@ static void* private_CreateELTIcon(ExWin window){
     #endif
 }
 
-ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height, Enum flag){
+ExWin ExCreateWindow(int x, int y, int width, int height, unsigned int flag){
 	ExWin window = NULL;
 	ExOpenGLContext glc = NULL;
 	ExOpenCLContext clc = NULL;
 	ExHandle handle;
 	char title[256];
-	typedef ExOpenCLContext (*pExCreateCLSharedContext)(ExOpenGLContext glc, ExWindowContext window, Enum flag);
+	typedef ExOpenCLContext (*pExCreateCLSharedContext)(ExOpenGLContext glc, ExWindowContext window, unsigned int flag);
 	pExCreateCLSharedContext opencl;
 	unsigned int tmpCore = ExOpenGLGetAttribute(EX_OPENGL_CONTEXT_PROFILE_MASK, NULL);
 	handle = ExLoadObject("");
@@ -128,13 +128,13 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height, Enum flag){
 #endif
 		return window;
 	}
-	else if(flag & EX_OPENGLES){
+	else if(flag & EX_EGL){
 		window = (ExWin)ExCreateNativeWindow(x,y,width,height);
 		glc = (ExOpenGLContext)ExCreateEGLContext(window,NULL);
 		ExMakeGLCurrent(GetDC(window),glc);
 #ifdef SUPPORT_OPENCL
 		if(flag & EX_OPENCL)
-			ExCreateCLSharedContext(glc,GetDC(window),EX_OPENGLES);
+			ExCreateCLSharedContext(glc,GetDC(window),EX_EGL);
 #endif
 	}
 	else if(flag & EX_OPENCL){
@@ -160,7 +160,7 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height, Enum flag){
 	}
 #endif
 	else{
-		ExSetError(E_INVALID_ENUM);
+		ExSetError(E_INVALID_unsigned int);
 	}
 	/*	Linux Window Implementation	*/
 #elif defined(EX_LINUX) || defined(EX_MAC)
@@ -181,14 +181,14 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height, Enum flag){
 		}
 #endif
 	}
-	else if(flag & EX_OPENGLES){
+	else if(flag & EX_EGL){
 
 		window = ExCreateNativeWindow(x, y, width, height);
 		glc = ExCreateEGLContext(window, NULL);
 
 #ifdef SUPPORT_OPENCL
 		if(flag & EX_OPENCL){
-			opencl(glc, eglGetCurrentDisplay(), EX_OPENGLES);
+			opencl(glc, eglGetCurrentDisplay(), EX_EGL);
 		}
 #endif
 	}
@@ -231,7 +231,7 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height, Enum flag){
 #endif
 
 	}
-	else if(flag & EX_OPENGLES){
+	else if(flag & EX_EGL){
         ANativeWindow_acquire(&window);
         glc = ExCreateEGLContext(window);
 
@@ -272,7 +272,7 @@ ExWin ExCreateWindow(Int32 x, Int32 y, Int32 width, Int32 height, Enum flag){
 
 
 
-Int32 ExIsScreenSaverEnable(void){
+int ExIsScreenSaverEnable(void){
 #ifdef EX_WINDOWS
     if(ExIsModuleLoaded(""))
         return TRUE;

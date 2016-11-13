@@ -33,12 +33,12 @@ extern PPB_Instance* instance_interface ;
 
 PPB_Instance* instance_interface = NULL;
 PPB_Instance* ppb_instance_interface = NULL;
-PPB_GetInterface browser = NULL;
+PPB_Getinterface browser = NULL;
 //PPB_InputEvent* ppb_input_event_interface = NULL;
 
 
 static PP_Bool Instance_DidCreate(PP_Instance instance,
-                                  uint32_t argc,
+                                  unsigned int_t argc,
                                   const char* argn[],
                                   const char* argv[]) {
 	printf("entered Instance_DidCreate\n");
@@ -71,7 +71,7 @@ void Messaging_HandleMessage(PP_Instance instance, struct PP_Var var_message) {
 
 // Define PPP_InitializeModule, the entry point of your module.
 // Retrieve the API for the browser-side (PPB) interfaces you will use.
-PP_EXPORT int32_t PPP_InitializeModule(PP_Module a_module_id, PPB_GetInterface get_browser) {
+PP_EXPORT int_t PPP_InitializeModule(PP_Module a_module_id, PPB_Getinterface get_browser) {
 	printf("entering initialize");
 	if(!get_browser){
 		printf("bad, browser null\n");
@@ -101,7 +101,7 @@ PP_EXPORT int32_t PPP_InitializeModule(PP_Module a_module_id, PPB_GetInterface g
 }
 
 
-PP_EXPORT const void* PPP_GetInterface(const char* interface_name) {
+PP_EXPORT const void* PPP_Getinterface(const char* interface_name) {
 	if (strcmp(interface_name, PPP_INSTANCE_INTERFACE) == 0) {
 	    static PPP_Instance instance_interface = {
 	      &Instance_DidCreate,

@@ -2,7 +2,7 @@
 
 #include<X11/Xlib.h>
 #include<X11/keysym.h>
-#include<X11/extensions/XInput.h>
+//#include<X11/extensions/XInput.h>
 #include<X11/extensions/XKB.h>
 #include<X11/XKBlib.h>
 #include<X11/Xatom.h>
@@ -13,7 +13,7 @@
 extern xcb_connection_t* xcbConnection;
 
 
-static inline int private_ExGetKeyCodeInternal(Uint32 keyCode){
+static inline int private_ExGetKeyCodeinternal(unsigned int keyCode){
     int keysym;
 
     switch (keyCode){
@@ -139,7 +139,7 @@ ExKeycode ExGetKeyFromName(const char* name){
 }
 
 const char* ExGetKeyName(ExKeycode keycode){
-    return XKeysymToString(private_ExGetKeyCodeInternal(keycode));
+    return XKeysymToString(private_ExGetKeyCodeinternal(keycode));
 }
 
 ExWin ExGetKeyboardFocus(void){
@@ -154,7 +154,7 @@ void ExSetKeyboardFocus(ExWin window){
 }
 
 
-const Uint8* ExGetKeyboardState(Int32* numkeys){
+const unsigned char* ExGetKeyboardState(int* numkeys){
 
 	xcb_query_keymap_reply_t* keymap = NULL;
 	//keymap = xcb_query_keymap_reply(xcbConnection,xcb_query_keymap(xcbConnection), NULL);*/
@@ -171,24 +171,26 @@ ExKeycode ExGetModeState(void){
 }
 
 ExBoolean ExAnyKey(void){
-
+	char keys[32];
+	XQueryKeymap(display, keys);
 	return FALSE;
 }
 
 ExBoolean ExAnyKeyDown(void){
-
+	char keys[32];
+	XQueryKeymap(display, keys);
 	return FALSE;
 }
 
 
-ExBoolean ExIsKey(Uint32 keyCode){
+ExBoolean ExIsKey(unsigned int keyCode){
 	return ExIsKeyDown(keyCode);
 
 }
 
 
-ExBoolean ExIsKeyDown(Uint32 keyCode){
-	KeySym keysym = private_ExGetKeyCodeInternal(keyCode);
+ExBoolean ExIsKeyDown(unsigned int keyCode){
+	KeySym keysym = private_ExGetKeyCodeinternal(keyCode);
 
 	unsigned int keycode = XKeysymToKeycode(display, keysym);
 
@@ -209,6 +211,6 @@ ExBoolean ExIsKeyDown(Uint32 keyCode){
 
 }
 
-ExBoolean ExIsKeyUp(Uint32 keyCode){
+ExBoolean ExIsKeyUp(unsigned int keyCode){
 	return ExIsKeyDown(keyCode);
 }

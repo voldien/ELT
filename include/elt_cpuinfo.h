@@ -25,7 +25,7 @@ extern "C"{
 #endif
 
 /**
- *	TODO take a look at which approuch for dealing with cpu information. enum or string?
+ *	TODO take a look at which approuch for dealing with cpu information. unsigned int or string?
  */
 #define EX_CPU_UNKNOWN		0x0		/*	*/
 #define EX_CPU_X86        	0x1		/*	*/
@@ -39,13 +39,13 @@ extern "C"{
  *
  *	@Return
  */
-extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetCPUArch(void);
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetCPUArch(void);
 
 /**
  *
  *	@Return
  */
-extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetEndian(void);
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetEndian(void);
 
 /**
  *	Get the name of the CPU.
@@ -56,7 +56,7 @@ extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void);
 /**
  *	@Return
  */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetFrequence(void);
+extern ELTDECLSPEC int ELTAPIENTRY ExGetFrequence(void);
 
 /**
  *	Has CPU Support For AVX (Advanced Vector Extension)
@@ -104,12 +104,12 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasMMX(void);
  *
  *	@Return number of cpu cores.
  */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExGetCPUCount(void);
+extern ELTDECLSPEC int ELTAPIENTRY ExGetCPUCount(void);
 
 /**
  *	@Return size in bytes.
  */
-extern ELTDECLSPEC Uint ELTAPIENTRY ExGetCPUCacheLineSize(void);
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetCPUCacheLineSize(void);
 
 /**
  *	Is SSE ( Streaming SIMD Extensions ) available
@@ -176,7 +176,7 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExHasAES(void);
 
 
 /**/
-extern ELTDECLSPEC Enum ELTAPIENTRY ExGetCpuVendor(void);
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetCpuVendor(void);
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 }

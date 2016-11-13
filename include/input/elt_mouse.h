@@ -19,6 +19,7 @@
 #ifndef _ELT_MOUSE_H_
 #define _ELT_MOUSE_H_ 1
 #include"./../system/elt_errorhandler.h"
+#include"../system/elt_event.h"
 
 #ifdef __cplusplus	/* C++ Environment */
 extern "C"{
@@ -47,11 +48,6 @@ typedef void* ExCursor;
 #define EXC_HELP		0x10
 #endif
 
-#define ExMouseButton(x) (m_MouseHandler->MouseState[0]->rgbButtons[x] & 0x80)
-#define ExMousePoint	m_MouseHandler->MouseState[0]->lX
-#define ExMouseMotion
-
-
 enum ExMouseCode {
 	eExMouseNone,
 	eExMouseLeft,
@@ -69,7 +65,7 @@ enum ExMouseCode {
  *
  *	@Return
  */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(ExBoolean enabled);
+extern ELTDECLSPEC int ELTAPIENTRY ExCaptureMouse(ExBoolean enabled);
 
 
 /**
@@ -77,21 +73,26 @@ extern ELTDECLSPEC Int32 ELTAPIENTRY ExCaptureMouse(ExBoolean enabled);
  *
  *	@Return
  */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExClipCursor(ExWin window);
+extern ELTDECLSPEC int ELTAPIENTRY ExClipCursor(ExWin window);
+
+/**
+ *
+ */
+extern ELTDECLSPEC int ELTAPIENTRY ExClipCursorRect(ExRect* rect);
 
 /**
  *	Create Cursor
  *
  *	@Return
  */
-extern ELTDECLSPEC ExCursor ELTAPIENTRY ExCreateCursor(const Uint8* data, const Uint8* mask, Int32 width, Int32 height, Int32 hot_x, Int32 hot_y);
+extern ELTDECLSPEC ExCursor ELTAPIENTRY ExCreateCursor(const unsigned char* data, const unsigned char* mask, int width, int height, int hot_x, int hot_y);
 
 /**
  *	Create System Cursor
  *
  *	@Return
  */
-extern ELTDECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(Enum system_id);
+extern ELTDECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(unsigned int system_id);
 
 /**
  *	Free cursor
@@ -133,25 +134,25 @@ extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetMouseFocus(void);
  *
  *	@Return button pressed.
  */
-extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetGlobalMouseState(Int32* x, Int32* y);
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetGlobalMouseState(int* x, int* y);
 
 /**
  *
  *	@Return
  */
-extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetMouseState(Int32* x, Int32* y);
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetMouseState(int* x, int* y);
 
 /**
  *	Set cursor in screen space respect to monitor resolution.
  *
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExWarpMouseGlobal(Int32 x, Int32 y);
+extern ELTDECLSPEC void ELTAPIENTRY ExWarpMouseGlobal(int x, int y);
 
 /**
  *	Set Cursor relative to window
  *
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExWarpMouseInWindow(ExWin win, Int32 x, Int32 y);
+extern ELTDECLSPEC void ELTAPIENTRY ExWarpMouseInWindow(ExWin win, int x, int y);
 
 /**
  *	Show Cursor

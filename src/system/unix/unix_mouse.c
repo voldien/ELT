@@ -9,12 +9,14 @@
 #   include<X11/Xlib-xcb.h>
 
 
-Int32 ExCaptureMouse(ExBoolean enabled){
+
+int ExCaptureMouse(ExBoolean enabled){
 	return XGrabPointer(display, None, True, 0, GrabModeSync, GrabModeSync, None, ExGetCursor(), CurrentTime);
 }
 
+
 /*	TODO resolve*/
-Int32 ExClipCursor(ExWin window){
+int ExClipCursor(ExWin window){
 	if(window)
 		return XGrabPointer(display, window, True, 0, GrabModeAsync, GrabModeAsync, window, ExGetCursor(), CurrentTime);
 	else{
@@ -25,11 +27,16 @@ Int32 ExClipCursor(ExWin window){
 	}
 }
 
-ExCursor ExCreateCursor(const Uint8* data, const Uint8* mask, Int32 width,Int32 height, Int32 hot_x, Int32 hot_y){
+int ExClipCursorRect(ExRect* rect){
+
+}
+
+
+ExCursor ExCreateCursor(const unsigned char* data, const unsigned char* mask, int width,int height, int hot_x, int hot_y){
     return XCreatePixmap(display, 0, width, height, 8);
 }
 
-ExCursor ExCreateSystemCursor(Enum system_id){
+ExCursor ExCreateSystemCursor(unsigned int system_id){
 	unsigned int arrow;
     switch(system_id){
         case EXC_ARROW: arrow = XC_arrow;break;
@@ -46,6 +53,7 @@ ExBoolean ExFreeCursor(ExCursor cursor){
 }
 
 ExBoolean ExSetCursor(ExWin window, ExCursor cursor){
+	XUndefineCursor(display, window);
 	return XDefineCursor(display, window, cursor);
 }
 
@@ -53,7 +61,7 @@ ExCursor ExGetCursor(void){
 	return NULL;
 }
 
-Uint32 ExGetGlobalMouseState(Int32* x, Int32* y){
+unsigned int ExGetGlobalMouseState(int* x, int* y){
     int i,j,mask_return;
     Window* root;
 	if(XQueryPointer(display, ExGetKeyboardFocus(), &root, &root, x, y, &i, &i, &mask_return))
@@ -62,18 +70,24 @@ Uint32 ExGetGlobalMouseState(Int32* x, Int32* y){
 		return eExMouseNone;
 }
 
-Uint32 ExGetMouseState(Int32* x, Int32* y){
+unsigned int ExGetMouseState(int* x, int* y){
     int i,j,mask_return;
     Window* root;
-	XQueryPointer(display,ExGetKeyboardFocus(), &root, &root, &i, &i, x, y, &mask_return);
-	return mask_return;
+
+	if(XQueryPointer(display,ExGetKeyboardFocus(), &root, &root, &i, &i, x, y, &mask_return)){
+		return mask_return;
+	}else{
+		return eExMouseNone;
+	}
 }
 
 ExBoolean ExShowCursor(ExBoolean enabled){
-    if(!enabled)
+    if(!enabled){
         return XUndefineCursor(display, ExGetKeyboardFocus());
-    else
-        return XDefineCursor(display,0, None);
+    }
+    else{
+        return XDefineCursor(display, NULL, None);
+    }
 }
 
 void ExWarpMouseGlobal(int x, int y){

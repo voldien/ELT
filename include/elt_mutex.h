@@ -31,6 +31,8 @@ typedef void* ExMutex;
  *	Create mutex.
  *
  *	@Return
+ *	ExMutex object has to be freed by ExDestroyMutex.
+ *
  */
 extern ELTDECLSPEC ExMutex ELTAPIENTRY ExCreateMutex(void);
 

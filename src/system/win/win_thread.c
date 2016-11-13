@@ -3,7 +3,7 @@
 #include<windows.h>
 
 
- ExThread  ExCreateThread(thread_routine callback, void* lpParamater, Uint32* pid){
+ ExThread  ExCreateThread(thread_routine callback, void* lpParamater, unsigned int* pid){
 	DWORD p_id;
 	ExHandle t0;
 	if(!(t0 = CreateThread(0,128,(LPTHREAD_START_ROUTINE)callback, (LPVOID)lpParamater, 0, &p_id))){
@@ -17,7 +17,7 @@
 }
 
 
- ExThread  ExCreateThreadAffinity(thread_routine callback, ExHandle lpParamater, Uint32* pid, Int32 ncore){
+ ExThread  ExCreateThreadAffinity(thread_routine callback, ExHandle lpParamater, unsigned int* pid, int ncore){
 	DWORD p_id;
 	ExHandle t0;
 	if(!(t0 = CreateThread(0,128,(LPTHREAD_START_ROUTINE)callback, (LPVOID)lpParamater, 0, &p_id))){
@@ -44,12 +44,12 @@
 }
 
 // Thread
- Uint32  ExGetThreadID(ExThread thread){
+ unsigned int  ExGetThreadID(ExThread thread){
 	return GetThreadId(thread);
 }
 
 
- ERESULT  ExSetThreadPriority(ExThread thread, Enum nPriority){
+ ERESULT  ExSetThreadPriority(ExThread thread, unsigned int nPriority){
 	switch(nPriority){
 		case EX_THREAD_PRIORITY_LOW:nPriority =THREAD_PRIORITY_LOWEST;break;
 		case EX_THREAD_PRIORITY_MEDIUM:nPriority = THREAD_PRIORITY_NORMAL;break;
@@ -62,6 +62,6 @@
 
 
 
- ERESULT  ExWaitThread(ExThread thread, Int32* status){
+ ERESULT  ExWaitThread(ExThread thread, int* status){
     return WaitForSingleObject(thread, INFINITE);
 }

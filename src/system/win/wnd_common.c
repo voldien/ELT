@@ -4,7 +4,7 @@
 #include<string.h>
 
 
- Int32  ExCreateProcess(const ExChar* applicationName){
+ int  ExCreateProcess(const ExChar* applicationName){
 	PROCESS_INFORMATION pi = {0};
 	STARTUPINFO si = {0};
     si.cb = sizeof(si);
@@ -27,7 +27,7 @@
 
 }
 
- Int32  ExCreateProcessl(const ExChar* applicationName, ...){
+ int  ExCreateProcessl(const ExChar* applicationName, ...){
 	va_list argptr;
 	ExChar argv[1024]= {0};
 	ExChar* arg_temp;
@@ -82,13 +82,13 @@
 }
 
 
- void  ExGetMonitorSize(Uint32 index, ExSize* size){
-	//EnumDisplaySettings(
+ void  ExGetMonitorSize(unsigned int index, ExSize* size){
+	//unsigned intDisplaySettings(
 
 }
 
 
- int  ExGetMonitorSizes(Uint index, Uint* num, ExSize*sizes){
+ int  ExGetMonitorSizes(unsigned int index, unsigned int* num, ExSize*sizes){
 
 }
 
@@ -96,15 +96,15 @@
 	GetWindowRect(GetDesktopWindow(), (LPRECT)rect);
 }
 
- void  ExGetMonitorRect(Uint32 index, ExRect* rect){
+ void  ExGetMonitorRect(unsigned int index, ExRect* rect){
 
 }
 
- Int32  ExGetMonitorHz(Uint32 index){
+ int  ExGetMonitorHz(unsigned int index){
 	DEVMODE mod;
 	DISPLAY_DEVICE dev;
 	//memcpy(&dev,&ExGetMonitor(index),sizeof(dev));
-	EnumDisplaySettings(dev.DeviceName,ENUM_CURRENT_SETTINGS, &mod);
+	unsigned intDisplaySettings(dev.DeviceName,unsigned int_CURRENT_SETTINGS, &mod);
 	return mod.dmDisplayFrequency;
 }
 
@@ -113,7 +113,7 @@ const char*  ExGetPlatform(void){
 
 }
 
- Enum  ExGetPowerInfo(Int32* sec, Int32* pct){
+ unsigned int  ExGetPowerInfo(int* sec, int* pct){
 	SYSTEM_POWER_STATUS spsPwr;
 	if(!GetSystemPowerStatus(&spsPwr))
 		ExIsWinError(EX_TEXT("Failed to Get Power Information"));
@@ -124,16 +124,16 @@ const char*  ExGetPlatform(void){
 	return TRUE;
 }
 
- void  ExGetExecutePath(ExChar* wChar, Int32 length){
+ void  ExGetExecutePath(ExChar* wChar, int length){
 	ExIsError(GetModuleFileName(NULL,wChar,length));
 }
 
- void  ExGetAppliationPath(ExChar* path, Int32 length){
+ void  ExGetAppliationPath(ExChar* path, int length){
 	ExIsError(GetCurrentDirectory(length,path));
 }
 
 //function manually
- ExChar*  ExGetApplicationName(ExChar* name,Int32 length){
+ ExChar*  ExGetApplicationName(ExChar* name,int length){
 	ExChar path[MAX_PATH];
 	ExIsError(GetModuleFileName(NULL,path,sizeof(path)));
 	_wsplitpath(path,0,0,name,0);
@@ -152,7 +152,7 @@ const char*  ExGetPlatform(void){
 	return SetCurrentDirectory(cdirectory);
 }
 
- Uint64  ExGetTotalSystemMemory(void){
+ unsigned int64  ExGetTotalSystemMemory(void){
 	MEMORYSTATUSEX status;
 	status.dwLength = sizeof(status);
 	GlobalMemoryStatusEx(&status);
@@ -160,7 +160,7 @@ const char*  ExGetPlatform(void){
 
 }
 
- Uint64  ExGetTotalVirtualMemory(void){
+ unsigned int64  ExGetTotalVirtualMemory(void){
 	MEMORYSTATUSEX status;
 	status.dwLength = sizeof(status);
 	GlobalMemoryStatusEx(&status);
@@ -208,14 +208,14 @@ const char*  ExGetPlatform(void){
 
  const ExChar*  ExGetCurrentUser(void){
 	ExChar user[MAX_PATH];
-	ULong csize;
+	unsigned long csize;
 	ExIsError(GetUserName(user,&csize));
 	return user;
 }
 
 
 
- Int32  ExSetClipboardText(const ExChar* text){
+ int  ExSetClipboardText(const ExChar* text){
 
 	HANDLE handle;
 	void* data;
@@ -257,7 +257,7 @@ const char*  ExGetPlatform(void){
 }
 
 
-//InternetOpenUrl
+//internetOpenUrl
  void*  ExDownloadURL(const ExChar* url){
 
 	HINTERNET hOpen = NULL;
@@ -266,14 +266,14 @@ const char*  ExGetPlatform(void){
 	char* lpBuffer = NULL;
 	DWORD dwBytesRead = 0;
 	DWORD dwBytesWritten = 0;
-	hOpen = InternetOpen(L"MyAgent", NULL, NULL, NULL, NULL);
-	hFile = InternetOpenUrl(hOpen,url,0,0,INTERNET_FLAG_RELOAD | INTERNET_FLAG_DONT_CACHE,NULL);
+	hOpen = internetOpen(L"MyAgent", NULL, NULL, NULL, NULL);
+	hFile = internetOpenUrl(hOpen,url,0,0,INTERNET_FLAG_RELOAD | INTERNET_FLAG_DONT_CACHE,NULL);
 
-	//InternetReadFile(hFile,0,0,&dwBytesRead);
+	//internetReadFile(hFile,0,0,&dwBytesRead);
 	lpBuffer = (char*)malloc(1024);
-	InternetReadFile(hFile,(LPVOID*)lpBuffer,1024,&dwBytesRead);
-	InternetCloseHandle(hFile);
-	InternetCloseHandle(hOpen);
+	internetReadFile(hFile,(LPVOID*)lpBuffer,1024,&dwBytesRead);
+	internetCloseHandle(hFile);
+	internetCloseHandle(hOpen);
 	return lpBuffer;
 
 }
@@ -281,10 +281,10 @@ const char*  ExGetPlatform(void){
 
 
 
- DISPLAY_DEVICE  ExGetMonitor(Uint32 index){
+ DISPLAY_DEVICE  ExGetMonitor(unsigned int index){
 	DISPLAY_DEVICE dd;
 	dd.cb = sizeof(DISPLAY_DEVICE);
-	if(EnumDisplayDevices(NULL, index, &dd, 0))
+	if(unsigned intDisplayDevices(NULL, index, &dd, 0))
 		return dd;
 	else{
 		ExDevPrintf("Failed to Find monitor at Index %i\n",index);
@@ -292,10 +292,10 @@ const char*  ExGetPlatform(void){
 	}
 }
 
- DISPLAY_DEVICE  ExGetSafeMonitor(Uint32 index){
+ DISPLAY_DEVICE  ExGetSafeMonitor(unsigned int index){
 	DISPLAY_DEVICE dd;
 	dd.cb = sizeof(DISPLAY_DEVICE);
-	if(EnumDisplayDevices(NULL, index, &dd, 0))
+	if(unsigned intDisplayDevices(NULL, index, &dd, 0))
 		return dd;
 	else{
 		ExDevPrintf("Failed to Find monitor at Index %i\n",index);
@@ -306,8 +306,8 @@ const char*  ExGetPlatform(void){
  DISPLAY_DEVICE  ExGetPrimaryMontior(void){
 	DISPLAY_DEVICE dd;
 	dd.cb = sizeof(DISPLAY_DEVICE);
-	Int32 index = 0;
-	while(EnumDisplayDevices(NULL, index++, &dd,0)){
+	int index = 0;
+	while(unsigned intDisplayDevices(NULL, index++, &dd,0)){
 		if(dd.StateFlags & DISPLAY_DEVICE_PRIMARY_DEVICE) return dd;
 		// check the iteration count for preventing infinity loop here.
 		if(index > sizeof(ExBoolean) * 256){// check how many monitor is attached. 
@@ -321,20 +321,20 @@ const char*  ExGetPlatform(void){
 
 
 
-BOOL CALLBACK EnumWindowsProc(_In_  ExWin hwnd,_In_  LPARAM lParam){
+BOOL CALLBACK unsigned intWindowsProc(_In_  ExWin hwnd,_In_  LPARAM lParam){
 	ALTTABINFO i = {0};
 	i.cbSize = sizeof(ALTTABINFO);
 	if(GetAltTabInfo (hwnd,-1,&i,0,0))
-		*((Uint32*)lParam) += 1;
+		*((unsigned int*)lParam) += 1;
 	//ExBoolean isVis = IsWindowVisible(hwnd);
-	//*(Uint*)lParam+= isVis;
+	//*(unsigned int*)lParam+= isVis;
 	return TRUE; 
 }
 
 
- Uint32  ExGetWindowChildCount(ExWin hwnd){
-	Uint32 icount = 0;
-	EnumWindows(EnumWindowsProc,(LPARAM)&icount);
+ unsigned int  ExGetWindowChildCount(ExWin hwnd){
+	unsigned int icount = 0;
+	unsigned intWindows(unsigned intWindowsProc,(LPARAM)&icount);
 	return icount;
 }
 
@@ -352,7 +352,7 @@ BOOL CALLBACK EnumWindowsProc(_In_  ExWin hwnd,_In_  LPARAM lParam){
 	HWND _programHandle = ExprograMan();
 
 	HWND defView = FindWindowEx(_programHandle, NULL, EX_TEXT("SHELLDLL_DefView"), NULL);
-	Uint ChildAfter = 0;
+	unsigned int ChildAfter = 0;
 	while(!defView){
 		HWND worker = FindWindowEx(desktop, (HWND)ChildAfter, EX_TEXT("WorkerW"), 0);
 		if(worker){
@@ -371,7 +371,7 @@ BOOL CALLBACK EnumWindowsProc(_In_  ExWin hwnd,_In_  LPARAM lParam){
 
  ExWin  ExListView(void){
 	HWND hwnd;
-	Uint32 i = 0;
+	unsigned int i = 0;
 	HWND listHWND;
 	HWND defHWND;
 	HWND desktop = GetDesktopWindow();
@@ -395,7 +395,7 @@ BOOL CALLBACK EnumWindowsProc(_In_  ExWin hwnd,_In_  LPARAM lParam){
 
 
  void  ExAsciiToUnicode(const char* cchar, WCHAR** wchar){
-	Int32 length;
+	int length;
 	if(!cchar)
 		return;
 
@@ -412,7 +412,7 @@ BOOL CALLBACK EnumWindowsProc(_In_  ExWin hwnd,_In_  LPARAM lParam){
 }
 
  void  ExUnicodeToAscii(const WCHAR* wchar, char** cchar){
-	Int32 length = wcslen(wchar);
+	int length = wcslen(wchar);
 	if(!wchar)return;
 	if(!*cchar)
 		cchar[0] = (char*)malloc(sizeof(char) * length + 1);
@@ -433,7 +433,7 @@ BOOL CALLBACK EnumWindowsProc(_In_  ExWin hwnd,_In_  LPARAM lParam){
 	return (ExBoolean)ExOpenRegKey(hKey,directory,NULL) == ERROR_SUCCESS ? TRUE : FALSE;
 }
 
- Uint32  ExGetRegValuei(HKEY hKey, const ExChar* directory, const ExChar* cregname){
+ unsigned int  ExGetRegValuei(HKEY hKey, const ExChar* directory, const ExChar* cregname){
 	DWORD res;
 	DWORD type =REG_DWORD;
 	DWORD cbData =1024;
@@ -446,11 +446,11 @@ BOOL CALLBACK EnumWindowsProc(_In_  ExWin hwnd,_In_  LPARAM lParam){
 	return val;
 }
 
- Uint64  ExGetRegValuel(HKEY hKey, const ExChar* directory, const ExChar* cregname){
+ unsigned int64  ExGetRegValuel(HKEY hKey, const ExChar* directory, const ExChar* cregname){
 	DWORD res;
 	DWORD type =REG_DWORD;
 	DWORD cbData =1024;
-	Uint64 val;
+	unsigned int64 val;
 	ExOpenRegKey(hKey,directory,&hKey);
 	res = RegQueryValueEx(hKey, cregname,NULL,&type,(LPBYTE)&val,&cbData);
 	if(res != ERROR_SUCCESS)
@@ -459,7 +459,7 @@ BOOL CALLBACK EnumWindowsProc(_In_  ExWin hwnd,_In_  LPARAM lParam){
 	return val;
 }
 /*
- Uint32  ExGetRegValuec(HKEY hKey, const ExChar* directory, const ExChar* cregname, ExChar* character_string){
+ unsigned int  ExGetRegValuec(HKEY hKey, const ExChar* directory, const ExChar* cregname, ExChar* character_string){
 	DWORD res;
 	DWORD type =REG_DWORD;
 	DWORD cbData =1024;
@@ -471,7 +471,7 @@ BOOL CALLBACK EnumWindowsProc(_In_  ExWin hwnd,_In_  LPARAM lParam){
 	return res;
 }
 
- void ExSetRegValuei(HKEY hKey, const ExChar* directory, const ExChar* cregname,Int32 iint){
+ void ExSetRegValuei(HKEY hKey, const ExChar* directory, const ExChar* cregname,int iint){
 
 }
 
@@ -482,7 +482,7 @@ BOOL CALLBACK EnumWindowsProc(_In_  ExWin hwnd,_In_  LPARAM lParam){
 	DWORD val;
 	ExOpenRegKey(hKey,directory,&hKey);
 
-	RegSetValueEx(hKey,cregname,NULL,REG_DWORD,(Uint8*)&ilong,sizeof(Long));
+	RegSetValueEx(hKey,cregname,NULL,REG_DWORD,(unsigned char*)&ilong,sizeof(Long));
 	RegCloseKey(hKey);
 }
 
@@ -493,7 +493,7 @@ BOOL CALLBACK EnumWindowsProc(_In_  ExWin hwnd,_In_  LPARAM lParam){
 	DWORD val;
 	ExOpenRegKey(hKey,directory,&hKey);
 
-	RegSetValueEx(hKey,cregname,NULL,REG_SZ,(Uint8*)character,2 * wcslen(character)+2);
+	RegSetValueEx(hKey,cregname,NULL,REG_SZ,(unsigned char*)character,2 * wcslen(character)+2);
 	RegCloseKey(hKey);
 }
 

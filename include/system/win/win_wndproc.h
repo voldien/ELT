@@ -53,22 +53,22 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExEnableDeviceNotification(ExWin hWnd);
  *	\lParam
  *	@Return
 */
-extern ELTDECLSPEC ERESULT ELTAPISTDENTRY ExMainWndProc(ExWin hWnd, Uint uMsg, WPARAM wParam, LPARAM lParam);
+extern ELTDECLSPEC ERESULT ELTAPISTDENTRY ExMainWndProc(ExWin hWnd, unsigned int uMsg, WPARAM wParam, LPARAM lParam);
 
 /*
  *	Native windows. designed for user interface handling.
  */
-extern ELTDECLSPEC ERESULT ELTAPISTDENTRY ExWndProcNative(ExWin hWnd, Uint uMsg, WPARAM wParam, LPARAM lParam);
+extern ELTDECLSPEC ERESULT ELTAPISTDENTRY ExWndProcNative(ExWin hWnd, unsigned int uMsg, WPARAM wParam, LPARAM lParam);
 
 /*
  *	On Window Context menu.
  */
-extern ELTDECLSPEC BOOL ELTAPISTDENTRY ExOnContextMenu(ExWin hWnd,Int32 x, Int32 y);
+extern ELTDECLSPEC BOOL ELTAPISTDENTRY ExOnContextMenu(ExWin hWnd,int x, int y);
 
 /*
  *	On Window Context menu.
  */
-extern ELTDECLSPEC BOOL ELTAPISTDENTRY ExOnContextMenu2(ExWin hWnd, HMENU hmenu, Int32 x, Int32 y);
+extern ELTDECLSPEC BOOL ELTAPISTDENTRY ExOnContextMenu2(ExWin hWnd, HMENU hmenu, int x, int y);
 
 /*
  *	Display Window Context.
@@ -78,17 +78,17 @@ extern ELTDECLSPEC BOOL ELTAPISTDENTRY ExDisplayContextMenu(ExWin hWnd, POINT* p
 /*
  *
  */
-extern ELTDECLSPEC ExHandle ELTAPIENTRY ExHookWndProc(Int32 idHook, HOOKPROC lpfn);
+extern ELTDECLSPEC ExHandle ELTAPIENTRY ExHookWndProc(int idHook, HOOKPROC lpfn);
 
 /*
  *
  */
-extern ELTDECLSPEC ERESULT ELTAPISTDENTRY DefViewWindowProc(ExWin hwnd, Uint message, WPARAM wParam, LPARAM lParam);
+extern ELTDECLSPEC ERESULT ELTAPISTDENTRY DefViewWindowProc(ExWin hwnd, unsigned int message, WPARAM wParam, LPARAM lParam);
 
 /*
  *
  */
-extern ELTDECLSPEC ERESULT ELTAPISTDENTRY ListViewWindowProc(ExWin hwnd, Uint message, WPARAM wParam, LPARAM lParam);
+extern ELTDECLSPEC ERESULT ELTAPISTDENTRY ListViewWindowProc(ExWin hwnd, unsigned int message, WPARAM wParam, LPARAM lParam);
 
 
 #ifdef __cplusplus	/*	C++ Environment	*/

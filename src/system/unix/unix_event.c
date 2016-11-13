@@ -89,9 +89,13 @@ static inline void private_ExDecodeEvent(ExEvent* event, XEvent msg){
         */
 
 	}break;
-	case  VisibilityNotify:{
-
-
+	case VisibilityNotify:{
+		/*
+		if(msg.xvisibility.state == VisibilityUnobscured)
+			event->event |= EX_EVENT_WINDOW_SHOW;
+		else if(msg.xvisibility.state == VisibilityPartiallyObscured || msg.xvisibility.state == VisibilityFullyObscured)
+			event->event |= EX_EVENT_WINDOW_HIDE;
+		*/
 	}break;
 	case ConfigureNotify:{
 		XConfigureEvent xce = msg.xconfigure;
@@ -118,6 +122,12 @@ static inline void private_ExDecodeEvent(ExEvent* event, XEvent msg){
 		break;
 	case PropertyNotify:
 		break;
+	case MapNotify:
+		event->event |= EX_EVENT_WINDOW_SHOW;
+		break;
+	case UnmapNotify:
+		event->event |= EX_EVENT_WINDOW_HIDE;
+		break;
 	case LASTEvent:
 		event->event = 0;
 		//return FALSE;
@@ -132,7 +142,7 @@ static inline void private_ExDecodeEvent(ExEvent* event, XEvent msg){
 }
 
 
-Int32 ExPollEvent(ExEvent* event){
+int ExPollEvent(ExEvent* event){
 
 	XEvent msg;
 	if(XPending(display)){
@@ -143,7 +153,7 @@ Int32 ExPollEvent(ExEvent* event){
 	}else {/*XSync(display,TRUE);*/ return FALSE;}
 }
 
-Int32 ExPollWindowEvent(ExWin window, ExWindowEvent* event){
+int ExPollWindowEvent(ExWin window, ExWindowEvent* event){
 	XEvent msg;
     if(XPending(display)){
     	XWindowEvent(display, window, 0, &msg);
@@ -156,6 +166,6 @@ Int32 ExPollWindowEvent(ExWin window, ExWindowEvent* event){
 }
 
 
-Int32 ExForwardEvent(Uint32 event, ExHandle data, Uint32 size){
+int ExForwardEvent(unsigned int event, ExHandle data, unsigned int size){
 	return XSendEvent(display, 0, True, event, data);
 }

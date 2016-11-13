@@ -33,7 +33,7 @@ typedef void(ELTAPIENTRY *KeyBoardCallBack)(unsigned int key);
 typedef void(ELTAPIENTRY *ReShapeCallBack)(unsigned int width, unsigned int height);
 
 typedef void(ELTAPIENTRY *SystemKeyDown)(WPARAM wParam, LPARAM lParam);
-typedef int(ELTAPIENTRY *MouseButton)(Enum action, Enum buttonID);
+typedef int(ELTAPIENTRY *MouseButton)(unsigned int action, unsigned int buttonID);
 
 #ifdef  __cplusplus	/* C++ Environment */
 extern "C"{
@@ -46,7 +46,7 @@ extern "C"{
 #define EX_NATIVE_WINDOW_CLASS EX_TEXT("Native_Window")
 #define EX_DIRECTX_WINDOW_CLASS EX_TEXT("DirectX_Window")
 
-typedef struct desktop_window{	// Use of When Application InterFace is Hooked up With Desktop Handles.
+typedef struct desktop_window{	// Use of When Application interFace is Hooked up With Desktop Handles.
 
 	/*
 	 *
@@ -72,7 +72,7 @@ typedef struct ex_nativ_window_handler{
 	/*
 	 *
 	 */
-	Enum windowFlag;
+	unsigned int windowFlag;
 
 	/*
 	 *
@@ -81,7 +81,7 @@ typedef struct ex_nativ_window_handler{
 }ExNativWindowHandler;
 
 typedef struct ex_gl_window_handler{
-	Enum windowFlag;
+	unsigned int windowFlag;
 	EventHandler events;
 }ExGLWindowHandler;
 
@@ -162,7 +162,7 @@ extern ELTDECLSPEC Long ELTAPIENTRY ExGetWindowStyleEx(ExWin hwnd);
 /*
  *	Create Sub  Window Based the prevously created one.
  */
-extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateSubWindow(Int32 x,Int32 y, Int32 width, Int32 height);
+extern ELTDECLSPEC ExWin ELTAPIENTRY ExCreateSubWindow(int x,int y, int width, int height);
 
 
 /*

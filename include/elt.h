@@ -16,13 +16,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _ENGINE_EX_H_
-#define _ENGINE_EX_H_ 1
+#ifndef _ELT_H_
+#define _ELT_H_ 1
 #include"elt_def.h"
 #include"window.h"
 #include"graphic.h"
 #include"system.h"
-#include"audio.h"
 #include"math/matrix.h"
 
 #ifdef __cplusplus	/*	C++ Environment	*/
@@ -37,14 +36,13 @@ extern "C"{
 #define EX_INIT_NONE				0x00000000			/**/
 #define EX_INIT_TIMER				0x00000001			/**/
 #define EX_INIT_VIDEO				0x00000020			/**/
-#define EX_INIT_AUDIO				0x00000010			/**/
 #define EX_INIT_JOYSTICK			0x00000200			/**/
 #define EX_INIT_EVENTS				0x00002000			/**/
 #define EX_INIT_GAMECONTROLLER 	0x00004000				/**/
 #define EX_INIT_NET				0x00008000				/**/
 #define EX_INIT_DEBUG				0x00010000			/**/
-#define EX_INIT_EVERYTHING (										\
-	EX_INIT_VIDEO | EX_INIT_AUDIO | EX_INIT_JOYSTICK				\
+#define EX_INIT_EVERYTHING (						\
+	EX_INIT_VIDEO | EX_INIT_JOYSTICK				\
  | EX_INIT_TIMER | EX_INIT_GAMECONTROLLER | EX_INIT_EVENTS | EX_INIT_DEBUG)
 
 
@@ -55,8 +53,8 @@ extern "C"{
  *
  *	@Return
  */
-extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInit(Uint32 flag);	/*TODO perhaps add argc,argv*/
-extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInit2(Uint32 flag, Int argc, const ExChar* argv);
+extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInit(unsigned int flag);	/*TODO perhaps add argc,argv*/
+extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInit2(unsigned int flag, int argc, const ExChar* argv);
 
 /**
  *	Initialize specific subsystems.
@@ -65,7 +63,7 @@ extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInit2(Uint32 flag, Int argc, const ExCh
  *
  *	@Return
  */
-extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(Uint32 flag);
+extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInitSubSystem(unsigned int flag);
 
 /**
  *	Shut Down Function ELT.
@@ -77,33 +75,33 @@ extern ELTDECLSPEC void ELTAPIENTRY ExShutDown(void);
  *
  *	\flag
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExQuitSubSytem(Uint32 flag);
+extern ELTDECLSPEC void ELTAPIENTRY ExQuitSubSytem(unsigned int flag);
 
 /**
  *
  *
  *	@Return
  */
-extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetFlag(void);
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetFlag(void);
 
 /**
  *	Enable.
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExEnable(Enum enable);
+extern ELTDECLSPEC void ELTAPIENTRY ExEnable(unsigned int enable);
 
 /**
  *	Disable.
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExDisable(Enum disable);
+extern ELTDECLSPEC void ELTAPIENTRY ExDisable(unsigned int disable);
 
 /**
  *	Create interrupt event.
  *
- *	TODO put ExCreateInterrupt somewhere else!
+ *	TODO put ExCreateinterrupt somewhere else!
  *
  *	@Return
  */
-extern ELTDECLSPEC int ELTAPIENTRY ExCreateInterrupt(ex_interrupt_routine callback, Uint32 type);
+extern ELTDECLSPEC int ELTAPIENTRY ExCreateinterrupt(ex_interrupt_routine callback, unsigned int type);
 
 
 /**

@@ -70,7 +70,7 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExIsDirectory(const ExChar* cdirectory)
  *
  *	@Return
  */
-extern ELTDECLSPEC Uint32 ELTAPIENTRY ExDirectoryCount(const ExChar* cdirectory);
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExDirectoryCount(const ExChar* cdirectory);
 
 /**
  *
@@ -156,27 +156,27 @@ extern ELTDECLSPEC int ELTAPIENTRY ExSetCurrentDirectory(const ExChar* cdirector
  *	Get Relative Path.
  *
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExGetRelativePath(const ExChar* cpath, ExChar* basename, Int32 lengthSize);
+extern ELTDECLSPEC void ELTAPIENTRY ExGetRelativePath(const ExChar* cpath, ExChar* basename, int lengthSize);
 
 
 /**
  *	Get path cfilename
  *
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExGetBaseName(const ExChar* cpath, ExChar* basename, Int32 lengthSize);
+extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetBaseName(ExChar* cpath, ExChar* basename, int lengthSize);
 
 /**
  * 	Get directory
  *
  *	@Return
  */
-extern ELTDECLSPEC char* ELTAPIENTRY ExGetDirectory(const ExChar* cpath, ExChar* dirname, Int32 lengthSize);
+extern ELTDECLSPEC char* ELTAPIENTRY ExGetDirectory(const ExChar* cpath, ExChar* dirname, int lengthSize);
 
 /**
  *
  *
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExGetAbsolutePath(const ExChar* cfilename, ExChar* absolute, Int32 lengthSize);
+extern ELTDECLSPEC void ELTAPIENTRY ExGetAbsolutePath(const ExChar* cfilename, ExChar* absolute, int lengthSize);
 
 
 

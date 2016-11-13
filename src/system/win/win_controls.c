@@ -15,7 +15,7 @@ void ExSetControlEvent(ExWin hWnd, const ExHandle eventExHandle){
 	}
 }
 
-void ExSetControlEventv(ExWin hWnd,const ExHandle eventHandle, Uint32 size){
+void ExSetControlEventv(ExWin hWnd,const ExHandle eventHandle, unsigned int size){
 	ExHandle datahandle = (ExHandle)malloc(size);
 	memcpy(datahandle,eventHandle, size);
 	if(!SetWindowLongPtr(hWnd,GWLP_USERDATA, (LONG_PTR)datahandle) && !(datahandle)){
@@ -56,7 +56,7 @@ void  ExReleaseMenuEvent(HMENU hMenu){
 	free((void*)info.dwMenuData);
 }
 /*	Set menu Item Event*/
-void SetMenuItemEvent(HMENU subMenu, Uint32 pos, ExHandle eventHandle){
+void SetMenuItemEvent(HMENU subMenu, unsigned int pos, ExHandle eventHandle){
 	MENUITEMINFO menuInfo;
 	menuInfo.cbSize = sizeof(MENUINFO);
 	menuInfo.fMask = MIIM_DATA;
@@ -67,7 +67,7 @@ void SetMenuItemEvent(HMENU subMenu, Uint32 pos, ExHandle eventHandle){
 	return;
 }
 /*	Get menu Item Event*/
-void* GetMenuItemEvent(HMENU subMenu, Uint32 pos){
+void* GetMenuItemEvent(HMENU subMenu, unsigned int pos){
 	MENUITEMINFO menuInfo;
 	menuInfo.cbSize = sizeof(MENUINFO);
 	menuInfo.fMask = MIIM_DATA;
@@ -96,7 +96,7 @@ HMENU ExCreateMainMenu(ExWin hWnd){
 HMENU ExCreatePopupMenu(HMENU hMenu,const ExChar* string){
 	MENUINFO info;
     HMENU hSubMenu = CreatePopupMenu();
-    if(!AppendMenu(hMenu, MF_STRING | MF_POPUP, (UINT)hSubMenu, string))
+    if(!AppendMenu(hMenu, MF_STRING | MF_POPUP, (unsigned int)hSubMenu, string))
 		ExDevWindowPrintc(EX_TEXT("Create Popup Menu Error"),EX_CONSOLE_RED);
 	info.cbSize = sizeof(MENUINFO);
 	info.fMask = MIM_STYLE;
@@ -109,7 +109,7 @@ HMENU ExCreatePopupMenu(HMENU hMenu,const ExChar* string){
 // bitmap
 HMENU ExCreatePopupMenuB(HMENU hmenu,HBITMAP bitmap){
 	HMENU hSubMenu = CreatePopupMenu();
-	if(!AppendMenu(hmenu, MF_BITMAP | MF_POPUP, (UINT)hSubMenu, (LPCWSTR)bitmap))
+	if(!AppendMenu(hmenu, MF_BITMAP | MF_POPUP, (unsigned int)hSubMenu, (LPCWSTR)bitmap))
 		ExDevWindowPrint(EX_TEXT("Create Popup Menu Error"));
 	return hSubMenu;
 }
@@ -132,7 +132,7 @@ HMENU  ExCreatePopUpMenuItem2(HMENU hpopupMenu,const ExChar* string, ExCallBack 
 	}
 	return hpopupMenu;
 }
- HMENU ExCreatePopUpMenuItem(HMENU hpopupMenu,const ExChar* string,Uint32 ID){
+ HMENU ExCreatePopUpMenuItem(HMENU hpopupMenu,const ExChar* string,unsigned int ID){
 	ADDMENUITEM(hpopupMenu, ID, string);
 	return hpopupMenu;
 }
@@ -195,7 +195,7 @@ void ExSetStatusBarText(ExWin statusHwnd,const  ExChar* string){
 	SendMessage(statusHwnd,SB_SETTEXT,wparam,(LPARAM)string);
 }
 
-void ExSetStatusBarTexti(ExWin statusHwnd,Int32 index,const  ExChar* string){
+void ExSetStatusBarTexti(ExWin statusHwnd,int index,const  ExChar* string){
 	WPARAM wparam = 0;
 	EX_MAKEHIWORD(wparam, SBT_NOBORDERS);
 	EX_MAKELOWORD(wparam, index);
@@ -206,10 +206,10 @@ void ExSetStatusBarIcon(ExWin statusHwnd,HICON icon){
 	SendMessage(statusHwnd,SB_SETICON,0,(LPARAM)icon);
 }
 
-void ExSetStatusBarParts(ExWin statusHwnd,Int32 count){
+void ExSetStatusBarParts(ExWin statusHwnd,int count){
 	RECT client;
-	Int32 status_parts[128];
-	Int32 i;
+	int status_parts[128];
+	int i;
 	GetClientRect(statusHwnd,&client);
 	for(i = 0; i < count; i++){
 		status_parts[i] = ((client.right - client.left) / count) * (i +1);
@@ -256,7 +256,7 @@ ExWin ExCreateComboBox(ExWin hWnd){
 	return hWndCombo;
 }
 
-ExWin ExCreateTrackBar(ExWin parenthWnd,Uint32 imin, Uint32 imax, Uint32 iselected){
+ExWin ExCreateTrackBar(ExWin parenthWnd,unsigned int imin, unsigned int imax, unsigned int iselected){
 	HWND  hwndTrack;
 	InitCommonControls(); // loads common control's DLL
     hwndTrack = CreateWindowEx(
@@ -298,7 +298,7 @@ ExWin ExCreateTrackBar(ExWin parenthWnd,Uint32 imin, Uint32 imax, Uint32 iselect
 ExWin ExCreateProgressBar(ExWin parentWnd){
 	RECT rcClient;		// client area of the parent window
 	ExWin hwndPB;		// progress bar window handle
-	Int cyVscroll;		// height of scroll bar arrow
+	int cyVscroll;		// height of scroll bar arrow
 	// initilize common controls
 	InitCommonControls();
 
@@ -435,7 +435,7 @@ ExWin ExCreateListView(ExWin parenthWnd){
 	return hWndListView;
 }
 
-ExWin ExCreateHeader(ExWin hwndParent, Int32 x, Int32 y, Int32 width, Int32 height){
+ExWin ExCreateHeader(ExWin hwndParent, int x, int y, int width, int height){
 	HDLAYOUT hdl;
 	WINDOWPOS wp;
 	RECT rcParent;
@@ -520,7 +520,7 @@ ExWin ExCreateToolBar(ExWin parenthWnd){
     return hWndToolbar;
 }
 
-ExBoolean ExAddToolBarTemplate(ExWin hWndToolbar, ExChar* text, Uint32 templates,ExButtonPushed buttoncallback){
+ExBoolean ExAddToolBarTemplate(ExWin hWndToolbar, ExChar* text, unsigned int templates,ExButtonPushed buttoncallback){
 
     const int ImageListID    = 0;
     const int numButtons     = 1;
@@ -532,7 +532,7 @@ ExBoolean ExAddToolBarTemplate(ExWin hWndToolbar, ExChar* text, Uint32 templates
 	return TRUE;
 }
 
-void ExAddToolBarButton(ExWin hWndToolbar,ExChar* text,HBITMAP bitmap,Uint32 templates,ExButtonPushed buttoncallback){
+void ExAddToolBarButton(ExWin hWndToolbar,ExChar* text,HBITMAP bitmap,unsigned int templates,ExButtonPushed buttoncallback){
     const int ImageListID    = 0;
     const int numButtons     = 1;
 	HIMAGELIST g_hImageList;

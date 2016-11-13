@@ -6,7 +6,7 @@
 #   include<unistd.h>
 #endif
 
-Uint ExGetPageSize(void){
+unsigned int ExGetPageSize(void){
     #ifdef EX_WINDOWS
 	PERFORMANCE_INFORMATION erformance_info;
 	GetPerformanceInfo(&erformance_info,sizeof(PERFORMANCE_INFORMATION));

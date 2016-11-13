@@ -28,7 +28,7 @@ extern "C"{
 /**
  *
  */
-typedef Uint32 ExTimer;
+typedef unsigned int ExTimer;
 
 
 /**
@@ -42,7 +42,7 @@ typedef Uint32 ExTimer;
  *
  *	@Return unique timer id.
  */
-extern ELTDECLSPEC ExTimer ELTAPIENTRY ExAddTimer(Uint32 ms_interval, ExThreadRoutine callback, void* param);
+extern ELTDECLSPEC ExTimer ELTAPIENTRY ExAddTimer(unsigned int ms_interval, ExThreadRoutine callback, void* param);
 
 /**
  *	Remove timer thread routine.
@@ -56,14 +56,14 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExRemoveTimer(ExTimer timer_id);
  *
  *	\ms milliseconds.
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExDelay(Uint32 ms);
+extern ELTDECLSPEC void ELTAPIENTRY ExDelay(unsigned int ms);
 
 /**
  *	Delay current thread in nano seconds.
  *
  *	\ns
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nanosec);
+extern ELTDECLSPEC void ELTAPIENTRY ExDelayN(unsigned int nanosec);
 
 /**
  *	Get performance frequency for ExGetHiResTime. That is say
@@ -71,7 +71,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExDelayN(Uint32 nanosec);
  *
  *	@Return time resolution.
  */
-extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetPerformanceFrequency(void);
+extern ELTDECLSPEC unsigned long int ELTAPIENTRY ExGetPerformanceFrequency(void);
 
 /**
  *	Get numbers Ticks sense ELT_TIMER was initialize.

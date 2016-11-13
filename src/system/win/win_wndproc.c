@@ -59,7 +59,7 @@ ExBoolean  ExEnableDeviceNotification(ExWin hWnd){
 }
 
 /*	Main Proc designed for OpenGL Window mainly.	*/
-ERESULT WINAPI ExMainWndProc(ExWin hWnd,UINT uMsg, WPARAM wParam, LPARAM lParam){
+ERESULT WINAPI ExMainWndProc(ExWin hWnd,unsigned int uMsg, WPARAM wParam, LPARAM lParam){
 	ExGLWindowHandler* handler;
 	switch(uMsg){
 	case WM_CREATE:{
@@ -90,7 +90,7 @@ ERESULT WINAPI ExMainWndProc(ExWin hWnd,UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_MBUTTONDOWN:
 	case WM_MBUTTONUP:{
 			handler = (ExGLWindowHandler*)GetWindowLongPtr(hWnd,GWLP_USERDATA);
-			Uint32 temp;
+			unsigned int temp;
 			if(wParam & MK_LBUTTON)
 				temp |= 1;
 			if(wParam & MK_RBUTTON)
@@ -103,7 +103,7 @@ ERESULT WINAPI ExMainWndProc(ExWin hWnd,UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}break;
 	case WM_INPUT:{
 		PRAWINPUT pRawInput;
-		UINT buffersize;
+		unsigned int buffersize;
 		HANDLE hHeap;
 		GetRawInputData((HRAWINPUT)lParam,RID_INPUT,NULL, &buffersize, sizeof(RAWINPUTHEADER));
 		hHeap = GetProcessHeap();
@@ -239,7 +239,7 @@ ERESULT WINAPI ExMainWndProc(ExWin hWnd,UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 
 
-ERESULT WINAPI ExWndProcNative(ExWin hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
+ERESULT WINAPI ExWndProcNative(ExWin hWnd, unsigned int uMsg, WPARAM wParam, LPARAM lParam){
 	switch(uMsg){
 	case WM_CREATE:
 		return DefWindowProc(hWnd,uMsg,wParam,lParam);
@@ -308,7 +308,7 @@ ERESULT WINAPI ExWndProcNative(ExWin hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 				// selected change
 			case LBN_SELCHANGE:{
 				HWND bhwnd =(HWND)(lParam);
-				Int index = SendMessage(bhwnd,LB_GETCURSEL,0,0);
+				int index = SendMessage(bhwnd,LB_GETCURSEL,0,0);
 
 				ExListBoxEvent* event = (ExListBoxEvent*)GetWindowLongPtr(bhwnd, GWLP_USERDATA);
 				if(event->selected != NULL)event->selected();
@@ -371,7 +371,7 @@ ERESULT WINAPI ExWndProcNative(ExWin hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 	case WM_RBUTTONUP:
 	case WM_MBUTTONDOWN:
 	case WM_MBUTTONUP:{
-			Uint temp;
+			unsigned int temp;
 			if(wParam & MK_LBUTTON)
 				temp |= 1;
 			if(wParam & MK_RBUTTON)
@@ -451,7 +451,7 @@ ERESULT WINAPI ExWndProcNative(ExWin hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 }
 
 
-BOOL ExOnContextMenu(ExWin hWnd,Int x, Int y){
+BOOL ExOnContextMenu(ExWin hWnd,int x, int y){
 	RECT rc;                    // client area of window
     POINT pt = { x, y };        // location of mouse click
 
@@ -475,7 +475,7 @@ BOOL ExOnContextMenu(ExWin hWnd,Int x, Int y){
     return FALSE;
 }
 
- BOOL WINAPI ExOnContextMenu2(ExWin hWnd, HMENU hmenuTrackPopup, Int x, Int y){
+ BOOL WINAPI ExOnContextMenu2(ExWin hWnd, HMENU hmenuTrackPopup, int x, int y){
 	if(!hmenuTrackPopup)return FALSE;
 	RECT rc;                    // client area of window
     POINT pt = { x, y };        // location of mouse click
@@ -520,7 +520,7 @@ BOOL WINAPI ExDisplayContextMenu(ExWin hWnd, POINT* pt){
 	return TRUE;
 }
 
-ExHandle  ExHookWndProc(Int32  idHook, HOOKPROC lpfn){
+ExHandle  ExHookWndProc(int  idHook, HOOKPROC lpfn){
 	HHOOK hook;
 	ExIsWinError(hook =SetWindowsHookEx(idHook,lpfn,GetModuleHandle(NULL),0));
 	return hook;

@@ -68,7 +68,7 @@ void ExGenFrameBuffers(unsigned int n, unsigned int* framebuffers){
 
 
 ExFrameBuffer* ExCreateRenderTexture2D(ExFrameBuffer* framebuffer, unsigned int width, unsigned int height, unsigned int attachment){
-	GLenum State;
+	GLuint State;
 	if(!framebuffer)
 		return NULL;
 

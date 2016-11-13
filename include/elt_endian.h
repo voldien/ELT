@@ -29,19 +29,19 @@ extern "C"{
  *	Swap
  *
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExSwap16(Uint16 x);
+extern ELTDECLSPEC void ELTAPIENTRY ExSwap16(unsigned short x);
 
 /**
  *	Swap
  *
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExSwap32(Uint32 x);
+extern ELTDECLSPEC void ELTAPIENTRY ExSwap32(unsigned int x);
 
 /**
  *	Swap
  *
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExSwap64(Uint64 x);
+extern ELTDECLSPEC void ELTAPIENTRY ExSwap64(unsigned long int x);
 
 /**
  *	Swap

@@ -2,7 +2,7 @@
 #include"system/elt_errorhandler.h"
 #define _GNU_SOURCE
 
-#include<unistd.h>
+#include<linux/limits.h>
 #include<dirent.h>
 #include<sys/stat.h>
 #include<fcntl.h>
@@ -53,7 +53,7 @@ ExBoolean ExIsDirectory(const ExChar* cdirectory){
 	return FALSE;
 }
 
-Uint32 ExDirectoryCount(const ExChar* cdirectory){
+unsigned int ExDirectoryCount(const ExChar* cdirectory){
 	DIR* dir = opendir(cdirectory);
 	int count = 0;
 	struct dirent* dirent;
@@ -134,16 +134,23 @@ ExChar* ExGetCurrentDirectory(ExChar* cwd, unsigned int len){
 
 }
 
-Int32 ExSetCurrentDirectory(const ExChar* cdirectory){
+int ExSetCurrentDirectory(const ExChar* cdirectory){
 	return chdir(cdirectory);
 }
 
 
 
 
+ExChar* ExGetBaseName(ExChar* cpath, ExChar* base, int lengthSize){
+	char* tmpbase = basename((char*)cpath);
+	if(base && tmpbase){
+
+	}
+	return tmpbase;
+}
 
 
-char* ExGetDirectory(const ExChar* cpath, ExChar* Chas, Int32 lengthSize){
+char* ExGetDirectory(const ExChar* cpath, ExChar* Chas, int lengthSize){
 	memcpy(Chas, cpath, strlen(cpath) + 1);
 
 	ExChar* thedir = dirname(Chas);
@@ -154,9 +161,10 @@ char* ExGetDirectory(const ExChar* cpath, ExChar* Chas, Int32 lengthSize){
 }
 
 
-void ExGetAbsolutePath(const ExChar* cfilename, ExChar* absolute, Int32 lengthSize){
+void ExGetAbsolutePath(const ExChar* cfilename, ExChar* absolute, int lengthSize){
 	realpath(cfilename, absolute);
 }
+
 
 
 

@@ -6,7 +6,7 @@
 
 #define _POWDIR "/sys/class/power_supply"
 
-Enum ExGetPowerInfo(Int32* sec, Int32* pct){
+unsigned int ExGetPowerInfo(int* sec, int* pct){
 	FILE* f_c, *f_f;
 	long current, full;
 	DIR* d;

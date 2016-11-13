@@ -21,13 +21,13 @@
 #include"../system.h"
 #include"eltkeycode.h"
 
-typedef ExKeycode ExScancode;
 #ifdef __cplusplus /* C++ environment */
 extern "C"{
 #endif
 
-
+typedef ExKeycode ExScancode;
 #define ExGetKeyCode(array,keycode) ( ( ( array ) [ ( keycode ) /8] )  & (1 << ( ( keycode )  % 8)))
+
 
 /**
  *	Get KeyCode name identification index
@@ -77,18 +77,19 @@ extern ELTDECLSPEC void ELTAPIENTRY ExSetKeyboardFocus(ExWin window);
  *
  *	@Return
  */
-extern ELTDECLSPEC const Uint8* ELTAPIENTRY ExGetKeyboardState(Int32* numkeys);
+extern ELTDECLSPEC const unsigned char* ELTAPIENTRY ExGetKeyboardState(int* numkeys);
 
 /**
+ *
  *
  *	@Return
  */
 extern ELTDECLSPEC ExKeycode ELTAPIENTRY ExGetModeState(void);
 
 /**
- *	Is any key pressed
+ *	Is any key pressed.
  *
- *	@Return
+ *	@Return	True if
  */
 extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKey(void);
 
@@ -102,20 +103,20 @@ extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void);
  *
  *	@Return
  */
-extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(Uint32 keyCode);
+extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKey(unsigned int keyCode);
 
 /**
  *	Check if key is pressed.
  *
  *	@Return 1 if key is pressed.
  */
-extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(Uint32 keyCode);
+extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(unsigned int keyCode);
 
 /**
  *
  *	@Return
  */
-extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyReleased(Uint32 keyCode);
+extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyReleased(unsigned int keyCode);
 
 
 #ifdef __cplusplus /* C++ environment */

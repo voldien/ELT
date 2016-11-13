@@ -35,18 +35,18 @@ extern "C"{
 /*
  *	Get Monitor Display Device
  */
-extern ELTDECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetMonitor(Uint32 index);
+extern ELTDECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetMonitor(unsigned int index);
 
 /*
  *	Get Monitor Display Device. if index isn't value. then it will decriment intill a valid monitor Index
  */
-extern ELTDECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetSafeMonitor(Uint32 index);
+extern ELTDECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetSafeMonitor(unsigned int index);
 
 /* Get Primary Montior Display Device.*/
 extern ELTDECLSPEC DISPLAY_DEVICE ELTAPIENTRY ExGetPrimaryMontior(void);
 
 /*	Get Count of Children Window */
-extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetWindowChildCount(ExWin hwnd);
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetWindowChildCount(ExWin hwnd);
 
 /*		*/
 extern ELTDECLSPEC ExWin ELTAPIENTRY ExShellDef(void);
@@ -80,17 +80,17 @@ extern ELTDECLSPEC char* ELTAPIENTRY ExConvertAscii(const WCHAR* wwchar);
 */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExExistRegKey(HKEY hKey, const ExChar* directory);
 // get value
-extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetRegValuei(HKEY hKey, const ExChar* directory, const ExChar* cregname);
-extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetRegValuel(HKEY hKey, const ExChar* directory, const ExChar* cregname);
-extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetRegValuec(HKEY hKey, const ExChar* directory, const ExChar* cregname, WCHAR* character_string);
-extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetRegValuecv(HKEY hKey, const ExChar* directory, const ExChar* cregname, WCHAR* character_string);
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetRegValuei(HKEY hKey, const ExChar* directory, const ExChar* cregname);
+extern ELTDECLSPEC unsigned int64 ELTAPIENTRY ExGetRegValuel(HKEY hKey, const ExChar* directory, const ExChar* cregname);
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetRegValuec(HKEY hKey, const ExChar* directory, const ExChar* cregname, WCHAR* character_string);
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetRegValuecv(HKEY hKey, const ExChar* directory, const ExChar* cregname, WCHAR* character_string);
 // get registry value
-extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetRegValueType(HKEY hKey, const ExChar* directory, const ExChar* cregname);
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetRegValueType(HKEY hKey, const ExChar* directory, const ExChar* cregname);
 
-extern ELTDECLSPEC void ELTAPIENTRY ExSetRegValuei(HKEY hKey, const ExChar* directory, const ExChar* cregname,Int32 iint);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetRegValuei(HKEY hKey, const ExChar* directory, const ExChar* cregname,int iint);
 extern ELTDECLSPEC void ELTAPIENTRY ExSetRegValuel(HKEY hKey, const ExChar* directory, const ExChar* cregname,Long ilong);
 extern ELTDECLSPEC void ELTAPIENTRY ExSetRegValuec(HKEY hKey, const ExChar* directory, const ExChar* cregname,LPCWSTR character);
-extern ELTDECLSPEC Uint32 ELTAPIENTRY ExSetRegValuecv(HKEY hKey, const ExChar* directory, const ExChar* cregname, WCHAR* character_string);
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExSetRegValuecv(HKEY hKey, const ExChar* directory, const ExChar* cregname, WCHAR* character_string);
 
 extern ELTDECLSPEC void ELTAPIENTRY ExCreateRegKey(HKEY hKey, const ExChar* directory);
 

@@ -70,7 +70,7 @@ ExWin  ExCreateDirectXWindow(int x, int y, int width, int height){
 	return hWnd;
 }
 
-ExWin  ExCreateOpenGLWindow(Int32 x, Int32 y, Int32 width, Int32 height){
+ExWin  ExCreateOpenGLWindow(int x, int y, int width, int height){
 	HWND hWnd;
 	WNDCLASSEX wc;
 	ATOM reg;
@@ -117,7 +117,7 @@ ExWin  ExCreateOpenGLWindow(Int32 x, Int32 y, Int32 width, Int32 height){
 	return hWnd;
 }
 
-ExWin  ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){
+ExWin  ExCreateNativeWindow(int x, int y, int width, int height){
 
 	ATOM reg;
 	HWND hwnd;
@@ -154,7 +154,7 @@ ExWin  ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){
 	return hwnd;
 }
 
-ExWin  ExCreateMIDWindow(Int32 x, Int32 y, Int32 width, Int32 height){
+ExWin  ExCreateMIDWindow(int x, int y, int width, int height){
 
 	WNDCLASSEX wc;
 	ExWin hwnd;
@@ -274,7 +274,7 @@ int  ExMessageBox(ExWin window, const ExChar* text, const ExChar* title,  unsign
 
 
 
- void  ExSetWindowMode(ExWin window, Enum mode){
+ void  ExSetWindowMode(ExWin window, unsigned int mode){
     if(mode & EX_WIN_SCREENSAVER_ENABLE){
         ExLoadLibrary(EX_TEXT("scrnsave.dll"));
     }
@@ -299,7 +299,7 @@ int  ExMessageBox(ExWin window, const ExChar* text, const ExChar* title,  unsign
 }
 
 
- void  ExSetWindowPos(ExWin window,Int32 x,Int32 y){
+ void  ExSetWindowPos(ExWin window,int x,int y){
 	RECT winrect;
 	if(!window)
 		return;
@@ -307,7 +307,7 @@ int  ExMessageBox(ExWin window, const ExChar* text, const ExChar* title,  unsign
 	SetWindowPos(window, NULL, x, y, winrect.right - winrect.left, winrect.bottom - winrect.top, SWP_SHOWWINDOW);
 }
 
- void  ExSetWindowPosv(ExWin window, const Int32* position){
+ void  ExSetWindowPosv(ExWin window, const int* position){
 	if(!window || !position)
 		return;
 
@@ -317,7 +317,7 @@ int  ExMessageBox(ExWin window, const ExChar* text, const ExChar* title,  unsign
 }
 
 
- void  ExGetWindowPosv(ExWin window, Int32* position){
+ void  ExGetWindowPosv(ExWin window, int* position){
 	RECT winrect;
 	GetWindowRect(window,&winrect);
 	position[0]= winrect.left;
@@ -326,7 +326,7 @@ int  ExMessageBox(ExWin window, const ExChar* text, const ExChar* title,  unsign
 }
 
 
- void  ExSetWindowSize(ExWin window,Int32 width, Int32 height){
+ void  ExSetWindowSize(ExWin window,int width, int height){
 
 	RECT winrect;
 	GetWindowRect(window,&winrect);
@@ -360,18 +360,18 @@ int  ExMessageBox(ExWin window, const ExChar* text, const ExChar* title,  unsign
 
 
 
- Uint32  ExGetWindowFlag(ExWin window){
+ unsigned int  ExGetWindowFlag(ExWin window){
 	return GetWindowLong(window,GWL_STYLE);
 }
 
 
- Int32  ExSetWindowIcon(ExWin window, ExHandle hIcon){
+ int  ExSetWindowIcon(ExWin window, ExHandle hIcon){
 	LRESULT result;
 	result = SetClassLong(window, GCLP_HICON, (LONG)hIcon);
 	result = SetClassLong(window, GCLP_HICONSM,(LONG)hIcon);
 	return result;
 }
 
- Int32  ExGetWindowIcon(ExWin window){
+ int  ExGetWindowIcon(ExWin window){
     return NULL;
 }

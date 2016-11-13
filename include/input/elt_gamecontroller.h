@@ -27,49 +27,49 @@ extern "C"{
 /**
  *
  */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExGameControllerAddMapping(const char* mappingString);
+extern ELTDECLSPEC int ELTAPIENTRY ExGameControllerAddMapping(const char* mappingString);
 
 /**
  *
  */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExGameControllerAddMappinFromFile(const char* filename);
+extern ELTDECLSPEC int ELTAPIENTRY ExGameControllerAddMappinFromFile(const char* filename);
 
 /**
  *
  */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExGameControllerEventState(Int32 state);
+extern ELTDECLSPEC int ELTAPIENTRY ExGameControllerEventState(int state);
 
 /**
  *
  */
-extern ELTDECLSPEC Int32 ELTAPIENTRY ExGameControllerEventState(Int32 state);
+extern ELTDECLSPEC int ELTAPIENTRY ExGameControllerEventState(int state);
 
 /**
  *
  */
-extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExGameControllerClose(Int32 index);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExGameControllerClose(int index);
 
 /*
  *
  */
-extern ELTDECLSPEC const char* ELTAPIENTRY ExGameControlerNameForIndex(Int32 index);
+extern ELTDECLSPEC const char* ELTAPIENTRY ExGameControlerNameForIndex(int index);
 
 /*
  *
  */
-extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExGameControllerOpen(Int32 index);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExGameControllerOpen(int index);
 
 /*
  *
  */
-extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExIsGameController(Int32 joystick_index);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExIsGameController(int joystick_index);
 
-extern ELTDECLSPEC Uint16 ELTAPIENTRY ExGameControllerGetAxis(int index, int* axis);
+extern ELTDECLSPEC unsigned short ELTAPIENTRY ExGameControllerGetAxis(int index, int* axis);
 
 
-extern ELTDECLSPEC void ELTAPIENTRY ExGameControllerVibration(Int32 index, Int16 LeftMotorSpeed, Int16 RightMotorSpeed);
+extern ELTDECLSPEC void ELTAPIENTRY ExGameControllerVibration(int index, short LeftMotorSpeed, short RightMotorSpeed);
 
-extern ELTDECLSPEC void ELTAPIENTRY ExGameControllerBattery(Int32 index,Int32 );
+extern ELTDECLSPEC void ELTAPIENTRY ExGameControllerBattery(int index,int );
 
 #ifdef __cplusplus /* C++ environment */
 }

@@ -89,12 +89,12 @@ const ExChar* ExGetCPUName(void){
 
 
 
-Uint ExGetCPUCacheLineSize(void){
+unsigned int ExGetCPUCacheLineSize(void){
 	return sysconf(_SC_LEVEL1_DCACHE_LINESIZE);
 }
 
 
-Int32 ExGetCPUCount(void){
+int ExGetCPUCount(void){
 	return sysconf(_SC_NPROCESSORS_ONLN);
 //#elif defined(__IRIX__)
 //	   num_cpus = sysconf(_SC_NPROC_ONLN);

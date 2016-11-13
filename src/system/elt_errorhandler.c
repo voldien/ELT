@@ -70,7 +70,7 @@ int ExInitErrorHandler(void){
 
 #if defined(EX_LINUX)
     /*	enable X window error message handler.	*/
-	if(!XSetErrorHandler(private_ctxErrorHandler)){
+	if(XSetErrorHandler(private_ctxErrorHandler)){
         ExDevPrintf("error");
 	}
 
@@ -124,7 +124,7 @@ void ExError(const ExChar* error,...){
 #endif
 }
 
-void ExErrorl(Enum flag, const ExChar* error, ...){
+void ExErrorl(unsigned int flag, const ExChar* error, ...){
 	ExChar text[512];
 
 	va_list argptr;
@@ -170,7 +170,7 @@ void ExErrorl(Enum flag, const ExChar* error, ...){
 		exit(EXIT_FAILURE);
 }
 
-Int errorIndex = 0;
+int errorIndex = 0;
 ERESULT ex_error[4] = {E_OK};
 ERESULT ExGetError(void){
 	return ex_error[0];
@@ -198,8 +198,8 @@ ExChar* ExGetErrorString(ERESULT errorcode){
 		return EX_TEXT("Invalid argument");
 	case E_ERROR_SYSTEM:
 		return EX_TEXT("");
-	case E_INVALID_ENUM:
-		return EX_TEXT("Invalid enum");
+	case E_INVALID:
+		return EX_TEXT("Invalid unsigned int");
 	default:
 		return EX_TEXT("Unknown");
 	}
@@ -244,7 +244,7 @@ void ExErrorExit(ExChar* lpszFunction) {
 
 }
 
-ExChar* ExGetErrorMessageW(ULong dw){
+ExChar* ExGetErrorMessageW(unsigned long dw){
 #ifdef EX_WINDOWS
 	if(errorText)   /*free allocated error message.*/
 		LocalFree(errorText);
@@ -382,11 +382,11 @@ static void debugLogTrace(void){
 
 
 #define EX_ERROR_MESSAGE EX_TEXT("%s has just crashed %s Do you want to send a bug report to the developers team?")
-void ExSignalCatch(Int32 signal){
+void ExSignalCatch(int signal){
 	ExChar wchar[512];
 	ExChar app_name[256];
 	char cfilename[260];
-	Uint32 istosend;
+	unsigned int istosend;
 	FILE* file;
 
 #ifdef EX_WINDOWS

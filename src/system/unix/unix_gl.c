@@ -58,10 +58,10 @@ int pixAtt[] = {
 	GLX_STEREO, 0,
 	GLX_SAMPLE_BUFFERS_ARB, 0,
 	GLX_SAMPLES_ARB, 0,
-	GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB, True,
+	GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB, False,
 	None,None,
 
-    GLX_CONTEXT_MAJOR_VERSION_ARB, 0,
+    GLX_CONTEXT_MAJOR_VERSION_ARB, 3,
     GLX_CONTEXT_MINOR_VERSION_ARB, 0,
     #ifdef EX_DEBUG
     GLX_CONTEXT_FLAGS_ARB, GLX_CONTEXT_DEBUG_BIT_ARB,   /*  Debug TODO add hint*/
@@ -70,32 +70,33 @@ int pixAtt[] = {
     #endif
 
 	GLX_CONTEXT_PROFILE_MASK_ARB, GLX_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
-    None
+    None,None,
 };
 
 
 
 
-#ifdef EX_DEBUG
+
 static void ExDescribeFBbconfig(GLXFBConfig* fbconfig){
+#ifdef EX_DEBUG
 	int doublebuffer;
 	int red_bits,green_bits, blue_bits, alpha_bits, depth_bits;
 
-	glXGetFBConfigAttrib(display,*fbconfig,GLX_DOUBLEBUFFER,&doublebuffer);
-	glXGetFBConfigAttrib(display,*fbconfig,GLX_RED_SIZE,&red_bits);
-	glXGetFBConfigAttrib(display,*fbconfig,GLX_GREEN_SIZE,&blue_bits);
-	glXGetFBConfigAttrib(display,*fbconfig,GLX_BLUE_SIZE,&green_bits);
-	glXGetFBConfigAttrib(display,*fbconfig,GLX_ALPHA_SIZE,&alpha_bits);
-	glXGetFBConfigAttrib(display,*fbconfig,GLX_DEPTH_SIZE,&depth_bits);
+	glXGetFBConfigAttrib(display, *fbconfig, GLX_DOUBLEBUFFER, &doublebuffer);
+	glXGetFBConfigAttrib(display, *fbconfig, GLX_RED_SIZE, &red_bits);
+	glXGetFBConfigAttrib(display, *fbconfig, GLX_GREEN_SIZE, &blue_bits);
+	glXGetFBConfigAttrib(display, *fbconfig, GLX_BLUE_SIZE, &green_bits);
+	glXGetFBConfigAttrib(display, *fbconfig, GLX_ALPHA_SIZE, &alpha_bits);
+	glXGetFBConfigAttrib(display, *fbconfig, GLX_DEPTH_SIZE, &depth_bits);
 
 	 fprintf(stdout, "FBConfig selected:\n"
 	        "Doublebuffer: %s\n"
 	        "Red Bits: %d, Green Bits: %d, Blue Bits: %d, Alpha Bits: %d, Depth Bits: %d\n",
 	        doublebuffer == True ? "Yes" : "No",
 	        red_bits, green_bits, blue_bits, alpha_bits, depth_bits);
-
-}
 #endif
+}
+
 
 
 int ExChooseFBconfig(GLXFBConfig* pfbconfig){
@@ -107,16 +108,23 @@ int ExChooseFBconfig(GLXFBConfig* pfbconfig){
 	ExBoolean isFBConfigSet = FALSE;
 
 	fbconfigs = glXChooseFBConfig(display, DefaultScreen(display), pixAtt, &numfbconfigs);
-    pfbconfig[0] = fbconfigs[0];
+	if(fbconfigs == NULL){
+		/*	Invalid attributes.	*/
+		fbconfigs = glXGetFBConfigs(display, DefaultScreen(display), &numfbconfigs);
+
+	}
+
 
 	for(i = 0; i < numfbconfigs; i++){
 		visual = (XVisualInfo*)glXGetVisualFromFBConfig(display, fbconfigs[i]);
-		if(!visual)
+		if(!visual){
 			continue;
+		}
 
 		pict_format = XRenderFindVisualFormat(display, visual->visual);
-		if(!pict_format)
+		if(!pict_format){
 			goto end;
+		}
 
 
 		pfbconfig[0] = fbconfigs[i];
@@ -135,10 +143,9 @@ int ExChooseFBconfig(GLXFBConfig* pfbconfig){
 
 		XFree( visual );	/*TODO fix loop such that is gets properly free.*/
 	}
-#ifdef EX_DEBUG
 	ExDescribeFBbconfig(pfbconfig);
-#endif
-	// Be sure to free the FBConfig list allocated by glXChooseFBConfig()
+
+	/* Be sure to free the FBConfig list allocated by glXChooseFBConfig()	*/
 	XFree(fbconfigs);
 
 	return 1;
@@ -346,7 +353,7 @@ ExBoolean ExDestroyGLContext(ExWindowContext drawable, ExOpenGLContext glc){
 }
 
 
-ExBoolean ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int* screenRes){
+ExBoolean ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, unsigned int screenIndex, const int* screenRes){
     int one = 1;
 	XEvent xev = {0};
 	ExSize size  = {0};
@@ -431,7 +438,7 @@ ExBoolean ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenInd
 
 }
 
-void ExSetGLTransparent(ExWin window, Enum ienum){
+void ExSetGLTransparent(ExWin window, unsigned int flag){
 	XTextProperty textprop = {0};
 	XWMHints *startup_state;
 	ExSize size;
@@ -476,23 +483,23 @@ const ExChar* ExGetOpenGLClientExtensions(void){
 }
 
 
-Int32 ExIsVendorAMD(void){
+int ExIsVendorAMD(void){
 	return strstr((const char*)glXGetClientString(display, GLX_VENDOR), "AMD") ? TRUE : FALSE;
 }
 
-Int32 ExIsVendorNvidia(void){
+int ExIsVendorNvidia(void){
 	return (strstr((const char*)glXGetClientString(display, GLX_VENDOR), "NVIDIA")) ? TRUE : FALSE;
 }
 
-Int32 ExIsVendorIntel(void){
+int ExIsVendorintel(void){
 	return strstr((const char*)glXGetClientString(display, GLX_VENDOR), "INTEL") ? TRUE : FALSE;
 }
 
 ERESULT ExOpenGLSetVSync(ExBoolean enabled, ExWin window){
-    typedef void (*glXSwapIntervalEXTProc)(Display*, GLXDrawable drawable, int intervale);
-    glXSwapIntervalEXTProc glXSwapIntervalEXT = (glXSwapIntervalEXTProc)GL_GET_PROC((const GLubyte*)"glXSwapIntervalEXT");
-    if(glXSwapIntervalEXT){
-        glXSwapIntervalEXT(display, window, enabled);
+    typedef void (*glXSwapintervalEXTProc)(Display*, GLXDrawable drawable, int intervale);
+    glXSwapintervalEXTProc glXSwapintervalEXT = (glXSwapintervalEXTProc)GL_GET_PROC((const GLubyte*)"glXSwapintervalEXT");
+    if(glXSwapintervalEXT){
+        glXSwapintervalEXT(display, window, enabled);
         return TRUE;
     }
     else

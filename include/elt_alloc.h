@@ -29,7 +29,7 @@ extern "C"{
  *
  *	@Return number of bytes per page.
  */
-extern ELTDECLSPEC Uint ELTAPIENTRY ExGetPageSize(void);
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetPageSize(void);
 
 
 /**
@@ -37,25 +37,25 @@ extern ELTDECLSPEC Uint ELTAPIENTRY ExGetPageSize(void);
  *
  *	@Return
  */
-extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalSystemMemory(void);
+extern ELTDECLSPEC unsigned long int ELTAPIENTRY ExGetTotalSystemMemory(void);
 
 /**
  *
  *	@Return
  */
-extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalFreeSystemMemory(void);
+extern ELTDECLSPEC unsigned long int ELTAPIENTRY ExGetTotalFreeSystemMemory(void);
 
 /**
  *
  *	@Return
  */
-extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalUsedSystemMemory(void);
+extern ELTDECLSPEC unsigned long int ELTAPIENTRY ExGetTotalUsedSystemMemory(void);
 
 /**
  *
  *	@Return
  */
-extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetProcessSystemMemory(void);
+extern ELTDECLSPEC unsigned long int ELTAPIENTRY ExGetProcessSystemMemory(void);
 
 
 /**
@@ -63,8 +63,8 @@ extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetProcessSystemMemory(void);
  *
  *	@Return
  */
-extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalVirtualMemory(void);
-extern ELTDECLSPEC Uint64 ELTAPIENTRY ExGetTotalUsedVirtualMemory(void);
+extern ELTDECLSPEC unsigned long int ELTAPIENTRY ExGetTotalVirtualMemory(void);
+extern ELTDECLSPEC unsigned long int ELTAPIENTRY ExGetTotalUsedVirtualMemory(void);
 
 
 

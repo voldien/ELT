@@ -63,11 +63,11 @@ int pixAtt[] = {
     Extension function types
 */
 
-typedef int (APIENTRY * WGLSWAPINTERVALEXT_T) (int);            /** wglSwapIntervalEXT typedef (Win32 buffer-swap interval control)*/
+typedef int (APIENTRY * WGLSWAPINTERVALEXT_T) (int);            /** wglSwapintervalEXT typedef (Win32 buffer-swap interval control)*/
 
-typedef BOOL (WINAPI * WGLCHOOSEPIXELFORMATARB_T) (HDC, const int *, const FLOAT *, UINT, int *, UINT *);   /** wglChoosePixelFormatARB typedef*/
+typedef BOOL (WINAPI * WGLCHOOSEPIXELFORMATARB_T) (HDC, const int *, const FLOAT *, unsigned int, int *, unsigned int *);   /** wglChoosePixelFormatARB typedef*/
 
-typedef BOOL (WINAPI * WGLGETPIXELFORMATATTRIBIVARB_T) (HDC, int, int, UINT, const int *, int *);   /* wglGetPixelFormatAttribivARB typedef */
+typedef BOOL (WINAPI * WGLGETPIXELFORMATATTRIBIVARB_T) (HDC, int, int, unsigned int, const int *, int *);   /* wglGetPixelFormatAttribivARB typedef */
 
 typedef const char *(APIENTRY * WGLGETEXTENSIONSSTRINGEXT_T)( void );   /* wglGetExtensionStringEXT typedef */
 
@@ -78,63 +78,63 @@ typedef HGLRC (APIENTRY * WGLCREATECONTEXTATTRIBSARB)(HDC,HGLRC hShareContext,co
 
 
 /*		*/
-typedef void (APIENTRY * PFNGLATTACHSHADERPROC) (GLuint program, GLuint shader);
-typedef void (APIENTRY * PFNGLBINDBUFFERPROC) (GLenum target, GLuint buffer);
-typedef void (APIENTRY * PFNGLBINDVERTEXARRAYPROC) (GLuint array);
-typedef void (APIENTRY * PFNGLBUFFERDATAPROC) (GLenum target, ptrdiff_t size, const GLvoid *pair, GLenum usage);
-typedef void (APIENTRY * PFNGLCOMPILESHADERPROC) (GLuint shader);
-typedef GLuint (APIENTRY * PFNGLCREATEPROGRAMPROC) (void);
-typedef GLuint (APIENTRY * PFNGLCREATESHADERPROC) (GLenum type);
-typedef void (APIENTRY * PFNGLDELETEBUFFERSPROC) (GLsizei n, const GLuint *buffers);
-typedef void (APIENTRY * PFNGLDELETEPROGRAMPROC) (GLuint program);
-typedef void (APIENTRY * PFNGLDELETESHADERPROC) (GLuint shader);
-typedef void (APIENTRY * PFNGLDELETEVERTEXARRAYSPROC) (GLsizei n, const GLuint *arrays);
-typedef void (APIENTRY * PFNGLDETACHSHADERPROC) (GLuint program, GLuint shader);
-typedef void (APIENTRY * PFNGLENABLEVERTEXATTRIBARRAYPROC) (GLuint index);
-typedef void (APIENTRY * PFNGLGENBUFFERSPROC) (GLsizei n, GLuint *buffers);
-typedef void (APIENTRY * PFNGLGENVERTEXARRAYSPROC) (GLsizei n, GLuint *arrays);
-typedef GLint (APIENTRY * PFNGLGETATTRIBLOCATIONPROC) (GLuint program, const char *name);
-typedef void (APIENTRY * PFNGLGETPROGRAMINFOLOGPROC) (GLuint program, GLsizei bufSize, GLsizei *length, char *infoLog);
-typedef void (APIENTRY * PFNGLGETPROGRAMIVPROC) (GLuint program, GLenum pname, GLint *params);
-typedef void (APIENTRY * PFNGLGETSHADERINFOLOGPROC) (GLuint shader, GLsizei bufSize, GLsizei *length, char *infoLog);
-typedef void (APIENTRY * PFNGLGETSHADERIVPROC) (GLuint shader, GLenum pname, GLint *params);
-typedef void (APIENTRY * PFNGLLINKPROGRAMPROC) (GLuint program);
-//typedef void (APIENTRY * PFNGLSHADERSOURCEPROC) (GLuint shader, GLsizei count, const char* *string, const GLint *length);
-typedef void (APIENTRY * PFNGLUSEPROGRAMPROC) (GLuint program);
-typedef void (APIENTRY * PFNGLVERTEXATTRIBPOINTERPROC) (GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride,
+typedef void (APIENTRY * PFNGLATTACHSHADERPROC) (GLunsigned int program, GLunsigned int shader);
+typedef void (APIENTRY * PFNGLBINDBUFFERPROC) (GLunsigned int target, GLunsigned int buffer);
+typedef void (APIENTRY * PFNGLBINDVERTEXARRAYPROC) (GLunsigned int array);
+typedef void (APIENTRY * PFNGLBUFFERDATAPROC) (GLunsigned int target, ptrdiff_t size, const GLvoid *pair, GLunsigned int usage);
+typedef void (APIENTRY * PFNGLCOMPILESHADERPROC) (GLunsigned int shader);
+typedef GLunsigned int (APIENTRY * PFNGLCREATEPROGRAMPROC) (void);
+typedef GLunsigned int (APIENTRY * PFNGLCREATESHADERPROC) (GLunsigned int type);
+typedef void (APIENTRY * PFNGLDELETEBUFFERSPROC) (GLsizei n, const GLunsigned int *buffers);
+typedef void (APIENTRY * PFNGLDELETEPROGRAMPROC) (GLunsigned int program);
+typedef void (APIENTRY * PFNGLDELETESHADERPROC) (GLunsigned int shader);
+typedef void (APIENTRY * PFNGLDELETEVERTEXARRAYSPROC) (GLsizei n, const GLunsigned int *arrays);
+typedef void (APIENTRY * PFNGLDETACHSHADERPROC) (GLunsigned int program, GLunsigned int shader);
+typedef void (APIENTRY * PFNGLENABLEVERTEXATTRIBARRAYPROC) (GLunsigned int index);
+typedef void (APIENTRY * PFNGLGENBUFFERSPROC) (GLsizei n, GLunsigned int *buffers);
+typedef void (APIENTRY * PFNGLGENVERTEXARRAYSPROC) (GLsizei n, GLunsigned int *arrays);
+typedef GLint (APIENTRY * PFNGLGETATTRIBLOCATIONPROC) (GLunsigned int program, const char *name);
+typedef void (APIENTRY * PFNGLGETPROGRAMINFOLOGPROC) (GLunsigned int program, GLsizei bufSize, GLsizei *length, char *infoLog);
+typedef void (APIENTRY * PFNGLGETPROGRAMIVPROC) (GLunsigned int program, GLunsigned int pname, GLint *params);
+typedef void (APIENTRY * PFNGLGETSHADERINFOLOGPROC) (GLunsigned int shader, GLsizei bufSize, GLsizei *length, char *infoLog);
+typedef void (APIENTRY * PFNGLGETSHADERIVPROC) (GLunsigned int shader, GLunsigned int pname, GLint *params);
+typedef void (APIENTRY * PFNGLLINKPROGRAMPROC) (GLunsigned int program);
+//typedef void (APIENTRY * PFNGLSHADERSOURCEPROC) (GLunsigned int shader, GLsizei count, const char* *string, const GLint *length);
+typedef void (APIENTRY * PFNGLUSEPROGRAMPROC) (GLunsigned int program);
+typedef void (APIENTRY * PFNGLVERTEXATTRIBPOINTERPROC) (GLunsigned int index, GLint size, GLunsigned int type, GLboolean normalized, GLsizei stride,
                                                         const GLvoid *pointer);
-typedef void (APIENTRY * PFNGLBINDATTRIBLOCATIONPROC) (GLuint program, GLuint index, const char *name);
-typedef GLint (APIENTRY * PFNGLGETUNIFORMLOCATIONPROC) (GLuint program, const char *name);
+typedef void (APIENTRY * PFNGLBINDATTRIBLOCATIONPROC) (GLunsigned int program, GLunsigned int index, const char *name);
+typedef GLint (APIENTRY * PFNGLGETUNIFORMLOCATIONPROC) (GLunsigned int program, const char *name);
 typedef void (APIENTRY * PFNGLUNIFORMMATRIX4FVPROC) (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (APIENTRY * PFNGLACTIVETEXTUREPROC) (GLenum textureArray);
+typedef void (APIENTRY * PFNGLACTIVETEXTUREPROC) (GLunsigned int textureArray);
 typedef void (APIENTRY * PFNGLUNIFORM1IPROC) (GLint location, GLint v0);
-typedef void (APIENTRY * PFNGLGENERATEMIPMAPPROC) (GLenum target);
-typedef void (APIENTRY * PFNGLDISABLEVERTEXATTRIBARRAYPROC) (GLuint index);
+typedef void (APIENTRY * PFNGLGENERATEMIPMAPPROC) (GLunsigned int target);
+typedef void (APIENTRY * PFNGLDISABLEVERTEXATTRIBARRAYPROC) (GLunsigned int index);
 typedef void (APIENTRY * PFNGLUNIFORM3FVPROC) (GLint location, GLsizei count, const GLfloat *value);
 typedef void (APIENTRY * PFNGLUNIFORM4FVPROC) (GLint location, GLsizei count, const GLfloat *value);
 
 
 /*	framebuffer	*/
-typedef void (APIENTRY * PFNGLBINDFRAMEBUFFERPROC) (GLenum target, GLuint framebuffer);
-typedef void (APIENTRY * PFNGLBINDRENDERBUFFERPROC) (GLenum target, GLuint renderbuffer);
-typedef void (APIENTRY * PFNGLBLITFRAMEBUFFERPROC) (GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter);
-typedef GLenum (APIENTRY * PFNGLCHECKFRAMEBUFFERSTATUSPROC) (GLenum target);
-typedef void (APIENTRY * PFNGLDELETEFRAMEBUFFERSPROC) (GLsizei n, const GLuint* framebuffers);
-typedef void (APIENTRY * PFNGLDELETERENDERBUFFERSPROC) (GLsizei n, const GLuint* renderbuffers);
-typedef void (APIENTRY * PFNGLFRAMEBUFFERRENDERBUFFERPROC) (GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
-typedef void (APIENTRY * PFNGLFRAMEBUFFERTEXTURE1DPROC) (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
-typedef void (APIENTRY * PFNGLFRAMEBUFFERTEXTURE2DPROC) (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
-typedef void (APIENTRY * PFNGLFRAMEBUFFERTEXTURE3DPROC) (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLint layer);
-typedef void (APIENTRY * PFNGLFRAMEBUFFERTEXTURELAYERPROC) (GLenum target,GLenum attachment, GLuint texture,GLint level,GLint layer);
-typedef void (APIENTRY * PFNGLGENFRAMEBUFFERSPROC) (GLsizei n, GLuint* framebuffers);
-typedef void (APIENTRY * PFNGLGENRENDERBUFFERSPROC) (GLsizei n, GLuint* renderbuffers);
-typedef void (APIENTRY * PFNGLGENERATEMIPMAPPROC) (GLenum target);
-typedef void (APIENTRY * PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC) (GLenum target, GLenum attachment, GLenum pname, GLint* params);
-typedef void (APIENTRY * PFNGLGETRENDERBUFFERPARAMETERIVPROC) (GLenum target, GLenum pname, GLint* params);
-typedef GLboolean (APIENTRY * PFNGLISFRAMEBUFFERPROC) (GLuint framebuffer);
-typedef GLboolean (APIENTRY * PFNGLISRENDERBUFFERPROC) (GLuint renderbuffer);
-typedef void (APIENTRY * PFNGLRENDERBUFFERSTORAGEPROC) (GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
-typedef void (APIENTRY * PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC) (GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height);
+typedef void (APIENTRY * PFNGLBINDFRAMEBUFFERPROC) (GLunsigned int target, GLunsigned int framebuffer);
+typedef void (APIENTRY * PFNGLBINDRENDERBUFFERPROC) (GLunsigned int target, GLunsigned int renderbuffer);
+typedef void (APIENTRY * PFNGLBLITFRAMEBUFFERPROC) (GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLunsigned int filter);
+typedef GLunsigned int (APIENTRY * PFNGLCHECKFRAMEBUFFERSTATUSPROC) (GLunsigned int target);
+typedef void (APIENTRY * PFNGLDELETEFRAMEBUFFERSPROC) (GLsizei n, const GLunsigned int* framebuffers);
+typedef void (APIENTRY * PFNGLDELETERENDERBUFFERSPROC) (GLsizei n, const GLunsigned int* renderbuffers);
+typedef void (APIENTRY * PFNGLFRAMEBUFFERRENDERBUFFERPROC) (GLunsigned int target, GLunsigned int attachment, GLunsigned int renderbuffertarget, GLunsigned int renderbuffer);
+typedef void (APIENTRY * PFNGLFRAMEBUFFERTEXTURE1DPROC) (GLunsigned int target, GLunsigned int attachment, GLunsigned int textarget, GLunsigned int texture, GLint level);
+typedef void (APIENTRY * PFNGLFRAMEBUFFERTEXTURE2DPROC) (GLunsigned int target, GLunsigned int attachment, GLunsigned int textarget, GLunsigned int texture, GLint level);
+typedef void (APIENTRY * PFNGLFRAMEBUFFERTEXTURE3DPROC) (GLunsigned int target, GLunsigned int attachment, GLunsigned int textarget, GLunsigned int texture, GLint level, GLint layer);
+typedef void (APIENTRY * PFNGLFRAMEBUFFERTEXTURELAYERPROC) (GLunsigned int target,GLunsigned int attachment, GLunsigned int texture,GLint level,GLint layer);
+typedef void (APIENTRY * PFNGLGENFRAMEBUFFERSPROC) (GLsizei n, GLunsigned int* framebuffers);
+typedef void (APIENTRY * PFNGLGENRENDERBUFFERSPROC) (GLsizei n, GLunsigned int* renderbuffers);
+typedef void (APIENTRY * PFNGLGENERATEMIPMAPPROC) (GLunsigned int target);
+typedef void (APIENTRY * PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC) (GLunsigned int target, GLunsigned int attachment, GLunsigned int pname, GLint* params);
+typedef void (APIENTRY * PFNGLGETRENDERBUFFERPARAMETERIVPROC) (GLunsigned int target, GLunsigned int pname, GLint* params);
+typedef GLboolean (APIENTRY * PFNGLISFRAMEBUFFERPROC) (GLunsigned int framebuffer);
+typedef GLboolean (APIENTRY * PFNGLISRENDERBUFFERPROC) (GLunsigned int renderbuffer);
+typedef void (APIENTRY * PFNGLRENDERBUFFERSTORAGEPROC) (GLunsigned int target, GLunsigned int internalformat, GLsizei width, GLsizei height);
+typedef void (APIENTRY * PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC) (GLunsigned int target, GLsizei samples, GLunsigned int internalformat, GLsizei width, GLsizei height);
 
 
 
@@ -177,7 +177,7 @@ PFNGLUNIFORM4FVPROC glUniform4fv;
 
 
 
-static void  ExCreatePFD( void* pPFD, Int32 colorbits, Int32 depthbits, Int32 stencilbits){
+static void  ExCreatePFD( void* pPFD, int colorbits, int depthbits, int stencilbits){
 
 	PIXELFORMATDESCRIPTOR* pfd = (PIXELFORMATDESCRIPTOR*)pPFD;
 	memset(pfd,0,sizeof(PIXELFORMATDESCRIPTOR));
@@ -306,7 +306,7 @@ ExOpenGLContext  ExCreateGLContext(ExWin window, ExOpenGLContext shared){
 	unsigned int render_vendor;
 
 
-	WGLSWAPINTERVALEXT_T wglSwapIntervalEXT;
+	WGLSWAPINTERVALEXT_T wglSwapintervalEXT;
 	WGLCHOOSEPIXELFORMATARB_T wglChoosePixelFormatARB;
 	WGLGETPIXELFORMATATTRIBIVARB_T wglGetPixelFormatAttribivARB;
 	WGLGETEXTENSIONSSTRINGEXT_T wglGetExtensionStringEXT;
@@ -341,8 +341,8 @@ ExOpenGLContext  ExCreateGLContext(ExWin window, ExOpenGLContext shared){
    /**
 		Get supported opengl version.
    */
-   glGetIntegerv(GL_MAJOR_VERSION, &major);
-   glGetIntegerv(GL_MINOR_VERSION, &minor);
+	glGetintegerv(GL_MAJOR_VERSION, &major);
+	glGetintegerv(GL_MINOR_VERSION, &minor);
 
 	//ExGLPrintDevInfo();
 	hDC = GetDC(window);
@@ -352,7 +352,7 @@ ExOpenGLContext  ExCreateGLContext(ExWin window, ExOpenGLContext shared){
    /**
        Create all entry point to create extension openGL context.
    */
-	wglSwapIntervalEXT =            (WGLSWAPINTERVALEXT_T)GL_GET_PROC("wglSwapIntervalEXT");
+	wglSwapintervalEXT =            (WGLSWAPINTERVALEXT_T)GL_GET_PROC("wglSwapintervalEXT");
 	wglChoosePixelFormatARB =       (WGLCHOOSEPIXELFORMATARB_T)GL_GET_PROC("wglChoosePixelFormatARB");
 	wglGetPixelFormatAttribivARB =  (WGLGETPIXELFORMATATTRIBIVARB_T)GL_GET_PROC("wglGetPixelFormatAttribivARB");
 	wglGetExtensionStringEXT =      (WGLGETEXTENSIONSSTRINGEXT_T)GL_GET_PROC("wglGetExtensionStringEXT");
@@ -387,7 +387,7 @@ ExOpenGLContext  ExCreateGLContext(ExWin window, ExOpenGLContext shared){
    /*TODO: Naming between context attributes and for choosing a pixel-format
        Create pixel format attributes
    */
-	ExCreateContextAttrib(hDC,&pixAttribs[0],(Int32*)&dataSize);
+	ExCreateContextAttrib(hDC,&pixAttribs[0],(int*)&dataSize);
 
 
 	if(!wglChoosePixelFormatARB(hDC, &pixAttribs[0], NULL, 1, pixelFormat, (unsigned int*)&nResults[0]))
@@ -442,7 +442,7 @@ ExOpenGLContext  ExCreateGLContext(ExWin window, ExOpenGLContext shared){
 
 
 
-void  ExCreateContextAttrib(ExWindowContext hDc, Int32* attribs,Int32* size){
+void  ExCreateContextAttrib(ExWindowContext hDc, int* attribs,int* size){
 	if(!attribs)	/* error */
 		ExSetError(EINVAL);
 
@@ -472,20 +472,20 @@ ExOpenGLContext  ExCreateGLSharedContext(ExWin window, ExOpenGLContext glc){
 DECLSPEC void  ExInitExtension(ExWin hWnd,WindowContext deviContext,HGLRC hr){
 	// temp variable
 	HGLRC tempHRC = hr;PIXELFORMATDESCRIPTOR pfd;
-	Int majorVer, minorVer;
+	int majorVer, minorVer;
 	// get information
-	Int attrib[] = { WGL_NUMBER_PIXEL_FORMATS_ARB };
-	Int nResults[1] = {0};
-	Int pixFmt = 1;
+	int attrib[] = { WGL_NUMBER_PIXEL_FORMATS_ARB };
+	int nResults[1] = {0};
+	int pixFmt = 1;
 
 	if(wglGetPixelFormatAttribivARB(deviContext, pixFmt,0, 1, attrib, nResults))
 		printf("This Hardware Supports %i PixelFormat.\n", *nResults);
 	// Get Current OpenGL Version
 
-	glGetIntegerv(GL_MAJOR_VERSION, &majorVer);
-	glGetIntegerv(GL_MINOR_VERSION, &minorVer);
+	glGetintegerv(GL_MAJOR_VERSION, &majorVer);
+	glGetintegerv(GL_MINOR_VERSION, &minorVer);
 	// version
-	Int attribs[] ={
+	int attribs[] ={
 			WGL_CONTEXT_MAJOR_VERSION_ARB, majorVer,
 			WGL_CONTEXT_MINOR_VERSION_ARB, minorVer,
 			WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
@@ -498,16 +498,16 @@ DECLSPEC void  ExInitExtension(ExWin hWnd,WindowContext deviContext,HGLRC hr){
 	printf("OpenGL Version %i%i0.\n",majorVer,minorVer);
 
 
-	Int dataSize;
-	Int* pixAttribs = NULL;
+	int dataSize;
+	int* pixAttribs = NULL;
 	// Create Context Attrib
 	ExCreateContextAttrib(deviContext,&pixAttribs,&dataSize,&engineDescription);
 
 	// mayabe change to differnect function depenpded on hardware
 
 
-	Int pixelFormat[1];
-	if(wglChoosePixelFormatARB(deviContext, &pixAttribs[0], NULL, 1, pixelFormat,(Uint*)&nResults[0]))
+	int pixelFormat[1];
+	if(wglChoosePixelFormatARB(deviContext, &pixAttribs[0], NULL, 1, pixelFormat,(unsigned int*)&nResults[0]))
 		printf("Succedded to Choose PixelFormat With the PixelFormat Number %i.\n",nResults[0]);
 
 
@@ -554,12 +554,12 @@ DECLSPEC void  ExInitExtension(ExWin hWnd,WindowContext deviContext,HGLRC hr){
 	return hr;
 }
 
- ExBoolean  ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, Uint32 screenIndex, const Int32* screenRes){
+ ExBoolean  ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, unsigned int screenIndex, const int* screenRes){
 
 	RECT rect;
 	DEVMODE dm;
 	DISPLAY_DEVICE dd;
-	Int cdsRet;
+	int cdsRet;
 
 	if(!window)
 		return FALSE;
@@ -570,8 +570,8 @@ DECLSPEC void  ExInitExtension(ExWin hWnd,WindowContext deviContext,HGLRC hr){
 
 		dd = ExGetMonitor(screenIndex);
 		dm;
-		if(!EnumDisplaySettings(dd.DeviceName, ENUM_CURRENT_SETTINGS, &dm))
-			wExDevPrintf(EX_TEXT("EnumDisplay Settings Failed | %s.\n"), ExGetErrorMessage(GetLastError()));
+		if(!unsigned intDisplaySettings(dd.DeviceName, unsigned int_CURRENT_SETTINGS, &dm))
+			wExDevPrintf(EX_TEXT("unsigned intDisplay Settings Failed | %s.\n"), ExGetErrorMessage(GetLastError()));
 		dm.dmSize = sizeof(dm);
 		if(!screenRes){
 			// resolution from the window.
@@ -621,7 +621,7 @@ DECLSPEC void  ExInitExtension(ExWin hWnd,WindowContext deviContext,HGLRC hr){
 
 
 /*  read more about DwmEnableBlurBehindWindow : http://msdn.microsoft.com/en-us/library/windows/desktop/aa969508(v=vs.85).aspx	*/
-void ExSetGLTransparent(ExWin window,Enum ienum){
+void ExSetGLTransparent(ExWin window,unsigned int iunsigned int){
 
 	DWM_BLURBEHIND bb = {0};
 	HRESULT hr;
@@ -629,7 +629,7 @@ void ExSetGLTransparent(ExWin window,Enum ienum){
 	bb.hRgnBlur = CreateRectRgn(0,0,1,1);
 	bb.dwFlags = DWM_BB_ENABLE | DWM_BB_BLURREGION | DWM_BB_TRANSITIONONMAXIMIZED;
 	bb.fTransitionOnMaximized = TRUE;
-	if(ienum & 0x1)
+	if(iunsigned int & 0x1)
 		bb.fEnable = TRUE;
 	else
 		bb.fEnable = FALSE;
@@ -641,26 +641,26 @@ void ExSetGLTransparent(ExWin window,Enum ienum){
 /*
 DECLSPEC OpenGLContext  ExCreateSharedGLContext(HDC openglHDC, OpenGLContext sharedHRC, WindowContext hDC){
 	HGLRC hrc2;
-	Int majorVer, minorVer;
-	Int dataSize;
-	Int nResults[1];
-	Int* pixAttribs = NULL;
+	int majorVer, minorVer;
+	int dataSize;
+	int nResults[1];
+	int* pixAttribs = NULL;
 	PIXELFORMATDESCRIPTOR pfd;
 
 	// Create Context Attrib
 	ExCreateContextAttrib(hDC,&pixAttribs,&dataSize,&engineDescription);
 
 	// mayabe change to differnect function depenpded on hardware
-	Int pixelFormat[1];
-	if(!wglChoosePixelFormatARB(hDC, &pixAttribs[0], NULL, 1, pixelFormat,(Uint32*)&nResults[0]))
+	int pixelFormat[1];
+	if(!wglChoosePixelFormatARB(hDC, &pixAttribs[0], NULL, 1, pixelFormat,(unsigned int*)&nResults[0]))
 		ExDevGLPrintfc("Failed to Choose PixelFormat Number %i.\n",EX_CONSOLE_RED,nResults[0]);
 	if(!SetPixelFormat(hDC, pixelFormat[0], &pfd))
 		ExDevWindowPrintfc(EX_TEXT("Failed to Set PixelFormat Number %i.\n"),EX_CONSOLE_RED,nResults[0]);
 	free(pixAttribs);
 
-	glGetIntegerv(GL_MAJOR_VERSION, &majorVer);
-	glGetIntegerv(GL_MINOR_VERSION, &minorVer);
-	Int attribs[] ={
+	glGetintegerv(GL_MAJOR_VERSION, &majorVer);
+	glGetintegerv(GL_MINOR_VERSION, &minorVer);
+	int attribs[] ={
 			WGL_CONTEXT_MAJOR_VERSION_ARB, majorVer,
 			WGL_CONTEXT_MINOR_VERSION_ARB, minorVer,
 			WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
@@ -677,19 +677,19 @@ DECLSPEC OpenGLContext  ExCreateSharedGLContext(HDC openglHDC, OpenGLContext sha
 	return hrc2;
 }
 
-DECLSPEC Uint32 ELTAPIFASTENTRY ExGetGPUMemoryUsage(void){
-	Int pvalue;
-	glGetIntegerv(GL_GPU_MEMORY_INFO_EVICTED_MEMORY_NVX ,&pvalue);
+DECLSPEC unsigned int ELTAPIFASTENTRY ExGetGPUMemoryUsage(void){
+	int pvalue;
+	glGetintegerv(GL_GPU_MEMORY_INFO_EVICTED_MEMORY_NVX ,&pvalue);
 	return pvalue;
 }
-DECLSPEC Int32 ELTAPIFASTENTRY ExMaxCombinedTexture(void){
-	Int pvalue;
-	glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS ,&pvalue);
+DECLSPEC int ELTAPIFASTENTRY ExMaxCombinedTexture(void){
+	int pvalue;
+	glGetintegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS ,&pvalue);
 	return pvalue;
 }
-DECLSPEC Int32 ELTAPIFASTENTRY ExMaxTextureUints(void){
-	Int pvalue;
-	glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS ,&pvalue);
+DECLSPEC int ELTAPIFASTENTRY ExMaxTextureunsigned ints(void){
+	int pvalue;
+	glGetintegerv(GL_MAX_TEXTURE_IMAGE_UNITS ,&pvalue);
 	return pvalue;
 }
 
@@ -714,9 +714,9 @@ void ExOpenGLResetAttributes(void){
 
 
 ERESULT ExOpenGLSetVSync(ExBoolean enabled, ExWin window){
-	WGLSWAPINTERVALEXT_T wglSwapIntervalEXT = (WGLSWAPINTERVALEXT_T)GL_GET_PROC("wglSwapIntervalEXT");
-    if(wglSwapIntervalEXT){
-        glXSwapIntervalEXT( enabled);
+	WGLSWAPINTERVALEXT_T wglSwapintervalEXT = (WGLSWAPINTERVALEXT_T)GL_GET_PROC("wglSwapintervalEXT");
+    if(wglSwapintervalEXT){
+        glXSwapintervalEXT( enabled);
         return TRUE;
     }
     else

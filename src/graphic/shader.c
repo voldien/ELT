@@ -67,6 +67,7 @@ int ExSetProgramShader(int program, int shader){
 
 	glAttachShader(program,shader);
 	glLinkProgram(program);
+	glValidateProgram(program);
 
 #if defined(__gl_h_)
 	return ExShaderCompileLog(program, GL_PROGRAM);
@@ -131,6 +132,7 @@ int ExLoadShaderv(ExShader* shad, const char* cvertexSource, const char* cfragme
 	if(cvertexSource){
 		shad->ver = ExCompileShaderSourcev(&cvertexSource, GL_VERTEX_SHADER);
 		glAttachShader(shad->program, shad->ver);
+
 	}
 	if(cfragmentSource){
 		shad->fra = ExCompileShaderSourcev(&cfragmentSource, GL_FRAGMENT_SHADER);
@@ -154,6 +156,8 @@ int ExLoadShaderv(ExShader* shad, const char* cvertexSource, const char* cfragme
 	/**/
 	glLinkProgram(shad->program);
 
+
+
 #if defined(__gl_h_)
 	error = ExShaderCompileLog(shad->program, GL_PROGRAM);
 	/*	if shader failed. clean up resources.	*/
@@ -163,6 +167,19 @@ int ExLoadShaderv(ExShader* shad, const char* cvertexSource, const char* cfragme
 	return error;
 #endif
 	glValidateProgram(shad->program);
+
+	/*	detach shader object and release their resources.	*/
+	glDetachShader(shad->program, shad->ver);
+	glDetachShader(shad->program, shad->fra);
+	glDetachShader(shad->program, shad->geo);
+	glDetachShader(shad->program, shad->tesc);
+	glDetachShader(shad->program, shad->tese);
+	glDeleteShader(shad->ver);
+	glDeleteShader(shad->fra);
+	glDeleteShader(shad->geo);
+	glDeleteShader(shad->tesc);
+	glDeleteShader(shad->tese);
+
 	return 1;
 }
 

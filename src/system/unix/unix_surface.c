@@ -2,6 +2,7 @@
 #include"system/elt_win.h"
 #include"system/elt_errorhandler.h"
 
+#include<assert.h>
 #include<X11/Xlib.h>
 #include<X11/extensions/XShm.h>
 
@@ -17,6 +18,7 @@ static int private_surface_bits_per_pixel(unsigned int format){
 void* ExCreateSurface(unsigned int width, unsigned height, unsigned int format){
     XImage* image;
     char* buffer;
+    unsigned int size;
 
 #ifndef NO_SHARED_MEMORY
 	//try_mitshm(this, screen);
@@ -37,12 +39,13 @@ void* ExCreateSurface(unsigned int width, unsigned height, unsigned int format){
 	}*/
 	//if(!use_mitshm)
 #endif
-
-    buffer = (char*)malloc(private_surface_bits_per_pixel(format) * width * height);
+    size = private_surface_bits_per_pixel(format) * width * height;
+    buffer = (char*)malloc(size);
+    assert(buffer);
 
     image = XCreateImage(display,CopyFromParent,
          private_surface_bits_per_pixel(format),
-         ZPixmap, 0, (char*)buffer,width,height,8,0  );
+         ZPixmap, 0, (char*)buffer, width, height, 8,0  );
 
 
     return image;
@@ -53,20 +56,20 @@ int ExDestroySurface(void* handle){
 }
 
 
-void ExDisplaySurfaceToWindow(ExWin window,ExSurface surface){
+void ExDisplaySurfaceToWindow(ExWin window, ExSurface surface){
 	ExRect rect;
 	GC gc;
 
-	ExGetSurfaceRect(surface,&rect);
+	if(ExGetSurfaceRect(surface, &rect)){
 
+		gc = XDefaultGC(display, XDefaultScreen(display));
+		XSetFillStyle(display, gc, FillSolid);
+		XSetForeground(display, gc, BlackPixel(display, DefaultScreen(display)));
+		XSetBackground(display, gc, WhitePixel(display, DefaultScreen(display)));
+		//XSync(display, False);
 
-	gc = XDefaultGC(display,XDefaultScreen(display));
-    XSetFillStyle(display, gc, FillSolid);
-    XSetForeground(display, gc, BlackPixel(display, DefaultScreen(display)));
-    XSetBackground(display, gc, WhitePixel(display, DefaultScreen(display)));
-    //XSync(display, False);
-
-    XPutImage(display, window, gc,surface , 0,0,0,0,rect.width,rect.height);
+		XPutImage(display, window, gc, surface , 0, 0, 0, 0, rect.width, rect.height);
+	}
 }
 
 ERESULT ExResizeSurface(ExSurface surface, unsigned int width, unsigned height){
@@ -81,7 +84,7 @@ ERESULT ExResizeSurface(ExSurface surface, unsigned int width, unsigned height){
 
 
 ERESULT ExGetSurfaceRect(ExSurface surface, ExRect* rect){
-	if(rect == 0){
+	if(rect == NULL){
 		return E_INVALID_ARGUMENT;
 	}
 
@@ -100,8 +103,9 @@ int ExSetSurfacePixel(void* surface, unsigned int x, unsigned int y, unsigned lo
 void ExFillRect(ExSurface surface, ExRect* rect, unsigned int color){
 	GC gc;
 	ExRect mrect;
+
 	if(!rect){
-		ExGetSurfaceRect(surface,&mrect);
+		ExGetSurfaceRect(surface, &mrect);
 	}
 
 	XAddPixel(surface,color);

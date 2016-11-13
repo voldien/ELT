@@ -4,17 +4,16 @@
 #include"system/elt_gl.h"
 #include"system/elt_errorhandler.h"
 #include"system/elt_log.h"
-#include"system/elt_audio.h"
 
 #include<signal.h>
 
-unsigned long int engineflag;
+unsigned int engineflag;
 
-Uint32 ExGetFlag(void){
+unsigned int ExGetFlag(void){
 	return engineflag;
 }
 
-void ExEnable(Enum enable){
+void ExEnable(unsigned int enable){
 	switch(enable){
 	case EX_CRASH_TERMINATE:
 		signal(SIGTERM, ExSignalCatch);
@@ -35,7 +34,7 @@ void ExEnable(Enum enable){
 	}
 }
 
-void ExDisable(Enum disable){
+void ExDisable(unsigned int disable){
 	switch(disable){
 	case EX_CRASH_TERMINATE:
 		signal(SIGTERM, NULL);
@@ -52,9 +51,9 @@ void ExDisable(Enum disable){
 	}
 }
 
-#define EX_COMPILER_VERSION(major, minor, revision) EX_STR(major)EX_TEXT(".")EX_STR(minor)EX_TEXT(".")EX_STR(revision)
+#define EX_COMPILED_VERSION(major, minor, revision) EX_STR(major)EX_TEXT(".")EX_STR(minor)EX_TEXT(".")EX_STR(revision)
 const ExChar* ExGetVersion(void){
-	return EX_COMPILER_VERSION(EX_VERSION_MAJOR, EX_VERSION_MINOR, EX_VERSION_REVISION);
+	return EX_COMPILED_VERSION(EX_VERSION_MAJOR, EX_VERSION_MINOR, EX_VERSION_REVISION);
 }
 
 const ExChar* ExGetCompilerName(void){

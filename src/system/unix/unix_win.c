@@ -27,9 +27,9 @@ void* m_connection = 0;		/*	TODO take a loke*/
 extern int* pixAtt;
 extern int ExChooseFBconfig(GLXFBConfig* pfbconfig);
 
-ExWin ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){
+ExWin ExCreateNativeWindow(int x, int y, int width, int height){
 	Visual* visual;
-	Int depth;
+	int depth;
 	XSetWindowAttributes swa = {0};
     XSetWindowAttributes  xattr;
     Atom atom;
@@ -87,12 +87,12 @@ ExWin ExCreateNativeWindow(Int32 x, Int32 y, Int32 width, Int32 height){
 	return window;
 }
 
-ExWin ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 height, void** pglx_window){
+ExWin ExCreateGLWindow(int x , int y, int width, int height, void** pglx_window){
 	XVisualInfo* vi;
 	int screen;
 	int major;
 	int minor;
-	Int32 winmask = 0;
+	int winmask = 0;
 	XSetWindowAttributes winAttribs = {};
 	Window window;
 	Window* root;
@@ -120,7 +120,7 @@ ExWin ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 height, void** pglx
 
 	//winAttribs.background_pixel = XWhitePixel(display, 0);
 	winAttribs.colormap = XCreateColormap(display, root, vi->visual, AllocNone);
-	winAttribs.event_mask = ButtonPressMask | ExposureMask | VisibilityChangeMask | KeyPressMask | ButtonMotionMask | PointerMotionMask | StructureNotifyMask | VisibilityChangeMask | EnterWindowMask;
+	winAttribs.event_mask = ButtonPressMask | ExposureMask | VisibilityChangeMask | KeyPressMask | ButtonMotionMask | PointerMotionMask | StructureNotifyMask | EnterWindowMask;
 	winAttribs.border_pixmap = None;
 	winAttribs.border_pixel = 0;
 	winAttribs.bit_gravity = StaticGravity;
@@ -161,7 +161,7 @@ ExWin ExCreateGLWindow(Int32 x , Int32 y, Int32 width, Int32 height, void** pglx
     /*	event feed masking	*/
 	XSelectInput(display, window, ExposureMask | VisibilityChangeMask | KeyPressMask |
 			PointerMotionMask | StructureNotifyMask | ExposureMask | KeyPressMask |
-			ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask | VisibilityChangeMask |
+			ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |
 			ButtonMotionMask | PointerMotionMask);
 
 	/*	create window font	*/
@@ -246,7 +246,7 @@ void ExMinimizeWindow(ExWin window){
 	XSendEvent(display, DefaultRootWindow(display), False, SubstructureNotifyMask, &xev);
 }
 
-void ExSetWindowMode(ExWin window, Enum mode){
+void ExSetWindowMode(ExWin window, unsigned int mode){
     if(mode & EX_WIN_SCREENSAVER_ENABLE){
 
     }
@@ -284,11 +284,11 @@ ExChar* ExGetWindowTitle(ExWin window, ExChar* title){
 
 
 
-void ExSetWindowPos(ExWin window, Int32 x,Int32 y){
+void ExSetWindowPos(ExWin window, int x,int y){
 	XMoveWindow(display,(Window*)window,x,y);
 }
 
-void ExSetWindowPosv(ExWin window, const Int32* position){
+void ExSetWindowPosv(ExWin window, const int* position){
 	if(!window || !position){
 		return;
 	}
@@ -297,14 +297,14 @@ void ExSetWindowPosv(ExWin window, const Int32* position){
 }
 
 
-void ExGetWindowPosv(ExWin window, Int32* position){
+void ExGetWindowPosv(ExWin window, int* position){
 	XWindowAttributes xwa;
 	XGetWindowAttributes(display, window, &xwa);
 	position[0] = xwa.x;
 	position[1] = xwa.y;
 }
 
-void ExSetWindowSize(ExWin window, Int32 width, Int32 height){
+void ExSetWindowSize(ExWin window, int width, int height){
 	XResizeWindow(display,window,width,height);
 }
 
@@ -334,18 +334,18 @@ void ExGetWindowRect(ExWin window, ExRect* rect){
 }
 
 
-Uint32 ExGetWindowFlag(ExWin window){
+unsigned int ExGetWindowFlag(ExWin window){
     //TODO remove or something
 	XWindowAttributes xwa;
 	XGetWindowAttributes(display, (Window*)window, &xwa);
 	return xwa.all_event_masks;
 }
 
-void ExSetWindowFlag(ExWin window, Enum flag){
+void ExSetWindowFlag(ExWin window, unsigned int flag){
 	XSelectInput(display, window, flag);
 }
 
-Int32 ExSetWindowIcon(ExWin window, ExHandle hIcon){
+int ExSetWindowIcon(ExWin window, ExHandle hIcon){
      //http://www.sbin.org/doc/Xlib/chapt_03.html
     XWMHints wm_hints = {0};
 /*    if (!(wm_hints = XAllocWMHints())) {
@@ -373,14 +373,14 @@ Int32 ExSetWindowIcon(ExWin window, ExHandle hIcon){
 	return TRUE;
 }
 
-Int32 ExGetWindowIcon(ExWin window){
+int ExGetWindowIcon(ExWin window){
 
 	Atom iconAtom = XInternAtom(display, "_NET_WM_ICON_NAME", FALSE);
 	//XGetWindowProperty(display, window, iconAtom, XA_ATOM, )
     return NULL;
 }
 
-Int32 ExSetWindowFullScreen(ExWin window, ExBoolean flag){
+int ExSetWindowFullScreen(ExWin window, ExBoolean flag){
     int one = 1;
 	XEvent xev = {0};
     XWindowAttributes xwa;
@@ -453,7 +453,7 @@ void ExSetWindowUserData(ExWin window, ExHandle userdata){
 
 
 
-Int32 ExSetWindowParent(ExWin parent, ExWin window){
+int ExSetWindowParent(ExWin parent, ExWin window){
 	int pos[2];
 	ExGetWindowPosv(parent, pos);
 	return XReparentWindow(display, window, parent, 0, 0);
@@ -473,8 +473,8 @@ ExWin ExGetWindowParent(ExWin window){
 
 }
 
-Int32 ExSetWindowChild(ExWin window,ExWin child){
-	Int32 pos[2];
+int ExSetWindowChild(ExWin window,ExWin child){
+	int pos[2];
 	ExGetWindowPosv(window,pos);
 	return XReparentWindow(display,child,window,pos[0],pos[1]);
 }
@@ -492,7 +492,7 @@ ExWin ExGetWindowChild(ExWin window,unsigned int index){
 
 }
 
-Int32 ExGetWindowNumChildren(ExWin window){
+int ExGetWindowNumChildren(ExWin window){
 
 	int screen = DefaultScreen(display);
 	ExWin root = RootWindow(display,screen);
@@ -517,7 +517,7 @@ ExWin ExGetDesktopWindow(void){
 	int status;
 	int width  = DisplayWidth (display, screen);
 	int height = DisplayHeight (display, screen);
-	ExWin desktop;
+	ExWin desktop = NULL;
 	XWindowAttributes attrs;
 	Atom workeara;
 
@@ -531,19 +531,25 @@ ExWin ExGetDesktopWindow(void){
 		if ((status != 0) && (NULL != name)){
 			if( (attrs.map_state != 0) && (attrs.width == width) &&
 					(attrs.height == height) && (!strcmp(name, DEFAULT_DESKTOP_WINDOW_NAME)) ){
-				//DEBUG_MSG("Found Window:%s\n", name);
+
 				win = children[i];
 				XFree(children);
 				XFree(name);
 				desktop = win;
-				return win;
+				//return win;
 			}
 			if(name){
 				XFree(name);
 			}
 		}
 	}
-	return (ExWin)0x280000a;
+	return desktop ? desktop : (ExWin)0x280000a;
+}
+
+void ExMakeDesktopWindow(ExWin window){
+	Atom window_type = XInternAtom(display, "_NET_WM_WINDOW_TYPE", False);
+	Atom desktop = XInternAtom(display, "_NET_WM_WINDOW_TYPE_DESKTOP", False);
+	XChangeProperty (display, window, window_type, XA_ATOM, 32, PropModeReplace, (unsigned char *) &desktop, 1);
 }
 
 ExWin ExGetRootWindow(void){

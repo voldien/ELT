@@ -25,6 +25,10 @@
 #include <ctype.h>
 #include <stdarg.h>
 
+#ifdef __cplusplus	/*	C++ Environment	*/
+extern "C"{
+#endif
+
 
 #ifndef TRUE
 #	define TRUE 1
@@ -33,92 +37,14 @@
 #	define FALSE 0
 #endif
 
-/*
- *	Type declaration	TODO check in respect to compiler.
- */
-#if defined(EX_MSVC)
-	typedef signed __int64 		Int64;
-	typedef signed __int32 		Int32;
-	typedef signed __int16 		Int16;
-	typedef signed __int8  		Int8;
-
-	typedef unsigned __int64 	Uint64;
-	typedef unsigned __int32 	Uint32;
-	typedef unsigned __int16 	Uint16;
-	typedef unsigned __int8  	Uint8;
-	typedef unsigned __int32 	Uint;
-	typedef unsigned short	 	Ushort;
-
-	typedef signed __int32   	Int;
-	typedef signed short	 	Short;
-	typedef signed char	 		Char;
-
-#if EX_INT_MAX_BITS > 64
-	typedef signed __int128 Int128;
-	typedef unsigned __int128 Uint128;
-#endif
-
-#elif defined(EX_GNUC)
-	typedef signed long long 	Int64;
-	typedef signed int		 	Int32;
-	typedef signed short	 	Int16;
-	typedef signed char		 	Int8;
-
-	typedef signed int	 		Int;
-	typedef signed short 		Short;
-	typedef signed char  		Char;
-
-	typedef unsigned long long  Uint64;
-	typedef unsigned int		Uint32;
-	typedef unsigned short		Uint16;
-	typedef unsigned char		Uint8;
-	typedef unsigned int		Uint;
-	typedef unsigned short		Ushort;
-
-#if EX_INT_MAX_BITS > 64
-	typedef signed __int128 Int128;
-	typedef unsigned __int128 Uint128;
-#endif
-
-#elif defined(EX_APPLE)
-	typedef signed long long Int64;
-	typedef signed int		 Int32;
-	typedef signed short	 Int16;
-	typedef signed char		 Int8;
-
-	typedef signed int	 Int;
-	typedef signed short Short;
-	typedef signed char  Char;
-
-	typedef unsigned long long  Uint64;
-	typedef unsigned int		Uint32;
-	typedef unsigned short		Uint16;
-	typedef unsigned char		Uint8;
-	typedef unsigned int		Uint;
-	typedef unsigned short		Ushort;
-
-#if EX_INT_MAX_BITS > 64
-	typedef signed __int128 Int128;
-	typedef unsigned __int128 Uint128;
-#endif
-
-#endif
 
 
-/* 32 bits [0 to 4,294,967,295] */
-typedef unsigned long ULong;
-/* 32 bits [0 to 4,294,967,295] */
-typedef Uint32 Enum;
-typedef Uint64 ULLong;
-/* 32 bits [0 to 4,294,967,295] */
-typedef Uint32 ClearFlag;
-typedef long Long;
 
 /* 64 bits [0 to 18,446,744,073,709,551,615] */
-typedef Uint8 ExKeycode;
+typedef unsigned char ExKeycode;
 
 /*	*/
-typedef Uint8 ExBoolean;
+typedef unsigned char ExBoolean;
 
 /*
  *	Atom data type.
@@ -171,22 +97,6 @@ typedef wchar_t ExWide;
 	#define EX_STR_LEN strlen	/*	length of character of ExChar	*/
 #endif
 
-
-/**/
-typedef union floatUnion{
-	float fv;
-	Uint32 uv;
-	Uint8 ub[4];
-}FloatUnion, UintUnion;
-
-/**/
-typedef union doubleUnion{
-	double Ddata;
-	Uint64 Uldata;
-	Uint8 ub[8];
-}DoubleUnion,UlongUnion;
-
-
 /*
  *	16 bits high and low value
  */
@@ -205,13 +115,13 @@ typedef union doubleUnion{
 #define EX_MAKEHIQWORD(a,b)	{a = ( ( a ) | (( ( b ) << 32) & 0xffffffff00000000));}
 #define EX_MAKELOQWORD(a,b) {a = ( ( a ) | ( ( b ) & 0xffffffff00000000));}
 
-#define EX_MAKELONG(a, b)      ((long)(((Uint16)(((Uint32)(a)) & 0xffff)) | ((Uint32)((Uint16)(((Uint32)(b)) & 0xffff))) << 16))
+#define EX_MAKELONG(a, b)      ((long)(((unsigned short)(((unsigned int)(a)) & 0xffff)) | ((unsigned int)((unsigned short)(((unsigned int)(b)) & 0xffff))) << 16))
 
 
-#define EX_LOWORD(l)        ((Uint16)(((Uint16)(l)) & 0xffff))
-#define EX_HIWORD(l)        ((Uint16)((((Uint16)(l)) >> 16) & 0xffff))
-#define EX_LOBYTE(w)        ((Uint8)(((Uint16)(w)) & 0xff))
-#define EX_HIBYTE(w)        ((Uint8)((((Uint16)(w)) >> 8) & 0xff))
+#define EX_LOWORD(l)        ((unsigned short)(((unsigned short)(l)) & 0xffff))
+#define EX_HIWORD(l)        ((unsigned short)((((unsigned short)(l)) >> 16) & 0xffff))
+#define EX_LOBYTE(w)        ((unsigned char)(((unsigned short)(w)) & 0xff))
+#define EX_HIBYTE(w)        ((unsigned char)((((unsigned short)(w)) >> 8) & 0xff))
 
 
 /**
@@ -254,5 +164,10 @@ typedef void* (EX_CALLBACK *ex_interrupt_routine)(void*);
 typedef void* (EX_THREAD_CALLBACK *ex_thread_routine)(void* phandle);
 typedef void* (EX_THREAD_CALLBACK *ExThreadRoutine)(void* phandle);
 typedef void* ExThread;
+
+
+#ifdef __cplusplus	/*	C++ Environment	*/
+}
+#endif
 
 #endif

@@ -92,7 +92,7 @@ _In_  HINSTANCE hinstDLL,
 /*
  *	High accuracy timer.
  */
-extern Uint64 eltTickTime;
+extern unsigned int64 eltTickTime;
 
 /*
  *
@@ -106,10 +106,10 @@ unsigned long int engineflag = 0;
 void* xcbConnection;
 
 
-ERESULT ExInit(Enum engineFlag){
+ERESULT ExInit(unsigned int engineFlag){
 	ERESULT result = E_OK;
 	ExHandle hmodule;
-	Int32 hConHandle;
+	int hConHandle;
 	Long lStdHandle;
 
 
@@ -201,7 +201,7 @@ ERESULT ExInit(Enum engineFlag){
 
 
 
-ERESULT ExInitSubSystem(Uint32 engineflag){
+ERESULT ExInitSubSystem(unsigned int engineflag){
 	ERESULT hr = 0;
 	ExHandle hmodule;
 
@@ -268,7 +268,7 @@ ERESULT ExInitSubSystem(Uint32 engineflag){
 
 
 
-void ExQuitSubSytem(Uint32 engineflag){
+void ExQuitSubSytem(unsigned int engineflag){
 
 	if(ELT_INIT_TIMER & engineflag){
         #ifdef EX_WINDOWS   // EX_WINDOWS
@@ -342,7 +342,7 @@ void ExShutDown(void){
 #endif
 
 	DEVMODE d = {0};
-	Int32 display;
+	int display;
 
 	ExUnRegisterClasses();
 

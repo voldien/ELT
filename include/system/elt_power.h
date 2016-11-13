@@ -34,7 +34,7 @@ extern "C"{
  *
  *	@Return 0 if no battery is attached.
  */
-extern ELTDECLSPEC Enum ELTAPIENTRY ExGetPowerInfo(Int32* sec, Int32* pct);
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetPowerInfo(int* sec, int* pct);
 
 
 

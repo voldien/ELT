@@ -11,20 +11,20 @@
 
 #endif
 
-Int32 ExGameControllerAddMapping(const char* mappingString){
+int ExGameControllerAddMapping(const char* mappingString){
 	return 0;
 }
 
-ExBoolean ExIsGameController(Int32 joystick_index){
+ExBoolean ExIsGameController(int joystick_index){
 	return (ExBoolean)0;
 }
 
-Uint16 ExGameControllerGetAxis(int index, int* axis){
+unsigned short ExGameControllerGetAxis(int index, int* axis){
 	//XInputGetState(index,axis);
-	return (Uint16)0;
+	return (unsigned short)0;
 }
 
-void ExGameControllerVibration(Int32 index, Int16 LeftMotorSpeed, Int16 RightMotorSpeed){
+void ExGameControllerVibration(int index, short LeftMotorSpeed, short RightMotorSpeed){
 	//XINPUT_VIBRATION vib = {LeftMotorSpeed,RightMotorSpeed};
 	//XInputSetState(index,&vib);
 }

@@ -45,7 +45,7 @@ typedef void* ExThreadContition;
  *
  *	@Return thread handle.
  */
-extern ELTDECLSPEC ExThread ELTAPIENTRY ExCreateThread(ExThreadRoutine callback, void* lpParamater, Uint32* pid);
+extern ELTDECLSPEC ExThread ELTAPIENTRY ExCreateThread(ExThreadRoutine callback, void* lpParamater, unsigned int* pid);
 
 /**
  * 	Create Thread with affinity mask.
@@ -54,7 +54,7 @@ extern ELTDECLSPEC ExThread ELTAPIENTRY ExCreateThread(ExThreadRoutine callback,
  *
  *	@Return thread handle.
  */
-extern ELTDECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(ExThreadRoutine callback, ExHandle lpParamater, Uint32* pid, Int32 core);
+extern ELTDECLSPEC ExThread ELTAPIENTRY ExCreateThreadAffinity(ExThreadRoutine callback, ExHandle lpParamater, unsigned int* pid, int core);
 
 /**
  *	Detach thread
@@ -82,8 +82,8 @@ extern ELTDECLSPEC void ELTAPIENTRY ExResumeThread(ExThread thread);
 
 
 /**/
-extern ELTDECLSPEC void ELTAPIENTRY ExSetThreadSignal(ExThread thread, Uint signal);
-extern ELTDECLSPEC Uint ELTAPIENTRY ExGetThreadSignal(ExThread thread);
+extern ELTDECLSPEC void ELTAPIENTRY ExSetThreadSignal(ExThread thread, unsigned int signal);
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetThreadSignal(ExThread thread);
 
 
 /**/
@@ -107,7 +107,7 @@ extern ELTDECLSPEC ExThread ELTAPIENTRY ExGetCurrentThread(void);
  *
  *	@Return
  */
-extern ELTDECLSPEC Uint32 ELTAPIENTRY ExGetThreadID(ExThread thread);
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetThreadID(ExThread thread);
 
 
 /**
@@ -127,7 +127,7 @@ extern ELTDECLSPEC void ELTAPIENTRY ExSetThreadName(ExThread thread, const ExCha
  *	Set thread priority
  *	@Return
  */
-extern ELTDECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread, Enum nPriority);
+extern ELTDECLSPEC ERESULT ELTAPIENTRY ExSetThreadPriority(ExThread thread, unsigned int nPriority);
 
 /**
  *
@@ -142,7 +142,7 @@ extern ELTDECLSPEC ExHandle ELTAPIENTRY ExGetThreadState(ExThread thread);
  *
  *	@Return
  */
-extern ELTDECLSPEC ERESULT ELTAPIENTRY ExWaitThread(ExThread thread, Int32* status);
+extern ELTDECLSPEC ERESULT ELTAPIENTRY ExWaitThread(ExThread thread, int* status);
 
 
 /**

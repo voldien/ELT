@@ -1,4 +1,7 @@
 #include"elt_loadso.h"
+#include<elt_def.h>
+
+#include<linux/limits.h>
 #   include<stdio.h>
 #	include<stdlib.h>
 #	ifndef EX_PNACL
@@ -11,7 +14,8 @@
 #   include<libgen.h>
 
 #include<errno.h>
-#include<string.h>
+#include<unistd.h>
+
 
 
 

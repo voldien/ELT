@@ -26,7 +26,7 @@
 #define SIGNAL_MASK_ID_KEY 0xfff
 
 
-ExThread ExCreateThread(ExThreadRoutine callback, void* lpParamater, Uint32* pid){
+ExThread ExCreateThread(ExThreadRoutine callback, void* lpParamater, unsigned int* pid){
 	pthread_t t0;
     pthread_attr_t attr;
     sigset_t mask;
@@ -47,7 +47,7 @@ ExThread ExCreateThread(ExThreadRoutine callback, void* lpParamater, Uint32* pid
 	return t0;
 }
 
-ExThread ExCreateThreadAffinity(ExThreadRoutine callback, ExHandle lpParamater, Uint32* pid, Int32 ncore){
+ExThread ExCreateThreadAffinity(ExThreadRoutine callback, ExHandle lpParamater, unsigned int* pid, int ncore){
 	pthread_t t0;
 	pthread_attr_t attr;
 	int mpid;
@@ -110,12 +110,12 @@ void ExResumeThread(ExThread thread){
 
 }
 
-void ExSetThreadSignal(ExThread thread, Uint signal){
+void ExSetThreadSignal(ExThread thread, unsigned int signal){
 	pthread_kill(thread, signal);
 }
 
 
-Uint ExGetThreadSignal(ExThread thread){
+unsigned int ExGetThreadSignal(ExThread thread){
 //	int signal;
 //	sigset_t* set = pthread_getspecific(SIGNAL_MASK_ID_KEY);
 //	if(sigwait(set, &signal) != 0){
@@ -142,7 +142,7 @@ ExThread ExGetCurrentThread(void){
 
 
 
-Uint32 ExGetThreadID(ExThread thread){
+unsigned int ExGetThreadID(ExThread thread){
 	//pthread_id_np_t tid;
 	//pthread_getunique_np(thread, &tid);
 	//return tid;
@@ -168,7 +168,7 @@ void ExSetThreadName(ExThread thread, const ExChar* name){
 	}
 }
 
-ERESULT ExSetThreadPriority(ExThread thread, Enum nPriority){
+ERESULT ExSetThreadPriority(ExThread thread, unsigned int nPriority){
 	struct sched_param sch;
 	int policy;
 	if(pthread_getschedparam(thread, &policy, &sch) < 0){
@@ -201,7 +201,7 @@ ERESULT ExSetThreadPriority(ExThread thread, Enum nPriority){
 	return E_OK;
 }
 
-ERESULT ExWaitThread(ExThread thread, Int32* status){
+ERESULT ExWaitThread(ExThread thread, int* status){
     if(pthread_join(thread, &status) < 0){
     	ExLogCritical("%s\n", strerror(errno));
         return FALSE;
