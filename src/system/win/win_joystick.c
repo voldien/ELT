@@ -27,7 +27,7 @@
 	joyGetDevCaps(index,&caps,sizeof(caps));
 	if(!GetModuleHandle(caps.szRegKey))
 		return ExLoadObject(caps.szRegKey);
-	else return (void*)TRUE;
+	else return (void*)EX_TRUE;
 
 }
 

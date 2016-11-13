@@ -61,7 +61,7 @@ void SetMenuItemEvent(HMENU subMenu, unsigned int pos, ExHandle eventHandle){
 	menuInfo.cbSize = sizeof(MENUINFO);
 	menuInfo.fMask = MIIM_DATA;
 	menuInfo.dwItemData = (ULONG_PTR)eventHandle;
-	if(!SetMenuItemInfo(subMenu, pos, TRUE,&menuInfo)){
+	if(!SetMenuItemInfo(subMenu, pos, EX_TRUE,&menuInfo)){
 		ExDevWindowPrintc(EX_TEXT("Failed Set Menu Item"),EX_CONSOLE_RED);//failed;
 	}
 	return;
@@ -71,7 +71,7 @@ void* GetMenuItemEvent(HMENU subMenu, unsigned int pos){
 	MENUITEMINFO menuInfo;
 	menuInfo.cbSize = sizeof(MENUINFO);
 	menuInfo.fMask = MIIM_DATA;
-	if(!GetMenuItemInfo(subMenu, pos, TRUE, &menuInfo)){
+	if(!GetMenuItemInfo(subMenu, pos, EX_TRUE, &menuInfo)){
 		ExDevWindowPrintc(EX_TEXT("Failed Get Menu Item"),EX_CONSOLE_RED);//failed;
 	}
 	return (void*)menuInfo.dwItemData;
@@ -127,7 +127,7 @@ HMENU  ExCreatePopUpMenuItem2(HMENU hpopupMenu,const ExChar* string, ExCallBack 
 	menuInfo.dwItemData = (ULONG_PTR)event;
 	menuInfo.fState = MFS_ENABLED;
 	menuInfo.dwTypeData = (LPTSTR)string;
-	if(!InsertMenuItem(hpopupMenu,GetMenuItemCount(hpopupMenu),TRUE,&menuInfo)){
+	if(!InsertMenuItem(hpopupMenu,GetMenuItemCount(hpopupMenu),EX_TRUE,&menuInfo)){
 		//ExDevWindowPrintf(EX_TEXT("fail to insert Menu"));
 	}
 	return hpopupMenu;
@@ -149,7 +149,7 @@ HMENU ExCreateMenuItemB(HMENU hpopupMenu, HBITMAP bitmap,  ExCallBack callback){
 	menuInfo.dwItemData = (ULONG_PTR)event;
 	menuInfo.fState = MFS_ENABLED;
 	menuInfo.hbmpItem = bitmap;
-	if(!InsertMenuItem(hpopupMenu,GetMenuItemCount(hpopupMenu),TRUE,&menuInfo)){
+	if(!InsertMenuItem(hpopupMenu,GetMenuItemCount(hpopupMenu),EX_TRUE,&menuInfo)){
 		//ExDevWindowPrintf(EX_TEXT("fail to insert Menu"));
 	}
 	return hpopupMenu;
@@ -160,11 +160,11 @@ ExBoolean  ExCreateMenuSeparator(HMENU hMenu){
 	menuInfo.cbSize = sizeof(MENUITEMINFO);
 	menuInfo.fMask = MIIM_FTYPE;
 	menuInfo.fType = MFT_SEPARATOR;
-	if(!InsertMenuItem(hMenu, GetMenuItemCount(hMenu), TRUE, &menuInfo)){
+	if(!InsertMenuItem(hMenu, GetMenuItemCount(hMenu), EX_TRUE, &menuInfo)){
 		// error
-		return FALSE;
+		return EX_FALSE;
 	}
-	return TRUE;
+	return EX_TRUE;
 }
 //=========================================
 //		Status Bar		 //
@@ -276,18 +276,18 @@ ExWin ExCreateTrackBar(ExWin parenthWnd,unsigned int imin, unsigned int imax, un
         );
 
     SendMessage(hwndTrack, TBM_SETRANGE,
-        (WPARAM) TRUE,                   // redraw flag
+        (WPARAM) EX_TRUE,                   // redraw flag
         (LPARAM) MAKELONG(imin, imax));  // min. & max. positions
 
     SendMessage(hwndTrack, TBM_SETPAGESIZE,
         0, (LPARAM) 4);                  // new page size
 
 /*    SendMessage(hwndTrack, TBM_SETSEL,
-        (WPARAM) FALSE,                  // redraw flag
+        (WPARAM) EX_FALSE,                  // redraw flag
         (LPARAM) MAKELONG(iSelMin, iSelMax)); */
 
     SendMessage(hwndTrack, TBM_SETPOS,
-        (WPARAM) TRUE,                   // redraw flag
+        (WPARAM) EX_TRUE,                   // redraw flag
         (LPARAM) iselected);
 
     SetFocus(hwndTrack);
@@ -396,7 +396,7 @@ ExWin ExCreateListView(ExWin parenthWnd){
 
         // Insert the columns into the list view.
         if (ListView_InsertColumn(hWndListView, iCol, &lvc) == -1)
-            return FALSE;
+            return EX_FALSE;
     }
 
  LVITEM lvI;
@@ -416,7 +416,7 @@ ExWin ExCreateListView(ExWin parenthWnd){
 
         // Insert items into the list.
         if (ListView_InsertItem(hWndListView, &lvI) == -1)
-            return FALSE;
+            return EX_FALSE;
     }
 
 	SIZE size = { 100, 50 };
@@ -515,7 +515,7 @@ ExWin ExCreateToolBar(ExWin parenthWnd){
 
     // Resize the toolbar, and then show it.
     SendMessage(hWndToolbar, TB_AUTOSIZE, 0, 0);
-    ShowWindow(hWndToolbar,  TRUE);
+    ShowWindow(hWndToolbar,  EX_TRUE);
 
     return hWndToolbar;
 }
@@ -529,7 +529,7 @@ ExBoolean ExAddToolBarTemplate(ExWin hWndToolbar, ExChar* text, unsigned int tem
     g_hImageList = (HIMAGELIST)SendMessage(hWndToolbar, TB_GETIMAGELIST,0,0);
     TBBUTTON tbButtons =  { MAKELONG(templates,  ImageListID), 0,  TBSTATE_ENABLED, BTNS_AUTOSIZE, {0}, 0, (INT_PTR)text };
     SendMessage(hWndToolbar, TB_ADDBUTTONS,       (WPARAM)numButtons,       (LPARAM)&tbButtons);
-	return TRUE;
+	return EX_TRUE;
 }
 
 void ExAddToolBarButton(ExWin hWndToolbar,ExChar* text,HBITMAP bitmap,unsigned int templates,ExButtonPushed buttoncallback){
@@ -543,7 +543,7 @@ void ExAddToolBarButton(ExWin hWndToolbar,ExChar* text,HBITMAP bitmap,unsigned i
 	button->dwData = (DWORD_PTR)buttoncallback;
 	SendMessage(hWndToolbar, TB_ADDBUTTONS,(WPARAM)1, (LPARAM)&button);
 
-    ShowWindow(hWndToolbar,  TRUE);
+    ShowWindow(hWndToolbar,  EX_TRUE);
 }
 
 void ExAddToolBarButtonB(ExWin hWndToolbar,HBITMAP bitmap){
@@ -559,7 +559,7 @@ void ExAddToolBarButtonB(ExWin hWndToolbar,HBITMAP bitmap){
 	TBBUTTON button[] = {MAKELONG(STD_PROPERTIES,  ImageListID), 0,  TBSTATE_ENABLED, BTNS_AUTOSIZE, {0}, 0, (INT_PTR)0};
 	SendMessage(hWndToolbar, TB_ADDBUTTONS,(WPARAM)1, (LPARAM)&button);
 
-    ShowWindow(hWndToolbar,  TRUE);
+    ShowWindow(hWndToolbar,  EX_TRUE);
 }
 
 /*
@@ -640,7 +640,7 @@ ExWin ExCreateTextInput(ExWin parentHwnd){
 							  NULL))){
 		ExDevWindowPrintc(EX_TEXT("Failed to Create TextInput"), EX_CONSOLE_RED);
 	}
-	 if(TRUE){
+	 if(EX_TRUE){
 		 ExTextInputEvent* event = (ExTextInputEvent*)malloc(sizeof(ExTextInputEvent));
 		 ExSetControlEvent(hwnd,event);
 	 }

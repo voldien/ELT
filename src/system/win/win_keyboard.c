@@ -166,11 +166,11 @@ static inline int ExGetKeyCodeinternal(unsigned int keyCode){
 
  ExBoolean ELTAPIFASTENTRY ExAnyKey(void){
 
-	return FALSE;
+	return EX_FALSE;
 }
  ExBoolean ELTAPIFASTENTRY ExAnyKeyDown(void){
 
-	return FALSE;
+	return EX_FALSE;
 }
 
 

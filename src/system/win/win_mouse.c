@@ -9,7 +9,7 @@
  int  ExClipCursor(const ExRect* rect){
 	const RECT clip_rect = {rect->x,rect->y,rect->x + rect->width,rect->y + rect->height};
 	ExIsWinError(ClipCursor(&clip_rect));
-	return TRUE;
+	return EX_TRUE;
 }
 
  ExCursor  ExCreateCursor(const unsigned char* data, const unsigned char* mask, int width,int height, int hot_x, int hot_y){

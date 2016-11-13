@@ -144,7 +144,7 @@ int ExMakeEGLCurrent(EX_RESTRICT ExWindowContext hDC,  EX_RESTRICT ExEGLContext 
 
 int ExCreateEGLContextAttrib(ExWin window, int* attrib, unsigned int* size){
 
-	return TRUE;
+	return EX_TRUE;
 }
 
 void ExDestroyEGLContext(ExEGLContext context){

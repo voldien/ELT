@@ -96,7 +96,7 @@ int ExInitErrorHandler(void){
 	ExSetSignal(SIGSEGV, ExSignalCatch);
 	/*	illegal instruction	*/
 	ExSetSignal(SIGILL, ExSignalCatch);
-	return TRUE;
+	return EX_TRUE;
 }
 
 
@@ -341,7 +341,7 @@ static void debugLogTrace(void){
 
     process = GetCurrentProcess();
 
-    SymInitialize(process, NULL,TRUE);
+    SymInitialize(process, NULL,EX_TRUE);
 
     frames = CaptureStackBackTrace(0,100, stack, NULL);
     symbol = (SYMBOL_INFO*)calloc(sizeof( SYMBOL_INFO ) + 256 * sizeof( char ), 1 );

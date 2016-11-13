@@ -78,7 +78,7 @@ ExBoolean ExHasFMA(void){
 }
 
 ExBoolean ExHasAVX512(void){
-	return FALSE;
+	return EX_FALSE;
 }
 
 ExBoolean ExHas3DNow(void){
@@ -126,7 +126,7 @@ ExBoolean ExHasNeon(void){
 #ifdef EX_ARM
 	//EX_ASM volatile ("vldr d18,[fp,#-32]");
 #endif
-	return FALSE;
+	return EX_FALSE;
 }
 
 ExBoolean ExHasRDTSC(void){

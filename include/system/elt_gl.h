@@ -199,7 +199,7 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExDestroyCurrentGLContext(void);
  *	\
  *	\
  *
- *	@Return TRUE if successfully.
+ *	@Return EX_TRUE if successfully.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, unsigned int screenIndex, const int* screenRes);
 
@@ -238,7 +238,7 @@ extern ELTDECLSPEC unsigned int ELTAPIFASTENTRY ExGetOpenGLVersion(int* major, i
 /**
  *	Get if OpenGL extension is supported on current binded machine.
  *
- *	@Return TRUE is supported. Otherwise FALSE.
+ *	@Return EX_TRUE is supported. Otherwise EX_FALSE.
  */
 extern ELTDECLSPEC unsigned int ELTAPIENTRY ExIsOpenGLExtensionSupported(const char* extension);
 

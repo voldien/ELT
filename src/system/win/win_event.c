@@ -93,10 +93,10 @@ int ExPollEvent(ExEvent* event){
 				break;
 		}
 
-		return TRUE;
+		return EX_TRUE;
 		}
 	else
-		return FALSE;
+		return EX_FALSE;
 	/*
     int ident;
     int events;
@@ -111,7 +111,7 @@ int ExPollEvent(ExEvent* event){
         default:break;
     }
 
-    return TRUE;
+    return EX_TRUE;
     */
 
 }
@@ -205,7 +205,7 @@ int ExPollWindowEvent(ExWin window, ExWindowEvent* event){
 				break;
 		}// message switch
 		// return success on handling messsages
-		return TRUE;
+		return EX_TRUE;
 	}
-	return FALSE;
+	return EX_FALSE;
 }

@@ -79,7 +79,7 @@ _In_  HINSTANCE hinstDLL,
 	}
 	// handle instance of the dll.
 	hdllMoudle = hinstDLL;
-	return TRUE;
+	return EX_TRUE;
 }
 
 #endif

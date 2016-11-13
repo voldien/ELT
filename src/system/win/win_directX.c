@@ -59,7 +59,7 @@ DECLSPEC ExDevice9D  ExCreateDirectXContext(ExWin window){
 	memset(&d3StructInfo,0, sizeof(d3StructInfo));
 
 
-	d3StructInfo.Windowed = TRUE;
+	d3StructInfo.Windowed = EX_TRUE;
 	//d3StructInfo.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 	d3StructInfo.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	d3StructInfo.hDeviceWindow = window;
@@ -70,7 +70,7 @@ DECLSPEC ExDevice9D  ExCreateDirectXContext(ExWin window){
 	d3StructInfo.BackBufferCount =  ExOpenGLGetAttribute(EX_OPENGL_DOUBLEBUFFER,NULL);
 	d3StructInfo.MultiSampleQuality = ExOpenGLGetAttribute(EX_OPENGL_MULTISAMPLESAMPLES,NULL);
 	d3StructInfo.FullScreen_RefreshRateInHz = ExGetMonitorHz(0);
-	d3StructInfo.EnableAutoDepthStencil = TRUE;
+	d3StructInfo.EnableAutoDepthStencil = EX_TRUE;
 	d3StructInfo.AutoDepthStencilFormat = D3DFMT_D24S8;
 	d3StructInfo.Presentationinterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 

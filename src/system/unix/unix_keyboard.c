@@ -173,13 +173,13 @@ ExKeycode ExGetModeState(void){
 ExBoolean ExAnyKey(void){
 	char keys[32];
 	XQueryKeymap(display, keys);
-	return FALSE;
+	return EX_FALSE;
 }
 
 ExBoolean ExAnyKeyDown(void){
 	char keys[32];
 	XQueryKeymap(display, keys);
-	return FALSE;
+	return EX_FALSE;
 }
 
 

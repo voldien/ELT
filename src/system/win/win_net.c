@@ -105,6 +105,6 @@ inline int ExGetHostIp(char ip[16]){
 
 	ExCloseSocket(fd);
 
-	return TRUE;
+	return EX_TRUE;
 
 }

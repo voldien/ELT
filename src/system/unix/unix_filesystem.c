@@ -48,9 +48,9 @@ ExBoolean ExIsDirectory(const ExChar* cdirectory){
 	DIR* dir = opendir(cdirectory);
 	if(dir){
 		closedir(dir);
-		return TRUE;
+		return EX_TRUE;
 	}
-	return FALSE;
+	return EX_FALSE;
 }
 
 unsigned int ExDirectoryCount(const ExChar* cdirectory){
@@ -205,18 +205,18 @@ ExBoolean ExCreateRamDisk(const ExChar* cdirectory, unsigned int nBytes){
 		char* strerr = strerror(errno);
 		ExPrintf("Error : Failed to mount %s\nReason: %s [%d]\n",
 				cdirectory, strerr, errno);
-		return FALSE;
+		return EX_FALSE;
 	}
-	return TRUE;
+	return EX_TRUE;
 }
 
 ExBoolean ExUMount(const ExChar* cdirectory){
 	if(umount(cdirectory) < 0){
 		ExPrintf("Error : Failed to mount %s\nReason: %s [%d]\n",
 				cdirectory, strerror(errno), errno);
-		return FALSE;
+		return EX_FALSE;
 	}
-	return TRUE;
+	return EX_TRUE;
 }
 
 

@@ -55,7 +55,7 @@ ExBoolean  ExEnableDeviceNotification(ExWin hWnd){
 
 
 
-	return (ExBoolean)((hDevNotify) ? TRUE : FALSE);
+	return (ExBoolean)((hDevNotify) ? EX_TRUE : EX_FALSE);
 }
 
 /*	Main Proc designed for OpenGL Window mainly.	*/
@@ -125,7 +125,7 @@ ERESULT WINAPI ExMainWndProc(ExWin hWnd,unsigned int uMsg, WPARAM wParam, LPARAM
 		// get data;
 		MENUITEMINFO menuitemInfo = {sizeof(MENUITEMINFO)};
 		menuitemInfo.fMask = MIIM_DATA;
-		GetMenuItemInfo((HMENU)lParam,wParam, TRUE,&menuitemInfo);
+		GetMenuItemInfo((HMENU)lParam,wParam, EX_TRUE,&menuitemInfo);
 		// event handler
 		ExMenuEvent* menuEvent;
 		if(menuEvent = (ExMenuEvent*)menuitemInfo.dwItemData)
@@ -226,7 +226,7 @@ ERESULT WINAPI ExMainWndProc(ExWin hWnd,unsigned int uMsg, WPARAM wParam, LPARAM
 		}*/
 		}break;
     case WM_NCHITTEST:
-		if(FALSE){
+		if(EX_FALSE){
 			return HTCAPTION;   // allows dragging of the window
 		}
 		break;
@@ -335,7 +335,7 @@ ERESULT WINAPI ExWndProcNative(ExWin hWnd, unsigned int uMsg, WPARAM wParam, LPA
 		// get menu item data;
 		MENUITEMINFO menuitemInfo = {sizeof(MENUITEMINFO)};
 		menuitemInfo.fMask = MIIM_DATA;
-		GetMenuItemInfo((HMENU)lParam,wParam, TRUE,&menuitemInfo);
+		GetMenuItemInfo((HMENU)lParam,wParam, EX_TRUE,&menuitemInfo);
 		// event handler
 		ExMenuEvent* menuEvent;
 		if(menuEvent = (ExMenuEvent*)menuitemInfo.dwItemData)
@@ -469,14 +469,14 @@ BOOL ExOnContextMenu(ExWin hWnd,int x, int y){
     if (PtInRect(&rc, pt)) {
         ClientToScreen(hWnd, &pt);
         ExDisplayContextMenu(hWnd, &pt);
-        return TRUE;
+        return EX_TRUE;
     }
-    // Return FALSE if no menu is displayed.
-    return FALSE;
+    // Return EX_FALSE if no menu is displayed.
+    return EX_FALSE;
 }
 
  BOOL WINAPI ExOnContextMenu2(ExWin hWnd, HMENU hmenuTrackPopup, int x, int y){
-	if(!hmenuTrackPopup)return FALSE;
+	if(!hmenuTrackPopup)return EX_FALSE;
 	RECT rc;                    // client area of window
     POINT pt = { x, y };        // location of mouse click
     // Get the bounding rectangle of the client area.
@@ -493,10 +493,10 @@ BOOL ExOnContextMenu(ExWin hWnd,int x, int y){
 		TrackPopupMenu(hmenuTrackPopup,
 				TPM_LEFTALIGN | TPM_RIGHTBUTTON,
 				pt.x, pt.y, 0, hWnd, NULL);
-		return TRUE;
+		return EX_TRUE;
     }
-    // Return FALSE if no menu is displayed.
-    return FALSE;
+    // Return EX_FALSE if no menu is displayed.
+    return EX_FALSE;
 }
 
 BOOL WINAPI ExDisplayContextMenu(ExWin hWnd, POINT* pt){
@@ -517,7 +517,7 @@ BOOL WINAPI ExDisplayContextMenu(ExWin hWnd, POINT* pt){
     TrackPopupMenu(hmenuTrackPopup,
             TPM_LEFTALIGN | TPM_RIGHTBUTTON,
             pt->x, pt->y, 0, hWnd, NULL);
-	return TRUE;
+	return EX_TRUE;
 }
 
 ExHandle  ExHookWndProc(int  idHook, HOOKPROC lpfn){

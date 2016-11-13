@@ -366,7 +366,7 @@ int ExAddSprite(ExSpriteBatch* batch, ExTexture* texture, const float* position,
 	glBufferSubData(GL_ARRAY_BUFFER,numDraw * sizeof(ExSprite), sizeof(ExSprite) , &batch->sprite[numDraw]);
 	batch->numDraw++;
 
-	return TRUE;
+	return EX_TRUE;
 }
 
 void ExRemoveSprite(ExSpriteBatch* spritebatch, int index){

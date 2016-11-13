@@ -83,7 +83,7 @@ ExWin ExCreateNativeWindow(int x, int y, int width, int height){
     XChangeWindowAttributes (display, window, CWOverrideRedirect, &xattr );
 
 
-	XSync(display, FALSE);
+	XSync(display, EX_FALSE);
 	return window;
 }
 
@@ -183,7 +183,7 @@ ExWin ExCreateGLWindow(int x , int y, int width, int height, void** pglx_window)
 	XFree(vi);
 	XFree(graphical_context);
 	XFreeFont(display, fontinfo);
-	XSync(display, FALSE);
+	XSync(display, EX_FALSE);
 	return window;
 }
 
@@ -350,7 +350,7 @@ int ExSetWindowIcon(ExWin window, ExHandle hIcon){
     XWMHints wm_hints = {0};
 /*    if (!(wm_hints = XAllocWMHints())) {
       fprintf(stderr, "%s: failure allocating memory", "ELT");
-      return FALSE;
+      return EX_FALSE;
     }*/
 
     Atom net_wm_icon = XInternAtom(display, "_NET_WM_ICON", False);
@@ -370,12 +370,12 @@ int ExSetWindowIcon(ExWin window, ExHandle hIcon){
     XFlush(display);
     XSetWMHints(display, window, &wm_hints);
 
-	return TRUE;
+	return EX_TRUE;
 }
 
 int ExGetWindowIcon(ExWin window){
 
-	Atom iconAtom = XInternAtom(display, "_NET_WM_ICON_NAME", FALSE);
+	Atom iconAtom = XInternAtom(display, "_NET_WM_ICON_NAME", EX_FALSE);
 	//XGetWindowProperty(display, window, iconAtom, XA_ATOM, )
     return NULL;
 }
@@ -394,8 +394,8 @@ int ExSetWindowFullScreen(ExWin window, ExBoolean flag){
     XChangeWindowAttributes(display, window, CWOverrideRedirect, &xattr);
 
     /**/
-	wmState = XInternAtom(display, "_NET_WM_STATE", FALSE);
-    fullscreen = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", FALSE);
+	wmState = XInternAtom(display, "_NET_WM_STATE", EX_FALSE);
+    fullscreen = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", EX_FALSE);
 
     /**/
     XChangeProperty(display, window,  XInternAtom(display,"_NET_WM_STATE", True), XA_ATOM, 32, PropModeReplace, &fullscreen, 1);
@@ -416,7 +416,7 @@ int ExSetWindowFullScreen(ExWin window, ExBoolean flag){
 	xev.xclient.window = window;
 	xev.xclient.message_type = wmState;
 	xev.xclient.format = 32;
-	xev.xclient.data.l[0] = (flag & TRUE) ? 1 : 0;
+	xev.xclient.data.l[0] = (flag & EX_TRUE) ? 1 : 0;
 	xev.xclient.data.l[1] = fullscreen;
 	xev.xclient.data.l[2] = screenIndex;
 	xev.xclient.data.l[3] = screenIndex;
@@ -424,7 +424,7 @@ int ExSetWindowFullScreen(ExWin window, ExBoolean flag){
 
 	XSendEvent(display,
             DefaultRootWindow(display),
-            FALSE,
+            EX_FALSE,
             SubstructureNotifyMask
 			|SubstructureRedirectMask
 			,&xev);
@@ -432,7 +432,7 @@ int ExSetWindowFullScreen(ExWin window, ExBoolean flag){
 	//	SubstructureRedirectMask | SubstructureNotifyMask, &xev);
 
 
-	return TRUE;
+	return EX_TRUE;
 }
 
 ExHandle ExGetWindowUserData(ExWin window){

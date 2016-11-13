@@ -13,7 +13,7 @@
         EX_TEXT(""),        // Command line
         NULL,               // Process handle not inheritable
         NULL,               // Thread handle not inheritable
-        FALSE,              // Set handle inheritance to FALSE
+        EX_FALSE,              // Set handle inheritance to EX_FALSE
         CREATE_NEW_PROCESS_GROUP,              // No creation flags
         NULL,               // Use parent's environment block
         NULL,               // Use parent's starting directory
@@ -21,9 +21,9 @@
         &pi )               // Pointer to PROCESS_INFORMATION structure
     ) {
 		ExDevWindowPrint(EX_TEXT("CreateProcess failed (%d).\n"));
-		return FALSE;
+		return EX_FALSE;
     }
-	return TRUE;
+	return EX_TRUE;
 
 }
 
@@ -56,7 +56,7 @@
        argv,       	// Command line
         NULL,           // Process handle not inheritable
         NULL,           // Thread handle not inheritable
-        FALSE,          // Set handle inheritance to FALSE
+        EX_FALSE,          // Set handle inheritance to EX_FALSE
         CREATE_NEW_PROCESS_GROUP,// No creation flags
         NULL,           // Use parent's environment block
         NULL,           // Use parent's starting directory
@@ -64,10 +64,10 @@
         &pi )           // Pointer to PROCESS_INFORMATION structure
     ) {
 		ExDevWindowPrint(EX_TEXT("CreateProcess failed"));
-		return FALSE;
+		return EX_FALSE;
     }
 
-	return TRUE;
+	return EX_TRUE;
 
 }
 
@@ -121,7 +121,7 @@ const char*  ExGetPlatform(void){
 		*sec = spsPwr.BatteryLifeTime;
 	if(pct)
 		*pct = spsPwr.BatteryLifePercent;
-	return TRUE;
+	return EX_TRUE;
 }
 
  void  ExGetExecutePath(ExChar* wChar, int length){
@@ -328,7 +328,7 @@ BOOL CALLBACK unsigned intWindowsProc(_In_  ExWin hwnd,_In_  LPARAM lParam){
 		*((unsigned int*)lParam) += 1;
 	//ExBoolean isVis = IsWindowVisible(hwnd);
 	//*(unsigned int*)lParam+= isVis;
-	return TRUE; 
+	return EX_TRUE; 
 }
 
 
@@ -430,7 +430,7 @@ BOOL CALLBACK unsigned intWindowsProc(_In_  ExWin hwnd,_In_  LPARAM lParam){
 #define ExOpenRegKey(hKey,directory,phKey) RegOpenKeyEx(hKey,directory,0, KEY_ALL_ACCESS, phKey)
 
  ExBoolean  ExExistRegKey(HKEY hKey, const ExChar* directory){
-	return (ExBoolean)ExOpenRegKey(hKey,directory,NULL) == ERROR_SUCCESS ? TRUE : FALSE;
+	return (ExBoolean)ExOpenRegKey(hKey,directory,NULL) == ERROR_SUCCESS ? EX_TRUE : EX_FALSE;
 }
 
  unsigned int  ExGetRegValuei(HKEY hKey, const ExChar* directory, const ExChar* cregname){

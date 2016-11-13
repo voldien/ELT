@@ -79,9 +79,9 @@ ExThread ExCreateThreadAffinity(ExThreadRoutine callback, ExHandle lpParamater, 
 ERESULT ExDetachThread(ExThread thread){
     if(pthread_detach(thread) == -1){
     	ExPrintfError(stderr, strerror(errno));
-        return FALSE;
+        return EX_FALSE;
     }
-	return TRUE;
+	return EX_TRUE;
 }
 
 
@@ -204,7 +204,7 @@ ERESULT ExSetThreadPriority(ExThread thread, unsigned int nPriority){
 ERESULT ExWaitThread(ExThread thread, int* status){
     if(pthread_join(thread, &status) < 0){
     	ExLogCritical("%s\n", strerror(errno));
-        return FALSE;
+        return EX_FALSE;
     }
 	return E_OK;
 }

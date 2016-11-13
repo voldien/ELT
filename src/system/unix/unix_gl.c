@@ -105,7 +105,7 @@ int ExChooseFBconfig(GLXFBConfig* pfbconfig){
 	XRenderPictFormat *pict_format;
 	int numfbconfigs,i;
 	unsigned int attr;
-	ExBoolean isFBConfigSet = FALSE;
+	ExBoolean isFBConfigSet = EX_FALSE;
 
 	fbconfigs = glXChooseFBConfig(display, DefaultScreen(display), pixAtt, &numfbconfigs);
 	if(fbconfigs == NULL){
@@ -327,7 +327,7 @@ void ExOpenGLResetAttributes(void){
 	ExOpenGLSetAttribute(EX_OPENGL_DEPTH_SIZE,	24);
 	ExOpenGLSetAttribute(EX_OPENGL_ALPHA_SIZE,	8);
 
-	ExOpenGLSetAttribute(EX_OPENGL_DOUBLEBUFFER,		TRUE);
+	ExOpenGLSetAttribute(EX_OPENGL_DOUBLEBUFFER,		EX_TRUE);
 
 	ExOpenGLSetAttribute(EX_OPENGL_ACCUM_RED_SIZE,		0);
 	ExOpenGLSetAttribute(EX_OPENGL_ACCUM_GREEN_SIZE,	0);
@@ -420,7 +420,7 @@ ExBoolean ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, unsigned int scr
 
 	XSendEvent(display,
             DefaultRootWindow(display),
-            FALSE,
+            EX_FALSE,
             SubstructureNotifyMask
 			|SubstructureRedirectMask
 			,&xev);
@@ -432,9 +432,9 @@ ExBoolean ExGLFullScreen(ExBoolean cdsfullscreen, ExWin window, unsigned int scr
 	resize.height = size.height;
 	resize.window = window;
 	resize.type = ResizeRequest;
-	XSendEvent(display, window, FALSE,	ResizeRedirectMask, &resize);
+	XSendEvent(display, window, EX_FALSE,	ResizeRedirectMask, &resize);
 
-	return TRUE;
+	return EX_TRUE;
 
 }
 
@@ -484,15 +484,15 @@ const ExChar* ExGetOpenGLClientExtensions(void){
 
 
 int ExIsVendorAMD(void){
-	return strstr((const char*)glXGetClientString(display, GLX_VENDOR), "AMD") ? TRUE : FALSE;
+	return strstr((const char*)glXGetClientString(display, GLX_VENDOR), "AMD") ? EX_TRUE : EX_FALSE;
 }
 
 int ExIsVendorNvidia(void){
-	return (strstr((const char*)glXGetClientString(display, GLX_VENDOR), "NVIDIA")) ? TRUE : FALSE;
+	return (strstr((const char*)glXGetClientString(display, GLX_VENDOR), "NVIDIA")) ? EX_TRUE : EX_FALSE;
 }
 
 int ExIsVendorintel(void){
-	return strstr((const char*)glXGetClientString(display, GLX_VENDOR), "INTEL") ? TRUE : FALSE;
+	return strstr((const char*)glXGetClientString(display, GLX_VENDOR), "INTEL") ? EX_TRUE : EX_FALSE;
 }
 
 ERESULT ExOpenGLSetVSync(ExBoolean enabled, ExWin window){
@@ -500,10 +500,10 @@ ERESULT ExOpenGLSetVSync(ExBoolean enabled, ExWin window){
     glXSwapintervalEXTProc glXSwapintervalEXT = (glXSwapintervalEXTProc)GL_GET_PROC((const GLubyte*)"glXSwapintervalEXT");
     if(glXSwapintervalEXT){
         glXSwapintervalEXT(display, window, enabled);
-        return TRUE;
+        return EX_TRUE;
     }
     else
-    	return FALSE;
+    	return EX_FALSE;
 }
 
 void ExSwapBuffers(ExWin surface){

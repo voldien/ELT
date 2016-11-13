@@ -224,10 +224,10 @@ unsigned int ExIsOpenGLExtensionSupported(const char* extension){
 	for(i = 0; i < n; i++){
 		const char* ext = (const char*)glGetStringi(GL_EXTENSIONS, i);
 		if(strcmp(extension, ext) == 0){
-			return TRUE;
+			return EX_TRUE;
 		}
 	}
-	return FALSE;
+	return EX_FALSE;
 	return ExIsExtensionSupported(glGetString(GL_EXTENSIONS), extension);
 }
 
@@ -256,24 +256,24 @@ unsigned int ExIsExtensionSupported(const char* extList,const char* extension){
 
 		start  = terminator;
 	}
-	return FALSE;
+	return EX_FALSE;
 }
 
 
 #ifndef EX_LINUX
 int ExIsVendorAMD(void){
 #ifndef EX_ANDROID
-	return strstr((const char*)glGetString(GL_VENDOR), "AMD") ? TRUE : FALSE;
+	return strstr((const char*)glGetString(GL_VENDOR), "AMD") ? EX_TRUE : EX_FALSE;
 #endif
 }
 int ExIsVendorNvidia(void){
 #ifndef EX_ANDROID
-	return strstr((const char*)glGetString(GL_VENDOR), "NVIDIA") ? TRUE : FALSE;
+	return strstr((const char*)glGetString(GL_VENDOR), "NVIDIA") ? EX_TRUE : EX_FALSE;
 #endif
 }
 int  ExIsVendorintel(void){
 #ifndef EX_ANDROID
-	return strstr((const char*)glGetString(GL_VENDOR), "INTEL") ? TRUE : FALSE;
+	return strstr((const char*)glGetString(GL_VENDOR), "INTEL") ? EX_TRUE : EX_FALSE;
 #endif
 }
 #endif

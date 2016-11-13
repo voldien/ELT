@@ -32,7 +32,7 @@ ExTimer ExAddTimer(unsigned int ms_interval, ExThreadRoutine callback, void* par
 	sev.sigev_signo = SIGUSR1;
 	sev.sigev_value.sival_ptr = &timerid;
 	if(timer_create(CLOCKID, &sev, &timerid) < -1)
-		return FALSE;
+		return EX_FALSE;
 
 	/* Start the timer */
 	its.it_value.tv_sec = 0;
@@ -49,9 +49,9 @@ ExTimer ExAddTimer(unsigned int ms_interval, ExThreadRoutine callback, void* par
 ExBoolean ExRemoveTimer(ExTimer timer_id){
     if(timer_delete(timer_id) < -1){
     	ExLogCritical(strerror(errno));
-        return FALSE;
+        return EX_FALSE;
     }
-	return TRUE;
+	return EX_TRUE;
 }
 
 void ExDelay(unsigned int ms){

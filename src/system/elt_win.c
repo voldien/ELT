@@ -275,7 +275,7 @@ ExWin ExCreateWindow(int x, int y, int width, int height, unsigned int flag){
 int ExIsScreenSaverEnable(void){
 #ifdef EX_WINDOWS
     if(ExIsModuleLoaded(""))
-        return TRUE;
+        return EX_TRUE;
 
     return 0;
 #elif defined(EX_LINUX)

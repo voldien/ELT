@@ -8,7 +8,7 @@ int ExCreateDirectory(const ExChar* directory){
 }
 
 ExBoolean ExIsDirectory(const ExChar* cdirectory){
-	return FALSE;
+	return EX_FALSE;
 }
 
 int ExRemoveFile(const ExChar* cfilename){

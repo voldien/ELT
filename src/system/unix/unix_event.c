@@ -130,7 +130,7 @@ static inline void private_ExDecodeEvent(ExEvent* event, XEvent msg){
 		break;
 	case LASTEvent:
 		event->event = 0;
-		//return FALSE;
+		//return EX_FALSE;
 		break;
 	default:
 		event->event |= msg.type;
@@ -149,8 +149,8 @@ int ExPollEvent(ExEvent* event){
 		XNextEvent(display, &msg);
 		private_ExDecodeEvent(event, msg);
 
-		return TRUE;
-	}else {/*XSync(display,TRUE);*/ return FALSE;}
+		return EX_TRUE;
+	}else {/*XSync(display,EX_TRUE);*/ return EX_FALSE;}
 }
 
 int ExPollWindowEvent(ExWin window, ExWindowEvent* event){
@@ -160,9 +160,9 @@ int ExPollWindowEvent(ExWin window, ExWindowEvent* event){
 		private_ExDecodeEvent(event, msg);
 	}
     else{
-    	/*XSync(display,TRUE);*/ return FALSE;
+    	/*XSync(display,EX_TRUE);*/ return EX_FALSE;
     }
-	return TRUE;
+	return EX_TRUE;
 }
 
 

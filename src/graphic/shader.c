@@ -261,7 +261,7 @@ int ExShaderCompileLog(unsigned int program, unsigned int shaderflag){
 		glGetProgramiv(program, GL_LINK_STATUS, &status);
 		glGetProgramiv(program, GL_VALIDATE_STATUS, &validate);
 		if(status == GL_TRUE && validate == GL_TRUE){
-			return TRUE;
+			return EX_TRUE;
 		}
 
 		if(status == GL_FALSE){
@@ -305,7 +305,7 @@ int ExShaderCompileLog(unsigned int program, unsigned int shaderflag){
 			break;
 	#endif
 			break;
-			default:return TRUE;
+			default:return EX_TRUE;
 		}
 	}
 
@@ -314,7 +314,7 @@ int ExShaderCompileLog(unsigned int program, unsigned int shaderflag){
 
 int ExShaderCompileLogv(unsigned int program, unsigned int shaderflag, char* log){
 
-	return TRUE;
+	return EX_TRUE;
 }
 
 

@@ -47,7 +47,7 @@ extern ELTDECLSPEC ExTimer ELTAPIENTRY ExAddTimer(unsigned int ms_interval, ExTh
 /**
  *	Remove timer thread routine.
  *
- *	@Return TRUE if successful.
+ *	@Return EX_TRUE if successful.
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExRemoveTimer(ExTimer timer_id);
 

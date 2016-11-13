@@ -236,10 +236,10 @@ int  ExGetWindowMessage(ExWin hWnd){
 	if(GetMessage(&messageHandler, hWnd, NULL, NULL)){
 		TranslateMessage(&messageHandler);
 		DispatchMessage(&messageHandler);
-		return TRUE;
+		return EX_TRUE;
 	}
 
-	return FALSE;
+	return EX_FALSE;
 }
 
 int  ExGetWindowPeekMessage(ExWin hwnd){
@@ -247,9 +247,9 @@ int  ExGetWindowPeekMessage(ExWin hwnd){
 	if(PeekMessage(&messageHandler, hwnd, 0, 0, PM_REMOVE)){
 		TranslateMessage(&messageHandler);
 		DispatchMessage(&messageHandler);
-		return TRUE;
+		return EX_TRUE;
 	}
-	return FALSE;
+	return EX_FALSE;
 }
 
 int  ExMessageBox(ExWin window, const ExChar* text, const ExChar* title,  unsigned int flags ){

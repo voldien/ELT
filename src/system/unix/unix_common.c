@@ -143,7 +143,7 @@ int ExGetScreenSizes(unsigned int index, unsigned int* num, ExSize*sizes){
 	 XRRFreeOutputInfo (info);
 	 XRRFreeScreenResources(screen);
 
-	return TRUE;
+	return EX_TRUE;
 }
 
 

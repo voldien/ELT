@@ -79,7 +79,7 @@ ERESULT ExResizeSurface(ExSurface surface, unsigned int width, unsigned height){
 		((XImage*)surface)->height = height;
 	}
 
-	return FALSE;
+	return EX_FALSE;
 }
 
 
@@ -92,7 +92,7 @@ ERESULT ExGetSurfaceRect(ExSurface surface, ExRect* rect){
 	rect->y = ((XImage*)surface)->xoffset;
 	rect->width = ((XImage*)surface)->width;
 	rect->height = ((XImage*)surface)->height;
-	return TRUE;
+	return EX_TRUE;
 }
 
 

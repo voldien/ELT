@@ -30,11 +30,11 @@ extern "C"{
 #endif
 
 
-#ifndef TRUE
-#	define TRUE 1
+#ifndef EX_TRUE
+#	define EX_TRUE 1
 #endif
-#ifndef FALSE
-#	define FALSE 0
+#ifndef EX_FALSE
+#	define EX_FALSE 0
 #endif
 
 

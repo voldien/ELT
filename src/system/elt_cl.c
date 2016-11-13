@@ -98,7 +98,7 @@ ExBoolean ExIsOpenCLSupported(void){
 		pclGetPlatformIDs = ExLoadFunction(cl_libhandle, "clGetPlatformIDs");
 
 		if(clGetPlatformIDs == NULL){
-			return FALSE;
+			return EX_FALSE;
 		}
 
 		//ciErrNum = clGetPlatformIDs (NULL, NULL, &num_platforms);
@@ -136,8 +136,8 @@ ExOpenCLContext ExCreateCLContext(unsigned int flag, unsigned int platform){
     private_loadOpenClLibrary();
 
     /*	check argument */
-    cpuContext = flag & EX_CL_CPU0 ? TRUE : FALSE;
-    gpuContext = flag & EX_CL_GPU0 ? TRUE : FALSE;
+    cpuContext = flag & EX_CL_CPU0 ? EX_TRUE : EX_FALSE;
+    gpuContext = flag & EX_CL_GPU0 ? EX_TRUE : EX_FALSE;
 
     if(cpuContext && gpuContext){
     	ExSetError(E_INVALID_ARGUMENT);
@@ -494,7 +494,7 @@ int ExGetCLPlatformID(int* clSelectedPlatformID, unsigned int* num, unsigned int
 		}
 
 	}
-	return FALSE;
+	return EX_FALSE;
 }
 
 int ExGetOpenCLVersion(ExOpenCLContext context){
@@ -653,7 +653,7 @@ void ExPrintCLDevInfo(int iLogMode, ExHandle p_cl_device_id){
     if(!p_cl_device_id)
         return;
     char device_string[1024];
-    int nv_device_attibute_query = FALSE;
+    int nv_device_attibute_query = EX_FALSE;
 	cl_device_id device = *(cl_device_id*)p_cl_device_id;
     // CL_DEVICE_NAME
     clGetDeviceInfo(device, CL_DEVICE_NAME, sizeof(device_string), &device_string, NULL);
@@ -880,7 +880,7 @@ void ExPrintCLDevInfo(int iLogMode, ExHandle p_cl_device_id){
 
 int ExGetClDevCap(void* device){
     char cDevString[1024];
-    int bDevAttributeQuery = FALSE;
+    int bDevAttributeQuery = EX_FALSE;
     int iDevArch = -1;
 	cl_int iComputeCapMajor, iComputeCapMinor;
 

@@ -47,7 +47,7 @@ int pixAtt[] = {
 	WGL_STEREO_ARB,0,
 	WGL_SAMPLE_BUFFERS_ARB,0,
 	WGL_SAMPLES_ARB,0,
-	WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB,TRUE,
+	WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB,EX_TRUE,
 	NULL,
 	WGL_CONTEXT_MAJOR_VERSION_ARB,3,
 	WGL_CONTEXT_MINOR_VERSION_ARB, 3,
@@ -562,7 +562,7 @@ DECLSPEC void  ExInitExtension(ExWin hWnd,WindowContext deviContext,HGLRC hr){
 	int cdsRet;
 
 	if(!window)
-		return FALSE;
+		return EX_FALSE;
 	// going for fullscreen.
 	if(cdsfullscreen){
 		// Get Window Rect
@@ -628,11 +628,11 @@ void ExSetGLTransparent(ExWin window,unsigned int iunsigned int){
 	// cheap way of creating the effect.
 	bb.hRgnBlur = CreateRectRgn(0,0,1,1);
 	bb.dwFlags = DWM_BB_ENABLE | DWM_BB_BLURREGION | DWM_BB_TRANSITIONONMAXIMIZED;
-	bb.fTransitionOnMaximized = TRUE;
+	bb.fTransitionOnMaximized = EX_TRUE;
 	if(iunsigned int & 0x1)
-		bb.fEnable = TRUE;
+		bb.fEnable = EX_TRUE;
 	else
-		bb.fEnable = FALSE;
+		bb.fEnable = EX_FALSE;
 	hr = DwmEnableBlurBehindWindow(window, &bb);
 }
 
@@ -717,10 +717,10 @@ ERESULT ExOpenGLSetVSync(ExBoolean enabled, ExWin window){
 	WGLSWAPINTERVALEXT_T wglSwapintervalEXT = (WGLSWAPINTERVALEXT_T)GL_GET_PROC("wglSwapintervalEXT");
     if(wglSwapintervalEXT){
         glXSwapintervalEXT( enabled);
-        return TRUE;
+        return EX_TRUE;
     }
     else
-    	return FALSE;
+    	return EX_FALSE;
 }
 
 
