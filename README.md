@@ -1,1 +1,6 @@
-ELT (Engine Library Toolkit)
+# ELT #
+-----
+ELT - engine library toolkit.
+
+## Installation ##
+---
