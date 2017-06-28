@@ -1,6 +1,6 @@
 # ELT #
 -----
-ELT - engine library toolkit.
+ELT - engine library toolkit. This is a core library for developing game engines for cross platform support. 
 
 ## Motivation
 ----
