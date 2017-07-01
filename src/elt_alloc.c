@@ -55,79 +55,56 @@ void* ExPoolObtain(ExPoolAllocator* allactor){
 	return tmp;
 }
 
-void* ExPoolReturn(ExPoolAllocator* allactor, void* data){
+void* ExPoolReturn(ExPoolAllocator* allactor, void* data) {
 	ExPoolAllocator* tmp;
-	tmp = (data - (void*)allactor ) + sizeof(ExPoolAllocator);
+	tmp = (data - (void*) allactor) + sizeof(ExPoolAllocator);
 	tmp->next = allactor->next;
 	allactor->next = tmp;
 
 	return tmp;
 }
 
-ExPoolAllocator* ExPoolResize(ExPoolAllocator* allcotor, unsigned num, unsigned int itemsize){
+ExPoolAllocator* ExPoolResize(ExPoolAllocator* allcotor, unsigned num,
+		unsigned int itemsize) {
 	ExPoolAllocator* next;
 	ExPoolAllocator* terminate = allcotor->next;
 
-
 	/*	get the last pool*/
-	while(terminate->next){
+	while (terminate->next) {
 		terminate = terminate->next;
 	}
 	terminate = terminate->next;
 
-
 	next = allcotor->next;
 
-	allcotor->next = realloc(allcotor->next,num * itemsize);
-	if(!allcotor->next){
+	allcotor->next = realloc(allcotor->next, num * itemsize);
+	if (!allcotor->next) {
 
-	}
-	else{
+	} else {
 
 	}
 
 	return allcotor;
 }
 
-void ExPoolFree(ExPoolAllocator* allactor){
+void ExPoolFree(ExPoolAllocator* allactor) {
 	free(allactor);
 }
 
-
-
-ExList* ExCreateDoubleList(ExList* list, unsigned int num, unsigned int itemsize){
+ExList* ExCreateDoubleList(ExList* list, unsigned int num,
+		unsigned int itemsize) {
 	int x;
-	if(list == NULL)
+	if (list == NULL)
 		return NULL;
 
 	void* p;
 	void* n;
 
+	list = (ExList*) realloc(list, num * (itemsize + sizeof(ExList)));
 
-	list = (ExList*)realloc(list, num * ( itemsize + sizeof(ExList) ));
-
-
-	for(x = 0; x < num; x++){
-		list->next = (void*)list + itemsize;
+	for (x = 0; x < num; x++) {
+		list->next = (void*) list + itemsize;
 	}
 
 	return list;
-}
-
-
-
-
-
-
-
-ExQuadTree* ExCreateQuadTree(ExQuadTree* quad, unsigned int depth, unsigned int itemsize){
-	unsigned int numnode = 1;
-	if(quad == NULL)
-		return NULL;
-
-	numnode = ( pow(4, depth) - 1) / 3;
-
-	quad = malloc( itemsize * numnode );
-
-	return quad;
 }
