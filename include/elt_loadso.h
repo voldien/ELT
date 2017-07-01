@@ -1,41 +1,29 @@
 /**
-    ELT (Engine Library Toolkit) is a multi platform engine toolkit
-    Copyright (C) 2014  Valdemar Lindberg
+ ELT (Engine Library Toolkit) is a multi platform engine toolkit
+ Copyright (C) 2014  Valdemar Lindberg
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-*/
+ */
 #ifndef _ELT_LOADSO_H_
 #define _ELT_LOADSO_H_ 1
 #include"system/elt_win.h"
 
 #ifdef __cplusplus	/*	C++ Environment	*/
-extern "C"{
+extern "C" {
 #endif
 
-
-/*
- *
- *	@Return
- */
-extern ELTDECLSPEC int ELTAPIENTRY ExLoadNumSymbol(ExHandle handle);
-
-/*
- *
- *	@Return
- */
-extern ELTDECLSPEC ExChar* ELTAPIENTRY ExLoadSymbol(ExHandle handle, int index, char* symbol, int len);
 
 /**
  *	Load function from handle.
@@ -69,16 +57,13 @@ extern ELTDECLSPEC void ELTAPIENTRY ExUnLoadObject(ExHandle handle);
  */
 extern ELTDECLSPEC ExHandle ELTAPIENTRY ExIsModuleLoaded(const ExChar* file);
 
-/*	TODO check if ExLoadLibrary should be an individul library for binding with the application depdencnt symbol table. */
 /**
- *    Is Module Loaded
+ *	Is Module Loaded
+ *
+ *	@Return
  */
 #define ExGetFileModule ExIsModuleLoaded
 
-/**
- *    Load Object
- */
-#define ExLoadLibrary ExLoadObject
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 }

@@ -497,7 +497,7 @@ int ExGetCLPlatformID(int* clSelectedPlatformID, unsigned int* num, unsigned int
 	return EX_FALSE;
 }
 
-int ExGetOpenCLVersion(ExOpenCLContext context){
+int ExGetOpenCLVersion(ExOpenCLContext context) {
 	char buf[1024];
 	int nbufret;
 	cl_device_id devices[32];

@@ -48,15 +48,9 @@ extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetCPUArch(void);
 extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetEndian(void);
 
 /**
- *	Get the name of the CPU.
  *	@Return
  */
 extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetCPUName(void);
-
-/**
- *	@Return
- */
-extern ELTDECLSPEC int ELTAPIENTRY ExGetFrequence(void);
 
 /**
  *	Has CPU Support For AVX (Advanced Vector Extension)

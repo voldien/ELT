@@ -156,39 +156,11 @@ typedef struct ex_list{
  *
  *	@Return
  */
-extern ELTDECLSPEC ExList* ELTAPIENTRY ExCreateDoubleList(ExList* list, unsigned int num, unsigned int itemsize);
+extern ELTDECLSPEC ExList* ELTAPIENTRY ExCreateDoubleList(ExList* list,
+		unsigned int num, unsigned int itemsize);
 
 
-typedef struct ex_quad_tree{
-	struct ex_quad_tree* t0;
-	struct ex_quad_tree* t1;
-	struct ex_quad_tree* t2;
-	struct ex_quad_tree* t3;
-	void* data[];
-}ExQuadTree;
-
-
-/**
- *
- *	@Return
- */
-extern ELTDECLSPEC ExQuadTree* ELTAPIENTRY ExCreateQuadTree(ExQuadTree* list, unsigned int depth, unsigned int itemsize);
-
-
-
-typedef struct ex_octree_tree{
-	struct ex_octree_tree* t0[8];
-}ExOctreTree;
-
-/**
- *
- *	@Return
- */
-extern ELTDECLSPEC ExQuadTree* ELTAPIENTRY ExCreateOcTree(ExList* list, unsigned int depth, unsigned int itemsize);
-
-
-
-typedef struct ex_queue{
+typedef struct ex_queue {
 	int x;
 }ExQueue;
 
@@ -205,8 +177,6 @@ typedef struct ex_hash_table{
 	unsigned int k;
 }ExHashTable;
 
-/**/
-extern ELTDECLSPEC ExQuadTree* ELTAPIENTRY ExCreateHashTable(ExList* list, unsigned int depth, unsigned int itemsize);
 
 #ifdef __cplusplus
 }

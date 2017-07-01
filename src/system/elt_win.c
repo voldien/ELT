@@ -72,26 +72,7 @@ ExChar* ExGetDefaultWindowTitle(ExChar* text, int length){
 	return text;
 }
 
-static void* private_CreateELTIcon(ExWin window){
-	if(!window)
-		return NULL;
-
-    #ifdef EX_WINDOWS
-    HANDLE icon;
-    icon = CreateIcon(GetModuleHandle(NULL), GetSystemMetrics(SM_CXICON),GetSystemMetrics(SM_CYICON),1,1,0,0);
-    ExSetWindowIcon(window,icon);
-    #elif defined(EX_LINUX)
-    //http://www.sbin.org/doc/Xlib/chapt_03.html
-    Pixmap icon;
-
-	//icon_pixmap = XCreateBitmapFromData(display, window, ELT_ICON,128,128);
-    icon = XCreateBitmapFromData(display, window, ELT_ICON, 128,128);
-    //icon_pixmap = XCreatePixmapFromBitmapData(display, window, ELT_ICON, 128,128,0x1,0x0,1);
-    return icon;
-    #endif
-}
-
-ExWin ExCreateWindow(int x, int y, int width, int height, unsigned int flag){
+ExWin ExCreateWindow(int x, int y, int width, int height, unsigned int flag) {
 	ExWin window = NULL;
 	ExOpenGLContext glc = NULL;
 	ExOpenCLContext clc = NULL;
@@ -267,22 +248,4 @@ ExWin ExCreateWindow(int x, int y, int width, int height, unsigned int flag){
     ExGetDefaultWindowTitle(title, sizeof(title) / sizeof(title[0]));
 	ExSetWindowTitle(window, title);
 	return window;
-}
-
-
-
-
-int ExIsScreenSaverEnable(void){
-#ifdef EX_WINDOWS
-    if(ExIsModuleLoaded(""))
-        return EX_TRUE;
-
-    return 0;
-#elif defined(EX_LINUX)
-    int dummy;
-   // if(DPMSQueryExtension(display,&dummy,&dummy)){
-
-    //}
-    return 0;
-#endif
 }

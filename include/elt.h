@@ -53,8 +53,8 @@ extern "C"{
  *
  *	@Return
  */
-extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInit(unsigned int flag);	/*TODO perhaps add argc,argv*/
-extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInit2(unsigned int flag, int argc, const ExChar* argv);
+extern ELTDECLSPEC ERESULT ELTAPIENTRY ExInit(unsigned int flag);
+
 
 /**
  *	Initialize specific subsystems.
@@ -83,26 +83,6 @@ extern ELTDECLSPEC void ELTAPIENTRY ExQuitSubSytem(unsigned int flag);
  *	@Return
  */
 extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetFlag(void);
-
-/**
- *	Enable.
- */
-extern ELTDECLSPEC void ELTAPIENTRY ExEnable(unsigned int enable);
-
-/**
- *	Disable.
- */
-extern ELTDECLSPEC void ELTAPIENTRY ExDisable(unsigned int disable);
-
-/**
- *	Create interrupt event.
- *
- *	TODO put ExCreateinterrupt somewhere else!
- *
- *	@Return
- */
-extern ELTDECLSPEC int ELTAPIENTRY ExCreateinterrupt(ex_interrupt_routine callback, unsigned int type);
-
 
 /**
  *	Get ELT Version.
