@@ -44,24 +44,15 @@ revision.h
 #	CMake
 CMakeCache.txt
 CMakeFiles
+CMakeScripts
+Makefile
 cmake_install.cmake
-cmake_uninstall.cmake
-*.dir/
-assimp-config.cmake
-assimp-config-version.cmake
+install_manifest.txt
+CTestTestfile.cmake
 
 
 #
 *~
-
-main	# sample binary files
-#
-build
-Proj
-port/android/obj
-port/android/libs
-*.tar.*
-
 
 # log file from ELT
 EngineExDevLog.txt
