@@ -64,10 +64,12 @@ extern ELTDECLSPEC unsigned long int ELTAPIENTRY ExGetProcessSystemMemory(void);
  *	@Return
  */
 extern ELTDECLSPEC unsigned long int ELTAPIENTRY ExGetTotalVirtualMemory(void);
+
+/**
+ *
+ *	@Return
+ */
 extern ELTDECLSPEC unsigned long int ELTAPIENTRY ExGetTotalUsedVirtualMemory(void);
-
-
-
 
 
 /*	TODO move to a header with data structure!	*/
@@ -130,52 +132,6 @@ extern ELTDECLSPEC void ELTAPIENTRY ExPoolFree(ExPoolAllocator* allocator);
  *	@Return
  */
 #define ExPoolDataIndex(alloc, data, len)	((data - alloc)
-
-
-
-typedef struct ex_list{
-	/*
-	 *
-	 */
-	struct ex_list* next;
-
-	/*
-	 *
-	 */
-	struct ex_list* previous;
-
-	/**
-	 *
-	 */
-	void* data[];
-
-}ExList;
-
-/**
- *	Create double linked list.
- *
- *	@Return
- */
-extern ELTDECLSPEC ExList* ELTAPIENTRY ExCreateDoubleList(ExList* list,
-		unsigned int num, unsigned int itemsize);
-
-
-typedef struct ex_queue {
-	int x;
-}ExQueue;
-
-/**
- *	Create queue data structure.
- *
- *	@Return
- */
-extern ELTDECLSPEC ExQuadTree* ELTAPIENTRY ExCreateQueue(ExList* list, unsigned int depth, unsigned int itemsize);
-
-
-typedef struct ex_hash_table{
-	unsigned int num;
-	unsigned int k;
-}ExHashTable;
 
 
 #ifdef __cplusplus
