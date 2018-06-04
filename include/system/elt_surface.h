@@ -1,21 +1,21 @@
 /**
-    ELT (Engine Library Toolkit) is a multi platform engine toolkit
-    Copyright (C) 2014  Valdemar Lindberg
+	ELT (Engine Library Toolkit) is a cross platform engine toolkit
+	Copyright (C) 2014  Valdemar Lindberg
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-*/
+ */
 #ifndef _ELT_SURFACE_H_
 #define _ELT_SURFACE_H_ 1
 #include"elt_win.h"
@@ -23,7 +23,7 @@
 #include"../ExNT.h"
 
 #ifdef __cplusplus	/*	C++ Environment	*/
-extern "C"{
+extern "C" {
 #endif
 
 #define EX_RGB_COLOR(r,g,b)	(r << 24) | (g << 16) | (b << 8)
@@ -34,13 +34,13 @@ extern "C"{
 
 typedef void* ExSurface;
 
-
 /**
  *	Create Surface.
  *
  *	@Return
  */
-extern ELTDECLSPEC ExSurface ELTAPIENTRY ExCreateSurface(unsigned int width, unsigned height, unsigned int format);
+extern ELTDECLSPEC ExSurface ELTAPIENTRY ExCreateSurface(unsigned int width,
+		unsigned height, unsigned int format);
 
 /**
  *	release surface.
@@ -53,33 +53,36 @@ extern ELTDECLSPEC int ELTAPIFASTENTRY ExDestroySurface(ExSurface handle);
  *	Set surface on window.
  *
  */
-extern ELTDECLSPEC void ELTAPIFASTENTRY ExDisplaySurfaceToWindow(ExWin window, ExSurface surface);
+extern ELTDECLSPEC void ELTAPIFASTENTRY ExDisplaySurfaceToWindow(ExWin window,
+		ExSurface surface);
 
 /**
  *	Resize surface handle
  *
  *	@Return
  */
-extern ELTDECLSPEC ERESULT ELTAPIENTRY ExResizeSurface(ExSurface handle, unsigned int width, unsigned height);
+extern ELTDECLSPEC ERESULT ELTAPIENTRY ExResizeSurface(ExSurface handle,
+		unsigned int width, unsigned height);
 
 /*
  *
  *	@Return
  */
-extern ELTDECLSPEC ERESULT ELTAPIENTRY ExGetSurfaceRect(ExSurface surface, ExRect* rect);
+extern ELTDECLSPEC ERESULT ELTAPIENTRY ExGetSurfaceRect(ExSurface surface,
+		ExRect* rect);
 
 /*
  *	Set surface window
  *	@Return
  */
-extern ELTDECLSPEC int ELTAPIENTRY ExSetSurfacePixel(ExSurface handle, unsigned int x, unsigned int y, unsigned long pixel);
-
-
+extern ELTDECLSPEC int ELTAPIENTRY ExSetSurfacePixel(ExSurface handle,
+		unsigned int x, unsigned int y, unsigned long pixel);
 
 /*
  *	Set fill color..
  */
-extern ELTDECLSPEC void ELTAPIENTRY ExFillRect(ExSurface handle, ExRect* rect, unsigned int color);
+extern ELTDECLSPEC void ELTAPIENTRY ExFillRect(ExSurface handle, ExRect* rect,
+		unsigned int color);
 
 /**
  *

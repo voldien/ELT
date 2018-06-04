@@ -1,21 +1,21 @@
 /**
-    ELT (Engine Library Toolkit) is a multi platform engine toolkit
-    Copyright (C) 2014  Valdemar Lindberg
+	ELT (Engine Library Toolkit) is a cross platform engine toolkit
+	Copyright (C) 2014  Valdemar Lindberg
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-*/
+ */
 #ifndef _ELT_NET_H_
 #define _ELT_NET_H_ 1
 #include"../system.h"
@@ -25,7 +25,7 @@
  */
 typedef signed int ExSocket;
 
-/*
+/**
  *
  */
 #define EX_CLIENT 	0x1  		/*  Client socket*/
@@ -41,7 +41,6 @@ typedef signed int ExSocket;
 extern "C" {
 #endif
 
-
 /**
  *	Open socket
  *
@@ -50,7 +49,7 @@ extern "C" {
  *	\protocol
  *
  *	@Return
-*/
+ */
 extern ELTDECLSPEC ExSocket ELTAPIENTRY ExOpenSocket(unsigned int protocol);
 
 /**
@@ -64,7 +63,8 @@ extern ELTDECLSPEC ExSocket ELTAPIENTRY ExOpenSocket(unsigned int protocol);
  *
  * 	@Return
  */
-extern ELTDECLSPEC ExSocket ELTAPIENTRY ExCreateSocket(unsigned int domain, unsigned int style, unsigned int protocal);
+extern ELTDECLSPEC ExSocket ELTAPIENTRY ExCreateSocket(unsigned int domain,
+		unsigned int style, unsigned int protocal);
 
 /**
  *	Close socket
@@ -72,7 +72,7 @@ extern ELTDECLSPEC ExSocket ELTAPIENTRY ExCreateSocket(unsigned int domain, unsi
  *	\socket The socket to close.
  *
  *	@Return
-*/
+ */
 extern ELTDECLSPEC unsigned int ELTAPIFASTENTRY ExCloseSocket(ExSocket socket);
 
 /**
@@ -86,7 +86,8 @@ extern ELTDECLSPEC unsigned int ELTAPIFASTENTRY ExCloseSocket(ExSocket socket);
  *
  *	@Return
  */
-extern ELTDECLSPEC ExSocket ELTAPIENTRY ExBindSocket(const ExChar* ip, unsigned int port, ExSocket socket);
+extern ELTDECLSPEC ExSocket ELTAPIENTRY ExBindSocket(const ExChar* ip,
+		unsigned int port, ExSocket socket);
 
 /**
  *	Connect to socket
@@ -97,25 +98,28 @@ extern ELTDECLSPEC ExSocket ELTAPIENTRY ExBindSocket(const ExChar* ip, unsigned 
  *
  *	@Return non negative socket file descriptor if successfully.
  */
-extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnect(const ExChar* ip, unsigned int port);
+extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnect(const ExChar* ip,
+		unsigned int port);
 
 /**
  *
  *	@Return
  */
-extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(ExSocket socket, const ExChar* ip, unsigned int port);
+extern ELTDECLSPEC ExSocket ELTAPIENTRY ExConnectSocket(ExSocket socket,
+		const ExChar* ip, unsigned int port);
 
 /**
  *
  */
-extern ELTDECLSPEC int ELTAPIENTRY ExSetSocketOption(ExSocket socket, unsigned int level, unsigned int option, void* pvalue, unsigned int optlen);
+extern ELTDECLSPEC int ELTAPIENTRY ExSetSocketOption(ExSocket socket,
+		unsigned int level, unsigned int option, void* pvalue,
+		unsigned int optlen);
 
 /**/
-extern ELTDECLSPEC ExSocket ELTAPIENTRY ExSetSocketSendTimeOut(ExSocket socket, long int nanosec);
-extern ELTDECLSPEC ExSocket ELTAPIENTRY ExSetSocketRecvTimeOut(ExSocket socket, long int nanosec);
-
-
-
+extern ELTDECLSPEC ExSocket ELTAPIENTRY ExSetSocketSendTimeOut(ExSocket socket,
+		long int nanosec);
+extern ELTDECLSPEC ExSocket ELTAPIENTRY ExSetSocketRecvTimeOut(ExSocket socket,
+		long int nanosec);
 
 /**
  *    Listen
@@ -134,9 +138,9 @@ extern ELTDECLSPEC void ELTAPIENTRY ExListen(ExSocket socket, unsigned int n);
  *	@Return
  */
 #ifdef EX_LINUX
-	#define ExReadSocket read
+#define ExReadSocket read
 #elif defined(EX_WINDOWS)
-	#define ExReadSocket recive
+#define ExReadSocket recive
 #endif
 
 /**
@@ -147,19 +151,19 @@ extern ELTDECLSPEC void ELTAPIENTRY ExListen(ExSocket socket, unsigned int n);
  *	@Return
  */
 #ifdef EX_LINUX
-	#define ExWriteSocket send
+#define ExWriteSocket send
 #elif defined(EX_WINDOWS)
-	#define ExWriteSocket send
+#define ExWriteSocket send
 #endif
-
 
 /**
  *
  *	@Return
  */
-extern ELTDECLSPEC long int ELTAPIENTRY ExRecvFrom(ExSocket socket, void* buffer, int len, unsigned int flags, ExSocket* from, int* fromlen);
-extern ELTDECLSPEC long int ELTAPIENTRY ExSendTo(ExSocket socket, void* buffer, int len,  unsigned int flags, ExSocket* to, int tolen);
-
+extern ELTDECLSPEC long int ELTAPIENTRY ExRecvFrom(ExSocket socket,
+		void* buffer, int len, unsigned int flags, ExSocket* from, int* fromlen);
+extern ELTDECLSPEC long int ELTAPIENTRY ExSendTo(ExSocket socket, void* buffer,
+		int len, unsigned int flags, ExSocket* to, int tolen);
 
 /**
  *
@@ -171,17 +175,18 @@ extern ELTDECLSPEC long int ExBroadcast(ExSocket socket, void* buffer, int len);
  *
  * @Return
  */
-extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetHostName(const ExChar* hostname);
+extern ELTDECLSPEC const ExChar* ELTAPIENTRY ExGetHostName(
+		const ExChar* hostname);
 
 /**
  *
  *	@Return
  */
-extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetinterfaceAddr(const ExChar* interface, ExChar* addr, unsigned int len);
+extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetinterfaceAddr(
+		const ExChar* interface, ExChar* addr, unsigned int len);
 
 #ifdef  __cplusplus	/* C++ Environment */
 }
 #endif
-
 
 #endif

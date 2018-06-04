@@ -28,3 +28,13 @@ void ExUpdateCharacterController(CameraController* charactercontroller){
 	}
 
 }
+
+
+ExWin createOpenglWindow(void){
+	ExSize size;
+	ExWin window;
+	ExGetPrimaryScreenSize(&size);
+	window = ExCreateWindow(size.width / 4, size.height / 4, size.width / 2, size.height / 2, EX_OPENGL);
+	ExShowWindow(window);
+	return window;
+}

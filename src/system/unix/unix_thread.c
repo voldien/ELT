@@ -25,29 +25,30 @@
 /*	TODO resolve the evaluate of the implementation.	*/
 #define SIGNAL_MASK_ID_KEY 0xfff
 
-
-ExThread ExCreateThread(ExThreadRoutine callback, void* lpParamater, unsigned int* pid){
+ExThread ExCreateThread(ExThreadRoutine callback, void* lpParamater,
+		unsigned int* pid) {
 	pthread_t t0;
-    pthread_attr_t attr;
-    sigset_t mask;
-    int mpid;
+	pthread_attr_t attr;
+	sigset_t mask;
+	int mpid;
 
-    pthread_attr_init(&attr);
-    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+	pthread_attr_init(&attr);
+	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
-    /**/
-	if((mpid = pthread_create(&t0, &attr, callback, lpParamater)) == -1){
+	/**/
+	if ((mpid = pthread_create(&t0, &attr, callback, lpParamater)) == -1) {
 		ExPrintfError(strerror(errno));
 	}
 
 	/**/
 	pthread_attr_destroy(&attr);
-	if(pid)//TODO
+	if (pid) //TODO
 		*pid = mpid;
 	return t0;
 }
 
-ExThread ExCreateThreadAffinity(ExThreadRoutine callback, ExHandle lpParamater, unsigned int* pid, int ncore){
+ExThread ExCreateThreadAffinity(ExThreadRoutine callback, ExHandle lpParamater,
+		unsigned int* pid, int ncore) {
 	pthread_t t0;
 	pthread_attr_t attr;
 	int mpid;
@@ -57,65 +58,46 @@ ExThread ExCreateThreadAffinity(ExThreadRoutine callback, ExHandle lpParamater, 
 	pthread_attr_init(&attr);
 #if !defined(EX_ANDROID) && !defined(EX_PNACL) && !defined(EX_NACL)      /*  Android don't seem to support */
 	CPU_ZERO(&cpus);
-	CPU_SET(ncore,&cpus);
+	CPU_SET(ncore, &cpus);
 
-	pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t),&cpus);
+	pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &cpus);
 #endif
 
-	if((mpid = pthread_create(&t0, &attr, callback, lpParamater)) == -1){
+	if ((mpid = pthread_create(&t0, &attr, callback, lpParamater)) == -1) {
 		ExPrintfError(stderr, strerror(errno));
 	}
 
 	/**/
 	pthread_attr_destroy(&attr);
 
-	if(pid){//TODO
+	if (pid) { //TODO
 		*pid = mpid;
 	}
 	return t0;
 }
 
-
-ERESULT ExDetachThread(ExThread thread){
-    if(pthread_detach(thread) == -1){
-    	ExPrintfError(stderr, strerror(errno));
-        return EX_FALSE;
-    }
+ERESULT ExDetachThread(ExThread thread) {
+	if (pthread_detach(thread) == -1) {
+		ExPrintfError(stderr, strerror(errno));
+		return EX_FALSE;
+	}
 	return EX_TRUE;
 }
 
-
-void ExTerminateThread(ExThread thread){
+void ExTerminateThread(ExThread thread) {
 	pthread_cancel(thread);
 }
 
-
-void ExThreadExit(void* __retval){
+void ExThreadExit(void* __retval) {
 	pthread_exit(__retval);
 }
 
 
-void ExSuspendThread(ExThread thread){
-	//pthread_suspend_np(thread);
-	ExLockMutex(NULL);
-	//m_suspendFlag = 1;
-	ExUnLockMutex(NULL);
-}
-
-void ExResumeThread(ExThread thread){
-	ExLockMutex(NULL);
-	//m_suspendflag = 0;
-	//ExThreadCondBroadcast(NULL);
-	ExUnLockMutex(NULL);
-
-}
-
-void ExSetThreadSignal(ExThread thread, unsigned int signal){
+void ExSetThreadSignal(ExThread thread, unsigned int signal) {
 	pthread_kill(thread, signal);
 }
 
-
-unsigned int ExGetThreadSignal(ExThread thread){
+unsigned int ExGetThreadSignal(ExThread thread) {
 //	int signal;
 //	sigset_t* set = pthread_getspecific(SIGNAL_MASK_ID_KEY);
 //	if(sigwait(set, &signal) != 0){
@@ -124,25 +106,11 @@ unsigned int ExGetThreadSignal(ExThread thread){
 //	return signal;
 }
 
-
-
-
-
-ExThread ExGetCurrentThread(void){
-    return pthread_self();
+ExThread ExGetCurrentThread(void) {
+	return pthread_self();
 }
 
-
-
-
-
-
-
-
-
-
-
-unsigned int ExGetThreadID(ExThread thread){
+unsigned int ExGetThreadID(ExThread thread) {
 	//pthread_id_np_t tid;
 	//pthread_getunique_np(thread, &tid);
 	//return tid;
@@ -150,32 +118,33 @@ unsigned int ExGetThreadID(ExThread thread){
 
 
 #define MAX_THREAD_NAME 16
-const ExChar* ExGetThreadName(ExThread thread){
+const ExChar* ExGetThreadName(ExThread thread) {
 	char name[MAX_THREAD_NAME];
 	pthread_getname_np(thread, name, sizeof(name));
 	return name;
 }
 
-void ExSetThreadName(ExThread thread, const ExChar* name){
+void ExSetThreadName(ExThread thread, const ExChar* name) {
 	int status;
 
-	if(strlen(name) > MAX_THREAD_NAME - 1){
+	if (strlen(name) > MAX_THREAD_NAME - 1) {
 
 	}
 	status = pthread_setname_np(thread, name);
-	if(status == ERANGE){
+	if (status == ERANGE) {
 		ExLogCritical("%s\n", strerror(errno));
 	}
 }
 
-ERESULT ExSetThreadPriority(ExThread thread, unsigned int nPriority){
+
+ERESULT ExSetThreadPriority(ExThread thread, unsigned int nPriority) {
 	struct sched_param sch;
 	int policy;
-	if(pthread_getschedparam(thread, &policy, &sch) < 0){
+	if (pthread_getschedparam(thread, &policy, &sch) < 0) {
 
 	}
 
-	switch(nPriority){
+	switch (nPriority) {
 		case EX_THREAD_PRIORITY_LOW:
 			sch.__sched_priority = sched_get_priority_min(&policy);
 			pthread_setschedprio(thread, 2);
@@ -188,35 +157,29 @@ ERESULT ExSetThreadPriority(ExThread thread, unsigned int nPriority){
 			sch.__sched_priority = sched_get_priority_max(&policy);
 			pthread_setschedprio(thread, 0);
 			break;
-		default:{
+		default: {
 			int max_prio = sched_get_priority_max(policy);
 			int min_prio = sched_get_priority_min(policy);
 			sch.__sched_priority = (min_prio + (max_prio - min_prio) * 0.5);
 		}
 	}
 
-	if(pthread_setschedparam(thread, policy, &sch) < 0){
+	if (pthread_setschedparam(thread, policy, &sch) < 0) {
 		ExLogCritical("%s\n", strerror(errno));
 	}
 	return E_OK;
 }
 
-ERESULT ExWaitThread(ExThread thread, int* status){
-    if(pthread_join(thread, &status) < 0){
-    	ExLogCritical("%s\n", strerror(errno));
-        return EX_FALSE;
-    }
+ERESULT ExWaitThread(ExThread thread, int* status) {
+	if (pthread_join(thread, &status) < 0) {
+		ExLogCritical("%s\n", strerror(errno));
+		return EX_FALSE;
+	}
 	return E_OK;
 }
 
-
-
-int ExGetCPUID(void){
+int ExGetCPUID(void) {
 	unsigned int c;
 	return sched_getcpu();
 }
-
-
-
-
 

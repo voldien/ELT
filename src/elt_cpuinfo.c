@@ -1,7 +1,8 @@
-#include"elt_cpuinfo.h"
+#include <elt_cpuinfo.h>
+#include <ExNT.h>
 
 #if defined(EX_X86_64) || defined(EX_X86)
-	#include<immintrin.h>
+#include<immintrin.h>
 #endif
 
 #include<unistd.h>
@@ -23,12 +24,11 @@
 #define ELT_CPU_HAS_AVX2
 #define ELT_CPU_HAS_AVX512
 
-
 #if defined(EX_X86_64) || defined(EX_X86)
 #   include<cpuid.h>
-	/*	cpuid for linux	*/
+/*	cpuid for linux	*/
 #define cpuid(regs, i) __get_cpuid(i, &regs[0], &regs[1], &regs[2], &regs[3]);
-    #define cpuid2(func, a, b, c, d)\
+#define cpuid2(func, a, b, c, d)\
     EX_ASM __volatile__ ( 		\
 "        pushq %%rbx        \n" \
 "        cpuid              \n" \
@@ -41,9 +41,7 @@
 
 #endif
 
-
-
-unsigned int ExGetCPUArch(void){
+unsigned int ExGetCPUArch(void) {
 #if defined(EX_X86_64)
 	return EX_CPU_X86_64;
 #elif defined(EX_X86)
@@ -53,96 +51,94 @@ unsigned int ExGetCPUArch(void){
 #endif
 }
 
-
-unsigned int ExGetEndian(void){
+unsigned int ExGetEndian(void) {
 	return 0;
 }
 
-
-ExBoolean ExHasAVX(void){
+ExBoolean ExHasAVX(void) {
 	int cpuInfo[4];
 	cpuid(cpuInfo, 0x1);
 	return (cpuInfo[2] & bit_AVX) != 0;
 }
 
-ExBoolean ExHasAVX2(void){
+ExBoolean ExHasAVX2(void) {
 	int cpuInfo[4];
 	cpuid(cpuInfo, 1);
 	return (cpuInfo[1] & bit_AVX2) != 0;
 }
 
-ExBoolean ExHasFMA(void){
+ExBoolean ExHasFMA(void) {
 	int cpuInfo[4];
 	cpuid(cpuInfo, 1);
 	return (cpuInfo[2] & bit_FMA) != 0;
 }
 
-ExBoolean ExHasAVX512(void){
+ExBoolean ExHasAVX512(void) {
 	return EX_FALSE;
 }
 
-ExBoolean ExHas3DNow(void){
+ExBoolean ExHas3DNow(void) {
 	int cpuInfo[4];
-	cpuid(cpuInfo,0x80000001);
+	cpuid(cpuInfo, 0x80000001);
 	return (cpuInfo[3] & bit_3DNOW) != 0;
 }
 
-ExBoolean ExHasMMX(void){
+ExBoolean ExHasMMX(void) {
 	int cpuInfo[4];
 	cpuid(cpuInfo, 1);
 	return (cpuInfo[3] & bit_MMX) != 0;
 }
 
-ExBoolean ExHasSSE(void){
+ExBoolean ExHasSSE(void) {
 	int cpuInfo[4];
 	return (cpuInfo[3] & bit_SSE) != 0;
 }
 
-ExBoolean ExHasSSE2(void){
+ExBoolean ExHasSSE2(void) {
 	int cpuInfo[4];
-	cpuid(cpuInfo,1);
+	cpuid(cpuInfo, 1);
 	return (cpuInfo[3] & bit_SSE2) != 0;
 }
 
-ExBoolean ExHasSSE3(void){
+ExBoolean ExHasSSE3(void) {
 	int cpuInfo[4];
-	cpuid(cpuInfo,1);
+	cpuid(cpuInfo, 1);
 	return (cpuInfo[2] & bit_SSE3) != 0;
 }
 
-ExBoolean ExHasSSE41(void){
+ExBoolean ExHasSSE41(void) {
 	int cpuInfo[4];
-	cpuid(cpuInfo,1);
+	cpuid(cpuInfo, 1);
 	return (cpuInfo[2] & bit_SSE4_1) != 0;
 }
 
-ExBoolean ExHasSSE42(void){
+ExBoolean ExHasSSE42(void) {
 	int cpuInfo[4];
-	cpuid(cpuInfo,1);
+	cpuid(cpuInfo, 1);
 	return (cpuInfo[2] & bit_SSE4_2) != 0;
 }
 
-ExBoolean ExHasNeon(void){
+ExBoolean ExHasNeon(void) {
 #ifdef EX_ARM
 	//EX_ASM volatile ("vldr d18,[fp,#-32]");
 #endif
 	return EX_FALSE;
 }
 
-ExBoolean ExHasRDTSC(void){
+ExBoolean ExHasRDTSC(void) {
 	unsigned int cpuInfo[4];
 	cpuid(cpuInfo, 1);
-	return ( cpuInfo[2] & 0x00000010 ) != 0;
+	return (cpuInfo[2] & 0x00000010) != 0;
 }
 
-ExBoolean ExHasDRNG(void){
+ExBoolean ExHasDRNG(void) {
 	unsigned int cpuInfo[4];
 	cpuid(cpuInfo, 1);
-	return ( cpuInfo[2] & bit_RDSEED ) != 0;
+	return (cpuInfo[2] & bit_RDSEED) != 0;
 }
 
-ExBoolean ExHasAES(void){
+ExBoolean ExHasAES(void) {
 	unsigned int cpuInfo[4];
 	cpuid(cpuInfo, 1);
-	return ( cpuInfo[2] & bit_AES ) != 0;
+	return (cpuInfo[2] & bit_AES) != 0;
 }

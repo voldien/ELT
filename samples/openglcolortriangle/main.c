@@ -77,7 +77,7 @@ int main(int argc, char** argv){
 	/*
 		Initialize ELT
 	*/
-	if(!ExInit(ELT_INIT_EVERYTHING)){
+	if(!ExInit(EX_INIT_EVERYTHING)){
 
 	}
 	
@@ -87,11 +87,11 @@ int main(int argc, char** argv){
 		EX_OPENGL_ES = opengles
 		EX_DIRECTX = directx (only window) and this example isn't compadiable 	
 	*/
-	win = ExCreateWindow(0,0,800,600,EX_OPENGL);
+	win = ExCreateWindow(0, 0, 800, 600, EX_OPENGL);
 
-	
-	if(!win)	// Failed to create window
+	if(!win){	/* Failed to create window	*/
 		ExErrorl(0,"Failed to Create Window\n");
+	}
 
 	if(!ExSetWindowTitle(win, argv[0]))	// Failed to set window title
 		ExErrorl(0,"Failed to Set Title onto window %d\n",ExGetError());
@@ -145,10 +145,10 @@ int main(int argc, char** argv){
 
 	while(event.key.code != 13/* != ENTER*/){
 		while(ExPollEvent(&event)){
-
-
 			continue;
 		}
+
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glUseProgram(program);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -162,6 +162,8 @@ int main(int argc, char** argv){
 		ExSwapBuffers(ExGetCurrentGLDC());
 		continue;
 	}
-	ExQuit();
+
+
+	ExShutDown();
 	return EXIT_SUCCESS;
 }

@@ -14,18 +14,17 @@
 #include<sys/types.h>
 #include<pwd.h>
 
-
-int ExChangeFileMode(const char* cpath, unsigned int mode){
+int ExChangeFileMode(const char* cpath, unsigned int mode) {
 	return chmod(cpath, mode);
 }
 
-unsigned int ExGetFileMode(const char* cfilename){
+unsigned int ExGetFileMode(const char* cfilename) {
 	struct stat fileStat;
 	stat(cfilename, &fileStat);
 	return fileStat.st_mode;
 }
 
-int ExSetFileOwner(const char* cpath, const char* user, const char* group){
+int ExSetFileOwner(const char* cpath, const char* user, const char* group) {
 	struct passwd pwd;
 	struct passwd *result;
 	char buf[PATH_MAX];
@@ -37,29 +36,26 @@ int ExSetFileOwner(const char* cpath, const char* user, const char* group){
 	return chown(cpath, pwd.pw_uid, pwd.pw_gid);
 }
 
-
-
-
-ExBoolean ExCreateDirectory(const ExChar* directory){
+ExBoolean ExCreateDirectory(const ExChar* directory) {
 	return mkdir(directory, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == 0;
 }
 
-ExBoolean ExIsDirectory(const ExChar* cdirectory){
+ExBoolean ExIsDirectory(const ExChar* cdirectory) {
 	DIR* dir = opendir(cdirectory);
-	if(dir){
+	if (dir) {
 		closedir(dir);
 		return EX_TRUE;
 	}
 	return EX_FALSE;
 }
 
-unsigned int ExDirectoryCount(const ExChar* cdirectory){
+unsigned int ExDirectoryCount(const ExChar* cdirectory) {
 	DIR* dir = opendir(cdirectory);
 	int count = 0;
 	struct dirent* dirent;
-	if(dir){
-		while( (dirent = readdir(dir)) != NULL){
-			if(dirent->d_type == 4)
+	if (dir) {
+		while ((dirent = readdir(dir)) != NULL) {
+			if (dirent->d_type == 4)
 				count++;
 		}
 		count -= 2; /*	remove this and parent node.*/
@@ -68,15 +64,15 @@ unsigned int ExDirectoryCount(const ExChar* cdirectory){
 	return count;
 }
 
-const ExChar* ExGetSubDirectory(const ExChar* cdirectory, int index){
+const ExChar* ExGetSubDirectory(const ExChar* cdirectory, int index) {
 	DIR* dir = opendir(cdirectory);
 	int count = 0;
 	struct dirent* dirent;
 	char directory[PATH_MAX];
-	if(dir){
-		while( (dirent = readdir(dir)) != NULL){
-			if(dirent->d_type == 4){
-				if(count == index){
+	if (dir) {
+		while ((dirent = readdir(dir)) != NULL) {
+			if (dirent->d_type == 4) {
+				if (count == index) {
 					sprintf(directory, "%s%s", cdirectory, dirent->d_name);
 					closedir(dir);
 					return directory;
@@ -89,111 +85,83 @@ const ExChar* ExGetSubDirectory(const ExChar* cdirectory, int index){
 	return NULL;
 }
 
-
-int ExRemoveDirectory(const ExChar* directory){
+int ExRemoveDirectory(const ExChar* directory) {
 	return rmdir(directory);
 }
 
-
-ExBoolean ExCreateFile(const ExChar* cfilename){
+ExBoolean ExCreateFile(const ExChar* cfilename) {
 	return creat(cfilename, O_CREAT | O_RDWR) != -1;
 }
 
-int ExRemoveFile(const ExChar* cfilename){
+int ExRemoveFile(const ExChar* cfilename) {
 	return remove(cfilename);
 }
 
-int ExExistFile(const ExChar* cfilename){
+int ExExistFile(const ExChar* cfilename) {
 	return !access(cfilename, F_OK);
 }
 
-
-int ExReadableFile(const ExChar* cfilename){
+int ExReadableFile(const ExChar* cfilename) {
 	return access(cfilename, R_OK) == 0;
 }
-int ExWritableFile(const ExChar* cfilename){
+int ExWritableFile(const ExChar* cfilename) {
 	return access(cfilename, W_OK) == 0;
 }
-int ExExecutableFile(const ExChar* cfilename){
+int ExExecutableFile(const ExChar* cfilename) {
 	return access(cfilename, X_OK) == 0;
 }
 
-
-
-
-
-
-ExChar* ExGetCurrentDirectory(ExChar* cwd, unsigned int len){
-	if (getcwd(cwd, len) != NULL){
-	   fprintf(stdout, "Current working dir: %s\n", cwd);
-	}
-	else{
-	   perror("getcwd() error");
+ExChar* ExGetCurrentDirectory(ExChar* cwd, unsigned int len) {
+	if (getcwd(cwd, len) != NULL) {
+		fprintf(stdout, "Current working dir: %s\n", cwd);
+	} else {
+		perror("getcwd() error");
 	}
 	return cwd;
 
 }
 
-int ExSetCurrentDirectory(const ExChar* cdirectory){
+int ExSetCurrentDirectory(const ExChar* cdirectory) {
 	return chdir(cdirectory);
 }
 
-
-
-
-ExChar* ExGetBaseName(ExChar* cpath, ExChar* base, int lengthSize){
-	char* tmpbase = basename((char*)cpath);
-	if(base && tmpbase){
+ExChar* ExGetBaseName(ExChar* cpath, ExChar* base, int lengthSize) {
+	char* tmpbase = basename((char*) cpath);
+	if (base && tmpbase) {
 
 	}
 	return tmpbase;
 }
 
-
-char* ExGetDirectory(const ExChar* cpath, ExChar* Chas, int lengthSize){
+char* ExGetDirectory(const ExChar* cpath, ExChar* Chas, int lengthSize) {
 	memcpy(Chas, cpath, strlen(cpath) + 1);
 
 	ExChar* thedir = dirname(Chas);
-	if(thedir){
-		memcpy(Chas, thedir, strlen(thedir) + 1 > lengthSize ? strlen(thedir) + 1 : lengthSize  );
+	if (thedir) {
+		memcpy(Chas, thedir,
+				strlen(thedir) + 1 > lengthSize ?
+						strlen(thedir) + 1 : lengthSize);
 	}
 	return thedir;
 }
 
-
-void ExGetAbsolutePath(const ExChar* cfilename, ExChar* absolute, int lengthSize){
+void ExGetAbsolutePath(const ExChar* cfilename, ExChar* absolute,
+		int lengthSize) {
 	realpath(cfilename, absolute);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-ExBoolean ExCreateRamDisk(const ExChar* cdirectory, unsigned int nBytes){
+ExBoolean ExCreateRamDisk(const ExChar* cdirectory, unsigned int nBytes) {
 	ExChar buf[PATH_MAX];
 	int result;
 	int size;
 	ExChar* src = "none";
-	if(nBytes > 1024){
+	if (nBytes > 1024) {
 		size = nBytes / 1024;
 	}
-	if(nBytes > 1048576){
+	if (nBytes > 1048576) {
 		size = nBytes / 1048576;
 	}
-	if(nBytes > 1073741824){
+	if (nBytes > 1073741824) {
 		size = nBytes / 1073741824;
 	}
 
@@ -201,23 +169,21 @@ ExBoolean ExCreateRamDisk(const ExChar* cdirectory, unsigned int nBytes){
 	sprintf(buf, "mode=0700,uid=65534");
 	const unsigned long mntflags = 0;
 	const char* type = "tmpfs";
-	if( (result = mount("none", cdirectory, type, mntflags,  buf)) < 0){
+	if ((result = mount("none", cdirectory, type, mntflags, buf)) < 0) {
 		char* strerr = strerror(errno);
-		ExPrintf("Error : Failed to mount %s\nReason: %s [%d]\n",
-				cdirectory, strerr, errno);
+		ExPrintf("Error : Failed to mount %s\nReason: %s [%d]\n", cdirectory,
+				strerr, errno);
 		return EX_FALSE;
 	}
 	return EX_TRUE;
 }
 
-ExBoolean ExUMount(const ExChar* cdirectory){
-	if(umount(cdirectory) < 0){
-		ExPrintf("Error : Failed to mount %s\nReason: %s [%d]\n",
-				cdirectory, strerror(errno), errno);
+ExBoolean ExUMount(const ExChar* cdirectory) {
+	if (umount(cdirectory) < 0) {
+		ExPrintf("Error : Failed to mount %s\nReason: %s [%d]\n", cdirectory,
+				strerror(errno), errno);
 		return EX_FALSE;
 	}
 	return EX_TRUE;
 }
-
-
 

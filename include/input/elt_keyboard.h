@@ -1,33 +1,32 @@
 /**
-    ELT (Engine Library Toolkit) is a multi platform engine toolkit
-    Copyright (C) 2014  Valdemar Lindberg
+	ELT (Engine Library Toolkit) is a cross platform engine toolkit
+	Copyright (C) 2014  Valdemar Lindberg
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-*/
+ */
 #ifndef _ELT_KEYBOARD_H_
 #define _ELT_KEYBOARD_H_ 1
 #include"../system.h"
 #include"eltkeycode.h"
 
 #ifdef __cplusplus /* C++ environment */
-extern "C"{
+extern "C" {
 #endif
 
 typedef ExKeycode ExScancode;
 #define ExGetKeyCode(array,keycode) ( ( ( array ) [ ( keycode ) /8] )  & (1 << ( ( keycode )  % 8)))
-
 
 /**
  *	Get KeyCode name identification index
@@ -45,7 +44,8 @@ extern ELTDECLSPEC ExKeycode ELTAPIENTRY ExGetKeyFromName(const char* name);
  *
  *	@Return
  */
-extern ELTDECLSPEC ExKeycode ELTAPIENTRY ExGetKeyFromScancode(ExScancode scancode);
+extern ELTDECLSPEC ExKeycode ELTAPIENTRY ExGetKeyFromScancode(
+		ExScancode scancode);
 
 /**
  *	Get KeyCode name.
@@ -77,7 +77,8 @@ extern ELTDECLSPEC void ELTAPIENTRY ExSetKeyboardFocus(ExWin window);
  *
  *	@Return
  */
-extern ELTDECLSPEC const unsigned char* ELTAPIENTRY ExGetKeyboardState(int* numkeys);
+extern ELTDECLSPEC const unsigned char* ELTAPIENTRY ExGetKeyboardState(
+		int* numkeys);
 
 /**
  *
@@ -116,8 +117,8 @@ extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyDown(unsigned int keyCode);
  *
  *	@Return
  */
-extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyReleased(unsigned int keyCode);
-
+extern ELTDECLSPEC ExBoolean ELTAPIFASTENTRY ExIsKeyReleased(
+		unsigned int keyCode);
 
 #ifdef __cplusplus /* C++ environment */
 }

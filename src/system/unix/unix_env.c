@@ -1,29 +1,28 @@
 #include"elt_env.h"
 #include<stdio.h>
+#include<stdlib.h>
 #include<string.h>
 #include<unistd.h>
 
-
-ExChar* ExGetCurrentUser(void){
+ExChar* ExGetCurrentUser(void) {
 	return ExGetEnv("USER");
 }
 
-int ExSetEnv(const ExChar* name, const char* pValue){
+int ExSetEnv(const ExChar* name, const char* pValue) {
 	return setenv(name, pValue, 0);
 }
 
-const ExChar* ExGetEnv(const ExChar* name){
-	char* outenv = NULL;
-	char* env = getenv(name);
+const ExChar* ExGetEnv(const ExChar* name) {
+	const char* env = getenv(name);
 	return env;
 }
 
-int ExRemoveEnv(const ExChar* name){
+int ExRemoveEnv(const ExChar* name) {
 	return unsetenv(name);
 }
 
 extern char **environ;
-ExChar* ExGetAllEnv(void){
+ExChar* ExGetAllEnv(void) {
 	char* outenv = NULL;
 	int len = 0;
 	int strle;
@@ -31,7 +30,7 @@ ExChar* ExGetAllEnv(void){
 	char** start = environ;
 
 	/*	compute the full size.	*/
-	while(*start != NULL){
+	while (*start != NULL) {
 		len += strlen(start[0]) + 1;
 		start++;
 	}
@@ -39,9 +38,9 @@ ExChar* ExGetAllEnv(void){
 	start = environ;
 
 	/*	write env data.	*/
-	while(*start != NULL){
+	while (*start != NULL) {
 		strle = strlen(*start);
-		memcpy(outenv + offset, *start,strle);
+		memcpy(outenv + offset, *start, strle);
 		offset += strle + 1;
 		start++;
 	}
@@ -49,7 +48,7 @@ ExChar* ExGetAllEnv(void){
 	return outenv;
 }
 
-void ExFreeEnv(ExChar* env){
+void ExFreeEnv(ExChar* env) {
 	free(env);
 }
 

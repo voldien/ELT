@@ -1,58 +1,56 @@
 #include"system/elt_log.h"
+#include<stdarg.h>
 FILE* m_file_log = NULL;
 
-
-void ExLog(const ExChar* format,...){
+void ExLog(const ExChar* format, ...) {
 	ExSetConsoleColor(0);
 	va_list va;
 	va_start(va, format);
-	vfprintf(stdout, format,va);
+	vfprintf(stdout, format, va);
 	va_end(va);
 	ExSetConsoleColor(0);
 }
 
-void ExErrorLog(const ExChar* format,...){
+void ExErrorLog(const ExChar* format, ...) {
 	ExSetConsoleColor(0);
 	va_list va;
 	va_start(va, format);
-	vfprintf(stdout, format,va);
+	vfprintf(stdout, format, va);
 	va_end(va);
 	ExSetConsoleColor(0);
 }
 
-void ExLogWarning(const ExChar* format,...){
+void ExLogWarning(const ExChar* format, ...) {
 	ExSetConsoleColor(0);
 	va_list va;
 	va_start(va, format);
-	vfprintf(stdout, format,va);
+	vfprintf(stdout, format, va);
 	va_end(va);
 	ExSetConsoleColor(0);
 }
 
-void ExLogCritical(const ExChar* format,...){
+void ExLogCritical(const ExChar* format, ...) {
 	ExSetConsoleColor(0);
 	va_list va;
 	va_start(va, format);
-	vfprintf(stdout, format,va);
+	vfprintf(stdout, format, va);
 	va_end(va);
 	ExSetConsoleColor(0);
 }
 
-void ExLogInfo(const ExChar* format,...){
+void ExLogInfo(const ExChar* format, ...) {
 	ExSetConsoleColor(0);
 	va_list va;
 	va_start(va, format);
-	vfprintf(stdout, format,va);
+	vfprintf(stdout, format, va);
 	va_end(va);
 	ExSetConsoleColor(0);
 }
 
-FILE* ExDupFile(const int _fd){
+FILE* ExDupFile(const int _fd) {
 
 	return NULL;
 }
-
-
 
 #define KNRM  "\x1B[0m"
 #define KRED  "\x1B[31m"
@@ -64,36 +62,70 @@ FILE* ExDupFile(const int _fd){
 #define KWHT  "\x1B[37m"
 #define RESET "\033[0m"
 
-void ExSetConsoleColor(unsigned short colour){
+void ExSetConsoleColor(unsigned short colour) {
 #if defined(EX_WINDOWS)
 	if(GetStdHandle(STD_OUTPUT_HANDLE) == INVALID_HANDLE_VALUE)return;
 
 	if(!SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),colour))
-		wExDevPrintf(EX_TEXT("failed to Set Console Text Attribute | %s"), ExGetErrorMessage(GetLastError()));
+	wExDevPrintf(EX_TEXT("failed to Set Console Text Attribute | %s"), ExGetErrorMessage(GetLastError()));
 #elif defined(EX_LINUX)
-	switch(colour){
-	case EX_CONSOLE_BLACK: printf(KNRM);break;
-	case EX_CONSOLE_BLUE : printf(KBLU);break;
-	case EX_CONSOLE_GREEN : printf(KNRM);break;
-	case EX_CONSOLE_AQUA : printf(KNRM);break;
-	case EX_CONSOLE_RED : printf(KNRM);break;
-	case EX_CONSOLE_PURPLE : printf(KNRM);break;
-	case EX_CONSOLE_YELLOW : printf(KNRM);break;
-	case EX_CONSOLE_WHITE : printf(KNRM);break;
-	case EX_CONSOLE_GRAY : printf(KNRM);break;
-	case EX_CONSOLE_LIGHT_BLUE : printf(KNRM);break;
-	case EX_CONSOLE_LIGHT_GREEN : printf(KNRM);break;
-	case EX_CONSOLE_LIGHT_AQUA : printf(KNRM);break;
-	case EX_CONSOLE_LIGHT_RED : printf(KNRM);break;
-	case EX_CONSOLE_LIGHT_PURPLE : printf(KNRM);break;
-	case EX_CONSOLE_LIGHT_YELLOW : printf(KNRM);break;
-	case EX_CONSOLE_LIGHT_WHITE : printf(KNRM);break;
-	case EX_CONSOLE_COLOR_RESET: printf(RESET);break;
+	switch (colour) {
+	case EX_CONSOLE_BLACK:
+		printf(KNRM);
+		break;
+	case EX_CONSOLE_BLUE:
+		printf(KBLU);
+		break;
+	case EX_CONSOLE_GREEN:
+		printf(KNRM);
+		break;
+	case EX_CONSOLE_AQUA:
+		printf(KNRM);
+		break;
+	case EX_CONSOLE_RED:
+		printf(KNRM);
+		break;
+	case EX_CONSOLE_PURPLE:
+		printf(KNRM);
+		break;
+	case EX_CONSOLE_YELLOW:
+		printf(KNRM);
+		break;
+	case EX_CONSOLE_WHITE:
+		printf(KNRM);
+		break;
+	case EX_CONSOLE_GRAY:
+		printf(KNRM);
+		break;
+	case EX_CONSOLE_LIGHT_BLUE:
+		printf(KNRM);
+		break;
+	case EX_CONSOLE_LIGHT_GREEN:
+		printf(KNRM);
+		break;
+	case EX_CONSOLE_LIGHT_AQUA:
+		printf(KNRM);
+		break;
+	case EX_CONSOLE_LIGHT_RED:
+		printf(KNRM);
+		break;
+	case EX_CONSOLE_LIGHT_PURPLE:
+		printf(KNRM);
+		break;
+	case EX_CONSOLE_LIGHT_YELLOW:
+		printf(KNRM);
+		break;
+	case EX_CONSOLE_LIGHT_WHITE:
+		printf(KNRM);
+		break;
+	case EX_CONSOLE_COLOR_RESET:
+		printf(RESET);
+		break;
 	}
 #endif
 }
 
-unsigned short ExGetConsoleColor(void){
+unsigned short ExGetConsoleColor(void) {
 #ifdef EX_WINDOWS
 	CONSOLE_SCREEN_BUFFER_INFO bufferInfo;
 	if(GetStdHandle(STD_OUTPUT_HANDLE) == INVALID_HANDLE_VALUE)return 0;
@@ -103,5 +135,4 @@ unsigned short ExGetConsoleColor(void){
 	return 0;
 #endif
 }
-
 

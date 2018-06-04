@@ -1,7 +1,6 @@
 #include"system/unix/unix_win.h"
 #include<unistd.h>
 
-
 #include<EGL/egl.h>
 #include<GL/glx.h>
 #include<X11/extensions/dpms.h>
@@ -11,30 +10,28 @@
 #include<X11/Xatom.h>
 #include<X11/keysym.h>
 
-
 #include<dlfcn.h>
 #include<GL/gl.h>
 #include<GL/glx.h>
 #include"system/elt_gl.h"
 
-
 #ifndef _NET_WM_STATE_ADD
-	#define _NET_WM_STATE_ADD	1
+#define _NET_WM_STATE_ADD	1
 #endif
 
 ExDisplay display = NULL;
-void* m_connection = 0;		/*	TODO take a loke*/
+void* m_connection = 0; /*	TODO take a loke*/
 extern int* pixAtt;
 extern int ExChooseFBconfig(GLXFBConfig* pfbconfig);
 
-ExWin ExCreateNativeWindow(int x, int y, int width, int height){
+ExWin ExCreateNativeWindow(int x, int y, int width, int height) {
 	Visual* visual;
 	int depth;
-	XSetWindowAttributes swa = {0};
-    XSetWindowAttributes  xattr;
-    Atom atom;
-    int one = 1;
-    int screen;
+	XSetWindowAttributes swa = { 0 };
+	XSetWindowAttributes xattr;
+	Atom atom;
+	int one = 1;
+	int screen;
 	Window window;
 	XFontStruct* fontinfo;
 	XGCValues grValues;
@@ -43,68 +40,70 @@ ExWin ExCreateNativeWindow(int x, int y, int width, int height){
 	XVisualInfo visInfo;
 
 	visual = DefaultVisual(display, 0);
-	depth = DefaultDepth(display,0);
+	depth = DefaultDepth(display, 0);
 	screen = DefaultScreen(display);
-    winmask = CWEventMask;
+	winmask = CWEventMask;
 
-    if(!XMatchVisualInfo(display, screen , depth, TrueColor, &visInfo)){
-    	/**/
-    }
+	if (!XMatchVisualInfo(display, screen, depth, TrueColor, &visInfo)) {
+		/**/
+	}
 
-    visual = visInfo.visual;
-    /**/
+	visual = visInfo.visual;
+	/**/
 	swa.background_pixel = XWhitePixel(display, 0);
-	swa.event_mask = ExposureMask | VisibilityChangeMask | KeyPressMask | PointerMotionMask | StructureNotifyMask | ResizeRedirectMask | VisibilityChangeMask;
+	swa.event_mask = ExposureMask | VisibilityChangeMask | KeyPressMask
+			| PointerMotionMask | StructureNotifyMask | ResizeRedirectMask
+			| VisibilityChangeMask;
 	swa.border_pixmap = None;
 	swa.border_pixel = 0;
 	swa.bit_gravity = StaticGravity;
-	swa.colormap = XCreateColormap(display, RootWindow(display, visInfo.screen), visInfo.visual, AllocNone);
+	swa.colormap = XCreateColormap(display, RootWindow(display, visInfo.screen),
+			visInfo.visual, AllocNone);
 
 	/**/
-	window = XCreateWindow(display,DefaultRootWindow(display),
-                              x,y,width,height,0,
-                              depth,InputOutput,visual, winmask, &swa);
+	window = XCreateWindow(display, DefaultRootWindow(display), x, y, width,
+			height, 0, depth, InputOutput, visual, winmask, &swa);
 
-    /*	event feed masking	*/
-	XSelectInput(display, window, ExposureMask | VisibilityChangeMask | KeyPressMask |
-			PointerMotionMask | StructureNotifyMask | ExposureMask | KeyPressMask |
-			ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask | VisibilityChangeMask |
-			ButtonMotionMask | PointerMotionMask);
+	/*	event feed masking	*/
+	XSelectInput(display, window,
+			ExposureMask | VisibilityChangeMask | KeyPressMask |
+			PointerMotionMask | StructureNotifyMask | ExposureMask
+					| KeyPressMask |
+					ButtonPressMask | KeyReleaseMask | ButtonReleaseMask
+					| StructureNotifyMask | VisibilityChangeMask |
+					ButtonMotionMask | PointerMotionMask);
 
-
-    /*	*/
+	/*	*/
 	fontinfo = XLoadQueryFont(display, EX_TEXT("10x20"));
 	grValues.font = fontinfo->fid;
-	grValues.foreground = XBlackPixel(display,0);
-	gc = XCreateGC(display,window, GCFont + GCForeground, &grValues);
+	grValues.foreground = XBlackPixel(display, 0);
+	gc = XCreateGC(display, window, GCFont + GCForeground, &grValues);
 
 	/**/
-    xattr.override_redirect = False;
-    XChangeWindowAttributes (display, window, CWOverrideRedirect, &xattr );
-
+	xattr.override_redirect = False;
+	XChangeWindowAttributes(display, window, CWOverrideRedirect, &xattr);
 
 	XSync(display, EX_FALSE);
 	return window;
 }
 
-ExWin ExCreateGLWindow(int x , int y, int width, int height, void** pglx_window){
+ExWin ExCreateGLWindow(int x, int y, int width, int height, void** pglx_window) {
 	XVisualInfo* vi;
 	int screen;
 	int major;
 	int minor;
 	int winmask = 0;
-	XSetWindowAttributes winAttribs = {};
+	XSetWindowAttributes winAttribs = { };
 	Window window;
 	Window* root;
 	XFontStruct* fontinfo;
 	XGCValues gr_values;
 	GC graphical_context;
 	Colormap cmap;
-    Atom delMsg;
+	Atom delMsg;
 	GLXFBConfig fbconfigs;
-	ExRect rect = {0};
-    XSetWindowAttributes  xattr;
-
+	ExRect rect = { 0 };
+	XSetWindowAttributes xattr;
 
 	screen = DefaultScreen(display);
 	root = RootWindow(display, screen);
@@ -114,70 +113,66 @@ ExWin ExCreateGLWindow(int x , int y, int width, int height, void** pglx_window)
 
 	/*	choose visualinfo */
 	ExChooseFBconfig(&fbconfigs);
-	vi = (XVisualInfo*)glXGetVisualFromFBConfig(display, fbconfigs);
-
-
+	vi = (XVisualInfo*) glXGetVisualFromFBConfig(display, fbconfigs);
 
 	//winAttribs.background_pixel = XWhitePixel(display, 0);
 	winAttribs.colormap = XCreateColormap(display, root, vi->visual, AllocNone);
-	winAttribs.event_mask = ButtonPressMask | ExposureMask | VisibilityChangeMask | KeyPressMask | ButtonMotionMask | PointerMotionMask | StructureNotifyMask | EnterWindowMask;
+	winAttribs.event_mask = ButtonPressMask | ExposureMask
+			| VisibilityChangeMask | KeyPressMask | ButtonMotionMask
+			| PointerMotionMask | StructureNotifyMask | EnterWindowMask;
 	winAttribs.border_pixmap = None;
 	winAttribs.border_pixel = 0;
 	winAttribs.bit_gravity = StaticGravity;
 
-
-	winmask = CWBackPixmap| CWColormap | CWBorderPixel| CWEventMask;
+	winmask = CWBackPixmap | CWColormap | CWBorderPixel | CWEventMask;
 
 	/*	TODO resolve why x and y position is bad. probarly because of multi screencd .	*/
 	ExGetPrimaryScreenRect(&rect);
-	window = XCreateWindow(display,
-                              root,
-                              rect.x + x, rect.y + y, width, height,
-                              0,
-                              vi->depth,
-                              InputOutput,
-                              vi->visual,
-                                winmask, &winAttribs);
-
+	window = XCreateWindow(display, root, rect.x + x, rect.y + y, width, height,
+			0, vi->depth,
+			InputOutput, vi->visual, winmask, &winAttribs);
 
 	/*	problems was it was a random pointer as a value....	*/
-    if( ( major >= 1 && minor >= 3 && pglx_window) ){
-    	/*glXCreateWindow create opengl for window that might not have capability for OpenGL	*/
-    	pglx_window[0] = NULL;
-    	pglx_window[0] = glXCreateWindow(display, fbconfigs, window, 0);
-    }
+	if ((major >= 1 && minor >= 3 && pglx_window)) {
+		/*glXCreateWindow create opengl for window that might not have capability for OpenGL	*/
+		pglx_window[0] = NULL;
+		pglx_window[0] = glXCreateWindow(display, fbconfigs, window, 0);
+	}
 
-    /*	event feed masking	*/
+	/*	event feed masking	*/
 
-    /*
-	XSelectInput(display,
-			window,
-			ExposureMask | VisibilityChangeMask |
-			PointerMotionMask | StructureNotifyMask | ExposureMask | KeyPressMask | ResizeRedirectMask |
-			ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask | FocusChangeMask |
-			ButtonMotionMask | PointerMotionMask);
+	/*
+	 XSelectInput(display,
+	 window,
+	 ExposureMask | VisibilityChangeMask |
+	 PointerMotionMask | StructureNotifyMask | ExposureMask | KeyPressMask | ResizeRedirectMask |
+	 ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |  StructureNotifyMask | FocusChangeMask |
+	 ButtonMotionMask | PointerMotionMask);
 
-	*/
-    /*	event feed masking	*/
-	XSelectInput(display, window, ExposureMask | VisibilityChangeMask | KeyPressMask |
-			PointerMotionMask | StructureNotifyMask | ExposureMask | KeyPressMask |
-			ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |
-			ButtonMotionMask | PointerMotionMask);
+	 */
+	/*	event feed masking	*/
+	XSelectInput(display, window,
+			ExposureMask | VisibilityChangeMask | KeyPressMask |
+			PointerMotionMask | StructureNotifyMask | ExposureMask
+					| KeyPressMask |
+					ButtonPressMask | KeyReleaseMask | ButtonReleaseMask |
+					ButtonMotionMask | PointerMotionMask);
 
 	/*	create window font	*/
 	fontinfo = XLoadQueryFont(display, EX_TEXT("10x20"));
-	if(!fontinfo){
+	if (!fontinfo) {
 		fontinfo = XLoadQueryFont(display, EX_TEXT("fixed"));
 	}
 	gr_values.font = fontinfo->fid;
-	gr_values.foreground = XBlackPixel(display,0);
-	gr_values.background = WhitePixel(display,0);
-	graphical_context = XCreateGC(display,window, GCFont + GCForeground, &gr_values);
+	gr_values.foreground = XBlackPixel(display, 0);
+	gr_values.background = WhitePixel(display, 0);
+	graphical_context = XCreateGC(display, window, GCFont + GCForeground,
+			&gr_values);
 	XSetFont(display, graphical_context, gr_values.font);
 
 	/**/
-    xattr.override_redirect = False;
-    XChangeWindowAttributes (display, window, CWOverrideRedirect, &xattr );
+	xattr.override_redirect = False;
+	XChangeWindowAttributes(display, window, CWOverrideRedirect, &xattr);
 
 	/*	free font struct.	*/
 	XFree(vi);
@@ -187,36 +182,30 @@ ExWin ExCreateGLWindow(int x , int y, int width, int height, void** pglx_window)
 	return window;
 }
 
-
-
-
-
-
-
 /*	=============================================================	*/
 /*					generic window implementation					*/
 /*	=============================================================	*/
 
-void ExShowWindow(ExWin window){
-    XRaiseWindow(display, (Window)window);
-	XMapWindow(display, (Window)window);
+void ExShowWindow(ExWin window) {
+	XRaiseWindow(display, (Window) window);
+	XMapWindow(display, (Window) window);
 }
 
-void ExHideWindow(ExWin window){
-    XUnmapWindow(display,window);
+void ExHideWindow(ExWin window) {
+	XUnmapWindow(display, window);
 }
 
-void ExCloseWindow(ExWin window){
-    XDestroyWindow(display, window);
+void ExCloseWindow(ExWin window) {
+	XDestroyWindow(display, window);
 }
 
-void ExMaximizeWindow(ExWin window){
+void ExMaximizeWindow(ExWin window) {
 	XEvent xev;
 	Atom wm_state = XInternAtom(display, "_NET_WM_STATE", False);
 	Atom max_horz = XInternAtom(display, "_NET_WM_STATE_MAXIMIZED_HORZ", False);
 	Atom max_vert = XInternAtom(display, "_NET_WM_STATE_MAXIMIZED_VERT", False);
 
-	memset(&xev,0,sizeof(xev));
+	memset(&xev, 0, sizeof(xev));
 	xev.type = ClientMessage;
 	xev.xclient.window = window;
 	xev.xclient.message_type = wm_state;
@@ -225,16 +214,17 @@ void ExMaximizeWindow(ExWin window){
 	xev.xclient.data.l[1] = max_horz;
 	xev.xclient.data.l[2] = max_vert;
 
-	XSendEvent(display, DefaultRootWindow(display), False, SubstructureNotifyMask, &xev);
+	XSendEvent(display, DefaultRootWindow(display), False,
+			SubstructureNotifyMask, &xev);
 }
 
-void ExMinimizeWindow(ExWin window){
+void ExMinimizeWindow(ExWin window) {
 	XEvent xev;
 	Atom wm_state = XInternAtom(display, "_NET_WM_STATE", False);
 	Atom min_horz = XInternAtom(display, "_NET_WM_STATE_MINIMIZE_HORZ", False);
 	Atom min_vert = XInternAtom(display, "_NET_WM_STATE_MINIMIZE_VERT", False);
 
-	memset(&xev,0,sizeof(xev));
+	memset(&xev, 0, sizeof(xev));
 	xev.type = ClientMessage;
 	xev.xclient.window = window;
 	xev.xclient.message_type = wm_state;
@@ -243,174 +233,170 @@ void ExMinimizeWindow(ExWin window){
 	xev.xclient.data.l[1] = min_horz;
 	xev.xclient.data.l[2] = min_vert;
 
-	XSendEvent(display, DefaultRootWindow(display), False, SubstructureNotifyMask, &xev);
+	XSendEvent(display, DefaultRootWindow(display), False,
+			SubstructureNotifyMask, &xev);
 }
 
-void ExSetWindowMode(ExWin window, unsigned int mode){
-    if(mode & EX_WIN_SCREENSAVER_ENABLE){
+void ExSetWindowMode(ExWin window, unsigned int mode) {
+	if (mode & EX_WIN_SCREENSAVER_ENABLE) {
 
-    }
+	}
 }
 
-ExBoolean ExDestroyWindow(ExWin window){
-	return XDestroyWindow(display,(Window*)window);
+ExBoolean ExDestroyWindow(ExWin window) {
+	return XDestroyWindow(display, (Window*) window);
 }
 
-
-void ExSetWindowTitle(ExWin window,const ExChar* title){
-	if(!window || !title)
+void ExSetWindowTitle(ExWin window, const ExChar* title) {
+	if (!window || !title)
 		return;
 
 	XTextProperty textprop;
 
-	textprop.value = (unsigned char*)title;
+	textprop.value = (unsigned char*) title;
 	textprop.encoding = XA_STRING;
 	textprop.format = 8;
 	textprop.nitems = strlen(title);
 
-	XSetWMProperties(display, window,&textprop, &textprop,
-				NULL, 0,
-				NULL,
-				NULL,
-				NULL);
+	XSetWMProperties(display, window, &textprop, &textprop,
+	NULL, 0,
+	NULL,
+	NULL,
+	NULL);
 }
 
-ExChar* ExGetWindowTitle(ExWin window, ExChar* title){
-	if(!window || !title)
+ExChar* ExGetWindowTitle(ExWin window, ExChar* title) {
+	if (!window || !title)
 		return NULL;
-	XFetchName(display,(Window*)window,&title);
+	XFetchName(display, (Window*) window, &title);
 	return title;
 }
 
-
-
-void ExSetWindowPos(ExWin window, int x,int y){
-	XMoveWindow(display,(Window*)window,x,y);
+void ExSetWindowPos(ExWin window, int x, int y) {
+	XMoveWindow(display, (Window*) window, x, y);
 }
 
-void ExSetWindowPosv(ExWin window, const int* position){
-	if(!window || !position){
+void ExSetWindowPosv(ExWin window, const int* position) {
+	if (!window || !position) {
 		return;
 	}
 
-	XMoveWindow(display,(Window*)window,position[0],position[1]);
+	XMoveWindow(display, (Window*) window, position[0], position[1]);
 }
 
-
-void ExGetWindowPosv(ExWin window, int* position){
+void ExGetWindowPosv(ExWin window, int* position) {
 	XWindowAttributes xwa;
 	XGetWindowAttributes(display, window, &xwa);
 	position[0] = xwa.x;
 	position[1] = xwa.y;
 }
 
-void ExSetWindowSize(ExWin window, int width, int height){
-	XResizeWindow(display,window,width,height);
+void ExSetWindowSize(ExWin window, int width, int height) {
+	XResizeWindow(display, window, width, height);
 }
 
-void ExSetWindowSizev(ExWin window, const ExSize* size){
-	XResizeWindow(display,window,size->width,size->height);
+void ExSetWindowSizev(ExWin window, const ExSize* size) {
+	XResizeWindow(display, window, size->width, size->height);
 }
 
-void ExGetWindowSizev(ExWin window, ExSize* size){
+void ExGetWindowSizev(ExWin window, ExSize* size) {
 	XWindowAttributes xwa;
 	XGetWindowAttributes(display, window, &xwa);
 	size->width = xwa.width;
-	size->height= xwa.height;
+	size->height = xwa.height;
 }
 
-void ExSetWindowRect(ExWin window, const ExRect* rect){
-	XMoveWindow(display,(Window)window,rect->x,rect->y);
-	XResizeWindow(display,(Window)window,rect->width - rect->x,rect->height - rect->y);
+void ExSetWindowRect(ExWin window, const ExRect* rect) {
+	XMoveWindow(display, (Window) window, rect->x, rect->y);
+	XResizeWindow(display, (Window) window, rect->width - rect->x,
+			rect->height - rect->y);
 }
 
-void ExGetWindowRect(ExWin window, ExRect* rect){
+void ExGetWindowRect(ExWin window, ExRect* rect) {
 	XWindowAttributes xwa;
-	XGetWindowAttributes(display, (Window*)window,&xwa);
+	XGetWindowAttributes(display, (Window*) window, &xwa);
 	rect->width = xwa.width;
 	rect->height = xwa.height;
 	rect->x = xwa.x;
-	rect->y= xwa.y;
+	rect->y = xwa.y;
 }
 
-
-unsigned int ExGetWindowFlag(ExWin window){
-    //TODO remove or something
+unsigned int ExGetWindowFlag(ExWin window) {
+	//TODO remove or something
 	XWindowAttributes xwa;
-	XGetWindowAttributes(display, (Window*)window, &xwa);
+	XGetWindowAttributes(display, (Window*) window, &xwa);
 	return xwa.all_event_masks;
 }
 
-void ExSetWindowFlag(ExWin window, unsigned int flag){
+void ExSetWindowFlag(ExWin window, unsigned int flag) {
 	XSelectInput(display, window, flag);
 }
 
-int ExSetWindowIcon(ExWin window, ExHandle hIcon){
-     //http://www.sbin.org/doc/Xlib/chapt_03.html
-    XWMHints wm_hints = {0};
-/*    if (!(wm_hints = XAllocWMHints())) {
-      fprintf(stderr, "%s: failure allocating memory", "ELT");
-      return EX_FALSE;
-    }*/
+int ExSetWindowIcon(ExWin window, ExHandle hIcon) {
+	//http://www.sbin.org/doc/Xlib/chapt_03.html
+	XWMHints wm_hints = { 0 };
+	/*    if (!(wm_hints = XAllocWMHints())) {
+	 fprintf(stderr, "%s: failure allocating memory", "ELT");
+	 return EX_FALSE;
+	 }*/
 
-    Atom net_wm_icon = XInternAtom(display, "_NET_WM_ICON", False);
-    Atom cardinal = XInternAtom(display, "CARDINAL", False);
+	Atom net_wm_icon = XInternAtom(display, "_NET_WM_ICON", False);
+	Atom cardinal = XInternAtom(display, "CARDINAL", False);
 
+	wm_hints.initial_state = AllHints;
+	wm_hints.input = True;
+	wm_hints.icon_pixmap = hIcon;
+	wm_hints.icon_mask = hIcon;
+	wm_hints.flags = IconPixmapHint;
+	wm_hints.icon_x = 0x0;
+	wm_hints.icon_y = 0x0;
+	wm_hints.icon_window = window;
 
-    wm_hints.initial_state = AllHints;
-    wm_hints.input = True;
-    wm_hints.icon_pixmap = hIcon;
-    wm_hints.icon_mask = hIcon;
-    wm_hints.flags = IconPixmapHint;
-    wm_hints.icon_x = 0x0;
-    wm_hints.icon_y = 0x0;
-    wm_hints.icon_window = window;
-
-    /**/
-    XFlush(display);
-    XSetWMHints(display, window, &wm_hints);
+	/**/
+	XFlush(display);
+	XSetWMHints(display, window, &wm_hints);
 
 	return EX_TRUE;
 }
 
-int ExGetWindowIcon(ExWin window){
+int ExGetWindowIcon(ExWin window) {
 
 	Atom iconAtom = XInternAtom(display, "_NET_WM_ICON_NAME", EX_FALSE);
 	//XGetWindowProperty(display, window, iconAtom, XA_ATOM, )
-    return NULL;
+	return NULL;
 }
 
-int ExSetWindowFullScreen(ExWin window, ExBoolean flag){
-    int one = 1;
-	XEvent xev = {0};
-    XWindowAttributes xwa;
-    XSetWindowAttributes xattr;
-    Atom fullscreen;
-    Atom wmState;
-    const int screenIndex = 0;
+int ExSetWindowFullScreen(ExWin window, ExBoolean flag) {
+	int one = 1;
+	XEvent xev = { 0 };
+	XWindowAttributes xwa;
+	XSetWindowAttributes xattr;
+	Atom fullscreen;
+	Atom wmState;
+	const int screenIndex = 0;
 
+	xattr.override_redirect = False;
+	XChangeWindowAttributes(display, window, CWOverrideRedirect, &xattr);
 
-    xattr.override_redirect = False;
-    XChangeWindowAttributes(display, window, CWOverrideRedirect, &xattr);
-
-    /**/
+	/**/
 	wmState = XInternAtom(display, "_NET_WM_STATE", EX_FALSE);
-    fullscreen = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", EX_FALSE);
+	fullscreen = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", EX_FALSE);
 
-    /**/
-    XChangeProperty(display, window,  XInternAtom(display,"_NET_WM_STATE", True), XA_ATOM, 32, PropModeReplace, &fullscreen, 1);
-    /**/
+	/**/
+	XChangeProperty(display, window,
+			XInternAtom(display, "_NET_WM_STATE", True), XA_ATOM, 32,
+			PropModeReplace, &fullscreen, 1);
+	/**/
 
-
-    /*XChangeProperty (display, window,
-      XInternAtom ( display, "_HILDON_NON_COMPOSITED_WINDOW", True ),
-      XA_INTEGER,  32,  PropModeReplace,
-      (unsigned char*) &one,  1);
-	*/
+	/*XChangeProperty (display, window,
+	 XInternAtom ( display, "_HILDON_NON_COMPOSITED_WINDOW", True ),
+	 XA_INTEGER,  32,  PropModeReplace,
+	 (unsigned char*) &one,  1);
+	 */
 
 	//XF86VideoModeSwitchToMode(display, screenIndex, modes[bestMode]);
-    Atom atoms[2] = { XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", False), None };
-
+	Atom atoms[2] = { XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", False),
+			None };
 
 	xev.type = ClientMessage;
 	xev.xclient.window = window;
@@ -422,20 +408,16 @@ int ExSetWindowFullScreen(ExWin window, ExBoolean flag){
 	xev.xclient.data.l[3] = screenIndex;
 	xev.xclient.data.l[4] = screenIndex;
 
-	XSendEvent(display,
-            DefaultRootWindow(display),
-            EX_FALSE,
-            SubstructureNotifyMask
-			|SubstructureRedirectMask
-			,&xev);
+	XSendEvent(display, DefaultRootWindow(display),
+	EX_FALSE,
+	SubstructureNotifyMask | SubstructureRedirectMask, &xev);
 	//XSendEvent(display,DefaultRootWindow(window,False,
 	//	SubstructureRedirectMask | SubstructureNotifyMask, &xev);
-
 
 	return EX_TRUE;
 }
 
-ExHandle ExGetWindowUserData(ExWin window){
+ExHandle ExGetWindowUserData(ExWin window) {
 	ExHandle data;
 	//XAssoc a;
 	//XGetWindowProperty(display,window,NULL,0,0,0,0,)
@@ -444,25 +426,22 @@ ExHandle ExGetWindowUserData(ExWin window){
 	return data;
 }
 
-void ExSetWindowUserData(ExWin window, ExHandle userdata){
+void ExSetWindowUserData(ExWin window, ExHandle userdata) {
 	//XGetWindowProperty(display,window,NULL,0,0,0,0,)
 	//XAssocTable table;
 	//XLookUpAssoc(display, &table, window);
 }
 
-
-
-
-int ExSetWindowParent(ExWin parent, ExWin window){
+int ExSetWindowParent(ExWin parent, ExWin window) {
 	int pos[2];
 	ExGetWindowPosv(parent, pos);
 	return XReparentWindow(display, window, parent, 0, 0);
 }
 
-ExWin ExGetWindowParent(ExWin window){
+ExWin ExGetWindowParent(ExWin window) {
 
 	int screen = DefaultScreen(display);
-	ExWin root = RootWindow(display,screen);
+	ExWin root = RootWindow(display, screen);
 	ExWin parent;
 	ExWin* children;
 	ExWin win;
@@ -473,15 +452,15 @@ ExWin ExGetWindowParent(ExWin window){
 
 }
 
-int ExSetWindowChild(ExWin window,ExWin child){
+int ExSetWindowChild(ExWin window, ExWin child) {
 	int pos[2];
-	ExGetWindowPosv(window,pos);
-	return XReparentWindow(display,child,window,pos[0],pos[1]);
+	ExGetWindowPosv(window, pos);
+	return XReparentWindow(display, child, window, pos[0], pos[1]);
 }
 
-ExWin ExGetWindowChild(ExWin window,unsigned int index){
+ExWin ExGetWindowChild(ExWin window, unsigned int index) {
 	int screen = DefaultScreen(display);
-	ExWin root = RootWindow(display,screen);
+	ExWin root = RootWindow(display, screen);
 	ExWin parent;
 	ExWin* children;
 	ExWin win;
@@ -492,10 +471,10 @@ ExWin ExGetWindowChild(ExWin window,unsigned int index){
 
 }
 
-int ExGetWindowNumChildren(ExWin window){
+int ExGetWindowNumChildren(ExWin window) {
 
 	int screen = DefaultScreen(display);
-	ExWin root = RootWindow(display,screen);
+	ExWin root = RootWindow(display, screen);
 	ExWin parent;
 	ExWin* children;
 	ExWin win;
@@ -505,32 +484,33 @@ int ExGetWindowNumChildren(ExWin window){
 	return n;
 }
 
-ExWin ExGetDesktopWindow(void){
+ExWin ExGetDesktopWindow(void) {
 
 	int i;
 	unsigned int n;
 	int screen = DefaultScreen(display);
-	ExWin win = RootWindow(display,screen);
-	ExWin root = RootWindow(display,screen);
+	ExWin win = RootWindow(display, screen);
+	ExWin root = RootWindow(display, screen);
 	ExWin troot, parent, *children;
 	char *name;
 	int status;
-	int width  = DisplayWidth (display, screen);
-	int height = DisplayHeight (display, screen);
+	int width = DisplayWidth(display, screen);
+	int height = DisplayHeight(display, screen);
 	ExWin desktop = NULL;
 	XWindowAttributes attrs;
 	Atom workeara;
 
 	workeara = XInternAtom(display, "_NET_WORKAREA", False);
 
-	#define DEFAULT_DESKTOP_WINDOW_NAME "Desktop"
+#define DEFAULT_DESKTOP_WINDOW_NAME "Desktop"
 	XQueryTree(display, root, &troot, &parent, &children, &n);
-	for (i = 0; i < (int) n; i++){
+	for (i = 0; i < (int) n; i++) {
 		status = XFetchName(display, children[i], &name);
 		status |= XGetWindowAttributes(display, children[i], &attrs);
-		if ((status != 0) && (NULL != name)){
-			if( (attrs.map_state != 0) && (attrs.width == width) &&
-					(attrs.height == height) && (!strcmp(name, DEFAULT_DESKTOP_WINDOW_NAME)) ){
+		if ((status != 0) && (NULL != name)) {
+			if ((attrs.map_state != 0) && (attrs.width == width)
+					&& (attrs.height == height)
+					&& (!strcmp(name, DEFAULT_DESKTOP_WINDOW_NAME))) {
 
 				win = children[i];
 				XFree(children);
@@ -538,254 +518,228 @@ ExWin ExGetDesktopWindow(void){
 				desktop = win;
 				//return win;
 			}
-			if(name){
+			if (name) {
 				XFree(name);
 			}
 		}
 	}
-	return desktop ? desktop : (ExWin)0x280000a;
+	return desktop ? desktop : (ExWin) 0x280000a;
 }
 
-void ExMakeDesktopWindow(ExWin window){
+void ExMakeDesktopWindow(ExWin window) {
 	Atom window_type = XInternAtom(display, "_NET_WM_WINDOW_TYPE", False);
 	Atom desktop = XInternAtom(display, "_NET_WM_WINDOW_TYPE_DESKTOP", False);
-	XChangeProperty (display, window, window_type, XA_ATOM, 32, PropModeReplace, (unsigned char *) &desktop, 1);
+	XChangeProperty(display, window, window_type, XA_ATOM, 32, PropModeReplace,
+			(unsigned char *) &desktop, 1);
 }
 
-ExWin ExGetRootWindow(void){
+ExWin ExGetRootWindow(void) {
 	return RootWindow(display, DefaultScreen(display));
 }
 
+typedef struct {
+	int x, y;
+	unsigned int width, height;
+	int textx, texty;
+	int mouseover;
+	int clicked;
+	const char* text;
+} button;
 
+static void draw_button(button* b, int fg, int bg, Display* dpy, Window w,
+		GC gc) {
+	if (b->mouseover) {
+		XFillRectangle(dpy, w, gc, b->clicked + b->x, b->clicked + b->y,
+				b->width, b->height);
+		XSetForeground(dpy, gc, bg);
+		XSetBackground(dpy, gc, fg);
+	} else {
+		XSetForeground(dpy, gc, fg);
+		XSetBackground(dpy, gc, bg);
+		XDrawRectangle(dpy, w, gc, b->x, b->y, b->width, b->height);
+	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-typedef struct{
-    int x, y;
-    unsigned int width, height;
-    int textx, texty;
-    int mouseover;
-    int clicked;
-    const char* text;
-}button;
-
-
-
-static void draw_button( button* b, int fg, int bg, Display* dpy, Window w, GC gc ){
-    if( b->mouseover ){
-        XFillRectangle( dpy, w, gc, b->clicked+b->x, b->clicked+b->y,
-                                    b->width, b->height );
-        XSetForeground( dpy, gc, bg );
-        XSetBackground( dpy, gc, fg );
-    }
-    else{
-        XSetForeground( dpy, gc, fg );
-        XSetBackground( dpy, gc, bg );
-        XDrawRectangle( dpy, w, gc, b->x, b->y, b->width, b->height );
-    }
-
-    XDrawString( dpy, w, gc, b->clicked+b->textx, b->clicked+b->texty,
-                 b->text, strlen(b->text) );
-    XSetForeground( dpy, gc, fg );
-    XSetBackground( dpy, gc, bg );
+	XDrawString(dpy, w, gc, b->clicked + b->textx, b->clicked + b->texty,
+			b->text, strlen(b->text));
+	XSetForeground(dpy, gc, fg);
+	XSetBackground(dpy, gc, bg);
 }
 
-static int is_point_inside( button* b, int px, int py ){
+static int is_point_inside(button* b, int px, int py) {
 
-    return px>=b->x && px<=(b->x+(int)b->width-1) &&
-           py>=b->y && py<=(b->y+(int)b->height-1);
+	return px >= b->x && px <= (b->x + (int) b->width - 1) && py >= b->y
+			&& py <= (b->y + (int) b->height - 1);
 }
 
+int ExMessageBox(ExWin window, const char* text, const char* title,
+		unsigned int flags) {
+	const char* wmDeleteWindow = "WM_DELETE_WINDOW";
+	int black, white, height = 0, direction, ascent, descent, X, Y, W = 0, H;
+	size_t i, lines = 0;
+	char *atom;
+	const char *end, *temp;
+	button ok;
+	Display* dpy;
+	Window w;
+	Atom wmDelete;
+	GC gc;
+	XFontStruct* font;
+	XCharStruct overall;
+	XSizeHints hints;
+	XEvent e;
 
+	/* Open a display */
+	if (!(dpy = XOpenDisplay(0)))
+		return -1;
 
-int ExMessageBox(ExWin window, const char* text, const char* title, unsigned int flags){
-    const char* wmDeleteWindow = "WM_DELETE_WINDOW";
-    int black, white, height = 0, direction, ascent, descent, X, Y, W=0, H;
-    size_t i, lines = 0;
-    char *atom;
-    const char *end, *temp;
-    button ok;
-    Display* dpy;
-    Window w;
-    Atom wmDelete;
-    GC gc;
-    XFontStruct* font;
-    XCharStruct overall;
-    XSizeHints hints;
-    XEvent e;
+	/* Get us a white and black color */
+	black = BlackPixel(dpy, DefaultScreen(dpy));
+	white = WhitePixel(dpy, DefaultScreen(dpy));
 
-    /* Open a display */
-    if( !(dpy = XOpenDisplay( 0 )) )
-        return -1;
+	/* Create a window with the specified title */
+	w = XCreateSimpleWindow(dpy, DefaultRootWindow(dpy), 0, 0, 100, 100, 0,
+			black, black);
 
-    /* Get us a white and black color */
-    black = BlackPixel( dpy, DefaultScreen(dpy) );
-    white = WhitePixel( dpy, DefaultScreen(dpy) );
+	XSelectInput(dpy, w, ExposureMask | StructureNotifyMask |
+	KeyReleaseMask | PointerMotionMask |
+	ButtonPressMask | ButtonReleaseMask);
 
-    /* Create a window with the specified title */
-    w = XCreateSimpleWindow( dpy, DefaultRootWindow(dpy), 0, 0, 100, 100,
-                             0, black, black );
+	ExShowWindow(w);
+	ExSetWindowTitle(w, title);
 
-    XSelectInput( dpy, w, ExposureMask | StructureNotifyMask |
-                          KeyReleaseMask | PointerMotionMask |
-                          ButtonPressMask | ButtonReleaseMask );
+	wmDelete = XInternAtom(dpy, wmDeleteWindow, True);
+	XSetWMProtocols(dpy, w, &wmDelete, 1);
 
+	/* Create a graphics context for the window */
+	gc = XCreateGC(dpy, w, 0, 0);
 
-    ExShowWindow(w);
-    ExSetWindowTitle(w,title);
+	XSetForeground(dpy, gc, white);
+	XSetBackground(dpy, gc, black);
 
-    wmDelete = XInternAtom( dpy, wmDeleteWindow, True );
-    XSetWMProtocols( dpy, w, &wmDelete, 1 );
+	/* Compute the printed width and height of the text */
+	if (!(font = XQueryFont(dpy, XGContextFromGC(gc))))
+		goto cleanup;
 
-    /* Create a graphics context for the window */
-    gc = XCreateGC( dpy, w, 0, 0 );
+	for (temp = text; temp; temp = end ? (end + 1) : NULL, ++lines) {
+		end = strchr(temp, '\n');
 
-    XSetForeground( dpy, gc, white );
-    XSetBackground( dpy, gc, black );
+		XTextExtents(font, temp,
+				end ? (unsigned int) (end - temp) : strlen(temp), &direction,
+				&ascent, &descent, &overall);
 
-    /* Compute the printed width and height of the text */
-    if( !(font = XQueryFont( dpy, XGContextFromGC(gc) )) )
-        goto cleanup;
+		W = overall.width > W ? overall.width : W;
+		height = (ascent + descent) > height ? (ascent + descent) : height;
+	}
 
-    for( temp=text; temp; temp = end ? (end+1) : NULL, ++lines )
-    {
-        end = strchr( temp, '\n' );
+	/* Compute the shape of the window and adjust the window accordingly */
+	W += 20;
+	H = lines * height + height + 40;
+	X = DisplayWidth ( dpy, DefaultScreen(dpy) ) / 2 - W / 2;
+	Y = DisplayHeight( dpy, DefaultScreen(dpy) ) / 2 - H / 2;
 
-        XTextExtents( font, temp, end ? (unsigned int)(end-temp):strlen(temp),
-                      &direction, &ascent, &descent, &overall );
+	XMoveResizeWindow(dpy, w, X, Y, W, H);
 
-        W = overall.width>W ? overall.width : W;
-        height = (ascent+descent)>height ? (ascent+descent) : height;
-    }
+	/* Compute the shape of the OK button */
+	XTextExtents(font, "OK", 2, &direction, &ascent, &descent, &overall);
 
-    /* Compute the shape of the window and adjust the window accordingly */
-    W += 20;
-    H = lines*height + height + 40;
-    X = DisplayWidth ( dpy, DefaultScreen(dpy) )/2 - W/2;
-    Y = DisplayHeight( dpy, DefaultScreen(dpy) )/2 - H/2;
+	ok.width = overall.width + 30;
+	ok.height = ascent + descent + 5;
+	ok.x = W / 2 - ok.width / 2;
+	ok.y = H - height - 15;
+	ok.textx = ok.x + 15;
+	ok.texty = ok.y + ok.height - 3;
+	ok.mouseover = 0;
+	ok.clicked = 0;
+	ok.text = "OK";
 
-    XMoveResizeWindow( dpy, w, X, Y, W, H );
+	XFreeFontInfo( NULL, font, 1); /* We don't need that anymore */
 
-    /* Compute the shape of the OK button */
-    XTextExtents( font, "OK", 2, &direction, &ascent, &descent, &overall );
+	/* Make the window non resizeable */
+	XUnmapWindow(dpy, w);
 
-    ok.width = overall.width + 30;
-    ok.height = ascent + descent + 5;
-    ok.x = W/2 - ok.width/2;
-    ok.y = H   - height - 15;
-    ok.textx = ok.x + 15;
-    ok.texty = ok.y + ok.height - 3;
-    ok.mouseover = 0;
-    ok.clicked = 0;
-    ok.text = "OK";
+	hints.flags = PSize | PMinSize | PMaxSize;
+	hints.min_width = hints.max_width = hints.base_width = W;
+	hints.min_height = hints.max_height = hints.base_height = H;
 
-    XFreeFontInfo( NULL, font, 1 ); /* We don't need that anymore */
+	XSetWMNormalHints(dpy, w, &hints);
+	XMapRaised(dpy, w);
+	XFlush(dpy);
 
-    /* Make the window non resizeable */
-    XUnmapWindow( dpy, w );
+	/* Event loop */
+	while (1) {
+		XNextEvent(dpy, &e);
+		ok.clicked = 0;
 
-    hints.flags      = PSize | PMinSize | PMaxSize;
-    hints.min_width  = hints.max_width  = hints.base_width  = W;
-    hints.min_height = hints.max_height = hints.base_height = H;
+		if (e.type == MotionNotify) {
+			if (is_point_inside(&ok, e.xmotion.x, e.xmotion.y)) {
+				if (!ok.mouseover)
+					e.type = Expose;
 
-    XSetWMNormalHints( dpy, w, &hints );
-    XMapRaised( dpy, w );
-    XFlush( dpy );
+				ok.mouseover = 1;
+			} else {
+				if (ok.mouseover)
+					e.type = Expose;
 
-    /* Event loop */
-    while( 1 ){
-        XNextEvent( dpy, &e );
-        ok.clicked = 0;
+				ok.mouseover = 0;
+				ok.clicked = 0;
+			}
+		}
 
-        if( e.type == MotionNotify ){
-            if( is_point_inside( &ok, e.xmotion.x, e.xmotion.y ) ){
-                if( !ok.mouseover )
-                    e.type = Expose;
+		switch (e.type) {
+		case ButtonPress:
+		case ButtonRelease:
+			if (e.xbutton.button != Button1)
+				break;
 
-                ok.mouseover = 1;
-            }
-            else{
-                if( ok.mouseover )
-                    e.type = Expose;
+			if (ok.mouseover) {
+				ok.clicked = e.type == ButtonPress ? 1 : 0;
 
-                ok.mouseover = 0;
-                ok.clicked = 0;
-            }
-        }
+				if (!ok.clicked)
+					goto cleanup;
+			} else {
+				ok.clicked = 0;
+			}
+			break;
+		case Expose:
+		case MapNotify:
+			XClearWindow(dpy, w);
 
-        switch( e.type )
-        {
-        case ButtonPress:
-        case ButtonRelease:
-            if( e.xbutton.button!=Button1 )
-                break;
+			/* Draw text lines */
+			for (i = 0, temp = text; temp; temp = end ? (end + 1) : NULL, i +=
+					height) {
+				end = strchr(temp, '\n');
 
-            if( ok.mouseover )
-            {
-                ok.clicked = e.type==ButtonPress ? 1 : 0;
+				XDrawString(dpy, w, gc, 10, 10 + height + i, temp,
+						end ? (unsigned int) (end - temp) : strlen(temp));
+			}
 
-                if( !ok.clicked )
-                    goto cleanup;
-            }
-            else
-            {
-                ok.clicked = 0;
-            }
-            break;
-        case Expose:
-        case MapNotify:
-            XClearWindow( dpy, w );
+			/* Draw OK button */
+			draw_button(&ok, white, black, dpy, w, gc);
+			XFlush(dpy);
+			break;
 
-            /* Draw text lines */
-            for( i=0, temp=text; temp; temp=end ? (end+1) : NULL, i+=height )
-            {
-                end = strchr( temp, '\n' );
+		case KeyRelease:
+			if (XLookupKeysym(&e.xkey, 0) == XK_Escape)
+				goto cleanup;
+			break;
 
-                XDrawString( dpy, w, gc, 10, 10+height+i, temp,
-                             end ? (unsigned int)(end-temp) : strlen(temp) );
-            }
+		case ClientMessage:
+			atom = XGetAtomName(dpy, e.xclient.message_type);
 
-            /* Draw OK button */
-            draw_button( &ok, white, black, dpy, w, gc );
-            XFlush( dpy );
-            break;
+			if (*atom == *wmDeleteWindow) {
+				XFree(atom);
+				goto cleanup;
+			}
 
-        case KeyRelease:
-            if( XLookupKeysym( &e.xkey, 0 ) == XK_Escape )
-                goto cleanup;
-            break;
+			XFree(atom);
+			break;
+		}
+	}
 
-        case ClientMessage:
-            atom = XGetAtomName( dpy, e.xclient.message_type );
-
-            if( *atom == *wmDeleteWindow )
-            {
-                XFree( atom );
-                goto cleanup;
-            }
-
-            XFree( atom );
-            break;
-        }
-    }
-
-cleanup:
-    XFreeGC( dpy, gc );
-    XDestroyWindow( dpy, w );
-    XCloseDisplay( dpy );
+	cleanup: XFreeGC(dpy, gc);
+	XDestroyWindow(dpy, w);
+	XCloseDisplay(dpy);
 
 	return 1;
 }
-
 

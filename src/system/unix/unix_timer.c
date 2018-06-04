@@ -12,8 +12,8 @@ unsigned long int eltTickTime = 0;
 #define CLOCKID CLOCK_REALTIME
 #define SIG SIGUSR2
 
-
-ExTimer ExAddTimer(unsigned int ms_interval, ExThreadRoutine callback, void* param){
+ExTimer ExAddTimer(unsigned int ms_interval, ExThreadRoutine callback,
+		void* param) {
 	unsigned int pid;
 	timer_t timerid;
 	struct sigevent sev;
@@ -31,7 +31,7 @@ ExTimer ExAddTimer(unsigned int ms_interval, ExThreadRoutine callback, void* par
 	sev.sigev_notify = SIGEV_SIGNAL;
 	sev.sigev_signo = SIGUSR1;
 	sev.sigev_value.sival_ptr = &timerid;
-	if(timer_create(CLOCKID, &sev, &timerid) < -1)
+	if (timer_create(CLOCKID, &sev, &timerid) < -1)
 		return EX_FALSE;
 
 	/* Start the timer */
@@ -40,65 +40,68 @@ ExTimer ExAddTimer(unsigned int ms_interval, ExThreadRoutine callback, void* par
 	its.it_interval.tv_sec = its.it_value.tv_sec;
 	its.it_interval.tv_nsec = its.it_value.tv_nsec;
 
-	if(timer_settime(timerid, 0, &its, NULL) == -1){
+	if (timer_settime(timerid, 0, &its, NULL) == -1) {
 		ExPrintfError("timer_settimer error.\n");
 	}
 	return timerid;
 }
 
-ExBoolean ExRemoveTimer(ExTimer timer_id){
-    if(timer_delete(timer_id) < -1){
-    	ExLogCritical(strerror(errno));
-        return EX_FALSE;
-    }
+ExBoolean ExRemoveTimer(ExTimer timer_id) {
+	if (timer_delete(timer_id) < -1) {
+		ExLogCritical(strerror(errno));
+		return EX_FALSE;
+	}
 	return EX_TRUE;
 }
 
-void ExDelay(unsigned int ms){
-    struct timespec tim;
-    tim.tv_sec = 0;
-    tim.tv_nsec = ms * 1E6;
+
+void ExDelay(unsigned int ms) {
+	struct timespec tim;
+	tim.tv_sec = 0;
+	tim.tv_nsec = ms * 1E6;
 
 #ifdef EX_DEBUG
-    if(nanosleep(&tim , NULL) < 0 ){
-        fprintf(stderr,"errno error code %d\n"" errno");
-    }
+	if (nanosleep(&tim, NULL) < 0) {
+		fprintf(stderr, "errno error code %d\n" " errno");
+	}
 #else
-    nanosleep(&tim , NULL);
+	nanosleep(&tim , NULL);
 #endif
 }
 
-void ExDelayN(unsigned int nanosec){
-    struct timespec tim, tim2;
-    tim.tv_sec = 0;
-    tim.tv_nsec = nanosec;
+
+void ExDelayN(unsigned int nanosec) {
+	struct timespec tim, tim2;
+	tim.tv_sec = 0;
+	tim.tv_nsec = nanosec;
 
 #ifdef EX_DEBUG
-    if(nanosleep(&tim , NULL) < 0 ){
-        fprintf(stderr,"errno error code %d\n"" errno");
-    }
+	if (nanosleep(&tim, NULL) < 0) {
+		fprintf(stderr, "errno error code %d\n" " errno");
+	}
 #else
-    nanosleep(&tim , NULL);
+	nanosleep(&tim , NULL);
 #endif
 }
 
-unsigned long int ExGetPerformanceFrequency(void){
+unsigned long int ExGetPerformanceFrequency(void) {
 	struct timespec spec;
 	clock_getres(CLOCK_MONOTONIC, &spec);
 	return (1E9 / spec.tv_nsec);
 }
 
-long int ExGetTicks(void){
+
+long int ExGetTicks(void) {
 	return (clock() - eltTickTime);
 }
 
-long int ExGetHiResTime(void){
+long int ExGetHiResTime(void) {
 	struct timeval tSpec;
-    gettimeofday(&tSpec, NULL);
-    return (tSpec.tv_sec*1e6 + tSpec.tv_usec) * 1000;
+	gettimeofday(&tSpec, NULL);
+	return (tSpec.tv_sec * 1e6 + tSpec.tv_usec) * 1000;
 }
 
-long int ExCurrentTime(void){
+long int ExCurrentTime(void) {
 	return clock();
 	return time(NULL);
 }

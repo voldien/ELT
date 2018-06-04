@@ -7,64 +7,52 @@
 #include"elt_loadso.h"
 #include"elt_timer.h"
 
-
-
 #include"system/unix/unix_win.h"
 #include<X11/Xlib.h>
+#include<X11/X.h>
 #include<malloc.h>
 
 #include<signal.h>
 #include<mcheck.h>
 
-
 /*
  *
  */
-extern unsigned long int eltTickTime;			/*	High accuracy timer.	*/
-void* xcbConnection = NULL;			/*	*/
+extern unsigned long int eltTickTime; /*	High accuracy timer.	*/
+void* xcbConnection = NULL; /*	*/
 extern unsigned int engineflag;
 
 #define ELT_DEINIT ((unsigned long int)(-1))
 
-ERESULT ExInit(unsigned int flag){
+ERESULT ExInit(unsigned int flag) {
 	ERESULT result = E_OK;
 	ExHandle hmodule;
 	int hConHandle;
 	long lStdHandle;
 
-
 	/*	if all is already initilated return !	*/
-    if(engineflag & EX_INIT_EVERYTHING){
-        return 2;
-    }
+	if (engineflag & EX_INIT_EVERYTHING) {
+		return 2;
+	}
 	engineflag = engineflag & ~ELT_DEINIT;
 
-
-
-
-
-
-
-    /*	Create Connection with Display Server.	*/
-    if(XInitThreads() == 0){
-    	printf("Failed to init multithreading support\n");
-    }
-    if(display == NULL){
-    	display = XOpenDisplay(ExGetEnv("DISPLAY"));
-    }
-    if(!display){
-        ExError("couldn't open Display\n");
-        abort();
-    }
-	if(xcbConnection == NULL){
+	/*	Create Connection with Display Server.	*/
+	if (XInitThreads() == 0) {
+		printf("Failed to init multithreading support\n");
+	}
+	if (display == NULL) {
+		display = XOpenDisplay(ExGetEnv("DISPLAY"));
+	}
+	if (!display) {
+		ExError("couldn't open Display\n");
+		abort();
+	}
+	if (xcbConnection == NULL) {
 		xcbConnection = XGetXCBConnection(display);
 	}
 
-
-
 	/*	Initialize sub system	*/
 	ExInitSubSystem(flag);
-
 
 	engineflag |= flag;
 
@@ -74,49 +62,43 @@ ERESULT ExInit(unsigned int flag){
 	return result;
 }
 
-ERESULT ExInitSubSystem(unsigned int flag){
+ERESULT ExInitSubSystem(unsigned int flag) {
 	ERESULT hr = 0;
 	ExHandle hmodule;
 
 	/**/
 	engineflag = flag & ~ELT_DEINIT;
 
-
-	if(EX_INIT_VIDEO & flag){
-
-	}
-	if(EX_INIT_JOYSTICK & flag){
-
+	if (EX_INIT_JOYSTICK & flag) {
 
 	}
-	if(EX_INIT_GAMECONTROLLER & flag){
+	if (EX_INIT_GAMECONTROLLER & flag) {
 
 	}
-	if(EX_INIT_EVENTS & flag){
-	    /*		enable X events	*/
-		XAllowEvents(display , SyncBoth,CurrentTime);
+	if (EX_INIT_EVENTS & flag) {
+		/*		enable X events	*/
+		XAllowEvents(display, SyncBoth, CurrentTime);
 	}
-	if(EX_INIT_TIMER & flag){
+	if (EX_INIT_TIMER & flag) {
 		eltTickTime = ExCurrentTime();
 	}
 
-	if(EX_INIT_NET & flag){
+	if (EX_INIT_NET & flag) {
 
 	}
 
 	/*	initialize error handler.	*/
-	if( flag & EX_INIT_DEBUG ){
+	if (flag & EX_INIT_DEBUG) {
 		ExLog("Enable ELT Debug.\n");
 		mtrace();
 
 		/*	enable loggint */
-		m_file_log = fopen("EngineExDevLog.txt", "w+" );
-		if(dup2(stdout,m_file_log) == -1)
-			fprintf(stderr,"error");
-		dup2(stdout,stderr);  //redirects stderr to stdout below this line.
+		m_file_log = fopen("EngineExDevLog.txt", "w+");
+		if (dup2(stdout, m_file_log) == -1)
+			fprintf(stderr, "error");
+		dup2(stdout, stderr);  //redirects stderr to stdout below this line.
 
-
-		if(!(hr = ExInitErrorHandler())){
+		if (!(hr = ExInitErrorHandler())) {
 			ExError(EX_TEXT("Failed to initialize error handler."));
 		}
 	}
@@ -124,35 +106,31 @@ ERESULT ExInitSubSystem(unsigned int flag){
 	return hr;
 }
 
-void ExQuitSubSytem(unsigned int flag){
+void ExQuitSubSytem(unsigned int flag) {
 
 	/**/
-	if(EX_INIT_TIMER & flag){
+	if (EX_INIT_TIMER & flag) {
 
 	}
-	if(EX_INIT_JOYSTICK & flag){
-        ExJoyStickClose(0);
-        ExJoyStickClose(1);
-        ExJoyStickClose(2);
-        ExJoyStickClose(3);
+	if (EX_INIT_JOYSTICK & flag) {
+		ExJoyStickClose(0);
+		ExJoyStickClose(1);
+		ExJoyStickClose(2);
+		ExJoyStickClose(3);
 		//ExJoyStickShutDown();
 	}
-	if(EX_INIT_GAMECONTROLLER & flag){
+	if (EX_INIT_GAMECONTROLLER & flag) {
 
 	}
-	if(EX_INIT_NET & flag){
-
-	}
-
-	if(EX_INIT_VIDEO & flag){
+	if (EX_INIT_NET & flag) {
 
 	}
 }
 
-void ExShutDown(void){
-    struct mallinfo mi;
+void ExShutDown(void) {
+	struct mallinfo mi;
 
-	if(engineflag & ELT_DEINIT){
+	if (engineflag & ELT_DEINIT) {
 		return;
 	}
 
@@ -160,27 +138,28 @@ void ExShutDown(void){
 	ExQuitSubSytem(EX_INIT_EVERYTHING);
 
 	/**/
-	if(ExGetCurrentOpenGLContext()){
-		ExDestroyGLContext(ExGetCurrentGLDrawable(), ExGetCurrentOpenGLContext());
+	if (ExGetCurrentOpenGLContext()) {
+		ExDestroyGLContext(ExGetCurrentGLDrawable(),
+				ExGetCurrentOpenGLContext());
 	}
 
 	/**/
-	if(eglGetCurrentDisplay()){
+	if (eglGetCurrentDisplay()) {
 		eglTerminate(eglGetCurrentDisplay());
 	}
 
 	/**/
-	XSync(display,True);
-	if(display){
+	XSync(display, True);
+	if (display) {
 		XFlush(display);
 	}
-    if(display){
-    	XCloseDisplay(display);
-    	display = NULL;
-    }
+	if (display) {
+		XCloseDisplay(display);
+		display = NULL;
+	}
 
 	/**/
-	if(EX_INIT_DEBUG & engineflag){
+	if (EX_INIT_DEBUG & engineflag) {
 		mi = mallinfo();
 		printf("Total non-mmapped bytes (arena):       %d\n", mi.arena);
 		printf("# of free chunks (ordblks):            %d\n", mi.ordblks);
@@ -201,6 +180,6 @@ void ExShutDown(void){
 	engineflag = engineflag & ~EX_INIT_EVERYTHING;
 }
 
-ExDisplay ExGetDisplay(void){
+ExDisplay ExGetDisplay(void) {
 	return display;
 }

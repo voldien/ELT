@@ -1,28 +1,28 @@
 /**
-    ELT (Engine Library Toolkit) is a multi platform engine toolkit
-    Copyright (C) 2014  Valdemar Lindberg
+	ELT (Engine Library Toolkit) is a cross platform engine toolkit
+	Copyright (C) 2014  Valdemar Lindberg
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-*/
+ */
 #ifndef _ELT_ENV_H_
 #define _ELT_ENV_H_ 1
 #include"elt_def.h"
 #include"ExNT.h"
 
 #ifdef __cplusplus	/*	C++ Environment	*/
-extern "C"{
+extern "C" {
 #endif
 
 /**
@@ -37,7 +37,8 @@ extern ELTDECLSPEC ExChar* ELTAPIENTRY ExGetCurrentUser(void);
  *
  *	@Return 1
  */
-extern ELTDECLSPEC int ELTAPIENTRY ExSetEnv(const ExChar* name, const char* pValue);
+extern ELTDECLSPEC int ELTAPIENTRY ExSetEnv(const ExChar* name,
+		const char* pValue);
 
 /**
  *	Allocate data for the environment data.
@@ -63,7 +64,6 @@ extern ELTDECLSPEC ExChar* ExGetAllEnv(void);
  *	Free allocated environment data from ExGetEnv.
  */
 extern ELTDECLSPEC void ExFreeEnv(ExChar* env);
-
 
 #ifdef __cplusplus	/*	C++ Environment	*/
 }

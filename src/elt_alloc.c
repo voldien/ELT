@@ -6,32 +6,29 @@
 #   include<unistd.h>
 #endif
 
-unsigned int ExGetPageSize(void){
-    #ifdef EX_WINDOWS
+unsigned int ExGetPageSize(void) {
+#ifdef EX_WINDOWS
 	PERFORMANCE_INFORMATION erformance_info;
 	GetPerformanceInfo(&erformance_info,sizeof(PERFORMANCE_INFORMATION));
 	return erformance_info.PageSize;
-    #elif defined(EX_UNIX)
+#elif defined(EX_UNIX)
 	long sz = sysconf(_SC_PAGESIZE);
 	return sz;
-    #endif
+#endif
 }
 
-
-
-
-ExPoolAllocator* ExPoolCreate(unsigned int num, unsigned int itemsize){
+ExPoolAllocator* ExPoolCreate(unsigned int num, unsigned int itemsize) {
 	ExPoolAllocator* alloc;
 	ExPoolAllocator* tmp;
 	unsigned int i;
 	alloc = malloc(num * (itemsize + sizeof(ExPoolAllocator)));
 
-	if(!alloc)
+	if (!alloc)
 		return 0;
 
 	/*	create pool chain.*/
 	tmp = alloc;
-	for(i = 0; i < num; i++){
+	for (i = 0; i < num; i++) {
 		tmp->next = tmp + sizeof(ExPoolAllocator) + itemsize;
 		tmp += sizeof(ExPoolAllocator) + itemsize;
 		continue;
@@ -44,9 +41,9 @@ ExPoolAllocator* ExPoolCreate(unsigned int num, unsigned int itemsize){
 	return alloc;
 }
 
-void* ExPoolObtain(ExPoolAllocator* allactor){
+void* ExPoolObtain(ExPoolAllocator* allactor) {
 	ExPoolAllocator* tmp;
-	if(allactor->next == NULL){
+	if (allactor->next == NULL) {
 		return NULL;
 	}
 

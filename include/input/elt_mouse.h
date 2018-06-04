@@ -1,28 +1,28 @@
 /**
-    ELT (Engine Library Toolkit) is a multi platform engine toolkit
-    Copyright (C) 2014  Valdemar Lindberg
+	ELT (Engine Library Toolkit) is a cross platform engine toolkit
+	Copyright (C) 2014  Valdemar Lindberg
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-*/
+ */
 #ifndef _ELT_MOUSE_H_
 #define _ELT_MOUSE_H_ 1
 #include"./../system/elt_errorhandler.h"
 #include"../system/elt_event.h"
 
 #ifdef __cplusplus	/* C++ Environment */
-extern "C"{
+extern "C" {
 #endif
 
 typedef void* ExCursor;
@@ -49,14 +49,8 @@ typedef void* ExCursor;
 #endif
 
 enum ExMouseCode {
-	eExMouseNone,
-	eExMouseLeft,
-	eExMouseRight,
-	eExMouseMiddle,
-	eExMousePadding
+	eExMouseNone, eExMouseLeft, eExMouseRight, eExMouseMiddle, eExMousePadding
 };
-
-
 
 /**
  *	Capture mouse.
@@ -66,7 +60,6 @@ enum ExMouseCode {
  *	@Return
  */
 extern ELTDECLSPEC int ELTAPIENTRY ExCaptureMouse(ExBoolean enabled);
-
 
 /**
  *	Clip cursor onto specified rectangle view
@@ -85,14 +78,17 @@ extern ELTDECLSPEC int ELTAPIENTRY ExClipCursorRect(ExRect* rect);
  *
  *	@Return
  */
-extern ELTDECLSPEC ExCursor ELTAPIENTRY ExCreateCursor(const unsigned char* data, const unsigned char* mask, int width, int height, int hot_x, int hot_y);
+extern ELTDECLSPEC ExCursor ELTAPIENTRY ExCreateCursor(
+		const unsigned char* data, const unsigned char* mask, int width,
+		int height, int hot_x, int hot_y);
 
 /**
  *	Create System Cursor
  *
  *	@Return
  */
-extern ELTDECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(unsigned int system_id);
+extern ELTDECLSPEC ExCursor ELTAPIENTRY ExCreateSystemCursor(
+		unsigned int system_id);
 
 /**
  *	Free cursor
@@ -106,7 +102,8 @@ extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExFreeCursor(ExCursor cursor);
  *
  *	@Return
  */
-extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExSetCursor(ExWin window, ExCursor cursor);
+extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExSetCursor(ExWin window,
+		ExCursor cursor);
 
 /**
  *	Get Cursor
@@ -134,7 +131,8 @@ extern ELTDECLSPEC ExWin ELTAPIENTRY ExGetMouseFocus(void);
  *
  *	@Return button pressed.
  */
-extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetGlobalMouseState(int* x, int* y);
+extern ELTDECLSPEC unsigned int ELTAPIENTRY ExGetGlobalMouseState(int* x,
+		int* y);
 
 /**
  *
@@ -162,7 +160,6 @@ extern ELTDECLSPEC void ELTAPIENTRY ExWarpMouseInWindow(ExWin win, int x, int y)
  */
 extern ELTDECLSPEC ExBoolean ELTAPIENTRY ExShowCursor(ExBoolean enabled);
 
-
 /*	TODO FIX for touch.	*/
 
 /**
@@ -175,7 +172,8 @@ extern ELTDECLSPEC int ELTAPIENTRY ExGetTouchDown(unsigned int fingerid);
  *
  * @Return
  */
-extern ELTDECLSPEC int ELTAPIENTRY ExGetTouchPosition(unsigned int fingerid, float* pos);
+extern ELTDECLSPEC int ELTAPIENTRY ExGetTouchPosition(unsigned int fingerid,
+		float* pos);
 
 #ifdef __cplusplus	/* C++ Environment */
 }

@@ -30,7 +30,7 @@ LOCAL_C_INCLUDE := $(LOCAL_PATH)$(INCLUDE_PATH)  #elt_alloc.h
 LOCAL_SRC_FILES := $(FILE_LIST)
 
 #pre compiler flag
-LOCAL_CFLAGS := -w -O3 -DANDROID=1 -D__ANDROID__=1 -DINTERNAL_ENGINE=1 -Wall -I"./../../../include" -I"./../../../External/OpenCL/Include" -DEX_ANDROID=1  -DDONT_SUPPORT_OPENCL=1 -DGL_ES_VERSION_2_0=1
+LOCAL_CFLAGS := -w -O3 -DANDROID=1 -D__ANDROID__=1 -DINTERNAL_ENGINE=1 -Wall -I"./../../../include" -I"./../../../External/OpenCL/Include" -D_DEBUG=1 -DEX_ANDROID=1  -DDONT_SUPPORT_OPENCL=1 -DGL_ES_VERSION_2_0=1
 
  #    #-I"$(INTELOCLSDKROOT)/include" -L"/opt/intel/opencl-1.2-4.5.0.8/lib64" 
 

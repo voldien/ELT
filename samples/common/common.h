@@ -1,7 +1,6 @@
 #ifndef _ELT_SAMPLES_COMMON_H_
 #define _ELT_SAMPLES_COMMON_H_  1
-#include"./../../include/EngineExAPI.h"
-#include"./../../include/math/matrix.h"
+#include<ELT/elt.h>
 
 #ifdef __cplusplus 
 extern "C"{
@@ -23,6 +22,11 @@ extern void* ExCreateCharacterController(const exvec3f_t position);
 
 
 extern void ExUpdateCharacterController(CameraController* charactercontroller);
+
+/**
+ *
+ */
+extern ExWin createOpenglWindow(void);
 
 
 

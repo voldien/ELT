@@ -1,12 +1,8 @@
-#include"./../../include/EngineExAPI.h"
-#include"./../../include/graphic.h"
-//#include<GL/glew.h>
-#include<GL/glx.h>
+#include<ELT/elt.h>
+#include<ELT/graphic.h>
 #include<GL/gl.h>
 #ifdef EX_WINDOWS
 #	pragma comment(lib,"OpenGL32.lib")
-#elif defined(EX_LINUX)
-#	include<X11/X.h>	
 #endif
 
 
@@ -63,7 +59,7 @@ int main(int argc, char** argv){
 	/*
 		Initialize ELT
 	*/
-	if(!ExInit(ELT_INIT_EVERYTHING)){
+	if(!ExInit(EX_INIT_EVERYTHING)){
 		return EXIT_FAILURE;
 	}
 
@@ -150,6 +146,6 @@ int main(int argc, char** argv){
 
 	error:
 	ExCloseWindow(win);
-	ExQuit();
+	ExShutDown();
 	return EXIT_SUCCESS;
 }
